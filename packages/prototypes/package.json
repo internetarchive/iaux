@@ -2,8 +2,8 @@
   "name": "prototypes",
   "dependencies": {
     "babel-preset-react": "^6.24.1",
-    "iacomponents": "file:../iacomponents",
-    "iajs": "file:../iajs",
+    "iacomponents": "^0.0.0",
+    "iajs": "^0.0.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.3.1"

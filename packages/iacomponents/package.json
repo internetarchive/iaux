@@ -12,6 +12,7 @@
         "less": "^3.8.1"
     },
     "dependencies": {
+        "iajs": "^0.0.0",
         "prop-types": "^15.6.2",
         "react": "^16.6.0",
         "react-jw-player": "^1.18.1"

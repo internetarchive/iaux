@@ -2,5 +2,6 @@
   "dependencies": {
     "lerna": "^3.4.3"
   },
-  "name": "iaux"
+  "name": "iaux",
+  "license": "AGPL-3"
 }

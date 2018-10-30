@@ -2,7 +2,6 @@
   "name": "iajs",
   "version": "0.0.0",
   "main": "build/index.js",
-  "source": "src/index.ts",
   "devDependencies": {
     "@types/node": "^10.7.1",
     "babel-core": "^6.26.3",
@@ -14,7 +13,8 @@
     "typescript": "3.x.x"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "tsc"
   },
   "dependencies": {
     "node-fetch": "^2.2.0"

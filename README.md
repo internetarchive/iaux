@@ -11,6 +11,7 @@ Install dependencies on all packages.
 ```
 yarn install
 yarn run lerna bootstrap
+yarn run lerna link
 ```
 
 
@@ -18,6 +19,7 @@ Prototypes can be run like this:
 
 ```
 cd packages/prototypes
+yarn run parcel prototypes/examples/example-hello/index.html
 yarn run parcel prototypes/details-react/index.html
 ```
 
