@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "prop-types": "^15.6.2",
-        "react": "^16.6.0"
+        "react": "^16.6.0",
+        "react-jw-player": "^1.18.1"
     }
 }
