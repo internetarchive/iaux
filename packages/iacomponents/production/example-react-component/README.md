@@ -1,0 +1,1 @@
+This is a basic example React component that should be integratable into the Archive.org site.

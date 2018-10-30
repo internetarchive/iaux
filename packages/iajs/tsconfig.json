@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "declaration": true,
+    "outDir": "build",
+    "baseUrl": ".",
+    "noEmitOnError": false,
+    "lib": ["es6", "es2015", "dom"],
+    "types": ["node"]
+  },
+  "include": ["src/**/*"]
+}
