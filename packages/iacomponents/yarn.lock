@@ -989,6 +989,18 @@ qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
 
+react-fast-compare@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.2.tgz#0560ba7a61a1662d9cea8cd97a0d9db7591bab1c"
+  integrity sha512-EdPU5vXIzvNvQFNuej3oQ1PZ6YmDunTPZJ3V5EmwRqOhEmW0PNxzUdbYhXnZKZFtrrjGiu9718f6iQRdj0l2JA==
+
+react-jw-player@^1.18.1:
+  version "1.19.0"
+  resolved "https://registry.yarnpkg.com/react-jw-player/-/react-jw-player-1.19.0.tgz#52b5dfd679acbf380d8b4d4e173e771eecb309ba"
+  integrity sha512-XXbRmtqY0nZBdHZZujEfzUgvH6BisDMIQtr5EganvgD8Np2Z7WyuVsIjrMpUlEwWqcrLHjumXbLbZ65/a0rfng==
+  dependencies:
+    react-fast-compare "^2.0.1"
+
 react@^16.6.0:
   version "16.6.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.6.0.tgz#b34761cfaf3e30f5508bc732fb4736730b7da246"
