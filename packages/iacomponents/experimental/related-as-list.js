@@ -24,10 +24,17 @@ export default class extends React.Component {
   }
 
   render () {
+    const horizontalScrollStyling = {
+      width: '100%',
+      overflowX: 'scroll',
+      margin: 'auto',
+      whiteSpace: 'nowrap'
+    }
     let children = this.state.related.map((row) => {
-      return <li style={{display: 'inline-block', margin: '1rem'}}>
+      return <li style={{display: 'inline-block', margin: '1rem', maxWidth: 200}}>
         <a href={`?identifier=${row._id}`}>
           <img src={`https://archive.org/services/img/${row._id}`} />
+          <p>{ row._source.title[0] }</p>
         </a>
       </li>
     })
@@ -36,7 +43,7 @@ export default class extends React.Component {
     }
     return <div>
       <h2>Related</h2>
-      <ul>{children}</ul>
+      <ul style={horizontalScrollStyling}>{children}</ul>
     </div>
   }
 }
