@@ -122,9 +122,24 @@ export default class extends React.Component {
     if (this.state.mediaFiles.length) {
       playerEl = <JWPlayerContainer playlist={playlist}/>
       waveformImgUrl = 'https://archive.org' + this.state.mediaFiles[0].waveformUrl
-      JwNavImgEl = <img className="audio__waveform__image" src={waveformImgUrl} />
+      JwNavImgEl = <DwebImg className="audio__waveform__image" src={waveformImgUrl} fileObj={theFileRecord} />
     }
 
+
+    ///
+class DwebableImg {
+
+  render() {
+    // if in dweb context
+    //return <DwebImgRaw>
+    //
+    //return <img src="">
+  }
+  // else
+
+
+}
+    ///
 
     return (
       <div className="theatre--audio1">

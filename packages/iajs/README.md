@@ -1,10 +1,30 @@
-WIP iajs
+# WIP iajs
+
+This is a WIP. Still under development, but some some initial progress has been made.
+
+
+## Code notes
+
+It is written in TypeScript and can be built like this:
+
+```
+# If you have tsc installed globally
+tsc
+
+# OR using yarn
+yarn run build
+```
+
+JavaScript's `async` is used heavily, which makes the client very asynchronous.
+
+
+## General overview
 
 This could be a the Archive.org JavaScript SDK
 
 Features it should have:
 
-- Read/Write APIS
+- Read/Write APIs
     - Metadata
     - loans
 
@@ -22,7 +42,7 @@ Features it should have:
 ----
 
 
-## WIP Structure
+## Structure
 
 /services - each service is a thin wrapper for an Archive.org API
 
@@ -33,4 +53,4 @@ Features it should have:
 
 Maybe have a global config?
 
-This would allow things like login credentials, and maybe globally changing the API base for all apis
+This would allow things like login credentials, and maybe globally changing the API base for all APIs
