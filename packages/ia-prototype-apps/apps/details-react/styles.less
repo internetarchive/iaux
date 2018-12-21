@@ -1,0 +1,338 @@
+@import '../../lib/from-petabox/archive-cf7f2eh.less';
+// @import '../../lib/from-petabox/archive-cf7f2eh.css';
+@import "~/bookreader/BookReader/BookReader.css"; // TODO CSS isn't working
+@import '../../../ia-components/sandbox/bookreader-component/styles.less';
+
+
+.white { color: white }
+.w100 { width: 100% }
+.center { text-align: center; }
+
+.theatre--audio1 {
+  position: relative;
+}
+.audio-top-row {
+  padding: 2rem;
+  min-height: 200px;
+}
+
+.audio__table__wrapper {
+  max-height: 60vh;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    // border-left: 1px solid #ccc;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #999;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #eee;
+  }
+}
+.audio-table {
+  color: #ccc;
+  font-size: 14px;
+  border: none;
+
+}
+.audio-table td {
+  border-top: 1px solid #626262 !important;
+}
+.audio-table tr:first-child {
+  color: white;
+  font-weight: bold;
+}
+
+.audio-table.table thead > tr > th {
+  border-bottom: 1px solid #626262;
+}
+.audio-table thead th {
+  text-transform: uppercase;
+  font-size: .9em;
+  color: #666;
+  font-weight: normal;
+}
+
+.streamLinkWrapper {
+  display:inline-block;
+  width: 25px;
+  img {
+    width: 20px;
+  }
+}
+
+.audio-navigation {
+  background-color: #818181;
+  height: 34px;
+  width: 100%;
+}
+.audio-navigation-waveform-wrapper {
+  padding: 4px;
+  width: 100%;
+  height: 68px;
+  border-top: 1px solid #626262;
+  background-color: #505050;
+  background-color:black;
+}
+.audio-navigation-waveform {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  background-color: #505050;
+}
+.audio--br-nav-img {
+  transform: scale(.5);
+}
+
+.audio__flex {
+  @media (min-width: 800px) {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    .audio__images {
+      flex: 0;
+    }
+    .audio__tracks {
+      flex: 1 auto;
+    }
+  }
+
+  .audio__images {
+  }
+
+}
+
+.audio__images {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  @media (max-width: 800px) {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+  }
+  .audio__images__image__wrapper {
+    flex: 1 0;
+    margin-right: 2rem;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 100%;
+  }
+  .audio__images__image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+  }
+  .audio__images__nav {
+    flex: 0 auto;
+    transform: scale(.5)
+  }
+}
+
+.audio__title__creator {
+  color: white;
+  margin-bottom: 2rem;
+  font-size: 18px;
+  .title {
+    font-weight: bold;
+  }
+  line-height: 24px;
+}
+.audio__tracks {
+
+}
+
+.audio__waveform__image {
+  width: 100%;
+  background-color: #ccc;
+  height: 50px;
+  // border: 1px solid #666;
+  @media (min-width: 800px) {
+    // margin:0 0 -2rem 0;
+  }
+}
+.audio__player__wrapper {
+  margin-bottom: 1rem;
+}
+
+.play-all-button {
+  border: 2px solid white;
+  border-radius: 15px;
+  background: transparent;
+  color: white;
+  padding: 0 10px;
+  margin-left: 1rem;
+  font-size: 12px;
+  line-height: 12px;
+  position: relative;
+  // top: -2px;
+  padding-top: 2px;
+  height: 24px;
+  vertical-align: middle;
+  img {
+    position: relative;
+    margin-right: 5px;
+    height: 12px;
+    width: auto;
+    left: -2px;
+    top: -1.5px;
+  }
+  &.youtube {
+    border-color: #D32F2F;
+    background-color: #D32F2F;
+    background-color: transparent;
+    color: #D32F2F;
+    color: white;
+    font-weight: bold;
+  }
+  &.youtube img {
+    height: 18px;
+    position: relative;
+    left: -8px;
+    margin-right: 0;
+    top: -1px;
+  }
+  &.spotify {
+    border-color: #00DA5A;
+    background-color: transparent;
+    color: #00DA5A;
+    font-weight: bold;
+  }
+  &.spotify img {
+    height: 18px;
+    position: relative;
+    left: -8px;
+    top: -1px;
+    margin-right: 0;
+  }
+}
+.audio-navigation {
+  display: flex;
+  flex-direction: row;
+  // justify-content: center;
+  align-items: center;
+  .left {
+    // flex: 0;
+    // background-color: red;
+    height: 100%;
+  }
+  button {
+    border: none;
+    background: transparent;
+  }
+  .nav-button {
+    width: 34px;
+    height: 34px;
+    // display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #4D4D4D;
+
+  }
+  .scrubber {
+    flex: 1 auto;
+    height: 10px;
+    background-color: #4D4D4D;
+    border-radius: 10px;
+    margin: 0 10px;
+  }
+  .right {
+    .progress-txt {
+      display: inline-block;
+      background: transparent;
+      color: white;
+      margin-top: 9px;
+      margin-left: 8px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    // flex: 0;
+    // width: 140px;
+    // background-color: red;
+    height: 100%;
+    .nav-button {
+      border-right: none;
+      border-left: 1px solid #4D4D4D;
+        margin-left: 10px;
+      // HACK not sure why this is needed
+      position: relative;
+      top: -1px;
+    }
+  }
+
+}
+
+.jwplayer, #test-player {
+  width: 100% !important;
+  height: 100px !important;
+}
+.jw-preview {
+  background: transparent no-repeat 50% 50%;
+  background-size: 100% 100%;
+  display: initial;
+}
+
+.theatre-hamburger {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+}
+
+.simple-desc-meta__meta {
+  display: none;
+}
+
+/** archive css overrides */
+body.navia #theatre-ia > .row {
+  max-width: initial;
+}
+body.navia #theatre-ia {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/*
+body.navia #theatre-ia > .row {
+  max-width: 100%;
+}
+.container-ia {
+  max-width: 100%;
+  padding: 0;
+}
+#theatre-ia.container {
+  max-width: 100%;
+  padding: 0;
+}
+body.navia #theatre-ia {
+  padding: 0;
+}
+*/
+
+
+/** jwplayer overrides */
+.theatre--audio1 .jw-button-container {
+  padding: 0;
+}
+.theatre--audio1 .jw-slider-time {
+  padding: 0;
+}
+
+
+/** details page overrides */
+.item-upload-info__uploader-name {
+  font-size: 1em;
+  // display: inline-block;
+  // margin: 0 3px;
+}

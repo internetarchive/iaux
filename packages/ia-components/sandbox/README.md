@@ -1,0 +1,1 @@
+Components in this "sandbox" directory are used for R&D and prototypes.

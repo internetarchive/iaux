@@ -1,0 +1,22 @@
+{
+  "name": "ia-js-client",
+  "version": "0.0.0",
+  "main": "build/index.js",
+  "devDependencies": {
+    "@types/node": "^10.7.1",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "typescript": "3.x.x"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "tsc"
+  },
+  "dependencies": {
+    "node-fetch": "^2.2.0"
+  }
+}
