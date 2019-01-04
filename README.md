@@ -69,7 +69,7 @@ yarn run parcel prototypes/details-react/index.html
 
 This is structured so that there is compatibility with the upstream Archive.org codebase.
 
-#### The following must be followed:
+#### Base rules:
 - Use `less` instead of `scss`
 - Do not import other asset types into js code. Eg do NOT do `import 'styles.less'. Instead, create a separate less file, eg 'styles.less' alongside the JavaScript code, and this will be imported into the petabox's archive.less at integration time.
 
@@ -77,6 +77,14 @@ This is structured so that there is compatibility with the upstream Archive.org 
 Currently, we are using Airbnb's styleguide and will extend accordingly.
 We have added ESLINT to help with staying in convention.
 
+## Using StorybookJS
+
+We use StorybookJS to show usage examples of our components.  For details on how to run StorybookJS, visit the `ia-components` readme: [IA Components Readme](/packages/ia-components/README.md)
+
+Run Storybook:
+```
+cd packages/ia-components && yarn run storybook
+```
 
 ## Other
 

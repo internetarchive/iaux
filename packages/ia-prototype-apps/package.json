@@ -1,5 +1,7 @@
 {
-  "name": "prototypes",
+  "name": "ia-prototype-apps",
+  "version": "0.0.0",
+  "license": "AGPL-3",
   "dependencies": {
     "babel-preset-react": "^6.24.1",
     "ia-components": "^0.0.0",
