@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <link media="all" rel="stylesheet" href="{{ path '/styles/index.css' }}">
+
+    <style>
+      body {
+        margin: 1em;
+      }
+    </style>
+
+    <script defer src="{{ path '/scripts/index.js' }}"></script>
+
+    <!-- TODO: Replace this with a more compatible solution (probably just a deferred external JS file) -->
+    <script type="module">
+      IaDesignSystem.Accordion.setUp();
+    </script>
+
+    <title>Preview Layout</title>
+  </head>
+
+  <body>
+
+  {{{ yield }}}
+
+  </body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "ia-design-system",
+  "version": "0.3.0",
+  "main": "public/scripts/index.js",
+  "scripts": {
+    "prepare": "yarn build:assets",
+    "build:assets": "webpack --config webpack.config.js",
+    "build:site": "yarn build:assets && fractal build",
+    "start": "fractal start --watch",
+    "watch": "webpack --config webpack.config.js --watch"
+  },
+  "devDependencies": {
+    "@frctl/fractal": "^1.1.6",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "next",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "webpack": "^4.12.0",
+    "webpack-cli": "^3.0.8"
+  }
+}
