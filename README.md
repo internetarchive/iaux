@@ -11,33 +11,33 @@ There are several node packages in this one repo. They are located under the "pa
 
 At the time of writing, there are 4 packages:
 
-### iacomponents
+### ia-components
 
-The `iacomponents` package contains reusable "components" (loosely). It is actually just a package that is included into Archive.org's codebase. Having an external package, makes it easier for new developers to contribute development.
+The `ia-components` package contains reusable "components" (loosely). It is actually just a package that is included into Archive.org's codebase. Having an external package, makes it easier for new developers to contribute development.
 
 It's easy to test these components out using the "prototypes" package. The final intergration into the Archive.org website still needs to be done by internal staff.
 
 As a convention, the preferred framework is React, but vanilla JS components are also possible.
 
-Within `iacomponents` there are two subdirectories: `experimental` and `production`. The idea is that code in the `production` is used in production. But `experimental` components might still be works in progress, new designs, etc, and only used in prototypes.
+Within `ia-components` there are two subdirectories: `sandbox` and `live`. The idea is that code in the `live` directory is used in production. But in `sandbox`, components might still be works in progress, new designs, etc, and only used in prototypes.
 
-### iadesignsystem
+### ia-design-system
 
 This is still a TODO, but the idea is common CSS and a design style guide could live here.
 
-### iajs
+### ia-js-client
 
-The `iajs` package is a hybrid JavaScript and NodeJS client to the Internet Archive's APIs. It is written in TypeScript. It is used in both the `iacomponents` and `prototypes` packages for fetching data. See [packages/iajs/README.md](packages/iajs/README.md) for more info.
+The `ia-js-client` package is a hybrid JavaScript and NodeJS client to the Internet Archive's APIs. It is written in TypeScript. It is used in both the `ia-components` and `ia-prototype-apps` packages for fetching data. See [packages/ia-js-client/README.md](packages/ia-js-client/README.md) for more info.
 
-### prototypes
+### ia-prototype-apps
 
-Prototypes are basically little websites built using code from `iacomponents`. They can serve many purposes. For example, a prototype can be used to test the integration of several components in `iacomponents`. A prototype can also be made by the UX team to test a new design using live data.
+Prototypes are basically little websites built using code from `ia-components`. They can serve many purposes. For example, a prototype can be used to test the integration of several components in `ia-components`. A prototype can also be made by the UX team to test a new design using live data.
 
 Of course, a prototype could also be made outside of this repo, and that will make sense in some cases.
 
 Since the prototypes package is a "packages/prototypes" and there are a lot of other files at that level, there is a second directory "packages/prototypes/prototypes" and this is where the actual content lives.
 
-See [packages/prototypes/README.md](packages/prototypes/README.md) for more info.
+See [packages/ia-prototype-apps/README.md](packages/ia-prototype-apps/README.md) for more info.
 
 
 
