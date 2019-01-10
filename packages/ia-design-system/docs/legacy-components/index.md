@@ -1,0 +1,1 @@
+This section documents components and design patterns that were developed before the creation of the design system. They may be inconsistent or incomplete. All efforts should be made to update these components and bring them into the design system proper.

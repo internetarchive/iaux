@@ -1,0 +1,39 @@
+* {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+html {
+  color: #333;
+}
+
+a {
+  color: #428bca;
+}
+
+a:hover,
+a:focus {
+  color: #2a6496;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #333;
+}
+
+.Frame-panel--sidebar {
+  background-color: white;
+}
+
+.Prose h1,
+.Prose h2,
+.Prose h3,
+.Prose h4,
+.Prose h5,
+.Prose h6 {
+  color: #333;
+  opacity: 1;
+}
