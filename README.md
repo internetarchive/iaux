@@ -69,10 +69,13 @@ yarn run parcel prototypes/details-react/index.html
 
 This is structured so that there is compatibility with the upstream Archive.org codebase.
 
-So the following must be followed:
+#### The following must be followed:
 - Use `less` instead of `scss`
 - Do not import other asset types into js code. Eg do NOT do `import 'styles.less'. Instead, create a separate less file, eg 'styles.less' alongside the JavaScript code, and this will be imported into the petabox's archive.less at integration time.
 
+#### JS Styleguide
+Currently, we are using Airbnb's styleguide and will extend accordingly.
+We have added ESLINT to help with staying in convention.
 
 
 ## Other
