@@ -2,6 +2,8 @@ import { configure, addDecorator, setAddon } from '@storybook/react'
 import { checkA11y } from '@storybook/addon-a11y'
 import JSXAddon from 'storybook-addon-jsx'
 import { withKnobs } from '@storybook/addon-knobs'
+import { withTests } from '@storybook/addon-jest';
+import results from '../jest-test-utils/jest-test-results.json';
 
 import style from './archive-cf7f2eh.less'
 
@@ -16,6 +18,7 @@ const allStories = require.context('../', true, /(\.\/)(live|sandbox)([\w\d\/\-\
 addDecorator(checkA11y)
 setAddon(JSXAddon)
 addDecorator(withKnobs)
+addDecorator(withTests({ results }))
 
 /**
  * Dynamically load all stories.

@@ -6,7 +6,8 @@
     "plugins": [
         "babel",
         "eslint-plugin-import",
-        "eslint-plugin-react"
+        "eslint-plugin-react",
+        "jest"
     ],
     "rules": {
         "babel/semi": 0,

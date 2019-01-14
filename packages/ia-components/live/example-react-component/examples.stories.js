@@ -2,17 +2,18 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text, boolean, number } from '@storybook/addon-knobs';
 
-import { IAExampleComponent } from '../../index';
+import { IAUXExampleComponent } from '../../index';
 import style from './styles.less';
 
 /**
  * Here are some examples of how to create a story and use add-ons
  */
 storiesOf('Examples', module)
+  .addParameters({ jest: ['example.test.js'] })
   .addWithJSX('IA Example ReactJS Component', () => (
-    <IAExampleComponent>
+    <IAUXExampleComponent>
       <p>We are live from the archive.</p>
-    </IAExampleComponent>
+    </IAUXExampleComponent>
   ))
   .add('A11y - Accessible element', () => (
     <button>

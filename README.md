@@ -86,6 +86,14 @@ Run Storybook:
 cd packages/ia-components && yarn run storybook
 ```
 
+## Unit Testing with JestJS
+
+JestJS is pliable enough for us to test in JavaScript and TypeScript.
+Try running our tests:
+```
+cd packages/ia-components && yarn run test
+```
+
 ## Other
 
 in v2mocks there is code that is pulled form IA view source and converted to JSX using this tool:
