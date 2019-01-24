@@ -31,13 +31,16 @@
         "less-loader": "^4.1.0",
         "react-test-renderer": "^16.7.0",
         "storybook-addon-jsx": "^6.0.0",
-        "style-loader": "^0.23.1"
+        "style-loader": "^0.23.1",
+        "ia-js-client": "^0.0.0"
     },
     "dependencies": {
-        "ia-js-client": "^0.0.0",
         "prop-types": "^15.6.2",
-        "react": "^16.6.0",
-        "react-dom": "^16.4.2",
+        "react": "^16.7.0",
+        "react-dom": "^16.7.0",
         "react-jw-player": "^1.18.1"
+    },
+    "peerDependencies": {
+        "ia-js-client": "^0.0.0"
     }
 }

@@ -2,12 +2,13 @@
   "name": "ia-prototype-apps",
   "version": "0.0.0",
   "license": "AGPL-3",
+  "private": true,
   "dependencies": {
     "babel-preset-react": "^6.24.1",
     "ia-components": "^0.0.0",
     "ia-js-client": "^0.0.0",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1"
   },
   "devDependencies": {

@@ -2,8 +2,20 @@
 
 Monorepo for Archive.org UX development and prototyping.
 
+**Note:** This is work-in-progress code, and until development has stabilized, things may change a lot. This library is being published with our use cases in mind and is not necessarily meant to be consumed by the broader public.
+
 There are multiple npm packages in this repo, and [Lerna](https://lernajs.io) is used to manage them.
 
+
+## Setup
+
+Install dependencies on all packages.
+
+```
+yarn install
+yarn run lerna bootstrap
+yarn run lerna link
+```
 
 ## Code Structure
 
@@ -38,18 +50,6 @@ Of course, a prototype could also be made outside of this repo, and that will ma
 Since the prototypes package is a "packages/prototypes" and there are a lot of other files at that level, there is a second directory "packages/prototypes/prototypes" and this is where the actual content lives.
 
 See [packages/ia-prototype-apps/README.md](packages/ia-prototype-apps/README.md) for more info.
-
-
-
-## Setup
-
-Install dependencies on all packages.
-
-```
-yarn install
-yarn run lerna bootstrap
-yarn run lerna link
-```
 
 
 Prototypes can be run like this:
