@@ -42,5 +42,8 @@
     },
     "peerDependencies": {
         "ia-js-client": "^0.0.0"
+    },
+    "publishConfig": {
+        "access": "public"
     }
 }

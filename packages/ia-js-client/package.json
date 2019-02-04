@@ -19,5 +19,8 @@
   },
   "dependencies": {
     "node-fetch": "^2.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
