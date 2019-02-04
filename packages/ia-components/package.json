@@ -1,8 +1,8 @@
 {
-    "name": "ia-components",
+    "name": "@internetarchive/ia-components",
     "version": "0.0.0",
     "source": true,
-    "license": "AGPL-3",
+    "license": "AGPL-3.0-only",
     "scripts": {
         "storybook": "yarn run test:generate-output && yarn run storybook:start",
         "storybook:start": "start-storybook -p 9001 -c .storybook",

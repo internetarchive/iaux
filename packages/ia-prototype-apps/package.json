@@ -1,7 +1,7 @@
 {
-  "name": "ia-prototype-apps",
+  "name": "@internetarchive/ia-prototype-apps",
   "version": "0.0.0",
-  "license": "AGPL-3",
+  "license": "AGPL-3.0-only",
   "private": true,
   "dependencies": {
     "babel-preset-react": "^6.24.1",
