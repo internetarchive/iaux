@@ -1,6 +1,6 @@
 {
     "name": "@internetarchive/ia-components",
-    "version": "0.0.0",
+    "version": "0.0.0-alpha.0",
     "source": true,
     "license": "AGPL-3.0-only",
     "scripts": {
@@ -26,13 +26,13 @@
         "babel-preset-react": "^6.24.1",
         "css-loader": "^2.1.0",
         "fsevents": "^1.2.4",
+        "ia-js-client": "^0.0.0",
         "jest": "^23.6.0",
         "less": "^3.8.1",
         "less-loader": "^4.1.0",
         "react-test-renderer": "^16.7.0",
         "storybook-addon-jsx": "^6.0.0",
-        "style-loader": "^0.23.1",
-        "ia-js-client": "^0.0.0"
+        "style-loader": "^0.23.1"
     },
     "dependencies": {
         "prop-types": "^15.6.2",
