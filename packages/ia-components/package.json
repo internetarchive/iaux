@@ -1,6 +1,6 @@
 {
     "name": "@internetarchive/ia-components",
-    "version": "0.0.0-alpha.0",
+    "version": "0.0.0-alpha.20+5039f8d",
     "source": true,
     "license": "AGPL-3.0-only",
     "scripts": {
