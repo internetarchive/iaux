@@ -102,7 +102,7 @@ cd packages/ia-components && yarn run test
 
 ## Other
 
-in `v2mocks` there is code that is pulled form IA "View Source" and converted to JSX using this tool:
+in `v2mocks` there is code that is pulled from IA "View Source" and converted to JSX using this tool:
 `https://magic.reactjs.net/htmltojsx.htm`
 
 
