@@ -17,6 +17,13 @@ yarn run lerna bootstrap
 yarn run lerna link
 ```
 
+### Running ia-components
+Run our local UI component development environment.
+```
+cd packages/ia-components && yarn run storybook
+
+```
+
 ## Code Structure
 
 There are several node packages in this one repo. They are located under the `packages` directory.
