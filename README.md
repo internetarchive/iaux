@@ -70,6 +70,16 @@ After, you can try running a more complex example:
 yarn run parcel prototypes/details-react/index.html
 ```
 
+## Publishing
+
+As stated earlier, there are multiple npm packages in this repo, and [Lerna](https://lernajs.io) is used to manage them. The command used to publish changes is the following:
+
+```
+yarn run lerna publish --skip-git --canary
+```
+
+This will provide a step-by-step prompt, where you can decide whether this is a major, minor, or patch release. It's okay to try it, and then use control+c, to exit without having changes. However, once you publish a release, it's irrevocable.
+
 
 ## Coding rules
 
