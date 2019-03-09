@@ -10,22 +10,21 @@
         "jest"
     ],
     "rules": {
-        "babel/semi": 0,
+        "babel/semi": 2,
         "comma-dangle": 0,
         "import/no-extraneous-dependencies": [
             "error", {
-                "devDependencies": false,
+                "devDependencies": ["**/*.test.js", "**/*.stories.js"],
                 "optionalDependencies": false,
                 "peerDependencies": false
             }
         ],
-        "semi": 0,
         "react/jsx-filename-extension": [
             1, {
                 "extensions": [".js", ".jsx"]
             }
         ],
-        "react/prefer-stateless-function": 1
-
+        "react/prefer-stateless-function": 1,
+        "semi": 2
     }
 }
