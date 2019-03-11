@@ -1,0 +1,140 @@
+.theatre__wrap {
+  color: #fff;
+}
+
+/* legacy */
+.theatre__wrap {
+  background-color: black;
+  position: relative;
+  min-height: 400px;
+}
+.theatre__wrap #flag-overlay {
+  display: none;
+}
+body.navia .toggle-flag-overlay.glyphicon-remove {
+  display: none;
+}
+.theatre__wrap.flagged #theatre-ia {
+  -webkit-filter: blur(20px);
+  -moz-filter: blur(20px);
+  -o-filter: blur(20px);
+  -ms-filter: blur(20px);
+  filter: blur(20px);
+}
+.theatre__wrap.flagged .toggle-flag-overlay.glyphicon-remove {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  font-size: 200%;
+  color: #ffffff;
+  display: block;
+  z-index: 123456789;
+}
+.theatre__wrap.flagged #flag-overlay.flagged-solid {
+  background-color: #be1024;
+}
+.theatre__wrap.flagged #flag-overlay.flagged-solid .toggle-flag-overlay {
+  display: none;
+}
+.theatre__wrap.flagged #flag-overlay {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(232, 15, 40, 0.69);
+  z-index: 1;
+  color: #FFFFFF;
+  text-align: center;
+}
+.theatre__wrap.flagged #flag-overlay .big-icon {
+  font-size: 56px;
+}
+.theatre__wrap.flagged #flag-overlay h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 15px;
+}
+.theatre__wrap.flagged #flag-overlay .item-flags {
+  display: inline-block;
+}
+.theatre__wrap.flagged #flag-overlay h2 {
+  font-size: 18px;
+  font-weight: 600;
+  border: solid #ffffff 3px;
+  margin: 10px;
+  padding: 10px 30px;
+  line-height: 24px;
+}
+.theatre__wrap.flagged #flag-overlay button.toggle-flag-overlay,
+.theatre__wrap.flagged #flag-overlay a.toggle-flag-overlay {
+  text-decoration: underline;
+  border: none;
+  background: inherit;
+  color: inherit;
+  margin: 15px;
+  font-size: 18px;
+}
+.theatre__wrap.flagged #flag-overlay p {
+  font-size: 18px;
+}
+.theatre__wrap.flagged #flag-overlay .no-preview-download a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+.theatre__wrap.flagged #flag-overlay #flag-checkboxes {
+  text-align: left;
+  margin: 0 auto;
+  display: inline-block;
+}
+.theatre__wrap.flagged #flag-overlay #flag-checkboxes a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.theatre__wrap.flagged #flag-overlay #flag-checkboxes a .my-checkbox {
+  border: 1px #ffffff;
+  background-color: #ffffff;
+  border-radius: 2px;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin: 0 10px;
+  vertical-align: middle;
+  text-align: center;
+}
+.theatre__wrap.flagged #flag-overlay #flag-checkboxes a .my-checkbox .iconochive-x,
+.theatre__wrap.flagged #flag-overlay #flag-checkboxes a .my-checkbox .iconochive-Done {
+  visibility: hidden;
+}
+.theatre__wrap.flagged #flag-overlay #flag-checkboxes a .my-checkbox.checked {
+  background-color: #428bca;
+}
+.theatre__wrap.flagged #flag-overlay #flag-checkboxes a .my-checkbox.checked .iconochive-x,
+.theatre__wrap.flagged #flag-overlay #flag-checkboxes a .my-checkbox.checked .iconochive-Done {
+  display: block;
+  visibility: visible;
+  color: #FFFFFF;
+  font-size: 10px;
+}
+.theatre__wrap.resized {
+  max-height: 100vw;
+  min-height: initial;
+  overflow: hidden;
+}
+.theatre__wrap.resized #theatre-ia,
+.theatre__wrap.resized #theatre-ia > .row,
+.theatre__wrap.resized #theatre-ia > .row > div {
+  height: 100%;
+}
+.theatre__wrap.resized #theatre-ia {
+  padding: 0;
+  /* children manage own padding */
+}
+.theatre__wrap.resized _:-o-prefocus,
+.theatre__wrap.resized {
+  height: auto !important;
+  max-height: none;
+}

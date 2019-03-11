@@ -1,0 +1,95 @@
+@import '../../../variables.less';
+
+.audio-with-youtube-spotify {
+  padding-top: 1rem;
+  overflow: hidden;
+  color: @f-white;
+  
+  .submenu {
+    position: absolute;
+    right: 6px;
+
+    .submenu-item {
+      height: 30px;
+      width: 30px;
+
+      > * {
+        height: inherit;
+        width: inherit;
+      }
+    }
+  }
+
+  .playlist-section {
+    padding: 1rem 2rem 2rem 1px;
+    margin-left: 1rem;
+  }
+
+  @media (min-width: @audio-player-desktop-min-width) {
+    padding-left: 1rem;
+
+    .media-section,
+    .playlist-section {
+      float: left;
+    }
+    .media-section {
+      width: 34%;
+    }
+    .playlist-section {
+      width: 64%;
+    }
+  }
+
+  @media (max-width: @audio-player-mobile-max-width) {
+    // Channel labels only show logos at mobile view
+    .channel-controls {
+      width: 100%;
+
+      .option {
+        width: 33%;
+        text-align: center;
+      }
+      .channel-label {
+        display: none;
+      }
+    }
+  }
+
+  .channel-controls .channel-icon,
+  .tabs .channel-icon {
+    display: inline-block;
+    margin: auto;
+  }
+
+  .channel-controls .channel-label,
+  .tabs .channel-label {
+    vertical-align: top;
+    font-weight: 400;
+    padding-left: 0.5rem;
+  }
+
+  .channel-controls {
+    margin-bottom: 2rem;
+    margin-left: 1%;
+    display: inline;
+    
+    .title {
+      display: inline-block;
+      margin-right: 1rem;
+      vertical-align: top;
+      margin-top: .6rem;
+    }
+  }
+
+  .selector__radio-group {
+    width: inherit;
+
+    .option {
+      padding: 0.5rem 1rem 0;
+
+      label {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
