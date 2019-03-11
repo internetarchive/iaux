@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { MetadataService } from 'ia-js-client'
+import { MetadataService } from '@internetarchive/ia-js-client'
 
 /**
  * An example component that shows how to use the IAJS library
