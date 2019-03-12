@@ -176,9 +176,22 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    */
   getSelectableChannels() {
     const { albumData: { externalSources, playSamples } } = this.state;
-    const channelsToDisplay = flatten(['archive', externalSources]);
+    const channelsToDisplay = flatten(['archive', externalSources, 'webamp']);
     const channelOptions = channelsToDisplay.map((channel) => {
       let labelValue;
+      if (channel === 'webamp') {
+        const webampLink = (
+          <a href={`${window.location.href}?&webamp=1`} alt="show webamp" className="webamp-link">
+            <img src="https://www.archive.org/images/llama-icon.png" alt="webamp-logo" />
+            <span className="channel-label">Webamp</span>
+          </a>
+        );
+        return {
+          displayAsIs: true,
+          asIsDisplay: webampLink
+        };
+      }
+
       if (channel === 'archive') {
         labelValue = `Archive${playSamples ? ' Samples' : ''}`;
       } else {
@@ -214,11 +227,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     };
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
-        <section className="submenu">
-          <a href="xyz?&webamp=1" alt="show webamp" className="submenu-item">
-            <img src="https://www-isa2.archive.org/images/llama-icon.png" />
-          </a>
-        </section>
         <section className="media-section">
           <TheatreAudioPlayer
             source={channelToPlay}
