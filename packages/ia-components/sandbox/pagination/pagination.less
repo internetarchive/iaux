@@ -9,6 +9,11 @@
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
 
+  @media (max-width: 50rem) {
+    flex-flow: column;
+    height: 30rem;
+  }
+
   @media (min-width: @audio-player-desktop-min-width) {
     max-height: 48rem;
     overflow-x: hidden;

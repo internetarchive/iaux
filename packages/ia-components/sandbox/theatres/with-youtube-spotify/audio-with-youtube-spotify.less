@@ -2,6 +2,8 @@
 
 .audio-with-youtube-spotify {
   padding-top: 1rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
   overflow: hidden;
   color: @f-white;
   
@@ -21,10 +23,33 @@
   }
 
   .playlist-section {
-    padding: 1rem 2rem 2rem 1px;
-    margin-left: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  @media (max-width: @audio-player-mobile-max-width) {
+    // Channel labels only show logos at mobile view
+    .channel-controls {
+      .selector__radio-group {
+        min-width: 25rem;
+      }
+      .option {
+        width: 25%;
+        text-align: center;
+      }
+      .channel-label {
+        display: none;
+      }
+    }
   }
 
+  @media (max-width: @audio-player-tablet-max-width) {
+    .channel-controls {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      text-align: center;
+    }
+  }
   @media (min-width: @audio-player-desktop-min-width) {
     padding-left: 1rem;
 
@@ -37,22 +62,15 @@
     }
     .playlist-section {
       width: 64%;
+      margin-left: 1rem;
+      padding-right: 2rem;
     }
-  }
 
-  @media (max-width: @audio-player-mobile-max-width) {
-    // Channel labels only show logos at mobile view
     .channel-controls {
-      width: 100%;
-
-      .option {
-        width: 33%;
-        text-align: center;
-      }
-      .channel-label {
-        display: none;
-      }
+      margin-left: 1%;
+      display: inline;
     }
+
   }
 
   .channel-controls .channel-icon,
@@ -69,10 +87,6 @@
   }
 
   .channel-controls {
-    margin-bottom: 2rem;
-    margin-left: 1%;
-    display: inline;
-    
     .title {
       display: inline-block;
       margin-right: 1rem;
@@ -89,6 +103,19 @@
 
       label {
         margin-bottom: 0;
+      }
+
+      .webamp-link {
+        display: inline-block;
+        overflow: hidden;
+        color: #fff;
+        opacity: 0.5;
+        img {
+          height: 2rem;
+        }
+        .channel-label {
+          margin-top: .1rem;
+        }
       }
     }
   }
