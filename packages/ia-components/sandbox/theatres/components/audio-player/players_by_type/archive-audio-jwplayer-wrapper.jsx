@@ -72,7 +72,7 @@ class ArchiveAudioPlayer extends Component {
    * Register this instance of JWPlayer
    */
   registerPlayer() {
-    const { jwplayerInfo } = this.props;
+    const { jwplayerInfo, jwplayerID } = this.props;
     const { jwplayerPlaylist, identifier, collection } = jwplayerInfo;
 
     // We are using IA custom global Player class to instatiate the player
@@ -95,7 +95,7 @@ class ArchiveAudioPlayer extends Component {
     };
 
     if (window.Play && Play) {
-      const player = Play('iaux-player', jwplayerPlaylist, baseConfig);
+      const player = Play(jwplayerID, jwplayerPlaylist, baseConfig);
       this.setState({ player });
     }
   }
@@ -114,6 +114,7 @@ class ArchiveAudioPlayer extends Component {
     const {
       backgroundPhoto,
       photoAltTag,
+      jwplayerID
     } = this.props;
     return (
       <div className="ia-player-wrapper">
@@ -127,7 +128,7 @@ class ArchiveAudioPlayer extends Component {
           )
         }
         <div className="iaux-player-wrapper">
-          <div id="iaux-player" />
+          <div id={jwplayerID} />
         </div>
       </div>
     );

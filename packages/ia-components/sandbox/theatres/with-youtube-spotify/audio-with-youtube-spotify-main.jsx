@@ -236,6 +236,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             linerNotes={null}
             jwplayerPlaylistChange={this.jwplayerPlaylistChange}
             jwplayerInfo={jwplayerInfo}
+            jwplayerID={`jwplayer-${identifier[0]}`}
           />
         </section>
         {
