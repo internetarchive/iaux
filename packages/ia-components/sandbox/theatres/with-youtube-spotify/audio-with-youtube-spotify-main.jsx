@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { find, flatten } from 'lodash';
 
 import flattenAlbumData from './utils/ia-metadata-utils';
-import { getTrackListBySource } from './utils/get-track-list-by-source';
+import getTrackListBySource from './utils/get-track-list-by-source';
 
 import YoutubeIcon from '../components/svgs/youtube-logo-icon';
 import SpotifyIcon from '../components/svgs/spotify-logo-icon';
