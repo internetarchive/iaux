@@ -1,0 +1,151 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+/**
+ * IA Audio Player
+ *
+ * Uses global: Play class (IA JWPlayer wrapper)
+ *
+ * It will display photo if given, and will overlay the media player at the base of the photo.
+ */
+class ArchiveAudioPlayer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.jwPlayerInstance = React.createRef();
+
+    // expecting jwplayer to be globally ready
+    this.state = {
+      player: null,
+      playerPlaylistIndex: 0,
+    };
+
+    this.registerPlayer = this.registerPlayer.bind(this);
+    this.onPlaylistItemCB = this.onPlaylistItemCB.bind(this);
+    this.emitPlaylistChange = this.emitPlaylistChange.bind(this);
+    this.onReady = this.onReady.bind(this);
+  }
+
+  componentDidMount() {
+    this.registerPlayer();
+  }
+
+  /**
+   * Check if Track index has changed,
+   * if so, then play that track
+   */
+  componentDidUpdate({ sourceData: { index: prevIndex } }, { playerPlaylistIndex: prevPlaylistIndex }) {
+    const { player, playerPlaylistIndex } = this.state;
+    const { sourceData: { index } } = this.props;
+
+    const propsIndexChanged = prevIndex !== index;
+    const playerIndexChanged = prevPlaylistIndex !== playerPlaylistIndex;
+    const manuallyJumpToTrack = propsIndexChanged && !playerIndexChanged;
+
+    if (manuallyJumpToTrack) {
+      return player.playN(index);
+    }
+
+    return null;
+  }
+
+  /**
+   * Event Handler that fires when JWPlayer starts a new track
+   */
+  onPlaylistItemCB({ index: eventIndex }) {
+    const { sourceData: { index: sourceDataIndex } } = this.props;
+    const controllerIndex = sourceDataIndex;
+    const playerPlaylistIndex = eventIndex;
+    if (controllerIndex === playerPlaylistIndex) return;
+
+    this.setState({ playerPlaylistIndex }, this.emitPlaylistChange);
+  }
+
+  /**
+   * Set up event handler for JWPlayer's custom events
+   */
+  onReady(player) {
+    player.on('playlistItem', e => this.onPlaylistItemCB);
+  }
+
+  /**
+   * Register this instance of JWPlayer
+   */
+  registerPlayer() {
+    const { jwplayerInfo } = this.props;
+    const { jwplayerPlaylist, identifier, collection } = jwplayerInfo;
+
+    // We are using IA custom global Player class to instatiate the player
+    const baseConfig = {
+      start: 0,
+      embed: null,
+      so: true,
+      autoplay: false,
+      width: 0,
+      height: 0,
+      list_height: 0,
+      audio: true,
+      responsive: true,
+      identifier,
+      collection,
+      waveformer: 'jw-holder',
+      hide_list: true,
+      onReady: this.onReady,
+      playlistItemCB: this.onPlaylistItemCB
+    };
+
+    if (window.Play && Play) {
+      const player = Play('iaux-player', jwplayerPlaylist, baseConfig);
+      this.setState({ player });
+    }
+  }
+
+  /**
+   * Fires callback `jwplayerPlaylistChange` given by props
+   */
+  emitPlaylistChange() {
+    const { playerPlaylistIndex } = this.state;
+    const { jwplayerPlaylistChange } = this.props;
+
+    jwplayerPlaylistChange({ newTrackIndex: playerPlaylistIndex });
+  }
+
+  render() {
+    const {
+      backgroundPhoto,
+      photoAltTag,
+    } = this.props;
+    return (
+      <div className="ia-player-wrapper">
+        { backgroundPhoto
+          && (
+            <img
+              className="background-photo"
+              src={backgroundPhoto}
+              alt={photoAltTag}
+            />
+          )
+        }
+        <div className="iaux-player-wrapper">
+          <div id="iaux-player" />
+        </div>
+      </div>
+    );
+  }
+}
+
+ArchiveAudioPlayer.defaultProps = {
+  backgroundPhoto: '',
+  photoAltTag: '',
+};
+
+ArchiveAudioPlayer.propTypes = {
+  backgroundPhoto: PropTypes.string,
+  photoAltTag: PropTypes.string,
+  jwplayerPlaylistChange: PropTypes.func.isRequired,
+  jwPlayerPlaylist: PropTypes.array.isRequired,
+  jwplayerInfo: PropTypes.object.isRequired,
+  sourceData: PropTypes.object.isRequired,
+};
+
+export default ArchiveAudioPlayer;

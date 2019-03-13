@@ -1,0 +1,51 @@
+.theatre__audio-player {
+  margin: 1rem auto 2rem;
+  width: 97%;
+
+  @media (min-width: 500px) and (max-width: 599px) {
+    width: 90%;
+  }
+
+  @media (min-width: 600px) and (max-width: 767px) {
+    width: 60%;
+  }
+
+  @media (min-width: 768px) {
+    max-height: 400px;
+    max-width: 400px;
+  }
+
+  .content-window {
+    border: .1rem solid;
+  }
+
+  .playlist-section {
+    padding: 1rem 2rem;
+  }
+
+  .iframe-wrapper,
+  .ia-player-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .ia-player-wrapper {
+    .background-photo {
+      display: block;
+      margin: auto;
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  .iframe-wrapper {
+    padding-bottom: 75%; // 4:3 ratio
+    .iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
