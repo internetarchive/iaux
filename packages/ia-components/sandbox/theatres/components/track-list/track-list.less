@@ -1,0 +1,68 @@
+@import '../../../../variables.less';
+
+.audio-track-list {
+  position: relative;
+  // split overflow declaration needed for Safari
+  overflow-x: hidden;
+  overflow-y: auto;
+  
+  .page-buttons {
+    .pagination-button {
+      border-color: #fff;
+
+      &.selected {
+        background-color: #fff;
+      }
+    }
+  }
+
+  .track {
+    vertical-align: top;
+    cursor: pointer;
+    border-width: 0.3rem;
+    border-style: solid;
+    border-color: transparent;
+    text-align: left;
+    background: transparent;
+    color: inherit;
+    padding-right: .5rem;
+    padding-left: .5rem; 
+    min-height: 4rem;
+
+    &.selected {
+      border-color:#00A1DD;
+      border-radius: .5rem;
+  
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .track-number,
+    .track-title,
+    .track-length {
+      display: inline-block;
+      padding-right: 2%;
+      vertical-align: top;
+    }
+
+    .track-number {
+      text-align: right;
+      font-weight: 100;
+      width: 9%;
+    }
+
+    .track-title {
+      width: 75%;
+
+      i {
+        font-weight: 100;
+      }
+    }
+
+    .track-length {
+      text-align: right;
+      font-weight: 100;
+    }
+  }
+}
