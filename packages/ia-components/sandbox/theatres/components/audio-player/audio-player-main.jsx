@@ -27,19 +27,21 @@ export default class TheatreAudioPlayer extends Component {
    * Render function - Choose player according to `source
    */
   showMedia() {
-    const {
-      source, sourceData, urlExtensions = ''
-    } = this.props;
-    const { urlPrefix, id, mediaName } = sourceData;
+    const { source, sourceData } = this.props;
     const isExternal = source === 'youtube' || source === 'spotify';
     let mediaElement = <IAAudioPlayer {...this.props} />;
     if (isExternal) {
       // make iframe with URL
+      const externalSourceDetails = sourceData[source] || {};
+      const {
+        urlPrefix = '', id = '', urlExtensions = '', name = ''
+      } = externalSourceDetails;
+
       const sourceURL = `${urlPrefix}${id}${urlExtensions}`;
       mediaElement = (
         <ThirdPartyEmbeddedPlayer
           sourceURL={sourceURL}
-          title={mediaName}
+          title={name}
         />
       );
     }
