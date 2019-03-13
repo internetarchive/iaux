@@ -17,7 +17,7 @@ class ArchiveAudioPlayer extends Component {
     // expecting jwplayer to be globally ready
     this.state = {
       player: null,
-      playerPlaylistIndex: 0
+      playerPlaylistIndex: 0,
     };
 
     this.registerPlayer = this.registerPlayer.bind(this);
@@ -119,11 +119,11 @@ class ArchiveAudioPlayer extends Component {
       <div className="ia-player-wrapper">
         { backgroundPhoto
           && (
-          <img
-            className="background-photo"
-            src={backgroundPhoto}
-            alt={photoAltTag}
-          />
+            <img
+              className="background-photo"
+              src={backgroundPhoto}
+              alt={photoAltTag}
+            />
           )
         }
         <div className="iaux-player-wrapper">
@@ -136,7 +136,7 @@ class ArchiveAudioPlayer extends Component {
 
 ArchiveAudioPlayer.defaultProps = {
   backgroundPhoto: '',
-  photoAltTag: ''
+  photoAltTag: '',
 };
 
 ArchiveAudioPlayer.propTypes = {
@@ -145,7 +145,7 @@ ArchiveAudioPlayer.propTypes = {
   jwplayerPlaylistChange: PropTypes.func.isRequired,
   jwPlayerPlaylist: PropTypes.array.isRequired,
   jwplayerInfo: PropTypes.object.isRequired,
-  sourceData: PropTypes.object.isRequired
+  sourceData: PropTypes.object.isRequired,
 };
 
 export default ArchiveAudioPlayer;

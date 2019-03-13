@@ -25,12 +25,12 @@ const ThirdPartyPlayer = ({ sourceURL, title }) => (
 );
 
 ThirdPartyPlayer.defaultProps = {
-  title: 'Playing external media source from Archive.org'
+  title: 'Playing external media source from Archive.org',
 };
 
 ThirdPartyPlayer.propTypes = {
   sourceURL: PropTypes.string.isRequired,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default ThirdPartyPlayer;

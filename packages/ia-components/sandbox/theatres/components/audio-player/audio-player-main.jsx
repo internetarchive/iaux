@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import IAAudioPlayer from './players_by_type/archive-audio-with-waveform';
-import ThirdPartyEmbededPlayer from './players_by_type/third-party-embed';
+import ThirdPartyEmbeddedPlayer from './players_by_type/third-party-embed';
 import { HorizontalRadioGroup } from '../../../../index';
 
 /**
@@ -37,7 +37,7 @@ export default class TheatreAudioPlayer extends Component {
       // make iframe with URL
       const sourceURL = `${urlPrefix}${id}${urlExtensions}`;
       mediaElement = (
-        <ThirdPartyEmbededPlayer
+        <ThirdPartyEmbeddedPlayer
           sourceURL={sourceURL}
           title={mediaName}
         />
@@ -54,7 +54,7 @@ export default class TheatreAudioPlayer extends Component {
     const { customSourceLabel } = this.props;
     const sourceLabel = {
       value: 'player',
-      label: customSourceLabel
+      label: customSourceLabel,
     };
 
     return (
@@ -71,11 +71,11 @@ export default class TheatreAudioPlayer extends Component {
     return (
       <section className="theatre__audio-player">
         <div className="content-window">
-          { this.showMedia() }
+          {this.showMedia()}
           { /* todo: add liner notes book reader here */ }
         </div>
         <div className="tabs">
-          { this.createTabs() }
+          {this.createTabs()}
         </div>
       </section>
     );
@@ -92,18 +92,18 @@ TheatreAudioPlayer.propTypes = {
   source: PropTypes.oneOf([
     'youtube',
     'spotify',
-    'archive'
+    'archive',
   ]).isRequired,
   sourceData: PropTypes.shape({
     urlPrefix: PropTypes.string,
     id: PropTypes.string,
-    mediaName: PropTypes.string
+    mediaName: PropTypes.string,
   }).isRequired,
   urlExtensions: PropTypes.string,
   backgroundPhoto: PropTypes.string,
   photoAltTag: PropTypes.string,
   customSourceLabel: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.object // React component
+    PropTypes.object, // React component
   ]).isRequired,
 };

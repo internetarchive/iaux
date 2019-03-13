@@ -1,12 +1,11 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import assert from 'assert';
 
 import { TheatreAudioPlayer } from '../../../../index';
 
 
 /**
- * Test for TheatreAudioPlayerq
+ * Test for TheatreAudioPlayer
  */
 describe('TheatreAudioPlayer ', () => {
   const component = TestRenderer.create(
