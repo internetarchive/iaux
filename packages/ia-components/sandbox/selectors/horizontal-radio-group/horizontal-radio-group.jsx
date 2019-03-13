@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
  */
 
 const HorizontalRadioGroup = ({
-  options, name, onChange = () => {}, selectedValue, wrapperStyle = ''
+  options, name, onChange, selectedValue, wrapperStyle
 }) => {
   const formattedInputs = options.map((input, index) => {
     const { value, label } = input;
@@ -40,7 +40,7 @@ const HorizontalRadioGroup = ({
   });
   return (
     <div className={`selector__radio-group ${wrapperStyle}`}>
-      { formattedInputs.map(input => input) }
+      { formattedInputs }
     </div>
   );
 };
