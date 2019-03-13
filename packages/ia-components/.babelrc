@@ -1,21 +1,20 @@
 {
     "presets": [
         [
-          "env", {
+          "@babel/env", {
             "targets": {
               "node": "current"
             }
           }
         ],
-        "react"
+        "@babel/preset-react"
     ],
     "plugins": [
-        "transform-class-properties",
-        "transform-object-rest-spread",
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-proposal-object-rest-spread",
         [
-          "transform-runtime",
+          "@babel/plugin-transform-runtime",
           {
-            "polyfill": false,
             "regenerator": true
           }
         ]
