@@ -1,0 +1,45 @@
+.selector__radio-group {
+  border: .1rem solid;
+  display: inline-block;
+  cursor: pointer;
+
+  // various styles of the radio group that can be added on
+  &.rounded {
+    border-radius: 1.5em;
+  }
+  &.tab-bottom {
+    border-top: 0;
+  }
+
+  // inner contents
+  .option {
+    display: inline-block;
+    padding: .2em 0.5em 0;
+    border-right: .1rem solid;
+  }
+
+  .option:last-child {
+    border-right: none;
+  }
+
+  label {
+    cursor: pointer;
+    text-transform: capitalize;
+    margin-bottom: 0;
+
+    > input[type='radio']:checked + span {
+      opacity: 1;
+    }
+
+    > input[type='radio'] + span {
+      opacity: 0.5;
+    }
+  }
+
+  input[type='radio'] {
+    // hide radio for styling,
+    // the radio set should look like a button group
+    // with only one "on" at a given time
+    display: none;
+  }
+}
