@@ -182,7 +182,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       if (channel === 'webamp') {
         const webampLink = (
           <a href={`${window.location.href}?&webamp=1`} alt="show webamp" className="webamp-link">
-            <img src="https://www.archive.org/images/llama-icon.png" alt="webamp-logo" />
+            <img src="/images/llama-icon.png" alt="webamp-logo" />
             <span className="channel-label">Webamp</span>
           </a>
         );
@@ -212,7 +212,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       tracklistToShow, trackSelected, channelToPlay, albumData
     } = this.state;
     const {
-      title, itemPhoto, playSamples, externalSources, identifier, collection
+      title, itemPhoto, playSamples, externalSources = [], identifier, collection
     } = albumData;
     let audioPlayerChannelLabel;
     if (channelToPlay === 'archive') {
@@ -240,7 +240,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
           />
         </section>
         {
-          !!externalSources.length
+          externalSources.length
           && (
           <section className="channel-controls">
             <h4 className="title">Play from: </h4>

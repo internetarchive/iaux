@@ -7,7 +7,7 @@ import {
  * @param { array } externalIdentifiers
  * @return { object } = {
  *  youtube: { urlPrefix, id },
- *  // and/or
+ *  and/or
  *  spotify: { urlPrefix, id }
  * }
  */
@@ -63,7 +63,6 @@ const flattenAlbumData = (metadata) => {
     const isNeededFile = fileName.match(neededExtensions);
     const file = allFiles[fileName];
     file.name = fileName.slice(1, fileName.length);
-    // let neededFiles = neededFiles || [];
     if (isNeededFile) {
       neededFiles.push(file);
     }
