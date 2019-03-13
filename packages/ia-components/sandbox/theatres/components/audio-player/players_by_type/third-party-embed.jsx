@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
  *
  * @return component
  */
-const ThirdPartyPlayer = ({ sourceURL, title }) => (
+const ThirdPartyEmbeddedPlayer = ({ sourceURL, title }) => (
   <div className="iframe-wrapper">
     <iframe
       title={title}
@@ -24,13 +24,13 @@ const ThirdPartyPlayer = ({ sourceURL, title }) => (
   </div>
 );
 
-ThirdPartyPlayer.defaultProps = {
+ThirdPartyEmbeddedPlayer.defaultProps = {
   title: 'Playing external media source from Archive.org',
 };
 
-ThirdPartyPlayer.propTypes = {
+ThirdPartyEmbeddedPlayer.propTypes = {
   sourceURL: PropTypes.string.isRequired,
   title: PropTypes.string,
 };
 
-export default ThirdPartyPlayer;
+export default ThirdPartyEmbeddedPlayer;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import IAAudioPlayer from './players_by_type/archive-audio-with-waveform';
+import ArchiveAudioPlayer from './players_by_type/archive-audio-jwplayer-wrapper';
 import ThirdPartyEmbeddedPlayer from './players_by_type/third-party-embed';
 import { HorizontalRadioGroup } from '../../../../index';
 
@@ -27,19 +27,21 @@ export default class TheatreAudioPlayer extends Component {
    * Render function - Choose player according to `source
    */
   showMedia() {
-    const {
-      source, sourceData, urlExtensions = ''
-    } = this.props;
-    const { urlPrefix, id, mediaName } = sourceData;
+    const { source, sourceData } = this.props;
     const isExternal = source === 'youtube' || source === 'spotify';
-    let mediaElement = <IAAudioPlayer {...this.props} />;
+    let mediaElement = <ArchiveAudioPlayer {...this.props} />;
     if (isExternal) {
       // make iframe with URL
+      const externalSourceDetails = sourceData[source] || {};
+      const {
+        urlPrefix = '', id = '', urlExtensions = '', name = ''
+      } = externalSourceDetails;
+
       const sourceURL = `${urlPrefix}${id}${urlExtensions}`;
       mediaElement = (
         <ThirdPartyEmbeddedPlayer
           sourceURL={sourceURL}
-          title={mediaName}
+          title={name}
         />
       );
     }

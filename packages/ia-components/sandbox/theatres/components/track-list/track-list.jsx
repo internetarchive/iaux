@@ -16,14 +16,14 @@ import { FlexboxPagination } from '../../../..';
 const parseTrackTitle = ({
   name, title, artist = '', creator, isAlbum
 }) => {
-  if (isAlbum) { return 'Full album'; ;};
+  if (isAlbum) { return 'Full album'; }
 
   const artistName = creator || artist;
 
   if (title) {
     return (
       <Fragment>
-        {`${title}${artistName ? ' - ':''}`}
+        {`${title}${artistName ? ' - ' : '' }`}
         <i>{artistName}</i>
       </Fragment>
     );
@@ -51,7 +51,7 @@ const trackButton = ({ selected, onSelected, thisTrack }) => {
     <button
       type="button"
       data-track-number={trackNumber}
-      className={`${selected ? 'selected ' : ''}track `}
+      className={`${selected ? 'selected ' : ''}track`}
       onClick={onSelected}
       key={key}
     >
