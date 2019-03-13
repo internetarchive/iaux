@@ -65,7 +65,7 @@ const trackButton = ({ selected, onSelected, thisTrack }) => {
 /**
  * Makes tracklist
  * Creates elements and feeds it into pagination component
- * 
+ *
  * @param - see Props
  * @return component
  */
@@ -101,13 +101,13 @@ class TheatreTrackList extends Component {
 
 TheatreTrackList.defaultProps = {
   selectedTrack: null,
-  tracks: null
+  tracks: null,
 };
 
 TheatreTrackList.propTypes = {
   onSelected: PropTypes.func.isRequired,
   selectedTrack: PropTypes.number,
-  tracks: PropTypes.array
+  tracks: PropTypes.array,
 };
 
 export default TheatreTrackList;

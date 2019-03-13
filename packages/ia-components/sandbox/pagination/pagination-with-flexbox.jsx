@@ -22,7 +22,7 @@ class Paginator extends Component {
       pageSelected: 1,
       numberOfColumns: '',
       numberOfPages: 0,
-      scrollThresholds: null
+      scrollThresholds: null,
     };
 
     this.renderPageButtons = this.renderPageButtons.bind(this);
@@ -117,9 +117,9 @@ class Paginator extends Component {
    * - find how many 'pages' there are from column count
    * - find scroll thresholds for each page
    *
-   * @param { function } stateCB
+   * @param { function } setStateCallback - optional function to run after state gets updated
    */
-  calibrateDimensions(stateCB = null) {
+  calibrateDimensions(setStateCallback = null) {
     const calculateDimensions = (element) => {
       const {
         scrollLeft, scrollWidth, clientWidth, offsetWidth, firstElementChild
@@ -150,7 +150,7 @@ class Paginator extends Component {
         compStyles,
         offsetWidth,
         numberOfPages,
-        scrollThresholds
+        scrollThresholds,
       }
     };
 
@@ -162,10 +162,10 @@ class Paginator extends Component {
       const newState = {
         numberOfColumns,
         numberOfPages,
-        scrollThresholds
+        scrollThresholds,
       };
 
-      this.setState(newState, stateCB);
+      this.setState(newState, setStateCallback);
     }
   }
 
@@ -225,7 +225,7 @@ class Paginator extends Component {
     this.Paginator.current.scrollTo({
       top: 0,
       left: prevPageThreshold.low,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
 
     this.setState({ pageSelected: prevPage });
@@ -311,7 +311,7 @@ class Paginator extends Component {
 
 Paginator.defaultProps = {
   children: null,
-  itemInViewClass: ''
+  itemInViewClass: '',
 };
 
 Paginator.propTypes = {
@@ -319,7 +319,7 @@ Paginator.propTypes = {
     PropTypes.object, // React object
     PropTypes.arrayOf(PropTypes.object) // More than one React objects
   ]),
-  itemInViewClass: PropTypes.string
+  itemInViewClass: PropTypes.string,
 };
 
 export default Paginator;
