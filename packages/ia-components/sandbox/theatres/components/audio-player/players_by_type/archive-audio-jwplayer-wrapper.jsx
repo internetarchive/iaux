@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import cssEscape from 'css.escape';
 
 /**
  * IA Audio Player
@@ -95,7 +96,7 @@ class ArchiveAudioPlayer extends Component {
     };
 
     if (window.Play && Play) {
-      const player = Play(jwplayerID, jwplayerPlaylist, baseConfig);
+      const player = Play(cssEscape(jwplayerID), jwplayerPlaylist, baseConfig);
       this.setState({ player });
     }
   }
