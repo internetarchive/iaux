@@ -32,6 +32,7 @@
         "style-loader": "^0.23.1"
     },
     "dependencies": {
+        "css.escape": "^1.5.1",
         "lodash": "^4.17.11",
         "prop-types": "^15.6.2",
         "react": "^16.7.0",
