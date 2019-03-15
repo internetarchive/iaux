@@ -225,6 +225,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       identifier: identifier[0],
       collection: collection[0]
     };
+    const jwplayerID = identifier[0].replace(/[^a-zA-Z\d]/g, '');
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
         <section className="media-section">
@@ -236,7 +237,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             linerNotes={null}
             jwplayerPlaylistChange={this.jwplayerPlaylistChange}
             jwplayerInfo={jwplayerInfo}
-            jwplayerID={`jwplayer-${identifier[0]}`}
+            jwplayerID={`jwplayer-${jwplayerID}`}
           />
         </section>
         {

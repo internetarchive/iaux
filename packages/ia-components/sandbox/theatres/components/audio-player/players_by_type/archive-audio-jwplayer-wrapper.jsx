@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { escapeRegExp } from 'lodash';
 
 /**
  * IA Audio Player
@@ -96,8 +95,7 @@ class ArchiveAudioPlayer extends Component {
     };
 
     if (window.Play && Play) {
-      const escapedID = escapeRegExp(jwplayerID);
-      const player = Play(escapedID, jwplayerPlaylist, baseConfig);
+      const player = Play(jwplayerID, jwplayerPlaylist, baseConfig);
       this.setState({ player });
     }
   }
@@ -140,11 +138,13 @@ class ArchiveAudioPlayer extends Component {
 ArchiveAudioPlayer.defaultProps = {
   backgroundPhoto: '',
   photoAltTag: '',
+  jwplayerID: '',
 };
 
 ArchiveAudioPlayer.propTypes = {
   backgroundPhoto: PropTypes.string,
   photoAltTag: PropTypes.string,
+  jwplayerID: PropTypes.string,
   jwplayerPlaylistChange: PropTypes.func.isRequired,
   jwPlayerPlaylist: PropTypes.array.isRequired,
   jwplayerInfo: PropTypes.object.isRequired,
