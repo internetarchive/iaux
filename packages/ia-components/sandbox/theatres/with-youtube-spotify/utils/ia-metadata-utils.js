@@ -44,7 +44,7 @@ const fetchYoutubeAndSpotifyInfo = (externalIdentifiers = []) => {
  * @param { object } metadata - return response from metadata API
  * @returns { array } of original tracks with nested related data
  */
-const flattenAlbumData = (metadata) => {
+const flattenAlbumData = (metadata, playFullIAAudio) => {
   const {
     dir: directoryPath,
     server,
@@ -69,7 +69,7 @@ const flattenAlbumData = (metadata) => {
     return neededFiles;
   }, []);
 
-  const playSamples = includes(collection, 'samples_only');
+  const playSamples = playFullIAAudio ? false : includes(collection, 'samples_only');
   const albumSpotifyYoutubeInfo = fetchYoutubeAndSpotifyInfo(albumMetadata['external-identifier']) || {};
   const trackFilesHaveYoutubeSpotify = [];
   let itemPhoto = '';

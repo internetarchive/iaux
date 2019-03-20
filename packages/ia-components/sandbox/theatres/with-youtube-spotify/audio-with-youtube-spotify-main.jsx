@@ -62,8 +62,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   constructor(props) {
     super(props);
 
-    const { albumMetadata } = props;
-    const albumData = flattenAlbumData(albumMetadata);
+    const { albumMetadata, playFullIAAudio } = props;
+    const albumData = flattenAlbumData(albumMetadata, playFullIAAudio);
     this.state = {
       albumData,
       tracklistToShow: [],
@@ -269,12 +269,14 @@ class AudioPlayerWithYoutubeSpotify extends Component {
 }
 
 AudioPlayerWithYoutubeSpotify.defaultProps = {
-  jwplayerPlaylist: null
+  jwplayerPlaylist: null,
+  playFullIAAudio: false
 };
 
 AudioPlayerWithYoutubeSpotify.propTypes = {
   albumMetadata: PropTypes.object.isRequired,
-  jwplayerPlaylist: PropTypes.array
+  jwplayerPlaylist: PropTypes.array,
+  playFullIAAudio: PropTypes.bool
 };
 
 export default AudioPlayerWithYoutubeSpotify;
