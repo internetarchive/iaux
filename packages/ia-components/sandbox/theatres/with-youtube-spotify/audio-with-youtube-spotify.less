@@ -106,11 +106,14 @@
       }
 
       .webamp-link {
+        &:hover {
+          text-decoration: none;
+        }
         display: inline-block;
         overflow: hidden;
         color: #fff;
         opacity: 0.5;
-        float: left;
+        float: left; // keep this for safari alignment
         img {
           height: 2rem;
         }
