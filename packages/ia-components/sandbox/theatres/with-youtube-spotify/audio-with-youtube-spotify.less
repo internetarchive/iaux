@@ -113,12 +113,18 @@
         overflow: hidden;
         color: #fff;
         opacity: 0.5;
-        float: left; // keep this for safari alignment
+        float: left; // for safari alignment
         img {
           height: 2rem;
         }
         .channel-label {
           margin-top: .1rem;
+        }
+
+        @media (max-width: @audio-player-mobile-max-width) {
+          text-align: center;
+          display: block;
+          width: 100%;
         }
       }
     }
