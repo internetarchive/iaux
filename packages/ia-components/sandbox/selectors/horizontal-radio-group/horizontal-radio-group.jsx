@@ -21,26 +21,30 @@ const HorizontalRadioGroup = ({
   options, name, onChange, selectedValue, wrapperStyle
 }) => {
   const formattedInputs = options.map((input, index) => {
-    const { value, label, displayAsIs, asIsDisplay } = input;
+    const {
+      value, label, displayAsIs, asIsDisplay
+    } = input;
     const uniqueKey = `name-${index}`;
+    const isSelected = selectedValue === value;
+    const optionClassName = `option ${isSelected ? 'selected' : ''}`;
 
     if (displayAsIs) {
       return (
-        <div key={uniqueKey} className="option">
+        <div key={uniqueKey} className={optionClassName}>
           { asIsDisplay }
         </div>
       );
     }
 
     return (
-      <div key={uniqueKey} className="option">
+      <div key={uniqueKey} className={optionClassName}>
         <label>
           <input
             type="radio"
             name={name}
             value={value}
             onChange={onChange}
-            checked={selectedValue === value ? 'checked' : ''}
+            checked={isSelected ? 'checked' : ''}
           />
           <span>{label}</span>
         </label>
