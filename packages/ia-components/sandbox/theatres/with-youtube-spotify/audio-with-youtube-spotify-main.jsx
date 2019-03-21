@@ -175,10 +175,9 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    * Find the available channels that the album/item can play
    */
   getSelectableChannels() {
-    const { albumData: { externalSources, playSamples } } = this.state;
+    const { albumData: { externalSources, playSamples, externalSourcesDisplayValues } } = this.state;
     const channelsToDisplay = flatten(['archive', externalSources, 'webamp']);
     const channelOptions = channelsToDisplay.map((channel) => {
-      let labelValue;
       if (channel === 'webamp') {
         const webampLink = (
           <a href={`${window.location.href}?&webamp=1`} alt="show webamp" className="webamp-link">
@@ -192,10 +191,12 @@ class AudioPlayerWithYoutubeSpotify extends Component {
         };
       }
 
+      let labelValue;
+
       if (channel === 'archive') {
-        labelValue = `Archive${playSamples ? ' Samples' : ''}`;
+        labelValue = `${playSamples ? 'Samples' : 'Internet Archive'}`;
       } else {
-        labelValue = channel;
+        labelValue = externalSourcesDisplayValues[channel] || '';
       }
       return {
         value: channel,
@@ -212,13 +213,13 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       tracklistToShow, trackSelected, channelToPlay, albumData
     } = this.state;
     const {
-      title, itemPhoto, playSamples, externalSources = [], identifier, collection
+      title, itemPhoto, playSamples, externalSources = [], identifier, collection, externalSourcesDisplayValues
     } = albumData;
     let audioPlayerChannelLabel;
     if (channelToPlay === 'archive') {
-      audioPlayerChannelLabel = `Archive${playSamples ? ' Samples' : ''}`;
+      audioPlayerChannelLabel = `${playSamples ? ' Samples' : 'Internet Archive'}`;
     } else {
-      audioPlayerChannelLabel = channelToPlay;
+      audioPlayerChannelLabel = externalSourcesDisplayValues[channelToPlay] || '';
     }
     const jwplayerInfo = {
       jwplayerPlaylist,

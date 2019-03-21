@@ -147,6 +147,11 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
   }, []);
 
   // What we need for display:
+  const externalSourcesDisplayValues = {
+    spotify: 'Spotify',
+    youtube: 'YouTube'
+  };
+
   const albumData = Object.assign(
     {},
     albumMetadata,
@@ -156,7 +161,8 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
       playSamples,
       tracks,
       albumSpotifyYoutubeInfo,
-      externalSources: uniq(trackFilesHaveYoutubeSpotify, Object.keys(albumSpotifyYoutubeInfo))
+      externalSources: uniq(trackFilesHaveYoutubeSpotify, Object.keys(albumSpotifyYoutubeInfo)),
+      externalSourcesDisplayValues
     },
   );
   return albumData;
