@@ -216,7 +216,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       title, itemPhoto, playSamples, externalSources = [], identifier, collection, externalSourcesDisplayValues
     } = albumData;
     let audioPlayerChannelLabel;
-    if (channelToPlay === 'archive') {
+    const isArchiveChannel = channelToPlay === 'archive';
+    if (isArchiveChannel) {
       audioPlayerChannelLabel = `${playSamples ? ' Samples' : 'Internet Archive'}`;
     } else {
       audioPlayerChannelLabel = externalSourcesDisplayValues[channelToPlay] || '';
@@ -262,6 +263,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             onSelected={this.selectThisTrack}
             selectedTrack={trackSelected}
             albumName={title[0]}
+            displayTrackNumbers={isArchiveChannel}
           />
         </section>
       </div>

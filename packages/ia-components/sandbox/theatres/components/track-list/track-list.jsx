@@ -23,7 +23,7 @@ const parseTrackTitle = ({
   if (title) {
     return (
       <Fragment>
-        {`${title}${artistName ? ' - ' : '' }`}
+        {`${title}${artistName ? ' - ' : ''}`}
         <i>{artistName}</i>
       </Fragment>
     );
@@ -41,12 +41,15 @@ const parseTrackTitle = ({
  *
  * @return component
  */
-const trackButton = ({ selected, onSelected, thisTrack }) => {
+const trackButton = ({
+  selected, onSelected, thisTrack, displayTrackNumbers
+}) => {
   const { trackNumber, length, formattedLength } = thisTrack;
   const key = `individual-track-${trackNumber}`;
   const trackTitle = parseTrackTitle(thisTrack);
-  const displayNumber = parseInt(trackNumber, 10) || '-';
+  const displayNumber = displayTrackNumbers ? (parseInt(trackNumber, 10) || '-') : '-';
   const displayLength = formattedLength || length || '-- : --';
+
   return (
     <button
       type="button"
@@ -79,7 +82,9 @@ class TheatreTrackList extends Component {
   }
 
   render() {
-    const { selectedTrack, onSelected, tracks } = this.props;
+    const {
+      selectedTrack, onSelected, tracks, displayTrackNumbers
+    } = this.props;
 
     return (
       <div className="audio-track-list">
@@ -90,7 +95,9 @@ class TheatreTrackList extends Component {
             tracks.map((thisTrack) => {
               const { trackNumber } = thisTrack;
               const selected = trackNumber === selectedTrack;
-              return trackButton({ thisTrack, onSelected, selected });
+              return trackButton({
+                thisTrack, onSelected, selected, displayTrackNumbers
+              });
             })
           }
         </FlexboxPagination>
@@ -102,12 +109,14 @@ class TheatreTrackList extends Component {
 TheatreTrackList.defaultProps = {
   selectedTrack: null,
   tracks: null,
+  displayTrackNumbers: true
 };
 
 TheatreTrackList.propTypes = {
   onSelected: PropTypes.func.isRequired,
   selectedTrack: PropTypes.number,
   tracks: PropTypes.array,
+  displayTrackNumbers: PropTypes.bool
 };
 
 export default TheatreTrackList;
