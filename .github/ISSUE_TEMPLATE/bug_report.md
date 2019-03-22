@@ -18,7 +18,7 @@ assignees: ''
 > What should by happening? What will it look like / how will it behave?
 
 **Details**
-> Browser type/version?
+> Browser type and version?
 
 > Operating system?
 
