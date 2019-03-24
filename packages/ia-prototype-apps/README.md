@@ -4,7 +4,7 @@ Prototypes are basically little websites built using code from `ia-components`. 
 
 Of course, a prototype could also be made outside of this repo, and that will make sense in some cases.
 
-Since the prototypes package is a "packages/prototypes" and there are a lot of other files at that level, there is a second directory "packages/prototypes/prototypes" and this is where the actual content lives.
+Since the prototypes package is a "packages/ia-prototypes-apps" and there are a lot of other files at that level, there is a second directory "packages/ia-prototypes-apps/apps" and this is where the actual content lives.
 
 Prototypes are run using [Parcel](https://parceljs.org). This means only one npm install is needed and all the prototypes use the same node_modules. Eg it's more light-weight this way.
 
