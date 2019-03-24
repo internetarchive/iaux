@@ -34,7 +34,7 @@ At the time of writing, there are 4 packages:
 
 The `ia-components` package contains reusable "components" (loosely). It is actually just a package that is included into Archive.org's codebase. Having an external package makes it easier for new developers to contribute development.
 
-It's easy to test these components using the "prototypes" package. The final intergration into the Archive.org website still needs to be done by internal staff.
+It's easy to test these components using the "prototypes" package. The final integration into the Archive.org website still needs to be done by internal staff.
 
 As a convention, the preferred framework is React, but vanilla JS components are also possible.
 
