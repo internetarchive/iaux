@@ -63,9 +63,14 @@ class ArchiveAudioPlayer extends Component {
 
   /**
    * Set up event handler for JWPlayer's custom events
+   * This event handler returns JWPlayer's player instance
+   *
+   * @param { object } jwplayerInstance
    */
-  onReady(player) {
-    player.on('playlistItem', e => this.onPlaylistItemCB);
+  onReady(jwplayerInstance) {
+    // User Play class instance to set event listeners
+    const { player } = this.state;
+    player.on('playlistItem', this.onPlaylistItemCB);
   }
 
   /**
@@ -90,8 +95,7 @@ class ArchiveAudioPlayer extends Component {
       collection,
       waveformer: 'jw-holder',
       hide_list: true,
-      onReady: this.onReady,
-      playlistItemCB: this.onPlaylistItemCB
+      onReady: this.onReady
     };
 
     if (window.Play && Play) {
