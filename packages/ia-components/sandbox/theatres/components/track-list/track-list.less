@@ -38,6 +38,21 @@
       }
     }
 
+    &.no-track-number {
+      .track-number {
+        display: none;
+      }
+
+      .track-title {
+        width: 80%
+      }
+
+      .track-length {
+        width: 15%;
+        padding-right: 0;
+      }
+    }
+
     .track-number,
     .track-title,
     .track-length {
@@ -63,6 +78,7 @@
     .track-length {
       text-align: right;
       font-weight: 100;
+      float: right;
     }
   }
 }

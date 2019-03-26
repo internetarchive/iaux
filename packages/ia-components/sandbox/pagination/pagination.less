@@ -5,17 +5,16 @@
   align-items: stretch;
   margin-top: 2rem;
   flex-flow: column wrap;
+  height: inherit; // must set with parent to wrap columns
 
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
 
-  @media (max-width: 50rem) {
+  @media (max-width: @width-500) {
     flex-flow: column;
-    height: 30rem;
   }
 
   @media (min-width: @audio-player-desktop-min-width) {
-    max-height: 48rem;
     overflow-x: hidden;
     overflow-y: hidden;
 

@@ -47,14 +47,15 @@ const trackButton = ({
   const { trackNumber, length, formattedLength } = thisTrack;
   const key = `individual-track-${trackNumber}`;
   const trackTitle = parseTrackTitle(thisTrack);
-  const displayNumber = displayTrackNumbers ? (parseInt(trackNumber, 10) || '-') : '-';
+  const displayNumber = parseInt(trackNumber, 10) || '-';
   const displayLength = formattedLength || length || '-- : --';
 
+  const trackButtonClass = `${selected ? 'selected ' : ''}track${!displayTrackNumbers ? ' no-track-number' : ''}`;
   return (
     <button
       type="button"
       data-track-number={trackNumber}
-      className={`${selected ? 'selected ' : ''}track`}
+      className={trackButtonClass}
       onClick={onSelected}
       key={key}
     >
