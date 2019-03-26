@@ -213,7 +213,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       tracklistToShow, trackSelected, channelToPlay, albumData
     } = this.state;
     const {
-      title, itemPhoto, playSamples, externalSources = [], identifier, collection, externalSourcesDisplayValues
+      title, itemPhoto, playSamples, externalSources = [], identifier, collection, externalSourcesDisplayValues, creator
     } = albumData;
     let audioPlayerChannelLabel;
     const isArchiveChannel = channelToPlay === 'archive';
@@ -264,6 +264,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             selectedTrack={trackSelected}
             albumName={title[0]}
             displayTrackNumbers={isArchiveChannel}
+            creator={creator[0]}
           />
         </section>
       </div>
