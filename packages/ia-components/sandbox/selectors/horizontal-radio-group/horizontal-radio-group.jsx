@@ -22,11 +22,17 @@ const HorizontalRadioGroup = ({
 }) => {
   const formattedInputs = options.map((input, index) => {
     const {
-      value, label, displayAsIs, asIsDisplay
+      value, label, displayAsIs, asIsDisplay, clickTrackValue = null
     } = input;
     const uniqueKey = `name-${index}`;
     const isSelected = selectedValue === value;
     const optionClassName = `option ${isSelected ? 'selected' : ''}`;
+
+    const clickTrackDataAttr = {};
+
+    if (clickTrackValue) {
+      clickTrackDataAttr['data-event-click-tracking'] = clickTrackValue;
+    }
 
     if (displayAsIs) {
       return (
@@ -38,7 +44,7 @@ const HorizontalRadioGroup = ({
 
     return (
       <div key={uniqueKey} className={optionClassName}>
-        <label>
+        <label {...clickTrackDataAttr}>
           <input
             type="radio"
             name={name}
@@ -69,12 +75,13 @@ HorizontalRadioGroup.propTypes = {
     label: PropTypes.oneOf([
       PropTypes.string,
       PropTypes.object /* object = React element */
-    ])
+    ]),
+    clickTrackValue: PropTypes.string,
   })).isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   selectedValue: PropTypes.string,
-  wrapperStyle: PropTypes.string
+  wrapperStyle: PropTypes.string,
 };
 
 export default HorizontalRadioGroup;

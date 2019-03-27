@@ -62,6 +62,7 @@ const trackButton = ({
       className={trackButtonClass}
       onClick={onSelected}
       key={key}
+      data-event-click-tracking="TrackList|Item"
     >
       <span className="track-number">{displayNumber}</span>
       <span className="track-title">{trackTitle}</span>

@@ -175,12 +175,19 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    * Find the available channels that the album/item can play
    */
   getSelectableChannels() {
-    const { albumData: { externalSources, playSamples, externalSourcesDisplayValues } } = this.state;
+    const {
+      albumData: { externalSources, playSamples, externalSourcesDisplayValues }
+    } = this.state;
     const channelsToDisplay = flatten(['archive', externalSources, 'webamp']);
     const channelOptions = channelsToDisplay.map((channel) => {
       if (channel === 'webamp') {
         const webampLink = (
-          <a href={`${window.location.href}?&webamp=1`} alt="show webamp" className="webamp-link">
+          <a
+            href={`${window.location.href}?&webamp=1`}
+            alt="show webamp"
+            className="webamp-link"
+            data-event-click-tracking="AudioChannel|Webamp"
+          >
             <img src="/images/llama-icon.png" alt="webamp-logo" />
             <span className="channel-label">Webamp</span>
           </a>
@@ -200,7 +207,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       }
       return {
         value: channel,
-        label: getChannelLabelToDisplay({ channel, labelValue })
+        label: getChannelLabelToDisplay({ channel, labelValue }),
+        clickTrackValue: `AudioChannel|${labelValue}`
       };
     });
 

@@ -239,7 +239,12 @@ class Paginator extends Component {
     if (numberOfPages === pageSelected) return null;
 
     return (
-      <button type="button" className="pagination-arrow right" onClick={this.goToNextPage}>
+      <button
+        type="button"
+        className="pagination-arrow right"
+        onClick={this.goToNextPage}
+        data-event-click-tracking="Paginator|Arrow-Right"
+      >
         <span className="sr-only">next page</span>
       </button>
     );
@@ -251,7 +256,12 @@ class Paginator extends Component {
     if (pageSelected === 1) return null;
 
     return (
-      <button type="button" className="pagination-arrow left" onClick={this.goToPreviousPage}>
+      <button
+        type="button"
+        className="pagination-arrow left"
+        onClick={this.goToPreviousPage}
+        data-event-click-tracking="Paginator|Arrow-left"
+      >
         <span className="sr-only">previous page</span>
       </button>
     );
@@ -273,6 +283,7 @@ class Paginator extends Component {
             onClick={this.clickPageButton}
             data-page-number={thisPage}
             className={`pagination-button ${isPage ? 'selected' : ''}`}
+            data-event-click-tracking="Paginator|Button"
           >
             <span className="sr-only">{thisPage}</span>
           </button>
