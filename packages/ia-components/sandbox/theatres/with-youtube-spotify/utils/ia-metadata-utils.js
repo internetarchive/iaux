@@ -18,7 +18,7 @@ const fetchYoutubeAndSpotifyInfo = (externalIdentifiers = []) => {
     },
     youtube: {
       urlPrefix: 'https://www.youtube.com/embed/',
-      urlExtensions: `?fs=1&modestbranding=1&rel=0&autoplay=1&origin=${window.location.origin}` // todo: add origin='https://www.archive.org'
+      urlExtensions: `?fs=1&rel=0&autoplay=1&origin=${window.location.origin}` // todo: add origin='https://www.archive.org'
     }
   };
   const externalIDs = !Array.isArray(externalIdentifiers) ? [externalIdentifiers] : externalIdentifiers;
