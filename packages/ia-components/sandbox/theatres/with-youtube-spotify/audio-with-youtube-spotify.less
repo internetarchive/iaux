@@ -25,6 +25,7 @@
   .playlist-section {
     padding-top: 1rem;
     padding-bottom: 2rem;
+    overflow-y: scroll;
   }
   @media (max-width: @audio-player-mobile-max-width) {
     // Channel labels only show logos at mobile view
@@ -49,6 +50,9 @@
       display: block;
       text-align: center;
     }
+    .playlist-section {
+      height: 30rem;
+    }
   }
   @media (min-width: @audio-player-desktop-min-width) {
     padding-left: 1rem;
@@ -64,6 +68,11 @@
       width: 64%;
       margin-left: 1rem;
       padding-right: 2rem;
+      max-height: 48rem;
+
+      .flexbox-pagination {
+        max-height: 48rem;
+      }
     }
 
     .channel-controls {
@@ -106,16 +115,25 @@
       }
 
       .webamp-link {
+        &:hover {
+          text-decoration: none;
+        }
         display: inline-block;
         overflow: hidden;
         color: #fff;
         opacity: 0.5;
-        float: left;
+        float: left; // for safari alignment
         img {
           height: 2rem;
         }
         .channel-label {
           margin-top: .1rem;
+        }
+
+        @media (max-width: @audio-player-mobile-max-width) {
+          text-align: center;
+          display: block;
+          width: 100%;
         }
       }
     }

@@ -62,8 +62,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   constructor(props) {
     super(props);
 
-    const { albumMetadata } = props;
-    const albumData = flattenAlbumData(albumMetadata);
+    const { albumMetadata, playFullIAAudio } = props;
+    const albumData = flattenAlbumData(albumMetadata, playFullIAAudio);
     this.state = {
       albumData,
       tracklistToShow: [],
@@ -175,13 +175,19 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    * Find the available channels that the album/item can play
    */
   getSelectableChannels() {
-    const { albumData: { externalSources, playSamples } } = this.state;
+    const {
+      albumData: { externalSources, playSamples, externalSourcesDisplayValues }
+    } = this.state;
     const channelsToDisplay = flatten(['archive', externalSources, 'webamp']);
     const channelOptions = channelsToDisplay.map((channel) => {
-      let labelValue;
       if (channel === 'webamp') {
         const webampLink = (
-          <a href={`${window.location.href}?&webamp=1`} alt="show webamp" className="webamp-link">
+          <a
+            href={`${window.location.href}?&webamp=1`}
+            alt="show webamp"
+            className="webamp-link"
+            data-event-click-tracking="Audio-Player|Channel-Webamp"
+          >
             <img src="/images/llama-icon.png" alt="webamp-logo" />
             <span className="channel-label">Webamp</span>
           </a>
@@ -192,14 +198,17 @@ class AudioPlayerWithYoutubeSpotify extends Component {
         };
       }
 
+      let labelValue;
+
       if (channel === 'archive') {
-        labelValue = `Archive${playSamples ? ' Samples' : ''}`;
+        labelValue = `${playSamples ? 'Samples' : 'Internet Archive'}`;
       } else {
-        labelValue = channel;
+        labelValue = externalSourcesDisplayValues[channel] || '';
       }
       return {
         value: channel,
-        label: getChannelLabelToDisplay({ channel, labelValue })
+        label: getChannelLabelToDisplay({ channel, labelValue }),
+        clickTrackValue: `Audio-Player|Channel-${labelValue}`,
       };
     });
 
@@ -212,13 +221,14 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       tracklistToShow, trackSelected, channelToPlay, albumData
     } = this.state;
     const {
-      title, itemPhoto, playSamples, externalSources = [], identifier, collection
+      title, itemPhoto, playSamples, externalSources = [], identifier, collection, externalSourcesDisplayValues, creator
     } = albumData;
     let audioPlayerChannelLabel;
-    if (channelToPlay === 'archive') {
-      audioPlayerChannelLabel = `Archive${playSamples ? ' Samples' : ''}`;
+    const isArchiveChannel = channelToPlay === 'archive';
+    if (isArchiveChannel) {
+      audioPlayerChannelLabel = `${playSamples ? ' Samples' : 'Internet Archive'}`;
     } else {
-      audioPlayerChannelLabel = channelToPlay;
+      audioPlayerChannelLabel = externalSourcesDisplayValues[channelToPlay] || '';
     }
     const jwplayerInfo = {
       jwplayerPlaylist,
@@ -226,6 +236,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       collection: collection[0]
     };
     const jwplayerID = identifier[0].replace(/[^a-zA-Z\d]/g, '');
+    const displayChannelSelector = !!externalSources.length; // make it actual boolean so it won't display
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
         <section className="media-section">
@@ -241,7 +252,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
           />
         </section>
         {
-          externalSources.length
+          displayChannelSelector
           && (
           <section className="channel-controls">
             <h4 className="title">Play from: </h4>
@@ -251,6 +262,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
               name="audio-source"
               selectedValue={channelToPlay}
               wrapperStyle="rounded"
+              dataEventCategory="Audio-Player"
             />
           </section>
           )
@@ -261,6 +273,9 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             onSelected={this.selectThisTrack}
             selectedTrack={trackSelected}
             albumName={title[0]}
+            displayTrackNumbers={isArchiveChannel}
+            creator={creator[0]}
+            dataEventCategory="Audio-Player"
           />
         </section>
       </div>
@@ -269,12 +284,14 @@ class AudioPlayerWithYoutubeSpotify extends Component {
 }
 
 AudioPlayerWithYoutubeSpotify.defaultProps = {
-  jwplayerPlaylist: null
+  jwplayerPlaylist: null,
+  playFullIAAudio: false
 };
 
 AudioPlayerWithYoutubeSpotify.propTypes = {
   albumMetadata: PropTypes.object.isRequired,
-  jwplayerPlaylist: PropTypes.array
+  jwplayerPlaylist: PropTypes.array,
+  playFullIAAudio: PropTypes.bool
 };
 
 export default AudioPlayerWithYoutubeSpotify;

@@ -21,26 +21,36 @@ const HorizontalRadioGroup = ({
   options, name, onChange, selectedValue, wrapperStyle
 }) => {
   const formattedInputs = options.map((input, index) => {
-    const { value, label, displayAsIs, asIsDisplay } = input;
+    const {
+      value, label, displayAsIs, asIsDisplay, clickTrackValue = null
+    } = input;
     const uniqueKey = `name-${index}`;
+    const isSelected = selectedValue === value;
+    const optionClassName = `option ${isSelected ? 'selected' : ''}`;
+
+    const clickTrackDataAttr = {};
+
+    if (clickTrackValue) {
+      clickTrackDataAttr['data-event-click-tracking'] = clickTrackValue;
+    }
 
     if (displayAsIs) {
       return (
-        <div key={uniqueKey} className="option">
+        <div key={uniqueKey} className={optionClassName}>
           { asIsDisplay }
         </div>
       );
     }
 
     return (
-      <div key={uniqueKey} className="option">
-        <label>
+      <div key={uniqueKey} className={optionClassName}>
+        <label {...clickTrackDataAttr}>
           <input
             type="radio"
             name={name}
             value={value}
             onChange={onChange}
-            checked={selectedValue === value ? 'checked' : ''}
+            checked={isSelected ? 'checked' : ''}
           />
           <span>{label}</span>
         </label>
@@ -65,12 +75,13 @@ HorizontalRadioGroup.propTypes = {
     label: PropTypes.oneOf([
       PropTypes.string,
       PropTypes.object /* object = React element */
-    ])
+    ]),
+    clickTrackValue: PropTypes.string,
   })).isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   selectedValue: PropTypes.string,
-  wrapperStyle: PropTypes.string
+  wrapperStyle: PropTypes.string,
 };
 
 export default HorizontalRadioGroup;

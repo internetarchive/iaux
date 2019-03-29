@@ -151,7 +151,7 @@ class Paginator extends Component {
         offsetWidth,
         numberOfPages,
         scrollThresholds,
-      }
+      };
     };
 
     if (this.Paginator.current) {
@@ -235,11 +235,18 @@ class Paginator extends Component {
 
   renderRightButton() {
     const { pageSelected, numberOfPages } = this.state;
+    const { dataEventCategory } = this.props;
 
     if (numberOfPages === pageSelected) return null;
 
     return (
-      <button type="button" className="pagination-arrow right" onClick={this.goToNextPage}>
+      <button
+        type="button"
+        className="pagination-arrow right"
+        onClick={this.goToNextPage}
+        data-event-click-tracking={`${dataEventCategory}|Paginator-Arrow-Right`}
+
+      >
         <span className="sr-only">next page</span>
       </button>
     );
@@ -247,11 +254,17 @@ class Paginator extends Component {
 
   renderLeftButton() {
     const { pageSelected } = this.state;
+    const { dataEventCategory } = this.props;
 
     if (pageSelected === 1) return null;
 
     return (
-      <button type="button" className="pagination-arrow left" onClick={this.goToPreviousPage}>
+      <button
+        type="button"
+        className="pagination-arrow left"
+        onClick={this.goToPreviousPage}
+        data-event-click-tracking={`${dataEventCategory}|Paginator-Arrow-left`}
+      >
         <span className="sr-only">previous page</span>
       </button>
     );
@@ -259,6 +272,7 @@ class Paginator extends Component {
 
   renderPageButtons() {
     const { numberOfPages, scrollThresholds, pageSelected } = this.state;
+    const { dataEventCategory } = this.props;
     if (!numberOfPages || numberOfPages < 2) return null;
 
     const pageNumbers = Object.keys(scrollThresholds);
@@ -273,6 +287,7 @@ class Paginator extends Component {
             onClick={this.clickPageButton}
             data-page-number={thisPage}
             className={`pagination-button ${isPage ? 'selected' : ''}`}
+            data-event-click-tracking={`${dataEventCategory}|Paginator-Button`}
           >
             <span className="sr-only">{thisPage}</span>
           </button>
@@ -320,6 +335,7 @@ Paginator.propTypes = {
     PropTypes.arrayOf(PropTypes.object) // More than one React objects
   ]),
   itemInViewClass: PropTypes.string,
+  dataEventCategory: PropTypes.string.isRequired,
 };
 
 export default Paginator;

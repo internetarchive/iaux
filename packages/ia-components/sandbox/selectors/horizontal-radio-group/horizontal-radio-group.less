@@ -8,7 +8,20 @@
     border-radius: 1.5em;
   }
   &.tab-bottom {
-    border-top: 0;
+    border: none;
+
+    .option {
+      border: .1rem solid;
+      border-color: inherit;
+      border-bottom-left-radius: .5rem;
+      border-bottom-right-radius: .5rem;
+
+      &.selected {
+        margin-top: -.1rem;
+        padding-top: .5rem;
+        border-right: .1rem solid;
+      }
+    }
   }
 
   // inner contents
@@ -24,7 +37,6 @@
 
   label {
     cursor: pointer;
-    text-transform: capitalize;
     margin-bottom: 0;
 
     > input[type='radio']:checked + span {
