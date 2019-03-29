@@ -96,6 +96,7 @@ class TheatreTrackList extends Component {
       <div className="audio-track-list">
         <FlexboxPagination
           itemInViewClass={`[data-track-number="${selectedTrack}"]`}
+          {...this.props}
         >
           {
             tracks.map((thisTrack) => {
