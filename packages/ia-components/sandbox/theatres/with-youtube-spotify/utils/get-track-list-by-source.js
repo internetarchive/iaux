@@ -3,6 +3,7 @@
  * @param { string } lengthInSeconds
  */
 const formatTime = (lengthInSeconds) => {
+  if (!lengthInSeconds) return null;
   const lengthInMS = parseFloat(lengthInSeconds) * 1000;
   const minutes = Math.floor(lengthInMS / 60000);
   const seconds = ((lengthInMS % 60000) / 1000).toFixed(0);
@@ -33,7 +34,7 @@ const getTrackListBySource = (albumData, sourceToPlay) => {
     }
 
     return tracks.map((track, index) => {
-      const { fullMP3, length } = track;
+      const { fullMP3, length = '' } = track;
       const trackToUse = fullMP3 || track;
       const trackLengthNeedsFormatting = !!length.indexOf(':');
       const formattedLength = trackLengthNeedsFormatting ? formatTime(length) : length;
@@ -50,9 +51,8 @@ const getTrackListBySource = (albumData, sourceToPlay) => {
       isAlbum: true
     };
     const tracksToReturn = [];
-
     const tracksWithExternalSource = tracks.reduce((allTracks = [albumPlaceholder], track, index) => {
-      const { length } = track;
+      const { length = '' } = track;
       const trackLengthNeedsFormatting = !!length.indexOf(':');
       const formattedLength = trackLengthNeedsFormatting ? formatTime(length) : length;
       const trackNumber = index + 1;

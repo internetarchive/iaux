@@ -35,8 +35,7 @@
         "lodash": "^4.17.11",
         "prop-types": "^15.6.2",
         "react": "^16.7.0",
-        "react-dom": "^16.7.0",
-        "react-jw-player": "^1.18.1"
+        "react-dom": "^16.7.0"
     },
     "peerDependencies": {
         "@internetarchive/ia-js-client": "^0.0.0-alpha.20+5039f8d"
