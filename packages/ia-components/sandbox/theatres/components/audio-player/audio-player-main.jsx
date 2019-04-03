@@ -70,9 +70,19 @@ export default class TheatreAudioPlayer extends Component {
   }
 
   render() {
+    const { backgroundPhoto, photoAltTag } = this.props;
     return (
       <section className="theatre__audio-player">
         <div className="content-window">
+          { backgroundPhoto
+            && (
+              <img
+                className="background-photo"
+                src={backgroundPhoto}
+                alt={photoAltTag}
+              />
+            )
+          }
           {this.showMedia()}
           { /* todo: add liner notes book reader here */ }
         </div>

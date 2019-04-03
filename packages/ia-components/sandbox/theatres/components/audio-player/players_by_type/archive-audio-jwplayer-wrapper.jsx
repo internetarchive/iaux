@@ -116,21 +116,10 @@ class ArchiveAudioPlayer extends Component {
 
   render() {
     const {
-      backgroundPhoto,
-      photoAltTag,
       jwplayerID
     } = this.props;
     return (
       <div className="ia-player-wrapper">
-        { backgroundPhoto
-          && (
-            <img
-              className="background-photo"
-              src={backgroundPhoto}
-              alt={photoAltTag}
-            />
-          )
-        }
         <div className="iaux-player-wrapper">
           <div id={jwplayerID} />
         </div>
