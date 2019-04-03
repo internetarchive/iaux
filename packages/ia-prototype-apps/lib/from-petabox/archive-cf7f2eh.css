@@ -327,6 +327,7 @@ hr {
 }
 p {
   margin: 0 0 10px;
+  margin-bottom: auto;
 }
 .lead {
   margin-bottom: 20px;
