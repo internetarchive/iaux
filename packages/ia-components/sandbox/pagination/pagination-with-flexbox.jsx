@@ -279,11 +279,12 @@ class Paginator extends Component {
     const hasExpectedNumberOfPages = numberOfPages === pageNumbers.length;
 
     if (hasExpectedNumberOfPages) {
-      const pageButtons = pageNumbers.map((thisPage) => {
+      const pageButtons = pageNumbers.map((thisPage, i) => {
         const isPage = parseInt(thisPage, 10) === pageSelected;
         return (
           <button
             type="button"
+            key={`pagination_button_${i}`}
             onClick={this.clickPageButton}
             data-page-number={thisPage}
             className={`pagination-button ${isPage ? 'selected' : ''}`}
