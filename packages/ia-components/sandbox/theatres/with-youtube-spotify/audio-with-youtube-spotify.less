@@ -1,5 +1,7 @@
 @import '../../../variables.less';
 
+@audio-player-channel-label-no-display: 600px;
+
 .audio-with-youtube-spotify {
   padding: .5rem;
   overflow: hidden;
@@ -25,6 +27,14 @@
     padding-bottom: 2rem;
     overflow-y: auto;
   }
+
+  @media (max-width: @audio-player-channel-label-no-display) {
+    .channel-controls {
+      .channel-label {
+        display: none;
+      }
+    }
+  }
   @media (max-width: @audio-player-mobile-max-width) {
     // Channel labels only show logos at mobile view
     .channel-controls {
@@ -34,9 +44,6 @@
       .option {
         width: 25%;
         text-align: center;
-      }
-      .channel-label {
-        display: none;
       }
     }
   }
