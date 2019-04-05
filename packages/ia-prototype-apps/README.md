@@ -14,14 +14,16 @@ Prototypes are run using [Parcel](https://parceljs.org). This means only one npm
 Running a prototype
 
 ```
-yarn run parcel prototypes/details-react/index.html
+yarn run parcel apps/details-react/index.html
 ```
 
 
 Building a prototype
 
 ```
-yarn run parcel build prototypes/details-react/index.html --public-url ./
+yarn run parcel build apps/details-react/index.html --public-url ./
 ```
 
 This can then be uploaded somewhere for shared.
+
+Note: All these commands have to be run from the root directory of `ia-prototype-apps`, i.e. `/iaux/packages/ia-prototype-apps`.

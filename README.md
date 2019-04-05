@@ -21,7 +21,6 @@ yarn run lerna link
 Run our local UI component development environment.
 ```
 cd packages/ia-components && yarn run storybook
-
 ```
 
 ## Code Structure
@@ -61,13 +60,13 @@ See [packages/ia-prototype-apps/README.md](packages/ia-prototype-apps/README.md)
 
 Prototypes can be run like this:
 ```
-cd packages/prototypes
-yarn run parcel prototypes/examples/example-hello/index.html
+cd packages/ia-prototype-apps
+yarn run parcel apps/examples/example-hello/index.html
 ```
 
 After, you can try running a more complex example:
 ```
-yarn run parcel prototypes/details-react/index.html
+yarn run parcel apps/details-react/index.html
 ```
 
 ## Publishing
