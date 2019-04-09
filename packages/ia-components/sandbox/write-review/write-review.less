@@ -1,0 +1,39 @@
+@width:400px;
+@marginBottom:30px;
+@marginLeft:100px;
+
+.writeReview{
+  padding: 10px;
+}
+#title{
+  width: @width;
+  margin-left: @marginLeft;
+  margin-bottom: @marginBottom;
+  height: 25px;
+}
+#review{
+  width: @width;
+  height: 150px;
+  margin-bottom: @marginBottom;
+  margin-left: @marginLeft+40;
+}
+#rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  display: inline;
+  margin-left: @marginLeft;
+}
+#rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+}
+#rating > span:hover:before,
+#rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
+}
+#bookName{
+  color: skyblue;
+  font-weight: bolder;
+}
