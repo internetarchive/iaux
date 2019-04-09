@@ -94,7 +94,7 @@ class Paginator extends Component {
    *
    * @param { function } setStateCallback - optional function to run after state gets updated
    */
-  calibrateDimensions(setStateCallback = null) {
+  calibrateDimensions(setStateCallback = this.setItemInView) {
     const calculateDimensions = (element) => {
       const {
         scrollLeft, scrollWidth, clientWidth, offsetWidth, firstElementChild

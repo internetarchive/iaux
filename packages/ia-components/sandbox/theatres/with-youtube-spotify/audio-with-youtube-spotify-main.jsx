@@ -105,7 +105,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const newSourceAlbumInfo = albumSpotifyYoutubeInfo[newSource];
     const noAlbumWithNewSource = currentTrack === 0 && !newSourceAlbumInfo;
     const noTrackWithNewSource = !tracklistToShow.find(f => currentTrack === f.trackNumber);
-    const trackSelected = (noAlbumWithNewSource || noTrackWithNewSource) ? null : currentTrack;
+    const trackSelected = (noAlbumWithNewSource || noTrackWithNewSource) ? 1 : currentTrack;
 
     const newState = { channelToPlay, tracklistToShow, trackSelected };
     this.setState(newState);
@@ -131,7 +131,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     this.setState({
       trackSelected: Number.isInteger(selectedTrackNumber)
         ? selectedTrackNumber
-        : null
+        : 1
     });
   }
 
