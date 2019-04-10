@@ -31,7 +31,6 @@ class Paginator extends Component {
     this.goToNextPage = this.goToNextPage.bind(this);
     this.goToPreviousPage = this.goToPreviousPage.bind(this);
     this.setItemInView = this.setItemInView.bind(this);
-    this.setItemFlush = this.setItemFlush.bind(this);
   }
 
   componentDidMount() {
@@ -51,18 +50,7 @@ class Paginator extends Component {
   }
 
   /**
-   * Scrolls pagination window to a certain value
-   * Side effect: Direct DOM scroll
-   *
-   * @param { number } scrollLeftValue
-   */
-  setItemFlush(scrollLeftValue) {
-    this.Paginator.scrollLeft = scrollLeftValue;
-  }
-
-  /**
    * Finds item that is selected and makes sure it is in paginator's view window
-   * Side effect: Direct DOM scroll
    *
    * If item is off page, then scroll item to view & save the page in view in state
    */
@@ -71,43 +59,30 @@ class Paginator extends Component {
     const { scrollThresholds, pageSelected } = this.state;
     const item = document.querySelector(itemInViewClass);
     const paginator = this.Paginator.current;
-    if (item) {
-      if (item.offsetLeft === paginator.offsetLeft) return;
 
-      const pages = Object.keys(scrollThresholds);
-      let thisPage = null;
-      let thisRange = null;
+    const pages = Object.keys(scrollThresholds);
+    let thisPage = null;
+    let thisRange = null;
 
-      // find range it is in,
-      pages.forEach((page) => {
-        const { low, high } = scrollThresholds[page];
-        const numberToFind = item.offsetWidth + item.offsetLeft;
-        const isInRange = (numberToFind >= low) && (numberToFind <= high);
-        if (isInRange) {
-          thisPage = parseInt(page, 10) || 1;
-          thisRange = scrollThresholds[page];
-        }
+    // find range it is in,
+    pages.forEach((page) => {
+      const { low, high } = scrollThresholds[page];
+      const numberToFind = item.offsetWidth + item.offsetLeft;
+      const isInRange = (numberToFind >= low) && (numberToFind <= high);
+      if (isInRange) {
+        thisPage = parseInt(page, 10) || 1;
+        thisRange = scrollThresholds[page];
+      }
+    });
+
+    if (thisPage && thisRange) {
+      this.Paginator.current.scrollTo({
+        top: 0,
+        left: thisRange.low,
+        behavior: 'smooth'
       });
 
-      if (thisPage && thisRange) {
-        // scroll to range
-        const scrollLeftValue = ((thisPage === pages.length) ? thisRange.high : thisRange.low) || 0;
-
-        if (paginator.scrollLeft !== scrollLeftValue) {
-          paginator.scrollLeft = scrollLeftValue;
-        }
-        // set pageNumber
-        if (thisPage !== pageSelected) {
-          this.setState({ pageSelected: thisPage }, function confirmScrollTo(scrollLeftValue) {
-            if (this && this.Paginator) {
-              const paginator = this.Paginator.current;
-              if (paginator.scrollLeft !== scrollLeftValue) {
-                paginator.scrollTo(scrollLeftValue, 0);
-              }
-            }
-          }.bind(this, scrollLeftValue));
-        }
-      }
+      this.setState({ pageSelected: thisPage });
     }
   }
 
@@ -119,7 +94,7 @@ class Paginator extends Component {
    *
    * @param { function } setStateCallback - optional function to run after state gets updated
    */
-  calibrateDimensions(setStateCallback = null) {
+  calibrateDimensions(setStateCallback = this.setItemInView) {
     const calculateDimensions = (element) => {
       const {
         scrollLeft, scrollWidth, clientWidth, offsetWidth, firstElementChild

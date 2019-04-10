@@ -114,7 +114,6 @@ class TheatreTrackList extends Component {
 }
 
 TheatreTrackList.defaultProps = {
-  selectedTrack: null,
   tracks: null,
   displayTrackNumbers: true,
   creator: ''
@@ -122,7 +121,7 @@ TheatreTrackList.defaultProps = {
 
 TheatreTrackList.propTypes = {
   onSelected: PropTypes.func.isRequired,
-  selectedTrack: PropTypes.number,
+  selectedTrack: PropTypes.number.isRequired,
   tracks: PropTypes.array,
   displayTrackNumbers: PropTypes.bool,
   creator: PropTypes.string,
