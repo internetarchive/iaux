@@ -59,7 +59,7 @@ class Paginator extends Component {
     const newItemInView = prevItemInViewClass !== itemInViewClass;
     const childrenChange = prevChildren.length !== children.length;
     if (newItemInView || childrenChange) {
-      this.recalibrate();
+      this.recalibrate(true);
     }
   }
 
@@ -107,10 +107,13 @@ class Paginator extends Component {
 
   /**
    * Recalibrate dimensions of pagininator, taking into account what the closest page is
+   *
+   * @param { boolean } newItemInView - optional toggle
    */
-  recalibrate() {
-    const findClosestThreshold = () => {
+  recalibrate(scrollItemIntoView = false) {
+    const findClosestThreshold = function findClosestThreshold(scrollItemIntoView) {
       const { scrollThresholds } = this.state;
+      const { itemInViewClass } = this.props;
       const viewport = this.Paginator.current;
 
       // we only want pagination recalibration when it is single column
@@ -119,13 +122,20 @@ class Paginator extends Component {
       const isColumn = viewport.className === 'flexbox-pagination column';
       if (!isColumn && (numberOfPages.length <= 1)) return;
 
-      const viewportFlush = viewport.scrollLeft;
+      let itemToView = null;
+      if (scrollItemIntoView) {
+        // focus on item
+        itemToView = viewport.querySelector(itemInViewClass);
+        itemToView.focus();
+      }
+
+      const viewportFlush = scrollItemIntoView ? itemToView.offsetLeft : viewport.scrollLeft;
       const pageToShow = findKey(
         scrollThresholds,
         th => viewportFlush >= th.low && viewportFlush <= th.high
       );
-      const leftFlush = scrollThresholds[pageToShow];
 
+      const leftFlush = scrollThresholds[pageToShow];
       viewport.scrollTo({
         top: 0,
         left: (leftFlush && leftFlush.low) || 0,
@@ -134,7 +144,8 @@ class Paginator extends Component {
       const pageSelected = parseInt(pageToShow, 10);
       const numPages = numberOfPages.length;
       this.setState({ pageSelected, numberOfPages: numPages });
-    };
+    }.bind(this, scrollItemIntoView);
+
     return this.calibrateDimensions(() => {
       // this is also a hack, waiting for styles to load
       // petabox css is extremely heavy, takes a smidge of time to deliver
