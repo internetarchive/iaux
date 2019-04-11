@@ -188,7 +188,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             className="webamp-link"
             data-event-click-tracking="Audio-Player|Channel-Webamp"
           >
-            <img src="/images/llama-icon.png" alt="webamp-logo" />
+            <img src="/images/llama-icon.png" alt="webamp" />
             <span className="channel-label">Webamp</span>
           </a>
         );
@@ -251,7 +251,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             jwplayerID={`jwplayer-${jwplayerID}`}
           />
         </section>
-        {
+        <div className="grid-right">
+          {
           displayChannelSelector
           && (
           <section className="channel-controls">
@@ -267,17 +268,18 @@ class AudioPlayerWithYoutubeSpotify extends Component {
           </section>
           )
         }
-        <section className="playlist-section">
-          <TheatreTrackList
-            tracks={tracklistToShow}
-            onSelected={this.selectThisTrack}
-            selectedTrack={trackSelected}
-            albumName={title[0]}
-            displayTrackNumbers={isArchiveChannel}
-            creator={creator[0]}
-            dataEventCategory="Audio-Player"
-          />
-        </section>
+          <section className="playlist-section">
+            <TheatreTrackList
+              tracks={tracklistToShow}
+              onSelected={this.selectThisTrack}
+              selectedTrack={trackSelected}
+              albumName={title[0]}
+              displayTrackNumbers={isArchiveChannel}
+              creator={creator[0]}
+              dataEventCategory="Audio-Player"
+            />
+          </section>
+        </div>
       </div>
     );
   }

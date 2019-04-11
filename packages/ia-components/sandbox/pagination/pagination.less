@@ -5,7 +5,7 @@
   align-items: stretch;
   flex-flow: column wrap;
   height: inherit; // must set with parent to wrap columns
-
+  overflow: hidden;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
 
@@ -13,14 +13,9 @@
     flex-flow: column;
   }
 
-  @media (min-width: @audio-player-desktop-min-width) {
-    overflow-x: hidden;
-    overflow-y: hidden;
-
-    &.half {
-      > * {
-        width: 50%;
-      }
+  &.column {
+    > * {
+      width: inherit; // set at parent, for better display control
     }
   }
 }

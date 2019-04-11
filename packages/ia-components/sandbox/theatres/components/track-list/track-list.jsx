@@ -79,14 +79,6 @@ const trackButton = ({
  * @return component
  */
 class TheatreTrackList extends Component {
-  componentDidUpdate() {
-    // make sure focus stays on highlighted track;
-    const selected = document.querySelector('button.selected.track');
-    if (selected) {
-      selected.focus();
-    }
-  }
-
   render() {
     const {
       selectedTrack, onSelected, tracks, displayTrackNumbers, creator: albumCreator
