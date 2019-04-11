@@ -138,7 +138,6 @@
     grid-template-areas: "md md md hd hd hd hd hd hd" "md md md hd hd hd hd hd hd" "md md md hd hd hd hd hd hd";
 
     .playlist-section {
-
       .flexbox-pagination {
         height: 35rem;
         float: unset;
@@ -154,6 +153,16 @@
 
   @media (min-width: @audio-player-extra-widescreen-min-width) {
     grid-template-areas: "md md hd hd hd hd hd hd hd" "md md hd hd hd hd hd hd hd" "md md hd hd hd hd hd hd hd";
+
+    .playlist-section {
+      .flexbox-pagination {
+        &.column {
+          > * {
+            width: 32.5%;
+          }
+        }
+      }
+    }
   }
 
   .channel-controls .channel-icon,
