@@ -28,18 +28,6 @@
     overflow-y: auto;
   }
 
-  @media (min-width: @audio-player-desktop-min-width) and (max-width: 960px) {
-    .channel-controls {
-      width: 70%;
-      .option {
-        width: 25%;
-        text-align: center;
-      }
-      .channel-label {
-        display: none;
-      }
-    }
-  }
   @media (max-width: @audio-player-channel-label-no-display)   {
     .channel-controls {
       .option {
@@ -115,6 +103,12 @@
   @media (min-width: @audio-player-desktop-min-width) and (max-width: @audio-player-desktop-max-width) {
     
     grid-template-areas: "md md md md hd hd hd hd hd" "md md md md hd hd hd hd hd" "md md md md hd hd hd hd hd";
+
+    .channel-controls {
+      .channel-label {
+        display: none;
+      }
+    }
 
     .playlist-section {
       height: 35rem;
