@@ -43,7 +43,7 @@ class Paginator extends Component {
   }
 
   componentDidMount() {
-    const debounceCalibration = debounce(this.recalibrate, 500);
+    const debounceCalibration = debounce(this.recalibrate, 370);
     window.addEventListener('resize', debounceCalibration);
 
     return this.calibrateDimensions(() => {
@@ -64,7 +64,7 @@ class Paginator extends Component {
   }
 
   componentWillUnmount() {
-    const debounceCalibration = debounce(this.recalibrate, 500);
+    const debounceCalibration = debounce(this.recalibrate, 370);
     window.removeEventListener('resize', debounceCalibration);
   }
 
