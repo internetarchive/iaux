@@ -73,7 +73,8 @@
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     grid-auto-rows: minmax(100px, auto);
-    
+    grid-template-areas: "md md md md hd hd hd hd hd" "md md md md hd hd hd hd hd" "md md md md hd hd hd hd hd";
+
     .media-section {
       grid-area: md;
     }
@@ -102,8 +103,6 @@
 
   @media (min-width: @audio-player-desktop-min-width) and (max-width: @audio-player-desktop-max-width) {
     
-    grid-template-areas: "md md md md hd hd hd hd hd" "md md md md hd hd hd hd hd" "md md md md hd hd hd hd hd";
-
     .channel-controls {
       .channel-label {
         display: none;
@@ -126,9 +125,17 @@
     }
   }
 
-  @media (min-width: @audio-player-widescreen-min-width) {
-    grid-template-areas: "md md md hd hd hd hd hd hd" "md md md hd hd hd hd hd hd" "md md md hd hd hd hd hd hd";
+  @media (max-width: @audio-player-desktop-max-width) {
+    .playlist-section {
 
+      .flexbox-pagination {
+        flex-wrap: nowrap;
+      }
+    }
+  }
+
+  @media(min-width: @audio-player-widescreen-min-width) {
+    grid-template-areas: "md md md hd hd hd hd hd hd" "md md md hd hd hd hd hd hd" "md md md hd hd hd hd hd hd";
 
     .playlist-section {
 
@@ -143,6 +150,10 @@
         }
       }
     }
+  }
+
+  @media (min-width: @audio-player-extra-widescreen-min-width) {
+    grid-template-areas: "md md hd hd hd hd hd hd hd" "md md hd hd hd hd hd hd hd" "md md hd hd hd hd hd hd hd";
   }
 
   .channel-controls .channel-icon,

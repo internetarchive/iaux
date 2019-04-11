@@ -3,14 +3,15 @@
 .flexbox-pagination {
   display: flex;
   align-items: stretch;
-  flex-flow: column wrap;
+  flex-direction: column;
+  flex-wrap: wrap;
   height: inherit; // must set with parent to wrap columns
   overflow: hidden;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
 
   @media (max-width: @width-500) {
-    flex-flow: column;
+    flex-wrap: nowrap;
   }
 
   &.column {
