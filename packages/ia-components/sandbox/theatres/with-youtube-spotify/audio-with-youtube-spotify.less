@@ -71,9 +71,9 @@
 
   @media (min-width: @audio-player-desktop-min-width) {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
+    grid-template-columns: repeat(12, 1fr);
     grid-auto-rows: minmax(100px, auto);
-    grid-template-areas: "md md md md hd hd hd hd hd" "md md md md hd hd hd hd hd" "md md md md hd hd hd hd hd";
+    grid-template-areas: "md md md md md md hd hd hd hd hd hd" "md md md md md md hd hd hd hd hd hd" "md md md md md md hd hd hd hd hd hd";
 
     .media-section {
       grid-area: md;
@@ -135,7 +135,7 @@
   }
 
   @media(min-width: @audio-player-widescreen-min-width) {
-    grid-template-areas: "md md md hd hd hd hd hd hd" "md md md hd hd hd hd hd hd" "md md md hd hd hd hd hd hd";
+    grid-template-areas: "md md md md hd hd hd hd hd hd hd hd" "md md md md hd hd hd hd hd hd hd hd" "md md md md hd hd hd hd hd hd hd hd";
 
     .playlist-section {
       .flexbox-pagination {
@@ -152,7 +152,7 @@
   }
 
   @media (min-width: @audio-player-extra-widescreen-min-width) {
-    grid-template-areas: "md md hd hd hd hd hd hd hd" "md md hd hd hd hd hd hd hd" "md md hd hd hd hd hd hd hd";
+    grid-template-areas: "md md md hd hd hd hd hd hd hd hd hd" "md md md hd hd hd hd hd hd hd hd hd" "md md md hd hd hd hd hd hd hd hd hd";
 
     .playlist-section {
       .flexbox-pagination {
