@@ -17,12 +17,14 @@ const parseTrackTitle = ({
   name,
   title,
   albumCreator,
-  creator,
+  creator = '',
+  artist = '',
   isAlbum
 }) => {
   if (isAlbum) { return 'Full album'; }
 
-  const artistName = creator !== albumCreator ? creator : '';
+  const whichArtistVal = creator || artist;
+  const artistName = whichArtistVal !== albumCreator ? whichArtistVal : '';
 
   if (title) {
     return (

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { debounce, findKey } from 'lodash';
+import { debounce } from 'lodash';
+import { calculateDimensions, getPageToShow } from './utils/dom-dimensions';
 
 /**
  * Pagination component takes a list of pre-drawn children
@@ -43,11 +44,12 @@ class Paginator extends Component {
   }
 
   componentDidMount() {
+    // set resize event listener
     const debounceCalibration = debounce(this.recalibrate, 370);
     window.addEventListener('resize', debounceCalibration);
 
     return this.calibrateDimensions(() => {
-      // this is also a hack, waiting for styles to load
+      // waiting for styles to load
       // petabox css is extremely heavy, takes a smidge of time to deliver
       setTimeout(this.calibrateDimensions, 700);
     });
@@ -64,6 +66,7 @@ class Paginator extends Component {
   }
 
   componentWillUnmount() {
+    // remove resize event listener
     const debounceCalibration = debounce(this.recalibrate, 370);
     window.removeEventListener('resize', debounceCalibration);
   }
@@ -77,7 +80,7 @@ class Paginator extends Component {
     const { itemInViewClass } = this.props;
     const { scrollThresholds } = this.state;
     const item = document.querySelector(itemInViewClass);
-    const paginator = this.Paginator.current;
+    const viewport = this.Paginator.current;
 
     const pages = Object.keys(scrollThresholds);
     let thisPage = null;
@@ -95,7 +98,7 @@ class Paginator extends Component {
     });
 
     if (thisPage && thisRange) {
-      paginator.scrollTo({
+      viewport.scrollTo({
         top: 0,
         left: thisRange.low,
         behavior: 'smooth'
@@ -111,8 +114,8 @@ class Paginator extends Component {
    * @param { boolean } newItemInView - optional toggle
    */
   recalibrate(scrollItemIntoView = false) {
-    const findClosestThreshold = function findClosestThreshold(scrollItemIntoView) {
-      const { scrollThresholds } = this.state;
+    const findClosestThreshold = () => {
+      const { scrollThresholds, pageSelected: currentPage } = this.state;
       const { itemInViewClass } = this.props;
       const viewport = this.Paginator.current;
 
@@ -128,13 +131,10 @@ class Paginator extends Component {
         itemToView = viewport.querySelector(itemInViewClass);
         itemToView.focus();
       }
-
-      const viewportFlush = scrollItemIntoView ? itemToView.offsetLeft : viewport.scrollLeft;
-      const pageToShow = findKey(
-        scrollThresholds,
-        th => viewportFlush >= th.low && viewportFlush <= th.high
-      );
-
+      const viewportFlush = scrollItemIntoView
+        ? (itemToView.clientWidth + itemToView.offsetLeft)
+        : viewport.scrollLeft;
+      const pageToShow = getPageToShow({ currentPage, viewportFlush, scrollThresholds });
       const leftFlush = scrollThresholds[pageToShow];
       viewport.scrollTo({
         top: 0,
@@ -144,12 +144,12 @@ class Paginator extends Component {
       const pageSelected = parseInt(pageToShow, 10);
       const numPages = numberOfPages.length;
       this.setState({ pageSelected, numberOfPages: numPages });
-    }.bind(this, scrollItemIntoView);
+    };
 
     return this.calibrateDimensions(() => {
-      // this is also a hack, waiting for styles to load
+      // waiting for styles to load
       // petabox css is extremely heavy, takes a smidge of time to deliver
-      setTimeout(this.calibrateDimensions(findClosestThreshold), 0);
+      setTimeout(this.calibrateDimensions(findClosestThreshold), 700);
     });
   }
 
@@ -162,38 +162,6 @@ class Paginator extends Component {
    * @param { function } setStateCallback - optional function to run after state gets updated
    */
   calibrateDimensions(setStateCallback = this.setItemInView) {
-    const calculateDimensions = (element) => {
-      const {
-        scrollLeft, scrollWidth, clientWidth, offsetWidth, firstElementChild
-      } = element;
-
-      const numberOfColumns = Math.floor(
-        scrollWidth / firstElementChild.offsetWidth
-      );
-      const numberOfPages = Math.round((scrollWidth / clientWidth).toFixed(1));
-      const scrollThresholds = {};
-
-      for (let i = 0; i < numberOfPages; i++) {
-        const page = i + 1;
-        const lastLowThreshold = scrollThresholds[page - 1] && scrollThresholds[page - 1].high + 1;
-        scrollThresholds[page] = {
-          low: lastLowThreshold || clientWidth * (page - 1),
-          high: clientWidth * page
-        };
-      }
-
-      const retVal = {
-        numberOfColumns,
-        scrollLeft,
-        scrollWidth,
-        clientWidth,
-        offsetWidth,
-        numberOfPages,
-        scrollThresholds,
-      };
-      return retVal;
-    };
-
     if (this.Paginator.current) {
       const {
         numberOfColumns, numberOfPages, scrollThresholds
@@ -209,7 +177,7 @@ class Paginator extends Component {
     }
   }
 
-  /* EVENT HANDLERS */
+  /* CLICK HANDLERS */
 
   /**
    * Behavior of page button clicks
