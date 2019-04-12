@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { find, flatten } from 'lodash';
+import { find, flatten, head } from 'lodash';
 
 import flattenAlbumData from './utils/ia-metadata-utils';
 import getTrackListBySource from './utils/get-track-list-by-source';
@@ -105,7 +105,10 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const newSourceAlbumInfo = albumSpotifyYoutubeInfo[newSource];
     const noAlbumWithNewSource = currentTrack === 0 && !newSourceAlbumInfo;
     const noTrackWithNewSource = !tracklistToShow.find(f => currentTrack === f.trackNumber);
-    const trackSelected = (noAlbumWithNewSource || noTrackWithNewSource) ? 1 : currentTrack;
+
+    const firstTrackAvailable = tracklistToShow.find(f => f.trackNumber === 1) ? tracklistToShow.find(f => f.trackNumber === 1) : head(tracklistToShow);
+    const { trackNumber: availableTrackNumber } = firstTrackAvailable;
+    const trackSelected = (noAlbumWithNewSource || noTrackWithNewSource) ? availableTrackNumber : currentTrack;
 
     const newState = { channelToPlay, tracklistToShow, trackSelected };
     this.setState(newState);
@@ -160,7 +163,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
         audioSource = find(tracklistToShow, track => track.trackNumber === trackSelected);
       }
 
-      return audioSource;
+      return audioSource || {};
     }
 
     // ia jw player only needs index
@@ -188,7 +191,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             className="webamp-link"
             data-event-click-tracking="Audio-Player|Channel-Webamp"
           >
-            <img src="/images/llama-icon.png" alt="webamp-logo" />
+            <img src="/images/llama-icon.png" alt="webamp" />
             <span className="channel-label">Webamp</span>
           </a>
         );
@@ -251,7 +254,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             jwplayerID={`jwplayer-${jwplayerID}`}
           />
         </section>
-        {
+        <div className="grid-right">
+          {
           displayChannelSelector
           && (
           <section className="channel-controls">
@@ -267,17 +271,18 @@ class AudioPlayerWithYoutubeSpotify extends Component {
           </section>
           )
         }
-        <section className="playlist-section">
-          <TheatreTrackList
-            tracks={tracklistToShow}
-            onSelected={this.selectThisTrack}
-            selectedTrack={trackSelected}
-            albumName={title[0]}
-            displayTrackNumbers={isArchiveChannel}
-            creator={creator[0]}
-            dataEventCategory="Audio-Player"
-          />
-        </section>
+          <section className="playlist-section">
+            <TheatreTrackList
+              tracks={tracklistToShow}
+              onSelected={this.selectThisTrack}
+              selectedTrack={trackSelected}
+              albumName={title[0]}
+              displayTrackNumbers={isArchiveChannel}
+              creator={creator[0]}
+              dataEventCategory="Audio-Player"
+            />
+          </section>
+        </div>
       </div>
     );
   }

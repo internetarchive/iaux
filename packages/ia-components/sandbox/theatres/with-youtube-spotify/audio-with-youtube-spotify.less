@@ -28,8 +28,12 @@
     overflow-y: auto;
   }
 
-  @media (max-width: @audio-player-channel-label-no-display) {
+  @media (max-width: @audio-player-channel-label-no-display)   {
     .channel-controls {
+      .option {
+        width: 25%;
+        text-align: center;
+      }
       .channel-label {
         display: none;
       }
@@ -56,7 +60,7 @@
       text-align: center;
     }
     .playlist-section {
-      height: 30rem;
+      max-height: 30rem;
 
       .page-buttons,
       .pagination-arrow {
@@ -64,31 +68,101 @@
       }
     }
   }
+
   @media (min-width: @audio-player-desktop-min-width) {
-    padding-left: 1rem;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    grid-template-areas: "md md md md md md hd hd hd hd hd hd" "md md md md md md hd hd hd hd hd hd" "md md md md md md hd hd hd hd hd hd";
 
-    .media-section,
-    .playlist-section {
-      float: left;
-    }
     .media-section {
-      width: 34%;
+      grid-area: md;
     }
-    .playlist-section {
-      width: 64%;
-      margin-left: 1rem;
-      padding-right: 2rem;
 
-      .flexbox-pagination {
-        height: 35rem;
-      }
+    .grid-right {
+      grid-area: hd;
+    }
+
+    padding-left: 1rem;
+    padding-bottom: 2rem;
+
+    .media-section {
+      max-width: 40rem;
+      margin-right: 2rem;
+    }
+
+    .playlist-section {
+      padding-right: 1rem;
+
     }
 
     .channel-controls {
-      margin-left: 1%;
       display: inline;
     }
+  }
 
+  @media (min-width: @audio-player-desktop-min-width) and (max-width: @audio-player-desktop-max-width) {
+    
+    .channel-controls {
+      .channel-label {
+        display: none;
+      }
+    }
+
+    .playlist-section {
+      height: 35rem;
+
+      .pagination-arrow,
+      .page-buttons {
+        display: none;
+      }
+
+        &.column {
+          > * {
+            width: 100%;
+          }
+        }
+    }
+  }
+
+  @media (max-width: @audio-player-desktop-max-width) {
+    .playlist-section {
+
+      .flexbox-pagination {
+        flex-wrap: nowrap;
+      }
+    }
+  }
+
+  @media(min-width: @audio-player-widescreen-min-width) {
+    grid-template-areas: "md md md md hd hd hd hd hd hd hd hd" "md md md md hd hd hd hd hd hd hd hd" "md md md md hd hd hd hd hd hd hd hd";
+
+    .playlist-section {
+      .flexbox-pagination {
+        height: 35rem;
+        float: unset;
+
+        &.column {
+          > * {
+            width: 49%;
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: @audio-player-extra-widescreen-min-width) {
+    grid-template-areas: "md md md hd hd hd hd hd hd hd hd hd" "md md md hd hd hd hd hd hd hd hd hd" "md md md hd hd hd hd hd hd hd hd hd";
+
+    .playlist-section {
+      .flexbox-pagination {
+        &.column {
+          > * {
+            width: 32.5%;
+          }
+        }
+      }
+    }
   }
 
   .channel-controls .channel-icon,
