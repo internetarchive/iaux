@@ -22,6 +22,11 @@
         "@storybook/react": "^4.1.4",
         "assert": "^1.4.1",
         "babel-loader": "^8.0.5",
+        "babel-plugin-transform-class-properties": "^6.24.1",
+        "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-preset-env": "^1.7.0",
+        "babel-preset-react": "^6.24.1",
         "css-loader": "^2.1.0",
         "jest": "^23.6.0",
         "less": "^3.8.1",
@@ -30,7 +35,7 @@
         "storybook-addon-jsx": "^6.0.0",
         "style-loader": "^0.23.1"
     },
-    "optionalDependencies":{
+    "optionalDependencies": {
         "fsevents": "^1.2.4"
     },
     "dependencies": {
@@ -41,9 +46,6 @@
     },
     "peerDependencies": {
         "@internetarchive/ia-js-client": "^0.0.0-alpha.20+5039f8d"
-    },
-    "optionalDependencies": {
-        "fsevents": "^1.2.4"
     },
     "publishConfig": {
         "access": "public"

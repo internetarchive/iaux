@@ -3,23 +3,34 @@ import ReactDOM from 'react-dom';
 
 // v2 mocks
 // import MockHeader from 'ia-components/v2mocks/header'
-import MockDetailsPageContainer from 'ia-components/sandbox/v2mocks/details-page-container'
-import MockTheatreAudio from 'ia-components/sandbox/v2mocks/theatre-audio'
-import MockReviews from 'ia-components/sandbox/v2mocks/reviews-empty'
-import MockDescMeta from 'ia-components/sandbox/v2mocks/desc-meta'
-import MockNav from 'ia-components/sandbox/v2mocks/nav'
+// import MockDetailsPageContainer from 'ia-components/sandbox/v2mocks/details-page-container'
+import MockDetailsPageContainer from '../../../ia-components/sandbox/v2mocks/details-page-container'
+// import MockTheatreAudio from 'ia-components/sandbox/v2mocks/theatre-audio'
+import MockTheatreAudio from '../../../ia-components/sandbox/v2mocks/theatre-audio'
+// import MockReviews from 'ia-components/sandbox/v2mocks/reviews-empty'
+import MockReviews from '../../../ia-components/sandbox/v2mocks/reviews-empty'
+// import MockDescMeta from 'ia-components/sandbox/v2mocks/desc-meta'
+import MockDescMeta from '../../../ia-components/sandbox/v2mocks/desc-meta'
+// import MockNav from 'ia-components/sandbox/v2mocks/nav'
+import MockNav from '../../../ia-components/sandbox/v2mocks/nav'
 
 // prototypes
-import Audio1 from 'ia-components/sandbox/theatres/audio-1/audio-1'
-import Audio1Br from 'ia-components/sandbox/theatres/audio-1/audio-1-br-nav-wav'
-import TheatreSwitcher from 'ia-components/sandbox/theatres/theatre-switcher'
+// import Audio1 from 'ia-components/sandbox/theatres/audio-1/audio-1'
+import Audio1 from '../../../ia-components/sandbox/theatres/audio-1/audio-1'
+// import Audio1Br from 'ia-components/sandbox/theatres/audio-1/audio-1-br-nav-wav'
+import Audio1Br from '../../../ia-components/sandbox/theatres/audio-1/audio-1-br-nav-wav'
+// import TheatreSwitcher from 'ia-components/sandbox/theatres/theatre-switcher'
+import TheatreSwitcher from '../../../ia-components/sandbox/theatres/theatre-switcher'
 
-import RelatedAsList from 'ia-components/sandbox/related-as-list'
-import SimpleDescMeta from 'ia-components/sandbox/simple-desc-meta'
+// import RelatedAsList from 'ia-components/sandbox/related-as-list'
+import RelatedAsList from '../../../ia-components/sandbox/related-as-list'
+// import SimpleDescMeta from 'ia-components/sandbox/simple-desc-meta'
+import SimpleDescMeta from '../../../ia-components/sandbox/simple-desc-meta'
 
 // other
 import { getUrlParameter } from '../../lib/helpers/url'
-import { Item } from 'ia-js-client'
+// import { Item } from 'ia-js-client'
+import { Item } from '../../../ia-js-client'
 
 
 let demoIdentifier = getUrlParameter('identifier') || "cd_point-of-departure_andrew-hill"
