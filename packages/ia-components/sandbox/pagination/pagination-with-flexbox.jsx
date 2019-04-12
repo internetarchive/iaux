@@ -313,12 +313,11 @@ class Paginator extends Component {
   render() {
     const { children } = this.props;
     const { numberOfColumns } = this.state;
-    const paginatorClass = numberOfColumns > 1 ? 'column' : '';
     return (
       <Fragment>
         <div
           ref={this.Paginator}
-          className={`flexbox-pagination ${paginatorClass}`}
+          className="flexbox-pagination column"
         >
           { children }
         </div>
