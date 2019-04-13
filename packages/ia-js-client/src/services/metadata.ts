@@ -5,6 +5,7 @@ import fetch from 'node-fetch';
  * This class is a wrapper for raw Metadata JSON responses
  */
 export class RawMetadataAPIResponse {
+  // This is the data exactly as returned from the metadata API - in particular no check against fulfilling content has been done.
   created:number
   d1:string
   d2:string
@@ -78,22 +79,26 @@ export class MetadataService {
   /**
    * Fetches the full Metadata for an item
    * @param identifier the archive.org identifier
+   * @returns Metadata - encapsulation of raw metadata from the API call
    */
-  public async get (options:{identifier:string}):Promise<Metadata> {
-    return new Promise<Metadata>((resolve, reject) => {
-      fetch(`${this.API_BASE}/${options.identifier}`)
+  public get (options:{identifier:string}):Promise<Metadata> {
+    return fetch(`${this.API_BASE}/${options.identifier}`)
         .then(res => res.text())
         .then(body => {
           let md_response = new RawMetadataAPIResponse(JSON.parse(body))
           let md = new Metadata(md_response)
-          resolve(md)
+          return(md);
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log("Metadata fetch failed");
+          //TODO-ERRORS - note nothing that calls this actually checks whether the promise ended in a rejection ! Each caller has been commented as well.
+          throw(err);
+          /* It makes no sense to reject(md) can only reject errors
           let md_response = new RawMetadataAPIResponse({})
           let responseCode = 500 // TODO get responseCode
           let md = new Metadata(md_response, true, responseCode)
           reject(md)
+           */
         });
-    });
   }
 }

@@ -18,6 +18,7 @@ export class BookController {
   //       resolve(this.metadataCache)
   //     } else {
   //       let metadataService = new MetadataService()
+  //       // TODO-ERRORS Note this has an unhandled error if MetadataService.get fails
   //       this.metadataCache = await metadataService.get({identifier: this.identifier})
   //       resolve(this.metadataCache)
   //     }

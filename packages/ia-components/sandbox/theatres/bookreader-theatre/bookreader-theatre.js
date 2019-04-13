@@ -22,6 +22,7 @@ export default class extends React.Component {
 
   componentDidMount() {
     let bookReaderJsIaService = new BookReaderJsIaService()
+    //TODO-ERRORS "get" can fail so should be checked for here, or this can fail.
     bookReaderJsIaService.get({identifier: this.props.item.identifier}).then((jsIaData => {
       this.setState({jsIaData: jsIaData.data})
     }))

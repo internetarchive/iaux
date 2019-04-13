@@ -38,6 +38,7 @@ export default class extends React.Component {
 
     const mdClient = new MetadataService()
 
+    // TODO-ERRORS Note this has an unhandled error if MetadataService.get fails
     mdClient.get({identifier: this.props.identifier}).then((md) => {
       this.setState({
         title: md.data.getSafe('title')[0],

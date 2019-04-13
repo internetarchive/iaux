@@ -67,42 +67,48 @@ export class Item {
   }
 
   public async getMetadata ():Promise<Metadata> {
-    return new Promise<Metadata>(async (resolve, reject) => {
+    // Can throw error if metadata call fails -
+    //TODO-ERRORS callers I've found dont appear to be checking for it
+    return
       if (this.metadataCache) {
-        resolve(this.metadataCache)
+        return(this.metadataCache)
       } else {
-        let metadataService = new MetadataService()
-        this.metadataCache = await metadataService.get({identifier: this.identifier})
-        resolve(this.metadataCache)
+        try {
+          let metadataService = new MetadataService()
+          this.metadataCache = await metadataService.get({identifier: this.identifier}) // Can throw error if metadata fails
+          return (this.metadataCache);
+        } catch(err) {
+          console.log("Failed to retrieve metadata for", this.identifier);
+          throw(err);
+        }
       }
     })
   }
 
   public async getMetadataField (field:string, safe:boolean):Promise<Array<any>|null> {
-    return new Promise<Array<any>|null>(async (resolve, reject) => {
-      let md = await this.getMetadata()
+    // Can throw error if metadata call fails -
+    // TODO-ERRORS only current caller I've found doesnt check for the reject anyway
+    // Also .... it looks like if not very careful this is going to lead to multiple parallel calls to metadata API - it would be much better IMHO to explicitly call getMetadata then access the fields
+      let md = await this.getMetadata(); // Throws error if call fails, causing this to throw error
       let value = md.data.metadata[field] || null
       if (!value && safe) {
         value = [null]
       }
-      resolve(md.data[field] || value)
-    })
+      return(md.data[field] || value)
   }
 
   public async getDetailsData ():Promise<DetailsResponse> {
-    return new Promise<DetailsResponse>(async (resolve, reject) => {
       if (this.detailsDataCache) {
-        resolve(this.detailsDataCache)
+        return(this.detailsDataCache)
       } else {
         let detailsService = new DetailsService()
+        // TODO-ERRORS Note "get" can fail if metadata fails, should check or this call can fail.
         this.detailsDataCache = await detailsService.get({identifier: this.identifier})
-        resolve(this.detailsDataCache)
+        return(this.detailsDataCache)
       }
-    })
   }
 
   public async getAudioTracks ():Promise<Array<AudioFile>> {
-    return new Promise<Array<AudioFile>>(async (resolve, reject) => {
       let metadata = await this.getMetadata()
       let detailsResponse = await this.getDetailsData()
 
@@ -137,7 +143,7 @@ export class Item {
         })
       }
 
-      resolve(audioFiles)
+      return(audioFiles)
     })
   }
 }
