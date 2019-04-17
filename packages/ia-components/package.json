@@ -23,7 +23,7 @@
         "assert": "^1.4.1",
         "babel-loader": "^8.0.5",
         "css-loader": "^2.1.0",
-        "jest": "^23.6.0",
+        "jest": "^24.7.1",
         "less": "^3.8.1",
         "less-loader": "^4.1.0",
         "react-test-renderer": "^16.7.0",
