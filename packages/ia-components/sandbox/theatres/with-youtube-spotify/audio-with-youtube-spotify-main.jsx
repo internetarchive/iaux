@@ -16,7 +16,7 @@ import { HorizontalRadioGroup, TheatreAudioPlayer, TheatreTrackList } from '../.
  * @param { string } labelValue
  */
 const getChannelLabelToDisplay = ({ channel, labelValue }) => {
-  const label = <span className="channel-label">{ labelValue }</span>;
+  const label = <span className="channel-label">{labelValue}</span>;
   const iconOptions = {
     youtube: <YoutubeIcon className="channel-icon" />,
     spotify: <SpotifyIcon className="channel-icon" />,
@@ -58,6 +58,7 @@ const getChannelLabelToDisplay = ({ channel, labelValue }) => {
  *
  * @params see PropTypes
  */
+
 class AudioPlayerWithYoutubeSpotify extends Component {
   constructor(props) {
     super(props);
@@ -71,11 +72,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       trackSelected: 1, /* 0 = album */
     };
 
-    this.selectThisTrack = this.selectThisTrack.bind(this);
-    this.onChannelSelect = this.onChannelSelect.bind(this);
-    this.jwplayerPlaylistChange = this.jwplayerPlaylistChange.bind(this);
-    this.getSelectableChannels = this.getSelectableChannels.bind(this);
-    this.getAudioSourceInfoToPlay = this.getAudioSourceInfoToPlay.bind(this);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -90,7 +86,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   /**
    * Callback every time user selects a channel
    */
-  onChannelSelect(event) {
+  onChannelSelect = (event) => {
     const { albumData, channelToPlay: currentSource, trackSelected: currentTrack } = this.state;
     const { albumSpotifyYoutubeInfo } = albumData;
     const newSource = event.target.value;
@@ -118,7 +114,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    * Callback every time JWPlayer plays a track
    * @param { object } playlistItem - JWPlayer track object
    */
-  jwplayerPlaylistChange(playlistItem) {
+  jwplayerPlaylistChange = (playlistItem) => {
     const { newTrackIndex } = playlistItem;
     this.setState({ trackSelected: newTrackIndex + 1 });
   }
@@ -127,7 +123,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    * Callback every time user selects a track from the tracklist
    * @param { object } event - React synthetic event
    */
-  selectThisTrack(event) {
+  selectThisTrack = (event) => {
     const selected = event.currentTarget;
     const selectedTrackNumber = parseInt(selected.getAttribute('data-track-number'), 10);
 
@@ -141,7 +137,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   /**
    * Find the right audio metadata depending on the channel and track number
    */
-  getAudioSourceInfoToPlay() {
+  getAudioSourceInfoToPlay = () => {
     const {
       albumData, channelToPlay, trackSelected, tracklistToShow
     } = this.state;
@@ -177,7 +173,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   /**
    * Find the available channels that the album/item can play
    */
-  getSelectableChannels() {
+  getSelectableChannels = () => {
     const {
       albumData: { externalSources, playSamples, externalSourcesDisplayValues }
     } = this.state;
@@ -243,6 +239,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
         <section className="media-section">
+
           <TheatreAudioPlayer
             source={channelToPlay}
             backgroundPhoto={itemPhoto}
@@ -256,32 +253,22 @@ class AudioPlayerWithYoutubeSpotify extends Component {
         </section>
         <div className="grid-right">
           {
-          displayChannelSelector
-          && (
-          <section className="channel-controls">
-            <h4 className="title">Play from: </h4>
-            <HorizontalRadioGroup
-              options={this.getSelectableChannels()}
-              onChange={this.onChannelSelect}
-              name="audio-source"
-              selectedValue={channelToPlay}
-              wrapperStyle="rounded"
-              dataEventCategory="Audio-Player"
-            />
-          </section>
-          )
-        }
-          <section className="playlist-section">
-            <TheatreTrackList
-              tracks={tracklistToShow}
-              onSelected={this.selectThisTrack}
-              selectedTrack={trackSelected}
-              albumName={title[0]}
-              displayTrackNumbers={isArchiveChannel}
-              creator={creator[0]}
-              dataEventCategory="Audio-Player"
-            />
-          </section>
+            displayChannelSelector
+            && (
+              <section className="channel-controls">
+                <h4 className="title">Play from: </h4>
+                <HorizontalRadioGroup
+                  options={this.getSelectableChannels()}
+                  onChange={this.onChannelSelect}
+                  name="audio-source"
+                  selectedValue={channelToPlay}
+                  wrapperStyle="rounded"
+                  dataEventCategory="Audio-Player"
+                />
+              </section>
+            )
+          }
+         
         </div>
       </div>
     );
