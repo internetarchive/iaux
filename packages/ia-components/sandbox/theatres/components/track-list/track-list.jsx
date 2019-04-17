@@ -30,7 +30,7 @@ const parseTrackTitle = ({
     return (
       <Fragment>
         {`${title}${artistName ? ' - ' : ''}`}
-        <i>{artistName}</i>
+        { !!artistName && <i>{artistName}</i> }
       </Fragment>
     );
   }
@@ -86,6 +86,7 @@ class TheatreTrackList extends Component {
       selectedTrack, onSelected, tracks, displayTrackNumbers, creator: albumCreator
     } = this.props;
 
+    if (!tracks.length) return <p className="no-tracks">No tracks to display.</p>;
     return (
       <div className="audio-track-list">
         <FlexboxPagination
@@ -108,7 +109,7 @@ class TheatreTrackList extends Component {
 }
 
 TheatreTrackList.defaultProps = {
-  tracks: null,
+  tracks: [],
   displayTrackNumbers: true,
   creator: ''
 };
