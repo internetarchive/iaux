@@ -25,12 +25,21 @@
     overflow: hidden;
     max-height: inherit;
     padding: .1rem;
+    min-height: 150px;
 
-    .background-photo {
+    .background-photo,
+    .no-photo {
       display: block;
       margin: auto;
       max-width: 100%;
       max-height: inherit;
+    }
+
+    .no-photo {
+      font-size: 10rem;
+      text-align: center;
+      padding-top: 14%;
+      height: 30rem;
     }
   }
 
@@ -56,16 +65,14 @@
 
   .iframe-wrapper,
   .ia-player-wrapper {
-    position: relative;
     width: 100%;
+    min-height: inherit;
   }
 
   .ia-player-wrapper {
-    .iaux-player-wrapper {
-      position: absolute;
-      width: 100%;
-      bottom: 0px;
-    }
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
   }
 
   .iframe-wrapper {

@@ -255,6 +255,7 @@ class Paginator extends Component {
         className="pagination-arrow right"
         onClick={this.goToNextPage}
         data-event-click-tracking={`${dataEventCategory}|Paginator-Arrow-Right`}
+        tabIndex="-1"
       >
         <span className="sr-only">next page</span>
       </button>
@@ -273,6 +274,7 @@ class Paginator extends Component {
         className="pagination-arrow left"
         onClick={this.goToPreviousPage}
         data-event-click-tracking={`${dataEventCategory}|Paginator-Arrow-left`}
+        tabIndex="-1"
       >
         <span className="sr-only">previous page</span>
       </button>
@@ -298,6 +300,7 @@ class Paginator extends Component {
             data-page-number={thisPage}
             className={`pagination-button ${isPage ? 'selected' : ''}`}
             data-event-click-tracking={`${dataEventCategory}|Paginator-Button`}
+            tabIndex="-1"
           >
             <span className="sr-only">{thisPage}</span>
           </button>
