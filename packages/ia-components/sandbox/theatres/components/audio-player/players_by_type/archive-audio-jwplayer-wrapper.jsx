@@ -77,9 +77,11 @@ class ArchiveAudioPlayer extends Component {
    * Register this instance of JWPlayer
    */
   registerPlayer() {
-    const { jwplayerInfo, jwplayerID } = this.props;
+    const { jwplayerInfo, jwplayerID, backgroundPhoto } = this.props;
     const { jwplayerPlaylist, identifier, collection } = jwplayerInfo;
-
+    const waveformer = backgroundPhoto
+      ? {}
+      : { waveformer: 'jw-holder', responsive: true };
     // We are using IA custom global Player class to instatiate the player
     const baseConfig = {
       start: 0,
@@ -90,16 +92,15 @@ class ArchiveAudioPlayer extends Component {
       height: 0,
       list_height: 0,
       audio: true,
-      responsive: true,
       identifier,
       collection,
-      waveformer: 'jw-holder',
       hide_list: true,
       onReady: this.onReady
     };
 
     if (window.Play && Play) {
-      const player = Play(jwplayerID, jwplayerPlaylist, baseConfig);
+      const compiledConfig = Object.assign({}, baseConfig, waveformer);
+      const player = Play(jwplayerID, jwplayerPlaylist, compiledConfig);
       this.setState({ player });
     }
   }
