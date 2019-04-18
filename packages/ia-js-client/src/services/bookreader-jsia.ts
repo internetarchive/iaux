@@ -8,23 +8,23 @@ import fetch from 'node-fetch';
 
 export class BookReaderJsIaService {
 
-  public async get (options: {identifier:string, subPrefix?:string}):Promise<any> {
-    return new Promise<any>(async (res, rej) => {
+  public get (options: {identifier:string, subPrefix?:string}):Promise<any> {
       let fullRequestUrl = `https://www-richard.archive.org/bookreader/BookReaderJSLocate.php?id=${encodeURIComponent(options.identifier)}&subPrefix=${encodeURIComponent(options.subPrefix||'')}&format=json`
 
       // let fullRequestUrl = await this.fetchFullUrl(options.identifier)
       // console.log(fullRequestUrl)
-      fetch(fullRequestUrl)
+      return fetch(fullRequestUrl)
         .then(res => res.text())
         .then(body => {
           let raw_response = <any>JSON.parse(body)
           // console.log(raw_response)
-          res(raw_response)
+          return(raw_response)
         })
-        .catch(() => {
-          let empty_reponse = {}
-          rej(empty_reponse)
+        .catch((err) => {
+          throw err;
+          //TODO-ERRORS callers need to check for this reject, (or at least document that they can also fail) and they aren't doing either currently
+          //let empty_reponse = {}
+          //rej(empty_reponse) // This is nonsense - shouldn't reject with data, only errors - its a "resolve" if data is substituted, and anyway none of the callers are checking for this reject anyway !
         });
-    });
   }
 }

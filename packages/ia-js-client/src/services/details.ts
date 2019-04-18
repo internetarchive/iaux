@@ -34,18 +34,18 @@ export class DetailsService {
    * Fetches the details page data
    * @param identifier the archive.org identifier
    */
-  public async get (options: {identifier:string}):Promise<DetailsResponse> {
-    return new Promise<DetailsResponse>((resolve, reject) => {
-      fetch(`${this.API_BASE}?identifier=${options.identifier}`)
+  public get (options: {identifier:string}):Promise<DetailsResponse> {
+      return fetch(`${this.API_BASE}?identifier=${options.identifier}`)
         .then(res => res.text())
         .then(body => {
           let raw_response = <DetailsResponse>JSON.parse(body)
-          resolve(raw_response)
+          return(raw_response)
         })
-        .catch(() => {
-          let empty_reponse = new DetailsResponse()
-          reject(empty_reponse)
+        .catch((err) => {
+          //TODO-ERRORS callers of this aren't checking for the reject
+          throw err;
+          //let empty_reponse = new DetailsResponse()
+          //rej(empty_reponse) // This is nonsense - shouldn't reject with data, only errors - its a "resolve" if data is substituted, and anyway only caller isnt checking for this reject anyway !
         });
-    });
   }
 }

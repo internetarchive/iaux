@@ -31,6 +31,7 @@ export default class extends Component {
 
   fetchMetadata(identifier) {
     let metadataService = new MetadataService()
+    // TODO-ERRORS Note this has an unhandled error if MetadataService.get fails
     metadataService.get({identifier: identifier}).then(metadata => {
       this.setState({metadata: metadata.data})
     })

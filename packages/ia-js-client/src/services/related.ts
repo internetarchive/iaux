@@ -12,20 +12,16 @@ export class RelatedService {
    * @param identifier the archive.org identifier
    */
   public async get (options: {identifier:string}):Promise<any> {
-    return new Promise<any>((resolve, reject) => {
       fetch(`${this.API_BASE}/get_related/all/${options.identifier}`)
         .then(res => res.text())
         .then(body => {
           let raw_response = JSON.parse(body)
-          resolve(raw_response)
+          return(raw_response)
         })
-        .catch(() => {
-          let empty_reponse = {
-            hits: {
-              hits: []
-            }
-          }
-          reject(empty_reponse)
+        .catch((err) => {
+            throw err;
+            // let empty_reponse = { hits: { hits: [] } }
+            //reject(empty_reponse) // This is nonsense - shouldn't reject with data, only errors - its a "resolve" if data is substituted, and anyway only current caller is not checking for this reject anyway !
         });
     });
   }
