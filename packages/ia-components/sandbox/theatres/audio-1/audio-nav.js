@@ -8,7 +8,7 @@ import PrevSvg from './nav-assets/nav-backward.svg'
 import NextSvg from './nav-assets/nav-forward.svg'
 
 import WaveFormSvg from './nav-assets/waveform.svg'
-
+const debug = require('debug')('ia-components:audio-nav');
 
 export default class extends React.Component {
   static PropTypes = {
@@ -30,7 +30,7 @@ export default class extends React.Component {
   }
 
   render () {
-    console.log(this.props)
+    debug(this.props)
     let waveformEl
     if (this.props.waveformImgUrl && this.state.showWaveForm) {
       waveformEl = <div className="audio-navigation-waveform-wrapper">

@@ -1,5 +1,6 @@
 import { MetadataService, Metadata } from '../../services/metadata'
 import { DetailsService, DetailsResponse } from '../../services/details'
+const debug = require('debug')('ia-js-client:item');
 
 /**
  * early prototype of audio file class (will change)
@@ -24,7 +25,7 @@ export class AudioFile {
   }
 
   setFromFile (file:any) {
-    // console.log(file)
+    // debug(file)
     this.name = file.title
     this.track = file.track
     this.length = file.length
@@ -78,7 +79,7 @@ export class Item {
           this.metadataCache = await metadataService.get({identifier: this.identifier}) // Can throw error if metadata fails
           return (this.metadataCache);
         } catch(err) {
-          console.log("Failed to retrieve metadata for", this.identifier);
+          debug("Failed to retrieve metadata for", this.identifier);
           throw(err);
         }
       }
@@ -115,7 +116,7 @@ export class Item {
       // TODO
       let audioFiles = []
       if (detailsResponse.jwInitData) {
-        console.log(detailsResponse.jwInitData)
+        debug(detailsResponse.jwInitData)
         // parse the audio files
         detailsResponse.jwInitData.forEach(jwRow => {
           let file = metadata.data.files.reduce((carry, file) => {
@@ -132,7 +133,7 @@ export class Item {
           audioFile.name = jwRow.title.replace(/^(\d+\. )/, '')
           audioFile.waveformUrl = jwRow.image
           audioFile.length = jwRow.duration
-          console.log('setting sources')
+          debug('setting sources')
           audioFile.sources = jwRow.sources
 
           // TODO get youtubeId and spotifyId  from metadata files

@@ -1,6 +1,6 @@
 import React from 'react';
 import IAReactComponent from './IAReactComponent';
-const debug = require('debug')('dweb-archive:AnchorDetails');
+const debug = require('debug')('ia-components:AnchorDetails');
 
 export default class AnchorDetails extends IAReactComponent {
     // Component that encapsulates the difference between four options: Dweb||IAUX, React||FakeReact for links.

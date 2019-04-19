@@ -37,7 +37,7 @@ export default class extends React.Component {
     let displayableMetadata = {... this.state.metadata.data.metadata}
 
     // ['description'].forEach(key => {
-    //   console.log(key)
+    //   debug(key)
     //   // if (typeof displayableMetadata[key] !== undefined)
     //   //   delete displayableMetadata[key]
     // })

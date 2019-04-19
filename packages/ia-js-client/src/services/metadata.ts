@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-
+const debug = require('debug')('ia-js-client:metadata');
 
 /**
  * This class is a wrapper for raw Metadata JSON responses
@@ -24,7 +24,7 @@ export class RawMetadataAPIResponse {
 
   constructor (responseData:object) {
     // Assign properties (might be a better way)
-    console.log(responseData)
+    debug(responseData)
     Object.keys(responseData).forEach((property, index) => {
       if (responseData[property]) {
         this[property] = responseData[property]
@@ -90,7 +90,7 @@ export class MetadataService {
           return(md);
         })
         .catch((err) => {
-          console.log("Metadata fetch failed");
+          debug("Metadata fetch failed");
           //TODO-ERRORS - note nothing that calls this actually checks whether the promise ended in a rejection ! Each caller has been commented as well.
           throw(err);
           /* It makes no sense to reject(md) can only reject errors

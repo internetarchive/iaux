@@ -1,4 +1,4 @@
-const debug = require('debug')('dweb-archive:TileComponent');
+const debug = require('debug')('ia-components:TileComponent');
 //import React from '../../ReactFake';
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
