@@ -17,18 +17,20 @@ const parseTrackTitle = ({
   name,
   title,
   albumCreator,
-  creator,
+  creator = '',
+  artist = '',
   isAlbum
 }) => {
   if (isAlbum) { return 'Full album'; }
 
-  const artistName = creator !== albumCreator ? creator : '';
+  const whichArtistVal = creator || artist;
+  const artistName = whichArtistVal !== albumCreator ? whichArtistVal : '';
 
   if (title) {
     return (
       <Fragment>
         {`${title}${artistName ? ' - ' : ''}`}
-        <i>{artistName}</i>
+        { !!artistName && <i>{artistName}</i> }
       </Fragment>
     );
   }
@@ -79,19 +81,12 @@ const trackButton = ({
  * @return component
  */
 class TheatreTrackList extends Component {
-  componentDidUpdate() {
-    // make sure focus stays on highlighted track;
-    const selected = document.querySelector('button.selected.track');
-    if (selected) {
-      selected.focus();
-    }
-  }
-
   render() {
     const {
       selectedTrack, onSelected, tracks, displayTrackNumbers, creator: albumCreator
     } = this.props;
 
+    if (!tracks.length) return <p className="no-tracks">No tracks to display.</p>;
     return (
       <div className="audio-track-list">
         <FlexboxPagination
@@ -114,15 +109,14 @@ class TheatreTrackList extends Component {
 }
 
 TheatreTrackList.defaultProps = {
-  selectedTrack: null,
-  tracks: null,
+  tracks: [],
   displayTrackNumbers: true,
   creator: ''
 };
 
 TheatreTrackList.propTypes = {
   onSelected: PropTypes.func.isRequired,
-  selectedTrack: PropTypes.number,
+  selectedTrack: PropTypes.number.isRequired,
   tracks: PropTypes.array,
   displayTrackNumbers: PropTypes.bool,
   creator: PropTypes.string,

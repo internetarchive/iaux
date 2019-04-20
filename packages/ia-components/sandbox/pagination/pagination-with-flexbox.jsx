@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { debounce } from 'lodash';
+import { calculateDimensions, getPageToShow } from './utils/dom-dimensions';
 
 /**
  * Pagination component takes a list of pre-drawn children
@@ -8,6 +10,13 @@ import PropTypes from 'prop-types';
  * On load, We wait for flexbox CSS to apply to the tracklist.
  * Then, we check to see if it creates columns.
  * If so, then we calculate the number of pages that it creates & makes the pagination buttons.
+ *
+ * Behavior:
+ * On client mount,
+ *   - find dimensions of paginator window. Running calibration twice to ensure browser
+ *     has loaded flexbox column-wrap
+ * On window resize & props change,
+ *   - find updated dimensions of paginator window
  *
  * @params - see Props
  * @return component
@@ -31,84 +40,117 @@ class Paginator extends Component {
     this.goToNextPage = this.goToNextPage.bind(this);
     this.goToPreviousPage = this.goToPreviousPage.bind(this);
     this.setItemInView = this.setItemInView.bind(this);
-    this.setItemFlush = this.setItemFlush.bind(this);
+    this.recalibrate = this.recalibrate.bind(this);
   }
 
   componentDidMount() {
+    // set resize event listener
+    const debounceCalibration = debounce(this.recalibrate, 370);
+    window.addEventListener('resize', debounceCalibration);
+
     return this.calibrateDimensions(() => {
-      // todo: move to resizeObserver so it can automatically change
-      // this is also a hack, waiting for styles to load
+      // waiting for styles to load
       // petabox css is extremely heavy, takes a smidge of time to deliver
       setTimeout(this.calibrateDimensions, 700);
     });
   }
 
-  componentDidUpdate({ itemInViewClass: prevItemInViewClass }) {
-    const { itemInViewClass } = this.props;
-    if (prevItemInViewClass !== itemInViewClass) {
-      this.setItemInView();
+  componentDidUpdate(prevProps) {
+    const { itemInViewClass: prevItemInViewClass, children: prevChildren } = prevProps;
+    const { itemInViewClass, children } = this.props;
+    const newItemInView = prevItemInViewClass !== itemInViewClass;
+    const childrenChange = prevChildren.length !== children.length;
+    if (newItemInView || childrenChange) {
+      this.recalibrate(true);
     }
   }
 
-  /**
-   * Scrolls pagination window to a certain value
-   * Side effect: Direct DOM scroll
-   *
-   * @param { number } scrollLeftValue
-   */
-  setItemFlush(scrollLeftValue) {
-    this.Paginator.scrollLeft = scrollLeftValue;
+  componentWillUnmount() {
+    // remove resize event listener
+    const debounceCalibration = debounce(this.recalibrate, 370);
+    window.removeEventListener('resize', debounceCalibration);
   }
 
   /**
    * Finds item that is selected and makes sure it is in paginator's view window
-   * Side effect: Direct DOM scroll
    *
    * If item is off page, then scroll item to view & save the page in view in state
    */
   setItemInView() {
     const { itemInViewClass } = this.props;
-    const { scrollThresholds, pageSelected } = this.state;
+    const { scrollThresholds } = this.state;
     const item = document.querySelector(itemInViewClass);
-    const paginator = this.Paginator.current;
-    if (item) {
-      if (item.offsetLeft === paginator.offsetLeft) return;
+    const viewport = this.Paginator.current;
 
-      const pages = Object.keys(scrollThresholds);
-      let thisPage = null;
-      let thisRange = null;
+    const pages = Object.keys(scrollThresholds);
+    let thisPage = null;
+    let thisRange = null;
 
-      // find range it is in,
-      pages.forEach((page) => {
-        const { low, high } = scrollThresholds[page];
-        const numberToFind = item.offsetWidth + item.offsetLeft;
-        const isInRange = (numberToFind >= low) && (numberToFind <= high);
-        if (isInRange) {
-          thisPage = parseInt(page, 10) || 1;
-          thisRange = scrollThresholds[page];
-        }
+    // find range it is in,
+    pages.forEach((page) => {
+      const { low, high } = scrollThresholds[page];
+      const numberToFind = item.offsetWidth + item.offsetLeft;
+      const isInRange = (numberToFind >= low) && (numberToFind <= high);
+      if (isInRange) {
+        thisPage = parseInt(page, 10) || 1;
+        thisRange = scrollThresholds[page];
+      }
+    });
+
+    if (thisPage && thisRange) {
+      viewport.scrollTo({
+        top: 0,
+        left: thisRange.low,
+        behavior: 'smooth'
       });
 
-      if (thisPage && thisRange) {
-        // scroll to range
-        const scrollLeftValue = ((thisPage === pages.length) ? thisRange.high : thisRange.low) || 0;
-
-        if (paginator.scrollLeft !== scrollLeftValue) {
-          paginator.scrollLeft = scrollLeftValue;
-        }
-        // set pageNumber
-        if (thisPage !== pageSelected) {
-          this.setState({ pageSelected: thisPage }, function confirmScrollTo(scrollLeftValue) {
-            if (this && this.Paginator) {
-              const paginator = this.Paginator.current;
-              if (paginator.scrollLeft !== scrollLeftValue) {
-                paginator.scrollTo(scrollLeftValue, 0);
-              }
-            }
-          }.bind(this, scrollLeftValue));
-        }
-      }
+      this.setState({ pageSelected: thisPage });
     }
+  }
+
+  /**
+   * Recalibrate dimensions of pagininator, taking into account what the closest page is
+   *
+   * @param { boolean } newItemInView - optional toggle
+   */
+  recalibrate(scrollItemIntoView = false) {
+    const findClosestThreshold = () => {
+      const { scrollThresholds, pageSelected: currentPage } = this.state;
+      const { itemInViewClass } = this.props;
+      const viewport = this.Paginator.current;
+
+      // we only want pagination recalibration when it is single column
+      // and when it has more than 1 page
+      const numberOfPages = Object.keys(scrollThresholds);
+      const isColumn = viewport.className === 'flexbox-pagination column';
+      if (!isColumn && (numberOfPages.length <= 1)) return;
+
+      let itemToView = null;
+      if (scrollItemIntoView) {
+        // focus on item
+        itemToView = viewport.querySelector(itemInViewClass);
+        itemToView.focus();
+      }
+      const viewportFlush = scrollItemIntoView
+        ? (itemToView.clientWidth + itemToView.offsetLeft)
+        : viewport.scrollLeft;
+      const pageToShow = getPageToShow({ currentPage, viewportFlush, scrollThresholds });
+      const leftFlush = scrollThresholds[pageToShow];
+      viewport.scrollTo({
+        top: 0,
+        left: (leftFlush && leftFlush.low) || 0,
+        behavior: 'smooth'
+      });
+      const pageSelected = parseInt(pageToShow, 10);
+      const numPages = numberOfPages.length;
+      this.setState({ pageSelected, numberOfPages: numPages });
+    };
+
+    return this.calibrateDimensions(() => {
+      // waiting for styles to load
+      // petabox css is extremely heavy, takes a smidge of time to deliver
+      setTimeout(this.calibrateDimensions(findClosestThreshold), 700);
+    });
   }
 
   /**
@@ -119,41 +161,7 @@ class Paginator extends Component {
    *
    * @param { function } setStateCallback - optional function to run after state gets updated
    */
-  calibrateDimensions(setStateCallback = null) {
-    const calculateDimensions = (element) => {
-      const {
-        scrollLeft, scrollWidth, clientWidth, offsetWidth, firstElementChild
-      } = element;
-
-      const numberOfColumns = Math.ceil(
-        scrollWidth / firstElementChild.clientWidth
-      );
-      const compStyles = window.getComputedStyle(element);
-      const numberOfPages = Math.ceil(scrollWidth / clientWidth);
-
-      const scrollThresholds = {};
-
-      for (let i = 0; i < numberOfPages; i++) {
-        const page = i + 1;
-        const lastLowThreshold = scrollThresholds[page - 1] && scrollThresholds[page - 1].high + 1;
-        scrollThresholds[page] = {
-          low: lastLowThreshold || clientWidth * (page - 1),
-          high: clientWidth * page
-        };
-      }
-
-      return {
-        numberOfColumns,
-        scrollLeft,
-        scrollWidth,
-        clientWidth,
-        compStyles,
-        offsetWidth,
-        numberOfPages,
-        scrollThresholds,
-      };
-    };
-
+  calibrateDimensions(setStateCallback = this.setItemInView) {
     if (this.Paginator.current) {
       const {
         numberOfColumns, numberOfPages, scrollThresholds
@@ -169,7 +177,7 @@ class Paginator extends Component {
     }
   }
 
-  /* EVENT HANDLERS */
+  /* CLICK HANDLERS */
 
   /**
    * Behavior of page button clicks
@@ -182,11 +190,13 @@ class Paginator extends Component {
     const pageSelected = parseInt(event.target.getAttribute('data-page-number'), 10);
     const { low: leftAlignThreshold } = scrollThresholds[pageSelected];
 
-    this.Paginator.current.scrollTo({
-      top: 0,
-      left: leftAlignThreshold,
-      behavior: 'smooth'
-    });
+    setTimeout(() => {
+      this.Paginator.current.scrollTo({
+        top: 0,
+        left: leftAlignThreshold,
+        behavior: 'smooth'
+      });
+    }, 200);
 
     this.setState({ pageSelected });
   }
@@ -245,7 +255,7 @@ class Paginator extends Component {
         className="pagination-arrow right"
         onClick={this.goToNextPage}
         data-event-click-tracking={`${dataEventCategory}|Paginator-Arrow-Right`}
-
+        tabIndex="-1"
       >
         <span className="sr-only">next page</span>
       </button>
@@ -264,6 +274,7 @@ class Paginator extends Component {
         className="pagination-arrow left"
         onClick={this.goToPreviousPage}
         data-event-click-tracking={`${dataEventCategory}|Paginator-Arrow-left`}
+        tabIndex="-1"
       >
         <span className="sr-only">previous page</span>
       </button>
@@ -276,9 +287,9 @@ class Paginator extends Component {
     if (!numberOfPages || numberOfPages < 2) return null;
 
     const pageNumbers = Object.keys(scrollThresholds);
-    const hasExpectedNumberOfPages = numberOfPages === pageNumbers.length;
+    const drawButtons = numberOfPages === pageNumbers.length;
 
-    if (hasExpectedNumberOfPages) {
+    if (drawButtons) {
       const pageButtons = pageNumbers.map((thisPage, i) => {
         const isPage = parseInt(thisPage, 10) === pageSelected;
         return (
@@ -289,6 +300,7 @@ class Paginator extends Component {
             data-page-number={thisPage}
             className={`pagination-button ${isPage ? 'selected' : ''}`}
             data-event-click-tracking={`${dataEventCategory}|Paginator-Button`}
+            tabIndex="-1"
           >
             <span className="sr-only">{thisPage}</span>
           </button>
@@ -304,16 +316,11 @@ class Paginator extends Component {
   render() {
     const { children } = this.props;
     const { numberOfColumns } = this.state;
-    const paginatorClass = numberOfColumns > 1 ? 'half' : '';
-
     return (
       <Fragment>
         <div
           ref={this.Paginator}
-          className={`flexbox-pagination ${paginatorClass}`}
-          onTouchStart={this.onSwipeStart}
-          onTouchEnd={this.onSwipeEnd}
-          onWheel={this.onSwipeScrollHandler}
+          className="flexbox-pagination column"
         >
           { children }
         </div>

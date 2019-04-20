@@ -24,7 +24,7 @@ export default class TheatreSwitcher extends React.Component {
     this.state = {
       theatreType: TheatreSwitcher.THEATRE_TYPES.LOADING
     }
-    this.props.item.getMetadataField('mediatype', true).then(values => {
+    this.props.item.getMetadataField('mediatype', true).then(values => { //TODO recommend switch this for getMetadata to avoid multiple parallel calls to Metadata API
       let theatreType = {
         'texts': TheatreSwitcher.THEATRE_TYPES.BOOKREADER,
         'audio': TheatreSwitcher.THEATRE_TYPES.AUDIO,

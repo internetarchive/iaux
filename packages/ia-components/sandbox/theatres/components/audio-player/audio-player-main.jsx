@@ -5,6 +5,24 @@ import ThirdPartyEmbeddedPlayer from './players_by_type/third-party-embed';
 import { HorizontalRadioGroup } from '../../../../index';
 
 /**
+ * Draw background photo
+ * if none, then show media icon
+ */
+const drawBackgroundPhoto = ({ backgroundPhoto, photoAltTag }) => {
+  const mediaIcon = <i className="no-photo iconochive-audio" />;
+  const image = backgroundPhoto
+    ? (
+      <img
+        className="background-photo"
+        src={backgroundPhoto}
+        alt={photoAltTag}
+      />
+    )
+    : mediaIcon;
+  return image;
+};
+
+/**
  * Theatre Audio Player
  * This is the main controller or the audio player
  * It will toggle between IA player & third party player
@@ -73,6 +91,7 @@ export default class TheatreAudioPlayer extends Component {
     return (
       <section className="theatre__audio-player">
         <div className="content-window">
+          {drawBackgroundPhoto(this.props)}
           {this.showMedia()}
           { /* todo: add liner notes book reader here */ }
         </div>

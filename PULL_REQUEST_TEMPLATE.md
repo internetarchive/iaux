@@ -1,14 +1,15 @@
-> **Description**: What does this PR achieve? [feature|hotfix|refactor]
+**Description**
 
-Closes #
+> What does this PR achieve? Is it a feature/hotfix/refactor? Does it close an Issue? If so, use `Closes #`.
 
-> **Technical**: What should be noted about the implementation?
+**Technical**
 
+> What should be noted about the implementation?
 
+**Testing**
 
-> **Testing**: Steps for reviewer to reproduce / verify this PR fixes the problem?
+> What steps should the reviewer take to verify this PR resolves the issue?
 
+**Evidence**
 
-
-> **Evidence**: If this PR touches UI, please post evidence (screenshot) of it behaving correctly:
-
+> If this PR touches UI, please post evidence (screenshot) of it behaving correctly.

@@ -18,6 +18,7 @@ export default class extends React.Component {
     }
 
     const relatedService = new RelatedService()
+    // TODO-ERRORS relatedService.get can fail - should check or this call can fail
     relatedService.get({identifier: this.props.identifier}).then((results) => {
       this.setState({related: results.hits.hits})
     })
