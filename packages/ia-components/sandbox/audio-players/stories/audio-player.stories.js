@@ -1,1 +1,1 @@
-import style from './audio-player.less';
+import style from '../styles/audio-player.less';

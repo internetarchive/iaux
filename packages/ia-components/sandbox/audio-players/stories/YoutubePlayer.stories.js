@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text, boolean, number } from '@storybook/addon-knobs';
-import YoutubePlayerTestComponent from './YoutubePlayer';
+import YoutubePlayerTestComponent from '../players-by-type/YoutubePlayer';
 
 storiesOf('Sandbox', module)
   // .addParameters({ jest: ['example.test.js'] })

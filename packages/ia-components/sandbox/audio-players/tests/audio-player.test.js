@@ -1,7 +1,7 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
 
-import TheatreAudioPlayer from './audio-player-main';
+import TheatreAudioPlayer from '../audio-player-main';
 
 
 /**

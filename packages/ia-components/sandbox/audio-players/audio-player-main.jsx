@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ArchiveAudioPlayer from './players_by_type/archive-audio-jwplayer-wrapper';
-import ThirdPartyEmbeddedPlayer from './players_by_type/third-party-embed';
-import { HorizontalRadioGroup } from '../../../../index';
+import ArchiveAudioPlayer from './players-by-type/archive-audio-jwplayer-wrapper';
+import ThirdPartyEmbeddedPlayer from './players-by-type/third-party-embed';
+import { HorizontalRadioGroup } from '../../index';
 
 /**
  * Draw background photo
@@ -93,7 +93,7 @@ export default class TheatreAudioPlayer extends Component {
         <div className="content-window">
           {drawBackgroundPhoto(this.props)}
           {this.showMedia()}
-          { /* todo: add liner notes book reader here */ }
+          { /* todo: add liner notes book reader here */}
         </div>
         <div className="tabs">
           {this.createTabs()}
