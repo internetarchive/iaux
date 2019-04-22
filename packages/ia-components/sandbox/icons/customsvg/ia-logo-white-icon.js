@@ -3,7 +3,7 @@ import React from 'react';
 export default props => (
   <figure {...props}>
     <svg
-      height="20"
+      height="24"
       width="22"
       viewBox="0 0 32 42"
       xmlns="http://www.w3.org/2000/svg"
@@ -11,7 +11,7 @@ export default props => (
       role="img"
     >
       <title id="ia-logo-svg">Internet Archive logo</title>
-      <g fill="black" fillRule="evenodd">
+      <g fill="grey" fillRule="even">
         <path d="m0 4.4796473 18.707282-4.4796473 18.4263458 4.23309464-.7386684 1.30442147h-35.29099323" />
         <path d="m.93617021 6.55319149h35.39634429v3.80921841h-35.39634429z" />
         <path d="m.93617021 38.3829787h35.39634429v2.539209h-35.39634429z" />

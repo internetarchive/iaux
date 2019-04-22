@@ -5,7 +5,7 @@ import iconfile from './iconfiles';
 function defaultColor(color, name) {
 	const icon = iconfile.icons.find(icon => icon.tags[0] === name || icon.tags[1] === name);
 
-	if (!color)
+	if (!color || color === '')
 		return icon.defaultColor
 	else return color;
 
@@ -20,10 +20,10 @@ function getIcon(props) {
 		return (
 			<svg width={size} height={size} viewBox="0 0 1024 1024" fill={defaultColor(color, name)}
 				xmlns="http://www.w3.org/2000/svg"
-				aria-labelledby={icon.name}
+				aria-labelledby="ia-logo-svg"
 				role="img"
 			>
-				<title id="">{icon.paths}</title>
+				<title id="ia-logo-svg">{name}</title>
 				<path d={icon.paths}></path>
 			</svg>)
 	} else {
@@ -38,6 +38,9 @@ function getIcon(props) {
  * @params See proptypes below
  */
 const Icon = props => {
+	if (props.type == 'avatar') {
+		return <h2>Work in progress...</h2>
+	}
 
 	return getIcon(props)
 
