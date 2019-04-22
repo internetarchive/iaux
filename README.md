@@ -117,3 +117,7 @@ in `v2mocks` there is code that is pulled from IA "View Source" and converted to
 
 
 Archive.org v2 uses [Bootstrap](https://getbootstrap.com) 3.0. Docs can be found here: http://bootstrapdocs.com/v3.0.0/docs/css/#overview
+
+## License
+
+[See our license file.](/LICENSE.md)
