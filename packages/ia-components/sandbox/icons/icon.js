@@ -2,28 +2,30 @@ import React from 'react';
 import Archive from './customsvg/ia-logo-white-icon';
 import iconfile from './iconfiles';
 
-function defaultColor(color, iconName) {
-	const icon = iconfile.icons.find(icon => icon.tags[0] === iconName || icon.tags[1] === iconName);
+function defaultColor(color, name) {
+	const icon = iconfile.icons.find(icon => icon.tags[0] === name || icon.tags[1] === name);
 
-	if (!color) {
-		if (!icon) {
-			console.error('Couldnt locate the requested icon');
+	if (!color)
+		return icon.defaultColor
+	else return color;
 
-		} else {
-			return icon.defaultColor
-		}
-
-	} else {
-		return color;
-	}
 }
 
-function getPath(iconName) {
-
-	const icon = iconfile.icons.find(icon => icon.tags[0] === iconName || icon.tags[1] === iconName);
+function getIcon(props) {
+	const { name } = props;
+	const icon = iconfile.icons.find(icon => icon.tags[0] === name || icon.tags[1] === name);
 
 	if (icon) {
-		return icon.paths
+		const { color, size } = props;
+		return (
+			<svg width={size} height={size} viewBox="0 0 1024 1024" fill={defaultColor(color, name)}
+				xmlns="http://www.w3.org/2000/svg"
+				aria-labelledby={icon.name}
+				role="img"
+			>
+				<title id="">{icon.paths}</title>
+				<path d={icon.paths}></path>
+			</svg>)
 	} else {
 		return <Archive />
 	}
@@ -36,22 +38,9 @@ function getPath(iconName) {
  * @params See proptypes below
  */
 const Icon = props => {
-	if (props.name === 'archive') {
-		return (
-			<Archive />
-		)
-	} else {
-		return (<svg width={props.size} height={props.size} viewBox="0 0 1024 1024" fill={defaultColor(props.color, props.name)}
-			xmlns="http://www.w3.org/2000/svg"
-			aria-labelledby={props.name}
-			role="img"
-		>
-			<title id="">{props.name}</title>
-			<path d={getPath(props.name)}></path>
-		</svg>
-		)
 
-	}
+	return getIcon(props)
+
 };
 Icon.defaultProps = {
 	size: 24
