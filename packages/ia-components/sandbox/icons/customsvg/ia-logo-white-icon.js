@@ -1,5 +1,5 @@
 import React from 'react';
-
+//CUSTOM SVG
 export default props => (
   <figure {...props}>
     <svg

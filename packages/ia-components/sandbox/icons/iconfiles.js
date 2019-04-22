@@ -1,3 +1,4 @@
+//TODO add more icons to the library
 export default
 {
   "height": 1024,

@@ -2,7 +2,7 @@ import React from 'react';
 import Archive from './customsvg/ia-logo-white-icon';
 import iconfile from './iconfiles';
 
-function defaultColor(color, name) {
+const defaultColor = (color, name) => {
 	const icon = iconfile.icons.find(icon => icon.tags[0] === name || icon.tags[1] === name);
 
 	if (!color || color === '')
@@ -11,7 +11,7 @@ function defaultColor(color, name) {
 
 }
 
-function getIcon(props) {
+const getIcon = props => {
 	const { name } = props;
 	const icon = iconfile.icons.find(icon => icon.tags[0] === name || icon.tags[1] === name);
 

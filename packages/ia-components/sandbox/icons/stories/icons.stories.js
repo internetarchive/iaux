@@ -7,7 +7,7 @@ import IconLogo from '../customsvg/ia-logo-white-icon';
 storiesOf('Icons', module)
 	.addWithJSX('Icon', () => {
 		const type = text('type', '');
-		const size = number('size', 60);
+		const size = number('size', 58);
 		const color = text('color', '')
 		const name = text('name', 'archive')
 
