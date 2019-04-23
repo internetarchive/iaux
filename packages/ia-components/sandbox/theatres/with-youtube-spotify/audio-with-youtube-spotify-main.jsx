@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { find, flatten, head } from 'lodash';
 
-import flattenAlbumData from './utils/ia-metadata-utils';
+import flattenAlbumData from './utils/flatten-album-data';
 import getTrackListBySource from './utils/get-track-list-by-source';
 
 import YoutubeIcon from '../components/svgs/youtube-logo-icon';
