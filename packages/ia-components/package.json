@@ -21,7 +21,6 @@
         "@storybook/addon-knobs": "^4.1.4",
         "@storybook/react": "^4.1.4",
         "assert": "^1.4.1",
-        "axios": "^0.18.0",
         "babel-loader": "^8.0.5",
         "css-loader": "^2.1.0",
         "http-proxy-middleware": "^0.19.1",
