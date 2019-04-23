@@ -224,8 +224,18 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       tracklistToShow, trackSelected, channelToPlay, albumData
     } = this.state;
     const {
-      title, itemPhoto, playSamples, externalSources = [], identifier, collection, externalSourcesDisplayValues, creator
+      albumMetadaToDisplay,
+      externalSources = [],
+      itemPhoto,
+      externalSourcesDisplayValues,
+      playSamples
     } = albumData;
+    const {
+      title,
+      identifier,
+      collection,
+      creator
+    } = albumMetadaToDisplay;
     let audioPlayerChannelLabel;
     const isArchiveChannel = channelToPlay === 'archive';
     if (isArchiveChannel) {
@@ -235,11 +245,12 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     }
     const jwplayerInfo = {
       jwplayerPlaylist,
-      identifier: identifier[0],
-      collection: collection[0]
+      identifier,
+      collection
     };
-    const jwplayerID = identifier[0].replace(/[^a-zA-Z\d]/g, '');
+    const jwplayerID = identifier.replace(/[^a-zA-Z\d]/g, '');
     const displayChannelSelector = !!externalSources.length; // make it actual boolean so it won't display
+
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
         <section className="media-section">
@@ -276,9 +287,9 @@ class AudioPlayerWithYoutubeSpotify extends Component {
               tracks={tracklistToShow}
               onSelected={this.selectThisTrack}
               selectedTrack={trackSelected}
-              albumName={title[0]}
+              albumName={title}
               displayTrackNumbers={isArchiveChannel}
-              creator={creator[0]}
+              creator={creator}
               dataEventCategory="Audio-Player"
             />
           </section>
