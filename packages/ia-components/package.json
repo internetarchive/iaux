@@ -12,15 +12,19 @@
     },
     "devDependencies": {
         "@babel/core": "^7.2.2",
-        "@babel/plugin-proposal-class-properties": "^7.3.4",
-        "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
-        "@babel/plugin-transform-runtime": "^7.3.4",
+        "@babel/plugin-proposal-class-properties": "^7.0.0",
+        "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+        "@babel/plugin-transform-runtime": "^7.0.0",
+        "@babel/preset-env": "^7.0.0",
+        "@babel/preset-react": "^7.0.0",
         "@internetarchive/ia-js-client": "^0.0.0-alpha.20+5039f8d",
         "@storybook/addon-a11y": "4.2.0-alpha.10",
         "@storybook/addon-jest": "^4.1.6",
         "@storybook/addon-knobs": "^4.1.4",
         "@storybook/react": "^4.1.4",
         "assert": "^1.4.1",
+        "babel-core": "^7.0.0-bridge.0",
+        "babel-jest": "^23.4.2",
         "babel-loader": "^8.0.5",
         "css-loader": "^2.1.0",
         "http-proxy-middleware": "^0.19.1",
@@ -31,6 +35,9 @@
         "storybook-addon-jsx": "^6.0.0",
         "style-loader": "^0.23.1"
     },
+    "optionalDependencies": {
+        "fsevents": "^1.2.4"
+    },
     "dependencies": {
         "lodash": "^4.17.11",
         "prop-types": "^15.6.2",
@@ -39,9 +46,6 @@
     },
     "peerDependencies": {
         "@internetarchive/ia-js-client": "^0.0.0-alpha.20+5039f8d"
-    },
-    "optionalDependencies": {
-        "fsevents": "^1.2.4"
     },
     "publishConfig": {
         "access": "public"
