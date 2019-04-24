@@ -87,16 +87,20 @@ class TheatreTrackList extends Component {
     } = this.props;
 
     if (!tracks.length) return <p className="no-tracks">No tracks to display.</p>;
+
+    const [ firstTrack = {} ] = tracks;
+    const trackNumberToHighlight = selectedTrack || firstTrack.trackNumber || null;
+    const itemToViewClass = `[data-track-number="${trackNumberToHighlight}"]`;
     return (
       <div className="audio-track-list">
         <FlexboxPagination
-          itemInViewClass={`[data-track-number="${selectedTrack}"]`}
+          itemInViewClass={itemToViewClass}
           {...this.props}
         >
           {
             tracks.map((thisTrack) => {
               const { trackNumber } = thisTrack;
-              const selected = trackNumber === selectedTrack;
+              const selected = trackNumber === trackNumberToHighlight;
               return trackButton({
                 thisTrack, onSelected, selected, displayTrackNumbers, albumCreator
               });
