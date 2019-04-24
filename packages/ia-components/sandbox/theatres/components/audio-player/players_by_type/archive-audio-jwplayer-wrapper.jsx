@@ -23,6 +23,7 @@ class ArchiveAudioPlayer extends Component {
     this.registerPlayer = this.registerPlayer.bind(this);
     this.onPlaylistItemCB = this.onPlaylistItemCB.bind(this);
     this.emitPlaylistChange = this.emitPlaylistChange.bind(this);
+    this.postRegistration = this.postRegistration.bind(this);
     this.onReady = this.onReady.bind(this);
   }
 
@@ -71,6 +72,7 @@ class ArchiveAudioPlayer extends Component {
     // User Play class instance to set event listeners
     const { player } = this.state;
     player.on('playlistItem', this.onPlaylistItemCB);
+    this.postRegistration();
   }
 
   /**
@@ -106,6 +108,27 @@ class ArchiveAudioPlayer extends Component {
   }
 
   /**
+   * Post JWPlayer registration handler - returns optional registration callback
+   *
+   * Currently, this is where we support external ability to set URL
+   * through Internet Archive's JWPlayer Wrapper
+   */
+  postRegistration() {
+    const { onRegistrationComplete, jwplayerInfo, needsURLSettingAccess = false } = this.props;
+    const { identifier = '' } = jwplayerInfo;
+
+    if (onRegistrationComplete && needsURLSettingAccess) {
+      const externallySyncURL = function externallySyncURL (identifier, trackNumber) {
+        const playlistIndex = trackNumber - 1 || 0;
+        if (window.Play && Play && identifier) {
+          return Play(identifier).playN(playlistIndex, false, true);
+        }
+      }.bind(null, identifier);
+      onRegistrationComplete(externallySyncURL);
+    }
+  }
+
+  /**
    * Fires callback `jwplayerPlaylistChange` given by props
    */
   emitPlaylistChange() {
@@ -133,16 +156,24 @@ ArchiveAudioPlayer.defaultProps = {
   backgroundPhoto: '',
   photoAltTag: '',
   jwplayerID: '',
+  jwplayerPlaylistChange: null,
+  jwPlayerPlaylist: [],
+  jwplayerInfo: {},
+  sourceData: null,
+  onRegistrationComplete: null,
+  needsURLSettingAccess: false,
 };
 
 ArchiveAudioPlayer.propTypes = {
   backgroundPhoto: PropTypes.string,
   photoAltTag: PropTypes.string,
   jwplayerID: PropTypes.string,
-  jwplayerPlaylistChange: PropTypes.func.isRequired,
-  jwPlayerPlaylist: PropTypes.array.isRequired,
-  jwplayerInfo: PropTypes.object.isRequired,
-  sourceData: PropTypes.object.isRequired,
+  jwplayerPlaylistChange: PropTypes.func,
+  jwPlayerPlaylist: PropTypes.array,
+  jwplayerInfo: PropTypes.object,
+  sourceData: PropTypes.object,
+  onRegistrationComplete: PropTypes.func,
+  needsURLSettingAccess: PropTypes.bool,
 };
 
 export default ArchiveAudioPlayer;
