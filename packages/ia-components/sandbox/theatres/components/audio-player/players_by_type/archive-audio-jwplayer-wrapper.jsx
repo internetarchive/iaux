@@ -17,7 +17,8 @@ class ArchiveAudioPlayer extends Component {
     // expecting jwplayer to be globally ready
     this.state = {
       player: null,
-      playerPlaylistIndex: 0,
+      playerPlaylistIndex: null,
+      initiatePlay: false,
     };
 
     this.registerPlayer = this.registerPlayer.bind(this);
@@ -35,16 +36,32 @@ class ArchiveAudioPlayer extends Component {
    * Check if Track index has changed,
    * if so, then play that track
    */
-  componentDidUpdate({ sourceData: { index: prevIndex } }, { playerPlaylistIndex: prevPlaylistIndex }) {
-    const { player, playerPlaylistIndex } = this.state;
-    const { sourceData: { index } } = this.props;
+  componentDidUpdate(prevProps, prevState) {
+    const { player, playerPlaylistIndex, initiatePlay } = this.state;
+    const { sourceData: { index = null } } = this.props;
 
-    const propsIndexChanged = prevIndex !== index;
-    const playerIndexChanged = prevPlaylistIndex !== playerPlaylistIndex;
-    const manuallyJumpToTrack = propsIndexChanged && !playerIndexChanged;
+    // if state index doesn't match props index, manually play
+    const indexHasBeenSet = Number.isInteger(index);
+
+    // if there is an index in props, but flag is false,
+    // set flag to true;
+    let stateUpdate = {};
+    let postStateCB = null;
+    if (indexHasBeenSet && !initiatePlay) {
+      stateUpdate.initiatePlay = true;
+    }
+
+    const manuallyJumpToTrack = (playerPlaylistIndex !== index) && indexHasBeenSet && initiatePlay;
 
     if (manuallyJumpToTrack) {
-      return player.playN(index);
+      stateUpdate.playerPlaylistIndex = index;
+      postStateCB = () => {
+        player.playN(index);
+      }
+    }
+
+    if (Object.keys(stateUpdate).length) {
+      this.setState(stateUpdate, postStateCB);
     }
 
     return null;
@@ -53,13 +70,13 @@ class ArchiveAudioPlayer extends Component {
   /**
    * Event Handler that fires when JWPlayer starts a new track
    */
-  onPlaylistItemCB({ index: eventIndex }) {
-    const { sourceData: { index: sourceDataIndex } } = this.props;
-    const controllerIndex = sourceDataIndex;
-    const playerPlaylistIndex = eventIndex;
-    if (controllerIndex === playerPlaylistIndex) return;
-
-    this.setState({ playerPlaylistIndex }, this.emitPlaylistChange);
+  onPlaylistItemCB(event) {
+    const { index: playerPlaylistIndex } = event;
+    const { initiatePlay } = this.state;
+    const jwplayerStartingOnACertainTrack = !initiatePlay && (playerPlaylistIndex > 0);
+    if (initiatePlay || jwplayerStartingOnACertainTrack) {
+      this.emitPlaylistChange(playerPlaylistIndex);
+    }
   }
 
   /**
@@ -131,8 +148,7 @@ class ArchiveAudioPlayer extends Component {
   /**
    * Fires callback `jwplayerPlaylistChange` given by props
    */
-  emitPlaylistChange() {
-    const { playerPlaylistIndex } = this.state;
+  emitPlaylistChange(playerPlaylistIndex) {
     const { jwplayerPlaylistChange } = this.props;
 
     jwplayerPlaylistChange({ newTrackIndex: playerPlaylistIndex });

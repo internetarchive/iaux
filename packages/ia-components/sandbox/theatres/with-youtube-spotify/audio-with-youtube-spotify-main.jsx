@@ -68,7 +68,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       albumData,
       tracklistToShow: [],
       channelToPlay: 'archive',
-      trackSelected: 1, /* 0 = album */
+      trackSelected: null, /* 0 = album */
     };
 
     this.selectThisTrack = this.selectThisTrack.bind(this);
