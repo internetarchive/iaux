@@ -79,8 +79,17 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { albumData } = state;
+    const { albumMetadata = {}, playFullIAAudio } = props;
+    const { metadata = {} } = albumMetadata;
+    const { identifier } = metadata;
+    const { albumData: stateData } = state;
+
+    let albumData = stateData;
+    if (identifier[0] !== stateData.identifier[0]) {
+      albumData = flattenAlbumData(albumMetadata, playFullIAAudio);
+    }
     const tracklistToShow = getTrackListBySource(albumData, state.channelToPlay);
+
     return {
       albumData,
       tracklistToShow,
