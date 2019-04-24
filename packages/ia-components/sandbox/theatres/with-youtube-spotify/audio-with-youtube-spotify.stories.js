@@ -161,6 +161,19 @@ class DataHydrator extends Component {
                 </td>
               </tr>
               <tr>
+                <td>what_cd (Irregular Photo)</td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn btn-lg btn-success"
+                    data-identifier="wcd_message-in-a-box-th_the-police_flac_lossless_807968"
+                    onClick={this.getItem}
+                  >
+                    wcd_message-in-a-box-th_the-police_flac_lossless_807968
+                  </button>
+                </td>
+              </tr>
+              <tr>
                 <td>acdc (NO PHOTO)</td>
                 <td>
                   <button
