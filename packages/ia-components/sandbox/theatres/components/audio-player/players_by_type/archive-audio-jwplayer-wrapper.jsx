@@ -57,10 +57,10 @@ class ArchiveAudioPlayer extends Component {
       stateUpdate.playerPlaylistIndex = index;
       postStateCB = () => {
         player.playN(index);
-      }
+      };
     }
 
-    if (Object.keys(stateUpdate).length) {
+    if (Object.keys(stateUpdate).length > 0) {
       this.setState(stateUpdate, postStateCB);
     }
 
@@ -135,7 +135,7 @@ class ArchiveAudioPlayer extends Component {
     const { identifier = '' } = jwplayerInfo;
 
     if (onRegistrationComplete && needsURLSettingAccess) {
-      const externallySyncURL = function externallySyncURL (identifier, trackNumber) {
+      const externallySyncURL = function externallySyncURL(identifier, trackNumber) {
         const playlistIndex = trackNumber - 1 || 0;
         if (window.Play && Play && identifier) {
           return Play(identifier).playN(playlistIndex, false, true);
