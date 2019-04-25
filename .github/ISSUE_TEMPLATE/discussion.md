@@ -9,7 +9,7 @@ assignees: ''
 
 **What is the context for this discussion?**
 
-> Name any useful background information.
+> Provide any useful background information.
 
 **Elaborate on the discussion topic.**
 

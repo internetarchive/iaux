@@ -2,7 +2,7 @@
 name: Feature Request
 about: A request for an entirely new feature
 title: ''
-labels: ''
+labels: Feature Request
 assignees: ''
 
 ---
@@ -11,11 +11,11 @@ assignees: ''
 
 > Add a concise description of what the problem is. E.g. I'm always frustrated when...
 
-**Describe the solution you'd like**
+**Describe the feature/solution you'd like**
 
-> A description of what you want to happen.
+> Provide a description of what you want to happen.
 
-**Proposal/constraints**
+**Proposal & Constraints**
 
 > What is the proposed solution / implementation? Is there a precedent of this approach succeeding elsewhere?
 
@@ -25,6 +25,6 @@ assignees: ''
 
 > Add any other context or screenshots about the feature request here.
 
-
 **Stakeholders**
+
 > @ tag stakeholders of this feature

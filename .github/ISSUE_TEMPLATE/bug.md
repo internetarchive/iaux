@@ -9,7 +9,7 @@ assignees: ''
 
 **Description**
 
-> What problem are we solving? What does the experience look like today? What are the symptoms? Describe the component/story/add-on related to the issue.
+> What problem are we solving? What does the experience look like today? What are the symptoms? How can one reproduce the problem?
 
 **Evidence / Screenshot (if possible)**
 
@@ -19,7 +19,7 @@ assignees: ''
 
 > What should be happening? What will it look like / how will it behave when fixed?
 
-**Details**
+**Context**
 
 > What operating system? What browser type and version?
 

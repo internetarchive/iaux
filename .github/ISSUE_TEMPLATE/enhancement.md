@@ -13,7 +13,7 @@ assignees: ''
 
 **Describe the enhancement you'd like**
 
-> A description of what you want to happen.
+> Provide a description of what you want to happen.
 
 **Proposal/constraints**
 
