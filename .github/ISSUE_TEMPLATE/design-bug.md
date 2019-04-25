@@ -1,6 +1,6 @@
 ---
 name: Design Bug
-about: A problem related to design/UX/UI/layout
+about: A problem related to design, including layout or UI
 title: ''
 labels: Design Bug
 assignees: ''

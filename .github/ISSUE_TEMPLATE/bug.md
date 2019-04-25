@@ -1,6 +1,6 @@
 ---
 name: Bug
-about: A general website/functionality bug
+about: A general problem with website functionality
 title: ''
 labels: Bug
 assignees: ''
