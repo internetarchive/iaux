@@ -7,24 +7,20 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
+**Context**
 
-> Add a concise description of what the problem is. E.g. I'm always frustrated when...
-
-**Describe the feature/solution you'd like**
-
-> Provide a description of what you want to happen.
+> Is your feature request related to a problem? What is the motivation for implementing this feature?
 
 **Proposal & Constraints**
 
-> What is the proposed solution / implementation? Is there a precedent of this approach succeeding elsewhere?
+> What is the proposed solution / implementation? Is there a precedent for this approach succeeding elsewhere?
 
 > Which suggestions or requirements should be considered for how this feature needs to appear or be implemented?
 
-**Additional context**
+**Additional Resources**
 
-> Add any other context or screenshots about the feature request here.
+> Add any other screenshots or assets related to the feature request.
 
 **Stakeholders**
 
-> @ tag stakeholders of this feature
+> @-tag stakeholders of this feature
