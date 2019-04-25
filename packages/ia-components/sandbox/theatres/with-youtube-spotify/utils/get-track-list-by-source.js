@@ -36,8 +36,8 @@ const getTrackListBySource = (albumData, sourceToPlay) => {
     return tracks.map((track, index) => {
       const { fullMP3, length = '' } = track;
       const trackToUse = fullMP3 || track;
-      const trackLengthNeedsFormatting = !!length.indexOf(':');
-      const formattedLength = trackLengthNeedsFormatting ? formatTime(length) : length;
+      const trackLengthFormatted = length.indexOf(':') > 0;
+      const formattedLength = !trackLengthFormatted ? formatTime(length) : length;
       const trackNumber = index + 1;
       return Object.assign({}, trackToUse, { trackNumber, formattedLength });
     });
@@ -53,8 +53,8 @@ const getTrackListBySource = (albumData, sourceToPlay) => {
     const tracksToReturn = [];
     const tracksWithExternalSource = tracks.reduce((allTracks = [albumPlaceholder], track, index) => {
       const { length = '' } = track;
-      const trackLengthNeedsFormatting = !!length.indexOf(':');
-      const formattedLength = trackLengthNeedsFormatting ? formatTime(length) : length;
+      const trackLengthFormatted = length.indexOf(':') > 0;
+      const formattedLength = !trackLengthFormatted ? formatTime(length) : length;
       const trackNumber = index + 1;
       const formattedTrack = Object.assign({}, track, { formattedLength, trackNumber });
       if (track.hasOwnProperty(sourceToPlay)) { allTracks.push(formattedTrack); }
