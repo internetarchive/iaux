@@ -14,12 +14,12 @@ import { FlexboxPagination } from '../../../..';
  * @return { string or react fragment } trackTitle
  */
 const parseTrackTitle = ({
-  name,
-  title,
+  name = '',
+  title = '',
   albumCreator,
   creator = '',
   artist = '',
-  isAlbum
+  isAlbum = false
 }) => {
   if (isAlbum) { return 'Full album'; }
 
@@ -47,9 +47,10 @@ const parseTrackTitle = ({
  *
  * @return component
  */
-const trackButton = ({
-  selected, onSelected, thisTrack, displayTrackNumbers, albumCreator
-}) => {
+const trackButton = (props) => {
+  const {
+    selected, onSelected, thisTrack, displayTrackNumbers, albumCreator
+  } = props;
   const { trackNumber, length, formattedLength } = thisTrack;
   const key = `individual-track-${trackNumber}`;
   const trackTitle = parseTrackTitle({ ...thisTrack, albumCreator });
@@ -87,16 +88,20 @@ class TheatreTrackList extends Component {
     } = this.props;
 
     if (!tracks.length) return <p className="no-tracks">No tracks to display.</p>;
+
+    const [firstTrack = {}] = tracks;
+    const trackNumberToHighlight = selectedTrack || firstTrack.trackNumber || null;
+    const itemToViewClass = `[data-track-number="${trackNumberToHighlight}"]`;
     return (
       <div className="audio-track-list">
         <FlexboxPagination
-          itemInViewClass={`[data-track-number="${selectedTrack}"]`}
+          itemInViewClass={itemToViewClass}
           {...this.props}
         >
           {
             tracks.map((thisTrack) => {
               const { trackNumber } = thisTrack;
-              const selected = trackNumber === selectedTrack;
+              const selected = trackNumber === trackNumberToHighlight;
               return trackButton({
                 thisTrack, onSelected, selected, displayTrackNumbers, albumCreator
               });

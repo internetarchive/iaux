@@ -17,12 +17,14 @@ class ArchiveAudioPlayer extends Component {
     // expecting jwplayer to be globally ready
     this.state = {
       player: null,
-      playerPlaylistIndex: 0,
+      playerPlaylistIndex: null,
+      initiatePlay: false,
     };
 
     this.registerPlayer = this.registerPlayer.bind(this);
     this.onPlaylistItemCB = this.onPlaylistItemCB.bind(this);
     this.emitPlaylistChange = this.emitPlaylistChange.bind(this);
+    this.postRegistration = this.postRegistration.bind(this);
     this.onReady = this.onReady.bind(this);
   }
 
@@ -34,16 +36,32 @@ class ArchiveAudioPlayer extends Component {
    * Check if Track index has changed,
    * if so, then play that track
    */
-  componentDidUpdate({ sourceData: { index: prevIndex } }, { playerPlaylistIndex: prevPlaylistIndex }) {
-    const { player, playerPlaylistIndex } = this.state;
-    const { sourceData: { index } } = this.props;
+  componentDidUpdate(prevProps, prevState) {
+    const { player, playerPlaylistIndex, initiatePlay } = this.state;
+    const { sourceData: { index = null } } = this.props;
 
-    const propsIndexChanged = prevIndex !== index;
-    const playerIndexChanged = prevPlaylistIndex !== playerPlaylistIndex;
-    const manuallyJumpToTrack = propsIndexChanged && !playerIndexChanged;
+    // if state index doesn't match props index, manually play
+    const indexHasBeenSet = Number.isInteger(index);
+
+    // if there is an index in props, but flag is false,
+    // set flag to true;
+    let stateUpdate = {};
+    let postStateCB = null;
+    if (indexHasBeenSet && !initiatePlay) {
+      stateUpdate.initiatePlay = true;
+    }
+
+    const manuallyJumpToTrack = (playerPlaylistIndex !== index) && indexHasBeenSet && initiatePlay;
 
     if (manuallyJumpToTrack) {
-      return player.playN(index);
+      stateUpdate.playerPlaylistIndex = index;
+      postStateCB = () => {
+        player.playN(index);
+      };
+    }
+
+    if (Object.keys(stateUpdate).length > 0) {
+      this.setState(stateUpdate, postStateCB);
     }
 
     return null;
@@ -52,13 +70,13 @@ class ArchiveAudioPlayer extends Component {
   /**
    * Event Handler that fires when JWPlayer starts a new track
    */
-  onPlaylistItemCB({ index: eventIndex }) {
-    const { sourceData: { index: sourceDataIndex } } = this.props;
-    const controllerIndex = sourceDataIndex;
-    const playerPlaylistIndex = eventIndex;
-    if (controllerIndex === playerPlaylistIndex) return;
-
-    this.setState({ playerPlaylistIndex }, this.emitPlaylistChange);
+  onPlaylistItemCB(event) {
+    const { index: playerPlaylistIndex } = event;
+    const { initiatePlay } = this.state;
+    const jwplayerStartingOnACertainTrack = !initiatePlay && (playerPlaylistIndex > 0);
+    if (initiatePlay || jwplayerStartingOnACertainTrack) {
+      this.emitPlaylistChange(playerPlaylistIndex);
+    }
   }
 
   /**
@@ -71,6 +89,7 @@ class ArchiveAudioPlayer extends Component {
     // User Play class instance to set event listeners
     const { player } = this.state;
     player.on('playlistItem', this.onPlaylistItemCB);
+    this.postRegistration();
   }
 
   /**
@@ -106,10 +125,30 @@ class ArchiveAudioPlayer extends Component {
   }
 
   /**
+   * Post JWPlayer registration handler - returns optional registration callback
+   *
+   * Currently, this is where we support external ability to set URL
+   * through Internet Archive's JWPlayer Wrapper
+   */
+  postRegistration() {
+    const { onRegistrationComplete, jwplayerInfo, needsURLSettingAccess = false } = this.props;
+    const { identifier = '' } = jwplayerInfo;
+
+    if (onRegistrationComplete && needsURLSettingAccess) {
+      const externallySyncURL = function externallySyncURL(identifier, trackNumber) {
+        const playlistIndex = trackNumber - 1 || 0;
+        if (window.Play && Play && identifier) {
+          return Play(identifier).playN(playlistIndex, false, true);
+        }
+      }.bind(null, identifier);
+      onRegistrationComplete(externallySyncURL);
+    }
+  }
+
+  /**
    * Fires callback `jwplayerPlaylistChange` given by props
    */
-  emitPlaylistChange() {
-    const { playerPlaylistIndex } = this.state;
+  emitPlaylistChange(playerPlaylistIndex) {
     const { jwplayerPlaylistChange } = this.props;
 
     jwplayerPlaylistChange({ newTrackIndex: playerPlaylistIndex });
@@ -133,16 +172,24 @@ ArchiveAudioPlayer.defaultProps = {
   backgroundPhoto: '',
   photoAltTag: '',
   jwplayerID: '',
+  jwplayerPlaylistChange: null,
+  jwPlayerPlaylist: [],
+  jwplayerInfo: {},
+  sourceData: null,
+  onRegistrationComplete: null,
+  needsURLSettingAccess: false,
 };
 
 ArchiveAudioPlayer.propTypes = {
   backgroundPhoto: PropTypes.string,
   photoAltTag: PropTypes.string,
   jwplayerID: PropTypes.string,
-  jwplayerPlaylistChange: PropTypes.func.isRequired,
-  jwPlayerPlaylist: PropTypes.array.isRequired,
-  jwplayerInfo: PropTypes.object.isRequired,
-  sourceData: PropTypes.object.isRequired,
+  jwplayerPlaylistChange: PropTypes.func,
+  jwPlayerPlaylist: PropTypes.array,
+  jwplayerInfo: PropTypes.object,
+  sourceData: PropTypes.object,
+  onRegistrationComplete: PropTypes.func,
+  needsURLSettingAccess: PropTypes.bool,
 };
 
 export default ArchiveAudioPlayer;
