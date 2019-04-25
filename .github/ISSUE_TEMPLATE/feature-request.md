@@ -15,7 +15,7 @@ assignees: ''
 
 > A description of what you want to happen.
 
-**Proposal & Constraints**
+**Proposal/constraints**
 
 > What is the proposed solution / implementation? Is there a precedent of this approach succeeding elsewhere?
 

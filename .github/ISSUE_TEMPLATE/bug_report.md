@@ -8,8 +8,8 @@ assignees: ''
 ---
 
 **Description**
-> What problem are we solving? What does the experience look like today? What are the symptoms? Please describe the component/story/add on related to the issue.
 
+> What problem are we solving? What does the experience look like today? What are the symptoms? Please describe the component/story/add on related to the issue.
 
 **Evidence / Screenshot (if possible)**
 
@@ -22,7 +22,7 @@ assignees: ''
 
 > Operating system?
 
-**Proposal & Constraints**
+**Proposal/Constraints**
 
 > What is the proposed solution / implementation? Is there a precedent of this approach succeeding elsewhere?
 

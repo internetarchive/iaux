@@ -23,7 +23,7 @@ assignees: ''
 
 > What operating system? What browser type and version?
 
-**Proposal & Constraints**
+**Proposal/Constraints**
 
 > What is the proposed solution / implementation? Is there a precedent of this approach succeeding elsewhere?
 
