@@ -156,11 +156,18 @@ class ArchiveAudioPlayer extends Component {
 
   render() {
     const {
-      jwplayerID
+      jwplayerID,
+      backgroundPhoto
     } = this.props;
+
+    // jwplayerStyleHack - specifically calling this out because
+    // fix needs to be made on IA's JWPlayer wrapper style
+    // issue is that waveform is still showing up in the truncated view of the player
+    // adding a black background should allow for controls to be visible.
+    const jwplayerStyleHack = backgroundPhoto ? { backgroundColor: 'black' } : {};
     return (
       <div className="ia-player-wrapper">
-        <div className="iaux-player-wrapper">
+        <div className="iaux-player-wrapper" style={jwplayerStyleHack}>
           <div id={jwplayerID} />
         </div>
       </div>
