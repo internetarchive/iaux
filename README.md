@@ -21,7 +21,6 @@ yarn run lerna link
 Run our local UI component development environment.
 ```
 cd packages/ia-components && yarn run storybook
-
 ```
 
 ## Code Structure
@@ -61,13 +60,13 @@ See [packages/ia-prototype-apps/README.md](packages/ia-prototype-apps/README.md)
 
 Prototypes can be run like this:
 ```
-cd packages/prototypes
-yarn run parcel prototypes/examples/example-hello/index.html
+cd packages/ia-prototype-apps
+yarn run parcel apps/examples/example-hello/index.html
 ```
 
 After, you can try running a more complex example:
 ```
-yarn run parcel prototypes/details-react/index.html
+yarn run parcel apps/details-react/index.html
 ```
 
 ## Publishing
@@ -117,3 +116,7 @@ in `v2mocks` there is code that is pulled from IA "View Source" and converted to
 
 
 Archive.org v2 uses [Bootstrap](https://getbootstrap.com) 3.0. Docs can be found here: http://bootstrapdocs.com/v3.0.0/docs/css/#overview
+
+## License
+
+[See our license file.](/LICENSE.md)
