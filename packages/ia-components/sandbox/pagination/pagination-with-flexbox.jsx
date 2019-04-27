@@ -77,10 +77,9 @@ class Paginator extends Component {
    * If item is off page, then scroll item to view & save the page in view in state
    */
   setItemInView() {
-    const { itemInViewClass } = this.props;
     const { scrollThresholds } = this.state;
-    const item = document.querySelector(itemInViewClass);
     const viewport = this.Paginator.current;
+    const item = viewport.firstElementChild;
 
     const pages = Object.keys(scrollThresholds);
     let thisPage = null;
