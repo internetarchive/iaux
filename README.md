@@ -53,7 +53,7 @@ Prototypes are basically little websites built using code from `ia-components`. 
 
 Of course, a prototype could also be made outside of this repo, and that will make sense in some cases.
 
-Since the prototypes package is a "packages/prototypes" and there are a lot of other files at that level, there is a second directory "packages/prototypes/prototypes" and this is where the actual content lives.
+Since the prototypes package is a "packages/ia-prototype-apps" and there are a lot of other files at that level, there is a second directory "packages/ia-prototype-apps/apps" and this is where the actual content lives.
 
 See [packages/ia-prototype-apps/README.md](packages/ia-prototype-apps/README.md) for more info.
 
