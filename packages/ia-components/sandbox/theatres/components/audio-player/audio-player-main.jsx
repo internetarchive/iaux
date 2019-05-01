@@ -59,7 +59,7 @@ export default class TheatreAudioPlayer extends Component {
   showMedia() {
     const { source, sourceData } = this.props;
     const isExternal = source === 'youtube' || source === 'spotify';
-    if(source==='archive') return ; 
+    if(source==='archive') return ; //TODO fix ArchiveAudioPlayer playN error
     let mediaElement = (
       <ArchiveAudioPlayer
         {...this.props}

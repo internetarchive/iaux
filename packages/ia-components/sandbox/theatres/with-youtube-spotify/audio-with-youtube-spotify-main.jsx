@@ -67,7 +67,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     this.state = {
       albumData,
       channelToPlay: 'archive',
-      extravar:'archive',
+      channelInMemory:'archive',
       trackSelected: null, /* 0 = album */
     };
 
@@ -95,7 +95,13 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       tracklistToShow,
     };
   }
+  /**
+  * Returns the tracks of the passed in channel
+  *@param channel string
+  *
+  */
 
+//TODO reduce tightCoupling with albumData
   tracklistToShow=(channel)=>{
     return getTrackListBySource(this.state.albumData,channel)
   }
@@ -104,14 +110,14 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    * Callback every time user selects a channel
    */
   onChannelSelect(event) {
-    const { albumData, extravar: currentSource, trackSelected: currentTrack} = this.state;
+    const { albumData, channelInMemory: currentSource, trackSelected: currentTrack} = this.state;
     const { albumSpotifyYoutubeInfo } = albumData;
     const newSource = event.target.value;
 
     if (currentSource === newSource) return;
 
     // if source has changed, then update source state & tracklisting
-    const extravar = newSource;
+    const channelInMemory = newSource;
 
     // IF new source doesn't have album or item, reset trackList to null
     const newSourceAlbumInfo = albumSpotifyYoutubeInfo[newSource];
@@ -122,7 +128,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const { trackNumber: availableTrackNumber } = firstTrackAvailable;
     const trackSelected = (noAlbumWithNewSource || noTrackWithNewSource) ? availableTrackNumber : currentTrack;
 
-    const newState = {trackSelected,extravar };
+    const newState = {trackSelected,channelInMemory };
     this.setState(newState);
   }
 
@@ -147,7 +153,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       trackSelected: Number.isInteger(selectedTrackNumber)
         ? selectedTrackNumber
         : 1,
-        channelToPlay:this.state.extravar
+        channelToPlay:this.state.channelInMemory
     });
   }
 
@@ -234,7 +240,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   render() {
     const { jwplayerPlaylist } = this.props;
     const {
-      tracklistToShow, trackSelected, channelToPlay, albumData
+      tracklistToShow, trackSelected, channelToPlay, albumData,channelInMemory
     } = this.state;
     const {
       albumMetadaToDisplay,
@@ -254,7 +260,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     /*TODO refactor the following eight lines of codes*/
     if(channelToPlay==='archive'){
        isArchiveChannel=true
-    }if(this.state.extravar!=='archive') isArchiveChannel=false;
+    }if(channelInMemory!=='archive') isArchiveChannel=false;
 
     if (channelToPlay==='archive') {
       audioPlayerChannelLabel = `${playSamples ? ' Samples' : 'Internet Archive'}`;
@@ -268,8 +274,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     };
     const jwplayerID = identifier.replace(/[^a-zA-Z\d]/g, '');
     const displayChannelSelector = !!externalSources.length; // make it actual boolean so it won't display
-    console.log(`channelToPlay: ${channelToPlay}`)
-    console.log(`extravar: ${this.state.extravar}`);
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
         <section className="media-section">
@@ -294,7 +298,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
               options={this.getSelectableChannels()}
               onChange={this.onChannelSelect}
               name="audio-source"
-              selectedValue={this.state.extravar}
+              selectedValue={this.state.channelInMemory}
               wrapperStyle="rounded"
               dataEventCategory="Audio-Player"
             />
@@ -303,7 +307,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
         }
           <section className="playlist-section">
             <TheatreTrackList
-              tracks={this.tracklistToShow(this.state.extravar)}
+              tracks={this.tracklistToShow(channelInMemory)}
               onSelected={this.selectThisTrack}
               selectedTrack={trackSelected}
               albumName={title[0]}
