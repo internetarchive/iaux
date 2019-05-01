@@ -1,7 +1,6 @@
 
 .theatre__audio-player {
-  margin: 1rem auto 2rem;
-  width: 97%;
+  margin: auto;
 
   @media (min-width: 500px) and (max-width: 599px) {
     width: 90%;
@@ -12,7 +11,6 @@
   }
 
   @media (min-width: 768px) {
-    height: 400px;
     max-width: 400px;
   }
 
@@ -41,7 +39,7 @@
       font-size: 10rem;
       text-align: center;
       padding-top: 14%;
-      height: 30rem;
+      height: 20rem;
     }
   }
 
@@ -70,11 +68,12 @@
     width: 99.5%;
   }
 
-  .ia-player-wrapper {
-    position: absolute;
-    width: 100%;
-    bottom: 0px;
+  .ia-player-wrapper,
+  .iframe-wrapper {
+    height: 4.4rem; // accomodate height for jwplayer controls
+  }
 
+  .ia-player-wrapper {
     .jwplayer {
       // this is here because Play8 sets a specific width on the style attribute
       // we need to trump it
@@ -83,9 +82,6 @@
   }
 
   .iframe-wrapper {
-    position: absolute;
-    top: 0;
-    bottom: 0;
     .iframe {
       position: absolute;
       top: 0.1rem;
