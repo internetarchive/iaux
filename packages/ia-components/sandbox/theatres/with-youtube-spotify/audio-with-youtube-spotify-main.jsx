@@ -66,8 +66,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const albumData = flattenAlbumData(albumMetadata, playFullIAAudio);
     this.state = {
       albumData,
-      tracklistToShow: [],
       channelToPlay: 'archive',
+      extravar:'archive',
       trackSelected: null, /* 0 = album */
     };
 
@@ -96,30 +96,33 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     };
   }
 
+  tracklistToShow=(channel)=>{
+    return getTrackListBySource(this.state.albumData,channel)
+  }
+
   /**
    * Callback every time user selects a channel
    */
   onChannelSelect(event) {
-    const { albumData, channelToPlay: currentSource, trackSelected: currentTrack } = this.state;
+    const { albumData, extravar: currentSource, trackSelected: currentTrack} = this.state;
     const { albumSpotifyYoutubeInfo } = albumData;
     const newSource = event.target.value;
 
     if (currentSource === newSource) return;
 
     // if source has changed, then update source state & tracklisting
-    const tracklistToShow = getTrackListBySource(albumData, newSource);
-    const channelToPlay = newSource;
+    const extravar = newSource;
 
     // IF new source doesn't have album or item, reset trackList to null
     const newSourceAlbumInfo = albumSpotifyYoutubeInfo[newSource];
     const noAlbumWithNewSource = currentTrack === 0 && !newSourceAlbumInfo;
-    const noTrackWithNewSource = !tracklistToShow.find(f => currentTrack === f.trackNumber);
+    const noTrackWithNewSource = !this.tracklistToShow(newSource).find(f => currentTrack === f.trackNumber);
 
-    const firstTrackAvailable = tracklistToShow.find(f => f.trackNumber === 1) ? tracklistToShow.find(f => f.trackNumber === 1) : head(tracklistToShow);
+    const firstTrackAvailable = this.tracklistToShow(newSource).find(f => f.trackNumber === 1) ? this.tracklistToShow(newSource).find(f => f.trackNumber === 1) : head(tracklistToShow);
     const { trackNumber: availableTrackNumber } = firstTrackAvailable;
     const trackSelected = (noAlbumWithNewSource || noTrackWithNewSource) ? availableTrackNumber : currentTrack;
 
-    const newState = { channelToPlay, tracklistToShow, trackSelected };
+    const newState = {trackSelected,extravar };
     this.setState(newState);
   }
 
@@ -143,7 +146,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     this.setState({
       trackSelected: Number.isInteger(selectedTrackNumber)
         ? selectedTrackNumber
-        : 1
+        : 1,
+        channelToPlay:this.state.extravar
     });
   }
 
@@ -152,7 +156,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    */
   getAudioSourceInfoToPlay() {
     const {
-      albumData, channelToPlay, trackSelected, tracklistToShow
+      albumData, channelToPlay, trackSelected
     } = this.state;
     if (trackSelected === null) return {};
 
@@ -169,7 +173,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       }
 
       if (!audioSource) {
-        audioSource = find(tracklistToShow, track => track.trackNumber === trackSelected);
+        audioSource = find(this.tracklistToShow(channelToPlay), track => track.trackNumber === trackSelected);
       }
 
       return audioSource || {};
@@ -246,8 +250,13 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       creator
     } = albumMetadaToDisplay;
     let audioPlayerChannelLabel;
-    const isArchiveChannel = channelToPlay === 'archive';
-    if (isArchiveChannel) {
+    let isArchiveChannel=true;
+    /*TODO refactor the following eight lines of codes*/
+    if(channelToPlay==='archive'){
+       isArchiveChannel=true
+    }if(this.state.extravar!=='archive') isArchiveChannel=false;
+
+    if (channelToPlay==='archive') {
       audioPlayerChannelLabel = `${playSamples ? ' Samples' : 'Internet Archive'}`;
     } else {
       audioPlayerChannelLabel = externalSourcesDisplayValues[channelToPlay] || '';
@@ -259,7 +268,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     };
     const jwplayerID = identifier.replace(/[^a-zA-Z\d]/g, '');
     const displayChannelSelector = !!externalSources.length; // make it actual boolean so it won't display
-
+    console.log(`channelToPlay: ${channelToPlay}`)
+    console.log(`extravar: ${this.state.extravar}`);
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
         <section className="media-section">
@@ -274,7 +284,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             jwplayerID={`jwplayer-${jwplayerID}`}
           />
         </section>
-        <div className="grid-right">
+      <div className="grid-right">
           {
           displayChannelSelector
           && (
@@ -284,7 +294,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
               options={this.getSelectableChannels()}
               onChange={this.onChannelSelect}
               name="audio-source"
-              selectedValue={channelToPlay}
+              selectedValue={this.state.extravar}
               wrapperStyle="rounded"
               dataEventCategory="Audio-Player"
             />
@@ -293,12 +303,12 @@ class AudioPlayerWithYoutubeSpotify extends Component {
         }
           <section className="playlist-section">
             <TheatreTrackList
-              tracks={tracklistToShow}
+              tracks={this.tracklistToShow(this.state.extravar)}
               onSelected={this.selectThisTrack}
               selectedTrack={trackSelected}
-              albumName={title}
+              albumName={title[0]}
               displayTrackNumbers={isArchiveChannel}
-              creator={creator}
+              creator={creator[0]}
               dataEventCategory="Audio-Player"
             />
           </section>
