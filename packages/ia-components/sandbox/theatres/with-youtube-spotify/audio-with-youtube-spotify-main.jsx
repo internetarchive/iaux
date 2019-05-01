@@ -241,7 +241,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       externalSources = [],
       itemPhoto,
       externalSourcesDisplayValues,
-      playSamples
+      playSamples,
+      creator: origCreator = []
     } = albumData;
     const {
       title,
@@ -307,7 +308,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
               selectedTrack={trackSelected}
               albumName={title[0]}
               displayTrackNumbers={isArchiveChannel}
-              creator={creator[0]}
+              creator={origCreator[0] || creator}
               dataEventCategory="Audio-Player"
             />
           </section>

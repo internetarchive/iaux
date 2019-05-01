@@ -32,7 +32,8 @@ const stringifyAlbumDetails = (albumMetadata) => {
   const constructedData = reduce(normalizedMetadata, (stringifiedInfo, value, key) => {
     stringifiedInfo = stringifiedInfo || {};
     const isArray = Array.isArray(value);
-    const newValue = isArray ? value.join(', ') : (value || '');
+    const delimiter = key === 'creator' ? '; ' : ', ';
+    const newValue = isArray ? value.join(delimiter) : (value || '');
     stringifiedInfo[key] = newValue;
     return stringifiedInfo;
   }, {});
