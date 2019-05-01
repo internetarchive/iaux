@@ -134,15 +134,15 @@ class ArchiveAudioPlayer extends Component {
     const { onRegistrationComplete, jwplayerInfo, needsURLSettingAccess = false } = this.props;
     const { identifier = '' } = jwplayerInfo;
 
-    if (onRegistrationComplete && needsURLSettingAccess) {
-      const externallySyncURL = function externallySyncURL(identifier, trackNumber) {
-        const playlistIndex = trackNumber - 1 || 0;
-        if (window.Play && Play && identifier) {
-          return Play(identifier).playN(playlistIndex, false, true);
-        }
-      }.bind(null, identifier);
-      onRegistrationComplete(externallySyncURL);
-    }
+    // if (onRegistrationComplete && needsURLSettingAccess) {
+    //   const externallySyncURL = function externallySyncURL(identifier, trackNumber) {
+    //     const playlistIndex = trackNumber - 1 || 0;
+    //     if (window.Play && Play && identifier) {
+    //       return Play(identifier).playN(playlistIndex, false, true);
+    //     }
+    //   }.bind(null, identifier);
+    //   onRegistrationComplete(externallySyncURL);
+    // }
   }
 
   /**
