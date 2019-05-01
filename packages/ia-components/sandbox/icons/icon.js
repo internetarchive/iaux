@@ -7,7 +7,7 @@ function defaultColor(color, name) {
 
 	if (!color || color === '')
 		return icon.defaultColor
-	else return color;
+	return color;
 
 }
 
