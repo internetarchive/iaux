@@ -128,7 +128,9 @@ class Paginator extends Component {
       if (scrollItemIntoView) {
         // focus on item
         itemToView = viewport.querySelector(itemInViewClass);
-        itemToView.focus();
+        if (itemToView) {
+          itemToView.focus();
+        }
       }
       const viewportFlush = scrollItemIntoView
         ? (itemToView.clientWidth + itemToView.offsetLeft)
