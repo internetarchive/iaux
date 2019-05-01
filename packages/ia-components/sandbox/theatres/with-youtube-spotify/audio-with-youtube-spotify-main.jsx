@@ -70,12 +70,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       channelInMemory:'archive',
       trackSelected: null, /* 0 = album */
     };
-
-    this.selectThisTrack = this.selectThisTrack.bind(this);
-    this.onChannelSelect = this.onChannelSelect.bind(this);
-    this.jwplayerPlaylistChange = this.jwplayerPlaylistChange.bind(this);
-    this.getSelectableChannels = this.getSelectableChannels.bind(this);
-    this.getAudioSourceInfoToPlay = this.getAudioSourceInfoToPlay.bind(this);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -109,7 +103,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   /**
    * Callback every time user selects a channel
    */
-  onChannelSelect(event) {
+  onChannelSelect=(event)=> {
     const { albumData, channelInMemory: currentSource, trackSelected: currentTrack} = this.state;
     const { albumSpotifyYoutubeInfo } = albumData;
     const newSource = event.target.value;
@@ -136,7 +130,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    * Callback every time JWPlayer plays a track
    * @param { object } playlistItem - JWPlayer track object
    */
-  jwplayerPlaylistChange(playlistItem) {
+  jwplayerPlaylistChange=(playlistItem)=> {
     const { newTrackIndex } = playlistItem;
     this.setState({ trackSelected: newTrackIndex + 1 });
   }
@@ -145,7 +139,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    * Callback every time user selects a track from the tracklist
    * @param { object } event - React synthetic event
    */
-  selectThisTrack(event) {
+  selectThisTrack=(event)=> {
     const selected = event.currentTarget;
     const selectedTrackNumber = parseInt(selected.getAttribute('data-track-number'), 10);
 
@@ -160,7 +154,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   /**
    * Find the right audio metadata depending on the channel and track number
    */
-  getAudioSourceInfoToPlay() {
+  getAudioSourceInfoToPlay=()=> {
     const {
       albumData, channelToPlay, trackSelected
     } = this.state;
@@ -196,7 +190,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   /**
    * Find the available channels that the album/item can play
    */
-  getSelectableChannels() {
+  getSelectableChannels=()=> {
     const {
       albumData: { externalSources, playSamples, externalSourcesDisplayValues }
     } = this.state;
@@ -240,7 +234,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   render() {
     const { jwplayerPlaylist } = this.props;
     const {
-      tracklistToShow, trackSelected, channelToPlay, albumData,channelInMemory
+       trackSelected, channelToPlay, albumData,channelInMemory
     } = this.state;
     const {
       albumMetadaToDisplay,
@@ -257,6 +251,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     } = albumMetadaToDisplay;
     let audioPlayerChannelLabel;
     let isArchiveChannel=true;
+
     /*TODO refactor the following eight lines of codes*/
     if(channelToPlay==='archive'){
        isArchiveChannel=true
@@ -298,7 +293,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
               options={this.getSelectableChannels()}
               onChange={this.onChannelSelect}
               name="audio-source"
-              selectedValue={this.state.channelInMemory}
+              selectedValue={channelInMemory}
               wrapperStyle="rounded"
               dataEventCategory="Audio-Player"
             />
