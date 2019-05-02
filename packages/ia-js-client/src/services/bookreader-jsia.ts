@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+//const debug = require('debug')('ia-js-client:bookreader-jsia');
 
 // Example
 // https://archive.org/bookreader/BookReaderJSLocate.php?id=10_PRINT_121114&subPrefix=10_PRINT_121114
@@ -12,12 +13,12 @@ export class BookReaderJsIaService {
       let fullRequestUrl = `https://www-richard.archive.org/bookreader/BookReaderJSLocate.php?id=${encodeURIComponent(options.identifier)}&subPrefix=${encodeURIComponent(options.subPrefix||'')}&format=json`
 
       // let fullRequestUrl = await this.fetchFullUrl(options.identifier)
-      // console.log(fullRequestUrl)
+      // debug(fullRequestUrl)
       return fetch(fullRequestUrl)
         .then(res => res.text())
         .then(body => {
           let raw_response = <any>JSON.parse(body)
-          // console.log(raw_response)
+          // debug(raw_response)
           return(raw_response)
         })
         .catch((err) => {
