@@ -5,8 +5,7 @@ import iconfile from './iconfiles';
 function defaultColor(color, name) {
 	const icon = iconfile.icons.find(icon => icon.tags[0] === name || icon.tags[1] === name);
 
-	if (!color || color === '')
-		return icon.defaultColor
+	if (!color || color === '') return icon.defaultColor;
 	return color;
 
 }
@@ -25,10 +24,10 @@ function getIcon(props) {
 			>
 				<title id=`${name}-logo-svg`>{name}</title>
 				<path d={icon.paths}></path>
-			</svg>)
-	} else {
-		return <Archive />
+			</svg>
+		      );
 	}
+	return <Archive />
 
 }
 /**
