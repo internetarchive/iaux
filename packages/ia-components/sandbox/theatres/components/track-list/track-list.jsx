@@ -90,7 +90,10 @@ class TheatreTrackList extends Component {
     if (!tracks.length) return <p className="no-tracks">No tracks to display.</p>;
 
     const [firstTrack = {}] = tracks;
-    const trackNumberToHighlight = selectedTrack || firstTrack.trackNumber || null;
+    const { trackNumber: firstTrackNumber } = firstTrack;
+    const trackNumberToHighlight = Number.isInteger(selectedTrack)
+      ? selectedTrack
+      : firstTrackNumber;
     const itemToViewClass = `[data-track-number="${trackNumberToHighlight}"]`;
     return (
       <div className="audio-track-list">

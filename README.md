@@ -53,7 +53,7 @@ Prototypes are basically little websites built using code from `ia-components`. 
 
 Of course, a prototype could also be made outside of this repo, and that will make sense in some cases.
 
-Since the prototypes package is a "packages/prototypes" and there are a lot of other files at that level, there is a second directory "packages/prototypes/prototypes" and this is where the actual content lives.
+Since the prototypes package is a "packages/ia-prototype-apps" and there are a lot of other files at that level, there is a second directory "packages/ia-prototype-apps/apps" and this is where the actual content lives.
 
 See [packages/ia-prototype-apps/README.md](packages/ia-prototype-apps/README.md) for more info.
 
@@ -108,6 +108,25 @@ Try running our tests:
 ```
 cd packages/ia-components && yarn run test
 ```
+
+## Debugging
+We are using the common [debug module](https://www.npmjs.com/package/debug). 
+
+To add to a module, add a line like 
+```
+const debug = require('debug')('ia-components:COMPONENTNAME')
+```
+To enable, for example, debugging in all ia-components, and debugging in the dweb-archive:Nav module.
+
+In Node add a line to your top level application BEFORE requiring or importing the other modules.
+```
+process.env.DEBUG="ia-components:* dweb-archive:Nav"
+```
+In Browser, add a line to your index.html or equivalent BEFORE including the bundle.
+```
+<script type="text/javascript">localStorage.debug = "dweb-archive dweb-archive:* dweb-transports dweb-transports:* dweb-objects dweb-objects:*";</script>
+```
+
 
 ## Other
 
