@@ -1,5 +1,5 @@
 import React from 'react';
-import IAReactComponent from './IAReactComponent';
+import IAReactComponent from '../IAReactComponent';
 const debug = require('debug')('dweb-archive:Tabby');
 
 /* Maybe Used in IAUX in future, but not in ReactFake
@@ -16,7 +16,7 @@ export default class Tabby extends IAReactComponent {
     /*
     This is for a single "tabby", usually there will be a set of them in a Tabbys
 
-    Note that it uses the tabby function in archive.js, a good ToDO might be to refactor that code into this component.
+    Note that it uses the tabby function in archive.js, a good TODO might be to refactor that code into this component.
      */
     constructor(props)
     {
