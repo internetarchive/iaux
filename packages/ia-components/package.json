@@ -21,8 +21,10 @@
         "@storybook/addon-knobs": "^4.1.4",
         "@storybook/react": "^4.1.4",
         "assert": "^1.4.1",
+        "axios": "^0.18.0",
         "babel-loader": "^8.0.5",
         "css-loader": "^2.1.0",
+        "http-proxy-middleware": "^0.19.1",
         "jest": "^24.7.1",
         "less": "^3.8.1",
         "less-loader": "^4.1.0",
@@ -31,6 +33,7 @@
         "style-loader": "^0.23.1"
     },
     "dependencies": {
+        "debug": "^4.1.1",
         "lodash": "^4.17.11",
         "prop-types": "^15.6.2",
         "react": "^16.7.0",

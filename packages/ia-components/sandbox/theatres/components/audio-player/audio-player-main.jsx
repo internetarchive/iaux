@@ -37,8 +37,20 @@ export default class TheatreAudioPlayer extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      urlSetterFN: null,
+    };
+
     this.showMedia = this.showMedia.bind(this);
     this.createTabs = this.createTabs.bind(this);
+    this.receiveURLSetter = this.receiveURLSetter.bind(this);
+  }
+
+  /**
+   * Save URL Setter function that comes back from Play8 instantiation
+   */
+  receiveURLSetter(urlSetterFN) {
+    this.setState({ urlSetterFN });
   }
 
   /**
@@ -47,25 +59,40 @@ export default class TheatreAudioPlayer extends Component {
   showMedia() {
     const { source, sourceData } = this.props;
     const isExternal = source === 'youtube' || source === 'spotify';
-    let mediaElement = <ArchiveAudioPlayer {...this.props} />;
+    let mediaElement = (
+      <ArchiveAudioPlayer
+        {...this.props}
+        onRegistrationComplete={this.receiveURLSetter}
+        needsURLSettingAccess
+      />
+    );
     if (isExternal) {
       // make iframe with URL
+      const { urlSetterFN } = this.state;
       const externalSourceDetails = sourceData[source] || {};
       const {
         urlPrefix = '', id = '', urlExtensions = '', name = ''
       } = externalSourceDetails;
+
+      const { trackNumber = 1 } = sourceData;
 
       const sourceURL = `${urlPrefix}${id}${urlExtensions}`;
       mediaElement = (
         <ThirdPartyEmbeddedPlayer
           sourceURL={sourceURL}
           title={name}
+
         />
       );
+      // updateURL
+      if (urlSetterFN) {
+        urlSetterFN(trackNumber);
+      }
     }
 
     return mediaElement;
   }
+
 
   /**
    * Render function - create tabs that live under the main content area
@@ -88,12 +115,27 @@ export default class TheatreAudioPlayer extends Component {
   }
 
   render() {
+    // Make sure content window stays the same when toggling between sources
+    // the JWplayer controls sit UNDER the album photo
+    // while the other players overtake the whole content-window
+    // We will have to accomodate the window's fixed height here.
+    const { backgroundPhoto } = this.props;
+    const jwplayerHeightNoWaveform = '4.4rem';
+    const jwplayerHeightYesWaveform = '14rem';
+    const mediaPlayerSectionStyle = backgroundPhoto
+      ? { height: jwplayerHeightNoWaveform }
+      : { height: jwplayerHeightYesWaveform };
+
     return (
       <section className="theatre__audio-player">
         <div className="content-window">
-          {drawBackgroundPhoto(this.props)}
-          {this.showMedia()}
-          { /* todo: add liner notes book reader here */ }
+          <div className="album-cover">
+            {drawBackgroundPhoto(this.props)}
+          </div>
+          <div className="media-player" style={mediaPlayerSectionStyle}>
+            {this.showMedia()}
+            { /* todo: add liner notes book reader here */ }
+          </div>
         </div>
         <div className="tabs">
           {this.createTabs()}
