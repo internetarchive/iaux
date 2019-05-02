@@ -1,0 +1,48 @@
+.no-tracks{
+  color: red;
+}
+
+.youtube-tracklist {
+  margin:0 20px 0 50px;
+  width: 50%;
+  .track-button-selected{
+    cursor: pointer;
+    border:1px solid skyblue;
+    background: skyblue;
+    padding:5px;
+    width: 100%;
+    display: block;
+  }
+  .track-button{
+    cursor: pointer;
+    border:1px solid skyblue;
+    background: transparent;
+    padding:5px;
+    width: 100%;
+    display: block;
+  }
+  .track-button:hover{
+    background: skyblue
+  }
+  .track-button:active{
+    background: transparent
+  }
+  .track-number,
+    .track-title,
+    .track-length {
+      display: inline-block;
+    }
+  .track-title{
+    width: 80%;
+  }
+  .track-number{
+    text-align: right;
+      font-weight: 100;
+      width: 5%;
+  }
+  .track-length{
+    text-align: right;
+    font-weight: 100;
+    float: right;
+  }
+}
