@@ -109,6 +109,25 @@ Try running our tests:
 cd packages/ia-components && yarn run test
 ```
 
+## Debugging
+We are using the common [debug module](https://www.npmjs.com/package/debug). 
+
+To add to a module, add a line like 
+```
+const debug = require('debug')('ia-components:COMPONENTNAME')
+```
+To enable, for example, debugging in all ia-components, and debugging in the dweb-archive:Nav module.
+
+In Node add a line to your top level application BEFORE requiring or importing the other modules.
+```
+process.env.DEBUG="ia-components:* dweb-archive:Nav"
+```
+In Browser, add a line to your index.html or equivalent BEFORE including the bundle.
+```
+<script type="text/javascript">localStorage.debug = "dweb-archive dweb-archive:* dweb-transports dweb-transports:* dweb-objects dweb-objects:*";</script>
+```
+
+
 ## Other
 
 in `v2mocks` there is code that is pulled from IA "View Source" and converted to JSX using this tool:
