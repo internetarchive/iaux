@@ -6,6 +6,16 @@ import IAReactComponent from '../IAReactComponent'; // Encapsulates differences 
 //TODO-IAUX need to standardise API as this uses the "ArchiveMemberSearch" class to provide necessary details for the Tile.
 //import ArchiveMemberSearch from "@internetarchive/dweb-archivecontroller/ArchiveMemberSearch";
 import TileImage from "./TileImage";
+
+/* USE OUTSIDE DWEB
+For use outside Dweb its going to need the "collection0title" which is the title of the 0th collection in the collections the item is part of, its
+popped up when the user mouses over the top left corner.
+This is (reasonably) not provided by the search. I'm guessing in the Php that there is a cache mapping collection > collection.title.
+In Dweb it is added to the metadata by the gateway
+Once other use's figure out how to handle this the interface might need tweaking, for example to pass in an optional prop "collection0title"
+*/
+//TODO The pop up of the parent collection image doesnt work well, this is a CSS issue, present on dweb as well. Needs a CSS expert to look at it.
+
 import ParentTileImg from "./ParentTileImg";
 import AnchorDetails from "../AnchorDetails";
 
@@ -37,15 +47,7 @@ export default class TileComponent extends IAReactComponent {
     {
         super(props);
         this.state.identifier = props.identifier || props.member.identifier;
-    }
 
-    iconnameClass(mediatype) {
-        // Get the class for the icon, has to handle some exceptions - there used to be many more obsolete mediatypes without iconochive's but these appear to have been cleaned up
-        const exceptions = { account: "person", video: "movies"}
-        return "iconochive-"+ (exceptions[mediatype] || mediatype)
-    }
-
-    render() {
         try {
             console.assert(this.props.member, "If using TileComponent.render should have a member with at least mediatype to work with");
             const member = this.props.member;
@@ -69,9 +71,18 @@ export default class TileComponent extends IAReactComponent {
                 numReviews: member.num_reviews || (item && item.reviews && item.reviews.length) || 0
             })
         } catch(err) { // Catch error here as not generating debugging info at caller level for some reason
-            debug("ERROR in TileComponent.render for %s:", this.state.identifier, err.message);
-            enclosingdiv.parentNode.removeChild(enclosingdiv);
+            debug("ERROR in TileComponent.constructor for %s: %s", this.state.identifier, err.message);
         }
+
+    }
+
+    iconnameClass(mediatype) {
+        // Get the class for the icon, has to handle some exceptions - there used to be many more obsolete mediatypes without iconochive's but these appear to have been cleaned up
+        const exceptions = { account: "person", video: "movies"}
+        return "iconochive-"+ (exceptions[mediatype] || mediatype)
+    }
+
+    render() {
         return (
             <div className={this.state.classes} data-id={this.state.identifier}  key={this.state.identifier}>
                 { (this.state.collection0) ? // Believe, but not certain, that there is always going to be a collection0
