@@ -1,15 +1,13 @@
-const debug = require('debug')('dweb-archive:RelatedItems');
+const debug = require('debug')('ia-components:RelatedItems');
 //Note this component is Real-React only, it may or may not work in ReactFake
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
-import TileComponent from "@internetarchive/ia-components/sandbox/tiles/TileComponent.js";
-//import PropTypes from 'prop-types' // Not currently used by IAUX
+import TileComponent from "./TileComponent.js";
 
 /* RelatedItems is a component intended for the bottom of details page to display related items.
     It can be called either with members=[member*] in which case it will render them immediately
     or more usually will be called with item=ArchiveItem in which case it will call ArchiveItem.relatedMembers and render the result via RelatedItemsInner
-    It should be easy to hook this into IAUX's related items service if anyone is using this.
-
+    It should be easy to hook this into IAUX's related items service if anyone wants to use that.
 
     Members are, or should look like, ArchiveMember as defined in the dweb-archivecontroller repo.
     If there is an alternative structure that is suitable for passing in, then it should be easy to handle any minor differences here.
