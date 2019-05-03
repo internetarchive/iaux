@@ -1,6 +1,6 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
-const debug = require('debug')('dweb-archive:Tabby');
+const debug = require('debug')('ia-components:Tabby');
 
 /* Maybe Used in IAUX in future, but not in ReactFake
 static propTypes = {
