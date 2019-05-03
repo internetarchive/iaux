@@ -6,6 +6,7 @@ import {AnchorModalGo, ButtonModalGo} from './ModalGo';
 
 /* DetailsActionButtons are a group of buttons, usually shown on the right, that include bookmarking, sharing and flagging.
     Its currently used in dweb-archive/Details.js
+    <DetailsActionButtons title="xxx" description="yyy"/>
  */
 
 export default class DetailsActionButtons extends IAReactComponent {

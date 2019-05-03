@@ -1,13 +1,10 @@
 //const debug = require('debug')('dweb-archive:DetailsActionButtons');
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
+import {ObjectFilter} from '../../util.js';
 
 /* AnchorModalGo and ButtonModalGo wrap the AJS.modal_go call in archive.js to allow it to work with react.
  */
-
-// Utility functions, I (Mitra) like to put these on Object, but maybe better here.
-function ObjectFromEntries(arr) { arr.reduce((res,kv)=>(res[kv[0]]=kv[1],res),{});} // [[ k0, v0],[k1,v1] => {k0:v0, k1:v1}
-function ObjectFilter(obj, f) { ObjectFromEntries( Object.entries(obj).filter(kv=>f(kv[0], kv[1]))); }
 
 class _ModalGo extends IAReactComponent {
     constructor(props) {

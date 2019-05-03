@@ -1,8 +1,16 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
-import AnchorDetails from "@internetarchive/ia-components/sandbox/AnchorDetails.js";
+import AnchorDetails from "../AnchorDetails.js";
 import ArchiveMember from "@internetarchive/dweb-archivecontroller/ArchiveMember";
 
+/*
+    List of collections on details page]
+    Its passed a list of collections, and mapping to titles.
+    If titles arent supplied it will attempt to find through ArchiveMember.expand so dependend on ArchiveMember if not supplying titles.
+
+    <DetailsCollectionList collections=["prelinger"*]  collectionTitles={prelinger: "Prelinger Archives"} />
+
+ */
 export default class DetailsCollectionList extends IAReactComponent {
 
     constructor(props) {
