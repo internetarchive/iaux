@@ -1,0 +1,39 @@
+import React from 'react';
+import IAReactComponent from '../IAReactComponent';
+import AnchorDetails from "@internetarchive/ia-components/sandbox/AnchorDetails.js";
+import ArchiveMember from "@internetarchive/dweb-archivecontroller/ArchiveMember";
+
+export default class DetailsCollectionList extends IAReactComponent {
+
+    constructor(props) {
+        super(props); //collections
+        this.state.collectionTitles = (typeof this.props.collectionTitles === "undefined") ? {} : this.props.collectionTitles;
+        this.state.expansionTried = false;
+    }
+    loadcallable(unused_enclosingElement) {
+        //expand a list of collections into a list of titles either through collectionTitles if supplied (e.g. from dweb gateway) or via a new Search query
+        if (!this.state.expansionTried) {
+            this.state.expansionTried = true;
+            ArchiveMember.expand(this.props.collections.filter(k => !this.state.collectionTitles[k]), (err, res) => { // res = { id: AS(id) }
+                const collectionTitles = Object.assign({}, this.state.collectionTitles, Object.map(res, (k, v) => [k, v.title]));
+                this.setState({collectionTitles: collectionTitles});
+            });
+        }
+    }
+
+    render() { return (
+        <div className="boxy collection-list">
+            <section className="quick-down collection-list" ref={this.load}>
+                <h5 className="collection-title">IN COLLECTIONS</h5>
+                {this.props.collections.map(collection =>
+                    <div className="collection-item" key={collection}>
+                        <AnchorDetails identifier={collection} data-event-click-tracking={`CollectionList|${collection}`}
+                        >{this.state.collectionTitles[collection] || collection}</AnchorDetails>
+                    </div>
+                )}
+            </section>
+        </div>
+    ); }
+}
+
+
