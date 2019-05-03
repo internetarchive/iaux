@@ -1,6 +1,7 @@
 import React from 'react';
 import IAReactComponent from './IAReactComponent';
 const debug = require('debug')('ia-components:AnchorDetails');
+import {ObjectFilter} from '../util.js';
 
 export default class AnchorDetails extends IAReactComponent {
     // Component that encapsulates the difference between four options: Dweb||IAUX, React||FakeReact for links.
@@ -18,7 +19,7 @@ export default class AnchorDetails extends IAReactComponent {
     }
     clickCallable(ev) {
         // Note this is only called in dweb; !Dweb has a director href
-        debug("Cicking on link to details: %s",this.props.identifier);
+        debug("Clicking on link to details: %s",this.props.identifier);
         DwebArchive.Nav.nav_details(this.props.identifier);
         return false; // Dont propogate event
     }
