@@ -19,7 +19,7 @@ Once other use's figure out how to handle this the interface might need tweaking
 import ParentTileImg from "./ParentTileImg";
 import AnchorDetails from "../AnchorDetails";
 
-/* Recommend AGAINST moving into utilities, as appropriate number_format for different places will defer (e.g. 1K v 1,000) */
+
 function number_format(nStr) //this is just addCommas now
 {
     //http://www.mredkj.com/javascript/numberFormat.html
