@@ -5,7 +5,6 @@ import { text, number } from '@storybook/addon-knobs';
 import TrackList from './track-list';
 
  storiesOf('Theatres', module)
-  // .addParameters({ jest: ['example.test.js'] })
   .addWithJSX('Tract List', () => {
     const tracks = [
       {
