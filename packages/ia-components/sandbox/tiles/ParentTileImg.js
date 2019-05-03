@@ -1,3 +1,5 @@
+//import React from '../../ReactFake';
+//import IAFakeReactComponent from '../IAFakeReactComponent';
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 

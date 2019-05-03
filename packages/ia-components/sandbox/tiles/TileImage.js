@@ -1,6 +1,7 @@
 //import React from '../../ReactFake';
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
+const debug = require('debug')("ia-components:TileImage");
 
 export default class TileImage extends IAReactComponent {
     /* Used in IAUX, but not in ReactFake
@@ -18,8 +19,12 @@ export default class TileImage extends IAReactComponent {
     // loadImg is only called in the ReactFake case, not in the "real" React.
     loadcallable(enclosingspan) { // Defined as a closure so that can access identifier
         DwebArchive.ReactFake.p_loadImg(enclosingspan, "__ia_thumb.jpg", `/services/img/${this.props.identifier}`, (err, el) => {
-            DwebArchive.ReactFake.setAttributes(el, "img", {className: this.props.className, imgname: this.props.imgname});
-            AJS.tiler(); // Make it redraw after img size known
+            if (err) {
+                debug("Fail to load %s: %s", "/services/img/${this.props.identifier", err.message);
+            } else {
+                DwebArchive.ReactFake.setAttributes(el, "img", {className: this.props.className, imgname: this.props.imgname});
+                AJS.tiler(); // Make it redraw after img size known
+            }
         }) ////Intentionally no host so ReactFake will process
     }
 
