@@ -3,23 +3,23 @@ import ReactDOM from 'react-dom';
 
 // v2 mocks
 // import MockHeader from 'ia-components/v2mocks/header'
-import MockDetailsPageContainer from 'ia-components/sandbox/v2mocks/details-page-container'
-import MockTheatreAudio from 'ia-components/sandbox/v2mocks/theatre-audio'
-import MockReviews from 'ia-components/sandbox/v2mocks/reviews-empty'
-import MockDescMeta from 'ia-components/sandbox/v2mocks/desc-meta'
-import MockNav from 'ia-components/sandbox/v2mocks/nav'
+import MockDetailsPageContainer from '@internetarchive/ia-components/sandbox/v2mocks/details-page-container'
+import MockTheatreAudio from '@internetarchive/ia-components/sandbox/v2mocks/theatre-audio'
+import MockReviews from '@internetarchive/ia-components/sandbox/v2mocks/reviews-empty'
+import MockDescMeta from '@internetarchive/ia-components/sandbox/v2mocks/desc-meta'
+import MockNav from '@internetarchive/ia-components/sandbox/v2mocks/nav'
 
 // prototypes
-import Audio1 from 'ia-components/sandbox/theatres/audio-1/audio-1'
-import Audio1Br from 'ia-components/sandbox/theatres/audio-1/audio-1-br-nav-wav'
-import TheatreSwitcher from 'ia-components/sandbox/theatres/theatre-switcher'
+import Audio1 from '@internetarchive/ia-components/sandbox/theatres/audio-1/audio-1'
+import Audio1Br from '@internetarchive/ia-components/sandbox/theatres/audio-1/audio-1-br-nav-wav'
+import TheatreSwitcher from '@internetarchive/ia-components/sandbox/theatres/theatre-switcher'
 
-import RelatedAsList from 'ia-components/sandbox/related-as-list'
-import SimpleDescMeta from 'ia-components/sandbox/simple-desc-meta'
+import RelatedAsList from '@internetarchive/ia-components/sandbox/related-as-list'
+import SimpleDescMeta from '@internetarchive/ia-components/sandbox/simple-desc-meta'
 
 // other
 import { getUrlParameter } from '../../lib/helpers/url'
-import { Item } from 'ia-js-client'
+import { Item } from '@internetarchive/ia-js-client'
 
 
 let demoIdentifier = getUrlParameter('identifier') || "cd_point-of-departure_andrew-hill"

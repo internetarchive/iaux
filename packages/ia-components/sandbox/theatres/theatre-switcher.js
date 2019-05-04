@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Item } from 'ia-js-client';
+import { Item } from '@internetarchive/ia-js-client';
 import BookreaderTheatre from './bookreader-theatre/bookreader-theatre';
 import Audio1 from './audio-1/audio-1'
 

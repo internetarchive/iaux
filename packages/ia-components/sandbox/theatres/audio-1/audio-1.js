@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 
-import { MetadataService, Item } from 'ia-js-client'
+import { MetadataService, Item } from '@internetarchive/ia-js-client'
 
 import SpotifyIcon from './spotify-icon.svg'
 import SpotifyIconWithBorder from './spotify-icon-with-border.svg'
@@ -14,7 +14,7 @@ import PlayTriangle from './play-triangle.svg'
 // import JwNavImg from './jw-screenshot2.png'
 
 import AudioNavigation from './audio-nav'
-import TheatreHamburger from '../../theatre-hamburger/theatre-hamburger'
+import TheatreHamburger from '../theatre-hamburger/theatre-hamburger'
 
 import JWPlayerContainer from '../../jwplayer-comp/jwplayer-comp'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { RelatedService } from 'ia-js-client'
+import { RelatedService } from '@internetarchive/ia-js-client'
 
 // TODO separate the data fetching from the presentation
 

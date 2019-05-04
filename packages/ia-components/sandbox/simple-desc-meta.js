@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Item } from 'ia-js-client'
+import { Item } from '@internetarchive/ia-js-client'
 
 export default class extends React.Component {
 

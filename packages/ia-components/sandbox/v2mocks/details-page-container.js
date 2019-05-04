@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Item } from 'ia-js-client'
+import { Item } from '@internetarchive/ia-js-client'
 
 import MockDetailsPage from './details-page'
 // import MockDetailsPage from './details-page-reviews-bottom'
