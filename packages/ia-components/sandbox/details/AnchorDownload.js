@@ -3,8 +3,6 @@ import IAReactComponent from '../IAReactComponent';
 const debug = require('debug')('ia-components:AnchorDownload');
 import {ObjectFilter} from '../../util.js';
 
- */
-
 /**
  * Component used as an anchor where it should engage part of the download functionality.
  * It a clone of AnchorDetails with only minor changes
@@ -37,7 +35,7 @@ export default class AnchorDownload extends IAReactComponent {
             : (this.props.source && Array.isArray(this.props.source) && this.props.source.length === 1)         // source = [ArchiveFile]
                 ? `https://archive.org/download/${this.props.identifier}/${this.props.source[0].metadata.name}`
                 : this.props.format                                                                             // source = [ArchiveFile]
-                    // Note - this is a broken, illegal URL with an '&' in middle of the URL not the paramaters but thats what IA requires
+                    // Note - this is a broken, illegal URL with an '&' in middle of the URL not the parameters but that is what IA requires
                     ? `https://archive.org/compress/${this.props.identifier}/formats=${this.props.format}&file=/${this.props.identifier}.zip`
                     : (typeof DwebArchive === "undefined")                                                      // just identifier !dweb
                         ? 'https://archive.org/download/${this.props.identifier}'
@@ -53,7 +51,7 @@ export default class AnchorDownload extends IAReactComponent {
         // Note this is only called in dweb; !Dweb has a director href and on Dweb source is (currently) always set.
         // TODO-DWEB its likely that this is not correct for those that should go to ".../compress/..."
         debug("Clicking on link to download: %s",this.props.identifier);
-        // noinspection JSIgnoredPromiseFromCall
+        // noinspection JSIgnoredPromiseFromCall,JSUnresolvedFunction
         DwebArchive.Nav.nav_download(this.props.source);
         return false; // Stop event propagating
     }
