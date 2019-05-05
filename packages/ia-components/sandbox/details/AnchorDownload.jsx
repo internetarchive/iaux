@@ -43,7 +43,7 @@ export default class AnchorDownload extends IAReactComponent {
         const usp = new URLSearchParams;
         // Copy any parameters in AnchorDownload.urlparms to usp for inclusion in the href=
         AnchorDownload.urlparms.forEach(k=> usp.append(k, this.props[k]));
-        url.search = usp; // Note this copies, not updatable
+        this.state.url.search = usp; // Note this copies, not updatable
         // Copy any parameters not specified in AnchorDownload.urlparms to anchorProps for inclusion in the <a>
         this.state.anchorProps = ObjectFilter(this.props, (k,unused_v)=>!AnchorDownload.urlparms.includes(k));
     }

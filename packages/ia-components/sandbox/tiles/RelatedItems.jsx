@@ -2,7 +2,7 @@ const debug = require('debug')('ia-components:RelatedItems');
 //Note this component is Real-React only, it may or may not work in ReactFake
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
-import TileComponent from "./TileComponent.js";
+import TileComponent from "./TileComponent.jsx";
 
 /* RelatedItems is a component intended for the bottom of details page to display related items.
     It can be called either with members=[member*] in which case it will render them immediately

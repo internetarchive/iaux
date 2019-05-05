@@ -1,8 +1,8 @@
 //const debug = require('debug')('dweb-archive:DetailsActionButtons');
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
-import DetailsFlags from './DetailsFlags';
-import {AnchorModalGo, ButtonModalGo} from './ModalGo';
+import DetailsFlags from './DetailsFlags.jsx';
+import {AnchorModalGo, ButtonModalGo} from './ModalGo.jsx';
 
 /* DetailsActionButtons are a group of buttons, usually shown on the right, that include bookmarking, sharing and flagging.
     Its currently used in dweb-archive/Details.js

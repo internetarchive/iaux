@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
-import AnchorDetails from "../AnchorDetails.js";
-import ArchiveMember from "@internetarchive/dweb-archivecontroller/ArchiveMember";
+import AnchorDetails from "../AnchorDetails.jsx";
+import ArchiveMember from "@internetarchive/dweb-archivecontroller/ArchiveMember.js";
 
 /*
     List of collections on details page]
