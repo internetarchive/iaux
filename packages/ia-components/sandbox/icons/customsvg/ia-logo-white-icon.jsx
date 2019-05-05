@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+* Returns custom Archive's Icon
+*
+*/
+
 export default props => (
   <figure {...props}>
     <svg
