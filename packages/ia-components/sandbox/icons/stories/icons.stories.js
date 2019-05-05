@@ -2,8 +2,6 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text, boolean, number } from '@storybook/addon-knobs';
 import ICON from '../icon';
-import IconLogo from '../customsvg/ia-logo-white-icon';
-
 storiesOf('Icons', module)
 	.addWithJSX('Icon', () => {
 		const type = text('type', '');
@@ -12,7 +10,4 @@ storiesOf('Icons', module)
 		const name = text('name', 'archive')
 
 		return <ICON type={type} size={size} color={color} name={name} />
-	})
-	.addWithJSX('Default logo', () => {
-		return <IconLogo />
 	})
