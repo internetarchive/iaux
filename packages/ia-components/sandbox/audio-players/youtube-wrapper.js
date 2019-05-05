@@ -7,7 +7,7 @@ import YoutubePlayer from './players-by-type/YoutubePlayer';
 import YoutubeTracklist from './youtube-tracklist/youtube-tracklist';
 import styles from './styles/youtube-wrapper.less';
 /**
- * Youtube Wrapper
+ * Youtube Wrapper Component build on top of Youtube player
  * Props:
  * @param object albumMetaData
  */
@@ -28,11 +28,17 @@ class YoutubeWrapper extends Component {
     };
     this.onTrackSelected=this.onTrackSelected.bind(this);
   }
-
+/**
+ * State update with chosen track to play
+ * @param {number} trackNumber 
+ */
   onTrackSelected(trackNumber){
     this.setState({selectedTrack:trackNumber});    
   }
-
+/**
+ * Play next track in queue automatically when current track ends
+ * @param {number} currentTrack 
+ */
   playNextTrack(currentTrack){
     let newTrack;
     for (let index = 0; index < this.state.tracklistToShow.length; index++) {

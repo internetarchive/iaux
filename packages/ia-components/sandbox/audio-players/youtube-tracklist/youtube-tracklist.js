@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+/**
+ * Tracklist component listing all available array of tracks.
+ * @param {array} tracks
+ * @param {number}  selectedTrack
+ * @param function  onSelected  // callback on selecting track
+ */
 class YoutubeTracklist extends Component {
   constructor(props){
     super(props);
@@ -11,19 +16,36 @@ class YoutubeTracklist extends Component {
       onSelected
     } 
   }
- 
-  componentWillReceiveProps(nextProps,nextState){
+ /**
+  * State of track updated during lifecycle when props received
+  * nextProps:
+  * @param {number} nextProps.selectedTrack
+  */
+  componentWillReceiveProps(nextProps){
     this.setState({selectedTrack:nextProps.selectedTrack})
   }
-
-  shouldComponentUpdate(nextProps,nextState){
+/**
+ * Maintaining lifecycle
+ * Restricting rendering of component without any change in state
+ * Or when same track selected to play
+ * @param {number} nextProps.selectedTrack
+ * @return boolean
+ */
+  shouldComponentUpdate(nextProps){
     return this.state.selectedTrack!==nextProps.selectedTrack
   }
-  componentDidUpdate(){
-    console.log("tracklist did update");
-  }
+  
+/**
+ * Draws track info as button
+ *
+ * @param {number} selectedTrack
+ * @param function onSelected
+ * @param object thisTrack
+ *
+ * @return component
+ */
   trackButton = (selectedTrack, thisTrack, onSelected) => {
-    const { trackNumber, length, formattedLength, title, artist } = thisTrack;
+    const { trackNumber, formattedLength, title } = thisTrack;
     let trackButtonClass="track-button";
     if (trackNumber===selectedTrack) {
       trackButtonClass="track-button-selected"

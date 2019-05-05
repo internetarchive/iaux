@@ -1,6 +1,13 @@
 import React, { Component} from 'react'
 import PropTypes from 'prop-types'
 
+/**
+ * Youtube Player to stream video build on top of iframe using Iframe API
+ * Props:
+ * @param {number}  selectedTrack
+ * @param function  playNextTrack
+ * @param {arrayOf.string} tracklistToShow
+ */
 const PlayerState = {
   UNSTARTED: -1,
   ENDED: 0,
@@ -43,9 +50,11 @@ const ErrorState = {
       this.loadAPI();
       this.loadPlayer();
   }
-
-  componentWillReceiveProps(nextProps,nextState){
-    // console.log(nextProps);
+/**
+ * State of current video id and selected track updated when receive props
+ * @param {number} nextProps.Number
+ */
+  componentWillReceiveProps(nextProps){
     if (nextProps.selectedTrack!==this.state.selectedTrack) { 
       let currentVideoId;
       for (let index = 0; index < this.state.tracklistToShow.length; index++) {
@@ -59,22 +68,34 @@ const ErrorState = {
               selectedTrack:nextProps.selectedTrack})       
     }
   }
-
-  shouldComponentUpdate(nextProps,nextState){
+/**
+ * Maintaining lifecycle
+ * Restricting rendering of component without any change in state
+ * Or when same track selected to play
+ * @param {number} nextProps.selectedTrack
+ * @return boolean
+ */
+  shouldComponentUpdate(nextProps){
     return this.state.selectedTrack!==nextProps.selectedTrack
   }
-
+/**
+ * Updates the video player with new track selected
+ */
   componentDidUpdate(){
     this.player.loadVideoById(this.state.currentVideoId, 0, "large")
   }
-
+/**
+ * Loads iframe API to build Youtube Player
+ */
   loadAPI(){
     const tag = document.createElement('script')
     tag.src = 'https://www.youtube.com/iframe_api'
     const firstScriptTag = document.getElementsByTagName('script')[0]
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   }
-  
+/**
+ * Builds Youtube Player using iframe API
+ */
   loadPlayer(){
     window.onYouTubeIframeAPIReady=()=>{
       this.player=new window.YT.Player(this.state.playerAnchor.current,{
