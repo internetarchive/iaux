@@ -1,4 +1,4 @@
-export default
+export default  //Exports a list of icons for display
 {
   "height": 1024,
   "icons": [
