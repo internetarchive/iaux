@@ -2,7 +2,8 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text, boolean, number } from '@storybook/addon-knobs';
 
-import { IAUXExampleComponent } from '../../index';
+// Moved this to a local import rather than via index because depends on experimental extension
+import { IAUXExampleComponent } from './index';
 import style from './styles.less';
 
 /**
