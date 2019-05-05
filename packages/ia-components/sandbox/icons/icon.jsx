@@ -1,6 +1,7 @@
 import React from 'react';
 import Archive from './customsvg/ia-logo-white-icon'; //TODO integrate Archive's SVG into icon dataset
 import iconfile from './iconfiles';
+import PropTypes from 'prop-types';
 
 /**
   * setIconColor.gives the named icon a specified color
@@ -53,6 +54,19 @@ const Icon = props => {
 
 	return getIcon(props)
 
+};
+
+Icon.defaultProps = {
+  type:	'icon',
+  name: 'archive',
+};
+
+
+Icon.propTypes = {
+  Type: PropTypes.string,
+  name: PropTypes.string,
+  size: PropTypes.number,
+  color: ProTypes.string
 };
 
 export default Icon
