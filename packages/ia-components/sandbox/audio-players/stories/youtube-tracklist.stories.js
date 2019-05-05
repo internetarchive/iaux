@@ -1,11 +1,9 @@
 import style from '../youtube-tracklist/youtube-tracklist.less';
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { text, number } from '@storybook/addon-knobs';
 import YoutubeTracklist from '../youtube-tracklist/youtube-tracklist';
 
  storiesOf('Youtube', module)
-  // .addParameters({ jest: ['example.test.js'] })
   .addWithJSX('Tract List', () => {
     const tracks = [
       {
