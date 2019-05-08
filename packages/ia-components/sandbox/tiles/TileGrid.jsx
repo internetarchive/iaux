@@ -2,7 +2,7 @@ const debug = require('debug')('ia-components:TileGrid');
 //Note this component is only tested on Real React it may or may not work in ReactFake
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
-import TileComponent from "./TileComponent.jsx";
+import TileComponent from "./TileComponent";
 //import PropTypes from 'prop-types' // Not currently used by IAUX
 
 /* This is the inner part of a tile grid, see dweb-archive/Search.js for an example of its use
