@@ -115,7 +115,7 @@ class ArchiveAudioPlayer extends Component {
       collection,
       hide_list: true,
       onReady: this.onReady,
-      responsive: true
+      responsive: true,
     };
 
     if (window.Play && Play) {
