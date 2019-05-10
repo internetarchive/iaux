@@ -5,7 +5,7 @@ import IAReactComponent from '../IAReactComponent'; // Encapsulates differences 
 //import PropTypes from 'prop-types'
 //TODO-IAUX need to standardise API as this uses the "ArchiveMemberSearch" class to provide necessary details for the Tile.
 //import ArchiveMemberSearch from "@internetarchive/dweb-archivecontroller/ArchiveMemberSearch";
-import TileImage from "./TileImage.jsx";
+import TileImage from "./TileImage";
 
 /* USE OUTSIDE DWEB
 For use outside Dweb its going to need the "collection0title" which is the title of the 0th collection in the collections the item is part of, its
@@ -16,8 +16,8 @@ Once other use's figure out how to handle this the interface might need tweaking
 */
 //TODO The pop up of the parent collection image doesnt work well, this is a CSS issue, present on dweb as well. Needs a CSS expert to look at it.
 
-import ParentTileImg from "./ParentTileImg.jsx";
-import AnchorDetails from "../AnchorDetails.jsx";
+import ParentTileImg from "./ParentTileImg";
+import AnchorDetails from "../AnchorDetails";
 
 
 function number_format(nStr) //this is just addCommas now
