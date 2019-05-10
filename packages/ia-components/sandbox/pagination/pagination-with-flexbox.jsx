@@ -78,8 +78,9 @@ class Paginator extends Component {
    */
   setItemInView() {
     const { scrollThresholds } = this.state;
+    const { itemInViewClass } = this.props;
     const viewport = this.Paginator.current;
-    const item = viewport.firstElementChild;
+    const item = document.querySelector(itemInViewClass) || viewport.firstElementChild;
 
     const pages = Object.keys(scrollThresholds);
     let thisPage = null;
