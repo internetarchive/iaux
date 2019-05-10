@@ -100,7 +100,7 @@ class ArchiveAudioPlayer extends Component {
     const { jwplayerPlaylist, identifier, collection } = jwplayerInfo;
     const waveformer = backgroundPhoto
       ? {}
-      : { waveformer: 'jw-holder', responsive: true };
+      : { waveformer: 'jw-holder' };
     // We are using IA custom global Player class to instatiate the player
     const baseConfig = {
       start: 0,
@@ -114,7 +114,8 @@ class ArchiveAudioPlayer extends Component {
       identifier,
       collection,
       hide_list: true,
-      onReady: this.onReady
+      onReady: this.onReady,
+      responsive: true,
     };
 
     if (window.Play && Play) {
