@@ -60,7 +60,7 @@ export default class TileComponent extends IAReactComponent {
             const collectionSize = member.item_count; //TODO really hard to get https://github.com/internetarchive/dweb-archive/issues/91
             const classes = ['item-ia']
             if (isCollection) classes.push('collection-ia');
-            if (member.crawl) classes.push('crawl-'+member.crawl); // Whether crawled or not and at what level
+            if (member.crawl) classes.push('crawl-'+member.crawl.level); // Whether crawled or not and at what level
             this.setState({
                 isCollection, collection0, by, nFavorites, collectionSize,
                 mediatype: member.mediatype,
@@ -93,10 +93,10 @@ export default class TileComponent extends IAReactComponent {
                 {(!this.state.crawl) ? null : // Only show this bug if crawling
                     <div className="item-crawl">
                         <div className="item-crawl-img">
-                            { this.state.crawl === "details"
-                                ? <img src="/images/noun_Ladybug_1869205.svg" alt={"crawl "+this.state.crawl}/>
-                                : this.state.crawl === "all"
-                                ? <img src="/images/noun_Ladybug_1869205_red.svg" alt={"crawl "+this.state.crawl} />
+                            { this.state.crawl.level === "details"
+                                ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="green" /></svg>' alt={"crawl "+this.state.crawl.level}/>
+                                : this.state.crawl.level === "all"
+                                ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="gold" /></svg>' alt={"crawl "+this.state.crawl.level} />
                                 : null
                             }
                         </div>

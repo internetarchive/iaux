@@ -102,7 +102,7 @@ class ScrollableTileGrid extends IAReactComponent {
                     <center className="more_search">
                         <a className="btn btn-info btn-sm" onClick={this.onClick} style={{visibility:"hidden"}} href="#">MORE RESULTS</a><br/>
                         <span className="more-search-fetching">Fetching more results <img
-                            src="./images/loading.gif" alt="loading"/></span>
+                            src="/images/loading.gif" alt="loading"/></span>
                     </center>
                 </div>
             </div>
