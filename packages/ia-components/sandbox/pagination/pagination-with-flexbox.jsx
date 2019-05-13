@@ -78,8 +78,9 @@ class Paginator extends Component {
    */
   setItemInView() {
     const { scrollThresholds } = this.state;
+    const { itemInViewClass } = this.props;
     const viewport = this.Paginator.current;
-    const item = viewport.firstElementChild;
+    const item = document.querySelector(itemInViewClass) || viewport.firstElementChild;
 
     const pages = Object.keys(scrollThresholds);
     let thisPage = null;
@@ -126,10 +127,13 @@ class Paginator extends Component {
 
       let itemToView = null;
       if (scrollItemIntoView) {
-        // focus on item
+        // focus on item but keep page position
         itemToView = viewport.querySelector(itemInViewClass);
         if (itemToView) {
+          const currentX = window.pageXOffset;
+          const currentY = window.pageYOffset;
           itemToView.focus();
+          window.scrollTo(currentX, currentY);
         }
       }
       const viewportFlush = scrollItemIntoView
