@@ -65,13 +65,13 @@ export default class ConfigDetailsComponent extends IAReactComponent {
         */
         return (
             <ul>
-            <li className={"crawl"+(this.state.level || "none")} data-id={this.props.identifier}  key={this.props.identifier} onClick={this.onClick}>
-                {this.state.level ? `Crawling ${this.state.level}` : "Not Crawling"}
-                { (this.state.search && ConfigDetailsComponent._levels.indexOf(this.state.level) >= ConfigDetailsComponent._levels.indexOf("details"))
-                    ?
-                    <span>{`  Search ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
-                    : null }
-            </li>
+                <li className={"crawl"+(this.state.level || "none")} data-id={this.props.identifier}  key={this.props.identifier} onClick={this.onClick}>
+                    {this.state.level ? `Crawling ${this.state.level}` : "Not Crawling"}
+                    { (this.state.search && ConfigDetailsComponent._levels.indexOf(this.state.level) >= ConfigDetailsComponent._levels.indexOf("details"))
+                        ?
+                        <span>{`  Search ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
+                        : null }
+                </li>
             </ul>
         );
     }

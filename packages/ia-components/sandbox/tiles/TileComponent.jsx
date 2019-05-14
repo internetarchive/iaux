@@ -3,8 +3,6 @@ const debug = require('debug')('ia-components:TileComponent');
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
 //import PropTypes from 'prop-types'
-//TODO-IAUX need to standardise API as this uses the "ArchiveMemberSearch" class to provide necessary details for the Tile.
-//import ArchiveMemberSearch from "@internetarchive/dweb-archivecontroller/ArchiveMemberSearch";
 import TileImage from "./TileImage";
 
 /* USE OUTSIDE DWEB
@@ -73,6 +71,7 @@ export default class TileComponent extends IAReactComponent {
                 iconnameClass: this.iconnameClass(member.mediatype),
                 numReviews: member.num_reviews || (item && item.reviews && item.reviews.length) || 0,
                 crawl: member.crawl,
+                downloaded: member.downloaded,
             })
         } catch(err) { // Catch error here as not generating debugging info at caller level for some reason
             debug("ERROR in TileComponent.constructor for %s: %s", this.state.identifier, err.message);
@@ -90,13 +89,15 @@ export default class TileComponent extends IAReactComponent {
         return (
             <div className={this.state.classes.join(' ')} data-id={this.state.identifier}  key={this.state.identifier}>
                 {/*-- Add in experimental crawl notification for dweb-mirror, if member.crawl=undefined then ignored --*/}
-                {(!this.state.crawl) ? null : // Only show this bug if crawling
+                {(!(this.state.crawl.level || this.state.downloaded)) ? null : // Only show this bug if crawling
                     <div className="item-crawl">
                         <div className="item-crawl-img">
                             { this.state.crawl.level === "details"
                                 ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="green" /></svg>' alt={"crawl "+this.state.crawl.level}/>
                                 : this.state.crawl.level === "all"
-                                ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="gold" /></svg>' alt={"crawl "+this.state.crawl.level} />
+                                ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="blue" /></svg>' alt={"crawl "+this.state.crawl.level} />
+                                : this.state.downloaded
+                                ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="white" /></svg>' alt={"crawl "+this.state.crawl.level} />
                                 : null
                             }
                         </div>

@@ -210,12 +210,13 @@ class DwebNavDIV extends IAReactComponent {
 
     render() {
         // Alternative to complex nav-dweb code
+        const crawl = this.props.item.crawl || { identifier: this.props.item.itemid}
         return ((typeof DwebArchive === "undefined") ? null :
                 <div id="nav-dweb"><span
                     className="dweb-nav-left">DWeb</span>:
                     <DwebStatusDIV/>
                     {!DwebArchive.mirror ? null :
-                        <div id="dweb-mirrorconfig"><ConfigDetailsComponent {...this.props.item.crawl}/>
+                        <div id="dweb-mirrorconfig"><ConfigDetailsComponent {...crawl}/>
                         </div>
                     }
                     {/*--<a href="https://docs.google.com/forms/d/e/1FAIpQLSe7pXiSLrmeLoKvlDi2wODcL3ro7D6LegPksb86jr5bCJa7Ig/viewform" target="_blank"><img src="./images/feedback.svg"/></a>--*/}
@@ -224,14 +225,25 @@ class DwebNavDIV extends IAReactComponent {
     }
 }
 
+const TRANSPORT_STATUS_FAILED = 1; // From dweb-transport/Transport.js
+
 class DwebStatusLI extends IAReactComponent {
+    /*
+    Construct a single transport indicator and register with DwebTransports, usually used inside a DwebStatusDIV
+
+    Usage: <DwebStatusLI name="HTTP" status=0 />
+     */
     constructor(props) {
         super(props); // name, status
         this.setState({status: props.status}); // Copy to state as will (soon) be changed by Transports
     }
+
     clickCallable(ev) {
-        debug("Transport clicked but not handled yet XXXXXXXXXX")
-        //this.state.transport.togglePaused(xxx); //TODO-DWEBNAV need to set transport, need function to call to toggle,
+        debug("Toggling transport for %s",this.props.name);
+        DwebTransports.togglePaused(this.props.name, (err, s) => {
+            // TODO display err.message if hover
+            this.setState({error: err, status: err ? TRANSPORT_STATUS_FAILED : s});
+        });
     }
 
     render() {
@@ -240,27 +252,40 @@ class DwebStatusLI extends IAReactComponent {
 }
 
 class DwebStatusDIV extends IAReactComponent {
+    /*
+    Displays a group indicators about the status of the Dweb Transport connections.
+
+    If DwebTransports is undefined it does nothing and adds nothing to the DOM, so it can safely be included
+
+    When called it will ask DwebTransports for the statuses, it then builds the elements and each of those <DwebStatusLI> registers itself with the transports
+
+    TODO unlike the previous version this wont change if something else toggles the state of transport
+
+    Usage: <DwebStatusDIV/>
+
+     */
 
     constructor(props) {
         super(props); // none
         if (typeof DwebTransports !== "undefined") {
             //TODO-DWEBNAV need to tell Transports to set this status when changes
-            DwebTransports.p_statuses((err, statuses) => this.setState({statuses}));
+            DwebTransports.p_statuses((err, statuses) =>  // e.g. [ { name: HTTP: status: 0 }* ]
+                this.setState({statuses}));
         }
     }
 
     render() {
         // Alternative to complex nav-dweb code
-        return (
-            <div id="dweb-status">
-                {typeof this.state.statuses === "undefined" ? "Loading" :
-                    <ul>
-                        {this.state.statuses.map(s =>
-                            <DwebStatusLI {...s}/>
-                        )}
-                    </ul>
-                }
-            </div>
+        return ((typeof DwebTransports === "undefined") ? null :
+                <div id="dweb-status">
+                    {typeof this.state.statuses === "undefined" ? "Loading" :
+                        <ul>
+                            {this.state.statuses.map(s =>
+                                <DwebStatusLI {...s}/>
+                            )}
+                        </ul>
+                    }
+                </div>
         );
     }
 }
