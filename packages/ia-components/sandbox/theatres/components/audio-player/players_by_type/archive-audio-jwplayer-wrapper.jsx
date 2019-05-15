@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 
 /**
  * IA Audio Player
- *
- * Uses global: Play class (IA JWPlayer wrapper)
+ * Uses global: Play class (IA JWPlayer wrapper), jwplayer
  *
  * It will display photo if given, and will overlay the media player at the base of the photo.
+ *
+ * Development is in lock-step with Play8.js.
+ * ANY changes to Play8.js may need to be addressed here also.
  */
 class ArchiveAudioPlayer extends Component {
   constructor(props) {
@@ -19,6 +21,12 @@ class ArchiveAudioPlayer extends Component {
       player: null,
       playerPlaylistIndex: null,
       initiatePlay: false,
+      onMetaFired: false,
+      startAt: null,
+      jwplayerOnloadStabilized: false,
+      playCBHasFired: 0,
+      // This reflects the amount of cycles Play8.js uses to stabilize load
+      maxTimesPlayCBToBeFiredForLoad: 2,
     };
 
     this.registerPlayer = this.registerPlayer.bind(this);
@@ -32,50 +40,138 @@ class ArchiveAudioPlayer extends Component {
     this.registerPlayer();
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const {
+      startAt,
+      initiatePlay,
+      jwplayerOnloadStabilized,
+      playerPlaylistIndex,
+    } = this.state;
+    const {
+      jwplayerOnloadStabilized: nextStablizerCheck,
+      initiatePlay: nextInit,
+      playerPlaylistIndex: nextPlaylistIndex,
+    } = nextState;
+
+    // These checks are specifically for when the player starts on track N where N > 1 (not first track)
+    // We do not want any UI updates, or update event propagation when these locks open.
+    // This work is complementary to `componentDidUpdate` and `onPlaylistItemCB`
+    // These state updates are mandatory for autoplay to happen after load.
+    if (startAt && (!jwplayerOnloadStabilized && nextStablizerCheck)) {
+      // JWPlayer has finally loaded through IA's internal wrapper Play8.js
+      return false;
+    }
+    if (startAt && jwplayerOnloadStabilized && !initiatePlay && nextInit) {
+      // Play management has been initialized
+      return false;
+    }
+    if (startAt && jwplayerOnloadStabilized && initiatePlay && !playerPlaylistIndex && nextPlaylistIndex) {
+      // We have manually started the track that the player started on (N)
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Check if Track index has changed,
    * if so, then play that track
    */
   componentDidUpdate(prevProps, prevState) {
-    const { player, playerPlaylistIndex, initiatePlay } = this.state;
-    const { sourceData: { index = null } } = this.props;
+    const {
+      player,
+      playerPlaylistIndex,
+      initiatePlay,
+      startAt,
+      jwplayerOnloadStabilized,
+      onMetaFired,
+    } = this.state;
+    const {
+      playerPlaylistIndex: prevPlayIndex,
+    } = prevState;
+    const { jwplayerID, sourceData: { index = null } } = this.props;
 
-    // if state index doesn't match props index, manually play
+    // onMetaFired is a custom JWPlayer event, this notes when JWPlayer is really ready
+    // We wait for this to fire before doing anything else
+    if (!onMetaFired) return;
+
     const indexHasBeenSet = Number.isInteger(index);
 
-    // if there is an index in props, but flag is false,
-    // set flag to true;
-    let stateUpdate = {};
-    let postStateCB = null;
-    if (indexHasBeenSet && !initiatePlay) {
-      stateUpdate.initiatePlay = true;
+    // When Player starts at first track, and we have set the track index, play management can start
+    if (indexHasBeenSet && !initiatePlay && !Number.isInteger(startAt)) {
+      return this.setState({ initiatePlay: true });
     }
 
+    // This changes the tracks
+    // When user clicks on the item on the track list
+    // When JWPlayer automatically updates the track list during auto play
     const manuallyJumpToTrack = (playerPlaylistIndex !== index) && indexHasBeenSet && initiatePlay;
-
     if (manuallyJumpToTrack) {
-      stateUpdate.playerPlaylistIndex = index;
-      postStateCB = () => {
-        player.playN(index);
-      };
+      return this.setState({ playerPlaylistIndex: index }, () => player.playN(index));
     }
 
-    if (Object.keys(stateUpdate).length > 0) {
-      this.setState(stateUpdate, postStateCB);
+    // This section is when Player does not start at first track
+    // Because of the way we initiate JWPlayer through IA's internal Play8.js wrapper,
+    //   we have to manually do some checks.
+    // This code is complementary to what is happening in `shouldComponentUpdate`
+    //   and `onPlaylistItemCB`
+    const playerStartingAtN = indexHasBeenSet && startAt === index && !playerPlaylistIndex;
+    const trackHasBeenSet = !Number.isInteger(prevPlayIndex) && Number.isInteger(index);
+
+    if (playerStartingAtN && !initiatePlay && trackHasBeenSet && !jwplayerOnloadStabilized) {
+      // JWPlayer has finally stabilized its initial onload through IA's internal wrapper: Play8.js
+      return this.setState({ jwplayerOnloadStabilized: true });
     }
 
-    return null;
+    if (playerStartingAtN && !initiatePlay && jwplayerOnloadStabilized) {
+      // Once load has stabilized, we can confirm play management can start
+      return this.setState({ initiatePlay: true }, () => jwplayer(jwplayerID).pause());
+    }
+
+    if (startAt === index && !playerPlaylistIndex && jwplayerOnloadStabilized && initiatePlay) {
+      // Manually play the track the player started on (N)
+      return this.setState({ playerPlaylistIndex: index }, () => jwplayer(jwplayerID).play());
+    }
   }
 
   /**
    * Event Handler that fires when JWPlayer starts a new track
    */
   onPlaylistItemCB(event) {
+    const {
+      initiatePlay,
+      onMetaFired,
+      playCBHasFired,
+    } = this.state;
+
+    if (!onMetaFired) return;
+
     const { index: playerPlaylistIndex } = event;
-    const { initiatePlay } = this.state;
-    const jwplayerStartingOnACertainTrack = !initiatePlay && (playerPlaylistIndex > 0);
-    if (initiatePlay || jwplayerStartingOnACertainTrack) {
+
+    if (initiatePlay) {
       this.emitPlaylistChange(playerPlaylistIndex);
+    }
+
+    const jwplayerStartingOnACertainTrack = !initiatePlay && (playerPlaylistIndex > 0);
+    /*
+      This area checks when player loads on a track that isn't the 1st track
+      JWPlayer loads through IA's internal wrapper Play8.js
+      and this fires 2x (captured in `maxTimesPlayCBToBeFiredForLoad`).
+      We count callback (CB) firing when this happens and update state accordingly.
+
+      This code is complementary to `componentDidUpdate` and `shouldComponentUpdate`
+    */
+    if (jwplayerStartingOnACertainTrack && !initiatePlay) {
+      if (playCBHasFired === 0) {
+        // capture the index where the playlist starts & start count of CB fires
+        this.setState({ startAt: playerPlaylistIndex, playCBHasFired: playCBHasFired + 1 });
+      }
+
+      if (playCBHasFired === 1) {
+        // Once CB has fired once, we will continue to count the CB fire
+        // & emit that the player has updated index
+        this.setState({ playCBHasFired: playCBHasFired + 1 },
+          () => this.emitPlaylistChange(playerPlaylistIndex));
+      }
     }
   }
 
@@ -89,6 +185,7 @@ class ArchiveAudioPlayer extends Component {
     // User Play class instance to set event listeners
     const { player } = this.state;
     player.on('playlistItem', this.onPlaylistItemCB);
+    player.on('meta', () => this.setState({ onMetaFired: true }));
     this.postRegistration();
   }
 
