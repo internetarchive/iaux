@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
-import ACUtil from "@internetarchive/dweb-archivecontroller/Util";
-import AnchorDownload from "@internetarchive/ia-components/sandbox/details/AnchorDownload";
+import {formats} from '../../util.js';
+import AnchorDownload from "./AnchorDownload";
 
 export default class DetailsDownloadOptions extends IAReactComponent {
 
