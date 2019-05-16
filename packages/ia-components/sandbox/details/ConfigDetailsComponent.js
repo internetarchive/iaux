@@ -4,7 +4,8 @@ const debug = require('debug')('dweb-archive:ConfigDetailsComponent');
 const canonicaljson = require('@stratumn/canonicaljson');
 import React from "react";
 import IAReactComponent from '../IAReactComponent';
-const ACUtil = require('@internetarchive/dweb-archivecontroller/Util'); // For Object.deeperAssign
+import {gatewayServer} from '../../util.js';
+
 //DwebTransports is not needed, its a global
 //TODO-CONFIG make it be empty if not on mirror
 
@@ -94,7 +95,7 @@ export default class ConfigDetailsComponent extends IAReactComponent {
         const config = info.config; // Mixed in with other info
         const configdefault = config[0];
         const configuser = config[1] || {};
-        const configmerged = Object.deeperAssign({}, configdefault, configuser); // Cheating, but assumes no arrays needing merging
+        const configmerged = ObjectDeeperAssign({}, configdefault, configuser); // Cheating, but assumes no arrays needing merging
         // noinspection JSUnresolvedVariable
         // Note there is similar code in dweb-mirror.MirrorConfig.crawlMember
         const task = configmerged.apps.crawl.tasks.find(t => t.identifier.includes(identifier));
@@ -133,7 +134,7 @@ export default class ConfigDetailsComponent extends IAReactComponent {
             const el = this.render(); // Will be loading asynchronously
             ReactDOM.render(el, parentElement)
 
-            const urlSetConfig = [ACUtil.gatewayServer(), "admin/setconfig", this.state.identifier, level || "none"].join('/');
+            const urlSetConfig = [gatewayServer(), "admin/setconfig", this.state.identifier, level || "none"].join('/');
             DwebTransports.httptools.p_GET(urlSetConfig, {}, (err, info) => {
                 // Gets back info, but not currently using
                 if (err) {
