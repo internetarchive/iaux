@@ -42,7 +42,7 @@ export default class DetailsDownloadOptions extends IAReactComponent {
                            title={k}
                            data-toggle="tooltip" data-placement="auto left" data-container="body"
                            target="_blank">
-                            {ACUtil.formats("format", k).downloadable} <span className="iconochive-download"
+                            {formats("format", k).downloadable} <span className="iconochive-download"
                                                                               aria-hidden="true"></span><span
                                 className="sr-only">download</span>
                         </AnchorDownload>
