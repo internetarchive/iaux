@@ -3,12 +3,12 @@
 /* This is a group of functions that work on Objects (there are more in dweb-archivecontroller/Util.js) */
 
 /* Construct an object based on an array such as produced by Object.entries i.e. [ [k0,v0]* ] */
-function ObjectFromEntries(arr) { arr.reduce((res,kv)=>(res[kv[0]]=kv[1],res),{});} // [[ k0, v0],[k1,v1] => {k0:v0, k1:v1}
+function ObjectFromEntries(arr) { return arr.reduce((res,kv)=>(res[kv[0]]=kv[1],res),{});} // [[ k0, v0],[k1,v1] => {k0:v0, k1:v1}
 /*
     Like Array.prototype.filter, applies a filter function to key-value pairs
     The test function should take key and value as argument and return boolean if the test passes.
  */
-function ObjectFilter(obj, f) { ObjectFromEntries( Object.entries(obj).filter(kv=>f(kv[0], kv[1]))); }
+function ObjectFilter(obj, f) { return ObjectFromEntries( Object.entries(obj).filter(kv=>f(kv[0], kv[1]))); }
 
 /*
 Return a string suitable for prepending to root relative URLs choosing between normal, Dweb, and dweb-mirror scenarios
@@ -23,6 +23,25 @@ function gatewayServer(server=undefined) {
     return DwebArchive ? DwebArchive.mirror
             : server ? "https://"+server
             : "https://dweb.me"
+}
+
+function canonicalUrl(url, opts={}) {
+    /* Translate an URL as typically seen in a piece of IA code into something canonical that can be used in:
+        Dweb code - where typically it wants to go to https:/.dweb.me
+        Dweb-Mirror client - where it should go to the mirror server
+        AO - where it will usually not be changed
+        Note this explicitly doesnt count the case of running in the Mirror as its only occurring in UI code
+
+        The code here will get complicated as more cases are added, this will remove the need for similar processing in ReactFake
+        By default URLs are returned unmodified
+
+        Cases handled:
+        /xxx -> Dweb|Mirror: <server>/arc/archive.org/xxx AO:
+     */
+    if (url.startsWith("/")) {
+        return DwebArchive ? DwebArchive.mirror + "/arc/archive.org" + url : url
+    }
+    return url;
 }
 
 /*
@@ -624,4 +643,4 @@ function formats(k,v,{first=true}={}) {
     const ff = _formatarr.filter(f => f[k] === v);
     return first ? (ff.length ? ff[0] : undefined) : ff;
 }
-export {ObjectFromEntries, ObjectFilter, gatewayServer, formats, }
+export {ObjectFromEntries, ObjectFilter, gatewayServer, canonicalUrl, formats, }

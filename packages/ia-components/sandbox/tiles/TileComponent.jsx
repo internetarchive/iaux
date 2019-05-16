@@ -70,7 +70,7 @@ export default class TileComponent extends IAReactComponent {
                 date: (member.publicdate || member.updateddate || (item && item.metadata.publicdate)).substr(0, 10), // No current cases where none of these dates exist
                 iconnameClass: this.iconnameClass(member.mediatype),
                 numReviews: member.num_reviews || (item && item.reviews && item.reviews.length) || 0,
-                crawl: member.crawl,
+                crawl: member.crawl || {},
                 downloaded: member.downloaded,
             })
         } catch(err) { // Catch error here as not generating debugging info at caller level for some reason
