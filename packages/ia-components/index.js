@@ -3,10 +3,7 @@
  */
 
 // live
-//Next line fails webpack - complains Support for the experimental syntax 'classProperties' isn't currently enabled
-//If it is needed then please document how to add it to something using this index.js from another package
-//or import directory
-//export { default as IAUXExampleComponent } from './live/example-react-component/index';
+export { default as IAUXExampleComponent } from './live/example-react-component/index';
 
 // sandbox
 export { default as HorizontalRadioGroup } from './sandbox/selectors/horizontal-radio-group/horizontal-radio-group';
