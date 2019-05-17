@@ -3,10 +3,7 @@
  */
 
 // live
-//Next line fails webpack - complains Support for the experimental syntax 'classProperties' isn't currently enabled
-//If it is needed then please document how to add it to something using this index.js from another package
-//or import directory
-//export { default as IAUXExampleComponent } from './live/example-react-component/index';
+export { default as IAUXExampleComponent } from './live/example-react-component/index';
 
 // sandbox
 export { default as HorizontalRadioGroup } from './sandbox/selectors/horizontal-radio-group/horizontal-radio-group';
@@ -23,9 +20,8 @@ export { default as TileComponent } from './sandbox/tiles/TileComponent';
 export { TileGrid, ScrollableTileGrid } from './sandbox/tiles/TileGrid';
 // details page
 export { default as AnchorDownload } from './sandbox/details/AnchorDownload';
-export { default as DetailsActionButtons } from './sandbox/details/DetailsActionButtons';
+export { DetailsFlagLI, DetailsFlags, DetailsActionButtons } from './sandbox/details/DetailsActionButtons';
 export { default as DetailsCollectionList } from './sandbox/details/DetailsCollectionList';
 export { default as DetailsDownloadOptions } from './sandbox/details/DetailsDownloadOptions';
-export { default as DetailsFlags } from './sandbox/details/DetailsFlags';
 export { AnchorModalGo, ButtonModalGo } from './sandbox/details/ModalGo';
 export { default as Tabby} from './sandbox/details/Tabby';

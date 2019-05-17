@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export default class IAUXExampleComponent extends Component {
-  static displayName = "IAUXExampleComponent"
-  render () {
+  render() {
     const { children } = this.props;
     return (
       <div className="example-react-component">
@@ -15,6 +14,6 @@ export default class IAUXExampleComponent extends Component {
           </div>
         }
       </div>
-    )
+    );
   }
 }

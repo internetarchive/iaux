@@ -1,13 +1,84 @@
 //const debug = require('debug')('dweb-archive:DetailsActionButtons');
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
-import DetailsFlags from './DetailsFlags';
 import {AnchorModalGo, ButtonModalGo} from './ModalGo';
 
-/* DetailsActionButtons are a group of buttons, usually shown on the right, that include bookmarking, sharing and flagging.
-    Its currently used in dweb-archive/Details.js
-    <DetailsActionButtons title="xxx" description="yyy"/>
+/**
+ * DetailsActionButtons are a group of buttons, usually shown on the right, that include bookmarking, sharing and flagging.
+ * DetailsFlags is used by DetailsActionButtons for the group of flags
+ * DetailsFlag is for a single flag button
+ *
+ * Behavior:
+ *  On construction: Nothing
+ *
+ * Rendering
+ *  DetailsActionButtons renders as a set of buttons for bookmarking, sharing and the group for flagging and is used on dweb-archive/Details.js
+ *  DetailsFlagLI and DetailsFlags are used by DetailsActionButtons
+ *
+ * Each button behaves differently
+ *  Bookmark button access a URL via the AnchorModalGo component (TODO Doesn't work in Dweb because not logged in)
+ *  Share button pops up a box with possible places to share via the ButtonModalGo component to #cher-modal
+ *  Flags button pops up a menu of the flags (TODO Doesn't work in Dweb because not logged in)
+ *
+ *  <DetailsActionButtons
+ *      identifier="xxx"        Identifier of item being bookmarked
+ *      title="yyy"             String to use for the bookmark (from the item's title)
+ *  />
+ *
+ *  <DetailsFlags/>             Render just the flag icon leading to the popup.
+ *
+ *  <DetailsFlagLI
+ *      href="https:..."         Url to go to on flagging
+ *      title=""                 text of flag
+ *  />
  */
+
+class DetailsFlagLI extends IAReactComponent {
+
+    constructor(props) {
+        super(props) //href, text
+    }
+
+    render() {
+        return (
+            <li className="">
+                <a href={this.props.href} role="menuitem">
+                    {this.props.text}</a>
+            </li>
+        );
+    }
+}
+
+}
+class DetailsFlags extends IAReactComponent {
+
+    constructor(props) {
+        super(props) //none
+    }
+    render() {
+        const loginURL = "https://archive.org/account/login.php"; //TODO - its a Direct link as dont support authentication in DWeb version, may be better URL for IAUX
+        return (
+            <div
+                id="flag-button-container" className="topinblock" data-toggle="tooltip" data-placement="bottom"
+                data-container="body" title="Flag this item">
+                <div className="dropup">
+                    <button id="flag-button" className=" button" type="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false"><span className="iconochive-Flag" aria-hidden="true"></span><span
+                        className="sr-only">flag</span></button>
+                    <div id="flag-popover" className="dropdown-menu" aria-labelledby="flag-button">
+                        <h3 className="dropdown-title">Flag this item for</h3>
+                        <ul role="menu">
+                            <DetailsFlagLI href={loginURL} text="Graphic Violence"/>
+                            <DetailsFlagLI href={loginURL} text="Graphic Sexual Content"/>
+                            <DetailsFlagLI href={loginURL} text="Spam, Scam or Fraud"/>
+                            <DetailsFlagLI href={loginURL} text="Broken or Empty Data"/>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
 
 export default class DetailsActionButtons extends IAReactComponent {
 
@@ -38,3 +109,5 @@ export default class DetailsActionButtons extends IAReactComponent {
         )
     }
 }
+
+export {DetailsFlagLI, DetailsFlags, DetailsActionsButtons}
