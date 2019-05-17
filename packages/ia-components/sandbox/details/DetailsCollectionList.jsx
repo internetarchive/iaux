@@ -1,5 +1,4 @@
 import React from 'react';
-import ArchiveMember from '@internetarchive/dweb-archivecontroller/ArchiveMember.js';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 
@@ -20,9 +19,10 @@ export default class DetailsCollectionList extends IAReactComponent {
 
   loadcallable(unused_enclosingElement) {
     // expand a list of collections into a list of titles either through collectionTitles if supplied (e.g. from dweb gateway) or via a new Search query
+    const { ArchiveMemberExpand, collections } = this.props;
     if (!this.state.expansionTried) {
       this.state.expansionTried = true;
-      ArchiveMember.expand(this.props.collections.filter(k => !this.state.collectionTitles[k]), (err, res) => { // res = { id: AS(id) }
+      ArchiveMemberExpand(collections.filter(k => !this.state.collectionTitles[k]), (err, res) => { // res = { id: AS(id) }
         const collectionTitles = Object.assign({}, this.state.collectionTitles, Object.map(res, (k, v) => [k, v.title]));
         this.setState({ collectionTitles });
       });
