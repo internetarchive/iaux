@@ -1,4 +1,4 @@
-//const debug = require('debug')('dweb-archive:DetailsActionButtons');
+//const debug = require('debug')('dweb-archive:ModalGo');
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
 import {ObjectFilter} from '../../util.js';
