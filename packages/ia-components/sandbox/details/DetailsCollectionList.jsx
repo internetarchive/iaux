@@ -1,7 +1,7 @@
 import React from 'react';
-import IAReactComponent from './IAReactComponent';
-import {AnchorDetails} from '@internetarchive/ia-components/index.js';
-import {canonicalUrl} from '../Util.js';
+import IAReactComponent from '../IAReactComponent;
+import {AnchorDetails} from '../AnchorDetails';
+import {canonicalUrl} from '../../util';
 
 /**
  *  List of collections on details page
