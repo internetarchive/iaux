@@ -1,6 +1,6 @@
 import React from 'react';
-import IAReactComponent from '../IAReactComponent;
-import {AnchorDetails} from '../AnchorDetails';
+import IAReactComponent from '../IAReactComponent';
+import AnchorDetails from '../AnchorDetails';
 import {canonicalUrl} from '../../util';
 
 /**
