@@ -25,6 +25,7 @@ function gatewayServer(server=undefined) {
             : "https://dweb.me"
 }
 
+// Same code in dweb-archive/util.js and ia-components/util.js
 function canonicalUrl(url, opts={}) {
     /* Translate an URL as typically seen in a piece of IA code into something canonical that can be used in:
         Dweb code - where typically it wants to go to https:/.dweb.me
@@ -643,4 +644,4 @@ function formats(k,v,{first=true}={}) {
     const ff = _formatarr.filter(f => f[k] === v);
     return first ? (ff.length ? ff[0] : undefined) : ff;
 }
-export {ObjectFromEntries, ObjectFilter, gatewayServer, canonicalUrl, formats, }
+export {gatewayServer, canonicalUrl, ObjectFromEntries, ObjectFilter, formats}
