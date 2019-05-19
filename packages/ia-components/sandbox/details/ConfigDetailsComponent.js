@@ -5,22 +5,42 @@ const canonicaljson = require('@stratumn/canonicaljson');
 import React from "react";
 import IAReactComponent from '../IAReactComponent';
 import {gatewayServer} from '../../util.js';
-
 //DwebTransports is not needed, its a global
+
+/**
+ * Component used in a tile bar on dweb-mirror to display and control Crawl functionality.
+ * It renders a button which indicates whether the viewed item is being crawled, and info about that crawl,
+ * and allows changing the crawl status.
+ *
+ * Note this component is under development (May 2019) and will likely change to be more functional, which is why there is
+ * commented out code there.
+ *
+ * Behavior:
+ * On construction: it sets an instance variable on the class so other parts of the UI can send info to it.
+ *
+ * On Clicking:
+ *   It cycles the "level" through none / "details" / "all"
+ *   It rerenders, showing new level
+ *   It sends the new level to the server.
+ *
+ * <ConfigDetailsComponent
+ *  identifier  of item
+ *  level       Current crawling level of object
+ *  search      Current search parameters for crawl
+ *  />
+ *
+ */
+
+
+
 //TODO-CONFIG make it be empty if not on mirror
 
 export default class ConfigDetailsComponent extends IAReactComponent {
     /* -- Not used with ReactFake yet
     static propTypes = {
         identifier: PropTypes.string,
-        user: PropTypes.object,
-        default: PropTypes.object,
-        merged: PropTypes.object,
-        oldhash: PropTypes.string,
         level: PropTypes.string,
         search: PropTypes.object,
-        rows: PropType.integer,
-        searchLevel: PropTypes.string,
     };
     */
     constructor(props)
@@ -36,34 +56,8 @@ export default class ConfigDetailsComponent extends IAReactComponent {
     static findAndSetState(state) {
         this.instance.setState(state);
     }
-    /* TODO-DWEBNAV
-    static insertInside(elementId, props={}) { //TODO-UXLOCAL probably obsolete
-        // Called from nav_details to display the config info
-        const parentElement = document.getElementById(elementId); // Note this isnt a Component, cos its in the archive.html
-        const el = new this(props).render(); // Will be loading asynchronously
-        while (parentElement.lastChild) {
-            parentElement.removeChild(parentElement.lastChild);
-        }
-        //React.addKids(parentElement, el); // Using addKids to force the "ref" to be used //TODO-IAUX probably doesnt have addKids ?
-        ReactDOM.render(el, parentElement)
-    }
-     */
     render() {
-        //if (this.isFakeReact || !this.loaded()) {
-        //    return <span ref={this.load}>Loading ...</span>
-        //} else { // Pure IAUX
-        //TODO-CONFIG make it hideable with red/yellow/green spider button or similar
         //TODO-CONFIG make it editable
-        //TODO-CONFIG dont show search if its not a collection - but note we dont (currently) know that here.
-        /*
-        {(!this.state.level) ? null : // Only show this bug if crawling
-            this.state.level === "details"
-                ? <img src="/images/noun_Ladybug_1869205.svg" alt={"crawl "+this.state.level}/>
-                : this.state.level === "all"
-                ? <img src="/images/noun_Ladybug_1869205_red.svg" alt={"crawl "+this.state.level} />
-                : null
-        }
-        */
         return (
             <ul>
                 <li className={"crawl"+(this.state.level || "none")} data-id={this.props.identifier}  key={this.props.identifier} onClick={this.onClick}>
@@ -134,6 +128,7 @@ export default class ConfigDetailsComponent extends IAReactComponent {
             const el = this.render(); // Will be loading asynchronously
             ReactDOM.render(el, parentElement)
 
+            // Tell server the desired new state.
             const urlSetConfig = [gatewayServer(), "admin/setconfig", this.state.identifier, level || "none"].join('/');
             DwebTransports.httptools.p_GET(urlSetConfig, {}, (err, info) => {
                 // Gets back info, but not currently using
