@@ -20,7 +20,7 @@ function gatewayServer(server=undefined) {
     // Has to be a function rather than constant because searchparams is defined after this library is loaded
     // Note that for example where Util.js is included from dweb-mirror that currently (this may change) DwebArchive is not defined
     // If server is supplied will use that rather than dweb.me, this is (possibly temporary) for bookreader //TODO-BOOK
-    return (typeof DwebArchive !== "undefined")  ? DwebArchive.mirror
+    return ((typeof DwebArchive !== "undefined") && (DwebArchive.mirror !== null))  ? DwebArchive.mirror
             : server ? "https://"+server
             : "https://dweb.me"
 }
@@ -40,7 +40,7 @@ function canonicalUrl(url, opts={}) {
         /xxx -> Dweb|Mirror: <server>/arc/archive.org/xxx AO:
      */
     if (url.startsWith("/")) {
-        return (typeof DwebArchive === "undefined")  ? url : DwebArchive.mirror + "/arc/archive.org" + url
+        return ((typeof DwebArchive === "undefined") || (DwebArchive.mirror === null))  ? url : DwebArchive.mirror + "/arc/archive.org" + url
     }
     return url;
 }

@@ -38,8 +38,8 @@ export default class AnchorDownload extends IAReactComponent {
                     // Note - this is a broken, illegal URL with an '&' in middle of the URL not the parameters but that is what IA requires
                     ? `https://archive.org/compress/${this.props.identifier}/formats=${this.props.format}&file=/${this.props.identifier}.zip`
                     : (typeof DwebArchive === "undefined")                                                      // just identifier !dweb
-                        ? 'https://archive.org/download/${this.props.identifier}'
-                        : 'https://dweb.archive.org/download/${this.props.identifier'));                        // just identifier dweb
+                        ? 'https://archive.org/download/'+this.props.identifier
+                        : 'https://dweb.archive.org/download/'+this.props.identifier));                        // just identifier dweb
         const usp = new URLSearchParams;
         // Copy any parameters in AnchorDownload.urlparms to usp for inclusion in the href=
         AnchorDownload.urlparms.forEach(k=> usp.append(k, this.props[k]));
