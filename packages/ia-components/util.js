@@ -15,6 +15,7 @@ Return a string suitable for prepending to root relative URLs choosing between n
 
 Note copy of this in dweb-archivecontroller/Util.js and ia-components/util.js
  */
+
 function gatewayServer(server=undefined) {
     // Return location for http calls to a gateway server that understands canonical addresses like /arc/archive.. or /ipfs/Q...
     // Has to be a function rather than constant because searchparams is defined after this library is loaded
@@ -28,7 +29,7 @@ function gatewayServer(server=undefined) {
 // Same code in dweb-archive/util.js and ia-components/util.js
 function canonicalUrl(url, opts={}) {
     /* Translate an URL as typically seen in a piece of IA code into something canonical that can be used in:
-        Dweb code - where typically it wants to go to https:/.dweb.me
+        Dweb code - where typically it wants to go to https://dweb.me
         Dweb-Mirror client - where it should go to the mirror server
         AO - where it will usually not be changed
         Note this explicitly doesnt count the case of running in the Mirror as its only occurring in UI code
@@ -39,8 +40,10 @@ function canonicalUrl(url, opts={}) {
         Cases handled:
         /xxx -> Dweb|Mirror: <server>/arc/archive.org/xxx AO:
      */
-    if (url.startsWith("/")) {
-        return ((typeof DwebArchive === "undefined") || (DwebArchive.mirror === null))  ? url : DwebArchive.mirror + "/arc/archive.org" + url
+    if (url.startsWith("/services")) {
+        return (typeof DwebArchive === "undefined")
+            ? url
+            : ( DwebArchive.mirror === null ? "https://dweb.me" : DwebArchive.mirror) + "/arc/archive.org" + url;
     }
     return url;
 }
