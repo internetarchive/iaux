@@ -27,6 +27,7 @@ import {gatewayServer} from '../../util.js';
  *  identifier  of item
  *  level       Current crawling level of object
  *  search      Current search parameters for crawl
+ *  downloaded  true if item downloaded to details level (displayed as white if not crawling)
  *  />
  *
  */
@@ -41,11 +42,12 @@ export default class ConfigDetailsComponent extends IAReactComponent {
         identifier: PropTypes.string,
         level: PropTypes.string,
         search: PropTypes.object,
+        downloaded: ProbTypes.boolean
     };
     */
     constructor(props)
     {
-        super(props);   // { identifier, level, search }
+        super(props);   // { identifier, level, search, downloaded }
         this.setState(props);
         ConfigDetailsComponent.instance = this; // Allow finding it
     }
@@ -58,10 +60,11 @@ export default class ConfigDetailsComponent extends IAReactComponent {
     }
     render() {
         //TODO-CONFIG make it editable
+        const className = "crawl" + (this.state.level ?  this.state.level : this.state.downloaded ? "downloaded" : "none");
         return (
             <ul>
-                <li className={"crawl"+(this.state.level || "none")} data-id={this.props.identifier}  key={this.props.identifier} onClick={this.onClick}>
-                    {this.state.level ? `Crawling ${this.state.level}` : "Not Crawling"}
+                <li className={className} data-id={this.props.identifier}  key={this.props.identifier} onClick={this.onClick}>
+                    {this.state.level ? `Crawling ${this.state.level}` : this.state.downloaded ? "Downloaded" : "Not Crawling"}
                     { (this.state.search && ConfigDetailsComponent._levels.indexOf(this.state.level) >= ConfigDetailsComponent._levels.indexOf("details"))
                         ?
                         <span>{`  Search ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
