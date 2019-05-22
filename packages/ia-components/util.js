@@ -20,15 +20,15 @@ function gatewayServer(server=undefined) {
     // Has to be a function rather than constant because searchparams is defined after this library is loaded
     // Note that for example where Util.js is included from dweb-mirror that currently (this may change) DwebArchive is not defined
     // If server is supplied will use that rather than dweb.me, this is (possibly temporary) for bookreader //TODO-BOOK
-    return (typeof DwebArchive !== "undefined")  ? DwebArchive.mirror
-            : server ? "https://"+server
+    return ((typeof DwebArchive !== "undefined") && (DwebArchive.mirror !== null))  ? DwebArchive.mirror
+        : server ? "https://"+server
             : "https://dweb.me"
 }
 
 // Same code in dweb-archive/util.js and ia-components/util.js
 function canonicalUrl(url, opts={}) {
     /* Translate an URL as typically seen in a piece of IA code into something canonical that can be used in:
-        Dweb code - where typically it wants to go to https:/.dweb.me
+        Dweb code - where typically it wants to go to https://dweb.me
         Dweb-Mirror client - where it should go to the mirror server
         AO - where it will usually not be changed
         Note this explicitly doesnt count the case of running in the Mirror as its only occurring in UI code
@@ -39,12 +39,13 @@ function canonicalUrl(url, opts={}) {
         Cases handled:
         /xxx -> Dweb|Mirror: <server>/arc/archive.org/xxx AO:
      */
-    if (url.startsWith("/")) {
-        return (typeof DwebArchive === "undefined")  ? url : DwebArchive.mirror + "/arc/archive.org" + url
+    if (url.startsWith("/services")) {
+        return (typeof DwebArchive === "undefined")
+            ? url
+            : ( DwebArchive.mirror === null ? "https://dweb.me" : DwebArchive.mirror) + "/arc/archive.org" + url;
     }
     return url;
 }
-
 /*
 A table, and a function to access it.
 
