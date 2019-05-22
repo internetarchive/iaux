@@ -6,6 +6,14 @@ import {canonicalUrl} from '../../util';
 /**
  *  List of collections on details page
  *
+ *  Renders as a list of collections, with images for each.
+ *
+ *  Behavior none for the component itself, but each collection (text and image) is an anchor to navigate to the collection
+ *
+ * Technical Notes:
+ *  The collectionTitles should be supplied, there is a wrapper in dweb-archive to do this, as there was a preference (Isa) not to
+ *  include that functionality here.
+ *
  * <DetailsCollectionList
  *   collections=["prelinger","video"]                    List of collections to display
  *   collectionTitles={prelinger: "Prelinger Archives"}   Mapping collections to title
@@ -13,6 +21,7 @@ import {canonicalUrl} from '../../util';
  *
  * Typically the caller will expand collections list asynchronously and set collectionTitles - see dweb-archive/components/DetailsCollectionListWrapper
  */
+
 
 export default class DetailsCollectionList extends IAReactComponent {
   constructor(props) {
