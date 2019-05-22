@@ -60,10 +60,10 @@ export default class AnchorDownload extends IAReactComponent {
         return ( // Note there is intentionally no spacing in case JSX adds a unwanted line break
             (typeof DwebArchive === "undefined") ?
                 <a href={this.state.url.href} {...this.state.anchorProps} target="_blank">{this.props.children}</a>
-            :
+                :
                 // This is the Dweb version for React|!React
                 <a href={this.state.url.href} onClick={this.onClick}  {...this.state.anchorProps}>{this.props.children}</a>
-            );
+        );
     }
 }
 AnchorDownload.urlparms=[]; // Properties that go in the URL to download

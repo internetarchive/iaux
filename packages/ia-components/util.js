@@ -22,7 +22,7 @@ function gatewayServer(server=undefined) {
     // Note that for example where Util.js is included from dweb-mirror that currently (this may change) DwebArchive is not defined
     // If server is supplied will use that rather than dweb.me, this is (possibly temporary) for bookreader //TODO-BOOK
     return ((typeof DwebArchive !== "undefined") && (DwebArchive.mirror !== null))  ? DwebArchive.mirror
-            : server ? "https://"+server
+        : server ? "https://"+server
             : "https://dweb.me"
 }
 
@@ -47,7 +47,6 @@ function canonicalUrl(url, opts={}) {
     }
     return url;
 }
-
 /*
 A table, and a function to access it.
 
