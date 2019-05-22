@@ -26,3 +26,5 @@ export { default as DetailsDownloadOptions } from './sandbox/details/DetailsDown
 export { default as DetailsFlags } from './sandbox/details/DetailsFlags';
 export { AnchorModalGo, ButtonModalGo } from './sandbox/details/ModalGo';
 export { default as Tabby} from './sandbox/details/Tabby';
+export {NavWrap} from './sandbox/details/NavWrap';
+
