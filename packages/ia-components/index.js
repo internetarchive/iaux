@@ -25,5 +25,4 @@ export { default as DetailsCollectionList } from './sandbox/details/DetailsColle
 export { default as DetailsDownloadOptions } from './sandbox/details/DetailsDownloadOptions';
 export { default as DetailsFlags } from './sandbox/details/DetailsFlags';
 export { AnchorModalGo, ButtonModalGo } from './sandbox/details/ModalGo';
-export { default as DetailsCollectionList} from './sandbox/details/DetailsCollectionList';
 export { default as Tabby} from './sandbox/details/Tabby';
