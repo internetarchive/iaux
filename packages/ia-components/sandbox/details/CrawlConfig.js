@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 
-const debug = require('debug')('dweb-archive:ConfigDetailsComponent');
+const debug = require('debug')('dweb-archive:CrawlConfig');
 const canonicaljson = require('@stratumn/canonicaljson');
 import React from "react";
 import IAReactComponent from '../IAReactComponent';
@@ -23,7 +23,7 @@ import {gatewayServer} from '../../util.js';
  *   It rerenders, showing new level
  *   It sends the new level to the server.
  *
- * <ConfigDetailsComponent
+ * <CrawlConfig
  *  identifier  of item
  *  level       Current crawling level of object
  *  search      Current search parameters for crawl
@@ -36,7 +36,7 @@ import {gatewayServer} from '../../util.js';
 
 //TODO-CONFIG make it be empty if not on mirror
 
-export default class ConfigDetailsComponent extends IAReactComponent {
+export default class CrawlConfig extends IAReactComponent {
     /* -- Not used with ReactFake yet
     static propTypes = {
         identifier: PropTypes.string,
@@ -49,7 +49,7 @@ export default class ConfigDetailsComponent extends IAReactComponent {
     {
         super(props);   // { identifier, level, search, downloaded }
         this.setState(props);
-        ConfigDetailsComponent.instance = this; // Allow finding it
+        CrawlConfig.instance = this; // Allow finding it
     }
 
     loaded() {
@@ -65,7 +65,7 @@ export default class ConfigDetailsComponent extends IAReactComponent {
             <ul>
                 <li className={className} data-id={this.props.identifier}  key={this.props.identifier} onClick={this.onClick}>
                     {this.state.level ? `Crawling ${this.state.level}` : this.state.downloaded ? "Downloaded" : "Not Crawling"}
-                    { (this.state.search && ConfigDetailsComponent._levels.indexOf(this.state.level) >= ConfigDetailsComponent._levels.indexOf("details"))
+                    { (this.state.search && CrawlConfig._levels.indexOf(this.state.level) >= CrawlConfig._levels.indexOf("details"))
                         ?
                         <span>{`  Search ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
                         : null }
@@ -96,7 +96,7 @@ export default class ConfigDetailsComponent extends IAReactComponent {
         // noinspection JSUnresolvedVariable
         // Note there is similar code in dweb-mirror.MirrorConfig.crawlMember
         const task = configmerged.apps.crawl.tasks.find(t => t.identifier.includes(identifier));
-        const isDetailsOrMore = task && ConfigDetailsComponent._levels.indexOf(task.level) >= ConfigDetailsComponent._levels.indexOf("details");
+        const isDetailsOrMore = task && CrawlConfig._levels.indexOf(task.level) >= CrawlConfig._levels.indexOf("details");
         // noinspection JSUnresolvedVariable
         const search = task && ( task.search  || (isDetailsOrMore && configmerged.apps.crawl.opts.defaultDetailsSearch));
         // noinspection JSUnusedGlobalSymbols
@@ -142,4 +142,4 @@ export default class ConfigDetailsComponent extends IAReactComponent {
         }
     }
 }
-ConfigDetailsComponent._levels = ["tile", "metadata", "details", "all"]; //  *** NOTE THIS LINE IS IN dweb-mirror.CrawlManager && dweb-archive/components/ConfigDetailsComponent.js
+CrawlConfig._levels = ["tile", "metadata", "details", "all"]; //  *** NOTE THIS LINE IS IN dweb-mirror.CrawlManager && dweb-archive/components/CrawlConfig.js

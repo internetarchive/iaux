@@ -15,7 +15,6 @@ Return a string suitable for prepending to root relative URLs choosing between n
 
 Note copy of this in dweb-archivecontroller/Util.js and ia-components/util.js
  */
-
 function gatewayServer(server=undefined) {
     // Return location for http calls to a gateway server that understands canonical addresses like /arc/archive.. or /ipfs/Q...
     // Has to be a function rather than constant because searchparams is defined after this library is loaded

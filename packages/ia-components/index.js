@@ -3,8 +3,7 @@
  */
 
 // live
-//Commenting out broken IAUXExampleComponent while Isa fixes it!
-// export { default as IAUXExampleComponent } from './live/example-react-component/index';
+export { default as IAUXExampleComponent } from './live/example-react-component/index';
 
 // sandbox
 export { default as HorizontalRadioGroup } from './sandbox/selectors/horizontal-radio-group/horizontal-radio-group';
