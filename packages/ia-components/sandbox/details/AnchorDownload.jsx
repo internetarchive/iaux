@@ -38,8 +38,8 @@ export default class AnchorDownload extends IAReactComponent {
                     // Note - this is a broken, illegal URL with an '&' in middle of the URL not the parameters but that is what IA requires
                     ? `https://archive.org/compress/${this.props.identifier}/formats=${this.props.format}&file=/${this.props.identifier}.zip`
                     : (typeof DwebArchive === "undefined")                                                      // just identifier !dweb
-                        ? 'https://archive.org/download/${this.props.identifier}'
-                        : 'https://dweb.archive.org/download/${this.props.identifier'));                        // just identifier dweb
+                        ? 'https://archive.org/download/'+this.props.identifier
+                        : 'https://dweb.archive.org/download/'+this.props.identifier));                        // just identifier dweb
         const usp = new URLSearchParams;
         // Copy any parameters in AnchorDownload.urlparms to usp for inclusion in the href=
         AnchorDownload.urlparms.forEach(k=> usp.append(k, this.props[k]));
@@ -60,10 +60,10 @@ export default class AnchorDownload extends IAReactComponent {
         return ( // Note there is intentionally no spacing in case JSX adds a unwanted line break
             (typeof DwebArchive === "undefined") ?
                 <a href={this.state.url.href} {...this.state.anchorProps} target="_blank">{this.props.children}</a>
-            :
+                :
                 // This is the Dweb version for React|!React
                 <a href={this.state.url.href} onClick={this.onClick}  {...this.state.anchorProps}>{this.props.children}</a>
-            );
+        );
     }
 }
 AnchorDownload.urlparms=[]; // Properties that go in the URL to download

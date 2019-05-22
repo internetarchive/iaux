@@ -1,4 +1,4 @@
-//const debug = require('debug')('dweb-archive:DetailsActionButtons');
+//const debug = require('debug')('dweb-archive:ModalGo');
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
 import {ObjectFilter} from '../../util.js';
@@ -21,7 +21,7 @@ class AnchorModalGo extends _ModalGo {
     constructor(props) { super(props) }; // opts, remaining props go to anchor, in particular href
 
     render() { return(
-            <a {...this.state.linkProps} onClick={this.onClick}>{this.props.children}</a>
+        <a {...this.state.linkProps} onClick={this.onClick}>{this.props.children}</a>
     ) }
 }
 class ButtonModalGo extends _ModalGo {
