@@ -3,8 +3,6 @@ const debug = require('debug')('ia-components:TileComponent');
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
 //import PropTypes from 'prop-types'
-//TODO-IAUX need to standardise API as this uses the "ArchiveMemberSearch" class to provide necessary details for the Tile.
-//import ArchiveMemberSearch from "@internetarchive/dweb-archivecontroller/ArchiveMemberSearch";
 import TileImage from "./TileImage";
 
 /* USE OUTSIDE DWEB
@@ -58,17 +56,20 @@ export default class TileComponent extends IAReactComponent {
             const collection = member.collection || (item && item.metadata.collection); // Should be array
             const nFavorites = collection.filter(e => e.startsWith('fav-')).length;  // Jira added since cant get this any more
             const collectionSize = member.item_count; //TODO really hard to get https://github.com/internetarchive/dweb-archive/issues/91
+            const classes = ['item-ia']
+            if (isCollection) classes.push('collection-ia');
+            const useDate = (member.publicdate || member.updateddate || (item && item.metadata.publicdate));
+            const date = useDate && useDate.substr(0,10)
             this.setState({
-                isCollection, collection0, by, nFavorites, collectionSize,
+                isCollection, collection0, by, nFavorites, collectionSize, date,
                 mediatype: member.mediatype,
                 collection0title: member.collection0title || (item && item.collection_titles[collection0]),  //TODO-IAUX collection_titles is dweb only, unsure how server side IAUX gets it
-                classes: 'item-ia' + (isCollection ? ' collection-ia' : ''),
+                classes: classes,
                 byTitle: Array.isArray(by) ? by.join(',') : by,
                 downloads: member.downloads, // Often undefined
                 title: member.title || (item && item.metadata.title),
-                date: (member.publicdate || member.updateddate || (item && item.metadata.publicdate)).substr(0, 10), // No current cases where none of these dates exist
                 iconnameClass: this.iconnameClass(member.mediatype),
-                numReviews: member.num_reviews || (item && item.reviews && item.reviews.length) || 0
+                numReviews: member.num_reviews || (item && item.reviews && item.reviews.length) || 0,
             })
         } catch(err) { // Catch error here as not generating debugging info at caller level for some reason
             debug("ERROR in TileComponent.constructor for %s: %s", this.state.identifier, err.message);
@@ -84,7 +85,7 @@ export default class TileComponent extends IAReactComponent {
 
     render() {
         return (
-            <div className={this.state.classes} data-id={this.state.identifier}  key={this.state.identifier}>
+            <div className={this.state.classes.join(' ')} data-id={this.state.identifier}  key={this.state.identifier}>
                 { (this.state.collection0) ? // Believe, but not certain, that there is always going to be a collection0
                     <AnchorDetails className="stealth" tabIndex="-1" identifier={this.state.collection0}>
                         <div className="item-parent">
@@ -137,9 +138,12 @@ export default class TileComponent extends IAReactComponent {
             <div className="collection-stats">
                 <div className="iconochive-collection topinblock hidden-lists" aria-hidden="true"></div>
                 <span className="sr-only">collection</span>
-                <div className="num-items topinblock">
-                    {number_format(this.state.collectionSize)} <div className="micro-label">ITEMS</div>
-                </div>
+                {typeof this.state.collectionSize === "undefined" ? null :
+                    <div className="num-items topinblock">
+                        {number_format(this.state.collectionSize)}
+                        <div className="micro-label">ITEMS</div>
+                    </div>
+                }
                 <div className="num-items hidden-tiles">
                     {number_format(this.state.downloads)}
                     <div className="micro-label">VIEWS</div>
