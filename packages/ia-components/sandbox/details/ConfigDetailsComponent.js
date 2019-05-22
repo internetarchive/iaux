@@ -77,7 +77,7 @@ export default class ConfigDetailsComponent extends IAReactComponent {
     /*
     loadcallable(enclosingEl) {
         // Called by React when the Loading... div is displayed
-        const urlConfig = [ACUtil.gatewayServer(), "info"].join('/');
+        const urlConfig = [gatewayServer(), "info"].join('/');
         this.enclosingElement = enclosingEl; // Tell it where to render inside when info found
         DwebTransports.httptools.p_GET(urlConfig, {}, (err, info) => {
             if (err) {
@@ -92,7 +92,7 @@ export default class ConfigDetailsComponent extends IAReactComponent {
         const config = info.config; // Mixed in with other info
         const configdefault = config[0];
         const configuser = config[1] || {};
-        const configmerged = ObjectDeeperAssign({}, configdefault, configuser); // Cheating, but assumes no arrays needing merging
+        const configmerged = Object_deeperAssign({}, configdefault, configuser); // Cheating, but assumes no arrays needing merging
         // noinspection JSUnresolvedVariable
         // Note there is similar code in dweb-mirror.MirrorConfig.crawlMember
         const task = configmerged.apps.crawl.tasks.find(t => t.identifier.includes(identifier));
