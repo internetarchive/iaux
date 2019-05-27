@@ -49,7 +49,6 @@ class DetailsFlagLI extends IAReactComponent {
     }
 }
 
-}
 class DetailsFlags extends IAReactComponent {
 
     constructor(props) {
@@ -80,7 +79,7 @@ class DetailsFlags extends IAReactComponent {
     }
 }
 
-export default class DetailsActionButtons extends IAReactComponent {
+class DetailsActionButtons extends IAReactComponent {
 
     constructor(props)
     {
