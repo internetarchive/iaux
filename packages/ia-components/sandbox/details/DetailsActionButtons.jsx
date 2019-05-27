@@ -49,6 +49,10 @@ class DetailsFlagLI extends IAReactComponent {
     }
 }
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> mitra-detailsactionbuttons
 class DetailsFlags extends IAReactComponent {
 
     constructor(props) {
