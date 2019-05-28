@@ -126,6 +126,7 @@ export default class CrawlConfig extends IAReactComponent {
                     : "details";
             this.setState({level});
 
+            //TODO try commenting out this re-render and see if renders anyway
             // For some reason (probably because added via ReactDOM.render above) it thinks unmounted so setState not re-rendering, so redo here for now (till nav-dweb moved into React)
             const parentElement = document.getElementById('dweb-mirrorconfig'); // Note this isnt a Component, cos its in the archive.html
             const el = this.render(); // Will be loading asynchronously
