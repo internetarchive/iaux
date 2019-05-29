@@ -40,7 +40,7 @@
         "react-dom": "^16.7.0"
     },
     "peerDependencies": {
-        "@internetarchive/ia-js-client": "^0.0.0-alpha.20+5039f8d"
+        "bookreader": "git://github.com/internetarchive/bookreader.git#^4.2.1"
     },
     "optionalDependencies": {
         "fsevents": "^1.2.4"
