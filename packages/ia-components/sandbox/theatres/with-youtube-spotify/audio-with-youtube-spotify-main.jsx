@@ -15,12 +15,12 @@ import { HorizontalRadioGroup, TheatreAudioPlayer, TheatreTrackList } from '../.
  * @param { string } channel
  * @param { string } labelValue
  */
-const getChannelLabelToDisplay = ({ channel, labelValue }) => {
+const getChannelLabelToDisplay = ({ channel, labelValue, title }) => {
   const label = <span className="channel-label">{ labelValue }</span>;
   const iconOptions = {
-    youtube: <YoutubeIcon className="channel-icon" />,
-    spotify: <SpotifyIcon className="channel-icon" />,
-    default: <ArchiveIcon className="channel-icon" />
+    youtube: <YoutubeIcon className="channel-icon" title={title} />,
+    spotify: <SpotifyIcon className="channel-icon" title={title} />,
+    default: <ArchiveIcon className="channel-icon" title={title} />
   };
   const icon = iconOptions[channel] || iconOptions.default;
 
@@ -196,7 +196,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
         const webampLink = (
           <a
             href={`${window.location.href}?&webamp=1`}
-            alt="show webamp"
+            alt="play Webamp"
             className="webamp-link"
             data-event-click-tracking="Audio-Player|Channel-Webamp"
           >
@@ -219,7 +219,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       }
       return {
         value: channel,
-        label: getChannelLabelToDisplay({ channel, labelValue }),
+        label: getChannelLabelToDisplay({ channel, labelValue, title: `play ${labelValue}` }),
         clickTrackValue: `Audio-Player|Channel-${labelValue}`,
       };
     });
@@ -268,7 +268,11 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             source={channelToPlay}
             backgroundPhoto={itemPhoto}
             sourceData={this.getAudioSourceInfoToPlay()}
-            customSourceLabel={getChannelLabelToDisplay({ channel: channelToPlay, labelValue: audioPlayerChannelLabel })}
+            customSourceLabel={getChannelLabelToDisplay({
+              channel: channelToPlay,
+              labelValue: audioPlayerChannelLabel,
+              title: `playing ${audioPlayerChannelLabel}`
+            })}
             linerNotes={null}
             jwplayerPlaylistChange={this.jwplayerPlaylistChange}
             jwplayerInfo={jwplayerInfo}
