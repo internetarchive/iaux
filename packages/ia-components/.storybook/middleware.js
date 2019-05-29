@@ -15,9 +15,18 @@ const constructOptions = (route) => {
 };
 
 module.exports = function expressMiddleware (router) {
-  ['details', 'download', 'embed', 'images', 'metadata', 'serve'].forEach((route) => {
+  ['details', 'download', 'embed', 'images', 'metadata', 'serve' ].forEach((route) => {
     router.use(`/${route}`, proxy(constructOptions(route)))
   });
+
+  router.use('/BookReader', proxy({
+    target: `${base_url}/bookreader/BookReader`,
+    logLevel: 'debug',
+    changeOrigin: true,
+    pathRewrite: {
+      '^/BookReader': `${base_url}/bookreader/BookReader`
+    }
+  }));
 
   router.use('/api', proxy({
     target: base_url,
