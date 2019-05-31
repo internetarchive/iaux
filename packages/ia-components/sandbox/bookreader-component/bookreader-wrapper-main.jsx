@@ -48,8 +48,8 @@ export default class BookReaderWrapper extends Component {
 
   render() {
     return (
-      <section id="IABookReaderWrapper">
-        <div id="bookreader" ref={this.BookReaderRef} style={{ height: '100%', width: '100%', minHeight: 343 }} />
+      <section id="IABookReaderWrapper" {...this.props}>
+        <div id="bookreader" ref={this.BookReaderRef} style={{ height: '100%', width: '100%' }} />
       </section>
     );
   }

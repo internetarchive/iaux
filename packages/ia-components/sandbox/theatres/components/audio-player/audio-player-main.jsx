@@ -141,26 +141,27 @@ export default class TheatreAudioPlayer extends Component {
     const { linerNotes } = this.props;
     const { mediaSource } = this.state;
 
+    if (!linerNotes) return null;
+
     const bookReaderStyle = mediaSource === 'liner-notes'
-      ? {
-        visibility: 'visible',
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-      }
+      ? { visibility: 'visible' }
       : { visibility: 'hidden' };
 
-    if (linerNotes) {
-      return (
-        <div style={bookReaderStyle}>
-          <BookReaderWrapper options={linerNotes.data.brOptions} />
-        </div>
-      );
-    }
-
-    return null;
+    return (
+      <div style={bookReaderStyle}>
+        <BookReaderWrapper
+          options={linerNotes.data.brOptions}
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: 'black',
+          }}
+        />
+      </div>
+    );
   }
 
   render() {
