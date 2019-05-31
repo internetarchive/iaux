@@ -62,7 +62,6 @@ export default class TheatreAudioPlayer extends Component {
    *
    * @param { object } event - React Synthetic event
    */
-
   toggleMediaSource(event) {
     const mediaSource = event.target.value;
     this.setState({ mediaSource });

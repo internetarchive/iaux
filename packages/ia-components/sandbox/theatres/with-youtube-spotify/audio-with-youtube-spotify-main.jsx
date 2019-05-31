@@ -274,7 +274,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
               player: getChannelLabelToDisplay({
                 channel: channelToPlay,
                 labelValue: audioPlayerChannelLabel,
-                title: `playing ${channelToPlay}`
+                title: `playing from ${channelToPlay}`
               }),
               linerNotes: getChannelLabelToDisplay({
                 channel: 'linerNotes',

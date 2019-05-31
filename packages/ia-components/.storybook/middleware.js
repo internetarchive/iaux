@@ -15,7 +15,7 @@ const constructOptions = (route) => {
 };
 
 module.exports = function expressMiddleware (router) {
-  ['details', 'download', 'embed', 'images', 'metadata', 'serve' ].forEach((route) => {
+  ['details', 'download', 'embed', 'images', 'metadata', 'serve'].forEach((route) => {
     router.use(`/${route}`, proxy(constructOptions(route)))
   });
 
