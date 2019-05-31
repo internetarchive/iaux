@@ -112,21 +112,23 @@ export default class TheatreAudioPlayer extends Component {
    * Render function - create tabs that live under the main content area
    */
   createTabs() {
-    const { customSourceLabels } = this.props;
+    const { customSourceLabels, linerNotes } = this.props;
     const { mediaSource } = this.state;
     const sourceLabel = {
       value: 'player',
       label: customSourceLabels.player,
     };
 
-    const linerNotes = {
-      value: 'liner-notes',
-      label: customSourceLabels.linerNotes,
-    };
-
+    const options = [sourceLabel];
+    if (linerNotes) {
+      options.push({
+        value: 'liner-notes',
+        label: customSourceLabels.linerNotes,
+      });;
+    }
     return (
       <HorizontalRadioGroup
-        options={[sourceLabel, linerNotes]}
+        options={options}
         onChange={this.toggleMediaSource}
         selectedValue={mediaSource}
         wrapperStyle="tab-bottom"
