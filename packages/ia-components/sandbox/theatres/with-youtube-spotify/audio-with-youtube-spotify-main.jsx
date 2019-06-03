@@ -8,6 +8,7 @@ import getTrackListBySource from './utils/get-track-list-by-source';
 import YoutubeIcon from '../components/svgs/youtube-logo-icon';
 import SpotifyIcon from '../components/svgs/spotify-logo-icon';
 import ArchiveIcon from '../components/svgs/ia-logo-white-icon';
+import BookletIcon from '../components/svgs/icon-booklet';
 import { HorizontalRadioGroup, TheatreAudioPlayer, TheatreTrackList } from '../../../index';
 
 /**
@@ -20,7 +21,8 @@ const getChannelLabelToDisplay = ({ channel, labelValue, title }) => {
   const iconOptions = {
     youtube: <YoutubeIcon className="channel-icon" title={title} />,
     spotify: <SpotifyIcon className="channel-icon" title={title} />,
-    default: <ArchiveIcon className="channel-icon" title={title} />
+    linerNotes: <BookletIcon className="channel-icon" title={title} />,
+    default: <ArchiveIcon className="channel-icon" title={title} />,
   };
   const icon = iconOptions[channel] || iconOptions.default;
 
@@ -228,7 +230,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   }
 
   render() {
-    const { jwplayerPlaylist } = this.props;
+    const { jwplayerPlaylist, linerNotes } = this.props;
     const {
       tracklistToShow, trackSelected, channelToPlay, albumData
     } = this.state;
@@ -268,12 +270,19 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             source={channelToPlay}
             backgroundPhoto={itemPhoto}
             sourceData={this.getAudioSourceInfoToPlay()}
-            customSourceLabel={getChannelLabelToDisplay({
-              channel: channelToPlay,
-              labelValue: audioPlayerChannelLabel,
-              title: `playing ${audioPlayerChannelLabel}`
-            })}
-            linerNotes={null}
+            customSourceLabels={{
+              player: getChannelLabelToDisplay({
+                channel: channelToPlay,
+                labelValue: audioPlayerChannelLabel,
+                title: `playing from ${channelToPlay}`
+              }),
+              linerNotes: getChannelLabelToDisplay({
+                channel: 'linerNotes',
+                labelValue: 'Liner Notes',
+                title: 'view liner notes'
+              })
+            }}
+            linerNotes={linerNotes}
             jwplayerPlaylistChange={this.jwplayerPlaylistChange}
             jwplayerInfo={jwplayerInfo}
             jwplayerID={`jwplayer-${jwplayerID}`}
@@ -315,13 +324,15 @@ class AudioPlayerWithYoutubeSpotify extends Component {
 
 AudioPlayerWithYoutubeSpotify.defaultProps = {
   jwplayerPlaylist: null,
-  playFullIAAudio: false
+  playFullIAAudio: false,
+  linerNotes: null,
 };
 
 AudioPlayerWithYoutubeSpotify.propTypes = {
   albumMetadata: PropTypes.object.isRequired,
   jwplayerPlaylist: PropTypes.array,
-  playFullIAAudio: PropTypes.bool
+  playFullIAAudio: PropTypes.bool,
+  linerNotes: PropTypes.object,
 };
 
 export default AudioPlayerWithYoutubeSpotify;
