@@ -20,8 +20,12 @@ export { default as TileComponent } from './sandbox/tiles/TileComponent';
 export { TileGrid, ScrollableTileGrid } from './sandbox/tiles/TileGrid';
 // details page
 export { default as AnchorDownload } from './sandbox/details/AnchorDownload';
+<<<<<<< HEAD
 export { DetailsFlagLI, DetailsFlags, DetailsActionButtons } from './sandbox/details/DetailsActionButtons';
 export { default as DetailsCollectionList } from './sandbox/details/DetailsCollectionList';
+=======
+export { default as DetailsActionButtons } from './sandbox/details/DetailsActionButtons';
+>>>>>>> master
 export { default as DetailsDownloadOptions } from './sandbox/details/DetailsDownloadOptions';
 export { AnchorModalGo, ButtonModalGo } from './sandbox/details/ModalGo';
 export { default as Tabby} from './sandbox/details/Tabby';
