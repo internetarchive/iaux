@@ -7,7 +7,7 @@ import AudioPlayerWithYoutubeSpotify from './audio-with-youtube-spotify-main';
 import style from './audio-with-youtube-spotify.less';
 import styles from './utils/data-for-stories/theatre-styling.less';
 
-const { itemInfo, jwplayerPlaylist } = albumData;
+const { itemInfo, jwplayerPlaylist, linerNotes } = albumData;
 
 /**
  * Component wrapper around the music player
@@ -96,6 +96,7 @@ class DataHydrator extends Component {
           <AudioPlayerWithYoutubeSpotify
             albumMetadata={itemInfo}
             jwplayerPlaylist={jwplayerPlaylist}
+            linerNotes={linerNotes}
           />
         </section>
         <section className="container">

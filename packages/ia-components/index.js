@@ -21,7 +21,6 @@ export { TileGrid, ScrollableTileGrid } from './sandbox/tiles/TileGrid';
 // details page
 export { default as AnchorDownload } from './sandbox/details/AnchorDownload';
 export { default as DetailsActionButtons } from './sandbox/details/DetailsActionButtons';
-export { default as DetailsCollectionList } from './sandbox/details/DetailsCollectionList';
 export { default as DetailsDownloadOptions } from './sandbox/details/DetailsDownloadOptions';
 export { default as DetailsFlags } from './sandbox/details/DetailsFlags';
 export { AnchorModalGo, ButtonModalGo } from './sandbox/details/ModalGo';
