@@ -5,10 +5,10 @@ import { find, flatten, head } from 'lodash';
 import flattenAlbumData from './utils/flatten-album-data';
 import getTrackListBySource from './utils/get-track-list-by-source';
 
-import YoutubeIcon from '../components/svgs/youtube-logo-icon';
-import SpotifyIcon from '../components/svgs/spotify-logo-icon';
-import ArchiveIcon from '../components/svgs/ia-logo-white-icon';
-import BookletIcon from '../components/svgs/icon-booklet';
+import YoutubeIcon from '../svgs/youtube-logo-icon';
+import SpotifyIcon from '../svgs/spotify-logo-icon';
+import ArchiveIcon from '../svgs/ia-logo-white-icon';
+import BookletIcon from '../svgs/icon-booklet';
 import { HorizontalRadioGroup, TheatreAudioPlayer, TheatreTrackList } from '../../../index';
 
 /**
