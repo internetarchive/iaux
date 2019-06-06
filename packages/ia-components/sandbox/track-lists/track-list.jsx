@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { FlexboxPagination } from '../../..';
+import { FlexboxPagination } from '../..';
 
 /**
  * Creates the track title to display based on track object
