@@ -65,7 +65,7 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
    * & only return the files we are interested in
    */
   const slimFiles = reduce(fileNames, (neededFiles = [], fileName) => {
-    const neededExtensions = /(mp3|ogg|flac|m4a|jpg|png|jpeg)$/gi;
+    const neededExtensions = /(mp3|ogg|flac|m4a|jpg|png|jpeg|wma)$/gi;
     const isNeededFile = fileName.match(neededExtensions);
     const file = allFiles[fileName];
     file.name = fileName.slice(1, fileName.length);
