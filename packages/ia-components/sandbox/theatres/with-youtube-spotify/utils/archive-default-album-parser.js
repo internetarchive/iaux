@@ -37,7 +37,7 @@ const archiveDefaultAlbumParser = ({ fileDirectoryPrefix, files }) => {
     let flattenedImportantRelatedFiles = null;
     const externalIdentifiers = currentFile['external-identifier'] || null;
     const isOriginal = source === 'original';
-    const isAudioFile = currentFileName.match(/(mp3|ogg|flac|m4a)$/g);
+    const isAudioFile = currentFileName.match(/(mp3|ogg|flac|m4a|wma)$/g);
     const isItemImageFile = isOriginal && currentFileName.match(/(png|jpg|jpeg)$/gi);
 
     // skip unneeded files
