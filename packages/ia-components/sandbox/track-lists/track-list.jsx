@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { FlexboxPagination } from '../../../..';
+import { FlexboxPagination } from '../..';
 
 /**
  * Creates the track title to display based on track object
@@ -125,7 +125,7 @@ TheatreTrackList.defaultProps = {
 TheatreTrackList.propTypes = {
   onSelected: PropTypes.func.isRequired,
   selectedTrack: PropTypes.number.isRequired,
-  tracks: PropTypes.array,
+  tracks: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
   displayTrackNumbers: PropTypes.bool,
   creator: PropTypes.string,
 };

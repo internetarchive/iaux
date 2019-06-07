@@ -1,11 +1,11 @@
-import style from './track-list.less';
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text, number } from '@storybook/addon-knobs';
+import style from './track-list.less';
 import TrackList from './track-list';
 
- storiesOf('Theatres', module)
-  .addWithJSX('Tract List', () => {
+storiesOf('Theatres', module)
+  .addWithJSX('Track List', () => {
     const tracks = [
       {
         source: 'derivative',
@@ -29,11 +29,14 @@ import TrackList from './track-list';
         trackNumber: 1
       }
     ];
-    
-     return <TrackList 
-                selectedTrack={1}
-                tracks={tracks}
-                displayTrackNumbers={true}
-                creator="Willie Nelson"
-                onSelected={()=>{alert('track clicked')}}/>
+
+    return (
+      <TrackList
+        selectedTrack={1}
+        tracks={tracks}
+        displayTrackNumbers
+        creator="Willie Nelson"
+        onSelected={() => { alert('Track clicked'); }}
+      />
+    );
   })
