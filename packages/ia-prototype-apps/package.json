@@ -4,9 +4,9 @@
   "license": "AGPL-3.0-only",
   "private": true,
   "dependencies": {
-    "babel-preset-react": "^6.24.1",
     "@internetarchive/ia-components": "^0.0.0-alpha.20+5039f8d",
     "@internetarchive/ia-js-client": "^0.0.0-alpha.20+5039f8d",
+    "babel-preset-react": "^6.24.1",
     "debug": "^4.1.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
