@@ -2,6 +2,8 @@ import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from "../AnchorDetails";
 import CrawlConfig from './CrawlConfig';
+import ReactDOM from "react-dom";
+import {gatewayServer} from "../../util";
 const debug = require('debug')('NavWrap');
 
 /*
@@ -150,6 +152,7 @@ class NavMediatypeLI extends IAReactComponent {
         );
     }
 }
+
 class NavWebDIV extends IAReactComponent {
 
     constructor(props) {
@@ -202,8 +205,29 @@ class NavWebDIV extends IAReactComponent {
         )
     }
 }
-class DwebNavDIV extends IAReactComponent {
 
+class ReloadButton extends IAReactComponent {
+    /* -- Not used yet
+    static propTypes = { };
+    */
+    constructor(props) {
+        super(props);   // {identifier}
+    }
+    render() {
+        //TODO add date downloaded here - maybe just on hover
+        return (
+            <ul>
+                <li onClick={this.onClick}><AnchorDetails identifier={this.props.identifier} reload>Reload</AnchorDetails></li>
+            </ul>
+        );
+    }
+
+    clickCallable() {
+        debug("%s: Reload clicked"); //this.props.identifier if ste it
+    }
+}
+
+class DwebNavDIV extends IAReactComponent {
     constructor(props) {
         super(props); //item
     }
@@ -216,8 +240,10 @@ class DwebNavDIV extends IAReactComponent {
                     className="dweb-nav-left">DWeb</span>:
                     <DwebStatusDIV/>
                     {!DwebArchive.mirror ? null :
-                        <div id="dweb-mirrorconfig"><CrawlConfig {...crawl}/>
-                        </div>
+                        <>
+                        <div id="dweb-mirrorconfig"><CrawlConfig {...crawl}/></div>
+                        <div id="dweb-mirrorreload"><ReloadButton identifier={this.props.item.itemid}/></div>
+                        </>
                     }
                     {/*--<a href="https://docs.google.com/forms/d/e/1FAIpQLSe7pXiSLrmeLoKvlDi2wODcL3ro7D6LegPksb86jr5bCJa7Ig/viewform" target="_blank"><img src="./images/feedback.svg"/></a>--*/}
                 </div>
