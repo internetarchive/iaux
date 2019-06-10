@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { text, boolean, number } from '@storybook/addon-knobs';
 
 // Moved this to a local import rather than via index because depends on experimental extension
-import { IAUXExampleComponent } from './index';
+import  IAUXExampleComponent  from './index';
 import style from './styles.less';
 
 /**

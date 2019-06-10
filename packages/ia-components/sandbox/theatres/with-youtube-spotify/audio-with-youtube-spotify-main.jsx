@@ -5,9 +5,10 @@ import { find, flatten, head } from 'lodash';
 import flattenAlbumData from './utils/flatten-album-data';
 import getTrackListBySource from './utils/get-track-list-by-source';
 
-import YoutubeIcon from '../components/svgs/youtube-logo-icon';
-import SpotifyIcon from '../components/svgs/spotify-logo-icon';
-import ArchiveIcon from '../components/svgs/ia-logo-white-icon';
+import YoutubeIcon from '../../svgs/youtube-logo-icon';
+import SpotifyIcon from '../../svgs/spotify-logo-icon';
+import ArchiveIcon from '../../svgs/ia-logo-white-icon';
+import BookletIcon from '../../svgs/icon-booklet';
 import { HorizontalRadioGroup, TheatreAudioPlayer, TheatreTrackList } from '../../../index';
 
 /**
@@ -15,12 +16,13 @@ import { HorizontalRadioGroup, TheatreAudioPlayer, TheatreTrackList } from '../.
  * @param { string } channel
  * @param { string } labelValue
  */
-const getChannelLabelToDisplay = ({ channel, labelValue }) => {
+const getChannelLabelToDisplay = ({ channel, labelValue, title }) => {
   const label = <span className="channel-label">{ labelValue }</span>;
   const iconOptions = {
-    youtube: <YoutubeIcon className="channel-icon" />,
-    spotify: <SpotifyIcon className="channel-icon" />,
-    default: <ArchiveIcon className="channel-icon" />
+    youtube: <YoutubeIcon className="channel-icon" title={title} />,
+    spotify: <SpotifyIcon className="channel-icon" title={title} />,
+    linerNotes: <BookletIcon className="channel-icon" title={title} />,
+    default: <ArchiveIcon className="channel-icon" title={title} />,
   };
   const icon = iconOptions[channel] || iconOptions.default;
 
@@ -196,7 +198,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
         const webampLink = (
           <a
             href={`${window.location.href}?&webamp=1`}
-            alt="show webamp"
+            alt="play Webamp"
             className="webamp-link"
             data-event-click-tracking="Audio-Player|Channel-Webamp"
           >
@@ -219,7 +221,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       }
       return {
         value: channel,
-        label: getChannelLabelToDisplay({ channel, labelValue }),
+        label: getChannelLabelToDisplay({ channel, labelValue, title: `play ${labelValue}` }),
         clickTrackValue: `Audio-Player|Channel-${labelValue}`,
       };
     });
@@ -228,7 +230,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   }
 
   render() {
-    const { jwplayerPlaylist } = this.props;
+    const { jwplayerPlaylist, linerNotes } = this.props;
     const {
       tracklistToShow, trackSelected, channelToPlay, albumData
     } = this.state;
@@ -268,8 +270,19 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             source={channelToPlay}
             backgroundPhoto={itemPhoto}
             sourceData={this.getAudioSourceInfoToPlay()}
-            customSourceLabel={getChannelLabelToDisplay({ channel: channelToPlay, labelValue: audioPlayerChannelLabel })}
-            linerNotes={null}
+            customSourceLabels={{
+              player: getChannelLabelToDisplay({
+                channel: channelToPlay,
+                labelValue: audioPlayerChannelLabel,
+                title: `playing from ${channelToPlay}`
+              }),
+              linerNotes: getChannelLabelToDisplay({
+                channel: 'linerNotes',
+                labelValue: 'Liner Notes',
+                title: 'view liner notes'
+              })
+            }}
+            linerNotes={linerNotes}
             jwplayerPlaylistChange={this.jwplayerPlaylistChange}
             jwplayerInfo={jwplayerInfo}
             jwplayerID={`jwplayer-${jwplayerID}`}
@@ -311,13 +324,15 @@ class AudioPlayerWithYoutubeSpotify extends Component {
 
 AudioPlayerWithYoutubeSpotify.defaultProps = {
   jwplayerPlaylist: null,
-  playFullIAAudio: false
+  playFullIAAudio: false,
+  linerNotes: null,
 };
 
 AudioPlayerWithYoutubeSpotify.propTypes = {
   albumMetadata: PropTypes.object.isRequired,
   jwplayerPlaylist: PropTypes.array,
-  playFullIAAudio: PropTypes.bool
+  playFullIAAudio: PropTypes.bool,
+  linerNotes: PropTypes.object,
 };
 
 export default AudioPlayerWithYoutubeSpotify;

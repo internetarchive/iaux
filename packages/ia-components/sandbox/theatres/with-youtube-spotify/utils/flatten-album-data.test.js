@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import flattenAlbumData from './flatten-album-data';
-import albumData from './data-for-stories/album-private-with-spotify-youtube';
+import albumData from '../../../data-for-stories/album-private-with-spotify-youtube';
 
 const { itemInfo } = albumData;
 

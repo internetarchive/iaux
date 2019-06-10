@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ArchiveAudioPlayer from './players_by_type/archive-audio-jwplayer-wrapper';
-import ThirdPartyEmbeddedPlayer from './players_by_type/third-party-embed';
-import { HorizontalRadioGroup } from '../../../../index';
+import ArchiveAudioPlayer from './archive-audio-jwplayer-wrapper';
+import ThirdPartyEmbeddedPlayer from './third-party-embed';
+import { HorizontalRadioGroup } from '../../index';
+import BookReaderWrapper from '../bookreader-component/bookreader-wrapper-main';
 
 /**
  * Draw background photo
@@ -39,11 +40,14 @@ export default class TheatreAudioPlayer extends Component {
 
     this.state = {
       urlSetterFN: null,
+      mediaSource: 'player'
     };
 
     this.showMedia = this.showMedia.bind(this);
     this.createTabs = this.createTabs.bind(this);
     this.receiveURLSetter = this.receiveURLSetter.bind(this);
+    this.toggleMediaSource = this.toggleMediaSource.bind(this);
+    this.showLinerNotes = this.showLinerNotes.bind(this);
   }
 
   /**
@@ -51,6 +55,16 @@ export default class TheatreAudioPlayer extends Component {
    */
   receiveURLSetter(urlSetterFN) {
     this.setState({ urlSetterFN });
+  }
+
+  /**
+   * Toggles between available tabs, currently: player, liner notes
+   *
+   * @param { object } event - React Synthetic event
+   */
+  toggleMediaSource(event) {
+    const mediaSource = event.target.value;
+    this.setState({ mediaSource });
   }
 
   /**
@@ -98,19 +112,57 @@ export default class TheatreAudioPlayer extends Component {
    * Render function - create tabs that live under the main content area
    */
   createTabs() {
-    const { customSourceLabel } = this.props;
+    const { customSourceLabels, linerNotes } = this.props;
+    const { mediaSource } = this.state;
     const sourceLabel = {
       value: 'player',
-      label: customSourceLabel,
+      label: customSourceLabels.player,
     };
 
+    const options = [sourceLabel];
+    if (linerNotes) {
+      options.push({
+        value: 'liner-notes',
+        label: customSourceLabels.linerNotes,
+      });
+    }
     return (
       <HorizontalRadioGroup
-        options={[sourceLabel]}
+        options={options}
         onChange={this.toggleMediaSource}
-        selectedValue="player"
+        selectedValue={mediaSource}
         wrapperStyle="tab-bottom"
       />
+    );
+  }
+
+  /**
+   * Render function - determines whether or not we render liner notes
+   */
+  showLinerNotes() {
+    const { linerNotes } = this.props;
+    const { mediaSource } = this.state;
+
+    if (!linerNotes) return null;
+
+    const bookReaderStyle = mediaSource === 'liner-notes'
+      ? { visibility: 'visible' }
+      : { visibility: 'hidden' };
+
+    return (
+      <div style={bookReaderStyle}>
+        <BookReaderWrapper
+          options={linerNotes.data.brOptions}
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: 'black',
+          }}
+        />
+      </div>
     );
   }
 
@@ -134,7 +186,7 @@ export default class TheatreAudioPlayer extends Component {
           </div>
           <div className="media-player" style={mediaPlayerSectionStyle}>
             {this.showMedia()}
-            { /* todo: add liner notes book reader here */ }
+            {this.showLinerNotes()}
           </div>
         </div>
         <div className="tabs">
@@ -149,6 +201,7 @@ TheatreAudioPlayer.defaultProps = {
   backgroundPhoto: '',
   photoAltTag: '',
   urlExtensions: '',
+  linerNotes: null,
 };
 
 TheatreAudioPlayer.propTypes = {
@@ -165,8 +218,6 @@ TheatreAudioPlayer.propTypes = {
   urlExtensions: PropTypes.string,
   backgroundPhoto: PropTypes.string,
   photoAltTag: PropTypes.string,
-  customSourceLabel: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object, // React component
-  ]).isRequired,
+  customSourceLabels: PropTypes.object,
+  linerNotes: PropTypes.object,
 };
