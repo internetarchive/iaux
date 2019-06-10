@@ -63,15 +63,15 @@ export default class CrawlConfig extends IAReactComponent {
         } else {
             const className = "crawl" + (this.state.level ?  this.state.level : this.state.downloaded ? "downloaded" : "none");
             return (
-                <ul>
-                    <li className={className} data-id={this.props.identifier}  key={this.props.identifier} onClick={this.onClick}>
-                        {this.state.level ? `Crawling ${this.state.level}` : this.state.downloaded ? "Downloaded" : "Not Crawling"}
-                        { (this.state.search && CrawlConfig._levels.indexOf(this.state.level) >= CrawlConfig._levels.indexOf("details"))
-                            ?
-                            <span>{`  Search ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
-                            : null }
-                    </li>
-                </ul>
+              <ul>
+                  <li className={className} data-id={this.props.identifier}  key={this.props.identifier} onClick={this.onClick}>
+                      {this.state.level ? `Crawling ${this.state.level}` : this.state.downloaded ? "Downloaded" : "Not Crawling"}
+                      { (this.state.search && CrawlConfig._levels.indexOf(this.state.level) >= CrawlConfig._levels.indexOf("details"))
+                        ?
+                        <span>{`  Search ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
+                        : null }
+                  </li>
+              </ul>
             );
         }
     }
@@ -124,8 +124,8 @@ export default class CrawlConfig extends IAReactComponent {
             // TODO and cycling back to details will think its still there.
             // TODO since planning on allowing editing of search, should handle then.
             const level = this.state.level === "details" ? "all"
-                : this.state.level === "all" ? undefined
-                    : "details";
+              : this.state.level === "all" ? undefined
+                : "details";
             this.setState({level});
 
             // Tell server the desired new state.
