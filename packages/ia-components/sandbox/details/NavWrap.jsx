@@ -307,7 +307,7 @@ class DwebStatusDIV extends IAReactComponent {
                     {typeof this.state.statuses === "undefined" ? "Loading" :
                         <ul>
                             {this.state.statuses.map(s =>
-                                <DwebStatusLI {...s}/>
+                                <DwebStatusLI {...s} key={s.name}/>
                             )}
                         </ul>
                     }
@@ -340,7 +340,7 @@ class NavWrap extends IAReactComponent {
                         <div id="nav-tophat-helper" className="hidden-xs"></div>
                         <ul className="nav navbar-nav navbar-main">
                             {['web', 'texts', 'movies', 'audio', 'software', 'image'].map((mediatype, n) => (
-                                <NavMediatypeLI mediatype={mediatype}/>
+                                <NavMediatypeLI mediatype={mediatype} key={mediatype}/>
                             ))}
                             <NavBrandLI/>
                             <NavSearchLI/>

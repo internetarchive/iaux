@@ -6,6 +6,7 @@ import { withTests } from '@storybook/addon-jest';
 import results from '../jest-test-utils/jest-test-results.json';
 
 import style from './archive-cf7f2eh.less'
+import styles from './theatre-styling.less'
 
 /**
  * pick all *.stories.js files within the ia-components directory
