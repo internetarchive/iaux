@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ArchiveAudioPlayer from './players_by_type/archive-audio-jwplayer-wrapper';
-import ThirdPartyEmbeddedPlayer from './players_by_type/third-party-embed';
-import { HorizontalRadioGroup } from '../../../../index';
-import BookReaderWrapper from '../../../bookreader-component/bookreader-wrapper-main';
+import ArchiveAudioPlayer from './archive-audio-jwplayer-wrapper';
+import ThirdPartyEmbeddedPlayer from './third-party-embed';
+import { HorizontalRadioGroup } from '../../index';
+import BookReaderWrapper from '../bookreader-component/bookreader-wrapper-main';
 
 /**
  * Draw background photo
@@ -124,7 +124,7 @@ export default class TheatreAudioPlayer extends Component {
       options.push({
         value: 'liner-notes',
         label: customSourceLabels.linerNotes,
-      });;
+      });
     }
     return (
       <HorizontalRadioGroup
