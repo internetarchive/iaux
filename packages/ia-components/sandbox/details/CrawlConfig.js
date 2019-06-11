@@ -1,11 +1,10 @@
-import ReactDOM from "react-dom";
+import React from 'react';
+import IAReactComponent from '../IAReactComponent';
+import { gatewayServer } from '../../util';
 
 const debug = require('debug')('dweb-archive:CrawlConfig');
 const canonicaljson = require('@stratumn/canonicaljson');
-import React from "react";
-import IAReactComponent from '../IAReactComponent';
-import {gatewayServer} from '../../util.js';
-//DwebTransports is not needed, its a global
+// DwebTransports is not needed, its a global
 
 /**
  * Component used in a tile bar on dweb-mirror to display and control Crawl functionality.
@@ -20,7 +19,7 @@ import {gatewayServer} from '../../util.js';
  *
  * On Clicking:
  *   It cycles the "level" through none / "details" / "all"
- *   It rerenders, showing new level
+ *   It re-renders, showing new level
  *   It sends the new level to the server.
  *
  * <CrawlConfig
@@ -33,9 +32,8 @@ import {gatewayServer} from '../../util.js';
  */
 
 
-
 export default class CrawlConfig extends IAReactComponent {
-    /* -- Not used with ReactFake yet
+  /* -- Not used with ReactFake yet
     static propTypes = {
         identifier: PropTypes.string,
         level: PropTypes.string,
@@ -43,40 +41,42 @@ export default class CrawlConfig extends IAReactComponent {
         downloaded: ProbTypes.boolean
     };
     */
-    constructor(props)
-    {
-        super(props);   // { identifier, level, search, downloaded }
-        this.setState(props);
-        CrawlConfig.instance = this; // Allow finding it
-    }
+  constructor(props) {
+    super(props); // { identifier, level, search, downloaded }
+    this.setState(props);
+    CrawlConfig.instance = this; // Allow finding it
+  }
 
-    loaded() {
-        return (typeof this.state.level !== "undefined");
-    }
-    static findAndSetState(state) {
-        this.instance.setState(state);
-    }
-    render() {
-        //TODO-CONFIG make it editable
-        if ((typeof DwebArchive === "undefined") || (DwebArchive.mirror === null))  {
-            return null
-        } else {
-            const className = "crawl" + (this.state.level ?  this.state.level : this.state.downloaded ? "downloaded" : "none");
-            return (
-              <ul>
-                  <li className={className} data-id={this.props.identifier}  key={this.props.identifier} onClick={this.onClick}>
-                      {this.state.level ? `Crawling ${this.state.level}` : this.state.downloaded ? "Downloaded" : "Not Crawling"}
-                      { (this.state.search && CrawlConfig._levels.indexOf(this.state.level) >= CrawlConfig._levels.indexOf("details"))
-                        ?
-                        <span>{`  Search ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
-                        : null }
-                  </li>
-              </ul>
-            );
-        }
-    }
+  // noinspection JSUnusedGlobalSymbols
+  loaded() {
+    return (typeof this.state.level !== 'undefined');
+  }
 
-    /*
+  // noinspection JSUnusedGlobalSymbols
+  static findAndSetState(state) {
+    this.instance.setState(state);
+  }
+
+  render() {
+    // TODO-CONFIG make it editable
+    // noinspection JSUnresolvedVariable
+    if ((typeof DwebArchive === 'undefined') || (DwebArchive.mirror === null)) {
+      return null;
+    }
+    const className = `crawl${this.state.level ? this.state.level : this.state.downloaded ? 'downloaded' : 'none'}`;
+    return (
+      <ul>
+        <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.onClick}>
+          {this.state.level ? `Crawling ${this.state.level}` : this.state.downloaded ? 'Downloaded' : 'Not Crawling'}
+          { (this.state.search && CrawlConfig._levels.indexOf(this.state.level) >= CrawlConfig._levels.indexOf('details'))
+            ? <span>{`  Search ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
+            : null }
+        </li>
+      </ul>
+    );
+  }
+
+  /*
     loadcallable(enclosingEl) {
         // Called by React when the Loading... div is displayed
         const urlConfig = [gatewayServer(), "info"].join('/');
@@ -111,32 +111,35 @@ export default class CrawlConfig extends IAReactComponent {
         });
     }
     */
-    clickCallable() {
-        // Cycle through possible states on click
-        debug("%s: Crawl clicked", this.state.identifier);
+  clickCallable() {
+    // Cycle through possible states on click
+    debug('%s: Crawl clicked', this.state.identifier);
 
-        if (!this.state.identifier) {
-            debug("Clicking but not an identifier");
-        } else {
-            // Do the UI part first, so responsive
-            // Bump the level to next one
-            // TODO Note its handling of search is not quite correct, if it cycles to all, and is non-default search then server will lose the search value,
-            // TODO and cycling back to details will think its still there.
-            // TODO since planning on allowing editing of search, should handle then.
-            const level = this.state.level === "details" ? "all"
-              : this.state.level === "all" ? undefined
-                : "details";
-            this.setState({level});
+    if (!this.state.identifier) {
+      debug('Clicking but not an identifier');
+    } else {
+      // Do the UI part first, so responsive
+      // Bump the level to next one
+      // TODO Note its handling of search is not quite correct, if it cycles to all, and is non-default search then server will lose the search value,
+      // TODO and cycling back to details will think its still there.
+      // TODO since planning on allowing editing of search, should handle then.
+      const level = this.state.level === 'details'
+        ? 'all'
+        : this.state.level === 'all'
+          ? undefined
+          : 'details';
+      this.setState({ level });
 
-            // Tell server the desired new state.
-            const urlSetConfig = [gatewayServer(), "admin/setconfig", this.state.identifier, level || "none"].join('/');
-            DwebTransports.httptools.p_GET(urlSetConfig, {}, (err, info) => {
-                // Gets back info, but not currently using
-                if (err) {
-                    debug("Failed to set config level for %s to %s", this.state.identifier, this.state.level)
-                }
-            });
+      // Tell server the desired new state.
+      const urlSetConfig = [gatewayServer(), 'admin/setconfig', this.state.identifier, level || 'none'].join('/');
+      // noinspection JSUnresolvedFunction,JSUnresolvedVariable
+      DwebTransports.httptools.p_GET(urlSetConfig, {}, (err, unusedInfo) => {
+        // Gets back info, but not currently using
+        if (err) {
+          debug('Failed to set config level for %s to %s', this.state.identifier, this.state.level);
         }
+      });
     }
+  }
 }
-CrawlConfig._levels = ["tile", "metadata", "details", "all"]; //  *** NOTE THIS LINE IS IN dweb-mirror.CrawlManager && dweb-archive/components/CrawlConfig.js
+CrawlConfig._levels = ['tile', 'metadata', 'details', 'all']; //  *** NOTE THIS LINE IS IN dweb-mirror.CrawlManager && dweb-archive/components/CrawlConfig.js

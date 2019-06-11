@@ -1,8 +1,9 @@
-const debug = require('debug')('ia-components:RelatedItems');
-//Note this component is Real-React only, it may or may not work in ReactFake
+// Note this component is Real-React only, it may or may not work in ReactFake
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
-import TileComponent from "./TileComponent";
+import TileComponent from './TileComponent';
+
+const debug = require('debug')('ia-components:RelatedItems');
 
 /* RelatedItems is a component intended for the bottom of details page to display related items.
     It should be called either with members=[member*] in which case it will render them immediately
@@ -25,38 +26,47 @@ export default class RelatedItems extends IAReactComponent {
       item:   ArchiveItem (essentially something that has a relatedItems({...}) method that can return [member*]
    */
   constructor(props) {
-    super(props); //identifier, members
+    super(props); // identifier, members
   }
 
   render() {
-    return ((! this.props.identifier) ? null :
+    return ((!this.props.identifier) ? null
       // Static or asynchronously loaded members handled here
-      <div id="also-found" className="container container-ia width-max"
-           data-identifier={this.props.identifier}>
-        { (!this.props.members) ? <span>Loading related items...</span> :
+      : (
+        <div
+          id="also-found"
+          className="container container-ia width-max"
+          data-identifier={this.props.identifier}
+        >
+          { (!this.props.members) ? <span>Loading related items...</span>
 
-          <div className="row">
-            <div className="col-xs-12 tilebars" style={{display: "block"}}>
-              <h5 className="small-label">SIMILAR ITEMS (based on metadata){/*<span id="playplayset">
+            : (
+              <div className="row">
+                <div className="col-xs-12 tilebars" style={{ display: 'block' }}>
+                  <h5 className="small-label">
+SIMILAR ITEMS (based on metadata)
+                    {/* <span id="playplayset">
                         *<a data-reactroot="" className="stealth" href="#play-items" data-event-click-tracking="Playset|PlayAllLink"><span
                         className="iconochive-play" aria-hidden="true"></span><span className="sr-only">play</span><span
-                        className="hidden-xs-span"> Play All</span><br></a></span>*/}</h5>
-              <div id="also-found-result">
-                <section data-reactroot="" aria-label="Related Items">
-                  { this.props.members.map(member =>
-                    // Note this is odd - results normally encloses all the tasks, but AJS.tiler doesnt seem to work without this
-                    <div className="results" key={member.identifier} style={{visibility: "visible"}}>
-                      <TileComponent member={member}/>
-                    </div>
-                  ) }
-                </section>
+                        className="hidden-xs-span"> Play All</span><br></a></span> */}
+                  </h5>
+                  <div id="also-found-result">
+                    <section data-reactroot="" aria-label="Related Items">
+                      { // Note this is odd - results normally encloses all the tasks, but AJS.tiler doesnt seem to work without this
+                    this.props.members.map(member => (
+                      <div className="results" key={member.identifier} style={{ visibility: 'visible' }}>
+                        <TileComponent member={member} />
+                      </div>
+                    )) }
+                    </section>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            )
         }
-      </div>
+        </div>
+      )
       // No related items on home page, searches, maybe other places
     );
   }
 }
-

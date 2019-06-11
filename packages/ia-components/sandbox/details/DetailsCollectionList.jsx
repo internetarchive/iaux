@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
-import {canonicalUrl} from '../../util';
+import { canonicalUrl } from '../../util';
 
 /**
  *  List of collections on details page
@@ -33,16 +33,24 @@ export default class DetailsCollectionList extends IAReactComponent {
       <div className="boxy collection-list">
         <section className="collection-list">
           <h5 className="collection-title">IN COLLECTIONS</h5>
-          {this.props.collections.map(collection =>
-              <div className="collection-item" key={collection}>
-                <AnchorDetails identifier={collection} data-event-click-tracking={`CollectionList|${collection}`}
-                >{this.props.collectionTitles[collection] || collection}</AnchorDetails>
-                <div className="item-img">
-                  <AnchorDetails identifier={collection} style={{backgroundImage: `url(${canonicalUrl('/services/img/'+collection)})`}}
-                                 aria-hidden="true" data-event-click-tracking={`CollectionList|${collection}`}></AnchorDetails>
-                </div>
+          {this.props.collections.map(collection => (
+            <div className="collection-item" key={collection}>
+              <AnchorDetails
+                identifier={collection}
+                data-event-click-tracking={`CollectionList|${collection}`}
+              >
+                {this.props.collectionTitles[collection] || collection}
+              </AnchorDetails>
+              <div className="item-img">
+                <AnchorDetails
+                  identifier={collection}
+                  style={{ backgroundImage: `url(${canonicalUrl(`/services/img/${collection}`)})` }}
+                  aria-hidden="true"
+                  data-event-click-tracking={`CollectionList|${collection}`}
+                />
               </div>
-          )}
+            </div>
+          ))}
         </section>
       </div>
     );
