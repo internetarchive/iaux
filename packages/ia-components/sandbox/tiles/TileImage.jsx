@@ -13,10 +13,8 @@ export default class TileImage extends IAReactComponent {
         imgname: PropTypes.string,
     };
     */
-  constructor(props) {
-    super(props);
-  }
 
+  //TODO-IAUX push this functionality up a level
   // loadImg is only called in the ReactFake case, not in the "real" React.
   loadcallable(enclosingspan) { // Defined as a closure so that can access identifier
     DwebArchive.ReactFake.p_loadImg(enclosingspan, '__ia_thumb.jpg', `/services/img/${this.props.identifier}`, (err, el) => {

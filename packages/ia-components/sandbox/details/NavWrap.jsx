@@ -14,9 +14,7 @@ const debug = require('debug')('NavWrap');
 
  */
 class NavAboutsUL extends IAReactComponent {
-  constructor(props) {
-    super(props); // None
-  }
+  //Props: none
 
   render() {
     return (
@@ -56,7 +54,7 @@ class NavSearchLI extends IAReactComponent {
 
   onSubmit(event) {
     debug('Search submitted');
-    Nav.nav_search(this.state.value);
+    Nav.nav_search(this.state.value); //TODO-IAUX this is dweb-archive only, needs a version that works in raw IAUX
     event.preventDefault();
   }
 
@@ -101,9 +99,7 @@ class NavSearchLI extends IAReactComponent {
   }
 }
 class NavUploadLI extends IAReactComponent {
-  constructor(props) {
-    super(props); // None
-  }
+  //Props: none
 
   render() {
     return (
@@ -120,9 +116,7 @@ class NavUploadLI extends IAReactComponent {
   }
 }
 class NavBrandLI extends IAReactComponent {
-  constructor(props) {
-    super(props); // None
-  }
+  //Props: none
 
   clickCallable(unusedEvent) {
     Nav.nav_home();
@@ -142,9 +136,7 @@ class NavBrandLI extends IAReactComponent {
 }
 
 class NavMediatypeLI extends IAReactComponent {
-  constructor(props) {
-    super(props); // mediatype
-  }
+  // props: mediatype
 
   render() {
     return (
@@ -161,9 +153,7 @@ class NavMediatypeLI extends IAReactComponent {
 }
 
 class NavWebDIV extends IAReactComponent {
-  constructor(props) {
-    super(props); // None
-  }
+  // Props: None
 
   loadCallable(el) {
     this.hideableElement = el;
@@ -216,11 +206,9 @@ class NavWebDIV extends IAReactComponent {
 
 class DwebNavButtons extends IAReactComponent {
   /* -- Not used yet
-    static propTypes = { };
-    */
-  constructor(props) {
-    super(props); // {identifier}
-  }
+    static propTypes = {
+      identifier: props.string};
+  */
 
   render() {
     // TODO add date downloaded here - maybe just on hover
@@ -241,9 +229,14 @@ class DwebNavButtons extends IAReactComponent {
 }
 
 class DwebNavDIV extends IAReactComponent {
-  constructor(props) {
-    super(props); // item
-  }
+  /* Props:
+    item = { // ArchiveItem
+      itemid: identifier,
+      downloaded: bool,
+      crawl: object (optional) passed as props to CrawlConfig
+      }
+      Note thees could be moved an ArchiveItem object to props to DwebNavDiv but whole component is null unless on dweb.
+  */
 
   render() {
     // Alternative to complex nav-dweb code
@@ -330,9 +323,7 @@ class DwebStatusDIV extends IAReactComponent {
 }
 
 class NavWrap extends IAReactComponent {
-
-    constructor(props) {
-    super(props); // item and transports if running under Dweb
+  // Props: item and transports if running under Dweb
   }
 
   render() {
