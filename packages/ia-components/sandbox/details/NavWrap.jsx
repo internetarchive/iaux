@@ -324,7 +324,6 @@ class DwebStatusDIV extends IAReactComponent {
 
 class NavWrap extends IAReactComponent {
   // Props: item and transports if running under Dweb
-  }
 
   render() {
     /* The navigation stuff.   Order is navwrap : maincontent : itemDetailsAbout */
