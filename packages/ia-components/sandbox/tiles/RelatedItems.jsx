@@ -25,9 +25,6 @@ export default class RelatedItems extends IAReactComponent {
       members: PropTypes.array, // of ArchiveMembers or similar
       item:   ArchiveItem (essentially something that has a relatedItems({...}) method that can return [member*]
    */
-  constructor(props) {
-    super(props); // identifier, members
-  }
 
   render() {
     return ((!this.props.identifier) ? null
