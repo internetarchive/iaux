@@ -701,27 +701,6 @@
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.3.tgz#f060bf6eaafae4d56a7dac618980838b0696e2ab"
   integrity sha512-FmuxfCuolpLl0AnQ2NHSzoUKWEJDFl63qXjzdoWBVyFCXzMGm1spBzk7LeHNoVCiWCF7mRVms9e6jEV9+MoPbg==
 
-"@internetarchive/ia-components@^0.0.0-alpha.20+5039f8d":
-  version "0.0.0-alpha.258"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-components/-/ia-components-0.0.0-alpha.258.tgz#ed3f27dd3b827b599fe9a30eaa1296a47a782e9b"
-  integrity sha512-5AsoCqCoxzmhWpB3Raz+62rGNfb9308ZtGgUOC5YDdGvgH00dZp9FAFyEZrd63qgoTm0WhLkw0UP3MAD8ZbrOw==
-  dependencies:
-    debug "^4.1.1"
-    lodash "^4.17.11"
-    prop-types "^15.6.2"
-    react "^16.7.0"
-    react-dom "^16.7.0"
-  optionalDependencies:
-    fsevents "^1.2.4"
-
-"@internetarchive/ia-js-client@^0.0.0-alpha.20+5039f8d":
-  version "0.0.0-alpha.258"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-js-client/-/ia-js-client-0.0.0-alpha.258.tgz#dd0833881026af1d94b49f75bab04a0404d35ee5"
-  integrity sha512-8TIZPQ0L+fgVcDBB14yLaqGYTux3dd9LN5DaYesJObbcDjxt477HileLpeoM9O+8qIo1YwEQJJpiAklNcUtCDA==
-  dependencies:
-    debug "^4.1.1"
-    node-fetch "^2.2.0"
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -2806,7 +2785,7 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
 
-fsevents@^1.2.4, fsevents@^1.2.7:
+fsevents@^1.2.7:
   version "1.2.9"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.2.9.tgz#3f5ed66583ccd6f400b5a00db6f7e861363e388f"
   integrity sha512-oeyj2H3EjjonWcFjD5NvZNE9Rqe4UW+nQBU2HNeKw0koVLEFIhtyETyAakeAM3de7Z/SW5kcA+fZUait9EApnw==
@@ -3858,11 +3837,6 @@ node-addon-api@^1.6.0:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-1.6.3.tgz#3998d4593e2dca2ea82114670a4eb003386a9fe1"
   integrity sha512-FXWH6mqjWgU8ewuahp4spec8LkroFZK2NicOv6bNwZC3kcwZUI8LeZdG80UzTSLLhK4T7MsgNwlYDVRlDdfTDg==
-
-node-fetch@^2.2.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
-  integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
 
 node-forge@^0.7.1:
   version "0.7.6"
