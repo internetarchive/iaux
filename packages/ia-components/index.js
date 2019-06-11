@@ -25,3 +25,4 @@ export { DetailsFlagLI, DetailsFlags, DetailsActionButtons } from './sandbox/det
 export { default as DetailsDownloadOptions } from './sandbox/details/DetailsDownloadOptions';
 export { AnchorModalGo, ButtonModalGo } from './sandbox/details/ModalGo';
 export { default as Tabby } from './sandbox/details/Tabby';
+export {NavWrap} from './sandbox/details/NavWrap';
