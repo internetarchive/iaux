@@ -54,7 +54,7 @@ class NavSearchLI extends IAReactComponent {
 
   onSubmit(event) {
     debug('Search submitted');
-    Nav.nav_search(this.state.value); //TODO-IAUX this is dweb-archive only, needs a version that works in raw IAUX
+    Nav.nav_search(this.state.value, {wanthistory: true}); //TODO-IAUX this is dweb-archive only, needs a version that works in raw IAUX
     event.preventDefault();
   }
 
@@ -119,7 +119,7 @@ class NavBrandLI extends IAReactComponent {
   //Props: none
 
   clickCallable(unusedEvent) {
-    Nav.nav_home();
+    Nav.nav_home({wanthistory: true});
     return false;
   }
 
