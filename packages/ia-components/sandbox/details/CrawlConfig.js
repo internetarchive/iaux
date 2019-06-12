@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 
 const debug = require('debug')('dweb-archive:CrawlConfig');
-const canonicaljson = require('@stratumn/canonicaljson');
+import canonicaljson from '@stratumn/canonicaljson';
 import React from "react";
 import IAReactComponent from '../IAReactComponent';
 import {gatewayServer} from '../../util.js';
