@@ -24,10 +24,5 @@ export { default as DetailsCollectionList } from './sandbox/details/DetailsColle
 export { DetailsFlagLI, DetailsFlags, DetailsActionButtons } from './sandbox/details/DetailsActionButtons';
 export { default as DetailsDownloadOptions } from './sandbox/details/DetailsDownloadOptions';
 export { AnchorModalGo, ButtonModalGo } from './sandbox/details/ModalGo';
-export {NavWrap} from './sandbox/details/NavWrap';
 export { default as Tabby } from './sandbox/details/Tabby';
-<<<<<<< HEAD
-
-=======
 export {NavWrap} from './sandbox/details/NavWrap';
->>>>>>> master
