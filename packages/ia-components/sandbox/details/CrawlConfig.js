@@ -1,9 +1,10 @@
+// DwebTransports is not needed, its a global
+import canonicaljson from '@stratumn/canonicaljson';
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { gatewayServer } from '../../util';
 
 const debug = require('debug')('dweb-archive:CrawlConfig');
-const canonicaljson = require('@stratumn/canonicaljson');
 // DwebTransports is not needed, its a global
 
 /**
