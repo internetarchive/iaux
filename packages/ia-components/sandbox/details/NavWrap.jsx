@@ -1,18 +1,89 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import CrawlConfig from './CrawlConfig';
-import { gatewayServer } from '../../util';
 
 const debug = require('debug')('NavWrap');
 
-/*
-    Wrapper around most of the navigation - these could have their own components if useful
-
-    <NavWrap item=ArchiveItem />
-
+/**
+ * Components used to draw the top part of the navigation on a details or search page.
+ *
+ * It includes several subcomponents, but generally only <NavWrap item=ArchiveItem /> should be used
+ *
+ * <NavWrap
+ *    item = ArchiveItem  passed to DwebNavDIV (optional if not on Dweb)
+ * />
+ * Behavior
+ *   On Render: Renders the head of a details or search page including NavWebDIV, NavBrandLI NavSearchLI NavUploadLI NavAboutsUL DwebNavDIV
+ *   On Click: See behavior of sub-components
+ *
+ * <NavAboutsUL/>
+ * Behavior:
+ *  On rendering: renders a <UL> containing an <LI> for each of the ABOUT ... PEOPLE buttons
+ *
+ * <NavSearchLI/>
+ * Behavior:
+ *   Renders: an <LI/> with a form and search icon as used on the Details page
+ *   On submit: Calls Nav.nav_search - this makes it Dweb only, if someone else uses it then a non-dweb version of onSubmit will be required
+ *
+ * <NavUploadLI/>
+ * Behavior:
+ *   Renders an Upload <LI/> icon
+ *   On click: Goes to "https://archive.org/create" since this functionality is not supported on Dweb yet
+ *
+ * <NavBrandLI/>
+ * Behavior:
+ *   Renders an Internet Archive Icon
+ *   On click: Goes to Nav.nav_home it needs a non-dweb version and will get this via replacing with <AnchorDetails identifier="home">
+ *
+ * <class >NavMediatypeLI
+ *    mediatype string  e.g. "texts"
+ *  />
+ *  Behavior
+ *    Renders the icon for the mediatype
+ *    On click navigates to that mediatype collection
+ *
+ * <NavWebDIV />
+ * Behavior
+ *  Renders the Wayback search icon with a nested search engine
+ *  Onclick - unclear - this is copied from archive.org site and could use some research
+ *
+ * <DwebNavButtons
+ *    identifier string   For current page
+ * />
+ * Behavior
+ *  Renders a <UL> with a row of buttons Reload | Settings | Local
+ *  OnClick
+ *    Reload reloads the current page via an AnchorDetails
+ *    Settings an Local navigate to those special pages
+ *
+ * <DwebNavDIV
+ *    item= {             // ArchiveItem
+ *      itemid: identifier,
+ *      downloaded: bool,
+ *      crawl: object (optional) passed as props to CrawlConfig
+ *    }
+ * />
+ * Renders: A navigation row with the DwebStatusDIV (transport status buttons), CrawlConfig and DwebNavButtons
+ * OnClick: See those subcomponents
+ *
+ * <DwebStatusLI
+ *    name =  string    Name of transport e.g. HTTP
+ *    status = integer  Status of transport 0 is ok, anything else is not connected (yet)
+ * />
+ * Renders: a button
+ * Onclick: Toggles paused on the transport with that name
+ *
+ * <DwebStatusDIV/>
+ * Behavior
+ *  On construction: requests status from DwebTransports TODO move behavior to higher level (maybe)
+ *  Renders a group of DwebStatusLI which are indicators of Dweb Transport connections
+ *    Does nothing if DwebTransports not defined
+ *  OnClick see DwebStatusLI
+ *
  */
+
+
 class NavAboutsUL extends IAReactComponent {
   //Props: none
 
@@ -53,9 +124,11 @@ class NavSearchLI extends IAReactComponent {
   }
 
   onSubmit(event) {
-    debug('Search submitted');
-    Nav.nav_search(this.state.value, {wanthistory: true}); //TODO-IAUX this is dweb-archive only, needs a version that works in raw IAUX
-    event.preventDefault();
+      // TODO-IAUX this is dweb-archive only, needs a version that works in raw IAUX
+      debug('Search submitted');
+    // noinspection JSUnresolvedFunction,JSUnresolvedVariable
+    Nav.nav_search(this.state.value, {wanthistory: true});
+      event.preventDefault();
   }
 
   clickCallable(unusedEvent) {
@@ -69,32 +142,32 @@ class NavSearchLI extends IAReactComponent {
   }
 
   render() {
-    return (
-      <li id="nav-search" className="dropdown dropdown-ia pull-right" key="search">
-            <a onClick={this.onClick}>
-                <span className="iconochive-search" aria-hidden="true" />
-                <span className="sr-only">search</span>
-              </a>
-            <div className="searchbar">
-                <form
-                    className="search-form js-search-form" role="search"
-                    ref={this.submitable}
-                    onSubmit={this.onSubmit}
-                    data-event-form-tracking="TopNav|SearchForm"
-                    data-wayback-machine-search-url="https://web.archive.org/web/*/"
-                  >
-                    <label htmlFor="search-bar-2" className="sr-only">Search the Archive</label>
-                    <input
-                        id="search-bar-2" className="js-search-bar" placeholder="Search" type="text"
-                        onChange={this.onChange}
-                        name="search" defaultValue=""
-                        aria-controls="navbar_search_options"
-                        aria-label="Search the Archive. Filters and Advanced Search available below."
-                      />
-                    <input type="submit" value="Search" />
-                  </form>
-              </div>
-          </li>
+    // noinspection JSUnresolvedVariable
+    return (( typeof DwebArchive === "undefined") ? null :  // Component may be required, but is not yet defined for non-Dweb
+        <li id="nav-search" className="dropdown dropdown-ia pull-right" key="search">
+          <a onClick={this.onClick}>
+            <span className="iconochive-search" aria-hidden="true"/>
+            <span className="sr-only">search</span>
+          </a>
+          <div className="searchbar">
+            <form
+              className="search-form js-search-form" role="search"
+              onSubmit={this.onSubmit}
+              data-event-form-tracking="TopNav|SearchForm"
+              data-wayback-machine-search-url="https://web.archive.org/web/*/"
+            >
+              <label htmlFor="search-bar-2" className="sr-only">Search the Archive</label>
+              <input
+                id="search-bar-2" className="js-search-bar" placeholder="Search" type="text"
+                onChange={this.onChange}
+                name="search" defaultValue=""
+                aria-controls="navbar_search_options"
+                aria-label="Search the Archive. Filters and Advanced Search available below."
+              />
+              <input type="submit" value="Search"/>
+            </form>
+          </div>
+        </li>
     );
   }
 }
@@ -117,8 +190,10 @@ class NavUploadLI extends IAReactComponent {
 }
 class NavBrandLI extends IAReactComponent {
   //Props: none
+  //TODO change this to a AnchorDetails that goes to "home"
 
   clickCallable(unusedEvent) {
+    // noinspection JSUnresolvedFunction
     Nav.nav_home({wanthistory: true});
     return false;
   }
@@ -137,6 +212,8 @@ class NavBrandLI extends IAReactComponent {
 
 class NavMediatypeLI extends IAReactComponent {
   // props: mediatype
+  // Renders the icon for the mediatype
+  // On click navigates to that mediatype collection
 
   render() {
     return (
@@ -154,6 +231,8 @@ class NavMediatypeLI extends IAReactComponent {
 
 class NavWebDIV extends IAReactComponent {
   // Props: None
+  // Renders the Wayback search icon with a nested search engine
+  // On click - unclear - this is copied from archive.org site
 
   loadCallable(el) {
     this.hideableElement = el;
@@ -167,6 +246,7 @@ class NavWebDIV extends IAReactComponent {
   }
 
   render() {
+    // noinspection HtmlUnknownTarget,HtmlUnknownTarget,CheckTagEmptyBody
     return (
             <div className="row toprow web" style={{maxWidth:1000, margin: "auto"}}>
             <div className="col-xs-12">
@@ -205,6 +285,12 @@ class NavWebDIV extends IAReactComponent {
 }
 
 class DwebNavButtons extends IAReactComponent {
+  // <DwebNavButtons
+  //  identifier string   For current page
+  // />
+  // Renders a <UL> with a row of buttons Reload | Settings | Local
+  // OnClick Reload reloads the current page via an AnchorDetails
+  //  Settings an Local navigate to those special pages
   /* -- Not used yet
     static propTypes = {
       identifier: props.string};
@@ -229,14 +315,19 @@ class DwebNavButtons extends IAReactComponent {
 }
 
 class DwebNavDIV extends IAReactComponent {
-  /* Props:
-    item = { // ArchiveItem
-      itemid: identifier,
-      downloaded: bool,
-      crawl: object (optional) passed as props to CrawlConfig
-      }
-      Note thees could be moved an ArchiveItem object to props to DwebNavDiv but whole component is null unless on dweb.
-  */
+  /*
+   * <DwebNavDIV
+   *    item= {             // ArchiveItem
+   *      itemid: identifier,
+   *      downloaded: bool,
+   *      crawl: object (optional) passed as props to CrawlConfig
+   *    }
+   * />
+   * Renders: A navigation row with the DwebStatusDIV (transport status buttons), CrawlConfig and DwebNavButtons
+   * OnClick: See those subcomponents
+   *
+   *    Note the props could be passed as fields, but but whole component is null unless on dweb.
+   */
 
   render() {
     // Alternative to complex nav-dweb code
@@ -261,17 +352,22 @@ const TRANSPORT_STATUS_FAILED = 1; // From dweb-transport/Transport.js
 
 class DwebStatusLI extends IAReactComponent {
   /*
-    Construct a single transport indicator and register with DwebTransports, usually used inside a DwebStatusDIV
-
-    Usage: <DwebStatusLI name="HTTP" status=0 />
-     */
+   * <DwebStatusLI
+   *    name =  string    Name of transport e.g. HTTP
+   *    status = integer  Status of transport 0 is ok, anything else is not connected (yet)
+   * />
+   * Renders: a button
+   * Onclick: Toggles paused on the transport with that name
+   *
+   */
   constructor(props) {
     super(props); // name, status
     this.setState({ status: props.status }); // Copy to state as will (soon) be changed by Transports
   }
 
-  clickCallable(ev) {
+  clickCallable(unusedEv) {
     debug('Toggling transport for %s', this.props.name);
+    // noinspection JSUnresolvedFunction
     DwebTransports.togglePaused(this.props.name, (err, s) => {
       // TODO display err.message if hover
       this.setState({ error: err, status: err ? TRANSPORT_STATUS_FAILED : s });
@@ -284,24 +380,23 @@ class DwebStatusLI extends IAReactComponent {
 }
 
 class DwebStatusDIV extends IAReactComponent {
-  /*
-    Displays a group indicators about the status of the Dweb Transport connections.
-
-    If DwebTransports is undefined it does nothing and adds nothing to the DOM, so it can safely be included
-
-    When called it will ask DwebTransports for the statuses, it then builds the elements and each of those <DwebStatusLI> registers itself with the transports
-
-    TODO unlike the previous version this wont change if something else toggles the state of transport
-
-    Usage: <DwebStatusDIV/>
-
-     */
+  /* <DwebStatusDIV/>
+   * On construction: requests status from DwebTransports TODO move behavior to higher level (maybe)
+   * Renders a group of DwebStatusLI which are indicators of Dweb Transport connections
+   *    Does nothing if DwebTransports not defined
+   * OnClick see DwebStatusLI
+   *
+   * TODO unlike the previous version this wont change if something else toggles the state of transport
+   * TODO should probably have the functionality at higher level, but since its Dweb only, and it makes much more sense
+   *      to have functionality here, then leaving for now
+   */
 
   constructor(props) {
     super(props); // none
     if (typeof DwebTransports !== 'undefined') {
       // TODO-DWEBNAV need to tell Transports to set this status when changes
-            DwebTransports.p_statuses((err, statuses) =>  // e.g. [ { name: HTTP: status: 0 }* ]
+            // noinspection JSUnresolvedFunction
+      DwebTransports.p_statuses((err, statuses) =>  // e.g. [ { name: HTTP: status: 0 }* ]
                 this.setState({statuses}));
     }
   }
@@ -323,7 +418,15 @@ class DwebStatusDIV extends IAReactComponent {
 }
 
 class NavWrap extends IAReactComponent {
-  // Props: item and transports if running under Dweb
+  /*
+   * <NavWrap
+   *    item = ArchiveItem  passed to DwebNavDIV (optional if not on Dweb)
+   * />
+   * Behavior
+   *   On Render: Renders the head of a details or search page including NavDwebDIV, NavBrandLI NavSearchLI NavUploadLI NavAboutsUL DwebNavDIV
+   *   On Click: See behavior of sub-components
+   *
+   */
 
   render() {
     /* The navigation stuff.   Order is navwrap : maincontent : itemDetailsAbout */
