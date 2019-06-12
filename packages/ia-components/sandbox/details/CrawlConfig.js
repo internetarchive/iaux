@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 
 const debug = require('debug')('dweb-archive:CrawlConfig');
-const canonicaljson = require('@stratumn/canonicaljson');
+import canonicaljson from '@stratumn/canonicaljson';
 import React from "react";
 import IAReactComponent from '../IAReactComponent';
 import {gatewayServer} from '../../util.js';
@@ -34,8 +34,6 @@ import {gatewayServer} from '../../util.js';
 
 
 
-//TODO-CONFIG make it be empty if not on mirror
-
 export default class CrawlConfig extends IAReactComponent {
     /* -- Not used with ReactFake yet
     static propTypes = {
@@ -60,18 +58,22 @@ export default class CrawlConfig extends IAReactComponent {
     }
     render() {
         //TODO-CONFIG make it editable
-        const className = "crawl" + (this.state.level ?  this.state.level : this.state.downloaded ? "downloaded" : "none");
-        return (
-            <ul>
-                <li className={className} data-id={this.props.identifier}  key={this.props.identifier} onClick={this.onClick}>
-                    {this.state.level ? `Crawling ${this.state.level}` : this.state.downloaded ? "Downloaded" : "Not Crawling"}
-                    { (this.state.search && CrawlConfig._levels.indexOf(this.state.level) >= CrawlConfig._levels.indexOf("details"))
+        if ((typeof DwebArchive === "undefined") || (DwebArchive.mirror === null))  {
+            return null
+        } else {
+            const className = "crawl" + (this.state.level ?  this.state.level : this.state.downloaded ? "downloaded" : "none");
+            return (
+              <ul>
+                  <li className={className} data-id={this.props.identifier}  key={this.props.identifier} onClick={this.onClick}>
+                      {this.state.level ? `Crawling ${this.state.level}` : this.state.downloaded ? "Downloaded" : "Not Crawling"}
+                      { (this.state.search && CrawlConfig._levels.indexOf(this.state.level) >= CrawlConfig._levels.indexOf("details"))
                         ?
                         <span>{`  Search ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
                         : null }
-                </li>
-            </ul>
-        );
+                  </li>
+              </ul>
+            );
+        }
     }
 
     /*
@@ -92,7 +94,7 @@ export default class CrawlConfig extends IAReactComponent {
         const config = info.config; // Mixed in with other info
         const configdefault = config[0];
         const configuser = config[1] || {};
-        const configmerged = Object_deeperAssign({}, configdefault, configuser); // Cheating, but assumes no arrays needing merging
+        const configmerged = ObjectDeeperAssign({}, configdefault, configuser); // Cheating, but assumes no arrays needing merging
         // noinspection JSUnresolvedVariable
         // Note there is similar code in dweb-mirror.MirrorConfig.crawlMember
         const task = configmerged.apps.crawl.tasks.find(t => t.identifier.includes(identifier));
@@ -122,8 +124,8 @@ export default class CrawlConfig extends IAReactComponent {
             // TODO and cycling back to details will think its still there.
             // TODO since planning on allowing editing of search, should handle then.
             const level = this.state.level === "details" ? "all"
-                : this.state.level === "all" ? undefined
-                    : "details";
+              : this.state.level === "all" ? undefined
+                : "details";
             this.setState({level});
 
             // Tell server the desired new state.
