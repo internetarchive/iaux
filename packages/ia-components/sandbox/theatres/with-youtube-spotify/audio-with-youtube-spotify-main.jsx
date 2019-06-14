@@ -71,6 +71,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       tracklistToShow: [],
       channelToPlay: 'archive',
       trackSelected: null, /* 0 = album */
+      userEvent: false,
     };
 
     this.selectThisTrack = this.selectThisTrack.bind(this);
@@ -131,7 +132,10 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    */
   jwplayerPlaylistChange(playlistItem) {
     const { newTrackIndex } = playlistItem;
-    this.setState({ trackSelected: newTrackIndex + 1 });
+    this.setState({
+      trackSelected: newTrackIndex + 1,
+      userEvent: event  &&  event.nativeEvent  &&  event.nativeEvent instanceof MouseEvent,
+    });
   }
 
   /**
@@ -143,6 +147,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const selectedTrackNumber = parseInt(selected.getAttribute('data-track-number'), 10);
 
     this.setState({
+      userEvent: event  &&  event.nativeEvent  &&  event.nativeEvent instanceof MouseEvent,
       trackSelected: Number.isInteger(selectedTrackNumber)
         ? selectedTrackNumber
         : 1
@@ -177,8 +182,9 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       return audioSource || {};
     }
 
-    // ia jw player only needs index
+    // ia jw player needs index and "is user event?"
     audioSource = {
+      userEvent: this.state.userEvent,
       index: trackSelected - 1 || 0
     };
 
@@ -245,7 +251,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const {
       title,
       identifier,
-      collection,
       creator
     } = albumMetadaToDisplay;
     let audioPlayerChannelLabel;
@@ -258,7 +263,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const jwplayerInfo = {
       jwplayerPlaylist,
       identifier,
-      collection
     };
     const jwplayerID = identifier.replace(/[^a-zA-Z\d]/g, '');
     const displayChannelSelector = !!externalSources.length; // make it actual boolean so it won't display
