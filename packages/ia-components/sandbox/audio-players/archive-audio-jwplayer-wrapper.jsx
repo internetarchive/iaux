@@ -26,7 +26,7 @@ class ArchiveAudioPlayer extends Component {
   }
 
   componentDidMount() {
-    const { jwplayerInfo, jwplayerID, backgroundPhoto } = this.props;
+    const { jwplayerInfo, jwplayerID, backgroundPhoto, onRegistrationComplete } = this.props;
     const { jwplayerPlaylist, identifier } = jwplayerInfo;
     const waveformer = backgroundPhoto
       ? {}
@@ -45,6 +45,18 @@ class ArchiveAudioPlayer extends Component {
       const compiledConfig = Object.assign({}, baseConfig, waveformer);
       const player = Play(jwplayerID, jwplayerPlaylist, compiledConfig);
       this.setState({ player });
+
+      if (onRegistrationComplete) {
+        /**
+         * Currently, this is where we support external ability to set URL
+         * through Internet Archive's JWPlayer Wrapper
+         */
+        const externallySyncURL = function externallySyncURL(jwplayerID, trackNumber) {
+          const playlistIndex = trackNumber - 1 || 0;
+          return Play(jwplayerID).playN(playlistIndex, true);
+        }.bind(null, jwplayerID);
+        onRegistrationComplete(externallySyncURL);
+      }
     }
   }
 

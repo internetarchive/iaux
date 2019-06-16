@@ -177,8 +177,10 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       return audioSource || {};
     }
 
-    // ia jw player needs index
-    audioSource = { index: trackSelected - 1 || 0 };
+    // ia jw player only needs index
+    audioSource = {
+      index: trackSelected - 1 || 0
+    };
 
     return audioSource;
   }
