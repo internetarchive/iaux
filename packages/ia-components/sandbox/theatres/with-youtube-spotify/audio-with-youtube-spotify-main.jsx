@@ -71,7 +71,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       tracklistToShow: [],
       channelToPlay: 'archive',
       trackSelected: null, /* 0 = album */
-      userEvent: false,
     };
 
     this.selectThisTrack = this.selectThisTrack.bind(this);
@@ -132,10 +131,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    */
   jwplayerPlaylistChange(playlistItem) {
     const { newTrackIndex } = playlistItem;
-    this.setState({
-      trackSelected: newTrackIndex + 1,
-      userEvent: event  &&  event.nativeEvent  &&  event.nativeEvent instanceof MouseEvent,
-    });
+    this.setState({ trackSelected: newTrackIndex + 1 });
   }
 
   /**
@@ -147,7 +143,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const selectedTrackNumber = parseInt(selected.getAttribute('data-track-number'), 10);
 
     this.setState({
-      userEvent: event  &&  event.nativeEvent  &&  event.nativeEvent instanceof MouseEvent,
       trackSelected: Number.isInteger(selectedTrackNumber)
         ? selectedTrackNumber
         : 1
@@ -182,11 +177,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       return audioSource || {};
     }
 
-    // ia jw player needs index and "is user event?"
-    audioSource = {
-      userEvent: this.state.userEvent,
-      index: trackSelected - 1 || 0
-    };
+    // ia jw player needs index
+    audioSource = { index: trackSelected - 1 || 0 };
 
     return audioSource;
   }

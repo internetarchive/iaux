@@ -22,15 +22,30 @@ class ArchiveAudioPlayer extends Component {
       playerPlaylistIndex: null,
     };
 
-    this.registerPlayer = this.registerPlayer.bind(this);
-    this.emitPlaylistChange = this.emitPlaylistChange.bind(this);
-    this.postRegistration = this.postRegistration.bind(this);
-    this.onReady = this.onReady.bind(this);
     this.onPlaylistItemCB = this.onPlaylistItemCB.bind(this);
   }
 
   componentDidMount() {
-    this.registerPlayer();
+    const { jwplayerInfo, jwplayerID, backgroundPhoto } = this.props;
+    const { jwplayerPlaylist, identifier } = jwplayerInfo;
+    const waveformer = backgroundPhoto
+      ? {}
+      : { waveformer: 'jw-holder' };
+    // We are using IA custom global Player class to instatiate the player
+    const baseConfig = {
+      so: true,
+      audio: true,
+      identifier,
+      hide_list: true,
+      responsive: true,
+      onPlaylistItem: this.onPlaylistItemCB,
+    };
+
+    if (window.Play && Play) {
+      const compiledConfig = Object.assign({}, baseConfig, waveformer);
+      const player = Play(jwplayerID, jwplayerPlaylist, compiledConfig);
+      this.setState({ player });
+    }
   }
 
   /**
@@ -47,102 +62,41 @@ class ArchiveAudioPlayer extends Component {
     } = prevState;
     const { jwplayerID, sourceData: { index = null } } = this.props;
 
-    console.log('IAUX: componentDidUpdate props, state', this.props, this.state);
-
     const indexHasBeenSet = Number.isInteger(index);
     if (!indexHasBeenSet)
       return;
 
-    // figure out if we're handling a change due to either playlist change, user click, or neither.
-    const userEvent = this.props.sourceData.userEvent
-    // NOTE: _technically_ this isn't needed/used right now - but it might if
-    //       player.playN() with 3 args (to change the url but not play) returns..
-    const changed = (
-      prevPlayIndex !== playerPlaylistIndex  ||
-      prevProps.sourceData.index !== this.props.sourceData.index
-    );
-    console.log('IAUX changed?', { changed, userEvent }, 'was:', prevProps, prevState);
-    if (!changed  &&  !userEvent)
-      return;
+    // Is this a props change? (from parent / above; eg: clicking on tracklist title/button)
+    const propA = parseInt((
+      prevProps  &&  prevProps.sourceData  &&  prevProps.sourceData.index
+      ? prevProps.sourceData.index
+      : null), 10);
+    const propB = parseInt(this.props.sourceData.index, 10);
+    console.log('IAUX componentDidUpdate props change?', propA, '=>', propB);
 
-    // This changes the track:
-    // when user clicks on an item on the track list
-    if (userEvent)
-      player.playN(index)
+    // Is this a state change? (change from our class / we initiated; eg: jwplayer auto-advance)
+    const stateA = parseInt((prevState ? prevState.playerPlaylistIndex : null), 10)
+    const stateB = parseInt(this.state.playerPlaylistIndex, 10);
+    console.log('IAUX componentDidUpdate state change?', stateA, '=>', stateB);
+
+    // Tell jwplayer to change (or play if already selected) the wanted track
+    player.playN(propB !== propA ? propB : stateB);
   }
 
   /**
-   * Event Handler that fires when JWPlayer starts a new track
+   * Event Handler that fires when JWPlayer starts a new track (eg: controlbar or auto-advance)
    */
   onPlaylistItemCB(jwplayer, event) {
     console.log('IAUX: onPlaylistItemCB event, props', event, this.props);
 
-    const { index: playerPlaylistIndex } = event;
+    const playerPlaylistIndex = event.index;
     this.setState({ playerPlaylistIndex },
       () => {
-        console.log('IAUX: FIRED emitPlaylistChange in onPlaylistItemCB', playerPlaylistIndex);
-        this.emitPlaylistChange(playerPlaylistIndex);
+        console.log('IAUX: onPlaylistItemCB setState() applied', playerPlaylistIndex);
+        this.props.jwplayerPlaylistChange({ newTrackIndex: playerPlaylistIndex });
       });
   }
 
-  /**
-   * Set up event handler for JWPlayer's custom events
-   * This event handler returns JWPlayer's player instance
-   *
-   * @param { object } jwplayerInstance
-   */
-  onReady(jwplayerInstance) {
-    // User Play class instance to set event listeners
-    const { player } = this.state;
-    this.postRegistration();
-  }
-
-  /**
-   * Register this instance of JWPlayer
-   */
-  registerPlayer() {
-    const { jwplayerInfo, jwplayerID, backgroundPhoto } = this.props;
-    const { jwplayerPlaylist, identifier } = jwplayerInfo;
-    const waveformer = backgroundPhoto
-      ? {}
-      : { waveformer: 'jw-holder' };
-    // We are using IA custom global Player class to instatiate the player
-    const baseConfig = {
-      so: true,
-      audio: true,
-      identifier,
-      hide_list: true,
-      responsive: true,
-      onReady: this.onReady,
-      onPlaylistItem: this.onPlaylistItemCB,
-    };
-
-    if (window.Play && Play) {
-      const compiledConfig = Object.assign({}, baseConfig, waveformer);
-      const player = Play(jwplayerID, jwplayerPlaylist, compiledConfig);
-      this.setState({ player });
-    }
-  }
-
-  /**
-   * Post JWPlayer registration handler - returns optional registration callback
-   *
-   * Currently, this is where we support external ability to set URL
-   * through Internet Archive's JWPlayer Wrapper
-   */
-  postRegistration() {
-    const { onRegistrationComplete, jwplayerInfo, needsURLSettingAccess = false } = this.props;
-    const { identifier = '' } = jwplayerInfo;
-  }
-
-  /**
-   * Fires callback `jwplayerPlaylistChange` given by props
-   */
-  emitPlaylistChange(playerPlaylistIndex) {
-    const { jwplayerPlaylistChange } = this.props;
-
-    jwplayerPlaylistChange({ newTrackIndex: playerPlaylistIndex });
-  }
 
   render() {
     const {
@@ -169,7 +123,6 @@ ArchiveAudioPlayer.defaultProps = {
   jwplayerInfo: {},
   sourceData: null,
   onRegistrationComplete: null,
-  needsURLSettingAccess: false,
 };
 
 ArchiveAudioPlayer.propTypes = {
@@ -181,7 +134,6 @@ ArchiveAudioPlayer.propTypes = {
   jwplayerInfo: PropTypes.object,
   sourceData: PropTypes.object,
   onRegistrationComplete: PropTypes.func,
-  needsURLSettingAccess: PropTypes.bool,
 };
 
 export default ArchiveAudioPlayer;

@@ -77,7 +77,6 @@ export default class TheatreAudioPlayer extends Component {
       <ArchiveAudioPlayer
         {...this.props}
         onRegistrationComplete={this.receiveURLSetter}
-        needsURLSettingAccess
       />
     );
     if (isExternal) {
