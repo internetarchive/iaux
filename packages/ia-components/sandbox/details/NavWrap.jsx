@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from "../AnchorDetails";
-import ConfigDetailsComponent from './ConfigDetailsComponent';
+import CrawlConfig from './CrawlConfig';
 const debug = require('debug')('NavWrap');
 
 /*
@@ -216,7 +216,7 @@ class DwebNavDIV extends IAReactComponent {
                     className="dweb-nav-left">DWeb</span>:
                     <DwebStatusDIV/>
                     {!DwebArchive.mirror ? null :
-                        <div id="dweb-mirrorconfig"><ConfigDetailsComponent {...crawl}/>
+                        <div id="dweb-mirrorconfig"><CrawlConfig {...crawl}/>
                         </div>
                     }
                     {/*--<a href="https://docs.google.com/forms/d/e/1FAIpQLSe7pXiSLrmeLoKvlDi2wODcL3ro7D6LegPksb86jr5bCJa7Ig/viewform" target="_blank"><img src="./images/feedback.svg"/></a>--*/}

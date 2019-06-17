@@ -58,6 +58,7 @@ export default class TileComponent extends IAReactComponent {
             const collectionSize = member.item_count; //TODO really hard to get https://github.com/internetarchive/dweb-archive/issues/91
             const classes = ['item-ia']
             if (isCollection) classes.push('collection-ia');
+            if (member.crawl) classes.push('crawl-'+member.crawl.level); // Whether crawled or not and at what level
             const useDate = (member.publicdate || member.updateddate || (item && item.metadata.publicdate));
             const date = useDate && useDate.substr(0,10)
             this.setState({
@@ -70,6 +71,8 @@ export default class TileComponent extends IAReactComponent {
                 title: member.title || (item && item.metadata.title),
                 iconnameClass: this.iconnameClass(member.mediatype),
                 numReviews: member.num_reviews || (item && item.reviews && item.reviews.length) || 0,
+                crawl: member.crawl || {},
+                downloaded: member.downloaded,
             })
         } catch(err) { // Catch error here as not generating debugging info at caller level for some reason
             debug("ERROR in TileComponent.constructor for %s: %s", this.state.identifier, err.message);
@@ -86,6 +89,21 @@ export default class TileComponent extends IAReactComponent {
     render() {
         return (
             <div className={this.state.classes.join(' ')} data-id={this.state.identifier}  key={this.state.identifier}>
+                {/*-- Add in experimental crawl notification for dweb-mirror, if member.crawl=undefined then ignored --*/}
+                {(!(this.state.crawl.level || this.state.downloaded)) ? null : // Only show this bug if crawling
+                    <div className="item-crawl">
+                        <div className="item-crawl-img">
+                            { this.state.crawl.level === "details"
+                                ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="green" /></svg>' alt={"crawl "+this.state.crawl.level}/>
+                                : this.state.crawl.level === "all"
+                                ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="blue" /></svg>' alt={"crawl "+this.state.crawl.level} />
+                                : this.state.downloaded
+                                ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="white" /></svg>' alt={"crawl "+this.state.crawl.level} />
+                                : null
+                            }
+                        </div>
+                    </div>
+                }
                 { (this.state.collection0) ? // Believe, but not certain, that there is always going to be a collection0
                     <AnchorDetails className="stealth" tabIndex="-1" identifier={this.state.collection0}>
                         <div className="item-parent">
