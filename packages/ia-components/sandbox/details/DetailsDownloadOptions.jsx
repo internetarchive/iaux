@@ -3,9 +3,25 @@ import IAReactComponent from '../IAReactComponent';
 import { formats } from '../../util.js';
 import AnchorDownload from './AnchorDownload';
 
+/**
+ *  The Download Options box on the details page
+ *
+ *  Renders as a list of file types and other download options.
+ *
+ *  Behavior
+ *    constructor: none for the component itself, but each file or group of files is an anchor to download using AnchorDownload
+ *    render: builds a dictionary of formats, and then renders from this (functionality could be in constructor)
+ *
+ * <DetailsDownloadOptions
+ *   identifier="AboutBan1935"      Identifier of item
+ *   files_count=10                 Number of files in the item
+ *   files=[ArchiveFile*]           Array of ArchiveFiles or of objects {metadata{format, name, source}} but they must have a method .downloadable()
+ * />
+ */
+
 export default class DetailsDownloadOptions extends IAReactComponent {
   constructor(props) {
-    super(props); // identifier, files_count, files=[ArchiveFile*] or array of any object that has metadata{format, name, source} and downloadable()
+    super(props);
   }
 
   render() {
