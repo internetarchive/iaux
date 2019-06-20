@@ -174,6 +174,10 @@ class ArchiveAudioPlayer extends Component {
     const { startingAt } = this.state;
     const { sourceData: { index = null } } = this.props;
 
+    if (!startingAtCaptured && !capturedFlagFlipped) {
+      return;
+    }
+
     if (startingAtCaptured) {
       this.setState({ startingAtCaptured });
       return;
