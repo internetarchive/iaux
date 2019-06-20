@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import CrawlConfig from './CrawlConfig';
-import { gatewayServer } from '../../util';
-
 const debug = require('debug')('NavWrap');
 
 /*
