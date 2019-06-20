@@ -1,6 +1,7 @@
 // DwebTransports is not needed, its a global
 import canonicaljson from '@stratumn/canonicaljson';
 import React from 'react';
+import prettierBytes from "prettier-bytes";
 import IAReactComponent from '../IAReactComponent';
 import { gatewayServer } from '../../util';
 
@@ -65,10 +66,17 @@ export default class CrawlConfig extends IAReactComponent {
       return null;
     }
     const className = `crawl${this.state.level ? this.state.level : this.state.downloaded ? 'downloaded' : 'none'}`;
+    const isDownloaded = this.state.downloaded && this.state.downloaded.details;
+    const dl = this.state.downloaded; // Speed up access below
     return (
       <ul>
         <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.onClick}>
-          {this.state.level ? `Crawling ${this.state.level}` : this.state.downloaded ? 'Downloaded' : 'Not Crawling'}
+          <span>{this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'} </span>
+          {!dl ? null :
+            dl.members_count
+                ? <span>{`${prettierBytes(dl.members_size)}  / ${prettierBytes(dl.members_all_size)} in ${dl.members_count} of ${dl.members_all_count}`}</span>
+                : <span>{prettierBytes(dl.files_size) + " / " + prettierBytes(dl.files_all_size)} </span>
+          }
           { (this.state.search && CrawlConfig._levels.indexOf(this.state.level) >= CrawlConfig._levels.indexOf('details'))
             ? <span>{`  Search ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
             : null }

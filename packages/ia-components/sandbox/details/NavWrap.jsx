@@ -319,7 +319,7 @@ class DwebNavDIV extends IAReactComponent {
    * <DwebNavDIV
    *    item= {             // ArchiveItem
    *      itemid: identifier,
-   *      downloaded: bool,
+   *      downloaded: { ... }, passed to CrawlConfig
    *      crawl: object (optional) passed as props to CrawlConfig
    *    }
    * />
