@@ -16,22 +16,22 @@ class ArchiveAudioPlayer extends Component {
 
     // expecting jwplayer to be globally ready
     this.state = {
+      initiatePlay: false,
+      paused: false,
       player: null,
       playerPlaylistIndex: null,
       startingAt: null,
       startingAtCaptured: false,
-      initiatePlay: false,
-      paused: false,
     };
 
+    this.checkIfPlayerStartsAtN = this.checkIfPlayerStartsAtN.bind(this);
+    this.initiatePlay = this.initiatePlay.bind(this);
     this.onPlaylistItemCB = this.onPlaylistItemCB.bind(this);
     this.registerPlayerEventHandlers = this.registerPlayerEventHandlers.bind(this);
-    this.checkIfPlayerStartsAtN = this.checkIfPlayerStartsAtN.bind(this);
-    this.upupdatePlayerStateWhenStartingAtN = this.updatePlayerStateWhenStartingAtN.bind(this);
-    this.playTrack = this.playTrack.bind(this);
-    this.initiatePlay = this.initiatePlay.bind(this);
     this.handlePause = this.handlePause.bind(this);
+    this.playTrack = this.playTrack.bind(this);
     this.setURL = this.setURL.bind(this);
+    this.upupdatePlayerStateWhenStartingAtN = this.updatePlayerStateWhenStartingAtN.bind(this);
   }
 
   /**
@@ -73,18 +73,13 @@ class ArchiveAudioPlayer extends Component {
          * Currently, this is where we support external ability to set URL
          * through Internet Archive's JWPlayer Wrapper
          */
-        // const externallySyncURL = function externallySyncURL(jwplayerID, trackNumber) {
-        //   const playlistIndex = trackNumber - 1 || 0;
-        //   return Play(jwplayerID).playN(playlistIndex, true);
-        // }.bind(null, jwplayerID);
         onRegistrationComplete(this.setURL);
       }
     }
   }
 
   /**
-   * Check if Track index has changed,
-   * if so, then play that track
+   * Check if track index has changed. If so, then play that track
    */
   componentDidUpdate(prevProps, prevState) {
     const {
@@ -95,11 +90,7 @@ class ArchiveAudioPlayer extends Component {
     const { sourceData: { index = null }, jwplayerID } = this.props;
     const { sourceData: { index: prevIndex } } = prevProps;
 
-    // if state index doesn't match props index, manually play
     const indexIsNumber = Number.isInteger(index);
-
-    console.warn('UPDATE: this.state ', this.state);
-    console.warn('UPDDATE: prevState', prevState);
 
     const jwplayerStartingOnACertainTrack = this.checkIfPlayerStartsAtN(index);
 
@@ -109,7 +100,6 @@ class ArchiveAudioPlayer extends Component {
         startingAtCaptured: indexIsNumber && !Number.isInteger(prevIndex),
         capturedFlagFlipped
       };
-      console.warn('jwplayerStartingOnACertainTrack', stateToUpdate);
       this.updatePlayerStateWhenStartingAtN(stateToUpdate);
       return;
     }
@@ -142,7 +132,6 @@ class ArchiveAudioPlayer extends Component {
     const jwplayerStartingOnACertainTrack = this.checkIfPlayerStartsAtN(index);
 
     if (initiatePlay || (jwplayerStartingOnACertainTrack && !startingAtCaptured)) {
-      console.warn('onPlaylistItemCB', initiatePlay, jwplayerStartingOnACertainTrack);
       const { jwplayerPlaylistChange } = this.props;
       jwplayerPlaylistChange({ newTrackIndex: index });
     }
@@ -157,7 +146,6 @@ class ArchiveAudioPlayer extends Component {
   setURL(trackNumber) {
     const { player } = this.state;
     const playlistIndex = trackNumber - 1 || 0;
-    console.log('IAUX SET URL PLAYN', playlistIndex);
     return player.playN(playlistIndex, true);
   }
 
@@ -209,9 +197,7 @@ class ArchiveAudioPlayer extends Component {
   playTrack(stateToUpdate) {
     const { playerPlaylistIndex } = stateToUpdate;
     const { player } = this.state;
-    console.warn('IAUX PLAYN StateTOUpdate', stateToUpdate);
     this.setState(stateToUpdate, () => {
-      console.warn('IAUX PLAYN CALLBACK', playerPlaylistIndex);
       player.playN(playerPlaylistIndex);
     });
   }
