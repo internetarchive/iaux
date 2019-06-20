@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ArchiveAudioPlayer from './archive-audio-jwplayer-wrapper';
 import ThirdPartyEmbeddedPlayer from './third-party-embed';
@@ -72,13 +72,9 @@ export default class TheatreAudioPlayer extends Component {
    */
   showMedia() {
     const { source, sourceData } = this.props;
+    const { mediaSource } = this.state;
     const isExternal = source === 'youtube' || source === 'spotify';
-    let mediaElement = (
-      <ArchiveAudioPlayer
-        {...this.props}
-        onRegistrationComplete={this.receiveURLSetter}
-      />
-    );
+    let mediaElement = null;
     if (isExternal) {
       // make iframe with URL
       const { urlSetterFN } = this.state;
@@ -94,7 +90,6 @@ export default class TheatreAudioPlayer extends Component {
         <ThirdPartyEmbeddedPlayer
           sourceURL={sourceURL}
           title={name}
-
         />
       );
       // updateURL
@@ -102,8 +97,18 @@ export default class TheatreAudioPlayer extends Component {
         urlSetterFN(trackNumber);
       }
     }
+    const archiveStyle = isExternal ? { visibility: 'hidden' } : { visibility: 'visible' };
 
-    return mediaElement;
+    return (
+      <Fragment>
+        <ArchiveAudioPlayer
+          {...this.props}
+          onRegistrationComplete={this.receiveURLSetter}
+          style={archiveStyle}
+        />
+        { mediaElement }
+      </Fragment>
+    );
   }
 
 

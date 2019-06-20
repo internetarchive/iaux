@@ -70,12 +70,14 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       albumData,
       tracklistToShow: [],
       channelToPlay: 'archive',
+      trackStartingPoint: null,
       trackSelected: null, /* 0 = album */
     };
 
     this.selectThisTrack = this.selectThisTrack.bind(this);
     this.onChannelSelect = this.onChannelSelect.bind(this);
     this.jwplayerPlaylistChange = this.jwplayerPlaylistChange.bind(this);
+    this.jwplayerStartingPoint = this.jwplayerStartingPoint.bind(this);
     this.getSelectableChannels = this.getSelectableChannels.bind(this);
     this.getAudioSourceInfoToPlay = this.getAudioSourceInfoToPlay.bind(this);
   }
@@ -134,6 +136,10 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     this.setState({ trackSelected: newTrackIndex + 1 });
   }
 
+  jwplayerStartingPoint(index) {
+    this.setState({ trackStartingPoint: index + 1 });
+  }
+
   /**
    * Callback every time user selects a track from the tracklist
    * @param { object } event - React synthetic event
@@ -179,7 +185,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
 
     // ia jw player only needs index
     audioSource = {
-      index: trackSelected - 1 || 0
+      index: trackSelected
     };
 
     return audioSource;
@@ -232,7 +238,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   render() {
     const { jwplayerPlaylist, linerNotes } = this.props;
     const {
-      tracklistToShow, trackSelected, channelToPlay, albumData
+      tracklistToShow, trackSelected, channelToPlay, albumData, trackStartingPoint
     } = this.state;
     const {
       albumMetadaToDisplay,
@@ -261,6 +267,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const jwplayerID = identifier.replace(/[^a-zA-Z\d]/g, '');
     const displayChannelSelector = !!externalSources.length; // make it actual boolean so it won't display
 
+    const trackToHighlight = trackSelected === null && trackStartingPoint !== null ? trackStartingPoint : trackSelected;
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
         <section className="media-section">
@@ -282,6 +289,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             }}
             linerNotes={linerNotes}
             jwplayerPlaylistChange={this.jwplayerPlaylistChange}
+            jwplayerStartingPoint={this.jwplayerStartingPoint}
             jwplayerInfo={jwplayerInfo}
             jwplayerID={`jwplayer-${jwplayerID}`}
           />
@@ -307,7 +315,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             <TheatreTrackList
               tracks={tracklistToShow}
               onSelected={this.selectThisTrack}
-              selectedTrack={trackSelected}
+              selectedTrack={trackToHighlight} // trackStartingPoint
               albumName={title}
               displayTrackNumbers={isArchiveChannel}
               creator={origCreator[0] || creator}
