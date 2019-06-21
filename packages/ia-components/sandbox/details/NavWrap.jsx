@@ -76,7 +76,7 @@ class NavSearchLI extends IAReactComponent {
                 <div className="searchbar">
                     <form className="search-form js-search-form" role="search"
                           ref={this.submitable}
-                          onSubmit={this.handleSubmit}
+                        onSubmit={this.onSubmit}
                           data-event-form-tracking="TopNav|SearchForm"
                           data-wayback-machine-search-url="https://web.archive.org/web/*/">
                         <label htmlFor="search-bar-2" className="sr-only">Search the Archive</label>
@@ -150,6 +150,7 @@ class NavMediatypeLI extends IAReactComponent {
         );
     }
 }
+
 class NavWebDIV extends IAReactComponent {
 
     constructor(props) {
@@ -202,8 +203,33 @@ class NavWebDIV extends IAReactComponent {
         )
     }
 }
-class DwebNavDIV extends IAReactComponent {
 
+class DwebNavButtons extends IAReactComponent {
+    /* -- Not used yet
+    static propTypes = { };
+    */
+    constructor(props) {
+        super(props);   // {identifier}
+    }
+    render() {
+        //TODO add date downloaded here - maybe just on hover
+        //SEE-OTHER-ADD-SPECIAL-PAGE in dweb-archive dweb-archivecontroller dweb-mirror
+        //TODO find suitable Iconochive's for Settings & Local
+        return (
+          <ul className="dwebnavbuttons">
+              <li className="reload"><AnchorDetails identifier={this.props.identifier} reload>Reload</AnchorDetails></li>
+              <li className="settings"><AnchorDetails identifier="settings">Settings</AnchorDetails></li>
+              <li className="local"><AnchorDetails identifier="local">Local</AnchorDetails></li>
+            </ul>
+        );
+    }
+
+    clickCallable() {
+        debug("%s: Reload clicked"); //this.props.identifier if ste it
+    }
+}
+
+class DwebNavDIV extends IAReactComponent {
     constructor(props) {
         super(props); //item
     }
@@ -216,8 +242,10 @@ class DwebNavDIV extends IAReactComponent {
                     className="dweb-nav-left">DWeb</span>:
                     <DwebStatusDIV/>
                     {!DwebArchive.mirror ? null :
-                        <div id="dweb-mirrorconfig"><CrawlConfig {...crawl}/>
-                        </div>
+                        <>
+                        <div id="dweb-mirrorconfig"><CrawlConfig {...crawl}/></div>
+                      <div id="dweb-mirrorreload"><DwebNavButtons identifier={this.props.item.itemid}/></div>
+                        </>
                     }
                     {/*--<a href="https://docs.google.com/forms/d/e/1FAIpQLSe7pXiSLrmeLoKvlDi2wODcL3ro7D6LegPksb86jr5bCJa7Ig/viewform" target="_blank"><img src="./images/feedback.svg"/></a>--*/}
                 </div>
