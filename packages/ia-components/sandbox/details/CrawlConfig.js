@@ -73,12 +73,12 @@ export default class CrawlConfig extends IAReactComponent {
         <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.onClick}>
           <span>{this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'} </span>
           {!dl ? null :
-            dl.members_count
-                ? <span>{`${prettierBytes(dl.members_size)}  / ${prettierBytes(dl.members_all_size)} in ${dl.members_count} of ${dl.members_all_count}`}</span>
+            dl.members_all_count
+                ? <span>{`${prettierBytes(dl.members_size)} in ${dl.members_details_count} of ${dl.members_all_count} items`}</span>
                 : <span>{prettierBytes(dl.files_size) + " / " + prettierBytes(dl.files_all_size)} </span>
           }
           { (this.state.search && CrawlConfig._levels.indexOf(this.state.level) >= CrawlConfig._levels.indexOf('details'))
-            ? <span>{`  Search ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
+            ? <span>{`  Searching ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
             : null }
         </li>
       </ul>

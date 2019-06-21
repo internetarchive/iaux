@@ -93,7 +93,7 @@ export default class TileComponent extends IAReactComponent {
     return (
       <div className={this.state.classes.join(' ')} data-id={this.state.identifier} key={this.state.identifier}>
         {/* -- Add in experimental crawl notification for dweb-mirror, if member.crawl=undefined then ignored --*/}
-        {(!(this.state.crawl.level || this.state.downloaded)) ? null // Only show this bug if crawling
+        {(!(this.state.crawl.level || this.state.downloaded.details)) ? null // Only show this bug if crawling
           : (
             <div className="item-crawl">
               <div className="item-crawl-img">
@@ -101,7 +101,7 @@ export default class TileComponent extends IAReactComponent {
                   ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="green" /></svg>' alt={`crawl ${this.state.crawl.level}`} />
                   : this.state.crawl.level === 'all'
                     ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="blue" /></svg>' alt={`crawl ${this.state.crawl.level}`} />
-                    : this.state.downloaded
+                    : (this.state.downloaded && this.state.downloaded.details)
                       ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="white" /></svg>' alt={`crawl ${this.state.crawl.level}`} />
                       : null
                             }
