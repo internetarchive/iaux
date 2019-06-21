@@ -74,7 +74,6 @@ export default class DetailsDownloadOptions extends IAReactComponent {
               <span className="sr-only">download</span>
             </AnchorDownload>
           </div>
-
         ))}
         <div className="show-all">
           <div className="pull-right">

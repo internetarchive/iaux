@@ -35,7 +35,6 @@ const debug = require('debug')('ia-components:AnchorDownload');
 export default class AnchorDownload extends IAReactComponent {
   constructor(props) {
     super(props);
-
     // this.props passes identifier which is required for Dweb, but typically also passes tabIndex, class, title
     this.state.url = new URL(((this.props.filename && typeof this.props.filename === 'string') // filename = foo.jpg
       ? `https://archive.org/download/${this.props.identifier}/${this.props.filename}`
