@@ -16,14 +16,11 @@ class ArchiveAudioPlayer extends Component {
 
     // expecting jwplayer to be globally ready
     this.state = {
-      paused: false,
       player: null,
       playerPlaylistIndex: null,
     };
 
     this.onPlaylistItemCB = this.onPlaylistItemCB.bind(this);
-    this.registerPlayerEventHandlers = this.registerPlayerEventHandlers.bind(this);
-    this.handlePause = this.handlePause.bind(this);
     this.playTrack = this.playTrack.bind(this);
     this.setURL = this.setURL.bind(this);
   }
@@ -62,7 +59,7 @@ class ArchiveAudioPlayer extends Component {
     if (window.Play && Play) {
       const compiledConfig = Object.assign({}, baseConfig, waveformer);
       const player = Play(jwplayerID, jwplayerPlaylist, compiledConfig);
-      this.setState({ player }, this.registerPlayerEventHandlers);
+      this.setState({ player });
 
       if (onRegistrationComplete) {
         /**
@@ -77,12 +74,9 @@ class ArchiveAudioPlayer extends Component {
   /**
    * Check if track index has changed. If so, then play that track
    */
-  componentDidUpdate(prevProps, prevState) {
-    const { sourceData: { index = null }, jwplayerID } = this.props;
+  componentDidUpdate(prevProps) {
+    const { sourceData: { index = null } } = this.props;
     const { sourceData: { index: prevIndex } } = prevProps;
-
-    const { paused, playerPlaylistIndex } = this.state;
-    const { paused: prevPaused } = prevState;
 
     const indexIsNumber = Number.isInteger(index);
 
@@ -90,13 +84,6 @@ class ArchiveAudioPlayer extends Component {
 
     if (index !== prevIndex && indexIsNumber) {
       this.playTrack({ playerPlaylistIndex: index });
-    }
-
-    if (paused && prevPaused && index === playerPlaylistIndex) {
-      /**
-       * user Paused via player & then clicked on selected track item to restart
-       */
-      this.handlePause(false, () => jwplayer(jwplayerID).play());
     }
   }
 
@@ -139,32 +126,6 @@ class ArchiveAudioPlayer extends Component {
       player.playN(playerPlaylistIndex);
     });
   }
-
-  /**
-   * Captures Pause event and optional fires callbacks
-   *
-   * @param { boolean } paused
-   * @param { function } callback - optional
-   */
-  handlePause(paused, callback = null) {
-    this.setState({ paused }, callback);
-  }
-
-  /**
-   * Registers jwplayer event handlers
-   */
-  registerPlayerEventHandlers() {
-    const { player, paused } = this.state;
-    player.on('play', () => {
-      if (paused) {
-        this.handlePause(false);
-      }
-    });
-    player.on('pause', () => {
-      this.handlePause(true);
-    });
-  }
-
 
   render() {
     const { jwplayerID } = this.props;
