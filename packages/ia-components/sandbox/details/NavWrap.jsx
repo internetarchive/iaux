@@ -367,6 +367,7 @@ class DwebStatusLI extends IAReactComponent {
   clickCallable(unusedEv) {
     debug('Toggling transport for %s', this.props.name);
     // noinspection JSUnresolvedFunction
+
     DwebTransports.togglePaused(this.props.name, (err, s) => {
       // TODO display err.message if hover
       this.setState({ error: err, status: err ? TRANSPORT_STATUS_FAILED : s });
