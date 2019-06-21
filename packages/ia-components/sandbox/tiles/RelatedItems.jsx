@@ -3,31 +3,32 @@ import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
 import TileComponent from './TileComponent';
 
-const debug = require('debug')('ia-components:RelatedItems');
+//Unused: const debug = require('debug')('ia-components:RelatedItems');
 
-/* RelatedItems is a component intended for the bottom of details page to display related items.
-    It should be called either with members=[member*] in which case it will render them immediately
-    dweb-archive uses RelatedItemsWrapper that has the functionality of loading the related item from an "item" or "identifier"
-
-    It should be easy to build a wrapper to hook this into IAUX's (underdeveloped) related items service if anyone wants to use that.
-
-    Members are, or should look like, ArchiveMember as defined in the dweb-archivecontroller repo.
-    If there is an alternative structure that is suitable for passing in, then it should be easy to handle any minor differences here.
-
-    Its currently used in dweb-archive/Details.js via RelatedItemsWrapper
+/**
+ *
+ * <RelatedItems
+ *    identifier = string Identifier of item displaying related items for
+ *    members = [ ArchiveMember ]
+ *           or [ { object } ]  where object has the fields of a member (as returned by Gio's related api) as required for TileComponent
+ *
+ * RelatedItems is a component intended for the bottom of details page to display related items.
+ * It should be called either with members=[member*] in which case it will render them immediately
+ * dweb-archive uses RelatedItemsWrapper that has the functionality of loading the related item from an "item" or "identifier"
+ *
+ * It should be easy to build a wrapper to hook this into IAUX's (underdeveloped) related items service if anyone wants to use that.
+ *
+ * Members are, or should look like, ArchiveMember as defined in the dweb-archivecontroller repo. or as returned by Gio's related API
+ *
+ * Its currently used in dweb-archive/Details.js via RelatedItemsWrapper which finds the Members
+ * For use without dweb-archivecontroller it will need to call the Related Items API and pass the results here.
  */
 
 
 export default class RelatedItems extends IAReactComponent {
   /* -- Not used with ReactFake or current IAUX yet
   static propTypes = {
-      identifier: PropTypes.string,
-      members: PropTypes.array, // of ArchiveMembers or similar
-      item:   ArchiveItem (essentially something that has a relatedItems({...}) method that can return [member*]
    */
-  constructor(props) {
-    super(props); // identifier, members
-  }
 
   render() {
     return ((!this.props.identifier) ? null

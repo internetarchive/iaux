@@ -5,18 +5,20 @@ import IAReactComponent from '../IAReactComponent';
 const debug = require('debug')('ia-components:TileImage');
 
 export default class TileImage extends IAReactComponent {
-  /* Used in IAUX, but not in ReactFake
-    static propTypes = {
-        identifier: PropTypes.string.isRequired,
-        member: PropTypes.object, // Unused currently
-        className: PropTypes.string, // Not sure what type this is
-        imgname: PropTypes.string,
-    };
-    */
-  constructor(props) {
-    super(props);
-  }
+  /*
+   * <TileImage
+   *    identifier =string    identifier of the item
+   *    member = ArchiveMember or {
+   *    className = string    Passed to generated img
+   *    imgname = string      Name of the file - usually "__ia_thumbs.jpg"
+   * />
+   * Behavior
+   *  On Render Dweb: Renders a <Span> and then an img is retrieved decentralized and inserted TODO (maybe) make an outer component setState and rerender
+   *  On Render !Dweb: Render an <img>
+   *  On Click enclosing component should be directing click to navigate to the item
+   */
 
+  // TODO-IAUX push this functionality up a level
   // loadImg is only called in the ReactFake case, not in the "real" React.
   loadcallable(enclosingspan) { // Defined as a closure so that can access identifier
     DwebArchive.ReactFake.p_loadImg(enclosingspan, '__ia_thumb.jpg', `/services/img/${this.props.identifier}`, (err, el) => {
@@ -34,6 +36,6 @@ export default class TileImage extends IAReactComponent {
       // TODO-DWEB build img processing from ReactFake into tile-tile-image and ParentTileImg but wait till have non-tile images as well
       return <span ref={this.load} />;
     }
-    return <img src={`https://archive.org/services/img/${this.identifier}`} alt={this.identifier} />;
+    return <img className={this.props.className} src={`https://archive.org/services/img/${this.identifier}`} alt={this.identifier} />;
   }
 }

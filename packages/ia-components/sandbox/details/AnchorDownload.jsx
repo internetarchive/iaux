@@ -55,7 +55,7 @@ export default class AnchorDownload extends IAReactComponent {
     // TODO-DWEB its likely that this is not correct for those that should go to ".../compress/..."
     debug('Clicking on link to download: %s', this.props.identifier);
     // noinspection JSIgnoredPromiseFromCall,JSUnresolvedFunction
-    DwebArchive.Nav.nav_download(this.props.source);
+    DwebArchive.Nav.nav_download(this.props.source, {wanthistory: true});
     return false; // Stop event propagating
   }
 
