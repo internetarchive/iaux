@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import CrawlConfig from './CrawlConfig';
@@ -359,6 +360,7 @@ class DwebStatusLI extends IAReactComponent {
    * Onclick: Toggles paused on the transport with that name
    *
    */
+
   constructor(props) {
     super(props); // name, status
     this.setState({ status: props.status }); // Copy to state as will (soon) be changed by Transports
@@ -367,6 +369,7 @@ class DwebStatusLI extends IAReactComponent {
   clickCallable(unusedEv) {
     debug('Toggling transport for %s', this.props.name);
     // noinspection JSUnresolvedFunction
+
     DwebTransports.togglePaused(this.props.name, (err, s) => {
       // TODO display err.message if hover
       this.setState({ error: err, status: err ? TRANSPORT_STATUS_FAILED : s });
