@@ -1,7 +1,7 @@
 // DwebTransports is not needed, its a global
 import canonicaljson from '@stratumn/canonicaljson';
 import React from 'react';
-import prettierBytes from "prettier-bytes";
+import prettierBytes from 'prettier-bytes';
 import IAReactComponent from '../IAReactComponent';
 import { gatewayServer } from '../../util';
 
@@ -72,10 +72,10 @@ export default class CrawlConfig extends IAReactComponent {
       <ul>
         <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.onClick}>
           <span>{this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'} </span>
-          {!dl ? null :
-            dl.members_all_count
-                ? <span>{`${prettierBytes(dl.members_size)} in ${dl.members_details_count} of ${dl.members_all_count} items`}</span>
-                : <span>{prettierBytes(dl.files_size) + " / " + prettierBytes(dl.files_all_size)} </span>
+          {!dl ? null
+            : dl.members_all_count
+              ? <span>{`${prettierBytes(dl.members_size)} in ${dl.members_details_count} of ${dl.members_all_count} items`}</span>
+              : <span>{prettierBytes(dl.files_size) + " / " + prettierBytes(dl.files_all_size)} </span>
           }
           { (this.state.search && CrawlConfig._levels.indexOf(this.state.level) >= CrawlConfig._levels.indexOf('details'))
             ? <span>{`  Searching ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
@@ -85,41 +85,6 @@ export default class CrawlConfig extends IAReactComponent {
     );
   }
 
-  /*
-    loadcallable(enclosingEl) {
-        // Called by React when the Loading... div is displayed
-        const urlConfig = [gatewayServer(), "info"].join('/');
-        this.enclosingElement = enclosingEl; // Tell it where to render inside when info found
-        DwebTransports.httptools.p_GET(urlConfig, {}, (err, info) => {
-            if (err) {
-                debug("Config Failed to get info");
-            } else {
-                this.stateFromInfo(info, (err, res) => this.setState(res));
-            }
-        });
-    }
-    stateFromInfo(info, cb) {
-        const identifier = this.props.identifier;
-        const config = info.config; // Mixed in with other info
-        const configdefault = config[0];
-        const configuser = config[1] || {};
-        const configmerged = ObjectDeeperAssign({}, configdefault, configuser); // Cheating, but assumes no arrays needing merging
-        // noinspection JSUnresolvedVariable
-        // Note there is similar code in dweb-mirror.MirrorConfig.crawlMember
-        const task = configmerged.apps.crawl.tasks.find(t => t.identifier.includes(identifier));
-        const isDetailsOrMore = task && CrawlConfig._levels.indexOf(task.level) >= CrawlConfig._levels.indexOf("details");
-        // noinspection JSUnresolvedVariable
-        const search = task && ( task.search  || (isDetailsOrMore && configmerged.apps.crawl.opts.defaultDetailsSearch));
-        // noinspection JSUnusedGlobalSymbols
-        cb(null, {
-            task, configdefault, configuser, configmerged,
-            oldhash: info.hash,
-            level: task && task.level,
-            rows: search && search.rows,
-            searchLevel: search && search.level
-        });
-    }
-    */
   clickCallable() {
     // Cycle through possible states on click
     debug('%s: Crawl clicked', this.state.identifier);
