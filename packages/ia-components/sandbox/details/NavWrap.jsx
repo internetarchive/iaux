@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import CrawlConfig from './CrawlConfig';
