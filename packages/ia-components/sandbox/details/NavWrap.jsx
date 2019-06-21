@@ -2,7 +2,6 @@ import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import CrawlConfig from './CrawlConfig';
-
 const debug = require('debug')('NavWrap');
 
 /**
