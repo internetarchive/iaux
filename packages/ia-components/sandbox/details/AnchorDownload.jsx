@@ -23,6 +23,11 @@ const debug = require('debug')('ia-components:AnchorDownload');
  *  source      [ArchiveFile]
  *  format      argument to formats parameter
  *              - if this is present we'll download the .../compress/IDENTIFIER/formats=FORMAT
+ *
+ * Technical notes:
+ *    Several cases and examples are handled including: (DDO = DetailsDownloadOptions)
+ *    !source e.g. "Show All" in DDO => download/IDENTIFIER or on dweb: downloadDirectory(identifier)
+ *    format e.g. any format line in DDO => download/identifier/formats=FORMAT&file=IDENTIFIER.zip  dweb - nav_download which iterates over files
  *  Any other properties are passed to the <a />
  *
  */
@@ -30,7 +35,6 @@ const debug = require('debug')('ia-components:AnchorDownload');
 export default class AnchorDownload extends IAReactComponent {
   constructor(props) {
     super(props);
-
     // this.props passes identifier which is required for Dweb, but typically also passes tabIndex, class, title
     this.state.url = new URL(((this.props.filename && typeof this.props.filename === 'string') // filename = foo.jpg
       ? `https://archive.org/download/${this.props.identifier}/${this.props.filename}`
@@ -39,9 +43,9 @@ export default class AnchorDownload extends IAReactComponent {
         : this.props.format // source = [ArchiveFile]
         // Note - this is a broken, illegal URL with an '&' in middle of the URL not the parameters but that is what IA requires
           ? `https://archive.org/compress/${this.props.identifier}/formats=${this.props.format}&file=/${this.props.identifier}.zip`
-          : (typeof DwebArchive === 'undefined') // just identifier !dweb
-            ? `https://archive.org/download/${this.props.identifier}`
-            : `https://dweb.archive.org/download/${this.props.identifier}`)); // just identifier dweb
+          : (typeof DwebArchive === 'undefined') // just identifier e.g. "ShowAll" on DetailsDownloadOptions"
+            ? `https://archive.org/download/${this.props.identifier}`   // identifier only, !Dweb
+            : `https://dweb.archive.org/download/${this.props.identifier}`)); // identifier only, dweb
     const usp = new URLSearchParams();
     // Copy any parameters in AnchorDownload.urlparms to usp for inclusion in the href=
     AnchorDownload.urlparms.forEach(k => usp.append(k, this.props[k]));
@@ -51,11 +55,15 @@ export default class AnchorDownload extends IAReactComponent {
   }
 
   clickCallable(unusedEvent) {
-    // Note this is only called in dweb; !Dweb has a director href and on Dweb source is (currently) always set.
+    // Note this is only called in dweb; !Dweb has a direct href and on Dweb source is (currently) always set.
     // TODO-DWEB its likely that this is not correct for those that should go to ".../compress/..."
     debug('Clicking on link to download: %s', this.props.identifier);
     // noinspection JSIgnoredPromiseFromCall,JSUnresolvedFunction
-    DwebArchive.Nav.nav_download(this.props.source, {wanthistory: true});
+    if (this.props.source) {
+      DwebArchive.Nav.nav_download(this.props.source, {wanthistory: true});
+    } else { // No source, must be plain identifier
+      DwebArchive.Nav.nav_downloaddirectory(this.props.identifier, {wanthistory: true});
+    }
     return false; // Stop event propagating
   }
 

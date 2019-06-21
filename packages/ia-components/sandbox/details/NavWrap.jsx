@@ -360,7 +360,6 @@ class DwebStatusLI extends IAReactComponent {
    * Onclick: Toggles paused on the transport with that name
    *
    */
-
   constructor(props) {
     super(props); // name, status
     this.setState({ status: props.status }); // Copy to state as will (soon) be changed by Transports
