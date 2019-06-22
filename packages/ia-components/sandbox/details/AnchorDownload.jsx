@@ -16,6 +16,8 @@ const debug = require('debug')('ia-components:AnchorDownload');
  *      Dweb:   download the source property via DwebArchive.Nav.nav_download
  *      !Dweb:  normal Anchor behavior to go to the href
  *
+ * Technical:
+ *  AnchorDetails, AnchorSearch and to a lesser extend AnchorDownload are almost the same, changes on one probably need to be propogated to the others
  *
  * <AnchorDownload
  *  identifier  of item

@@ -5,9 +5,9 @@ import AnchorDetails from '../AnchorDetails';
 /**
  *  List of reviews on details page
  *
- *  Renders as a TODO
+ *  Renders as a nested Div
  *
- *  Behavior none for the component itself, but each TODO
+ *  Behavior none for the component itself, but link from author
  *
  * Technical Notes:
  *  The reviews should be supplied, there needs to be a wrapper in dweb-archive to do this - currently its in Details.js,

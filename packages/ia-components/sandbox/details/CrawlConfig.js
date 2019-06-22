@@ -1,5 +1,4 @@
 // DwebTransports is not needed, its a global
-import canonicaljson from '@stratumn/canonicaljson';
 import React from 'react';
 import prettierBytes from 'prettier-bytes';
 import IAReactComponent from '../IAReactComponent';

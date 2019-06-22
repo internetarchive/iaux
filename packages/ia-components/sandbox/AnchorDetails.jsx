@@ -15,7 +15,10 @@ const debug = require('debug')('ia-components:AnchorDetails');
  * On click - behavior varies between Dweb and IAUX
  *      Dweb:   Navigate via the Nav.nav_details function
  *      !Dweb:  normal Anchor behavior to go to the href
- **
+ *
+ * Technical:
+ *  AnchorDetails, AnchorSearch and to a lesser extend AnchorDownload are almost the same, changes on one probably need to be propogated to the others
+ *
  * <AnchorDetails
  *  identifier  of item
  *  reload      if set, passed to Nav.nav_details as an opt
