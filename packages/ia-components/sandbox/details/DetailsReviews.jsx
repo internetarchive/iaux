@@ -1,7 +1,6 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
-import { canonicalUrl } from '../../util';
 
 /**
  *  List of reviews on details page
@@ -23,21 +22,23 @@ import { canonicalUrl } from '../../util';
  */
 
 
-export default class DetailsCollectionList extends IAReactComponent {
+class DetailsReviews extends IAReactComponent {
   //Props: writeReviewsURL string; reviews: [{...}*]
 
   render() {
+    const reviews = this.props.reviews;
+    const writeReviewsURL = this.props.writeReviewsURL;
     return (
       <div id="reviews">
         <h2
-          style={fontSize: 36, fontWeight: 200, borderBottom: "1 solid #979797", paddingBottom: 5, marginTop: 50 }>
-          <div className="pull-right" style={fontSize:14, fontWeight:500, paddingTop:14}>
+          style={{fontSize: 36, fontWeight: 200, borderBottom: "1 solid #979797", paddingBottom: 5, marginTop: 50 }}>
+          <div className="pull-right" style={{fontSize:14, fontWeight:500, paddingTop:14}}>
             <a className="stealth" href={writeReviewsURL}><span className="iconochive-plus-circle"
                                                                 aria-hidden="true"></span><span
               className="sr-only">plus-circle</span>
               Add Review</a><br/>
           </div>
-          <div className="left-icon" style={marginTop: 3}><span className="iconochive-comment"
+          <div className="left-icon" style={{marginTop: 3}}><span className="iconochive-comment"
                                                                   aria-hidden="true"></span><span
             className="sr-only">comment</span>
           </div>
@@ -65,7 +66,7 @@ export default class DetailsCollectionList extends IAReactComponent {
           </div>
         )}
       </div>
-
     );
   }
 }
+export { DetailsReviews };

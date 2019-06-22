@@ -9,6 +9,7 @@ export { TileGrid, ScrollableTileGrid } from './sandbox/tiles/TileGrid';
 export { default as AnchorDownload } from './sandbox/details/AnchorDownload';
 export { default as DetailsCollectionList } from './sandbox/details/DetailsCollectionList';
 export { DetailsFlagLI, DetailsFlags, DetailsActionButtons } from './sandbox/details/DetailsActionButtons';
+export { DetailsReviews} from './sandbox/details/DetailsReviews';
 export { default as DetailsDownloadOptions } from './sandbox/details/DetailsDownloadOptions';
 export { AnchorModalGo, ButtonModalGo } from './sandbox/details/ModalGo';
 export { default as Tabby } from './sandbox/details/Tabby';
