@@ -96,6 +96,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       'getAudioSourceInfoToPlay',
       'receiveURLSetter',
       'updateURL',
+      'youtubePlaylistChange'
     ].forEach((method) => {
       this[method] = this[method].bind(this);
     });
@@ -226,6 +227,19 @@ class AudioPlayerWithYoutubeSpotify extends Component {
 
   /* CALLBACKS */
   /**
+   * Callback every time YoutubePlayer changes track
+   * @param { number } prevTrack- Track number of previously played video
+   */
+  youtubePlaylistChange(prevTrack) {
+    const { tracklistToShow } = this.state;
+    // Find next track number in line
+    const trackSelected = tracklistToShow.find(t => t.trackNumber >= prevTrack + 1);
+    if (trackSelected) {
+      this.setState({ trackSelected: trackSelected.trackNumber }, this.updateURL);
+    }
+  }
+
+  /**
    * Callback every time user selects a track from the tracklist
    * @param { object } event - React synthetic event
    */
@@ -322,6 +336,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             linerNotes={linerNotes}
             jwplayerPlaylistChange={this.jwplayerPlaylistChange}
             jwplayerStartingPoint={this.jwplayerStartingPoint}
+            youtubePlaylistChange={this.youtubePlaylistChange}
             jwplayerInfo={jwplayerInfo}
             jwplayerID={`jwplayer-${jwplayerID}`}
             onRegistrationComplete={this.receiveURLSetter}
