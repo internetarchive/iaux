@@ -1,9 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ArchiveAudioPlayer from './archive-audio-jwplayer-wrapper';
 import ThirdPartyEmbeddedPlayer from './third-party-embed';
 import { HorizontalRadioGroup } from '../../index';
 import BookReaderWrapper from '../bookreader-component/bookreader-wrapper-main';
+import YoutubePlayer from './youtube-player';
 
 /**
  * Draw background photo
@@ -72,10 +73,31 @@ export default class TheatreAudioPlayer extends Component {
    */
   showMedia() {
     const { source, sourceData } = this.props;
-    const isExternal = source === 'youtube' || source === 'spotify';
-    let mediaElement = null;
-    if (isExternal) {
-      // make iframe with URL
+    let mediaElement = (
+      <ArchiveAudioPlayer
+        {...this.props}
+        onRegistrationComplete={this.receiveURLSetter}
+        needsURLSettingAccess
+      />
+    ); // shorten code
+    if (source === 'youtube') {
+      const { urlSetterFN } = this.state;
+      const externalSourceDetails = sourceData[source] || {};
+      const { id = '' } = externalSourceDetails;
+
+      const { trackNumber = 1 } = sourceData;
+      mediaElement = (
+        <YoutubePlayer
+          selectedTrack={trackNumber}
+          id={id}
+          {...this.props}
+
+        />
+      ); // don't send all props send only youtubePlaylistChange
+      if (urlSetterFN) {
+        urlSetterFN(trackNumber);
+      }
+    } else if (source === 'spotify') {
       const { urlSetterFN } = this.state;
       const externalSourceDetails = sourceData[source] || {};
       const {
@@ -89,25 +111,15 @@ export default class TheatreAudioPlayer extends Component {
         <ThirdPartyEmbeddedPlayer
           sourceURL={sourceURL}
           title={name}
+
         />
       );
-      // updateURL
       if (urlSetterFN) {
         urlSetterFN(trackNumber);
       }
     }
-    const archiveStyle = isExternal ? { visibility: 'hidden' } : { visibility: 'visible' };
 
-    return (
-      <Fragment>
-        <ArchiveAudioPlayer
-          {...this.props}
-          onRegistrationComplete={this.receiveURLSetter}
-          style={archiveStyle}
-        />
-        { mediaElement }
-      </Fragment>
-    );
+    return mediaElement;
   }
 
 

@@ -17,6 +17,7 @@ const gatherYoutubeAndSpotifyInfo = (externalIdentifiers = []) => {
     spotify: {
       urlPrefix: 'https://embed.spotify.com/?uri=',
     },
+    // note usage
     youtube: {
       urlPrefix: 'https://www.youtube.com/embed/',
       urlExtensions: `?fs=1&rel=0&autoplay=1&origin=${window.location.origin}` // todo: add origin='https://www.archive.org'
