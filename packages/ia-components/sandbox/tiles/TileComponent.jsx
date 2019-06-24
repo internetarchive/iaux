@@ -1,4 +1,3 @@
-// import React from '../../ReactFake';
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
 // import PropTypes from 'prop-types'

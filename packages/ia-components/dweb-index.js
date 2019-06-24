@@ -16,3 +16,4 @@ export { default as DetailsDownloadOptions } from './sandbox/details/DetailsDown
 export { AnchorModalGo, ButtonModalGo } from './sandbox/details/ModalGo';
 export { default as Tabby } from './sandbox/details/Tabby';
 export { NavWrap } from './sandbox/details/NavWrap';
+export { DownloadDirectoryDiv } from './sandbox/details/Download';
