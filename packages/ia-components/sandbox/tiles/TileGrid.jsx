@@ -56,7 +56,7 @@ eye
 class ScrollableTileGrid extends IAReactComponent {
   constructor(props) {
     super(props); // item
-    console.assert(props.item.members);
+    console.assert(props.item.membersFav || props.item.membersSearch);
     this.state.xxx = true;
     $(window).scroll(() => {
       this.scrolled.call(this);
@@ -107,7 +107,7 @@ class ScrollableTileGrid extends IAReactComponent {
     return (
       <div style={{ position: 'relative' }}>
         <div id="ikind-search" className="ikind in">
-          <TileGrid members={this.props.item.members} />
+          <TileGrid members={(this.props.item.members || []).concat(this.props.item.membersSearch || [])} />
           <center className="more_search">
             <a className="btn btn-info btn-sm" onClick={this.onClick} style={{ visibility: 'hidden' }} href="#">MORE RESULTS</a>
             <br />
