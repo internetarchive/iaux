@@ -331,6 +331,7 @@ class DwebNavDIV extends IAReactComponent {
    *      downloaded: { ... }, passed to CrawlConfig
    *      crawl: object (optional) passed as props to CrawlConfig
    *    }
+   *    transportStatuses: [{name, status}]
    * />
    * Renders: A navigation row with the DwebStatusDIV (transport status buttons), CrawlConfig and DwebNavButtons
    * OnClick: See those subcomponents
@@ -344,7 +345,7 @@ class DwebNavDIV extends IAReactComponent {
         return ((typeof DwebArchive === "undefined") ? null :
                 <div id="nav-dweb"><span
                     className="dweb-nav-left">DWeb</span>:
-                  <DwebStatusDIV />
+                  <DwebStatusDIV statuses={this.props.transportStatuses}/>
                     {!DwebArchive.mirror ? null :
                         <>
                           <div id="dweb-mirrorconfig"><CrawlConfig {...crawl} /></div>
@@ -390,7 +391,7 @@ class DwebStatusLI extends IAReactComponent {
 }
 
 class DwebStatusDIV extends IAReactComponent {
-  /* <DwebStatusDIV/>
+  /* <DwebStatusDIV statuses = [{name (string), status (int)}*] />
    * On construction: requests status from DwebTransports TODO move behavior to higher level (maybe)
    * Renders a group of DwebStatusLI which are indicators of Dweb Transport connections
    *    Does nothing if DwebTransports not defined
@@ -401,28 +402,20 @@ class DwebStatusDIV extends IAReactComponent {
    *      to have functionality here, then leaving for now
    */
 
-  constructor(props) {
-    super(props); // none
-    if (typeof DwebTransports !== 'undefined') {
-      // TODO-DWEBNAV need to tell Transports to set this status when changes
-            // noinspection JSUnresolvedFunction
-      DwebTransports.p_statuses((err, statuses) =>  // e.g. [ { name: HTTP: status: 0 }* ]
-                this.setState({statuses}));
-    }
-  }
-
   render() {
     // Alternative to complex nav-dweb code
-        return ((typeof DwebTransports === "undefined") ? null :
-                <div id="dweb-status">
-                    {typeof this.state.statuses === "undefined" ? "Loading" :
-<ul>
-                            {this.state.statuses.map(s =>
-                                <DwebStatusLI {...s} key={s.name}/>
-                            )}
-                        </ul>
-                    }
-                </div>
+    return ((typeof DwebTransports === 'undefined') ? null :
+      <div id='dweb-status'>
+        {typeof this.props.statuses === 'undefined' ?
+          'Connecting  '
+          :
+          <ul>
+            {this.props.statuses.map(s =>
+              <DwebStatusLI {...s} key={s.name}/>
+            )}
+          </ul>
+        }
+      </div>
     );
   }
 }
@@ -431,6 +424,7 @@ class NavWrap extends IAReactComponent {
   /*
    * <NavWrap
    *    item = ArchiveItem  passed to DwebNavDIV (optional if not on Dweb)
+   *    transportStatuses = [{name, status}*]
    * />
    * Behavior
    *   On Render: Renders the head of a details or search page including NavDwebDIV, NavBrandLI NavSearchLI NavUploadLI NavAboutsUL DwebNavDIV
@@ -463,7 +457,7 @@ class NavWrap extends IAReactComponent {
               <NavUploadLI />
             </ul>
             <NavAboutsUL />
-            <DwebNavDIV item={this.props.item} />
+            <DwebNavDIV item={this.props.item} transportStatuses={this.props.transportStatuses} />
           </div>
         </div>
       </div>
