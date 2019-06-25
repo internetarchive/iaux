@@ -74,6 +74,7 @@ export default class TileComponent extends IAReactComponent {
         numReviews: member.num_reviews || (item && item.reviews && item.reviews.length) || 0,
         crawl: member.crawl || {},
         downloaded: member.downloaded,
+        imageurl: '/services/img/'+this.state.identifier, //Intentionally rooted URL so dweb, mirror and other should all handle it see dweb-archive/ReactSupport for docs
         parentimageurl: (member && member.collection0thumbnaillinks && (member.collection0thumbnaillinks.length > 0))
           ? member.collection0thumbnaillinks
           : ('/services/img/' + collection0)
@@ -134,7 +135,7 @@ export default class TileComponent extends IAReactComponent {
               <div className="tile-img">
                 <ImageDweb
                   className="item-img clipW clipH"
-                  src={`https://archive.org/services/img/${this.state.identifier}`}
+                  src={this.state.imageurl}
                   alt={this.state.identifier}
                   imgname="__ia_thumb.jpg"/>;
               </div>
