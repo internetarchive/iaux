@@ -61,7 +61,9 @@ class AnchorSearch extends IAReactComponent {
   clickCallable(unusedEvent) {
     // Note this is only called in dweb; !Dweb has a director href
     debug('Clicking on link to search: %s', this.state.query);
-    DwebArchive.Nav.nav_search({query: this.state.query, sort: this.props.sort},{wanthistory: true}); // TODO: noCache: this.props.reload, wanthistory: !this.props.reload });
+    DwebArchive.Nav.nav_search(
+      { query: this.state.query, sort: this.props.sort },
+      { noCache: this.props.reload, wanthistory: !this.props.reload });
     return false; // Dont propagate event
   }
 
@@ -82,6 +84,6 @@ class AnchorSearch extends IAReactComponent {
     );
   }
 }
-AnchorSearch.urlparms = ['sort', 'reload']; // Properties that go in the URL to details
+AnchorSearch.urlparms = ['sort', 'reload', 'query']; // Properties that go as arguments in the URL to details
 // Note other propTypes are passed to underlying Anchor - ones known in use are: className data-id TODO have these on AnchorDetails: tabIndex, id, data-event-click-tracking, title
 export { AnchorSearch };

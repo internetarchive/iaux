@@ -1,6 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
+import { AnchorSearch } from './AnchorSearch';
 import CrawlConfig from './CrawlConfig';
 const debug = require('debug')('NavWrap');
 
@@ -285,7 +286,8 @@ class NavWebDIV extends IAReactComponent {
 
 class DwebNavButtons extends IAReactComponent {
   // <DwebNavButtons
-  //  identifier string   For current page
+  //  identifier string   For current page (if its details or collection)
+  //  query, sort         For current page (if its a search)
   // />
   // Renders a <UL> with a row of buttons Reload | Settings | Local
   // OnClick Reload reloads the current page via an AnchorDetails
@@ -301,7 +303,13 @@ class DwebNavButtons extends IAReactComponent {
     // TODO find suitable Iconochive's for Settings & Local
     return (
       <ul className="dwebnavbuttons">
-            <li className="reload"><AnchorDetails identifier={this.props.identifier} reload>Reload</AnchorDetails></li>
+            <li className="reload">
+              {this.props.identifier ?
+                <AnchorDetails identifier={this.props.identifier} reload>Reload</AnchorDetails>
+                :
+                <AnchorSearch query={this.props.query} sort={this.props.sort} reload>Reload</AnchorSearch>
+              }
+            </li>
             <li className="settings"><AnchorDetails identifier="settings">Settings</AnchorDetails></li>
             <li className="local"><AnchorDetails identifier="local">Local</AnchorDetails></li>
           </ul>
@@ -318,6 +326,8 @@ class DwebNavDIV extends IAReactComponent {
    * <DwebNavDIV
    *    item= {             // ArchiveItem
    *      itemid: identifier,
+   *      query:  string or object,
+   *      sort:   string,
    *      downloaded: { ... }, passed to CrawlConfig
    *      crawl: object (optional) passed as props to CrawlConfig
    *    }
@@ -338,7 +348,7 @@ class DwebNavDIV extends IAReactComponent {
                     {!DwebArchive.mirror ? null :
                         <>
                           <div id="dweb-mirrorconfig"><CrawlConfig {...crawl} /></div>
-                          <div id="dweb-mirrorreload"><DwebNavButtons identifier={this.props.item.itemid} /></div>
+                          <div id="dweb-mirrorreload"><DwebNavButtons identifier={this.props.item.itemid} query={this.props.item.query} sort={this.props.item.sort} /></div>
                         </>
                     }
                   {/* --<a href="https://docs.google.com/forms/d/e/1FAIpQLSe7pXiSLrmeLoKvlDi2wODcL3ro7D6LegPksb86jr5bCJa7Ig/viewform" target="_blank"><img src="./images/feedback.svg"/></a>--*/}
