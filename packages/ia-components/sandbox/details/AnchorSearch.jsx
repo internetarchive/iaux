@@ -50,7 +50,7 @@ class AnchorSearch extends IAReactComponent {
     Dweb:  onClick={this.click}
     */
   constructor(props) {
-    super(props); // { query, field, value, reload }
+    super(props); // { query, field, sort, value, reload }
     this.setState({
       query: this.props.query || ObjectFromEntries([[this.props.field, this.props.value]]),
       urlProps: ObjectFilter(this.props, (k, unusedV) => AnchorSearch.urlparms.includes(k)),
@@ -61,7 +61,7 @@ class AnchorSearch extends IAReactComponent {
   clickCallable(unusedEvent) {
     // Note this is only called in dweb; !Dweb has a director href
     debug('Clicking on link to search: %s', this.state.query);
-    DwebArchive.Nav.nav_search({query: this.state.query},{wanthistory: true}); // TODO: noCache: this.props.reload, wanthistory: !this.props.reload });
+    DwebArchive.Nav.nav_search({query: this.state.query, sort: this.props.sort},{wanthistory: true}); // TODO: noCache: this.props.reload, wanthistory: !this.props.reload });
     return false; // Dont propagate event
   }
 
@@ -70,6 +70,9 @@ class AnchorSearch extends IAReactComponent {
     const usp = new URLSearchParams();
     Object.entries(this.state.urlProps).forEach(kv => usp.append(kv[0], kv[1]));
     usp.append('query', queryFrom(this.state.query));
+    if (this.props.sort) {
+      usp.append('sort', this.props.sort);
+    }
     // noinspection JSValidateTypes
     url.search = usp; // Note this copies, not updatable
     return ( // Note there is intentionally no spacing in case JSX adds a unwanted line break
@@ -80,5 +83,5 @@ class AnchorSearch extends IAReactComponent {
   }
 }
 AnchorSearch.urlparms = ['sort', 'reload']; // Properties that go in the URL to details
-// Note other propTypes are passed to underlying Anchor - ones known in use are: TODO have these on AnchorDetails: tabIndex, id, className, data-event-click-tracking, title
+// Note other propTypes are passed to underlying Anchor - ones known in use are: className data-id TODO have these on AnchorDetails: tabIndex, id, data-event-click-tracking, title
 export { AnchorSearch };

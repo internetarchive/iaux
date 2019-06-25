@@ -1,7 +1,9 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
+import AnchorDetails from '../AnchorDetails';
+import {ImageDweb} from "../details/Image";
+const debug = require('debug')('ia-components:TileComponent');
 // import PropTypes from 'prop-types'
-import TileImage from './TileImage';
 
 /* USE OUTSIDE DWEB
 For use outside Dweb its going to need the "collection0title" which is the title of the 0th collection in the collections the item is part of, its
@@ -12,10 +14,6 @@ Once other use's figure out how to handle this the interface might need tweaking
 */
 // TODO The pop up of the parent collection image doesnt work well, this is a CSS issue, present on dweb as well. Needs a CSS expert to look at it.
 
-import ParentTileImg from './ParentTileImg';
-import AnchorDetails from '../AnchorDetails';
-
-const debug = require('debug')('ia-components:TileComponent');
 
 
 function number_format(nStr) // this is just addCommas now
@@ -76,6 +74,9 @@ export default class TileComponent extends IAReactComponent {
         numReviews: member.num_reviews || (item && item.reviews && item.reviews.length) || 0,
         crawl: member.crawl || {},
         downloaded: member.downloaded,
+        parentimageurl: (member && member.collection0thumbnaillinks && (member.collection0thumbnaillinks.length > 0))
+          ? member.collection0thumbnaillinks
+          : ('/services/img/' + collection0)
       });
     } catch (err) { // Catch error here as not generating debugging info at caller level for some reason
       debug('ERROR in TileComponent.constructor for %s: %s', this.state.identifier, err.message);
@@ -113,7 +114,7 @@ export default class TileComponent extends IAReactComponent {
             <AnchorDetails className="stealth" tabIndex="-1" identifier={this.state.collection0}>
               <div className="item-parent">
                 <div className="item-parent-img">
-                  <ParentTileImg member={this.props.member} identifier={this.state.identifier} parentidentifier={this.state.collection0} />
+                  <ImageDweb src={this.state.parentimageurl} alt={this.state.collection0} imgname= '__ia_thumb.jpg'/>
                 </div>
                 <div className="item-parent-ttl">{this.state.collection0title}</div>
               </div>
@@ -131,7 +132,11 @@ export default class TileComponent extends IAReactComponent {
           <div className="item-ttl C C2">
             <AnchorDetails identifier={this.state.identifier} title={this.state.title}>
               <div className="tile-img">
-                <TileImage className="item-img clipW clipH" imgname="__ia_thumb.jpg" member={this.props.member} identifier={this.state.identifier} />
+                <ImageDweb
+                  className="item-img clipW clipH"
+                  src={`https://archive.org/services/img/${this.state.identifier}`}
+                  alt={this.state.identifier}
+                  imgname="__ia_thumb.jpg"/>;
               </div>
               <div className="ttl">
                 {this.state.title}

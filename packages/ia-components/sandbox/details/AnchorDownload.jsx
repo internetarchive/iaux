@@ -25,6 +25,10 @@ const debug = require('debug')('ia-components:AnchorDownload');
  *  source      [ArchiveFile]
  *  format      argument to formats parameter
  *              - if this is present we'll download the .../compress/IDENTIFIER/formats=FORMAT
+ *  any other properties wil be passed to Url if in urlparms and to Anchor otherwise
+ * >
+ *  children...
+ * </AnchorDownload>
  *
  * Technical notes:
  *    Several cases and examples are handled including: (DDO = DetailsDownloadOptions)
