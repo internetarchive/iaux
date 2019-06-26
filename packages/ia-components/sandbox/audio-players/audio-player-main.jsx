@@ -93,19 +93,26 @@ export default class TheatreAudioPlayer extends Component {
         urlSetterFN(trackNumber);
       }
     } else if (source === 'spotify') {
+      // make iframe with URL
+      const { urlSetterFN } = this.state;
       const externalSourceDetails = sourceData[source] || {};
       const {
         urlPrefix = '', id = '', urlExtensions = '', name = ''
       } = externalSourceDetails;
+
+      const { trackNumber = 1 } = sourceData;
 
       const sourceURL = `${urlPrefix}${id}${urlExtensions}`;
       mediaElement = (
         <ThirdPartyEmbeddedPlayer
           sourceURL={sourceURL}
           title={name}
-
         />
       );
+      // updateURL
+      if (urlSetterFN) {
+        urlSetterFN(trackNumber);
+      }
     }
     const archiveStyle = isExternal ? { visibility: 'hidden' } : { visibility: 'visible' };
     return (
