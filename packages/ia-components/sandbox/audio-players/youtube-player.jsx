@@ -16,14 +16,16 @@ class YoutubePlayer extends Component {
       playerAnchor: React.createRef(),
       selectedTrack,
       id
-    }
+    };
 
-    // use static methods?
-    this.loadAPI = this.loadAPI.bind(this);
-    this.loadPlayer = this.loadPlayer.bind(this);
-    this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
-    this.onPlayerReady = this.onPlayerReady.bind(this);
-    this.onPlayerError = this.onPlayerError.bind(this);
+    [
+      'loadPlayer',
+      'onPlayerStateChange',
+      'onPlayerReady',
+      'onPlayerError'
+    ].forEach((item) => {
+      this[item] = this[item].bind(this);
+    });
   }
 
   // load api and iframe object
@@ -35,14 +37,14 @@ class YoutubePlayer extends Component {
   // Re render component only if track number changes and iframe has loaded
   shouldComponentUpdate(nextProps) {
     const { id } = this.state;
-    if (id !== nextProps.id) {
+    const track_changed = id !== nextProps.id;
+    if (track_changed) {
       this.setState({
         id: nextProps.id,
         selectedTrack: nextProps.selectedTrack
       });
-      return true;
     }
-    return false;
+    return track_changed;
   }
 
   // if component updates load video with received id
