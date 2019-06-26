@@ -75,11 +75,12 @@ export default class TheatreAudioPlayer extends Component {
     const { source, sourceData } = this.props;
     const isExternal = source === 'youtube' || source === 'spotify';
     let mediaElement = null;
+    const externalSourceDetails = sourceData[source] || {};
+    console.log(source);
+    console.log(this.state.urlSetterFN);
     if (source === 'youtube') {
       const { urlSetterFN } = this.state;
-      const externalSourceDetails = sourceData[source] || {};
       const { id = '' } = externalSourceDetails;
-
       const { trackNumber = 1 } = sourceData;
       mediaElement = (
         <YoutubePlayer
@@ -95,7 +96,6 @@ export default class TheatreAudioPlayer extends Component {
     } else if (source === 'spotify') {
       // make iframe with URL
       const { urlSetterFN } = this.state;
-      const externalSourceDetails = sourceData[source] || {};
       const {
         urlPrefix = '', id = '', urlExtensions = '', name = ''
       } = externalSourceDetails;
