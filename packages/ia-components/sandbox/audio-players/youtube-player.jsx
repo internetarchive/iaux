@@ -12,6 +12,7 @@ class YoutubePlayer extends Component {
     const { selectedTrack, id } = props
 
     this.state = {
+      player: null,
       playerAnchor: React.createRef(),
       selectedTrack,
       id
@@ -31,7 +32,7 @@ class YoutubePlayer extends Component {
     this.loadPlayer();
   }
 
-  // Re render component only if track number changes
+  // Re render component only if track number changes and iframe has loaded
   shouldComponentUpdate(nextProps) {
     const { id } = this.state;
     if (id !== nextProps.id) {
@@ -46,8 +47,8 @@ class YoutubePlayer extends Component {
 
   // if component updates load video with received id
   componentDidUpdate() {
-    const { id } = this.state;
-    this.player.loadVideoById(id, 'default'); // change resolution?
+    const { id, player } = this.state;
+    player.loadVideoById(id, 'default'); // change resolution?
   }
 
   // Load iframe API async
@@ -63,21 +64,23 @@ class YoutubePlayer extends Component {
   loadPlayer() {
     const { id, playerAnchor } = this.state;
     window.onYouTubeIframeAPIReady = () => {
-      this.player = new window.YT.Player(playerAnchor.current, {
-        height: '600',
-        width: '600',
-        videoId: id,
-        playerVars: {
-          fs: 1,
-          rel: 0,
-          enablejsapi: 1
-        },
-        events: {
-          onReady: this.onPlayerReady,
-          onStateChange: this.onPlayerStateChange,
-          onError: this.onPlayerError
-        }
-      })
+      this.setState({
+        player: new window.YT.Player(playerAnchor.current, {
+          height: '600',
+          width: '600',
+          videoId: id,
+          playerVars: {
+            fs: 1,
+            rel: 0,
+            enablejsapi: 1
+          },
+          events: {
+            onReady: this.onPlayerReady,
+            onStateChange: this.onPlayerStateChange,
+            onError: this.onPlayerError
+          }
+        })
+      });
     }; // Height and width? // playerVars?
   }
 
