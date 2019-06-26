@@ -76,9 +76,7 @@ const debug = require('debug')('NavWrap');
  *
  * <DwebStatusDIV/>
  * Behavior
- *  On construction: requests status from DwebTransports TODO move behavior to higher level (maybe)
  *  Renders a group of DwebStatusLI which are indicators of Dweb Transport connections
- *    Does nothing if DwebTransports not defined
  *  OnClick see DwebStatusLI
  *
  */
@@ -190,22 +188,15 @@ class NavUploadLI extends IAReactComponent {
 }
 class NavBrandLI extends IAReactComponent {
   //Props: none
-  //TODO change this to a AnchorDetails that goes to "home"
-
-  clickCallable(unusedEvent) {
-    // noinspection JSUnresolvedFunction
-    Nav.nav_home({wanthistory: true});
-    return false;
-  }
 
   render() {
     return (
       <li className="navbar-brand-li" key="brand">
-            <a className="navbar-brand" onClick={this.onClick} target="_top">
-                <span className="iconochive-logo" aria-hidden="true" />
-                <span className="sr-only">logo</span>
-              </a>
-          </li>
+        <AnchorDetails className="navbar-brand" identifier={"home"} target="_top">
+          <span className="iconochive-logo" aria-hidden="true" />
+          <span className="sr-only">logo</span>
+        </AnchorDetails>
+      </li>
     );
   }
 }
@@ -300,7 +291,7 @@ class DwebNavButtons extends IAReactComponent {
   render() {
     // TODO add date downloaded here - maybe just on hover
     // SEE-OTHER-ADD-SPECIAL-PAGE in dweb-archive dweb-archivecontroller dweb-mirror
-    // TODO find suitable Iconochive's for Settings & Local
+    // TODO find suitable Iconochive's for Settings & Local then replace SVGs used in .css
     return (
       <ul className="dwebnavbuttons">
             <li className="reload">
@@ -391,15 +382,14 @@ class DwebStatusLI extends IAReactComponent {
 }
 
 class DwebStatusDIV extends IAReactComponent {
-  /* <DwebStatusDIV statuses = [{name (string), status (int)}*] />
-   * On construction: requests status from DwebTransports TODO move behavior to higher level (maybe)
+  /* <DwebStatusDIV
+   *   statuses = [{name (string), status (int)}*]
+   * />
+   *
    * Renders a group of DwebStatusLI which are indicators of Dweb Transport connections
    *    Does nothing if DwebTransports not defined
    * OnClick see DwebStatusLI
    *
-   * TODO unlike the previous version this wont change if something else toggles the state of transport
-   * TODO should probably have the functionality at higher level, but since its Dweb only, and it makes much more sense
-   *      to have functionality here, then leaving for now
    */
 
   render() {

@@ -54,7 +54,9 @@ export default class AnchorDetails extends IAReactComponent {
 
   render() {
     // this.props passes identifier which is required for Dweb, but typically also passes tabIndex, class, title
-    const url = new URL(`https://archive.org/details/${this.props.identifier}`);
+    const url = new URL( (this.props.identifier === "home" && (typeof DwebArchive === "undefined"))
+                ? 'https://archive.org'
+                : `https://archive.org/details/${this.props.identifier}`);
     const usp = new URLSearchParams();
     Object.entries(this.state.urlProps).forEach(kv => usp.append(kv[0], kv[1]));
     url.search = usp; // Note this copies, not updatable
