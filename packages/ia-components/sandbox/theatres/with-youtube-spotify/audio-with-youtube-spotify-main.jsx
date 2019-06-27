@@ -148,7 +148,9 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   youtubePlaylistChange(prevTrack) {
     const { tracklistToShow } = this.state;
     const trackSelected = tracklistToShow.find(t => t.trackNumber >= prevTrack + 1);
-    this.setState({ trackSelected: trackSelected ? trackSelected.trackNumber : 1 });
+    if (trackSelected) {
+      this.setState({ trackSelected: trackSelected.trackNumber });
+    }
 }
 
   /**
