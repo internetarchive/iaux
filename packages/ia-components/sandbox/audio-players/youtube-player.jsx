@@ -37,14 +37,14 @@ class YoutubePlayer extends Component {
   // Re render component only if track number changes and iframe has loaded
   shouldComponentUpdate(nextProps) {
     const { id } = this.state;
-    const track_changed = id !== nextProps.id;
-    if (track_changed) {
+    const trackChanged = id !== nextProps.id;
+    if (trackChanged) {
       this.setState({
         id: nextProps.id,
         selectedTrack: nextProps.selectedTrack
       });
     }
-    return track_changed;
+    return trackChanged;
   }
 
   // if component updates load video with received id
@@ -56,6 +56,7 @@ class YoutubePlayer extends Component {
   // Load iframe API async
   loadAPI() {
     // if (!window.YT)
+    document.querySelector('.audio-track-list').setAttribute('style', 'pointer-events: none');
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     const firstScriptTag = document.getElementsByTagName('script')[0];
@@ -95,6 +96,7 @@ class YoutubePlayer extends Component {
 
   // Play video when player ready
   onPlayerReady(event) {
+    document.querySelector('.audio-track-list').setAttribute('style', 'pointer-events: auto');
     event.target.playVideo();
   }
 
