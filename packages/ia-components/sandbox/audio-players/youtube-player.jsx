@@ -30,8 +30,14 @@ class YoutubePlayer extends Component {
 
   // load api and iframe object
   componentDidMount() {
-    this.loadAPI();
-    this.loadPlayer();
+    if (!window.YT) {
+      this.loadAPI();
+      window.onYouTubeIframeAPIReady = () => {
+        this.loadPlayer();
+      }
+    } else {
+      this.loadPlayer();
+    }
   }
 
   // Re render component only if track number changes and iframe has loaded
@@ -55,7 +61,6 @@ class YoutubePlayer extends Component {
 
   // Load iframe API async
   loadAPI() {
-    // if (!window.YT)
     document.querySelector('.audio-track-list').setAttribute('style', 'pointer-events: none');
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
@@ -66,25 +71,23 @@ class YoutubePlayer extends Component {
   // Load iframe object
   loadPlayer() {
     const { id, playerAnchor } = this.state;
-    window.onYouTubeIframeAPIReady = () => {
-      this.setState({
-        player: new window.YT.Player(playerAnchor.current, {
-          height: '600',
-          width: '600',
-          videoId: id,
-          playerVars: {
-            fs: 1,
-            rel: 0,
-            enablejsapi: 1
-          },
-          events: {
-            onReady: this.onPlayerReady,
-            onStateChange: this.onPlayerStateChange,
-            onError: this.onPlayerError
-          }
-        })
-      });
-    }; // Height and width? // playerVars?
+    this.setState({
+      player: new window.YT.Player(playerAnchor.current, {
+        height: '600',
+        width: '600',
+        videoId: id,
+        playerVars: {
+          fs: 1,
+          rel: 0,
+          enablejsapi: 1
+        },
+        events: {
+          onReady: this.onPlayerReady,
+          onStateChange: this.onPlayerStateChange,
+          onError: this.onPlayerError
+        }
+      })
+    });
   }
 
   // If video ends, move on to next track
