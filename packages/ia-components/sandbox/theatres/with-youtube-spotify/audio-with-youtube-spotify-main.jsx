@@ -146,8 +146,10 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    * @param { number } prevTrack- Track number of previously played video
    */
   youtubePlaylistChange(prevTrack) {
-    this.setState({ trackSelected: prevTrack + 1 });
-  }
+    const { tracklistToShow } = this.state;
+    const trackSelected = tracklistToShow.find(t => t.trackNumber >= prevTrack + 1);
+    this.setState({ trackSelected: trackSelected ? trackSelected.trackNumber : 1 });
+}
 
   /**
    * Callback every time user selects a track from the tracklist
