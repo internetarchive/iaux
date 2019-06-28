@@ -24,10 +24,19 @@ const debug = require('debug')('dweb-archive:CrawlConfig');
  *   It sends the new level to the server.
  *
  * <CrawlConfig
- *  identifier  of item
- *  level       Current crawling level of object
- *  search      Current search parameters for crawl
- *  downloaded  true if item downloaded to details level (displayed as white if not crawling)
+ *  identifier              of item
+ *  level       string      Current crawling level of object
+ *  search      {}          Current search parameters for crawl
+ *  downloaded {
+ *    details:  boolean - true if downloaded at least all files for minimum UI
+ *    files_all_count: int  How many files in total (inc downloaded and otherwise, but not JSON)
+ *    files_all_size: int   Total size if all downloaded (this won't be perfectly accurate as doent include metadata etc)
+ *    files_count: int      How many files downloaded
+ *    files_size:           Size in bytes downloaded for this item
+ *    members_all_count:    Number of files in a collection or search
+ *    members_details_count:  How many members downloaded to minimum UI level
+ *    members_size          Size in bytes downloaded (adding members together)
+ *   }
  *  />
  *
  */
