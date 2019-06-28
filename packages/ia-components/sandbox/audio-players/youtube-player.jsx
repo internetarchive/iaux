@@ -107,8 +107,8 @@ class YoutubePlayer extends Component {
   onPlayerError(event) {
     const { youtubePlaylistChange } = this.props;
     const { selectedTrack } = this.state;
-    // setTimeout() to display error message? (3s)
-    youtubePlaylistChange(selectedTrack);
+    // setTimeout() to display error message (3s)
+    setTimeout(() => { youtubePlaylistChange(selectedTrack); }, 3000);
   }
 
   render() {
