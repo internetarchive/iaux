@@ -33,6 +33,16 @@ export default class BookReaderWrapper extends Component {
       searchInsideUrl: '/fulltext/inside.php',
       initialSearchTerm: null,
       imagesBaseURL: '/bookreader/BookReader/images/',
+      getPageURI: (index, reduce, rotate) => {
+        if ('undefined' == typeof(reduce))
+          reduce = 1;
+        if ('undefined' == typeof(rotate))
+          rotate = 0;
+        let uri = BookReader.prototype.getPageURI.call(this, index, reduce, rotate);
+        uri = uri + (uri.indexOf('?') > -1 ? '&' : '?');
+        uri = uri + 'scale=' + reduce + '&rotate=' + rotate;
+        return uri;
+      },
     };
 
     const fullOptions = {
