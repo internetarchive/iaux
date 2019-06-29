@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-// No restrictions for using iframe :)
-// functions and parameters such as autoplay, playVideo(), loadVideoById() won't work in all mobile environments
+/**
+ * YoutubePlayer
+ *
+ * Loads the youtube player and plays video of the selected track
+ *
+ * @params see PropTypes
+ */
 
 class YoutubePlayer extends Component {
 
@@ -28,7 +33,10 @@ class YoutubePlayer extends Component {
     });
   }
 
-  // load api and iframe object
+  /**
+   * Load the youtube iframe API if not previously loaded
+   * Load the youtube player object when youtube iframe api is ready
+   */
   componentDidMount() {
     if (!window.YT) {
       this.loadAPI();
@@ -40,7 +48,10 @@ class YoutubePlayer extends Component {
     }
   }
 
-  // Re render component only if track number changes and iframe has loaded
+  /**
+   * Update component only if there is a change in video id
+   * If above update video id and selected track
+   */
   shouldComponentUpdate(nextProps) {
     const { id } = this.state;
     const trackChanged = id !== nextProps.id;
@@ -53,13 +64,18 @@ class YoutubePlayer extends Component {
     return trackChanged;
   }
 
-  // if component updates load video with received id
+  /**
+   * Load video of passed id and default resolution
+   */
   componentDidUpdate() {
     const { id, player } = this.state;
-    player.loadVideoById(id, 'default'); // change resolution?
+    player.loadVideoById(id, 'default');
   }
 
-  // Load iframe API async
+  /**
+   * Load youtube iframe API asyncronously
+   * Prevent user interaction with tracklist
+   */
   loadAPI() {
     document.querySelector('.audio-track-list').setAttribute('style', 'pointer-events: none');
     const tag = document.createElement('script');
@@ -68,7 +84,10 @@ class YoutubePlayer extends Component {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   }
 
-  // Load iframe object
+  /**
+   * Load youtube player object
+   * Update player
+   */
   loadPlayer() {
     const { id, playerAnchor } = this.state;
     this.setState({
@@ -90,24 +109,33 @@ class YoutubePlayer extends Component {
     });
   }
 
-  // If video ends, move on to next track
+  /**
+   * Fire when video ends
+   * Call youtubePlaylistChange to switch to next track number
+   */
   onPlayerStateChange(event) {
     const { youtubePlaylistChange } = this.props;
     const { selectedTrack } = this.state;
     if (event.data === YT.PlayerState.ENDED) youtubePlaylistChange(selectedTrack);
   }
 
-  // Play video when player ready
+  /**
+   * Fire when player is ready
+   * Allow user interaction with tracklist
+   * Play loaded video
+   */
   onPlayerReady(event) {
     document.querySelector('.audio-track-list').setAttribute('style', 'pointer-events: auto');
     event.target.playVideo();
   }
 
-  // If player encounters an error move on to next track
+  /**
+   * Fire when an error is encountered
+   * Call youtubePlaylistChange to switch to next track number after a 3 sec delay
+   */
   onPlayerError(event) {
     const { youtubePlaylistChange } = this.props;
     const { selectedTrack } = this.state;
-    // setTimeout() to display error message (3s)
     setTimeout(() => { youtubePlaylistChange(selectedTrack); }, 3000);
   }
 
