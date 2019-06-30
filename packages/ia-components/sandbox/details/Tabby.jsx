@@ -39,7 +39,6 @@ export default class Tabby extends IAReactComponent {
   }
 
   clickCallable(ev) {
-    // TODO in Dweb seeing issues in Firefox where clicking About and then back doesnt always work correctly but it probably doesnt work correctly in existing (non component) dweb code either
     debug('Cicking on link to tab: %s %s', this.props.identifier, this.props.id);
     // this is this React/Fake React object
     // ev.currentTarget is the HTML Element on which the onClick sits

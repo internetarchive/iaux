@@ -12,7 +12,6 @@ This is (reasonably) not provided by the search. I'm guessing in the Php that th
 In Dweb it is added to the metadata by the gateway
 Once other use's figure out how to handle this the interface might need tweaking, for example to pass in an optional prop "collection0title"
 */
-// TODO The pop up of the parent collection image doesnt work well, this is a CSS issue, present on dweb as well. Needs a CSS expert to look at it.
 
 
 
@@ -167,7 +166,6 @@ export default class TileComponent extends IAReactComponent {
 
 
   renderDivCollectionStats() {
-    // TODO fix 000 in num_items see https://github.com/internetarchive/dweb-archive/issues/91
     return (
       <div className="collection-stats">
         <div className="iconochive-collection topinblock hidden-lists" aria-hidden="true" />

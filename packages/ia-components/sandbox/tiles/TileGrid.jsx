@@ -100,9 +100,6 @@ class ScrollableTileGrid extends IAReactComponent {
     });
   }
 
-  /* TODO If we still want automatic scrolling under React
-       Collection.archive_setup_push registers AJS.scrolled in $(window).scroll, that works but sending the "click" method doesn't work
-    */
   render() {
     return (
       <div style={{ position: 'relative' }}>
