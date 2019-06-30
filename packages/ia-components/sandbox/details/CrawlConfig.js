@@ -43,39 +43,21 @@ const debug = require('debug')('dweb-archive:CrawlConfig');
 
 
 export default class CrawlConfig extends IAReactComponent {
-  /* -- Not used with ReactFake yet
-    static propTypes = {
-        identifier: PropTypes.string,
-        level: PropTypes.string,
-        search: PropTypes.object,
-        downloaded: ProbTypes.boolean
-    };
-    */
   constructor(props) {
     super(props); // { identifier, level, search, downloaded }
-    this.setState(props);
+    this.setState({level: props.level});
     CrawlConfig.instance = this; // Allow finding it
-  }
-
-  // noinspection JSUnusedGlobalSymbols
-  loaded() {
-    return (typeof this.state.level !== 'undefined');
-  }
-
-  // noinspection JSUnusedGlobalSymbols
-  static findAndSetState(state) {
-    this.instance.setState(state);
   }
 
   render() {
     // TODO-CONFIG make it editable
     // noinspection JSUnresolvedVariable
-    if ((typeof DwebArchive === 'undefined') || (DwebArchive.mirror === null)) {
+    if ((typeof DwebArchive === 'undefined') || (DwebArchive.mirror === null) || (["settings"].includes(this.props.identifier))) {
       return null;
     }
-    const className = `crawl${this.state.level ? this.state.level : this.state.downloaded ? 'downloaded' : 'none'}`;
-    const isDownloaded = this.state.downloaded && this.state.downloaded.details;
-    const dl = this.state.downloaded; // Speed up access below
+    const className = `crawl${this.state.level ? this.state.level : this.props.downloaded ? 'downloaded' : 'none'}`;
+    const isDownloaded = this.props.downloaded && this.props.downloaded.details;
+    const dl = this.props.downloaded; // Speed up access below
     return (
       <ul>
         <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.onClick}>
@@ -87,8 +69,8 @@ export default class CrawlConfig extends IAReactComponent {
                 ? <span>{prettierBytes(dl.files_size + dl.pages_size)} </span>
                 : <span>{prettierBytes(dl.files_size) + " / " + prettierBytes(dl.files_all_size)} </span>
           }
-          { (this.state.search && CrawlConfig._levels.indexOf(this.state.level) >= CrawlConfig._levels.indexOf('details'))
-            ? <span>{`  Searching ${this.state.search.rows} rows at ${this.state.search.level}`}</span>
+          { (this.props.search && CrawlConfig._levels.indexOf(this.props.level) >= CrawlConfig._levels.indexOf('details'))
+            ? <span>{`  Searching ${this.props.search.rows} rows at ${this.props.search.level}`}</span>
             : null }
         </li>
       </ul>
@@ -97,9 +79,9 @@ export default class CrawlConfig extends IAReactComponent {
 
   clickCallable() {
     // Cycle through possible states on click
-    debug('%s: Crawl clicked', this.state.identifier);
+    debug('%s: Crawl clicked', this.props.identifier);
 
-    if (!this.state.identifier) {
+    if (!this.props.identifier) {
       debug('Clicking but not an identifier');
     } else {
       // Do the UI part first, so responsive
@@ -115,12 +97,12 @@ export default class CrawlConfig extends IAReactComponent {
       this.setState({ level });
 
       // Tell server the desired new state.
-      const urlSetConfig = [gatewayServer(), 'admin/setconfig', this.state.identifier, level || 'none'].join('/');
+      const urlSetConfig = [gatewayServer(), 'admin/setconfig', this.props.identifier, level || 'none'].join('/');
       // noinspection JSUnresolvedFunction,JSUnresolvedVariable
       DwebTransports.httptools.p_GET(urlSetConfig, {}, (err, unusedInfo) => {
         // Gets back info, but not currently using
         if (err) {
-          debug('Failed to set config level for %s to %s', this.state.identifier, this.state.level);
+          debug('Failed to set config level for %s to %s', this.props.identifier, this.state.level);
         }
       });
     }

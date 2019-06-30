@@ -39,7 +39,7 @@ export default class Tabby extends IAReactComponent {
   }
 
   clickCallable(ev) {
-    debug('Cicking on link to tab: %s %s', this.props.identifier, this.props.id);
+    debug('Clicking on link to tab: %s %s', this.props.identifier, this.props.id);
     // this is this React/Fake React object
     // ev.currentTarget is the HTML Element on which the onClick sits
     // ev.target is the HTML element clicked on
