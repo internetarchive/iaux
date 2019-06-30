@@ -279,6 +279,7 @@ class DwebNavButtons extends IAReactComponent {
   // <DwebNavButtons
   //  identifier string   For current page (if its details or collection)
   //  query, sort         For current page (if its a search)
+  //  mirror2gateway      True if on DwebMirror and can see gateway
   // />
   // Renders a <UL> with a row of buttons Reload | Settings | Local
   // OnClick Reload reloads the current page via an AnchorDetails
@@ -294,16 +295,18 @@ class DwebNavButtons extends IAReactComponent {
     // TODO find suitable Iconochive's for Settings & Local then replace SVGs used in .css
     return (
       <ul className="dwebnavbuttons">
-            <li className="reload">
-              {this.props.identifier ?
-                <AnchorDetails identifier={this.props.identifier} reload>Reload</AnchorDetails>
-                :
-                <AnchorSearch query={this.props.query} sort={this.props.sort} reload>Reload</AnchorSearch>
-              }
-            </li>
-            <li className="settings"><AnchorDetails identifier="settings">Settings</AnchorDetails></li>
-            <li className="local"><AnchorDetails identifier="local">Local</AnchorDetails></li>
-          </ul>
+        {!this.props.mirror2gateway
+          ? null
+          : <li className="reload">
+            {this.props.identifier
+              ? <AnchorDetails identifier={this.props.identifier} reload>Reload</AnchorDetails>
+              : <AnchorSearch query={this.props.query} sort={this.props.sort} reload>Reload</AnchorSearch>
+            }
+          </li>
+        }
+        <li className="settings"><AnchorDetails identifier="settings">Settings</AnchorDetails></li>
+        <li className="local"><AnchorDetails identifier="local">Local</AnchorDetails></li>
+      </ul>
     );
   }
 
@@ -321,6 +324,7 @@ class DwebNavDIV extends IAReactComponent {
    *      sort:   string,
    *      downloaded: { ... }, passed to CrawlConfig
    *      crawl: object (optional) passed as props to CrawlConfig
+   *      mirror2gateway: bool
    *    }
    *    transportStatuses: [{name, status}]
    * />
@@ -340,7 +344,10 @@ class DwebNavDIV extends IAReactComponent {
                     {!DwebArchive.mirror ? null :
                         <>
                           <div id="dweb-mirrorconfig"><CrawlConfig {...crawl} /></div>
-                          <div id="dweb-mirrorreload"><DwebNavButtons identifier={this.props.item.itemid} query={this.props.item.query} sort={this.props.item.sort} /></div>
+                          <div id="dweb-mirrorreload"><DwebNavButtons identifier={this.props.item.itemid}
+                                                                      query={this.props.item.query}
+                                                                      sort={this.props.item.sort}
+                                                                      mirror2gateway={this.props.mirror2gateway} /></div>
                         </>
                     }
                   {/* --<a href="https://docs.google.com/forms/d/e/1FAIpQLSe7pXiSLrmeLoKvlDi2wODcL3ro7D6LegPksb86jr5bCJa7Ig/viewform" target="_blank"><img src="./images/feedback.svg"/></a>--*/}
@@ -415,6 +422,7 @@ class NavWrap extends IAReactComponent {
    * <NavWrap
    *    item = ArchiveItem  passed to DwebNavDIV (optional if not on Dweb)
    *    transportStatuses = [{name, status}*]
+   *    mirror2gateway bool
    * />
    * Behavior
    *   On Render: Renders the head of a details or search page including NavDwebDIV, NavBrandLI NavSearchLI NavUploadLI NavAboutsUL DwebNavDIV
@@ -447,7 +455,7 @@ class NavWrap extends IAReactComponent {
               <NavUploadLI />
             </ul>
             <NavAboutsUL />
-            <DwebNavDIV item={this.props.item} transportStatuses={this.props.transportStatuses} />
+            <DwebNavDIV item={this.props.item} transportStatuses={this.props.transportStatuses} mirror2gateway={this.props.mirror2gateway} />
           </div>
         </div>
       </div>
