@@ -59,21 +59,22 @@ export default class CrawlConfig extends IAReactComponent {
     const isDownloaded = this.props.downloaded && this.props.downloaded.details;
     const dl = this.props.downloaded; // Speed up access below
     return (
-      <ul>
-        <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.onClick}>
-          <span>{this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'} </span>
-          {!dl ? null
-            : dl.members_all_count
-              ? <span>{`${prettierBytes(dl.members_size)} in ${dl.members_details_count} of ${dl.members_all_count} items`}</span>
-              : dl.pages_size
-                ? <span>{prettierBytes(dl.files_size + dl.pages_size)} </span>
-                : <span>{prettierBytes(dl.files_size) + " / " + prettierBytes(dl.files_all_size)} </span>
-          }
-          { (this.props.search && CrawlConfig._levels.indexOf(this.props.level) >= CrawlConfig._levels.indexOf('details'))
-            ? <span>{`  Searching ${this.props.search.rows} rows at ${this.props.search.level}`}</span>
-            : null }
-        </li>
-      </ul>
+      (!this.props.identifier && !this.props.search) ? null :
+        <ul>
+          <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.onClick}>
+            <span>{this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'} </span>
+            {!dl ? null
+              : dl.members_all_count
+                ? <span>{`${prettierBytes(dl.members_size)} in ${dl.members_details_count} of ${dl.members_all_count} items`}</span>
+                : dl.pages_size
+                  ? <span>{prettierBytes(dl.files_size + dl.pages_size)} </span>
+                  : <span>{prettierBytes(dl.files_size) + " / " + prettierBytes(dl.files_all_size)} </span>
+            }
+            { (this.props.search && CrawlConfig._levels.indexOf(this.props.level) >= CrawlConfig._levels.indexOf('details'))
+              ? <span>{`  Searching ${this.props.search.rows} rows at ${this.props.search.level}`}</span>
+              : null }
+          </li>
+        </ul>
     );
   }
 
