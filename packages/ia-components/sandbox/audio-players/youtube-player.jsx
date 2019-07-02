@@ -126,7 +126,6 @@ class YoutubePlayer extends Component {
    */
   onPlayerReady(event) {
     document.querySelector('.audio-track-list').setAttribute('style', 'pointer-events: auto');
-    event.target.playVideo();
   }
 
   /**
