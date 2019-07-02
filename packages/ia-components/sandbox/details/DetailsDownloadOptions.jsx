@@ -16,12 +16,13 @@ import AnchorDownload from './AnchorDownload';
  *   identifier="AboutBan1935"      Identifier of item
  *   files_count=10                 Number of files in the item
  *   files=[ArchiveFile*]           Array of ArchiveFiles or of objects {metadata{format, name, source}} but they must have a method .downloadable()
+ *   browser2archive                True if browser can see archive directly (to access compressed zips)
  * />
  */
 
 export default class DetailsDownloadOptions extends IAReactComponent {
   constructor(props) {
-    super(props);
+    super(props); //browser2archive
   }
 
   render() {
@@ -34,11 +35,12 @@ export default class DetailsDownloadOptions extends IAReactComponent {
       }
       return res;
     }, {});
-    const compressURL = `https://archive.org/compress/${this.props.identifier}`; // leave as direct link, else need to zip and store each item in IPFS
     const filesCount = this.props.files_count;
     const originalFilesCount = this.props.files.filter(f => f.metadata.source === 'original').length + 1; // Adds in Archive BitTorrent
-    const compressAllURL = `https://archive.org/compress/${this.props.identifier}/formats=JSON,METADATA,JPEG,ARCHIVE BITTORRENT,MUSICBRAINZ METADATA`; // As above leave as direct
-
+    if (this.props.browser2archive) {
+      const compressURL = `https://archive.org/compress/${this.props.identifier}`; // leave as direct link, else need to zip and store each item in IPFS       //TODO-GREY out when offline
+      const compressAllURL = `https://archive.org/compress/${this.props.identifier}/formats=JSON,METADATA,JPEG,ARCHIVE BITTORRENT,MUSICBRAINZ METADATA`; // As above leave as direct       //TODO-GREY out when offline
+    }
     return (
       <section className="boxy item-download-options">
         <div className="download-button" role="heading" aria-level="5">DOWNLOAD OPTIONS</div>
@@ -76,26 +78,28 @@ export default class DetailsDownloadOptions extends IAReactComponent {
           </div>
         ))}
         <div className="show-all">
-          <div className="pull-right">
-            <a className="boxy-ttl hover-badge" href={compressURL}>
+          {(!this.props.browser2archive) ? null :
+            <div className="pull-right">
+              <a className="boxy-ttl hover-badge" href={compressURL}>
               <span
                 className="iconochive-download"
                 aria-hidden="true"
               />
-              <span className="sr-only">download</span>
-              {' '}{filesCount}{' '}Files
-            </a>
-            <br />
-            <a className="boxy-ttl hover-badge" href={compressAllURL}>
+                <span className="sr-only">download</span>
+                {' '}{filesCount}{' '}Files
+              </a>
+              <br/>
+              <a className="boxy-ttl hover-badge" href={compressAllURL}>
               <span
                 className="iconochive-download"
                 aria-hidden="true"
               />
-              <span className="sr-only">download</span>{' '}
-              {originalFilesCount}{' '}Original
-            </a>
-            <br />
-          </div>
+                <span className="sr-only">download</span>{' '}
+                {originalFilesCount}{' '}Original
+              </a>
+              <br/>
+            </div>
+          }
           <AnchorDownload className="boxy-ttl" identifier={this.props.identifier}>SHOW ALL</AnchorDownload>
           <br clear="all" className="clearfix" />
         </div>

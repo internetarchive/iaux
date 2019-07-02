@@ -9,6 +9,13 @@ const debug = require('debug')('Image Components');
 /**
  *  Image display components
  *
+ * <ImageDweb
+ *    EITHER
+ *      source  Flexible dweb parameter include ArchiveFile, ArchiveMember, relative urls, dweb: names, and arrays of alternatives (see dweb-archive/ReactSupport)
+ *    OR
+ *      src     as in <img>
+ *    alt     as in <img>
+ * />
  * <ImageMainTheatre
  *  source  [ArchiveFile]  // Single ArchiveFile but in an array
  *  alt     Alt text

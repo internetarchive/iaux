@@ -51,12 +51,12 @@ class DetailsFlagLI extends IAReactComponent {
 
 class DetailsFlags extends IAReactComponent {
   constructor(props) {
-    super(props); // none
+    super(props); // none browser2archive
   }
 
   render() {
     const loginURL = 'https://archive.org/account/login.php'; // TODO - its a Direct link as dont support authentication in DWeb version, may be better URL for IAUX
-    return (
+    return ( (! this.props.browser2archive) ? null :
       <div
         id="flag-button-container"
         className="topinblock"
@@ -74,16 +74,16 @@ class DetailsFlags extends IAReactComponent {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <span className="iconochive-Flag" aria-hidden="true" />
+            <span className="iconochive-Flag" aria-hidden="true"/>
             <span className="sr-only">flag</span>
           </button>
           <div id="flag-popover" className="dropdown-menu" aria-labelledby="flag-button">
             <h3 className="dropdown-title">Flag this item for</h3>
             <ul role="menu">
-              <DetailsFlagLI href={loginURL} text="Graphic Violence" />
-              <DetailsFlagLI href={loginURL} text="Graphic Sexual Content" />
-              <DetailsFlagLI href={loginURL} text="Spam, Scam or Fraud" />
-              <DetailsFlagLI href={loginURL} text="Broken or Empty Data" />
+              <DetailsFlagLI href={loginURL} text="Graphic Violence"/>
+              <DetailsFlagLI href={loginURL} text="Graphic Sexual Content"/>
+              <DetailsFlagLI href={loginURL} text="Spam, Scam or Fraud"/>
+              <DetailsFlagLI href={loginURL} text="Broken or Empty Data"/>
             </ul>
           </div>
         </div>
@@ -94,7 +94,7 @@ class DetailsFlags extends IAReactComponent {
 
 class DetailsActionButtons extends IAReactComponent {
   constructor(props) {
-    super(props); // identifier, title
+    super(props); // identifier, title, browser2archive
   }
 
   render() {
@@ -135,7 +135,7 @@ class DetailsActionButtons extends IAReactComponent {
             <span className="sr-only">share</span>
           </ButtonModalGo>
         </div>
-        <DetailsFlags />
+        <DetailsFlags browser2archive={this.props.browser2archive}/>
       </div>
     );
   }

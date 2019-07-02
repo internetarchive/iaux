@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { AnchorSearch } from './AnchorSearch';
-import {DetailsActionButtons} from './DetailsActionButtons';
+import {DetailsActionButtons, DetailsFlags} from './DetailsActionButtons';
 import {DetailsReviews} from './DetailsReviews';
 import DetailsCollectionList from './DetailsCollectionList';
 import DetailsDownloadOptions from './DetailsDownloadOptions';
@@ -24,6 +24,7 @@ import { languageMapping } from '../../util.js';
  *   files: [ArchiveFile] ArchiveFile or similar structure as in Files part of Metadata API
  *   files_count          Count of files
  *   collection_titles {COLLECTION: "COLLECTION TITLE"}    Mapping from collection to title of collection for any collection its a member of
+ *   browser2archive      True if browser can see archive.org directly
  * />
  *
  */
@@ -151,7 +152,7 @@ class DetailsMetadata extends IAReactComponent {
 
 
 class DetailsAbout extends IAReactComponent {
-  // Props  metadata description files files_count collection_titles
+  // Props  metadata description files files_count collection_titles  browser2archive
 
   render() {
     /* This sits underneth theatre-ia-wrap DIV that is built by theatreIaWrap */
@@ -161,7 +162,7 @@ class DetailsAbout extends IAReactComponent {
       <div className="container container-ia item-details-about">
         <div className="relative-row row">
           <div className="thats-right" style={{textAlign:"right"}}>
-            <DetailsActionButtons identifier={md.identifier} title={md.title}/>
+            <DetailsActionButtons identifier={md.identifier} title={md.title} browser2archive={this.props.browser2archive} />
           </div>
           {/*-- flag initialization moved to browserAfter() --*/}
           <div className="col-sm-8 thats-left item-details-metadata">
@@ -174,7 +175,7 @@ class DetailsAbout extends IAReactComponent {
           {/*--/.col-md-10--*/}
           <div className="col-sm-4 thats-right item-details-archive-info">
             {/*TODO need section className=boxy item-stats-summary- not obvious where data from, its not in metadata */}
-            <DetailsDownloadOptions identifier={md.identifier} files={this.props.files} files_count={this.props.files_count}/>
+            <DetailsDownloadOptions identifier={md.identifier} files={this.props.files} files_count={this.props.files_count} browser2archive={this.props.browser2archive}/>
             <DetailsCollectionList collections={md.collection} collectionTitles={this.props.collection_titles}/>
             {/* <DetailsUploaderBox identifier={} name={} date={}> see https://github.com/internetarchive/dweb-archive/issues/24 */}
           </div>

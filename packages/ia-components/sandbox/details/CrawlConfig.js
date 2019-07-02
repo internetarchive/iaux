@@ -45,14 +45,17 @@ const debug = require('debug')('dweb-archive:CrawlConfig');
 export default class CrawlConfig extends IAReactComponent {
   constructor(props) {
     super(props); // { identifier, level, search, downloaded }
-    this.setState({level: props.level});
+    this.setState({
+      level: props.level,
+      clickable: this.props.identifier && !CrawlConfig.unclickable.includes(this.props.identifier)
+    })
     CrawlConfig.instance = this; // Allow finding it
   }
 
   render() {
     // TODO-CONFIG make it editable
     // noinspection JSUnresolvedVariable
-    if ((typeof DwebArchive === 'undefined') || (DwebArchive.mirror === null) || (["settings"].includes(this.props.identifier))) {
+    if ((typeof DwebArchive === 'undefined') || (DwebArchive.mirror === null) || (CrawlConfig.undisplayable.includes(this.props.identifier))) {
       return null;
     }
     const className = `crawl${this.state.level ? this.state.level : this.props.downloaded ? 'downloaded' : 'none'}`;
@@ -61,7 +64,7 @@ export default class CrawlConfig extends IAReactComponent {
     return (
       (!this.props.identifier && !this.props.search) ? null :
         <ul>
-          <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.onClick}>
+          <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.state.clickable ? this.onClick : undefined}>
             <span>{this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'} </span>
             {!dl ? null
               : dl.members_all_count
@@ -82,8 +85,8 @@ export default class CrawlConfig extends IAReactComponent {
     // Cycle through possible states on click
     debug('%s: Crawl clicked', this.props.identifier);
 
-    if (!this.props.identifier) {
-      debug('Clicking but not an identifier');
+    if (!this.state.clickable) {
+      debug('Clicking but %s', this.props.identifier ? ("invalid identifier "+this.props.identifier) : "but not an identifier");
     } else {
       // Do the UI part first, so responsive
       // Bump the level to next one
@@ -109,4 +112,6 @@ export default class CrawlConfig extends IAReactComponent {
     }
   }
 }
+CrawlConfig.undisplayable = ['settings'];
+CrawlConfig.unclickable = ['local'];
 CrawlConfig._levels = ['tile', 'metadata', 'details', 'all']; //  *** NOTE THIS LINE IS IN dweb-mirror.CrawlManager && dweb-archive/components/CrawlConfig.js
