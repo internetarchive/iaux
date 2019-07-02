@@ -15,6 +15,7 @@ class YoutubePlayer extends Component {
     super(props);
 
     const { selectedTrack, id } = props;
+    this.timer = null;
 
     this.state = {
       player: null,
@@ -56,7 +57,7 @@ class YoutubePlayer extends Component {
     const { id } = this.state;
     const trackChanged = id !== nextProps.id;
     if (trackChanged) {
-      clearTimeout(window.timer);
+      clearTimeout(this.timer);
       this.setState({
         id: nextProps.id,
         selectedTrack: nextProps.selectedTrack
@@ -137,7 +138,7 @@ class YoutubePlayer extends Component {
   onPlayerError(event) {
     const { youtubePlaylistChange } = this.props;
     const { selectedTrack } = this.state;
-    window.timer = setTimeout(() => { youtubePlaylistChange(selectedTrack); }, 3000);
+    this.timer = setTimeout(() => { youtubePlaylistChange(selectedTrack); }, 3000);
   }
 
   render() {
