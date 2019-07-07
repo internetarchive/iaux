@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { formats } from '../../util.js';
-import AnchorDownload from './AnchorDownload';
+import { AnchorDownload } from './AnchorDownload';
 
 /**
  *  The Download Options box on the details page
@@ -23,6 +23,10 @@ import AnchorDownload from './AnchorDownload';
 export default class DetailsDownloadOptions extends IAReactComponent {
   constructor(props) {
     super(props); //browser2archive
+    if (this.props.browser2archive) {
+      this.state.compressURL = `https://archive.org/compress/${this.props.identifier}`; // leave as direct link, else need to zip and store each item in IPFS       //TODO-GREY out when offline
+      this.state.compressAllURL = `https://archive.org/compress/${this.props.identifier}/formats=JSON,METADATA,JPEG,ARCHIVE BITTORRENT,MUSICBRAINZ METADATA`; // As above leave as direct       //TODO-GREY out when offline
+    }
   }
 
   render() {
@@ -37,14 +41,10 @@ export default class DetailsDownloadOptions extends IAReactComponent {
     }, {});
     const filesCount = this.props.files_count;
     const originalFilesCount = this.props.files.filter(f => f.metadata.source === 'original').length + 1; // Adds in Archive BitTorrent
-    if (this.props.browser2archive) {
-      const compressURL = `https://archive.org/compress/${this.props.identifier}`; // leave as direct link, else need to zip and store each item in IPFS       //TODO-GREY out when offline
-      const compressAllURL = `https://archive.org/compress/${this.props.identifier}/formats=JSON,METADATA,JPEG,ARCHIVE BITTORRENT,MUSICBRAINZ METADATA`; // As above leave as direct       //TODO-GREY out when offline
-    }
     return (
       <section className="boxy item-download-options">
         <div className="download-button" role="heading" aria-level="5">DOWNLOAD OPTIONS</div>
-        {Object.keys(downloadableFilesDict).map(k => (
+        {Object.keys(downloadableFilesDict).sort().map(k => (
           <div className="format-group" key={k}>
             <div className="summary-rite">
               <AnchorDownload className="stealth" identifier={this.props.identifier} format={k} source={downloadableFilesDict[k]} title={k}>
@@ -80,7 +80,7 @@ export default class DetailsDownloadOptions extends IAReactComponent {
         <div className="show-all">
           {(!this.props.browser2archive) ? null :
             <div className="pull-right">
-              <a className="boxy-ttl hover-badge" href={compressURL}>
+              <a className="boxy-ttl hover-badge" href={this.state.compressURL}>
               <span
                 className="iconochive-download"
                 aria-hidden="true"
@@ -89,7 +89,7 @@ export default class DetailsDownloadOptions extends IAReactComponent {
                 {' '}{filesCount}{' '}Files
               </a>
               <br/>
-              <a className="boxy-ttl hover-badge" href={compressAllURL}>
+              <a className="boxy-ttl hover-badge" href={this.state.compressAllURL}>
               <span
                 className="iconochive-download"
                 aria-hidden="true"

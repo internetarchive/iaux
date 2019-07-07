@@ -1,6 +1,7 @@
 import React from "react";
-import IAReactComponent from './IAReactComponent';
-import { AnchorDownload, ImageDweb } from '@internetarchive/ia-components/dweb-index.js';
+import IAReactComponent from '../IAReactComponent';
+import { AnchorDownload } from './AnchorDownload';
+import { ImageDweb } from './Image';
 
 //TODO-CAROUSEL
 /** Carousel
@@ -35,7 +36,7 @@ class Carousel extends IAReactComponent {
               </ol>
               <div className="carousel-inner">
                   {this.props.slides.map((slide,i) => ( // may need to have to set first slide as "className" active
-                    <div className={i===this.state.startAt ? "item active" : "item"}>
+                    <div key={i} className={i===this.state.startAt ? "item active" : "item"}>
                         <AnchorDownload className="carousel-image-wrapper"
                                         identifier={this.props.identifier}
                                         filename={slide.filename}

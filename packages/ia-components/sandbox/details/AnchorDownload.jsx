@@ -38,7 +38,7 @@ const debug = require('debug')('ia-components:AnchorDownload');
  *
  */
 
-export default class AnchorDownload extends IAReactComponent {
+class AnchorDownload extends IAReactComponent {
   constructor(props) {
     super(props);
 
@@ -87,3 +87,5 @@ export default class AnchorDownload extends IAReactComponent {
 AnchorDownload.urlparms = []; // Properties that go in the URL to download
 // Other props are passed to anchor,
 // known inuse include: className, source, title, data-toggle data-placement data-container target
+
+export { AnchorDownload }
