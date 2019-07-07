@@ -3,7 +3,19 @@ import React from 'react';
 import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
 import { ObjectFilter } from '../../util.js';
 
-/* AnchorModalGo and ButtonModalGo wrap the AJS.modal_go call in archive.js to allow it to work with react.
+/**
+ *  AnchorModalGo and ButtonModalGo wrap the AJS.modal_go call in archive.js to allow it to work with react.
+ *
+ *  <AnchorModalGo
+ *    opts={}                               Opts to the AJS.modal_go call
+ *    href, target (and any other props)     Passed to Anchor
+ *  >.....</AnchorModalGo>
+ *
+ *  <ButtonModalGo
+ *    opts={}                               Opts to the AJS.modal_go call
+ *    any other properties                  Passed to Button
+ *    >.....</AnchorModalGo>
+ *
  */
 
 class _ModalGo extends IAReactComponent {

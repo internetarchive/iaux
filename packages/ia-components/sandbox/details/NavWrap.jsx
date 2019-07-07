@@ -10,81 +10,15 @@ const debug = require('debug')('NavWrap');
  * Components used to draw the top part of the navigation on a details or search page.
  *
  * It includes several subcomponents, but generally only <NavWrap item=ArchiveItem /> should be used
- *
- * <NavWrap
- *    item = ArchiveItem  passed to DwebNavDIV (optional if not on Dweb)
- * />
- * Behavior
- *   On Render: Renders the head of a details or search page including NavWebDIV, NavBrandLI NavSearchLI NavUploadLI NavAboutsUL DwebNavDIV
- *   On Click: See behavior of sub-components
- *
- * <NavAboutsUL/>
- * Behavior:
- *  On rendering: renders a <UL> containing an <LI> for each of the ABOUT ... PEOPLE buttons
- *
- * <NavSearchLI/>
- * Behavior:
- *   Renders: an <LI/> with a form and search icon as used on the Details page
- *   On submit: Calls Nav.nav_search - this makes it Dweb only, if someone else uses it then a non-dweb version of onSubmit will be required
- *
- * <NavUploadLI/>
- * Behavior:
- *   Renders an Upload <LI/> icon
- *   On click: Goes to "https://archive.org/create" since this functionality is not supported on Dweb yet
- *
- * <NavBrandLI/>
- * Behavior:
- *   Renders an Internet Archive Icon
- *   On click: Goes to Nav.nav_home it needs a non-dweb version and will get this via replacing with <AnchorDetails identifier="home">
- *
- * <class >NavMediatypeLI
- *    mediatype string  e.g. "texts"
- *  />
- *  Behavior
- *    Renders the icon for the mediatype
- *    On click navigates to that mediatype collection
- *
- * <NavWebDIV />
- * Behavior
- *  Renders the Wayback search icon with a nested search engine
- *  Onclick - unclear - this is copied from archive.org site and could use some research
- *
- * <DwebNavButtons
- *    identifier string   For current page
- * />
- * Behavior
- *  Renders a <UL> with a row of buttons Reload | Settings | Local
- *  OnClick
- *    Reload reloads the current page via an AnchorDetails
- *    Settings an Local navigate to those special pages
- *
- * <DwebNavDIV
- *    item= {             // ArchiveItem
- *      itemid: identifier,
- *      downloaded: bool,
- *      crawl: object (optional) passed as props to CrawlConfig
- *    }
- * />
- * Renders: A navigation row with the DwebStatusDIV (transport status buttons), CrawlConfig and DwebNavButtons
- * OnClick: See those subcomponents
- *
- * <DwebStatusLI
- *    name =  string    Name of transport e.g. HTTP
- *    status = integer  Status of transport 0 is ok, anything else is not connected (yet)
- * />
- * Renders: a button
- * Onclick: Toggles paused on the transport with that name
- *
- * <DwebStatusDIV/>
- * Behavior
- *  Renders a group of DwebStatusLI which are indicators of Dweb Transport connections
- *  OnClick see DwebStatusLI
- *
  */
 
-
 class NavAboutsUL extends IAReactComponent {
-  //Props: none
+  /**
+   * <NavAboutsUL/>
+   *
+   * Behavior:
+   *  On rendering: renders a <UL> containing an <LI> for each of the ABOUT ... PEOPLE buttons
+   */
 
   render() {
     return (
@@ -116,6 +50,12 @@ class NavAboutsUL extends IAReactComponent {
 }
 
 class NavSearchLI extends IAReactComponent {
+  /** <NavSearchLI/>
+   * Behavior:
+   *   Renders: an <LI/> with a form and search icon as used on the Details page
+   *   On submit: Calls Nav.nav_search - this makes it Dweb only, if someone else uses it then a non-dweb version of onSubmit will be required
+   */
+
   constructor(props) {
     super(props); // None
     this.onSubmit = this.onSubmit.bind(this);
@@ -171,7 +111,12 @@ class NavSearchLI extends IAReactComponent {
   }
 }
 class NavUploadLI extends IAReactComponent {
-  //Props: none
+  /*
+   * <NavUploadLI/>
+   * Behavior:
+   *   Renders an Upload <LI/> icon
+   *   On click: Goes to "https://archive.org/create" since this functionality is not supported on Dweb yet
+   */
 
   render() {
     return (
@@ -188,7 +133,12 @@ class NavUploadLI extends IAReactComponent {
   }
 }
 class NavBrandLI extends IAReactComponent {
-  //Props: none
+  /**
+   * <NavBrandLI/>
+   * Behavior:
+   *   Renders an Internet Archive Icon
+   *   On click: Goes to Nav.nav_home it needs a non-dweb version and will get this via replacing with <AnchorDetails identifier="home">
+   */
 
   render() {
     return (
@@ -203,9 +153,14 @@ class NavBrandLI extends IAReactComponent {
 }
 
 class NavMediatypeLI extends IAReactComponent {
-  // props: mediatype
-  // Renders the icon for the mediatype
-  // On click navigates to that mediatype collection
+  /**
+   * <class >NavMediatypeLI
+   *    mediatype string  e.g. "texts"
+   *  />
+   *  Behavior
+   *    Renders the icon for the mediatype
+   *    On click navigates to that mediatype collection
+   */
 
   render() {
     return (
@@ -222,9 +177,13 @@ class NavMediatypeLI extends IAReactComponent {
 }
 
 class NavWebDIV extends IAReactComponent {
-  // Props: None
-  // Renders the Wayback search icon with a nested search engine
-  // On click - unclear - this is copied from archive.org site
+  /** <NavWebDIV />
+   *
+   * Behavior
+   *  Renders the Wayback search icon with a nested search engine
+   *  Onclick - unclear - this is copied from archive.org site and could use some research
+   *
+   */
 
   loadCallable(el) {
     this.hideableElement = el;
@@ -277,18 +236,19 @@ class NavWebDIV extends IAReactComponent {
 }
 
 class DwebNavButtons extends IAReactComponent {
-  // <DwebNavButtons
-  //  identifier string   For current page (if its details or collection)
-  //  query, sort         For current page (if its a search)
-  //  mirror2gateway      True if on DwebMirror and can see gateway
-  // />
-  // Renders a <UL> with a row of buttons Reload | Settings | Local
-  // OnClick Reload reloads the current page via an AnchorDetails
-  //  Settings an Local navigate to those special pages
-  /* -- Not used yet
-    static propTypes = {
-      identifier: props.string};
-  */
+  /**
+   * <DwebNavButtons
+   * identifier string   For current page
+   * query, sort         For current page if its a search
+   * mirror2gateway      True if on DwebMirror and can see gateway
+   * />
+   *
+   * Behavior
+   *  Renders a <UL> with a row of buttons Reload | Settings | Local
+   *  OnClick
+   *    Reload reloads the current page via an AnchorDetails
+   *    Settings an Local navigate to those special pages
+   */
 
   render() {
     // TODO add date downloaded here - maybe just on hover
@@ -378,7 +338,7 @@ class DwebNavDIV extends IAReactComponent {
 const TRANSPORT_STATUS_FAILED = 1; // From dweb-transport/Transport.js
 
 class DwebStatusLI extends IAReactComponent {
-  /*
+  /**
    * <DwebStatusLI
    *    name =  string    Name of transport e.g. HTTP
    *    status = integer  Status of transport 0 is ok, anything else is not connected (yet)
@@ -408,14 +368,14 @@ class DwebStatusLI extends IAReactComponent {
 }
 
 class DwebStatusDIV extends IAReactComponent {
-  /* <DwebStatusDIV
+  /**
+   /* <DwebStatusDIV
    *   statuses = [{name (string), status (int)}*]
    * />
    *
-   * Renders a group of DwebStatusLI which are indicators of Dweb Transport connections
-   *    Does nothing if DwebTransports not defined
-   * OnClick see DwebStatusLI
-   *
+   * Behavior
+   *  Renders a group of DwebStatusLI which are indicators of Dweb Transport connections
+   *  OnClick see DwebStatusLI
    */
 
   render() {
