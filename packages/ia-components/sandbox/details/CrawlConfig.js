@@ -44,7 +44,7 @@ const debug = require('debug')('dweb-archive:CrawlConfig');
 
 export default class CrawlConfig extends IAReactComponent {
   constructor(props) {
-    super(props); // { identifier, level, search, downloaded }
+    super(props); // { identifier, level, search, downloaded, query }
     this.setState({
       level: props.level,
       clickable: this.props.identifier && !CrawlConfig.unclickable.includes(this.props.identifier)
@@ -62,7 +62,7 @@ export default class CrawlConfig extends IAReactComponent {
     const isDownloaded = this.props.downloaded && this.props.downloaded.details;
     const dl = this.props.downloaded; // Speed up access below
     return (
-      (!this.props.identifier && !this.props.search) ? null :
+      (!this.props.identifier && !this.props.query) ? null :
         <ul>
           <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.state.clickable ? this.onClick : undefined}>
             <span>{this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'} </span>

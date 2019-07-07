@@ -3,6 +3,7 @@ import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import { AnchorSearch } from './AnchorSearch';
 import CrawlConfig from './CrawlConfig';
+import {AnchorModalGo, ButtonModalGo} from "./ModalGo";
 const debug = require('debug')('NavWrap');
 
 /**
@@ -298,14 +299,32 @@ class DwebNavButtons extends IAReactComponent {
         {!this.props.mirror2gateway
           ? null
           : <li className="reload">
+            <span className="iconochive-Refresh"></span>
             {this.props.identifier
               ? <AnchorDetails identifier={this.props.identifier} reload>Reload</AnchorDetails>
               : <AnchorSearch query={this.props.query} sort={this.props.sort} reload>Reload</AnchorSearch>
             }
           </li>
         }
-        <li className="settings"><AnchorDetails identifier="settings">Settings</AnchorDetails></li>
-        <li className="local"><AnchorDetails identifier="local">Local</AnchorDetails></li>
+        <li className="settings">
+          <span className="iconochive-gear"></span>
+          <AnchorDetails identifier="settings">Settings</AnchorDetails></li>
+        <li className="save"><span className="iconochive-download"></span>
+          <AnchorModalGo
+            id="save-button"
+            className="button"
+            opts={{ ignore_lnk: 1 }}
+            type="button"
+            aria-haspopup="true"
+            data-target="#save-modal"
+            data-toggle="tooltip"
+            data-container="body"
+            data-placement="bottom"
+            title="Save this item"
+            ><span>Save</span>
+          </AnchorModalGo></li>
+          <li className="local"><span className="iconochive-folder"></span>
+            <AnchorDetails identifier="local">Local</AnchorDetails></li>
       </ul>
     );
   }
@@ -462,4 +481,5 @@ class NavWrap extends IAReactComponent {
     );
   }
 }
+
 export { NavWrap };
