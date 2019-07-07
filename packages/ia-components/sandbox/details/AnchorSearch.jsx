@@ -38,7 +38,11 @@ function _onefield(key, value) {
 }
 
 function queryFrom(query) {
-  return Object.entries(query).map(kv => _onefield(kv[0], kv[1])).join(' AND '); // k1:v1 AND k2:v2
+  if (typeof query === "object") {
+    return Object.entries(query).map(kv => _onefield(kv[0], kv[1])).join(' AND '); // k1:v1 AND k2:v2
+  } else {
+    return query;
+  }
 }
 // End of DUPLICATEDCODE#0003
 
@@ -70,10 +74,19 @@ class AnchorSearch extends IAReactComponent {
   render() {
     const url = new URL('https://archive.org/search.php');
     const usp = new URLSearchParams();
-    Object.entries(this.state.urlProps).forEach(kv => usp.append(kv[0], kv[1]));
-    usp.append('query', queryFrom(this.state.query));
+    Object.entries(this.state.urlProps)
+      .forEach(kv => {
+        if (!["query", "sort"].includes(kv[0]))  // Filter out query and sort handled seperately
+          usp.append(kv[0], kv[1])});
+    if (this.state.query) {
+      usp.append('query', queryFrom(this.state.query));
+    }
     if (this.props.sort) {
-      usp.append('sort', this.props.sort);
+      if (Array.isArray(this.props.sort)) {
+        this.props.sort.forEach(s => usp.append('sort', s));
+      } else {
+        usp.append('sort', this.props.sort);
+      }
     }
     // noinspection JSValidateTypes
     url.search = usp; // Note this copies, not updatable
