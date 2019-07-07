@@ -2,7 +2,7 @@
 import React from 'react';
 import { ObjectFilter } from '../../util';
 import IAReactComponent from '../IAReactComponent';
-import AnchorDownload from './AnchorDownload';
+import { AnchorDownload } from './AnchorDownload';
 
 const debug = require('debug')('Image Components');
 
@@ -21,6 +21,8 @@ const debug = require('debug')('Image Components');
  *  alt     Alt text
  *  src     URL of image (for !Dweb)
  *  caption Caption to go under image
+ *  identifier
+ *  mediatype
  *  />
  *
  *  Render an image with a caption and an anchor to download it
@@ -55,7 +57,6 @@ class ImageDweb extends IAReactComponent {
     // noinspection HtmlRequiredAltAttribute
     return (
       typeof DwebArchive !== 'undefined'
-      // TODO-DWEB build img processing from ReactFake into this
         ? <img ref={this.load} {...this.state.imgProps} />
         : <img {...this.state.imgProps} src={this.props.src} />
     );
@@ -67,46 +68,58 @@ ImageDweb.specificParms = ['src', 'source']; // Known in use includes: className
 class ImageMainTheatre extends IAReactComponent {
 
   render() {
-    return (
-      <div className="details-carousel-wrapper">
-        <section
-          id="ia-carousel"
-          className="carousel slide"
-          data-ride="carousel"
-          data-interval="false"
-          aria-label="Item image slideshow"
-          style={{ maxHeight: '600px' }}
-        >
-          <ol className="carousel-indicators" style={{ display: 'none' }}>
-            <li
-              data-target="#ia-carousel"
-              data-slide-to="0"
-              className=" active"
-              role="button"
-              tabIndex="0"
-              aria-label="Go to image 1"
-            />
-          </ol>
+    return ( //TODO compare this with Carousel.jsx
+      <div id="theatre-ia" className="container">
+        <div className="row">
+          <div className="xs-col-12">
+            <TheatreControls identifier={this.props.identifier} mediatype={this.props.mediatype}/>
 
-          <div className="carousel-inner">
-            <div className="item active">
-              <AnchorDownload
-                className="carousel-image-wrapper"
-                source={this.props.source}
-                title="Open full sized image"
-                target="_blank"
+            <div className="details-carousel-wrapper">
+              <section
+                id="ia-carousel"
+                className="carousel slide"
+                data-ride="carousel"
+                data-interval="false"
+                aria-label="Item image slideshow"
+                style={{ maxHeight: '600px' }}
               >
-                {/* --Separate window so dont break DWeb--*/}
-                <ImageDweb className="rot0 carousel-image" source={this.props.source} id="streamContainer" src={this.props.src} alt={this.props.alt} />
-              </AnchorDownload>
-              <div className="carousel-caption">
-                {this.props.caption}
-              </div>
+                <ol className="carousel-indicators" style={{ display: 'none' }}>
+                  <li
+                    data-target="#ia-carousel"
+                    data-slide-to="0"
+                    className=" active"
+                    role="button"
+                    tabIndex="0"
+                    aria-label="Go to image 1"
+                  />
+                </ol>
+
+                <div className="carousel-inner">
+                  <div className="item active">
+                    <AnchorDownload
+                      className="carousel-image-wrapper"
+                      source={this.props.source}
+                      title="Open full sized image"
+                      target="_blank"
+                    >
+                      {/* --Separate window so dont break DWeb--*/}
+                      <ImageDweb className="rot0 carousel-image" source={this.props.source} id="streamContainer" src={this.props.src} alt={this.props.alt} />
+                    </AnchorDownload>
+                    <div className="carousel-caption">
+                      {this.props.caption}
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
+            {/* Script tags moved into the JS*/}
+            <div id="webtorrentStats" style="color: white; text-align: center;"></div>
+            <CherModal identifier={identifier} creator={this.props.creator} mediatype={this.props.mediatype} title={this.props.title}/>
           </div>
-        </section>
+        </div>
       </div>
     );
   }
 }
 export { ImageDweb, ImageMainTheatre };
+
