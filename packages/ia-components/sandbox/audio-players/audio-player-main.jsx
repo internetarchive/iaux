@@ -39,22 +39,13 @@ export default class TheatreAudioPlayer extends Component {
     super(props);
 
     this.state = {
-      urlSetterFN: null,
       mediaSource: 'player'
     };
 
     this.showMedia = this.showMedia.bind(this);
     this.createTabs = this.createTabs.bind(this);
-    this.receiveURLSetter = this.receiveURLSetter.bind(this);
     this.toggleMediaSource = this.toggleMediaSource.bind(this);
     this.showLinerNotes = this.showLinerNotes.bind(this);
-  }
-
-  /**
-   * Save URL Setter function that comes back from Play8 instantiation
-   */
-  receiveURLSetter(urlSetterFN) {
-    this.setState({ urlSetterFN });
   }
 
   /**
@@ -76,13 +67,10 @@ export default class TheatreAudioPlayer extends Component {
     let mediaElement = null;
     if (isExternal) {
       // make iframe with URL
-      const { urlSetterFN } = this.state;
       const externalSourceDetails = sourceData[source] || {};
       const {
         urlPrefix = '', id = '', urlExtensions = '', name = ''
       } = externalSourceDetails;
-
-      const { trackNumber = 1 } = sourceData;
 
       const sourceURL = `${urlPrefix}${id}${urlExtensions}`;
       mediaElement = (
@@ -91,10 +79,6 @@ export default class TheatreAudioPlayer extends Component {
           title={name}
         />
       );
-      // updateURL
-      if (urlSetterFN) {
-        urlSetterFN(trackNumber);
-      }
     }
     const archiveStyle = isExternal ? { visibility: 'hidden' } : { visibility: 'visible' };
 
@@ -102,7 +86,6 @@ export default class TheatreAudioPlayer extends Component {
       <Fragment>
         <ArchiveAudioPlayer
           {...this.props}
-          onRegistrationComplete={this.receiveURLSetter}
           style={archiveStyle}
         />
         { mediaElement }
