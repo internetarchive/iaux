@@ -82,7 +82,7 @@ class ArchiveAudioPlayer extends Component {
 
     if (!indexIsNumber) return;
 
-    if (index !== prevIndex && indexIsNumber) {
+    if (indexIsNumber && (index !== prevIndex)) {
       this.playTrack({ playerPlaylistIndex: index - 1 || 0 });
     }
   }

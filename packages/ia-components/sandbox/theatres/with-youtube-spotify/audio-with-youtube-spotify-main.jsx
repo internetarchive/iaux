@@ -34,6 +34,16 @@ const getChannelLabelToDisplay = ({ channel, labelValue, title }) => {
   );
 };
 
+getChannelLabelToDisplay.defaultProps = {
+  channel: ''
+};
+
+getChannelLabelToDisplay.propTypes = {
+  channel: PropTypes.string,
+  labelValue: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
+};
+
 /**
  * AudioPlayerWithYoutubeSpotify
  * Controller to keep Audio player & tracklist in sync
@@ -57,6 +67,8 @@ const getChannelLabelToDisplay = ({ channel, labelValue, title }) => {
  *   - get info for track to play
  *   - album item displays first on tracklist
  *   - if track has been selected previously, keep highlighted
+ * - On track change:
+ *   - update the URL via JWPlayer/Play8
  *
  * @params see PropTypes
  */
@@ -72,14 +84,21 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       channelToPlay: 'archive',
       trackStartingPoint: null,
       trackSelected: null, /* 0 = album */
+      urlSetterFN: null,
     };
 
-    this.selectThisTrack = this.selectThisTrack.bind(this);
-    this.onChannelSelect = this.onChannelSelect.bind(this);
-    this.jwplayerPlaylistChange = this.jwplayerPlaylistChange.bind(this);
-    this.jwplayerStartingPoint = this.jwplayerStartingPoint.bind(this);
-    this.getSelectableChannels = this.getSelectableChannels.bind(this);
-    this.getAudioSourceInfoToPlay = this.getAudioSourceInfoToPlay.bind(this);
+    [
+      'selectThisTrack',
+      'onChannelSelect',
+      'jwplayerPlaylistChange',
+      'jwplayerStartingPoint',
+      'getSelectableChannels',
+      'getAudioSourceInfoToPlay',
+      'receiveURLSetter',
+      'updateURL',
+    ].forEach((method) => {
+      this[method] = this[method].bind(this);
+    });
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -104,8 +123,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    * Callback every time user selects a channel
    */
   onChannelSelect(event) {
-    const { albumData, channelToPlay: currentSource, trackSelected: currentTrack } = this.state;
-    const { albumSpotifyYoutubeInfo } = albumData;
+    const { albumData, channelToPlay: currentSource } = this.state;
     const newSource = event.target.value;
 
     if (currentSource === newSource) return;
@@ -114,45 +132,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const tracklistToShow = getTrackListBySource(albumData, newSource);
     const channelToPlay = newSource;
 
-    // IF new source doesn't have album or item, reset trackList to null
-    const newSourceAlbumInfo = albumSpotifyYoutubeInfo[newSource];
-    const noAlbumWithNewSource = currentTrack === 0 && !newSourceAlbumInfo;
-    const noTrackWithNewSource = !tracklistToShow.find(f => currentTrack === f.trackNumber);
-
-    const firstTrackAvailable = tracklistToShow.find(f => f.trackNumber === 1) ? tracklistToShow.find(f => f.trackNumber === 1) : head(tracklistToShow);
-    const { trackNumber: availableTrackNumber } = firstTrackAvailable;
-    const trackSelected = (noAlbumWithNewSource || noTrackWithNewSource) ? availableTrackNumber : currentTrack;
-
-    const newState = { channelToPlay, tracklistToShow, trackSelected };
-    this.setState(newState);
-  }
-
-  /**
-   * Callback every time JWPlayer plays a track
-   * @param { object } playlistItem - JWPlayer track object
-   */
-  jwplayerPlaylistChange(playlistItem) {
-    const { newTrackIndex } = playlistItem;
-    this.setState({ trackSelected: newTrackIndex + 1 });
-  }
-
-  jwplayerStartingPoint(index) {
-    this.setState({ trackStartingPoint: index + 1 });
-  }
-
-  /**
-   * Callback every time user selects a track from the tracklist
-   * @param { object } event - React synthetic event
-   */
-  selectThisTrack(event) {
-    const selected = event.currentTarget;
-    const selectedTrackNumber = parseInt(selected.getAttribute('data-track-number'), 10);
-
-    this.setState({
-      trackSelected: Number.isInteger(selectedTrackNumber)
-        ? selectedTrackNumber
-        : 1
-    });
+    this.setState({ channelToPlay, tracklistToShow }, this.updateURL);
   }
 
   /**
@@ -160,35 +140,31 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    */
   getAudioSourceInfoToPlay() {
     const {
-      albumData, channelToPlay, trackSelected, tracklistToShow
+      albumData, channelToPlay, trackSelected, tracklistToShow, trackStartingPoint
     } = this.state;
-    if (trackSelected === null) return {};
-
     const isAlbum = trackSelected === 0;
-    let audioSource = null;
 
-    if (channelToPlay !== 'archive') {
-      // it's youtube or spotify
-      const { albumSpotifyYoutubeInfo } = albumData;
-      const albumSource = albumSpotifyYoutubeInfo[channelToPlay] || null;
-      if (isAlbum) {
-        audioSource = {};
-        audioSource[channelToPlay] = albumSource;
-      }
+    let audioSource;
 
-      if (!audioSource) {
-        audioSource = find(tracklistToShow, track => track.trackNumber === trackSelected);
-      }
-
-      return audioSource || {};
+    if (channelToPlay === 'archive') {
+      // ia jw player only needs index
+      audioSource = {
+        index: trackSelected
+      };
+      return audioSource;
     }
 
-    // ia jw player only needs index
-    audioSource = {
-      index: trackSelected
-    };
+    // it's youtube or spotify
+    const { albumSpotifyYoutubeInfo } = albumData;
+    const albumSource = albumSpotifyYoutubeInfo[channelToPlay] || null;
+    if (isAlbum) {
+      audioSource = {};
+      audioSource[channelToPlay] = albumSource;
+    }
+    const trackToHighlight = trackSelected === null && trackStartingPoint !== null ? trackStartingPoint : trackSelected;
+    audioSource = find(tracklistToShow, track => track.trackNumber === trackToHighlight);
 
-    return audioSource;
+    return audioSource || {};
   }
 
   /**
@@ -235,6 +211,60 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     return channelOptions;
   }
 
+  /**
+   * Fires the external URL setter function to update the URL
+   */
+  updateURL() {
+    const { trackSelected, urlSetterFN, channelToPlay } = this.state;
+    const trackRefersToAlbum = trackSelected === 0;
+    const trackGetsURL = Number.isInteger(trackSelected) && !trackRefersToAlbum;
+    const isThirdPartyChannel = channelToPlay !== 'archive';
+    if (isThirdPartyChannel && trackGetsURL && urlSetterFN) {
+      urlSetterFN(trackSelected);
+    }
+  }
+
+  /* CALLBACKS */
+  /**
+   * Callback every time user selects a track from the tracklist
+   * @param { object } event - React synthetic event
+   */
+  selectThisTrack(event) {
+    const selected = event.currentTarget;
+    const selectedTrackNumber = parseInt(selected.getAttribute('data-track-number'), 10);
+
+    this.setState({
+      trackSelected: Number.isInteger(selectedTrackNumber)
+        ? selectedTrackNumber
+        : 1
+    }, this.updateURL);
+  }
+
+  /**
+   * Callback every time JWPlayer plays a track
+   * @param { object } playlistItem - JWPlayer track object
+   */
+  jwplayerPlaylistChange(playlistItem) {
+    const { newTrackIndex } = playlistItem;
+    this.setState({ trackSelected: newTrackIndex + 1 });
+  }
+
+  /**
+   * Callback to Save URL Setter function that comes back from Play8 instantiation
+   */
+  receiveURLSetter(urlSetterFN) {
+    this.setState({ urlSetterFN });
+  }
+
+  /**
+   * Callback when JWPlayer loads for the first time & it starts on a different track
+   * @param { index } JWPlayer track index
+   */
+  jwplayerStartingPoint(index) {
+    this.setState({ trackStartingPoint: index + 1 });
+  }
+  /* END CALLBACKS */
+
   render() {
     const { jwplayerPlaylist, linerNotes } = this.props;
     const {
@@ -268,30 +298,33 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const displayChannelSelector = !!externalSources.length; // make it actual boolean so it won't display
 
     const trackToHighlight = trackSelected === null && trackStartingPoint !== null ? trackStartingPoint : trackSelected;
+    const audioSource = this.getAudioSourceInfoToPlay();
+    const contentBoxTabs = {
+      player: getChannelLabelToDisplay({
+        channel: channelToPlay,
+        labelValue: audioPlayerChannelLabel,
+        title: `playing from ${channelToPlay}`
+      }),
+      linerNotes: getChannelLabelToDisplay({
+        channel: 'linerNotes',
+        labelValue: 'Liner Notes',
+        title: 'view liner notes'
+      })
+    };
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
         <section className="media-section">
           <TheatreAudioPlayer
             source={channelToPlay}
             backgroundPhoto={itemPhoto}
-            sourceData={this.getAudioSourceInfoToPlay()}
-            customSourceLabels={{
-              player: getChannelLabelToDisplay({
-                channel: channelToPlay,
-                labelValue: audioPlayerChannelLabel,
-                title: `playing from ${channelToPlay}`
-              }),
-              linerNotes: getChannelLabelToDisplay({
-                channel: 'linerNotes',
-                labelValue: 'Liner Notes',
-                title: 'view liner notes'
-              })
-            }}
+            sourceData={audioSource}
+            customSourceLabels={contentBoxTabs}
             linerNotes={linerNotes}
             jwplayerPlaylistChange={this.jwplayerPlaylistChange}
             jwplayerStartingPoint={this.jwplayerStartingPoint}
             jwplayerInfo={jwplayerInfo}
             jwplayerID={`jwplayer-${jwplayerID}`}
+            onRegistrationComplete={this.receiveURLSetter}
           />
         </section>
         <div className="grid-right">
