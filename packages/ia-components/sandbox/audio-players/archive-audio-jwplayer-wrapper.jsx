@@ -33,6 +33,8 @@ class ArchiveAudioPlayer extends Component {
       jwplayerInfo, jwplayerID, backgroundPhoto, onRegistrationComplete
     } = this.props;
     const { jwplayerPlaylist, identifier } = jwplayerInfo;
+    if (!jwplayerPlaylist.length) return;
+
     const waveformer = backgroundPhoto
       ? {}
       : { waveformer: 'jw-holder' };

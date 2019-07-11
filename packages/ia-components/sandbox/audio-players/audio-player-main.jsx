@@ -166,12 +166,11 @@ export default class TheatreAudioPlayer extends Component {
     // the JWplayer controls sit UNDER the album photo
     // while the other players overtake the whole content-window
     // We will have to accomodate the window's fixed height here.
-    const { backgroundPhoto } = this.props;
-    const jwplayerHeightNoWaveform = '4.4rem';
-    const jwplayerHeightYesWaveform = '14rem';
-    const mediaPlayerSectionStyle = backgroundPhoto
-      ? { height: jwplayerHeightNoWaveform }
-      : { height: jwplayerHeightYesWaveform };
+    const { backgroundPhoto, hasTracks } = this.props;
+    let mediaPlayerClass = '';
+    if (hasTracks) {
+      mediaPlayerClass = backgroundPhoto ? 'no-waveform' : 'with-waveform';
+    }
 
     return (
       <section className="theatre__audio-player">
@@ -179,7 +178,7 @@ export default class TheatreAudioPlayer extends Component {
           <div className="album-cover">
             {drawBackgroundPhoto(this.props)}
           </div>
-          <div className="media-player" style={mediaPlayerSectionStyle}>
+          <div className={`media-player ${mediaPlayerClass}`}>
             {this.showMedia()}
             {this.showLinerNotes()}
           </div>
@@ -197,6 +196,7 @@ TheatreAudioPlayer.defaultProps = {
   photoAltTag: '',
   urlExtensions: '',
   linerNotes: null,
+  hasTracks: false,
 };
 
 TheatreAudioPlayer.propTypes = {
@@ -215,4 +215,5 @@ TheatreAudioPlayer.propTypes = {
   photoAltTag: PropTypes.string,
   customSourceLabels: PropTypes.object,
   linerNotes: PropTypes.object,
+  hasTracks: PropTypes.bool,
 };
