@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
  *
  * @return component
  */
+
+// Rename for spotify?
 const ThirdPartyEmbeddedPlayer = ({ sourceURL, title }) => (
   <div className="iframe-wrapper">
     <iframe

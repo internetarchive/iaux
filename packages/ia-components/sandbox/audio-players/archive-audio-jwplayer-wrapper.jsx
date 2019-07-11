@@ -128,10 +128,10 @@ class ArchiveAudioPlayer extends Component {
   }
 
   render() {
-    const { jwplayerID } = this.props;
+    const { jwplayerID, style } = this.props;
 
     return (
-      <div className="ia-player-wrapper">
+      <div className="ia-player-wrapper" style={style}>
         <div className="iaux-player-wrapper">
           <div id={jwplayerID} />
         </div>
@@ -147,6 +147,7 @@ ArchiveAudioPlayer.defaultProps = {
   jwplayerInfo: {},
   sourceData: null,
   onRegistrationComplete: null,
+  style: ''
 };
 
 ArchiveAudioPlayer.propTypes = {
@@ -161,6 +162,7 @@ ArchiveAudioPlayer.propTypes = {
     index: PropTypes.number
   }),
   onRegistrationComplete: PropTypes.func,
+  style: PropTypes.string
 };
 
 export default ArchiveAudioPlayer;
