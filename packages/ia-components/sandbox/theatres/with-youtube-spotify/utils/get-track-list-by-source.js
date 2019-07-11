@@ -26,7 +26,7 @@ const getTrackListBySource = (albumData, sourceToPlay) => {
     if (playSamples) {
       const sampleMP3s = tracks.map((track, index) => {
         const {
-          sampleMP3, title, creator, artist = ''
+          sampleMP3, title = '', creator = '', artist = ''
         } = track;
         const trackDetails = { title, creator, artist };
         const trackNumber = index + 1;
