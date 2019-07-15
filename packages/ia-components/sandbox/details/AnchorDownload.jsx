@@ -25,6 +25,7 @@ const debug = require('debug')('ia-components:AnchorDownload');
  *  source      [ArchiveFile]
  *  format      argument to formats parameter
  *              - if this is present we'll download the .../compress/IDENTIFIER/formats=FORMAT
+ *  browser2archive - true if browser can reach the archive for direct links
  *  any other properties wil be passed to Url if in urlparms and to Anchor otherwise
  * >
  *  children...
@@ -76,11 +77,23 @@ class AnchorDownload extends IAReactComponent {
 
   render() {
     // Note that anchorProps are passed on from constructor to the Anchor,
-    return ( // Note there is intentionally no spacing in case JSX adds a unwanted line break
-      (typeof DwebArchive === 'undefined')
-        ? <a href={this.state.url.href} {...this.state.anchorProps} rel="noopener noreferrer" target="_blank">{this.props.children}</a>
-        : // This is the Dweb version for React|!React
-        <a href={this.state.url.href} onClick={this.onClick} {...this.state.anchorProps}>{this.props.children}</a>
+    const reachable = (
+      this.props.browser2archive
+      || ( this.props.source && (
+        (Array.isArray(this.props.source) && (this.props.source.length === 1) && this.props.source[0].downloaded)
+        || (!Array.isArray(this.props.source) && this.props.source.downloaded)
+      ) )
+      || (
+        (this.props.identifier && !this.props.filename && !this.props.source) // Just an identifier = want directory
+      )
+    )
+    return ( // Note there is intentionally no spacing in case JSX adds a unwanted line break /
+      // /TODO-GREY this could be CSS instead of removed
+      typeof DwebArchive === 'undefined'
+      ? <a href={this.state.url.href} {...this.state.anchorProps} rel="noopener noreferrer" target="_blank">{this.props.children}</a>
+      : reachable //Its Dweb, but is it reachable
+      ? <a href={this.state.url.href} onClick={this.onClick} {...this.state.anchorProps}>{this.props.children}</a>
+      : null
     );
   }
 }

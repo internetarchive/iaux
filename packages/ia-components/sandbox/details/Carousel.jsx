@@ -19,7 +19,7 @@ import { ImageDweb } from './Image';
  */
 
 class Carousel extends IAReactComponent {
-    constructor(props) {
+  constructor(props) {
         super(props); // identifier, slides: [ {filename, source: ArchiveFile} ]  // The source is optional, make it more efficient on Dweb
         this.state.startAt = 0;
      }
@@ -41,7 +41,8 @@ class Carousel extends IAReactComponent {
                                         identifier={this.props.identifier}
                                         filename={slide.filename}
                                         source={slide.source}
-                                        title="Open full sized image">
+                                        title="Open full sized image"
+                                        browser2archive={this.props.browser2archive}>
                             <ImageDweb
                               className="rot0 carousel-image"
                               alt="item image #1"

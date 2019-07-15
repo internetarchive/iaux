@@ -8,25 +8,7 @@ import DetailsDownloadOptions from './DetailsDownloadOptions';
 import { languageMapping } from '../../util.js';
 
 /**
- *  List of metadata on details page
- *
- *  Renders as a <></> of div each containing in most, but not all cases a <span className=key> and <span className=value>
- *
- *  Behavior none for the component itself, most elements are clickable through to searches
- *
- * Technical Notes:
- *  The content has to be supplied as "metadata" and collection_titles and description,
- *  there is a wrapper in dweb-archive to do this in DetailsAboutWrapper
- *
- * <DetailsAbout>
- *   metadata: {}         As in ARCHIVEITEM.metadata or metadata API after processing to enforce strings and arrays
- *   description: string  Passed separately since needs to be preprocessed to eliminate hacks and to correct URLs
- *   files: [ArchiveFile] ArchiveFile or similar structure as in Files part of Metadata API
- *   files_count          Count of files
- *   collection_titles {COLLECTION: "COLLECTION TITLE"}    Mapping from collection to title of collection for any collection its a member of
- *   browser2archive      True if browser can see archive.org directly
- * />
- *
+
  */
 
 const metadataListKeyStrings = { ocr: 'OCR', runtime: 'Run time', ppi: 'PPI' }; // Metadata with something other than capitalize first letter
@@ -152,8 +134,31 @@ class DetailsMetadata extends IAReactComponent {
 
 
 class DetailsAbout extends IAReactComponent {
-  // Props  metadata description files files_count collection_titles  browser2archive
+  /**
+  *  List of metadata on details page
+  *
+  *  Renders as a <></> of div each containing in most, but not all cases a <span className=key> and <span className=value>
+  *
+  *  Behavior none for the component itself, most elements are clickable through to searches
+  *
+  * Technical Notes:
+  *  The content has to be supplied as "metadata" and collection_titles and description,
+  *  there is a wrapper in dweb-archive to do this in DetailsAboutWrapper
+  *
+  * <DetailsAbout>
+  *   metadata: {}         As in ARCHIVEITEM.metadata or metadata API after processing to enforce strings and arrays
+  *   description: string  Passed separately since needs to be preprocessed to eliminate hacks and to correct URLs
+  *   files: [ArchiveFile] ArchiveFile or similar structure as in Files part of Metadata API
+  *   reviews: [ {}* ]    See DetailsReviews for structure
+  *   files_count          Count of files
+  *   collection_titles {COLLECTION: "COLLECTION TITLE"}    Mapping from collection to title of collection for any collection its a member of
+  *   browser2archive      True if browser can see archive.org directly
+  * />
+  */
 
+  constructor(props) {
+    super(props);
+  }
   render() {
     /* This sits underneth theatre-ia-wrap DIV that is built by theatreIaWrap */
     const md = this.props.metadata;
@@ -169,8 +174,8 @@ class DetailsAbout extends IAReactComponent {
             <DetailsMetadata metadata={md}
                              description={this.props.description}/>
             {/* TODO need an dweb way to submit a review*/}
-            <DetailsReviews reviews={this.reviews}
-                            writeReviewsURL={`https://archive.org/write-review.php?identifier=${md.identifier}`}/>
+            <DetailsReviews reviews={this.props.reviews} browser2archive={this.props.browser2archive}
+                            writeReviewsURL={`https://archive.org/write-review.php?identifier=${md.identifier}` }/>
           </div>
           {/*--/.col-md-10--*/}
           <div className="col-sm-4 thats-right item-details-archive-info">

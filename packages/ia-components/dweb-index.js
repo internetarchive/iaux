@@ -12,7 +12,7 @@ export { default as DetailsCollectionList } from './sandbox/details/DetailsColle
 export { DetailsFlagLI, DetailsFlags, DetailsActionButtons } from './sandbox/details/DetailsActionButtons';
 export { default as DetailsDownloadOptions } from './sandbox/details/DetailsDownloadOptions';
 export { DetailsMetadata, DetailsAbout} from './sandbox/details/DetailsMetadata';
-export { ImageDweb, ImageMainTheatre } from './sandbox/details/Image';
+export { ImageDweb } from './sandbox/details/Image';
 export { AnchorModalGo, ButtonModalGo } from './sandbox/details/ModalGo';
 export { NavWrap } from './sandbox/details/NavWrap';
 export { DetailsReviews} from './sandbox/details/DetailsReviews';
