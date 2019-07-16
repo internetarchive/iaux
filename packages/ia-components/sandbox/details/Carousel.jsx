@@ -8,6 +8,7 @@ import { ImageDweb } from './Image';
  *
  * <Carousel
  *    identifier = string     Standard Archive identifier
+ *    disconnected            True if browser cant see archive.org (e.g. on dweb-mirror)
  *    slides = [ {            Array of objects
  *      filename,               Name of file within Identifier (i.e. matches name field of ITEM.files)
  *      source                  optional pointer to ArchiveFile object that Dweb will sue to fetch/download images
@@ -42,7 +43,7 @@ class Carousel extends IAReactComponent {
                                         filename={slide.filename}
                                         source={slide.source}
                                         title="Open full sized image"
-                                        browser2archive={this.props.browser2archive}>
+                                        disconnected={this.props.disconnected}>
                             <ImageDweb
                               className="rot0 carousel-image"
                               alt="item image #1"

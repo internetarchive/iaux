@@ -16,14 +16,14 @@ import { AnchorDownload } from './AnchorDownload';
  *   identifier="AboutBan1935"      Identifier of item
  *   files_count=10                 Number of files in the item
  *   files=[ArchiveFile*]           Array of ArchiveFiles or of objects {metadata{format, name, source}} but they must have a method .downloadable()
- *   browser2archive                True if browser can see archive directly (to access compressed zips)
+ *   disconnected                   True if browser cant see archive directly (to access compressed zips)
  * />
  */
 
 export default class DetailsDownloadOptions extends IAReactComponent {
 
   constructor(props) {
-    super(props); //browser2archive
+    super(props); //disconnected
   }
 
   render() {
@@ -46,7 +46,7 @@ export default class DetailsDownloadOptions extends IAReactComponent {
         {Object.keys(downloadableFilesDict).sort().map(k => (
           <div className="format-group" key={k}>
             <div className="summary-rite">
-              <AnchorDownload className="stealth" identifier={this.props.identifier} format={k} source={downloadableFilesDict[k]} title={k} browser2archive={this.props.browser2archive}>
+              <AnchorDownload className="stealth" identifier={this.props.identifier} format={k} source={downloadableFilesDict[k]} title={k} disconnected={this.props.disconnected}>
                 <span className="hover-badge-stealth">
                   <span className="iconochive-download" aria-hidden="true" />
                   <span className="sr-only">download</span>
@@ -65,7 +65,7 @@ export default class DetailsDownloadOptions extends IAReactComponent {
               data-placement="auto left"
               data-container="body"
               target="_blank"
-              browser2archive={this.props.browser2archive}
+              disconnected={this.props.disconnected}
             >
               {formats('format', k).downloadable}
               {' '}
@@ -78,7 +78,7 @@ export default class DetailsDownloadOptions extends IAReactComponent {
           </div>
         ))}
         <div className="show-all">
-          {(!this.props.browser2archive) ? null :
+          {(this.props.disconnected) ? null :
             <div className="pull-right">
               <a className="boxy-ttl hover-badge" href={compressURL}>
               <span
@@ -100,7 +100,7 @@ export default class DetailsDownloadOptions extends IAReactComponent {
               <br/>
             </div>
           }
-          <AnchorDownload className="boxy-ttl" identifier={this.props.identifier} browser2archive={this.props.browser2archive}>SHOW ALL</AnchorDownload>
+          <AnchorDownload className="boxy-ttl" identifier={this.props.identifier} disconnected={this.props.disconnected}>SHOW ALL</AnchorDownload>
           <br clear="all" className="clearfix" />
         </div>
       </section>

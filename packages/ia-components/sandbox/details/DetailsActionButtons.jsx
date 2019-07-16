@@ -51,12 +51,12 @@ class DetailsFlagLI extends IAReactComponent {
 
 class DetailsFlags extends IAReactComponent {
   constructor(props) {
-    super(props); // none browser2archive
+    super(props); // disconnected
   }
 
   render() {
     const loginURL = 'https://archive.org/account/login.php'; // TODO - its a Direct link as dont support authentication in DWeb version, may be better URL for IAUX
-    return ( (! this.props.browser2archive) ? null :
+    return ( this.props.disconnected ? null :
       <div
         id="flag-button-container"
         className="topinblock"
@@ -94,7 +94,7 @@ class DetailsFlags extends IAReactComponent {
 
 class DetailsActionButtons extends IAReactComponent {
   constructor(props) {
-    super(props); // identifier, title, browser2archive
+    super(props); // identifier, title, disconnected
   }
 
   render() {
@@ -135,7 +135,7 @@ class DetailsActionButtons extends IAReactComponent {
             <span className="sr-only">share</span>
           </ButtonModalGo>
         </div>
-        <DetailsFlags browser2archive={this.props.browser2archive}/>
+        <DetailsFlags disconnected={this.props.disconnected}/>
       </div>
     );
   }

@@ -25,7 +25,7 @@ const debug = require('debug')('ia-components:AnchorDownload');
  *  source      [ArchiveFile]
  *  format      argument to formats parameter
  *              - if this is present we'll download the .../compress/IDENTIFIER/formats=FORMAT
- *  browser2archive - true if browser can reach the archive for direct links
+ *  disconnected - true if browser cant reach the archive for direct links
  *  any other properties wil be passed to Url if in urlparms and to Anchor otherwise
  * >
  *  children...
@@ -78,7 +78,7 @@ class AnchorDownload extends IAReactComponent {
   render() {
     // Note that anchorProps are passed on from constructor to the Anchor,
     const reachable = (
-      this.props.browser2archive
+      (!this.props.disconnected)
       || ( this.props.source && (
         (Array.isArray(this.props.source) && (this.props.source.length === 1) && this.props.source[0].downloaded)
         || (!Array.isArray(this.props.source) && this.props.source.downloaded)

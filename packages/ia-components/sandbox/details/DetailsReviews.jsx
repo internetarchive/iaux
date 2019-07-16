@@ -23,7 +23,7 @@ import AnchorDetails from '../AnchorDetails';
 
 
 class DetailsReviews extends IAReactComponent {
-  //Props: writeReviewsURL string; reviews: [{...}*] browser2archive
+  //Props: writeReviewsURL string; reviews: [{...}*] disconnected
 
   render() {
     const reviews = this.props.reviews;
@@ -63,7 +63,7 @@ class DetailsReviews extends IAReactComponent {
         )) : (
           <div className="small-label">
             <span>There are no reviews yet. </span>
-            {!this.props.browser2archive ? null :
+            {this.props.disconnected ? null :
               <span>Be the first one to <a href={writeReviewsURL}>write a review</a>.</span>
             }
           </div>

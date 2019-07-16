@@ -36,7 +36,7 @@ class DownloadDirectoryDiv extends IAReactComponent {
                   <tr>
                     <td><AnchorDownload source={f}
                                         title={f.metadata.name}
-                                        browser2archive={this.props.browser2archive}><span
+                                        disconnected={this.props.disconnected}><span
                       className="sr-only">download</span>{f.metadata.name}</AnchorDownload></td>
                     {/*--TODO-DIR handle directory here as foo/ --*/}
                     {/*--<td>00-Apr-0000 00:00{--TODO-DIR handle date from mtime </td>--*/}

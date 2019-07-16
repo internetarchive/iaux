@@ -152,7 +152,7 @@ class DetailsAbout extends IAReactComponent {
   *   reviews: [ {}* ]    See DetailsReviews for structure
   *   files_count          Count of files
   *   collection_titles {COLLECTION: "COLLECTION TITLE"}    Mapping from collection to title of collection for any collection its a member of
-  *   browser2archive      True if browser can see archive.org directly
+  *   disconnected      True if browser cannot see archive.org directly
   * />
   */
 
@@ -167,20 +167,20 @@ class DetailsAbout extends IAReactComponent {
       <div className="container container-ia item-details-about">
         <div className="relative-row row">
           <div className="thats-right" style={{textAlign:"right"}}>
-            <DetailsActionButtons identifier={md.identifier} title={md.title} browser2archive={this.props.browser2archive} />
+            <DetailsActionButtons identifier={md.identifier} title={md.title} disconnected={this.props.disconnected} />
           </div>
           {/*-- flag initialization moved to browserAfter() --*/}
           <div className="col-sm-8 thats-left item-details-metadata">
             <DetailsMetadata metadata={md}
                              description={this.props.description}/>
             {/* TODO need an dweb way to submit a review*/}
-            <DetailsReviews reviews={this.props.reviews} browser2archive={this.props.browser2archive}
+            <DetailsReviews reviews={this.props.reviews} disconnected={this.props.disconnected}
                             writeReviewsURL={`https://archive.org/write-review.php?identifier=${md.identifier}` }/>
           </div>
           {/*--/.col-md-10--*/}
           <div className="col-sm-4 thats-right item-details-archive-info">
             {/*TODO need section className=boxy item-stats-summary- not obvious where data from, its not in metadata */}
-            <DetailsDownloadOptions identifier={md.identifier} files={this.props.files} files_count={this.props.files_count} browser2archive={this.props.browser2archive}/>
+            <DetailsDownloadOptions identifier={md.identifier} files={this.props.files} files_count={this.props.files_count} disconnected={this.props.disconnected}/>
             <DetailsCollectionList collections={md.collection} collectionTitles={this.props.collection_titles}/>
             {/* <DetailsUploaderBox identifier={} name={} date={}> see https://github.com/internetarchive/dweb-archive/issues/24 */}
           </div>
