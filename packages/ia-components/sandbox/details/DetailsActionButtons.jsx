@@ -101,23 +101,25 @@ class DetailsActionButtons extends IAReactComponent {
     const bookmarksAddURL = `https://archive.org/bookmarks.php?add_bookmark=1&amp;mediatype=image&amp;identifier=${this.props.identifier}&amp;title=${this.props.title}`; // TODO find way to submit distributed
     return (
       <div className="action-buttons">
-        <div className="topinblock">
-          <AnchorModalGo
-            className="button "
-            opts={{ favorite: 1 }}
-            href={bookmarksAddURL}
-            id="favorite-button"
-            aria-haspopup="true"
-            data-target="#confirm-modal"
-            data-toggle="tooltip"
-            data-container="body"
-            data-placement="bottom"
-            title="Favorite this item"
-          >
-            <span className="iconochive-favorite" aria-hidden="true" />
-            <span className="sr-only">favorite</span>
-          </AnchorModalGo>
-        </div>
+        {this.props.disconnected ? null :
+          <div className="topinblock">
+            <AnchorModalGo
+              className="button "
+              opts={{favorite: 1}}
+              href={bookmarksAddURL}
+              id="favorite-button"
+              aria-haspopup="true"
+              data-target="#confirm-modal"
+              data-toggle="tooltip"
+              data-container="body"
+              data-placement="bottom"
+              title="Favorite this item"
+            >
+              <span className="iconochive-favorite" aria-hidden="true"/>
+              <span className="sr-only">favorite</span>
+            </AnchorModalGo>
+          </div>
+        }
         <div className="topinblock">
           <ButtonModalGo
             id="share-button"

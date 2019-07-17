@@ -14,7 +14,9 @@ const debug = require('debug')('NavWrap');
 
 class NavAboutsUL extends IAReactComponent {
   /**
-   * <NavAboutsUL/>
+   * <NavAboutsUL
+   *    disconnected=BOOL   True to not display since cannot reach archive.org
+   * />
    *
    * Behavior:
    *  On rendering: renders a <UL> containing an <LI> for each of the ABOUT ... PEOPLE buttons
@@ -22,28 +24,29 @@ class NavAboutsUL extends IAReactComponent {
 
   render() {
     return (
-      <ul id="nav-abouts">
+        this.props.disconnected ? null :
+          <ul id="nav-abouts">
             {/* --TODO-BOOTSTRAP ongoing, was trying to make these eg. /about and use name lookup, but fails because not CORS and have not built gateway, and there is no "headless" version of these pages--*/}
-                <li key="about"><a target="_top" data-event-click-tracking="TopNav|AboutLink"
-                                   href="https://archive.org/about/">ABOUT</a>
-              </li>
-                <li key="contact"><a target="_top" data-event-click-tracking="TopNav|ContactLink"
-                                     href="https://archive.org/about/contact.php">CONTACT</a></li>
-                <li key="blog"><a target="_top" data-event-click-tracking="TopNav|BlogLink"
-                                  href="https://blog.archive.org">BLOG</a>{/*--TODO-BOOTSTRAP this was //blog, no good reason why not forcing https --*/}
-              </li>
-                <li key="projects"><a target="_top" data-event-click-tracking="TopNav|ProjectsLink"
-                                      href="https://archive.org/projects">PROJECTS</a></li>
-                <li key="faqs"><a target="_top" data-event-click-tracking="TopNav|HelpLink"
-                                  href="https://archive.org/about/faqs.php">HELP</a></li>
-                <li key="donate"><a target="_top" data-event-click-tracking="TopNav|DonateLink"
-                                    href="https://archive.org/donate">DONATE</a></li>
-                <li key="jobs"><a target="_top" data-event-click-tracking="TopNav|JobsLink"
-                                  href="https://archive.org/about/jobs.php">JOBS</a></li>
-                <li key="volunteerpositions"><a target="_top" data-event-click-tracking="TopNav|VolunteerLink"
-                                                href="https://archive.org/about/volunteerpositions.php">VOLUNTEER</a></li>
-                <li key="bios"><a target="_top" data-event-click-tracking="TopNav|PeopleLink"
-                                  href="https://archive.org/about/bios.php">PEOPLE</a></li>
+            <li key="about"><a target="_top" data-event-click-tracking="TopNav|AboutLink"
+                               href="https://archive.org/about/">ABOUT</a>
+            </li>
+            <li key="contact"><a target="_top" data-event-click-tracking="TopNav|ContactLink"
+                                 href="https://archive.org/about/contact.php">CONTACT</a></li>
+            <li key="blog"><a target="_top" data-event-click-tracking="TopNav|BlogLink"
+                              href="https://blog.archive.org">BLOG</a>{/*--TODO-BOOTSTRAP this was //blog, no good reason why not forcing https --*/}
+            </li>
+            <li key="projects"><a target="_top" data-event-click-tracking="TopNav|ProjectsLink"
+                                  href="https://archive.org/projects">PROJECTS</a></li>
+            <li key="faqs"><a target="_top" data-event-click-tracking="TopNav|HelpLink"
+                              href="https://archive.org/about/faqs.php">HELP</a></li>
+            <li key="donate"><a target="_top" data-event-click-tracking="TopNav|DonateLink"
+                                href="https://archive.org/donate">DONATE</a></li>
+            <li key="jobs"><a target="_top" data-event-click-tracking="TopNav|JobsLink"
+                              href="https://archive.org/about/jobs.php">JOBS</a></li>
+            <li key="volunteerpositions"><a target="_top" data-event-click-tracking="TopNav|VolunteerLink"
+                                            href="https://archive.org/about/volunteerpositions.php">VOLUNTEER</a></li>
+            <li key="bios"><a target="_top" data-event-click-tracking="TopNav|PeopleLink"
+                              href="https://archive.org/about/bios.php">PEOPLE</a></li>
           </ul>
     );
   }
@@ -81,8 +84,9 @@ class NavSearchLI extends IAReactComponent {
   }
 
   render() {
+    // TODO Component is required, but is not yet defined for non-Dweb
     // noinspection JSUnresolvedVariable
-    return (( typeof DwebArchive === "undefined") ? null :  // Component may be required, but is not yet defined for non-Dweb
+    return (( typeof DwebArchive === "undefined" || this.props.disconnected ) ? null :
         <li id="nav-search" className="dropdown dropdown-ia pull-right" key="search">
           <a onClick={this.onClick}>
             <span className="iconochive-search" aria-hidden="true"/>
@@ -112,7 +116,9 @@ class NavSearchLI extends IAReactComponent {
 }
 class NavUploadLI extends IAReactComponent {
   /*
-   * <NavUploadLI/>
+   * <NavUploadLI
+   *   disconnected     True if cannot see archive.org
+   * />
    * Behavior:
    *   Renders an Upload <LI/> icon
    *   On click: Goes to "https://archive.org/create" since this functionality is not supported on Dweb yet
@@ -120,14 +126,15 @@ class NavUploadLI extends IAReactComponent {
 
   render() {
     return (
-      <li className="dropdown dropdown-ia pull-right" key="upload">
+        this.props.disconnected ? null :
+          <li className="dropdown dropdown-ia pull-right" key="upload">
             <a
-                href="https://archive.org/create" target="top" data-toggle="tooltip"
-                data-placement="bottom" title="Upload"
-              >
-                <span className="iconochive-upload" aria-hidden="true" />
-                <span className="sr-only">upload</span>
-              </a>
+              href="https://archive.org/create" target="top" data-toggle="tooltip"
+              data-placement="bottom" title="Upload"
+            >
+              <span className="iconochive-upload" aria-hidden="true"/>
+              <span className="sr-only">upload</span>
+            </a>
           </li>
     );
   }
@@ -177,7 +184,9 @@ class NavMediatypeLI extends IAReactComponent {
 }
 
 class NavWebDIV extends IAReactComponent {
-  /** <NavWebDIV />
+  /** <NavWebDIV
+   *     disconnected     True if cannot see archive.org
+   * />
    *
    * Behavior
    *  Renders the Wayback search icon with a nested search engine
@@ -199,37 +208,38 @@ class NavWebDIV extends IAReactComponent {
   render() {
     // noinspection HtmlUnknownTarget,HtmlUnknownTarget,CheckTagEmptyBody
     return (
-            <div className="row toprow web" style={{maxWidth:1000, margin: "auto"}}>
+      this.props.disconnected ? null :
+          <div className="row toprow web" style={{maxWidth: 1000, margin: "auto"}}>
             <div className="col-xs-12">
-                <div className="wayback-txt">
-                        Search the history of over 338 billion
-                        <a style={{display:"inline"}}
-                           href="https://blog.archive.org/2016/10/23/defining-web-pages-web-sites-and-web-captures/">web
-                            pages</a> on the Internet.
-                  </div>
-                <div className="roundbox7 wayback-main">
-                    <div className="row">
-                        <div className="col-sm-6" style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                <a style={{paddingBottom:0}} href="https://archive.org/web/"><img
-                                    src="/images/WaybackLogoSmall.png" alt="Wayback Machine"/></a>
-                          </div>
-                        <div className="col-sm-6" style={{ paddingTop: 13 }}>
-                                <form style={{position:"relative"}}>
-                                    <span className="iconochive-search" aria-hidden="true" ref={this.load}></span><span
-                                    className="sr-only">search</span> <label htmlFor="nav-wb-url" className="sr-only">Search
-                                    the Wayback
-                                    Machine</label>
-                                    <input id="nav-wb-url" className="form-control input-sm roundbox20"
-                                    type="text"
-                                    placeholder="enter URL or keywords" name="url" autoComplete="off"
-                                           onClick={this.onClick}/>
-                              </form>
-                          </div>
-                      </div>
-                    {/* --/.row--*/}
-                  </div>
-                {/* --/.wayback-main--*/}
+              <div className="wayback-txt">
+                Search the history of over 338 billion
+                <a style={{display: "inline"}}
+                   href="https://blog.archive.org/2016/10/23/defining-web-pages-web-sites-and-web-captures/">web
+                  pages</a> on the Internet.
               </div>
+              <div className="roundbox7 wayback-main">
+                <div className="row">
+                  <div className="col-sm-6" style={{paddingLeft: 0, paddingRight: 0}}>
+                    <a style={{paddingBottom: 0}} href="https://archive.org/web/"><img
+                      src="/images/WaybackLogoSmall.png" alt="Wayback Machine"/></a>
+                  </div>
+                  <div className="col-sm-6" style={{paddingTop: 13}}>
+                    <form style={{position: "relative"}}>
+                      <span className="iconochive-search" aria-hidden="true" ref={this.load}></span><span
+                      className="sr-only">search</span> <label htmlFor="nav-wb-url" className="sr-only">Search
+                      the Wayback
+                      Machine</label>
+                      <input id="nav-wb-url" className="form-control input-sm roundbox20"
+                             type="text"
+                             placeholder="enter URL or keywords" name="url" autoComplete="off"
+                             onClick={this.onClick}/>
+                    </form>
+                  </div>
+                </div>
+                {/* --/.row--*/}
+              </div>
+              {/* --/.wayback-main--*/}
+            </div>
           </div>
     );
   }
@@ -241,6 +251,7 @@ class DwebNavButtons extends IAReactComponent {
    * identifier string   For current page
    * query, sort         For current page if its a search
    * mirror2gateway      True if on DwebMirror and can see gateway
+   * canSave             True if can save this content
    * />
    *
    * Behavior
@@ -269,22 +280,24 @@ class DwebNavButtons extends IAReactComponent {
         <li className="settings">
           <span className="iconochive-gear"></span>
           <AnchorDetails identifier="settings">Settings</AnchorDetails></li>
-        <li className="save"><span className="iconochive-download"></span>
-          <AnchorModalGo
-            id="save-button"
-            className="button"
-            opts={{ ignore_lnk: 1 }}
-            type="button"
-            aria-haspopup="true"
-            data-target="#save-modal"
-            data-toggle="tooltip"
-            data-container="body"
-            data-placement="bottom"
-            title="Save this item"
-            ><span>Save</span>
-          </AnchorModalGo></li>
-          <li className="local"><span className="iconochive-folder"></span>
-            <AnchorDetails identifier="local">Local</AnchorDetails></li>
+        { !this.props.canSave ? null :
+          <li className="save"><span className="iconochive-download"></span>
+            <AnchorModalGo
+              id="save-button"
+              className="button"
+              opts={{ ignore_lnk: 1 }}
+              type="button"
+              aria-haspopup="true"
+              data-target="#save-modal"
+              data-toggle="tooltip"
+              data-container="body"
+              data-placement="bottom"
+              title="Save this item"
+              ><span>Save</span>
+            </AnchorModalGo></li>
+        }
+        <li className="local"><span className="iconochive-folder"></span>
+          <AnchorDetails identifier="local">Local</AnchorDetails></li>
       </ul>
     );
   }
@@ -304,6 +317,7 @@ class DwebNavDIV extends IAReactComponent {
    *      downloaded: { ... }, passed to CrawlConfig
    *      crawl: object (optional) passed as props to CrawlConfig
    *      mirror2gateway: bool
+   *      canSave: bool   true if can save
    *    }
    *    transportStatuses: [{name, status}]
    * />
@@ -326,7 +340,8 @@ class DwebNavDIV extends IAReactComponent {
                           <div id="dweb-mirrorreload"><DwebNavButtons identifier={this.props.item.itemid}
                                                                       query={this.props.item.query}
                                                                       sort={this.props.item.sort}
-                                                                      mirror2gateway={this.props.mirror2gateway} /></div>
+                                                                      mirror2gateway={this.props.mirror2gateway}
+                                                                      canSave={this.props.canSave}/></div>
                         </>
                     }
                   {/* --<a href="https://docs.google.com/forms/d/e/1FAIpQLSe7pXiSLrmeLoKvlDi2wODcL3ro7D6LegPksb86jr5bCJa7Ig/viewform" target="_blank"><img src="./images/feedback.svg"/></a>--*/}
@@ -402,6 +417,7 @@ class NavWrap extends IAReactComponent {
    *    item = ArchiveItem  passed to DwebNavDIV (optional if not on Dweb)
    *    transportStatuses = [{name, status}*]
    *    mirror2gateway bool
+   *    canSave=BOOL        True if can save
    * />
    * Behavior
    *   On Render: Renders the head of a details or search page including NavDwebDIV, NavBrandLI NavSearchLI NavUploadLI NavAboutsUL DwebNavDIV
@@ -419,7 +435,7 @@ class NavWrap extends IAReactComponent {
       <div id="navwrap1">
         <div id="navwrap2">
           <div id="nav-tophat" className="collapse">
-            <NavWebDIV />
+            <NavWebDIV disconnected={this.props.disconnected}/>
               {/* TODO-DETAILS-INFOREQD Need to figure out how to auto-generator the other rows of nav-tophat for each media type */}
           </div>
 
@@ -430,11 +446,14 @@ class NavWrap extends IAReactComponent {
                 <NavMediatypeLI mediatype={mediatype} key={mediatype} />
               ))}
               <NavBrandLI />
-              <NavSearchLI />
-              <NavUploadLI />
+              <NavSearchLI disconnected={this.props.disconnected} />
+              <NavUploadLI disconnected={this.props.disconnected}/>
             </ul>
-            <NavAboutsUL />
-            <DwebNavDIV item={this.props.item} transportStatuses={this.props.transportStatuses} mirror2gateway={this.props.mirror2gateway} />
+            <NavAboutsUL disconnected={this.props.disconnected} />
+            <DwebNavDIV item={this.props.item}
+                        transportStatuses={this.props.transportStatuses}
+                        mirror2gateway={this.props.mirror2gateway}
+                        canSave={this.props.canSave} />
           </div>
         </div>
       </div>
