@@ -71,8 +71,7 @@ export default class TheatreAudioPlayer extends Component {
       urlPrefix = '', id = '', urlExtensions = '', name = ''
     } = externalSourceDetails;
     if (source === 'youtube') {
-      const { id = '' } = externalSourceDetails;
-      const { trackNumber = 1 } = sourceData;
+      const { trackNumber } = sourceData;
       mediaElement = (
         <YoutubePlayer
           selectedTrack={trackNumber}
@@ -80,7 +79,7 @@ export default class TheatreAudioPlayer extends Component {
           {...this.props}
 
         />
-      ); // don't send all props send only youtubePlaylistChange
+      );
     } else if (source === 'spotify') {
       const sourceURL = `${urlPrefix}${id}${urlExtensions}`;
       mediaElement = (
