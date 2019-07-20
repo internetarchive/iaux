@@ -163,8 +163,10 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       audioSource[channelToPlay] = albumSource;
       return audioSource;
     }
-    // If selected track not null find info for selcted track, else find for first track of list of selected channel
-    audioSource = trackSelected ? tracklistToShow.find(t => t.trackNumber === trackSelected) : tracklistToShow.find(t => t.trackNumber >= 1);
+    const playerLoadingOnCertainTrack = trackSelected === null && trackStartingPoint !== null;
+    const trackToHighlight = playerLoadingOnCertainTrack ? trackStartingPoint : trackSelected;
+    audioSource = find(tracklistToShow, track => track.trackNumber === trackToHighlight);
+
     return audioSource || {};
   }
 
