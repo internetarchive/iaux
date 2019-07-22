@@ -165,7 +165,14 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     }
     const playerLoadingOnCertainTrack = trackSelected === null && trackStartingPoint !== null;
     const trackToHighlight = playerLoadingOnCertainTrack ? trackStartingPoint : trackSelected;
-    audioSource = find(tracklistToShow, track => track.trackNumber === trackToHighlight);
+
+    const trackInfo = find(tracklistToShow, (track) => {
+      const trackFound = track.trackNumber === trackToHighlight;
+      if (trackFound) {
+        return track;
+      }
+    });
+    audioSource = trackInfo || head(tracklistToShow);
 
     return audioSource || {};
   }
@@ -232,10 +239,15 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    * Callback every time YoutubePlayer changes track
    * @param { number } prevTrack- Track number of previously played video
    */
-  youtubePlaylistChange(prevTrack) {
+  youtubePlaylistChange(prevTrack, setURLOnly) {
     const { tracklistToShow } = this.state;
+    let trackSelected;
+    if (setURLOnly) {
+      trackSelected = tracklistToShow.find(t => t.trackNumber === prevTrack);
+    } else {
+      trackSelected = tracklistToShow.find(t => t.trackNumber >= prevTrack + 1);
+    }
     // Find next track number in line
-    const trackSelected = tracklistToShow.find(t => t.trackNumber >= prevTrack + 1);
     if (trackSelected) {
       this.setState({ trackSelected: trackSelected.trackNumber }, this.updateURL);
     }
@@ -313,8 +325,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const jwplayerID = identifier.replace(/[^a-zA-Z\d]/g, '');
     const displayChannelSelector = !!externalSources.length; // make it actual boolean so it won't display
 
-    const trackToHighlight = trackSelected === null && trackStartingPoint !== null ? trackStartingPoint : trackSelected;
     const audioSource = this.getAudioSourceInfoToPlay();
+    const trackToHighlight = audioSource.trackNumber || audioSource.index || trackStartingPoint || null;
     const contentBoxTabs = {
       player: getChannelLabelToDisplay({
         channel: channelToPlay,
