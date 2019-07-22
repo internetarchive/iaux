@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 
 /**
  * YoutubePlayer
@@ -10,18 +11,17 @@ import PropTypes from 'prop-types'
  */
 
 class YoutubePlayer extends Component {
-
   constructor(props) {
     super(props);
 
-    const { selectedTrack, id } = props;
     this.timer = null;
 
     this.state = {
       player: null,
       playerAnchor: React.createRef(),
-      selectedTrack,
-      id
+      selectedTrack: null,
+      id: null,
+      videoStartedPlaying: false,
     };
 
     [
@@ -43,7 +43,7 @@ class YoutubePlayer extends Component {
       this.loadAPI();
       window.onYouTubeIframeAPIReady = () => {
         this.loadPlayer();
-      }
+      };
     } else {
       this.loadPlayer();
     }
@@ -53,8 +53,12 @@ class YoutubePlayer extends Component {
    * Update component only if there is a change in video id
    * If above update video id and selected track
    */
-  shouldComponentUpdate(nextProps) {
-    const { id } = this.state;
+  shouldComponentUpdate(nextProps, nextState) {
+    const { id, player } = this.state;
+    if (!player && nextState.player) {
+      return false;
+    }
+
     const trackChanged = id !== nextProps.id;
     if (trackChanged) {
       clearTimeout(this.timer);
@@ -71,7 +75,10 @@ class YoutubePlayer extends Component {
    */
   componentDidUpdate() {
     const { id, player } = this.state;
-    player.loadVideoById(id, 'default');
+    const { id: propsID } = this.props;
+    const idToUse = id || propsID;
+
+    player.loadVideoById(idToUse, 'default');
   }
 
   /**
@@ -92,23 +99,25 @@ class YoutubePlayer extends Component {
    */
   loadPlayer() {
     const { id, playerAnchor } = this.state;
-    this.setState({
-      player: new window.YT.Player(playerAnchor.current, {
-        height: '600',
-        width: '600',
-        videoId: id,
-        playerVars: {
-          fs: 1,
-          rel: 0,
-          enablejsapi: 1
-        },
-        events: {
-          onReady: this.onPlayerReady,
-          onStateChange: this.onPlayerStateChange,
-          onError: this.onPlayerError
-        }
-      })
+    const { id: propsID } = this.props;
+    const idToUse = id || propsID;
+    const player = new window.YT.Player(playerAnchor.current, {
+      height: '600',
+      width: '600',
+      videoId: idToUse,
+      playerVars: {
+        fs: 1,
+        rel: 0,
+        enablejsapi: 1
+      },
+      events: {
+        onReady: this.onPlayerReady,
+        onStateChange: this.onPlayerStateChange,
+        onError: this.onPlayerError
+      }
     });
+
+    this.setState({ player });
   }
 
   /**
@@ -117,8 +126,19 @@ class YoutubePlayer extends Component {
    */
   onPlayerStateChange(event) {
     const { youtubePlaylistChange } = this.props;
-    const { selectedTrack } = this.state;
-    if (event.data === YT.PlayerState.ENDED) youtubePlaylistChange(selectedTrack);
+    const { selectedTrack, videoStartedPlaying } = this.state;
+
+    if (event.data === YT.PlayerState.ENDED) {
+      this.setState({ videoStartedPlaying: false }, () => youtubePlaylistChange(selectedTrack));
+    }
+    if (event.data === YT.PlayerState.PLAYING) {
+      if (!videoStartedPlaying) {
+        const setURLOnly = true;
+        this.setState({ videoStartedPlaying: true }, () => {
+          youtubePlaylistChange(selectedTrack, setURLOnly);
+        });
+      }
+    }
   }
 
   /**
@@ -141,19 +161,19 @@ class YoutubePlayer extends Component {
   }
 
   render() {
-    const { playerAnchor } = this.state
+    const { playerAnchor } = this.state;
     return (
       <div className="YoutubePlayer">
         <div ref={playerAnchor} />
       </div>
-    )
+    );
   }
 }
 
 YoutubePlayer.propTypes = {
   selectedTrack: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
-  youtubePlaylistChange: PropTypes.func.isRequired
+  youtubePlaylistChange: PropTypes.func.isRequired,
 };
 
 export default YoutubePlayer;
