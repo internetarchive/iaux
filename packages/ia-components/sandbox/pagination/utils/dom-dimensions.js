@@ -138,7 +138,10 @@ export const calculateDimensions = (paginationContainer) => {
   );
 
   const columnsAreOdd = !!(numberOfColumns % 2);
-  const numberOfPages = columnsAreOdd
+  const widthCanAccept3Columns = clientWidth >= 1168;
+  const extraWideViewHasOverflow = widthCanAccept3Columns && (numberOfColumns > 3) && (numberOfColumns < 6);
+
+  const numberOfPages = columnsAreOdd || extraWideViewHasOverflow
     ? Math.ceil((scrollWidth / clientWidth).toFixed(1))
     : Math.round((scrollWidth / clientWidth).toFixed(1));
 
