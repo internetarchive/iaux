@@ -68,9 +68,9 @@ export default class CrawlConfig extends IAReactComponent {
             <span>{this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'} </span>
             {!dl ? null
               : dl.members_all_count
-                ? <span>{`${prettierBytes(dl.members_size)} in ${dl.members_details_count} of ${dl.members_all_count} items`}</span>
+                ? <span>{`${prettierBytes(dl.members_size || 0)} in ${dl.members_details_count} of ${dl.members_all_count} items`}</span>
                 : dl.pages_size
-                  ? <span>{prettierBytes(dl.files_size + dl.pages_size)} </span>
+                  ? <span>{prettierBytes(dl.files_size + (dl.pages_size || 0))} </span>
                   : <span>{prettierBytes(dl.files_size) + " / " + prettierBytes(dl.files_all_size)} </span>
             }
             { (this.props.search && CrawlConfig._levels.indexOf(this.props.level) >= CrawlConfig._levels.indexOf('details'))
