@@ -337,6 +337,8 @@ class Paginator extends Component {
   }
 }
 
+Paginator.displayName = 'Paginator';
+
 Paginator.defaultProps = {
   children: null,
   itemInViewClass: '',

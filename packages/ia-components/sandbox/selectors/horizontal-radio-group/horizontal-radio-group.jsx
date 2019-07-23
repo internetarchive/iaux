@@ -65,6 +65,8 @@ const HorizontalRadioGroup = ({
   );
 };
 
+HorizontalRadioGroup.displayName = 'HorizontalRadioGroup';
+
 HorizontalRadioGroup.defaultProps = {
   selectedValue: '',
   wrapperStyle: ''
