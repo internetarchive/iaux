@@ -296,7 +296,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   render() {
     const { jwplayerPlaylist, linerNotes } = this.props;
     const {
-      tracklistToShow, trackSelected, channelToPlay, albumData, trackStartingPoint
+      tracklistToShow, channelToPlay, albumData, trackStartingPoint
     } = this.state;
     const {
       albumMetadaToDisplay,
@@ -324,7 +324,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     };
     const jwplayerID = identifier.replace(/[^a-zA-Z\d]/g, '');
     const displayChannelSelector = !!externalSources.length; // make it actual boolean so it won't display
-
     const audioSource = this.getAudioSourceInfoToPlay();
     const trackToHighlight = audioSource.trackNumber || audioSource.index || trackStartingPoint || null;
     const contentBoxTabs = {
@@ -381,7 +380,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
               selectedTrack={trackToHighlight} // trackStartingPoint
               albumName={title}
               displayTrackNumbers={isArchiveChannel}
-              creator={origCreator[0] || creator}
+              creator={origCreator || creator}
               dataEventCategory="Audio-Player"
             />
           </section>
