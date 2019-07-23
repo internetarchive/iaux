@@ -187,6 +187,19 @@ class DataHydrator extends Component {
                   </button>
                 </td>
               </tr>
+              <tr>
+                <td>what CD compilation - all track artists names show</td>
+                <td>
+                <button
+                  type="button"
+                  className="btn btn-lg btn-primary"
+                  data-identifier="wcd_various-artiststhe-best-of-country-music_flac_lossless_29887623"
+                  onClick={this.getItem}
+                >
+                wcd_various-artiststhe-best-of-country-music_flac_lossless_29887623
+                </button>
+              </td>
+              </tr>
             </tbody>
           </table>
         </section>

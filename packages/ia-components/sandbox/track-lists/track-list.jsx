@@ -17,14 +17,17 @@ const parseTrackTitle = ({
   name = '',
   title = '',
   albumCreator,
+  albumName,
   creator = '',
   artist = '',
   isAlbum = false
 }) => {
   if (isAlbum) { return 'Full album'; }
-
+  const albumCreatorString = albumCreator.join(', ');
   const whichArtistVal = creator || artist;
-  const artistName = whichArtistVal !== albumCreator ? whichArtistVal : '';
+  /* this considers "Best of" albums */
+  const titleHasTrackArtist = albumName.includes(whichArtistVal);
+  const artistName = titleHasTrackArtist || (whichArtistVal === albumCreatorString) ? '' : whichArtistVal;
 
   if (title) {
     return (
@@ -49,11 +52,11 @@ const parseTrackTitle = ({
  */
 const trackButton = (props) => {
   const {
-    selected, onSelected, thisTrack, displayTrackNumbers, albumCreator
+    selected, onSelected, thisTrack, displayTrackNumbers, albumCreator, albumName
   } = props;
   const { trackNumber, length, formattedLength } = thisTrack;
   const key = `individual-track-${trackNumber}`;
-  const trackTitle = parseTrackTitle({ ...thisTrack, albumCreator });
+  const trackTitle = parseTrackTitle({ ...thisTrack, albumCreator, albumName });
   const displayNumber = parseInt(trackNumber, 10) || '-';
   const displayLength = formattedLength || length || '-- : --';
 
@@ -84,7 +87,7 @@ const trackButton = (props) => {
 class TheatreTrackList extends Component {
   render() {
     const {
-      selectedTrack, onSelected, tracks, displayTrackNumbers, creator: albumCreator
+      selectedTrack, onSelected, tracks, displayTrackNumbers, creator: albumCreator, albumName
     } = this.props;
 
     if (!tracks.length) return <p className="no-tracks">No tracks to display.</p>;
@@ -106,7 +109,7 @@ class TheatreTrackList extends Component {
               const { trackNumber } = thisTrack;
               const selected = trackNumber === trackNumberToHighlight;
               return trackButton({
-                thisTrack, onSelected, selected, displayTrackNumbers, albumCreator
+                thisTrack, onSelected, selected, displayTrackNumbers, albumCreator, albumName
               });
             })
           }
@@ -119,7 +122,8 @@ class TheatreTrackList extends Component {
 TheatreTrackList.defaultProps = {
   tracks: [],
   displayTrackNumbers: true,
-  creator: ''
+  creator: '',
+  albumName: '',
 };
 
 TheatreTrackList.propTypes = {
@@ -128,6 +132,7 @@ TheatreTrackList.propTypes = {
   tracks: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
   displayTrackNumbers: PropTypes.bool,
   creator: PropTypes.string,
+  albumName: PropTypes.string,
 };
 
 export default TheatreTrackList;
