@@ -226,6 +226,19 @@ class DataHydrator extends Component {
                   </button>
                 </td>
               </tr>
+              <tr>
+                <td>Track time display, 60 seconds adds another minute. should display as 10:00</td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn btn-lg btn-primary"
+                    data-identifier="wcd_borghild_die-warzau_mp3_320_1648819"
+                    onClick={this.getItem}
+                  >
+                  wcd_borghild_die-warzau_mp3_320_1648819
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </section>
