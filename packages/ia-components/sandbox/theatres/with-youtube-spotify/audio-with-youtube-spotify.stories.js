@@ -201,6 +201,19 @@ class DataHydrator extends Component {
                 </td>
               </tr>
               <tr>
+                <td>Track names, multiple but same as album artist (should be omitted)</td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn btn-lg btn-primary"
+                    data-identifier="lp_emperor-concerto_ludwig-van-beethoven-arthur-rubinstein-bos"
+                    onClick={this.getItem}
+                  >
+                  lp_emperor-concerto_ludwig-van-beethoven-arthur-rubinstein-bos
+                  </button>
+                </td>
+              </tr>
+              <tr>
                 <td>3 column track list wide view pagination check</td>
                 <td>
                   <button
