@@ -50,10 +50,10 @@ const getTrackListBySource = (albumData, sourceToPlay) => {
 
   if (externalSource) {
     const albumPlaceholder = {
-      trackNumber: 0,
       youtube: albumSpotifyYoutubeInfo.youtube || null,
       spotify: albumSpotifyYoutubeInfo.spotify || null,
-      isAlbum: true
+      isAlbum: true,
+      trackNumber: 0,
     };
     const tracksToReturn = [];
     const tracksWithExternalSource = tracks.reduce((allTracks = [albumPlaceholder], track, index) => {
@@ -68,7 +68,7 @@ const getTrackListBySource = (albumData, sourceToPlay) => {
       if (track.hasOwnProperty(sourceToPlay)) { allTracks.push(formattedTrack); }
       return allTracks;
     }, []);
-    if (albumSpotifyYoutubeInfo[sourceToPlay]) {
+    if (albumSpotifyYoutubeInfo.hasOwnProperty(sourceToPlay)) {
       tracksToReturn.push(albumPlaceholder);
     }
 

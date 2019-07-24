@@ -239,6 +239,19 @@ class DataHydrator extends Component {
                   </button>
                 </td>
               </tr>
+              <tr>
+                <td>Has 3rd party "Full Album". Clicking on Full Album should highlight full album</td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn btn-lg btn-primary"
+                    data-identifier="cd_aaliyah_aaliyah-static-from-playa-timbaland"
+                    onClick={this.getItem}
+                  >
+                  cd_aaliyah_aaliyah-static-from-playa-timbaland
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </section>

@@ -57,7 +57,8 @@ const trackButton = (props) => {
   const { trackNumber, length, formattedLength } = thisTrack;
   const key = `individual-track-${trackNumber}`;
   const trackTitle = parseTrackTitle({ ...thisTrack, albumCreator, albumName });
-  const displayNumber = parseInt(trackNumber, 10) || '-';
+  const track = parseInt(trackNumber, 10);
+  const displayNumber = track > 0 ? track : '-';
   const displayLength = formattedLength || length || '-- : --';
 
   const trackButtonClass = `${selected ? 'selected ' : ''}track${!displayTrackNumbers ? ' no-track-number' : ''}`;
