@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { includes } from 'lodash';
+import youTubeParamsParser from './utils/youtube-params-parser';
 
 /**
  * YoutubePlayer
@@ -28,7 +29,8 @@ class YoutubePlayer extends Component {
       'loadPlayer',
       'onPlayerStateChange',
       'onPlayerReady',
-      'onPlayerError'
+      'onPlayerError',
+      'playVideo'
     ].forEach((item) => {
       this[item] = this[item].bind(this);
     });
@@ -60,25 +62,20 @@ class YoutubePlayer extends Component {
     }
 
     const trackChanged = id !== nextProps.id;
-    if (trackChanged) {
-      clearTimeout(this.timer);
-      this.setState({
-        id: nextProps.id,
-        selectedTrack: nextProps.selectedTrack
-      });
-    }
     return trackChanged;
   }
 
   /**
    * Load video of passed id and default resolution
    */
-  componentDidUpdate() {
-    const { id, player } = this.state;
-    const { id: propsID } = this.props;
-    const idToUse = id || propsID;
+  componentDidUpdate(prevProps) {
+    const { id, selectedTrack } = this.props;
+    const trackChanged = id !== prevProps.id;
 
-    player.loadVideoById(idToUse, 'default');
+    if (trackChanged) {
+      clearTimeout(this.timer);
+      this.setState({ id, selectedTrack }, this.playVideo);
+    }
   }
 
   /**
@@ -100,11 +97,11 @@ class YoutubePlayer extends Component {
   loadPlayer() {
     const { id, playerAnchor } = this.state;
     const { id: propsID } = this.props;
-    const idToUse = id || propsID;
-    const player = new window.YT.Player(playerAnchor.current, {
+    const availableID = id || propsID;
+    const videoParams = youTubeParamsParser(availableID);
+    const defaultParams = {
       height: '600',
       width: '600',
-      videoId: idToUse,
       playerVars: {
         fs: 1,
         rel: 0,
@@ -115,7 +112,9 @@ class YoutubePlayer extends Component {
         onStateChange: this.onPlayerStateChange,
         onError: this.onPlayerError
       }
-    });
+    };
+    const params = Object.assign({}, defaultParams, videoParams);
+    const player = new window.YT.Player(playerAnchor.current, params);
 
     this.setState({ player });
   }
@@ -158,6 +157,24 @@ class YoutubePlayer extends Component {
     const { youtubePlaylistChange } = this.props;
     const { selectedTrack } = this.state;
     this.timer = setTimeout(() => { youtubePlaylistChange(selectedTrack); }, 3000);
+  }
+
+  /**
+   * Play the video
+   * Gather all the correct settings and call YouTube player api to play the video
+   */
+  playVideo() {
+    const { id, player } = this.state;
+    const { id: propsID } = this.props;
+    const availableID = id || propsID;
+    const params = youTubeParamsParser(availableID);
+    const { videoId, startSeconds } = params;
+    const sameVideo = includes(availableID, videoId);
+    if (sameVideo) {
+      player.seekTo(startSeconds);
+    } else {
+      player.loadVideoById(params);
+    }
   }
 
   render() {
