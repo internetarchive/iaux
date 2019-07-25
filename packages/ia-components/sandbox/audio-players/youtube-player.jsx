@@ -168,8 +168,8 @@ class YoutubePlayer extends Component {
     const { id: propsID } = this.props;
     const availableID = id || propsID;
     const params = youTubeParamsParser(availableID);
-    const { videoId, startSeconds } = params;
-    const sameVideo = includes(availableID, videoId);
+    const { videoId, startSeconds, hasTimestamp } = params;
+    const sameVideo = includes(availableID, videoId) && hasTimestamp;
     if (sameVideo) {
       player.seekTo(startSeconds);
     } else {

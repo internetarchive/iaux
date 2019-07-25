@@ -18,14 +18,15 @@ export default (fullID) => {
   let secondsRetrieved;
 
   const videoIdPieces = fullID.split(URNqueryStart);
-  const noTimestamp = videoIdPieces.length < 2;
+  const hasTimestamp = videoIdPieces.length > 1;
   const videoId = videoIdPieces[0];
 
-  if (noTimestamp) {
+  if (!hasTimestamp) {
     return {
       videoId,
       startSeconds: defaultStartSeconds,
       suggestedQuality,
+      hasTimestamp
     };
   }
 
@@ -44,6 +45,7 @@ export default (fullID) => {
     videoId,
     startSeconds,
     suggestedQuality,
+    hasTimestamp
   };
 
   return params;
