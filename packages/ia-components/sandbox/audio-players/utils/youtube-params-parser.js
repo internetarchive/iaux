@@ -10,6 +10,7 @@ import { includes } from 'lodash';
  * ytParams.videoId - string
  * ytParams.startSeconds - number
  * ytParams.suggestedQuality - 'default'
+ * ytParams.hasTimestamp - boolean
  */
 export default (fullID) => {
   const URNqueryStart = new RegExp(/\?\=/g);
