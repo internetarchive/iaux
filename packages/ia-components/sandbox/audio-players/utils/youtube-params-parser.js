@@ -6,7 +6,7 @@ import { includes } from 'lodash';
  * and returns a body to feed into YouTube iFrame API
  *
  * @param { string } fullID
- * @return { object ) ytParams
+ * @return { object } ytParams
  * ytParams.videoId - string
  * ytParams.startSeconds - number
  * ytParams.suggestedQuality - 'default'
