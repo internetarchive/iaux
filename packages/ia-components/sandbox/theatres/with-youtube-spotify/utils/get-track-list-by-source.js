@@ -6,9 +6,11 @@ const formatTime = (lengthInSeconds) => {
   if (!lengthInSeconds) return null;
   const lengthInMS = parseFloat(lengthInSeconds) * 1000;
   const minutes = Math.floor(lengthInMS / 60000);
-  const seconds = ((lengthInMS % 60000) / 1000).toFixed(0);
-  const secondsDisplay = (seconds < 10 ? '0' : '') + seconds;
-  return `${minutes}:${secondsDisplay}`;
+  const seconds = ((lengthInMS % 60000) / 1000).toFixed(0); // becomes a string, thanks JS math
+  const extraMinute = seconds === '60';
+  const secondsDisplay = extraMinute ? '00' : (seconds < 10 ? '0' : '') + seconds;
+  const minutesDisplay = extraMinute ? minutes + 1 : minutes;
+  return `${minutesDisplay}:${secondsDisplay}`;
 };
 
 /**
@@ -48,10 +50,10 @@ const getTrackListBySource = (albumData, sourceToPlay) => {
 
   if (externalSource) {
     const albumPlaceholder = {
-      trackNumber: 0,
       youtube: albumSpotifyYoutubeInfo.youtube || null,
       spotify: albumSpotifyYoutubeInfo.spotify || null,
-      isAlbum: true
+      isAlbum: true,
+      trackNumber: 0,
     };
     const tracksToReturn = [];
     const tracksWithExternalSource = tracks.reduce((allTracks = [albumPlaceholder], track, index) => {
@@ -66,7 +68,7 @@ const getTrackListBySource = (albumData, sourceToPlay) => {
       if (track.hasOwnProperty(sourceToPlay)) { allTracks.push(formattedTrack); }
       return allTracks;
     }, []);
-    if (albumSpotifyYoutubeInfo[sourceToPlay]) {
+    if (albumSpotifyYoutubeInfo.hasOwnProperty(sourceToPlay)) {
       tracksToReturn.push(albumPlaceholder);
     }
 

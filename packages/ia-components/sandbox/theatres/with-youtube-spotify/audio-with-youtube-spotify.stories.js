@@ -201,6 +201,19 @@ class DataHydrator extends Component {
                 </td>
               </tr>
               <tr>
+                <td>Track names, multiple but same as album artist (should be omitted)</td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn btn-lg btn-primary"
+                    data-identifier="lp_emperor-concerto_ludwig-van-beethoven-arthur-rubinstein-bos"
+                    onClick={this.getItem}
+                  >
+                  lp_emperor-concerto_ludwig-van-beethoven-arthur-rubinstein-bos
+                  </button>
+                </td>
+              </tr>
+              <tr>
                 <td>3 column track list wide view pagination check</td>
                 <td>
                   <button
@@ -210,6 +223,32 @@ class DataHydrator extends Component {
                     onClick={this.getItem}
                   >
                   illegal-art
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>Track time display, 60 seconds adds another minute. should display as 10:00</td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn btn-lg btn-primary"
+                    data-identifier="wcd_borghild_die-warzau_mp3_320_1648819"
+                    onClick={this.getItem}
+                  >
+                  wcd_borghild_die-warzau_mp3_320_1648819
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>Has 3rd party "Full Album". Clicking on Full Album should highlight full album</td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn btn-lg btn-primary"
+                    data-identifier="cd_aaliyah_aaliyah-static-from-playa-timbaland"
+                    onClick={this.getItem}
+                  >
+                  cd_aaliyah_aaliyah-static-from-playa-timbaland
                   </button>
                 </td>
               </tr>

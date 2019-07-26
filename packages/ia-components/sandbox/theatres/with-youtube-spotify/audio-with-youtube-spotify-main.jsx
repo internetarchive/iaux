@@ -96,7 +96,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       'getAudioSourceInfoToPlay',
       'receiveURLSetter',
       'updateURL',
-      'youtubePlaylistChange'
+      'youtubePlaylistChange',
+      'getTrackToHighlight'
     ].forEach((method) => {
       this[method] = this[method].bind(this);
     });
@@ -138,6 +139,13 @@ class AudioPlayerWithYoutubeSpotify extends Component {
 
   /**
    * Find the right audio metadata depending on the channel and track number
+   * Archive track list
+   *   - will never have a full album option,
+   *     - default to track 1 album was selected prior.
+   * YouTube/Spotify
+   *   - default to first available track if it doesn't have it
+   *   - may have full album option
+   *   - may not have all of the songs
    */
   getAudioSourceInfoToPlay() {
     const {
@@ -148,19 +156,19 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     let audioSource;
 
     if (channelToPlay === 'archive') {
-      // ia jw player only needs index
-      audioSource = {
-        index: trackSelected
-      };
+      const index = isAlbum ? null : trackSelected;
+      audioSource = { index };
       return audioSource;
     }
 
     // it's youtube or spotify
     const { albumSpotifyYoutubeInfo } = albumData;
     const albumSource = albumSpotifyYoutubeInfo[channelToPlay] || null;
-    if (isAlbum) {
-      audioSource = {};
-      audioSource[channelToPlay] = albumSource;
+    if (isAlbum && albumSpotifyYoutubeInfo.hasOwnProperty(channelToPlay)) {
+      audioSource = {
+        trackNumber: 0,
+        [channelToPlay]: albumSource,
+      };
       return audioSource;
     }
     const playerLoadingOnCertainTrack = trackSelected === null && trackStartingPoint !== null;
@@ -175,6 +183,30 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     audioSource = trackInfo || head(tracklistToShow);
 
     return audioSource || {};
+  }
+
+  /**
+   * Finds the track to highlight for the track listing
+   *
+   * @param { object } audioSource
+   * @param audioSource.index - JWPlayer audio source
+   * @param audioSource.trackNumber - Third party audio source
+   */
+  getTrackToHighlight(audioSource) {
+    const { trackSelected, trackStartingPoint } = this.state;
+    if (Number.isInteger(audioSource.index)) {
+      // has available track number to refer to, archive player
+      return audioSource.index;
+    }
+    if (Number.isInteger(audioSource.trackNumber)) {
+      // has available track number to refer to, third party
+      return audioSource.trackNumber;
+    }
+    if (Number.isInteger(trackStartingPoint) && (trackSelected === null)) {
+      return trackStartingPoint;
+    }
+    // no highlight
+    return null;
   }
 
   /**
@@ -295,9 +327,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
 
   render() {
     const { jwplayerPlaylist, linerNotes } = this.props;
-    const {
-      tracklistToShow, channelToPlay, albumData, trackStartingPoint
-    } = this.state;
+    const { tracklistToShow, channelToPlay, albumData } = this.state;
     const {
       albumMetadaToDisplay,
       externalSources = [],
@@ -325,7 +355,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const jwplayerID = identifier.replace(/[^a-zA-Z\d]/g, '');
     const displayChannelSelector = !!externalSources.length; // make it actual boolean so it won't display
     const audioSource = this.getAudioSourceInfoToPlay();
-    const trackToHighlight = audioSource.trackNumber || audioSource.index || trackStartingPoint || null;
+    const trackToHighlight = this.getTrackToHighlight(audioSource);
     const contentBoxTabs = {
       player: getChannelLabelToDisplay({
         channel: channelToPlay,
