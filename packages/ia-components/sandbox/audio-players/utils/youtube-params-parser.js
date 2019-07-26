@@ -13,12 +13,12 @@ import { includes } from 'lodash';
  * ytParams.hasTimestamp - boolean
  */
 export default (fullID) => {
-  const URNqueryStart = new RegExp(/\?\=/g);
+  const urnQueryStart = new RegExp(/\?\=/g);
   const suggestedQuality = 'default';
   const defaultStartSeconds = 0;
   let secondsRetrieved;
 
-  const videoIdPieces = fullID.split(URNqueryStart);
+  const videoIdPieces = fullID.split(urnQueryStart);
   const hasTimestamp = videoIdPieces.length > 1;
   const videoId = videoIdPieces[0];
 
