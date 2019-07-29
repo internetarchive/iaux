@@ -76,10 +76,12 @@ class YoutubePlayer extends Component {
    * Load video of passed id and default resolution
    */
   componentDidUpdate(prevProps) {
+    const { selectedTrack: capturedTrack, fullAlbumDetails } = this.state;
     const { id, selectedTrack } = this.props;
     const trackChanged = id !== prevProps.id;
-
-    if (trackChanged) {
+    const playerNotStarted = capturedTrack === null;
+    const captureSelected = playerNotStarted && id && !fullAlbumDetails;
+    if (trackChanged || captureSelected) {
       clearTimeout(this.timer);
       this.setState({ id, selectedTrack }, this.playVideo);
     }
@@ -129,7 +131,9 @@ class YoutubePlayer extends Component {
 
     if (videoStartedPlaying) {
       videoTimePoller();
-      this.fullAlbumVideoPoller = setInterval(videoTimePoller, 5000);
+      if (!this.fullAlbumVideoPoller) {
+        this.fullAlbumVideoPoller = setInterval(videoTimePoller, 5000);
+      }
     }
   }
 
