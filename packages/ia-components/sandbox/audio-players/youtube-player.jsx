@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { chain, includes } from 'lodash';
+import { chain } from 'lodash';
 import youTubeParamsParser from './utils/youtube-params-parser';
 import youTubeFullAlbumRegistry from './utils/youtube-full-album-registry';
 
@@ -76,12 +76,13 @@ class YoutubePlayer extends Component {
    * Load video of passed id and default resolution
    */
   componentDidUpdate(prevProps) {
-    const { selectedTrack: capturedTrack, fullAlbumDetails } = this.state;
+    const { selectedTrack: capturedTrack } = this.state;
     const { id, selectedTrack } = this.props;
     const trackChanged = id !== prevProps.id;
     const playerNotStarted = capturedTrack === null;
-    const captureSelected = playerNotStarted && id && !fullAlbumDetails;
-    if (trackChanged || captureSelected) {
+    // if no state selectedTrack && there is id
+    const setID = !trackChanged && playerNotStarted;
+    if (trackChanged || setID) {
       clearTimeout(this.timer);
       this.setState({ id, selectedTrack }, this.playVideo);
     }
@@ -103,7 +104,7 @@ class YoutubePlayer extends Component {
   availableVideoId() {
     const { id: stateID } = this.state;
     const { id: propsID } = this.props;
-    const availableID = stateID || propsID;
+    const availableID = Number.isInteger(stateID) ? stateID : propsID;
     return availableID;
   }
 
@@ -228,12 +229,13 @@ class YoutubePlayer extends Component {
    * Gather all the correct settings and call YouTube player api to play the video
    */
   playVideo() {
-    const { player } = this.state;
+    const { player, selectedTrack, fullAlbumDetails } = this.state;
     const availableID = this.availableVideoId();
     const params = youTubeParamsParser(availableID);
-    const { videoId, startSeconds, hasTimestamp } = params;
-    const sameVideo = includes(availableID, videoId) && hasTimestamp;
-    if (sameVideo) {
+
+    if (fullAlbumDetails) {
+      const trackToPlay = fullAlbumDetails[selectedTrack];
+      const { startSeconds } = trackToPlay;
       player.seekTo(startSeconds);
     } else {
       clearInterval(this.fullAlbumVideoPoller);
