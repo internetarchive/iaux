@@ -63,7 +63,7 @@ export default class TheatreAudioPlayer extends Component {
    * Render function - Choose player according to `source
    */
   showMedia() {
-    const { source, sourceData } = this.props;
+    const { source, sourceData, playlist } = this.props;
     const isExternal = source === 'youtube' || source === 'spotify';
     let mediaElement = null;
     const externalSourceDetails = sourceData[source] || {};
@@ -76,8 +76,8 @@ export default class TheatreAudioPlayer extends Component {
         <YoutubePlayer
           selectedTrack={trackNumber}
           id={id}
+          playlist={playlist}
           {...this.props}
-
         />
       );
     } else if (source === 'spotify') {
@@ -165,8 +165,9 @@ export default class TheatreAudioPlayer extends Component {
     // the JWplayer controls sit UNDER the album photo
     // while the other players overtake the whole content-window
     // We will have to accomodate the window's fixed height here.
-    const { backgroundPhoto, hasTracks } = this.props;
+    const { backgroundPhoto, playlist } = this.props;
     let mediaPlayerClass = '';
+    const hasTracks = !!playlist.length;
     if (hasTracks) {
       mediaPlayerClass = backgroundPhoto ? 'no-waveform' : 'with-waveform';
     }
@@ -195,7 +196,6 @@ TheatreAudioPlayer.defaultProps = {
   photoAltTag: '',
   urlExtensions: '',
   linerNotes: null,
-  hasTracks: false,
 };
 
 TheatreAudioPlayer.propTypes = {
@@ -214,5 +214,5 @@ TheatreAudioPlayer.propTypes = {
   photoAltTag: PropTypes.string,
   customSourceLabels: PropTypes.object,
   linerNotes: PropTypes.object,
-  hasTracks: PropTypes.bool,
+  playlist: PropTypes.array.isRequired,
 };
