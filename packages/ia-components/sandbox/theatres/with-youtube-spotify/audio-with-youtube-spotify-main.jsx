@@ -164,15 +164,18 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     // it's youtube or spotify
     const { albumSpotifyYoutubeInfo } = albumData;
     const albumSource = albumSpotifyYoutubeInfo[channelToPlay] || null;
-    if (isAlbum && albumSpotifyYoutubeInfo.hasOwnProperty(channelToPlay)) {
+    const playerLoadingOnCertainTrack = trackSelected === null && trackStartingPoint !== null;
+    const trackToHighlight = playerLoadingOnCertainTrack ? trackStartingPoint : trackSelected;
+    const firstItem = head(tracklistToShow);
+    const serveAlbum = isAlbum || ((trackStartingPoint === 1) && firstItem.trackNumber === 0);
+
+    if (serveAlbum && albumSpotifyYoutubeInfo.hasOwnProperty(channelToPlay)) {
       audioSource = {
         trackNumber: 0,
         [channelToPlay]: albumSource,
       };
       return audioSource;
     }
-    const playerLoadingOnCertainTrack = trackSelected === null && trackStartingPoint !== null;
-    const trackToHighlight = playerLoadingOnCertainTrack ? trackStartingPoint : trackSelected;
 
     const trackInfo = find(tracklistToShow, (track) => {
       const trackFound = track.trackNumber === trackToHighlight;
