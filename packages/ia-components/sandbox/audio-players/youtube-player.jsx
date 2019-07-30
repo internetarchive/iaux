@@ -142,9 +142,8 @@ class YoutubePlayer extends Component {
     };
 
     if (videoStartedPlaying) {
-      videoTimePoller();
       // least disruptive in full video playing experience
-      const interval = 5000;
+      const interval = 800;
       if (!this.fullAlbumVideoPoller) {
         this.fullAlbumVideoPoller = setInterval(videoTimePoller, interval);
       }
