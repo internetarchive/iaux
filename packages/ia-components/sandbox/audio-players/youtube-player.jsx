@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { includes } from 'lodash';
 import youTubeParamsParser from './utils/youtube-params-parser';
+import youTubeFullAlbumRegistry from './utils/youtube-full-album-registry';
 
 /**
  * YoutubePlayer
@@ -15,9 +15,13 @@ class YoutubePlayer extends Component {
   constructor(props) {
     super(props);
 
+    const { playlist } = props;
+    const fullAlbumDetails = youTubeFullAlbumRegistry(playlist);
     this.timer = null;
+    this.fullAlbumVideoPoller = null;
 
     this.state = {
+      fullAlbumDetails,
       player: null,
       playerAnchor: React.createRef(),
       selectedTrack: null,
@@ -30,7 +34,10 @@ class YoutubePlayer extends Component {
       'onPlayerStateChange',
       'onPlayerReady',
       'onPlayerError',
-      'playVideo'
+      'playVideo',
+      'availableVideoId',
+      'syncVideoWithPlayer',
+      'checkTimeAndTrack'
     ].forEach((item) => {
       this[item] = this[item].bind(this);
     });
@@ -69,12 +76,77 @@ class YoutubePlayer extends Component {
    * Load video of passed id and default resolution
    */
   componentDidUpdate(prevProps) {
+    const { selectedTrack: capturedTrack } = this.state;
     const { id, selectedTrack } = this.props;
-    const trackChanged = id !== prevProps.id;
-
-    if (trackChanged) {
+    const { id: prevId } = prevProps;
+    const trackChanged = id !== prevId;
+    const playerNotStarted = capturedTrack === null;
+    const setID = !trackChanged && playerNotStarted;
+    if (trackChanged || setID) {
       clearTimeout(this.timer);
       this.setState({ id, selectedTrack }, this.playVideo);
+    }
+  }
+
+  /**
+   * Remove timer & interval
+   */
+  componentWillUnmount() {
+    clearInterval(this.fullAlbumVideoPoller);
+    this.fullAlbumVideoPoller = null;
+    clearTimeout(this.timer);
+  }
+
+  /**
+   * Gets available YouTube ID
+   * checks between captured ID (state) & incoming ID (props)
+   * when there isn't a captured ID, it means the player has loaded & user has not selected a video
+   */
+  availableVideoId() {
+    const { id: stateID } = this.state;
+    const { id: propsID } = this.props;
+    const availableID = Number.isInteger(stateID) ? stateID : propsID;
+    return availableID;
+  }
+
+  /**
+   * Check player elapsed time & the track it's on
+   *
+   * @return { object } trackValue
+   * trackValue.elapsedTime = number
+   * trackValue.currentTrack = object (return from fullAlbumDetails)
+   */
+  checkTimeAndTrack() {
+    const { fullAlbumDetails, player } = this.state;
+    const elapsedTime = player.getCurrentTime();
+    const currentTrack = fullAlbumDetails.filter(track => track.startSeconds <= elapsedTime).pop() || {};
+
+    return { elapsedTime, currentTrack };
+  }
+
+  /**
+   * Syncs Full Album Video with Audio Player
+   * - pings YouTube's API to check timestamp
+   * - finds current track position
+   * - sends that to the callback
+   */
+  syncVideoWithPlayer() {
+    const { videoStartedPlaying } = this.state;
+    const { youtubePlaylistChange } = this.props;
+    const setURLOnly = true;
+
+    const videoTimePoller = () => {
+      const { currentTrack } = this.checkTimeAndTrack();
+      const { trackNumber } = currentTrack;
+      youtubePlaylistChange(trackNumber, setURLOnly);
+    };
+
+    if (videoStartedPlaying) {
+      // least disruptive in full video playing experience
+      const interval = 800;
+      if (!this.fullAlbumVideoPoller) {
+        this.fullAlbumVideoPoller = setInterval(videoTimePoller, interval);
+      }
     }
   }
 
@@ -95,9 +167,8 @@ class YoutubePlayer extends Component {
    * Update player
    */
   loadPlayer() {
-    const { id, playerAnchor } = this.state;
-    const { id: propsID } = this.props;
-    const availableID = id || propsID;
+    const { playerAnchor } = this.state;
+    const availableID = this.availableVideoId();
     const videoParams = youTubeParamsParser(availableID);
     const defaultParams = {
       height: '600',
@@ -105,7 +176,8 @@ class YoutubePlayer extends Component {
       playerVars: {
         fs: 1,
         rel: 0,
-        enablejsapi: 1
+        enablejsapi: 1,
+        origin: location.origin,
       },
       events: {
         onReady: this.onPlayerReady,
@@ -124,18 +196,31 @@ class YoutubePlayer extends Component {
    * Call youtubePlaylistChange to switch to next track number
    */
   onPlayerStateChange(event) {
-    const { youtubePlaylistChange } = this.props;
-    const { selectedTrack, videoStartedPlaying } = this.state;
+    const { youtubePlaylistChange, selectedTrack } = this.props;
+    const { selectedTrack: capturedTrack, videoStartedPlaying, fullAlbumDetails } = this.state;
+    const { data } = event;
 
-    if (event.data === YT.PlayerState.ENDED) {
-      this.setState({ videoStartedPlaying: false }, () => youtubePlaylistChange(selectedTrack));
+    if (data === YT.PlayerState.ENDED) {
+      const currentTrack = capturedTrack || selectedTrack;
+      this.setState({ videoStartedPlaying: false }, () => youtubePlaylistChange(currentTrack));
+      clearInterval(this.fullAlbumVideoPoller);
+      this.fullAlbumVideoPoller = null;
     }
-    if (event.data === YT.PlayerState.PLAYING) {
+
+    if (data === YT.PlayerState.PAUSED) {
+      this.setState({ videoStartedPlaying: false });
+      clearInterval(this.fullAlbumVideoPoller);
+      this.fullAlbumVideoPoller = null;
+    }
+
+    if (data === YT.PlayerState.PLAYING) {
+      const setURLOnly = true;
       if (!videoStartedPlaying) {
-        const setURLOnly = true;
-        this.setState({ videoStartedPlaying: true }, () => {
-          youtubePlaylistChange(selectedTrack, setURLOnly);
-        });
+        this.setState({ videoStartedPlaying: true }, () => youtubePlaylistChange(selectedTrack, setURLOnly));
+      }
+
+      if (fullAlbumDetails) {
+        this.syncVideoWithPlayer();
       }
     }
   }
@@ -162,18 +247,38 @@ class YoutubePlayer extends Component {
   /**
    * Play the video
    * Gather all the correct settings and call YouTube player api to play the video
+   * When there is a full album & the subsequent tracks are segmented,
+   * we ping YouTube API for status & elapsed time
+   * in order to move video accordingly.
    */
   playVideo() {
-    const { id, player } = this.state;
-    const { id: propsID } = this.props;
-    const availableID = id || propsID;
+    const { player, selectedTrack, fullAlbumDetails } = this.state;
+    const availableID = this.availableVideoId();
     const params = youTubeParamsParser(availableID);
-    const { videoId, startSeconds, hasTimestamp } = params;
-    const sameVideo = includes(availableID, videoId) && hasTimestamp;
-    if (sameVideo) {
-      player.seekTo(startSeconds);
-    } else {
+
+    if (!fullAlbumDetails) {
+      clearInterval(this.fullAlbumVideoPoller);
       player.loadVideoById(params);
+      return;
+    }
+
+    const trackToPlay = fullAlbumDetails.find((tr = {}) => tr.trackNumber === selectedTrack);
+    const { startSeconds } = trackToPlay;
+
+    const playerState = player.getPlayerState();
+
+    if (playerState === YT.PlayerState.CUED) {
+      player.seekTo(startSeconds);
+      return;
+    }
+
+    const { currentTrack } = this.checkTimeAndTrack();
+    const sameTrack = trackToPlay.trackNumber === currentTrack.trackNumber;
+    if (!sameTrack) {
+      player.seekTo(startSeconds);
+      if (playerState === YT.PlayerState.PAUSED) {
+        player.playVideo();
+      }
     }
   }
 
@@ -191,6 +296,7 @@ YoutubePlayer.propTypes = {
   selectedTrack: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
   youtubePlaylistChange: PropTypes.func.isRequired,
+  playlist: PropTypes.string.isRequired,
 };
 
 export default YoutubePlayer;

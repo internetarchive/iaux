@@ -383,7 +383,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             jwplayerInfo={jwplayerInfo}
             jwplayerID={`jwplayer-${jwplayerID}`}
             onRegistrationComplete={this.receiveURLSetter}
-            hasTracks={!!tracklistToShow.length}
+            playlist={tracklistToShow}
           />
         </section>
         <div className="grid-right">

@@ -17,6 +17,7 @@ class ArchiveAudioPlayer extends Component {
     // expecting jwplayer to be globally ready
     this.state = {
       player: null,
+      jwplayerInstance: null,
       playerPlaylistIndex: null,
     };
 
@@ -46,15 +47,14 @@ class ArchiveAudioPlayer extends Component {
       hide_list: true,
       responsive: true,
       onPlaylistItem: this.onPlaylistItemCB,
-      onSetupComplete: (startPlaylistIdx) => {
+      onReady: (jwplayerInstance) => {
         /**
          * Capture if player starts on track N+1
          */
-        // if (startPlaylistIdx) {
-        this.setState({ playerPlaylistIndex: startPlaylistIdx }, () => {
-          this.props.jwplayerStartingPoint(startPlaylistIdx);
+        const playerPlaylistIndex = jwplayerInstance.getPlaylistIndex();
+        this.setState({ playerPlaylistIndex, jwplayerInstance }, () => {
+          this.props.jwplayerStartingPoint(playerPlaylistIndex);
         });
-        // }
       }
     };
 
@@ -78,13 +78,26 @@ class ArchiveAudioPlayer extends Component {
    */
   componentDidUpdate(prevProps) {
     const { sourceData: { index = null } } = this.props;
-    const { sourceData: { index: prevIndex } } = prevProps;
-
+    const { sourceData: prevSourceData } = prevProps;
+    const { index: prevIndex } = prevSourceData;
+    const { jwplayerInstance, playerPlaylistIndex } = this.state;
     const indexIsNumber = Number.isInteger(index);
 
     if (!indexIsNumber) return;
 
-    if (indexIsNumber && (index !== prevIndex)) {
+    const isNowMainPlayer = !prevSourceData.hasOwnProperty('index') && indexIsNumber;
+
+    if (isNowMainPlayer) {
+      // do not autoplay this track any longer
+      return;
+    }
+    const incomingTrackChange = index !== prevIndex;
+
+    const isOnSameTrack = playerPlaylistIndex === index;
+    const playerStatus = jwplayerInstance.getState();
+    const playCurrentTrack = isOnSameTrack && (playerStatus === 'idle');
+    const playTrack = indexIsNumber && (playCurrentTrack || incomingTrackChange);
+    if (playTrack) {
       this.playTrack({ playerPlaylistIndex: index - 1 || 0 });
     }
   }
