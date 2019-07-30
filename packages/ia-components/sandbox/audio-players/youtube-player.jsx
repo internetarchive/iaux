@@ -93,6 +93,7 @@ class YoutubePlayer extends Component {
    */
   componentWillUnmount() {
     clearInterval(this.fullAlbumVideoPoller);
+    this.fullAlbumVideoPoller = null;
     clearTimeout(this.timer);
   }
 
@@ -142,8 +143,10 @@ class YoutubePlayer extends Component {
 
     if (videoStartedPlaying) {
       videoTimePoller();
+      // least disruptive in full video playing experience
+      const interval = 5000;
       if (!this.fullAlbumVideoPoller) {
-        this.fullAlbumVideoPoller = setInterval(videoTimePoller, 5000);
+        this.fullAlbumVideoPoller = setInterval(videoTimePoller, interval);
       }
     }
   }
@@ -202,11 +205,13 @@ class YoutubePlayer extends Component {
       const currentTrack = capturedTrack || selectedTrack;
       this.setState({ videoStartedPlaying: false }, () => youtubePlaylistChange(currentTrack));
       clearInterval(this.fullAlbumVideoPoller);
+      this.fullAlbumVideoPoller = null;
     }
 
     if (data === YT.PlayerState.PAUSED) {
       this.setState({ videoStartedPlaying: false });
       clearInterval(this.fullAlbumVideoPoller);
+      this.fullAlbumVideoPoller = null;
     }
 
     if (data === YT.PlayerState.PLAYING) {
@@ -272,6 +277,9 @@ class YoutubePlayer extends Component {
     const sameTrack = trackToPlay.trackNumber === currentTrack.trackNumber;
     if (!sameTrack) {
       player.seekTo(startSeconds);
+      if (playerState === YT.PlayerState.PAUSED) {
+        player.playVideo();
+      }
     }
   }
 
