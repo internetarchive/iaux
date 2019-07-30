@@ -5,15 +5,11 @@ import youTubeParamsParser from './youtube-params-parser';
  * - all IDs are the same
  * - has timestamp
  * it will create a dictonary { trackNumber: {videoID, timestamp} }
- *
- *
- *
- *
+ * @return { object | null } dictionary
  */
 export default (playlist) => {
   let mainVideoID = '';
-  const directory = playlist.reduce((acc, track, index) => {
-    const dir = acc || {};
+  const directory = playlist.reduce((dir, track) => {
     const thisTrack = track.youtube || track;
     const { trackNumber } = track;
     const isAlbum = trackNumber === 0;
@@ -23,13 +19,13 @@ export default (playlist) => {
     }
     const fullVideoSegment = mainVideoID === videoId;
     if (fullVideoSegment) {
-      dir[trackNumber] = {
+      dir.push({
         videoId,
         startSeconds,
         trackNumber,
-      };
+      });
     }
     return dir;
-  }, {});
-  return Object.keys(directory).length ? directory : null;
+  }, []);
+  return directory.length ? directory : null;
 };

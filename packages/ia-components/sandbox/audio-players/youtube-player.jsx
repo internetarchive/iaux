@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { chain } from 'lodash';
 import youTubeParamsParser from './utils/youtube-params-parser';
 import youTubeFullAlbumRegistry from './utils/youtube-full-album-registry';
 
@@ -119,10 +118,7 @@ class YoutubePlayer extends Component {
   checkTimeAndTrack() {
     const { fullAlbumDetails, player } = this.state;
     const elapsedTime = player.getCurrentTime();
-    const currentTrack = chain(fullAlbumDetails)
-      .filter(track => track.startSeconds < elapsedTime)
-      .last()
-      .value();
+    const currentTrack = fullAlbumDetails.filter(track => track.startSeconds <= elapsedTime).pop() || {};
 
     return { elapsedTime, currentTrack };
   }
@@ -200,14 +196,20 @@ class YoutubePlayer extends Component {
   onPlayerStateChange(event) {
     const { youtubePlaylistChange, selectedTrack } = this.props;
     const { selectedTrack: capturedTrack, videoStartedPlaying, fullAlbumDetails } = this.state;
+    const { data } = event;
 
-    if (event.data === YT.PlayerState.ENDED) {
+    if (data === YT.PlayerState.ENDED) {
       const currentTrack = capturedTrack || selectedTrack;
       this.setState({ videoStartedPlaying: false }, () => youtubePlaylistChange(currentTrack));
       clearInterval(this.fullAlbumVideoPoller);
     }
 
-    if (event.data === YT.PlayerState.PLAYING) {
+    if (data === YT.PlayerState.PAUSED) {
+      this.setState({ videoStartedPlaying: false });
+      clearInterval(this.fullAlbumVideoPoller);
+    }
+
+    if (data === YT.PlayerState.PLAYING) {
       const setURLOnly = true;
       if (!videoStartedPlaying) {
         this.setState({ videoStartedPlaying: true }, () => youtubePlaylistChange(selectedTrack, setURLOnly));
@@ -256,7 +258,7 @@ class YoutubePlayer extends Component {
       return;
     }
 
-    const trackToPlay = fullAlbumDetails[selectedTrack];
+    const trackToPlay = fullAlbumDetails.find((tr = {}) => tr.trackNumber === selectedTrack);
     const { startSeconds } = trackToPlay;
 
     const playerState = player.getPlayerState();
