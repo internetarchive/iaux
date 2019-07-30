@@ -130,7 +130,7 @@ class YoutubePlayer extends Component {
    * - finds current track position
    * - sends that to the callback
    */
-  syncVideoWithPlayer() {
+  syncVideoWithPlayer(selectedTrack) {
     const { videoStartedPlaying } = this.state;
     const { youtubePlaylistChange } = this.props;
     const setURLOnly = true;
@@ -138,7 +138,9 @@ class YoutubePlayer extends Component {
     const videoTimePoller = () => {
       const { currentTrack } = this.checkTimeAndTrack();
       const { trackNumber } = currentTrack;
-      youtubePlaylistChange(trackNumber, setURLOnly);
+      if (selectedTrack !== trackNumber) {
+        youtubePlaylistChange(trackNumber, setURLOnly);
+      }
     };
 
     if (videoStartedPlaying) {
@@ -220,7 +222,7 @@ class YoutubePlayer extends Component {
       }
 
       if (fullAlbumDetails) {
-        this.syncVideoWithPlayer();
+        this.syncVideoWithPlayer(selectedTrack);
       }
     }
   }
