@@ -6,8 +6,7 @@ const debug = require('debug')('ia-components:AnchorDetails');
 
 /**
  * Component used as an anchor to a Details page
- * Encapsulates differences between four options  Dweb||IAUX
- * There is an AnchorDetailsFake in dweb-archive for places where this has to be embeded in ReactFake
+ * Encapsulates differences between options  Dweb||IAUX
  *
  * Behavior:
  * On render we split props between the Anchor and the URL and build the URL.
@@ -28,14 +27,11 @@ const debug = require('debug')('ia-components:AnchorDetails');
  */
 
 export default class AnchorDetails extends IAReactComponent {
-  // Component that encapsulates the difference between four options: Dweb||IAUX, React||FakeReact for links.
-  // NOTE the one impossible combination is using React:AnchorDetails inside FakeReact element as will be passed wrong kind of children
+  // Component that encapsulates the difference between four options: Dweb||IAUX for links.
 
   /*
     React+!Dweb: no onClick unless want analytics
-    FakeReact+!Dweb: No onClick unless want analytics
     React+Dweb:  onClick={this.click}
-    FakeReact+Dweb: strangely seems to work with onClick={this.click}
     */
   constructor(props) {
     super(props); // { identifier, reload }
@@ -48,7 +44,7 @@ export default class AnchorDetails extends IAReactComponent {
   clickCallable(ev) {
     // Note this is only called in dweb; !Dweb has a director href
     debug('Clicking on link to details: %s', this.props.identifier);
-    DwebArchive.Nav.nav_details(this.props.identifier, { noCache: this.props.reload, wanthistory: !this.props.reload });
+    DwebArchive.Nav.factory(this.props.identifier, { noCache: this.props.reload, wanthistory: !this.props.reload }); // Ignore promise returned
     return false; // Dont propogate event
   }
 

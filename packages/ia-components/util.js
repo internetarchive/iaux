@@ -33,7 +33,7 @@ function canonicalUrl(url, opts={}) {
         AO - where it will usually not be changed
         Note this explicitly doesnt count the case of running in the Mirror as its only occurring in UI code
 
-        The code here will get complicated as more cases are added, this will remove the need for similar processing in ReactFake
+        The code here will get complicated as more cases are added
         By default URLs are returned unmodified
 
         Cases handled:

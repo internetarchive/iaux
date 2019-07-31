@@ -1,6 +1,5 @@
-// Note this component is only tested on Real React it may or may not work in ReactFake
 import React from 'react';
-import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
+import IAReactComponent from '../IAReactComponent';
 import TileComponent from './TileComponent';
 
 const debug = require('debug')('ia-components:TileGrid');
@@ -89,15 +88,8 @@ class ScrollableTileGrid extends IAReactComponent {
     AJS.more_searching = true;
     const el = document.getElementById('appendTiles'); // Get the el, before the search in case user clicks away we add to right place
     this.props.item.more({}, (err, newmembers) => { // Appends to this.members but returns just the new ones
-      if (this.isFakeReact) {
-        if (!err) { // If there is an error, just ignore it but un-increment page
-          newmembers.forEach(member => React.addKids(el, <TileComponent member={member} disconnected={this.props.disconnected}/>));
-          AJS.tiler();
-        }
-      } else { // Real react
-        debug('TODO should be getting state here');
-        this.setState({ xxx: !this.xxx }); // Force it to rerender since its state.members didnt change, but the contents of it did.
-      }
+      debug('TODO should be getting state here');
+      this.setState({ xxx: !this.xxx }); // Force it to rerender since its state.members didnt change, but the contents of it did.
       AJS.more_searching = false;
     });
   }

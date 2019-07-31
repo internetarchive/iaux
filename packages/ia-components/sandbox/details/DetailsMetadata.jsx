@@ -7,19 +7,22 @@ import DetailsCollectionList from './DetailsCollectionList';
 import DetailsDownloadOptions from './DetailsDownloadOptions';
 import { languageMapping } from '../../util.js';
 
-/**
-
- */
-
 const metadataListKeyStrings = { ocr: 'OCR', runtime: 'Run time', ppi: 'PPI' }; // Metadata with something other than capitalize first letter
 const metadataListExclude = [
   // This list has metadata that should not be listed in a table because it is handled in some other way
-  // "added-date", "adder",          // TODO see note below about "adder" and uncomment here when box added
   'backup_location', 'collection', 'creator', 'credits', 'curation', 'date', 'description', 'licenseurl', 'magnetlink', 'mediatype',
   'public', 'publicdate', 'publisher', 'subject', 'thumbnaillinks', 'title', 'updatedate', 'updater', 'uploader',
 ];
 
 class AnchorSearches extends IAReactComponent {
+  /**
+   * Render a list of <AnchorSearch> for one or more values in a specific field
+   *
+   * <AnchorSearches
+   *    field=STRING    Search for value(s) in this field
+   *    value=STRING || [STRING*] Either a string, or a series of alternatives
+   *  />
+   */
   // Props field, value: array or string mapping: object (optional)
   render() {
     return (Array.isArray(this.props.value)
@@ -39,7 +42,19 @@ class AnchorSearches extends IAReactComponent {
   }
 }
 class DetailsMetadataField extends IAReactComponent {
-  // Display a single field of metadata, allows for flexibility to handle a lot of the cases.
+  /**
+   * Display a single field of metadata, allows for flexibility to handle a lot of the cases.
+   *
+   * <DetailsMetadataField
+   *    name=STRING               Override default name for field
+   *    field=METADATAFIELD       Metadata Field Name
+   *    value=STRING | [STRING*]  Value(s) in that field
+   * />
+   *
+   * Behavior on rendering:
+   *  Determines the name for the field, using the `name` prop, or a mapping in here, or by uppercasing the first character
+   *  Values are rendered as anchors to searches
+   */
   // props: field=k value: v|[v*], mapping: {v: string},  className, role, itemprop
   constructor(props) {
     super(props);
@@ -62,9 +77,20 @@ class DetailsMetadataField extends IAReactComponent {
 }
 
 class DetailsMetadata extends IAReactComponent {
-  // Props metadata, description
+  /**
+   * Displays the metadata for this field,
+   *
+   * <DetailsMetadata
+   *  metadata=OBJECT   metadata object as returned by API after santizing
+   *  description=STRING  sanitized description (i.e. unsafe HTML stripped out and multiple values concatenated)
+   * />
+   *
+   * Behavior on rendering:
+   *  Displays some known metadata fields, then displays the rest using default behaviors
+   */
 
   // TODO-DETAILS note the structure of this has changed - see the difference in originals between multitrackaudio and mbid for example
+  // TODO-DETAILS https://github.com/internetarchive/dweb-archive/issues/130
   render() {
     const md = this.props.metadata; // Shortcut
     return (
@@ -163,6 +189,7 @@ class DetailsAbout extends IAReactComponent {
     /* This sits underneth theatre-ia-wrap DIV that is built by theatreIaWrap */
     const md = this.props.metadata;
     //TODO-DETAILS note the structure of this has changed - see the difference in originals between multitrackaudio and mbid for example
+    // TODO-DETAILS https://github.com/internetarchive/dweb-archive/issues/130
     return (
       <div className="container container-ia item-details-about">
         <div className="relative-row row">

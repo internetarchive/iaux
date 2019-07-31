@@ -1,6 +1,6 @@
 // const debug = require('debug')('dweb-archive:SearchSwitcher');
 import React from 'react';
-import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
+import IAReactComponent from '../IAReactComponent';
 import { AnchorSearch } from './AnchorSearch';
 
 class SearchSwitcher extends IAReactComponent {
@@ -23,7 +23,7 @@ class SearchSwitcher extends IAReactComponent {
           {/*--TODO-DETAILS this dropdown doesnt reorder, test other UI elements in vicinity as well see https://github.com/internetarchive/dweb-archive/issues/15--*/}
           <span className="big-label blue-pop">{/*TODO-ISSUE dweb-archive#57 remove relevance on Collections*/}
             {(!this.props.identifier) ? // Dont show on collections
-              <AnchorSearch className="ikind stealth in" data-id="relevance" query={this.query}>RELEVANCE</AnchorSearch>
+              <AnchorSearch className="ikind stealth in" data-id="relevance" query={this.props.query}>RELEVANCE</AnchorSearch>
               : undefined}
             {(!this.props.identifier) ? // Dont show on collections
               <div className="iconochive-dot ikind-sep"></div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { ObjectFilter } from '../../util';
+const each = require('async/each');
 
 const debug = require('debug')('ia-components:AnchorDownload');
 
@@ -39,6 +40,18 @@ const debug = require('debug')('ia-components:AnchorDownload');
  *
  */
 
+async function downloadViaAnchor(el, source) {
+  //TODO dont use p_download, or simplify that, if on DwebMirror
+  if (Array.isArray(source)) {
+    // Note cant do these in parallel as it does odd stuff to "el" to work around a browser bug
+    for (let s in source) { // noinspection JSUnfilteredForInLoop
+      await source[s].p_download(el);
+    }
+  } else {
+    await source.p_download(el);
+  }
+}
+
 class AnchorDownload extends IAReactComponent {
   constructor(props) {
     super(props);
@@ -62,15 +75,15 @@ class AnchorDownload extends IAReactComponent {
     this.state.anchorProps = ObjectFilter(this.props, (k, unusedV) => !AnchorDownload.urlparms.includes(k));
   }
 
-  clickCallable(unusedEvent) {
+  clickCallable(ev) {
     // Note this is only called in dweb; !Dweb has a direct href and on Dweb source is (currently) always set.
     // TODO-DWEB its likely that this is not correct for those that should go to ".../compress/..."
     debug('Clicking on link to download: %s', this.props.identifier);
     // noinspection JSIgnoredPromiseFromCall,JSUnresolvedFunction
     if (this.props.source) {
-      DwebArchive.Nav.nav_download(this.props.source, {wanthistory: true});
+      downloadViaAnchor(this.props.source, ev.currentTarget)
     } else { // No source, must be plain identifier
-      DwebArchive.Nav.nav_downloaddirectory(this.props.identifier, {wanthistory: true});
+      Nav.factory(this.props.identifier, {wanthistory: true, download: 1}); // ignore promise
     }
     return false; // Stop event propagating
   }

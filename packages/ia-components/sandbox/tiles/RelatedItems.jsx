@@ -1,6 +1,5 @@
-// Note this component is Real-React only, it may or may not work in ReactFake
 import React from 'react';
-import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
+import IAReactComponent from '../IAReactComponent';
 import TileComponent from './TileComponent';
 
 //Unused: const debug = require('debug')('ia-components:RelatedItems');
@@ -27,9 +26,6 @@ import TileComponent from './TileComponent';
 
 
 export default class RelatedItems extends IAReactComponent {
-  /* -- Not used with ReactFake or current IAUX yet
-  static propTypes = {
-   */
 
   render() {
     return ((!this.props.identifier) ? null

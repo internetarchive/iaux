@@ -40,11 +40,10 @@ class ImageDweb extends IAReactComponent {
   }
 
 
-  // TODO-IAUX see https://github.com/internetarchive/dweb-archive/issues/113 refactoring this
   loadcallable(enclosingspan) { // Defined as a closure so that can access identifier
     // TODO this may move to a method on the source (e.g. on ArchiveFile)
     const name = this.props.imgname || (this.props.source && this.props.source.metadata.name);
-    DwebArchive.ReactFake.loadImg3(enclosingspan, name , this.props.source || this.props.src, (err, unusedEl) => {
+    DwebArchive.loadImg(enclosingspan, name , this.props.source || this.props.src, (err, unusedEl) => {
       if (err) {
         debug('Fail to load %s: %s', name, err.message);
       } else {

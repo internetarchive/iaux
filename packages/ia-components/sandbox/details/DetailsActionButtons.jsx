@@ -1,6 +1,6 @@
 // const debug = require('debug')('dweb-archive:DetailsActionButtons');
 import React from 'react';
-import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
+import IAReactComponent from '../IAReactComponent';
 import { AnchorModalGo, ButtonModalGo } from './ModalGo';
 
 /**

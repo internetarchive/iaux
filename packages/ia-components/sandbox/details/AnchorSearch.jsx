@@ -7,13 +7,12 @@ const debug = require('debug')('ia-components:AnchorSearch');
 
 /**
  * Component used as an anchor to a Search page
- * There should be an AnchorSearchFake in dweb-archive for places where this has to be embedded in ReactFake but moving over to React rapidly anyway
  *
  * Behavior:
  * On render we split props between the Anchor and the URL and build the URL.
  *
  * On click - behavior varies between Dweb and IAUX
- *      Dweb:   Navigate via the Nav.nav_details function
+ *      Dweb:   Navigate via the Nav.nav_search function
  *      !Dweb:  normal Anchor behavior to go to the href
  *
  * Technical:
@@ -21,7 +20,7 @@ const debug = require('debug')('ia-components:AnchorSearch');
  *
  * <AnchorSearch
  *  query       Object { field: value}   OR string (value can be Array, in which case it is OR-ed
- *  reload      if set, passed to Nav.nav_details as an opt TODO implement this
+ *  reload      if set, passed to Nav.nav_search as an opt TODO implement this
  *  TODO implement maybe: sort        passed to URL as a parameter
  *  Any other properties are passed to the <a />
  *
@@ -47,8 +46,6 @@ function queryFrom(query) {
 // End of DUPLICATEDCODE#0003
 
 class AnchorSearch extends IAReactComponent {
-  // NOTE the one impossible combination is using React:AnchorSearch inside FakeReact element as will be passed wrong kind of children
-
   /*
     !Dweb: no onClick unless want analytics
     Dweb:  onClick={this.click}

@@ -40,14 +40,14 @@ export default class Tabby extends IAReactComponent {
 
   clickCallable(ev) {
     debug('Clicking on link to tab: %s %s', this.props.identifier, this.props.id);
-    // this is this React/Fake React object
+    // "this" is the React object
     // ev.currentTarget is the HTML Element on which the onClick sits
     // ev.target is the HTML element clicked on
     // .replace is because id="web-archive" but call to AJS.tabby is "tabby-web archive"
     // noinspection JSUnresolvedFunction
     const shouldFollow = AJS.tabby(ev.currentTarget, `tabby-${this.props.id.replace('-', ' ')}`); // Returns true to follow link, false to skip
-    if (!shouldFollow) { ev.preventDefault(); } // Stop React event propogating (not a problem in FakeReact)
-    return false; // Stop the FakeReact event propogating (not a problem in real React)
+    if (!shouldFollow) { ev.preventDefault(); } // Stop React event propogating
+    return false; // Stop propogation in non-react examples
   }
 
   render() {

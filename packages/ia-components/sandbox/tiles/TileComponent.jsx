@@ -1,5 +1,5 @@
 import React from 'react';
-import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
+import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import {ImageDweb} from "../details/Image";
 const debug = require('debug')('ia-components:TileComponent');
@@ -29,14 +29,14 @@ function number_format(nStr) // this is just addCommas now
 
 
 export default class TileComponent extends IAReactComponent {
-  /* -- Not used with ReactFake or current IAUX yet
-    static propTypes = {
-        identifier: PropTypes.string,
-        member: PropTypes.object,
-        parentidentifier: PropTypes.string,
-        //item: PropTypes.string - if ever have a case where have the item then edit code below to use, rather than refetching
-    };
-    */
+  /**
+   * <TileComponent
+   *    identifier: IDENTIFIER
+   *    member: ARCHIVEMEMBER
+   *    parentidentifier: IDENTIFIER
+   * />
+   *
+   */
   constructor(props) {
     super(props);
     this.state.identifier = props.identifier || props.member.identifier;
@@ -136,7 +136,7 @@ export default class TileComponent extends IAReactComponent {
                   className="item-img clipW clipH"
                   src={this.state.imageurl}
                   alt={this.state.identifier}
-                  imgname="__ia_thumb.jpg"/>;
+                  imgname="__ia_thumb.jpg"/>
               </div>
               <div className="ttl">
                 {this.state.title}

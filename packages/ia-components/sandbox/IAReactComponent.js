@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 const debug = require('debug')('ia-components:IAReactComponent');
 
 export default class IAReactComponent extends React.Component {
-  // Both dweb-archive.IAFakeReactComponent used with ReactFake and iaux.IAReactComponent used with React should work the same. (e.g. ParentTileImg works with both)
   constructor(props) {
     super(props);
     this.state = {}; // React doesnt do this
-    // In both React & ReactFake, _isMounted is set to true on loading
+    // _isMounted is set to true on loading
     this._isMounted = false;
-    // In both React & ReactFake If you give a HTML tag ref={this.load} then it will call loadcallable with 'this' set to the component and pass the element as the only parameter
+    // If you give a HTML tag ref={this.load} then it will call loadcallable with 'this' set to the component and pass the element as the only parameter
     this.load = el => this.loadcallable.call(this, el);
     // By default 'onClick=this.onClick' will cause clicking to run the clickCallable routine, and then blocks/forwards event depending on return value, as it would for normal HTML
     this.onClick = (ev) => {
@@ -41,4 +40,5 @@ export default class IAReactComponent extends React.Component {
   }
 
   componentDidMount() { this._isMounted = true; }
+  componentDidUpdate() {  } // So super works
 }

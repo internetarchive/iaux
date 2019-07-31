@@ -1,4 +1,4 @@
-
+export {default as IAReactComponent} from './sandbox/IAReactComponent';
 export { default as AnchorDetails } from './sandbox/AnchorDetails';
 // sandbox tiles
 export { default as RelatedItems } from './sandbox/tiles/RelatedItems';
@@ -19,3 +19,4 @@ export { DetailsReviews} from './sandbox/details/DetailsReviews';
 export { SearchSwitcher } from './sandbox/details/Search';
 export { default as Tabby } from './sandbox/details/Tabby';
 export { DownloadDirectoryDiv } from './sandbox/details/Download';
+
