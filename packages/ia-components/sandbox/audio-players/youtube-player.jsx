@@ -8,6 +8,10 @@ import youTubeFullAlbumRegistry from './utils/youtube-full-album-registry';
  *
  * Loads the youtube player and plays video of the selected track
  *
+ * Also handles full albums with URN standardized time segments
+ * This means, that the tracks that come along with the full album have timestamps
+ * to signal where they are in the full album
+ *
  * @params see PropTypes
  */
 
@@ -125,29 +129,36 @@ class YoutubePlayer extends Component {
   }
 
   /**
+   * Callback for YouTube API elapsed poller
+   * Checks against what the component says what track are on
+   * versus the track the video is currently on based on elapsed time.
+   */
+  videoTimePoller() {
+    const { selectedTrack } = this.state;
+    const { youtubePlaylistChange } = this.props;
+    const setURLOnly = true;
+    const { currentTrack } = this.checkTimeAndTrack();
+    const { trackNumber } = currentTrack;
+    if (selectedTrack !== trackNumber) {
+      console.warn('!!!ideoTimePoller youtubePlaylistChange selectedTrack !== trackNumber', selectedTrack, trackNumber);
+      youtubePlaylistChange(trackNumber, setURLOnly);
+    }
+  }
+
+  /**
    * Syncs Full Album Video with Audio Player
    * - pings YouTube's API to check timestamp
    * - finds current track position
    * - sends that to the callback
    */
-  syncVideoWithPlayer(selectedTrack) {
+  syncVideoWithPlayer() {
     const { videoStartedPlaying } = this.state;
-    const { youtubePlaylistChange } = this.props;
-    const setURLOnly = true;
-
-    const videoTimePoller = () => {
-      const { currentTrack } = this.checkTimeAndTrack();
-      const { trackNumber } = currentTrack;
-      if (selectedTrack !== trackNumber) {
-        youtubePlaylistChange(trackNumber, setURLOnly);
-      }
-    };
 
     if (videoStartedPlaying) {
       // least disruptive in full video playing experience
       const interval = 800;
       if (!this.fullAlbumVideoPoller) {
-        this.fullAlbumVideoPoller = setInterval(videoTimePoller, interval);
+        this.fullAlbumVideoPoller = setInterval(() => { this.videoTimePoller(); }, interval);
       }
     }
   }
@@ -222,7 +233,7 @@ class YoutubePlayer extends Component {
       }
 
       if (fullAlbumDetails) {
-        this.syncVideoWithPlayer(selectedTrack);
+        this.syncVideoWithPlayer();
       }
     }
   }
