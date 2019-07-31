@@ -140,7 +140,6 @@ class YoutubePlayer extends Component {
     const { currentTrack } = this.checkTimeAndTrack();
     const { trackNumber } = currentTrack;
     if (selectedTrack !== trackNumber) {
-      console.warn('!!!ideoTimePoller youtubePlaylistChange selectedTrack !== trackNumber', selectedTrack, trackNumber);
       youtubePlaylistChange(trackNumber, setURLOnly);
     }
   }
@@ -170,7 +169,7 @@ class YoutubePlayer extends Component {
   loadAPI() {
     document.querySelector('.audio-track-list').setAttribute('style', 'pointer-events: none');
     const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
+    tag.src = `https://www.youtube.com/iframe_api?origin=${location.origin}`;
     const firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   }
