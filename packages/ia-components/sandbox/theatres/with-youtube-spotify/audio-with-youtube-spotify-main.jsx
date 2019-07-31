@@ -281,7 +281,9 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     }
     // Find next track number in line
     if (trackSelected) {
-      this.setState({ trackSelected: trackSelected.trackNumber }, this.updateURL);
+      this.setState({ trackSelected: trackSelected.trackNumber }, () => {
+        this.updateURL();
+      });
     }
   }
 
