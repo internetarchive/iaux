@@ -1,6 +1,5 @@
-// Note this component is only tested on Real React it may or may not work in ReactFake
 import React from 'react';
-import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
+import IAReactComponent from '../IAReactComponent';
 import TileComponent from './TileComponent';
 
 const debug = require('debug')('ia-components:TileGrid');
@@ -8,8 +7,8 @@ const debug = require('debug')('ia-components:TileGrid');
 
 /* This is the inner part of a tile grid, see dweb-archive/Search.js for an example of its use
     There are two components here.
-    <TileGrid members=[ArchiveMember*]>
-    <ScrollableTileGrid item=ArchiveItem>
+    <TileGrid members=[ArchiveMember*] disconnected=BOOL>
+    <ScrollableTileGrid item=ARCHIVEITEM disconnected=BOOL>
     Both depend on dweb-archivecontroller since TileComponent does, and in particular ScrollableTileGrid calls ArchiveItem.proto.more() to update
 
     They depend on the CSS copied from archive.org to dweb-archive.org, that could be put inside this component if required.
@@ -17,6 +16,9 @@ const debug = require('debug')('ia-components:TileGrid');
  */
 
 class TileGrid extends IAReactComponent {
+  /**
+   * <TileGrid members=[ArchiveMember*] disconnected=BOOL>
+   **/
   constructor(props) {
     super(props); // members
     console.assert(props.members);
@@ -28,11 +30,7 @@ class TileGrid extends IAReactComponent {
         <div className="item-ia mobile-header hidden-tiles" data-id="__mobile_header__">
           <div className="views C C1">
             <span className="iconochive-eye" aria-hidden="true" />
-            <span
-              className="sr-only"
-            >
-eye
-            </span>
+            <span className="sr-only">eye</span>
           </div>
           <div className="C234">
             <div className="C C2">Title</div>
@@ -46,7 +44,7 @@ eye
           <div className="C C5" />
         </div>
         {this.props.members.map(member => ( // Note rendering tiles is quick, its the fetch of the img (async) which is slow.
-          <TileComponent key={member.identifier} member={member} />
+          <TileComponent key={member.identifier} member={member} disconnected={this.props.disconnected}/>
         ))}
       </div>
     );
@@ -54,9 +52,12 @@ eye
 }
 
 class ScrollableTileGrid extends IAReactComponent {
+  /**
+   * <ScrollableTileGrid item=ARCHIVEITEM disconnected=BOOL/>
+   */
   constructor(props) {
     super(props); // item
-    console.assert(props.item.members);
+    console.assert(props.item.membersFav || props.item.membersSearch);
     this.state.xxx = true;
     $(window).scroll(() => {
       this.scrolled.call(this);
@@ -87,27 +88,17 @@ class ScrollableTileGrid extends IAReactComponent {
     AJS.more_searching = true;
     const el = document.getElementById('appendTiles'); // Get the el, before the search in case user clicks away we add to right place
     this.props.item.more({}, (err, newmembers) => { // Appends to this.members but returns just the new ones
-      if (this.isFakeReact) {
-        if (!err) { // If there is an error, just ignore it but un-increment page
-          newmembers.forEach(member => React.addKids(el, <TileComponent member={member} />));
-          AJS.tiler();
-        }
-      } else { // Real react
-        debug('TODO should be getting state here');
-        this.setState({ xxx: !this.xxx }); // Force it to rerender since its state.members didnt change, but the contents of it did.
-      }
+      debug('TODO should be getting state here');
+      this.setState({ xxx: !this.xxx }); // Force it to rerender since its state.members didnt change, but the contents of it did.
       AJS.more_searching = false;
     });
   }
 
-  /* TODO If we still want automatic scrolling under React
-       Collection.archive_setup_push registers AJS.scrolled in $(window).scroll, that works but sending the "click" method doesn't work
-    */
   render() {
     return (
       <div style={{ position: 'relative' }}>
         <div id="ikind-search" className="ikind in">
-          <TileGrid members={this.props.item.members} />
+          <TileGrid members={(this.props.item.membersFav || []).concat(this.props.item.membersSearch || [])} disconnected={this.props.disconnected} />
           <center className="more_search">
             <a className="btn btn-info btn-sm" onClick={this.onClick} style={{ visibility: 'hidden' }} href="#">MORE RESULTS</a>
             <br />

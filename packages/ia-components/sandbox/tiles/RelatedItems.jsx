@@ -1,6 +1,5 @@
-// Note this component is Real-React only, it may or may not work in ReactFake
 import React from 'react';
-import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
+import IAReactComponent from '../IAReactComponent';
 import TileComponent from './TileComponent';
 
 //Unused: const debug = require('debug')('ia-components:RelatedItems');
@@ -11,7 +10,8 @@ import TileComponent from './TileComponent';
  *    identifier = string Identifier of item displaying related items for
  *    members = [ ArchiveMember ]
  *           or [ { object } ]  where object has the fields of a member (as returned by Gio's related api) as required for TileComponent
- *
+ *    disconnected = BOOL       True if browser cannot see archive.org
+ * />
  * RelatedItems is a component intended for the bottom of details page to display related items.
  * It should be called either with members=[member*] in which case it will render them immediately
  * dweb-archive uses RelatedItemsWrapper that has the functionality of loading the related item from an "item" or "identifier"
@@ -26,9 +26,6 @@ import TileComponent from './TileComponent';
 
 
 export default class RelatedItems extends IAReactComponent {
-  /* -- Not used with ReactFake or current IAUX yet
-  static propTypes = {
-   */
 
   render() {
     return ((!this.props.identifier) ? null
@@ -56,7 +53,7 @@ SIMILAR ITEMS (based on metadata)
                       { // Note this is odd - results normally encloses all the tasks, but AJS.tiler doesnt seem to work without this
                     this.props.members.map(member => (
                       <div className="results" key={member.identifier} style={{ visibility: 'visible' }}>
-                        <TileComponent member={member} />
+                        <TileComponent member={member} disconnected={this.props.disconnected}/>
                       </div>
                     )) }
                     </section>

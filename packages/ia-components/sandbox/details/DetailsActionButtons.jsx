@@ -1,6 +1,6 @@
 // const debug = require('debug')('dweb-archive:DetailsActionButtons');
 import React from 'react';
-import IAReactComponent from '../IAReactComponent'; // Encapsulates differences between dweb-archive/ReactFake and iaux/React
+import IAReactComponent from '../IAReactComponent';
 import { AnchorModalGo, ButtonModalGo } from './ModalGo';
 
 /**
@@ -51,12 +51,12 @@ class DetailsFlagLI extends IAReactComponent {
 
 class DetailsFlags extends IAReactComponent {
   constructor(props) {
-    super(props); // none
+    super(props); // disconnected
   }
 
   render() {
     const loginURL = 'https://archive.org/account/login.php'; // TODO - its a Direct link as dont support authentication in DWeb version, may be better URL for IAUX
-    return (
+    return ( this.props.disconnected ? null :
       <div
         id="flag-button-container"
         className="topinblock"
@@ -74,16 +74,16 @@ class DetailsFlags extends IAReactComponent {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <span className="iconochive-Flag" aria-hidden="true" />
+            <span className="iconochive-Flag" aria-hidden="true"/>
             <span className="sr-only">flag</span>
           </button>
           <div id="flag-popover" className="dropdown-menu" aria-labelledby="flag-button">
             <h3 className="dropdown-title">Flag this item for</h3>
             <ul role="menu">
-              <DetailsFlagLI href={loginURL} text="Graphic Violence" />
-              <DetailsFlagLI href={loginURL} text="Graphic Sexual Content" />
-              <DetailsFlagLI href={loginURL} text="Spam, Scam or Fraud" />
-              <DetailsFlagLI href={loginURL} text="Broken or Empty Data" />
+              <DetailsFlagLI href={loginURL} text="Graphic Violence"/>
+              <DetailsFlagLI href={loginURL} text="Graphic Sexual Content"/>
+              <DetailsFlagLI href={loginURL} text="Spam, Scam or Fraud"/>
+              <DetailsFlagLI href={loginURL} text="Broken or Empty Data"/>
             </ul>
           </div>
         </div>
@@ -94,30 +94,32 @@ class DetailsFlags extends IAReactComponent {
 
 class DetailsActionButtons extends IAReactComponent {
   constructor(props) {
-    super(props); // identifier, title
+    super(props); // identifier, title, disconnected
   }
 
   render() {
     const bookmarksAddURL = `https://archive.org/bookmarks.php?add_bookmark=1&amp;mediatype=image&amp;identifier=${this.props.identifier}&amp;title=${this.props.title}`; // TODO find way to submit distributed
     return (
       <div className="action-buttons">
-        <div className="topinblock">
-          <AnchorModalGo
-            className="button "
-            opts={{ favorite: 1 }}
-            href={bookmarksAddURL}
-            id="favorite-button"
-            aria-haspopup="true"
-            data-target="#confirm-modal"
-            data-toggle="tooltip"
-            data-container="body"
-            data-placement="bottom"
-            title="Favorite this item"
-          >
-            <span className="iconochive-favorite" aria-hidden="true" />
-            <span className="sr-only">favorite</span>
-          </AnchorModalGo>
-        </div>
+        {this.props.disconnected ? null :
+          <div className="topinblock">
+            <AnchorModalGo
+              className="button "
+              opts={{favorite: 1}}
+              href={bookmarksAddURL}
+              id="favorite-button"
+              aria-haspopup="true"
+              data-target="#confirm-modal"
+              data-toggle="tooltip"
+              data-container="body"
+              data-placement="bottom"
+              title="Favorite this item"
+            >
+              <span className="iconochive-favorite" aria-hidden="true"/>
+              <span className="sr-only">favorite</span>
+            </AnchorModalGo>
+          </div>
+        }
         <div className="topinblock">
           <ButtonModalGo
             id="share-button"
@@ -135,7 +137,7 @@ class DetailsActionButtons extends IAReactComponent {
             <span className="sr-only">share</span>
           </ButtonModalGo>
         </div>
-        <DetailsFlags />
+        <DetailsFlags disconnected={this.props.disconnected}/>
       </div>
     );
   }

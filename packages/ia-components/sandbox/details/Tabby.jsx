@@ -1,23 +1,30 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 
-const debug = require('debug')('ia-components:Tabby');
+/**
+ * This is for a single "tabby", usually there will be a set of them in a Tabbys
+ *
+ * Behavior:
+ * On render its just a button that gives impression its a tab with content under it.
+ *
+ * On click
+ *     Note that it uses the tabby function in archive.js, a good TODO might be to refactor that code into this component.
 
-/* Maybe Used in IAUX in future, but not in ReactFake
-static propTypes = {
-    identifier: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    href: PropTypes.string, // Optional - to override default value
-};
+ * Technical:
+ *
+ * <Tabby
+ *    identifier   Archive identifier
+ *    id          id of this tab - used by code that switches tabs etc
+ *    text        Text to go in the tab
+ *    abbreviatedtext Optional shorter text for constrained windows
+ *    href        For the URL that pops up, but note that click goes to AJS.tabby
+ *    default     Boolean - if present then tab is selected at initial render
  */
 
+const debug = require('debug')('ia-components:Tabby');
 
 export default class Tabby extends IAReactComponent {
   /*
-    This is for a single "tabby", usually there will be a set of them in a Tabbys
-
-    Note that it uses the tabby function in archive.js, a good TODO might be to refactor that code into this component.
      */
   constructor(props) {
     super(props);
@@ -32,33 +39,37 @@ export default class Tabby extends IAReactComponent {
   }
 
   clickCallable(ev) {
-    // TODO in Dweb seeing issues in Firefox where clicking About and then back doesnt always work correctly but it probably doesnt work correctly in existing (non component) dweb code either
-    debug('Cicking on link to tab: %s %s', this.props.identifier, this.props.id);
-    // this is this React/Fake React object
+    debug('Clicking on link to tab: %s %s', this.props.identifier, this.props.id);
+    // "this" is the React object
     // ev.currentTarget is the HTML Element on which the onClick sits
     // ev.target is the HTML element clicked on
     // .replace is because id="web-archive" but call to AJS.tabby is "tabby-web archive"
+    // noinspection JSUnresolvedFunction
     const shouldFollow = AJS.tabby(ev.currentTarget, `tabby-${this.props.id.replace('-', ' ')}`); // Returns true to follow link, false to skip
-    if (!shouldFollow) { ev.preventDefault(); } // Stop React event propogating (not a problem in FakeReact)
-    return false; // Stop the FakeReact event propogating (not a problem in real React)
+    if (!shouldFollow) { ev.preventDefault(); } // Stop React event propogating
+    return false; // Stop propogation in non-react examples
   }
 
-    render() { return (
-        <div className={"tabby"+ (this.default ? " in" : "")}>
+  render() {
+    return (
+      <div className={`tabby${this.props.default ? ' in' : ''}`}>
         <div>
-                <a id={`tabby-${this.props.id}-finder`}
-                   className={"stealth" + (this.default ? "tabby-default-finder" : "")}
+          <a
+            id={`tabby-${this.props.id}-finder`}
+            className={`stealth${this.props.default ? ' tabby-default-finder' : ''}`}
             identifier={this.itemid}
             href={this.state.href}
-                   onClick={this.onClick}>
-                    {   this.props.abbreviatedText ?
+            onClick={this.onClick}
+          >
+            { this.props.abbreviatedText
+              ? (
                 <>
                   <span className="tabby-text hidden-xs-span">{this.props.text}</span>
                   <span className="tabby-text visible-xs-span">{this.props.abbreviatedText}</span>
                 </>
-                        :
-                        <span className="tabby-text">{this.props.text}</span>
-                    }
+              )
+              : <span className="tabby-text">{this.props.text}</span>
+            }
           </a>
         </div>
       </div>

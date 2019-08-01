@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { formats } from '../../util.js';
-import AnchorDownload from './AnchorDownload';
+import { AnchorDownload } from './AnchorDownload';
 
 /**
  *  The Download Options box on the details page
@@ -16,12 +16,14 @@ import AnchorDownload from './AnchorDownload';
  *   identifier="AboutBan1935"      Identifier of item
  *   files_count=10                 Number of files in the item
  *   files=[ArchiveFile*]           Array of ArchiveFiles or of objects {metadata{format, name, source}} but they must have a method .downloadable()
+ *   disconnected                   True if browser cant see archive directly (to access compressed zips)
  * />
  */
 
 export default class DetailsDownloadOptions extends IAReactComponent {
+
   constructor(props) {
-    super(props);
+    super(props); //disconnected
   }
 
   render() {
@@ -34,18 +36,17 @@ export default class DetailsDownloadOptions extends IAReactComponent {
       }
       return res;
     }, {});
-    const compressURL = `https://archive.org/compress/${this.props.identifier}`; // leave as direct link, else need to zip and store each item in IPFS
     const filesCount = this.props.files_count;
     const originalFilesCount = this.props.files.filter(f => f.metadata.source === 'original').length + 1; // Adds in Archive BitTorrent
+    const compressURL = `https://archive.org/compress/${this.props.identifier}`; // leave as direct link, else need to zip and store each item in IPFS
     const compressAllURL = `https://archive.org/compress/${this.props.identifier}/formats=JSON,METADATA,JPEG,ARCHIVE BITTORRENT,MUSICBRAINZ METADATA`; // As above leave as direct
-
     return (
       <section className="boxy item-download-options">
         <div className="download-button" role="heading" aria-level="5">DOWNLOAD OPTIONS</div>
-        {Object.keys(downloadableFilesDict).map(k => (
+        {Object.keys(downloadableFilesDict).sort().map(k => (
           <div className="format-group" key={k}>
             <div className="summary-rite">
-              <AnchorDownload className="stealth" identifier={this.props.identifier} format={k} source={downloadableFilesDict[k]} title={k}>
+              <AnchorDownload className="stealth" identifier={this.props.identifier} format={k} source={downloadableFilesDict[k]} title={k} disconnected={this.props.disconnected}>
                 <span className="hover-badge-stealth">
                   <span className="iconochive-download" aria-hidden="true" />
                   <span className="sr-only">download</span>
@@ -64,6 +65,7 @@ export default class DetailsDownloadOptions extends IAReactComponent {
               data-placement="auto left"
               data-container="body"
               target="_blank"
+              disconnected={this.props.disconnected}
             >
               {formats('format', k).downloadable}
               {' '}
@@ -76,27 +78,29 @@ export default class DetailsDownloadOptions extends IAReactComponent {
           </div>
         ))}
         <div className="show-all">
-          <div className="pull-right">
-            <a className="boxy-ttl hover-badge" href={compressURL}>
+          {(this.props.disconnected) ? null :
+            <div className="pull-right">
+              <a className="boxy-ttl hover-badge" href={compressURL}>
               <span
                 className="iconochive-download"
                 aria-hidden="true"
               />
-              <span className="sr-only">download</span>
-              {' '}{filesCount}{' '}Files
-            </a>
-            <br />
-            <a className="boxy-ttl hover-badge" href={compressAllURL}>
+                <span className="sr-only">download</span>
+                {' '}{filesCount}{' '}Files
+              </a>
+              <br/>
+              <a className="boxy-ttl hover-badge" href={compressAllURL}>
               <span
                 className="iconochive-download"
                 aria-hidden="true"
               />
-              <span className="sr-only">download</span>{' '}
-              {originalFilesCount}{' '}Original
-            </a>
-            <br />
-          </div>
-          <AnchorDownload className="boxy-ttl" identifier={this.props.identifier}>SHOW ALL</AnchorDownload>
+                <span className="sr-only">download</span>{' '}
+                {originalFilesCount}{' '}Original
+              </a>
+              <br/>
+            </div>
+          }
+          <AnchorDownload className="boxy-ttl" identifier={this.props.identifier} disconnected={this.props.disconnected}>SHOW ALL</AnchorDownload>
           <br clear="all" className="clearfix" />
         </div>
       </section>
