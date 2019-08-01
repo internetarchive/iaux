@@ -17,6 +17,7 @@ class ArchiveAudioPlayer extends Component {
     // expecting jwplayer to be globally ready
     this.state = {
       player: null,
+      jwplayerInstance: null,
       playerPlaylistIndex: null,
     };
 
@@ -33,6 +34,8 @@ class ArchiveAudioPlayer extends Component {
       jwplayerInfo, jwplayerID, backgroundPhoto, onRegistrationComplete
     } = this.props;
     const { jwplayerPlaylist, identifier } = jwplayerInfo;
+    if (!jwplayerPlaylist.length) return;
+
     const waveformer = backgroundPhoto
       ? {}
       : { waveformer: 'jw-holder' };
@@ -44,15 +47,14 @@ class ArchiveAudioPlayer extends Component {
       hide_list: true,
       responsive: true,
       onPlaylistItem: this.onPlaylistItemCB,
-      onSetupComplete: (startPlaylistIdx) => {
+      onReady: (jwplayerInstance) => {
         /**
          * Capture if player starts on track N+1
          */
-        // if (startPlaylistIdx) {
-        this.setState({ playerPlaylistIndex: startPlaylistIdx }, () => {
-          this.props.jwplayerStartingPoint(startPlaylistIdx);
+        const playerPlaylistIndex = jwplayerInstance.getPlaylistIndex();
+        this.setState({ playerPlaylistIndex, jwplayerInstance }, () => {
+          this.props.jwplayerStartingPoint(playerPlaylistIndex);
         });
-        // }
       }
     };
 
@@ -76,13 +78,26 @@ class ArchiveAudioPlayer extends Component {
    */
   componentDidUpdate(prevProps) {
     const { sourceData: { index = null } } = this.props;
-    const { sourceData: { index: prevIndex } } = prevProps;
-
+    const { sourceData: prevSourceData } = prevProps;
+    const { index: prevIndex } = prevSourceData;
+    const { jwplayerInstance, playerPlaylistIndex } = this.state;
     const indexIsNumber = Number.isInteger(index);
 
     if (!indexIsNumber) return;
 
-    if (index !== prevIndex && indexIsNumber) {
+    const isNowMainPlayer = !prevSourceData.hasOwnProperty('index') && indexIsNumber;
+
+    if (isNowMainPlayer) {
+      // do not autoplay this track any longer
+      return;
+    }
+    const incomingTrackChange = index !== prevIndex;
+
+    const isOnSameTrack = playerPlaylistIndex === index;
+    const playerStatus = jwplayerInstance.getState();
+    const playCurrentTrack = isOnSameTrack && (playerStatus === 'idle');
+    const playTrack = indexIsNumber && (playCurrentTrack || incomingTrackChange);
+    if (playTrack) {
       this.playTrack({ playerPlaylistIndex: index - 1 || 0 });
     }
   }
@@ -128,10 +143,10 @@ class ArchiveAudioPlayer extends Component {
   }
 
   render() {
-    const { jwplayerID } = this.props;
+    const { jwplayerID, style } = this.props;
 
     return (
-      <div className="ia-player-wrapper">
+      <div className="ia-player-wrapper" style={style}>
         <div className="iaux-player-wrapper">
           <div id={jwplayerID} />
         </div>
@@ -147,6 +162,7 @@ ArchiveAudioPlayer.defaultProps = {
   jwplayerInfo: {},
   sourceData: null,
   onRegistrationComplete: null,
+  style: ''
 };
 
 ArchiveAudioPlayer.propTypes = {
@@ -161,6 +177,7 @@ ArchiveAudioPlayer.propTypes = {
     index: PropTypes.number
   }),
   onRegistrationComplete: PropTypes.func,
+  style: PropTypes.string
 };
 
 export default ArchiveAudioPlayer;

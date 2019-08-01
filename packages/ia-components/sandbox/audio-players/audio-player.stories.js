@@ -1,1 +1,2 @@
-import style from './audio-player.less';
+import audioStyles from './audio-player.less';
+import youtubeStyles from './youtube-player.less'

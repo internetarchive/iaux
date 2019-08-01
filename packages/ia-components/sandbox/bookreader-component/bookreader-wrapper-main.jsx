@@ -20,6 +20,8 @@ export default class BookReaderWrapper extends Component {
 
   componentDidMount() {
     const { options } = this.props;
+
+    const originalGetPageURI = BookReader.prototype.getPageURI;
     const defaultOptions = {
       el: `#${this.BookReaderRef.current.id}`,
       mobileNavFullscreenOnly: true,
@@ -33,18 +35,13 @@ export default class BookReaderWrapper extends Component {
       searchInsideUrl: '/fulltext/inside.php',
       initialSearchTerm: null,
       imagesBaseURL: '/bookreader/BookReader/images/',
-      getPageURI: (index, reduce, rotate) => {
-        if ('undefined' == typeof(reduce))
-          reduce = 1;
-        if ('undefined' == typeof(rotate))
-          rotate = 0;
-        let uri = BookReader.prototype.getPageURI.call(this, index, reduce, rotate);
-        uri = uri + (uri.indexOf('?') > -1 ? '&' : '?');
-        uri = uri + 'scale=' + reduce + '&rotate=' + rotate;
+      getPageURI: (index, reduce = 1, rotate = 0) => {
+        let uri = originalGetPageURI.call(br, index, reduce, rotate);
+        uri += (uri.indexOf('?') > -1 ? '&' : '?');
+        uri = `${uri}scale=${reduce}&rotate=${rotate}`;
         return uri;
       },
     };
-
     const fullOptions = {
       ...defaultOptions,
       ...options,

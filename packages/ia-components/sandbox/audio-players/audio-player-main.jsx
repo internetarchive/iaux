@@ -4,6 +4,7 @@ import ArchiveAudioPlayer from './archive-audio-jwplayer-wrapper';
 import ThirdPartyEmbeddedPlayer from './third-party-embed';
 import { HorizontalRadioGroup } from '../../index';
 import BookReaderWrapper from '../bookreader-component/bookreader-wrapper-main';
+import YoutubePlayer from './youtube-player';
 
 /**
  * Draw background photo
@@ -39,22 +40,13 @@ export default class TheatreAudioPlayer extends Component {
     super(props);
 
     this.state = {
-      urlSetterFN: null,
       mediaSource: 'player'
     };
 
     this.showMedia = this.showMedia.bind(this);
     this.createTabs = this.createTabs.bind(this);
-    this.receiveURLSetter = this.receiveURLSetter.bind(this);
     this.toggleMediaSource = this.toggleMediaSource.bind(this);
     this.showLinerNotes = this.showLinerNotes.bind(this);
-  }
-
-  /**
-   * Save URL Setter function that comes back from Play8 instantiation
-   */
-  receiveURLSetter(urlSetterFN) {
-    this.setState({ urlSetterFN });
   }
 
   /**
@@ -71,19 +63,24 @@ export default class TheatreAudioPlayer extends Component {
    * Render function - Choose player according to `source
    */
   showMedia() {
-    const { source, sourceData } = this.props;
+    const { source, sourceData, playlist } = this.props;
     const isExternal = source === 'youtube' || source === 'spotify';
     let mediaElement = null;
-    if (isExternal) {
-      // make iframe with URL
-      const { urlSetterFN } = this.state;
-      const externalSourceDetails = sourceData[source] || {};
-      const {
-        urlPrefix = '', id = '', urlExtensions = '', name = ''
-      } = externalSourceDetails;
-
-      const { trackNumber = 1 } = sourceData;
-
+    const externalSourceDetails = sourceData[source] || {};
+    const {
+      urlPrefix = '', id = '', urlExtensions = '', name = ''
+    } = externalSourceDetails;
+    if (source === 'youtube') {
+      const { trackNumber } = sourceData;
+      mediaElement = (
+        <YoutubePlayer
+          selectedTrack={trackNumber}
+          id={id}
+          playlist={playlist}
+          {...this.props}
+        />
+      );
+    } else if (source === 'spotify') {
       const sourceURL = `${urlPrefix}${id}${urlExtensions}`;
       mediaElement = (
         <ThirdPartyEmbeddedPlayer
@@ -91,18 +88,12 @@ export default class TheatreAudioPlayer extends Component {
           title={name}
         />
       );
-      // updateURL
-      if (urlSetterFN) {
-        urlSetterFN(trackNumber);
-      }
     }
     const archiveStyle = isExternal ? { visibility: 'hidden' } : { visibility: 'visible' };
-
     return (
       <Fragment>
         <ArchiveAudioPlayer
           {...this.props}
-          onRegistrationComplete={this.receiveURLSetter}
           style={archiveStyle}
         />
         { mediaElement }
@@ -174,12 +165,12 @@ export default class TheatreAudioPlayer extends Component {
     // the JWplayer controls sit UNDER the album photo
     // while the other players overtake the whole content-window
     // We will have to accomodate the window's fixed height here.
-    const { backgroundPhoto } = this.props;
-    const jwplayerHeightNoWaveform = '4.4rem';
-    const jwplayerHeightYesWaveform = '14rem';
-    const mediaPlayerSectionStyle = backgroundPhoto
-      ? { height: jwplayerHeightNoWaveform }
-      : { height: jwplayerHeightYesWaveform };
+    const { backgroundPhoto, playlist } = this.props;
+    let mediaPlayerClass = '';
+    const hasTracks = !!playlist.length;
+    if (hasTracks) {
+      mediaPlayerClass = backgroundPhoto ? 'no-waveform' : 'with-waveform';
+    }
 
     return (
       <section className="theatre__audio-player">
@@ -187,7 +178,7 @@ export default class TheatreAudioPlayer extends Component {
           <div className="album-cover">
             {drawBackgroundPhoto(this.props)}
           </div>
-          <div className="media-player" style={mediaPlayerSectionStyle}>
+          <div className={`media-player ${mediaPlayerClass}`}>
             {this.showMedia()}
             {this.showLinerNotes()}
           </div>
@@ -223,4 +214,5 @@ TheatreAudioPlayer.propTypes = {
   photoAltTag: PropTypes.string,
   customSourceLabels: PropTypes.object,
   linerNotes: PropTypes.object,
+  playlist: PropTypes.array.isRequired,
 };
