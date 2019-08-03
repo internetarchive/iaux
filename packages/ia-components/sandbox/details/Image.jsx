@@ -39,17 +39,20 @@ class ImageDweb extends IAReactComponent {
     });
   }
 
-
   loadcallable(enclosingspan) { // Defined as a closure so that can access identifier
-    // TODO this may move to a method on the source (e.g. on ArchiveFile)
-    const name = this.props.imgname || (this.props.source && this.props.source.metadata.name);
-    DwebArchive.loadImg(enclosingspan, name , this.props.source || this.props.src, (err, unusedEl) => {
-      if (err) {
-        debug('Fail to load %s: %s', name, err.message);
-      } else {
-        AJS.tiler(); // Make it redraw after img size known TODO see where/if this is needed
-      }
-    });
+    // Its unclear why, but sometimes React calls this with enclosingspan === null, which is meaningless as missign the <img> to
+    // load into, skipping doesnt seem to be an issue and maybe its timing and element has already gone away?
+    if (enclosingspan) {
+      // TODO this may move to a method on the source (e.g. on ArchiveFile)
+      const name = this.props.imgname || (this.props.source && this.props.source.metadata.name);
+      DwebArchive.loadImg(enclosingspan, name, this.props.source || this.props.src, (err, unusedEl) => {
+        if (err) {
+          debug('Fail to load %s: %s', name, err.message);
+        } else {
+          AJS.tiler(); // Make it redraw after img size known TODO see where/if this is needed
+        }
+      });
+    }
   }
 
   render() {
