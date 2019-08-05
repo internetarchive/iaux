@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "lerna": "^3.14.1"
+    "lerna": "^3.14.1",
+    "polymer-cli": "^1.9.11"
   },
   "name": "iaux",
   "license": "AGPL-3.0-only",
