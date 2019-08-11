@@ -72,7 +72,7 @@ field: of _formatarr to check
 value: value to check for,
 first:  true to return first match or undefined, false for array
 
-formats("format", "VBR MP3", {first: true}.downloadable
+formats("format", "VBR MP3", {first: true}).downloadable
 
 TODO expand to other formats - see mimetypes list from petabox
 TODO fill in missing fields, esp format fiel
@@ -189,6 +189,7 @@ const _formatarr = [
     {format: undefined, ext: '.hqx', type: 'application', mimetype: 'application/mac-binhex40', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.htc', type: 'text', mimetype: 'text/x-component', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.ico', type: 'image', mimetype: 'image/x-icon', playable: undefined, downloadable: undefined },
+    {format: undefined, ext: '.ico', type: 'image', mimetype: 'image/vnd.microsoft.icon', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.img', type: 'application', mimetype: 'application/octet-stream', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.jad', type: 'text', mimetype: 'text/vnd.sun.j2me.app-descriptor', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.jar', type: 'application', mimetype: 'application/java-archive', playable: undefined, downloadable: undefined },
@@ -197,9 +198,10 @@ const _formatarr = [
     {format: undefined, ext: '.jnlp', type: 'application', mimetype: 'application/x-java-jnlp-file', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.jpeg', type: 'image', mimetype: 'image/jpeg', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.jpg', type: 'image', mimetype: 'image/jpeg', playable: undefined, downloadable: undefined },
-    {format: undefined, ext: '.js', type: 'application', mimetype: 'application/x-javascript', playable: undefined, downloadable: undefined },
+    {format: undefined, ext: '.js', type: 'application', mimetype: 'application/javascript', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.kar', type: 'audio', mimetype: 'audio/midi', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.log', type: 'text', mimetype: 'text/plain', playable: undefined, downloadable: undefined },
+    {format: undefined, ext: '.mathml', type: 'text', mimetype: 'text/mathml', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.mid', type: 'audio', mimetype: 'audio/midi', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.midi', type: 'audio', mimetype: 'audio/midi', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.mml', type: 'text', mimetype: 'text/mathml', playable: undefined, downloadable: undefined },
@@ -212,7 +214,7 @@ const _formatarr = [
     {format: undefined, ext: '.pdf', type: 'application', mimetype: 'application/pdf', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.pem', type: 'application', mimetype: 'application/x-x509-ca-cert', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.pl', type: 'application', mimetype: 'application/x-perl', playable: undefined, downloadable: undefined },
-    {format: undefined, ext:'.pl', type: 'text', mimetype: 'text/x-perl', playable: undefined, downloadable: undefined },
+    {format: undefined, ext: '.pl', type: 'text', mimetype: 'text/x-perl', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.png', type: 'image', mimetype: 'image/png', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.prc', type: 'application', mimetype: 'application/x-pilot', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.ps', type: 'application', mimetype: 'application/postscript', playable: undefined, downloadable: undefined },
@@ -349,6 +351,7 @@ const _formatarr = [
     {format: undefined, ext:'.gsf', type: 'application', mimetype: 'application/x-font', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.gsm', type: 'audio', mimetype: 'audio/x-gsm', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.gtar', type: 'application', mimetype: 'application/x-gtar', playable: undefined, downloadable: undefined },
+    {format: undefined, ext:'.gz', type: 'application', mimetype: 'application/x-gzip', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.h', type: 'text', mimetype: 'text/x-chdr', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.h++', type: 'text', mimetype: 'text/x-c++hdr', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.hdf', type: 'application', mimetype: 'application/x-hdf', playable: undefined, downloadable: undefined },
@@ -398,11 +401,16 @@ const _formatarr = [
     {format: undefined, ext:'.lzh', type: 'application', mimetype: 'application/x-lzh', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.lzx', type: 'application', mimetype: 'application/x-lzx', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.m3u', type: 'audio', mimetype: 'audio/x-mpegurl', playable: undefined, downloadable: undefined },
+    {format: undefined, ext:'.m4b', type: 'audio', mimetype: 'audio/mp4', playable: undefined, downloadable: undefined },
+    {format: undefined, ext:'.m4p', type: 'audio', mimetype: 'audio/mp4', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.m4v', type: 'video', mimetype: 'video/x-m4v', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.maker', type: 'application', mimetype: 'application/x-maker', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.man', type: 'application', mimetype: 'application/x-troff-man', playable: undefined, downloadable: undefined },
+    {format: undefined, ext:'.manifest', type: 'text', mimetype: 'text/cache-manifest', playable: undefined, downloadable: undefined },
+    {format: undefined, ext:'.markdown', type: 'text', mimetype: 'text/x-markdown', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.mcif', type: 'chemical', mimetype: 'chemical/x-mmcif', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.mcm', type: 'chemical', mimetype: 'chemical/x-macmolecule', playable: undefined, downloadable: undefined },
+    {format: undefined, ext:'.md', type: 'text', mimetype: 'text/x-markdown', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.mdb', type: 'application', mimetype: 'application/msaccess', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.me', type: 'application', mimetype: 'application/x-troff-me', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.mesh', type: 'model', mimetype: 'model/mesh', playable: undefined, downloadable: undefined },
@@ -421,6 +429,7 @@ const _formatarr = [
     {format: undefined, ext:'.movie', type: 'video', mimetype: 'video/x-sgi-movie', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.mp2', type: 'audio', mimetype: 'audio/mpeg', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.mp4', type: 'video', mimetype: 'video/mp4', playable: undefined, downloadable: undefined },
+    {format: undefined, ext:'.mp4v', type: 'video', mimetype: 'video/mp4', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.mpc', type: 'chemical', mimetype: 'chemical/x-mopac-input', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.mpe', type: 'video', mimetype: 'video/mpeg', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.mpeg4', type: 'video', mimetype: 'video/mp4', playable: undefined, downloadable: undefined },
@@ -565,6 +574,7 @@ const _formatarr = [
     {format: undefined, ext:'.t', type: 'application', mimetype: 'application/x-troff', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.tar', type: 'application', mimetype: 'application/x-tar', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.taz', type: 'application', mimetype: 'application/x-gtar', playable: undefined, downloadable: undefined },
+    {format: undefined, ext:'.tbz', type: 'application', mimetype: 'application/x-bzip-compressed-tar', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.tcl', type: 'text', mimetype: 'text/x-tcl', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.tcl', type: 'application', mimetype: 'application/x-tcl', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.tex', type: 'text', mimetype: 'text/x-tex', playable: undefined, downloadable: undefined },
@@ -593,7 +603,7 @@ const _formatarr = [
     {format: undefined, ext:'.vrml', type: 'x-world', mimetype: 'x-world/x-vrml', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.vsd', type: 'application', mimetype: 'application/vnd.visio', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.wad', type: 'application', mimetype: 'application/x-doom', playable: undefined, downloadable: undefined },
-    {format: undefined, ext:'.wav', type: 'audio', mimetype: 'audio/x-wav', playable: undefined, downloadable: undefined },
+    {format: undefined, ext:'.wav', type: 'audio', mimetype: 'audio/wav', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.wax', type: 'audio', mimetype: 'audio/x-ms-wax', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.wbxml', type: 'application', mimetype: 'application/vnd.wap.wbxml', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.weba', type: 'audio', mimetype: 'audio/weba', playable: undefined, downloadable: undefined },
@@ -625,6 +635,7 @@ const _formatarr = [
     {format: undefined, ext:'.xul', type: 'application', mimetype: 'application/vnd.mozilla.xul+xml', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.xwd', type: 'image', mimetype: 'image/x-xwindowdump', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.xyz', type: 'chemical', mimetype: 'chemical/x-xyz', playable: undefined, downloadable: undefined },
+    {format: undefined, ext:'.yaml', type: 'text', mimetype: 'text/yaml', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.zmt', type: 'chemical', mimetype: 'chemical/x-mopac-input', playable: undefined, downloadable: undefined },
 ];
 /* petabox/www/common/FormatGetter.inc has these items, not sure if useful
