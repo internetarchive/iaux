@@ -8,13 +8,15 @@
         "storybook:start": "start-storybook -p 9001 -c .storybook",
         "test:generate-output": "mkdir jest-test-utils && jest --json --outputFile=jest-test-utils/jest-test-results.json || true",
         "test:update-snapshots": "jest --updateSnapshot",
-        "test": "jest --watch --coverage"
+        "test": "jest --watch --coverage",
+        "test:integration": "node_modules/.bin/jest --config jest-test-utils/jest.config.js"
     },
     "devDependencies": {
         "@babel/core": "^7.2.2",
         "@babel/plugin-proposal-class-properties": "^7.3.4",
         "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
-        "@babel/plugin-transform-runtime": "^7.3.4",
+        "@babel/plugin-transform-runtime": "^7.5.5",
+        "@babel/runtime": "^7.5.5",
         "@internetarchive/ia-js-client": "^0.0.0-alpha.20+5039f8d",
         "@storybook/addon-a11y": "4.2.0-alpha.10",
         "@storybook/addon-jest": "^4.1.6",
@@ -23,12 +25,14 @@
         "assert": "^1.4.1",
         "axios": "^0.19.0",
         "babel-loader": "^8.0.5",
+        "chromedriver": "^76.0.0",
         "css-loader": "^2.1.0",
         "http-proxy-middleware": "^0.19.1",
         "jest": "^24.7.1",
         "less": "^3.8.1",
         "less-loader": "^4.1.0",
         "react-test-renderer": "^16.7.0",
+        "selenium-webdriver": "^4.0.0-alpha.4",
         "storybook-addon-jsx": "^6.0.0",
         "style-loader": "^0.23.1"
     },
