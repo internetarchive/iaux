@@ -9,7 +9,7 @@
         "test:generate-output": "mkdir jest-test-utils && jest --json --outputFile=jest-test-utils/jest-test-results.json || true",
         "test:update-snapshots": "jest --updateSnapshot",
         "test": "jest --watch --coverage",
-        "test:integration": "node_modules/.bin/jest --config jest-test-utils/jest.config.js"
+        "test:integration": "node_modules/.bin/jest --config integration/jest.config.js"
     },
     "devDependencies": {
         "@babel/core": "^7.2.2",
