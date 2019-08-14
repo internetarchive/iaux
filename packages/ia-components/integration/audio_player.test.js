@@ -18,7 +18,10 @@ const selectors = {
 describe('Audio Player', () => {
   let driver;
 
-  let to, asyncTo, toFrame, toParentFrame;
+  let to;
+  let asyncTo;
+  let toFrame;
+  let toParentFrame;
 
   beforeAll(async () => {
     driver = new Builder()
