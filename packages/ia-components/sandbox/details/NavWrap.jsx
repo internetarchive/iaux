@@ -56,7 +56,7 @@ class NavSearchLI extends IAReactComponent {
   /** <NavSearchLI/>
    * Behavior:
    *   Renders: an <LI/> with a form and search icon as used on the Details page
-   *   On submit: Calls Nav.nav_search - this makes it Dweb only, if someone else uses it then a non-dweb version of onSubmit will be required
+   *   On submit: Calls Nav.navSearch - this makes it Dweb only, if someone else uses it then a non-dweb version of onSubmit will be required
    */
 
   constructor(props) {
@@ -69,7 +69,7 @@ class NavSearchLI extends IAReactComponent {
       // TODO-IAUX this is dweb-archive only, needs a version that works in raw IAUX
       debug('Search submitted');
     // noinspection JSUnresolvedFunction,JSUnresolvedVariable
-    Nav.nav_search(this.state.value, {wanthistory: true});
+    Nav.navSearch(this.state.value, {wanthistory: true});
       event.preventDefault();
   }
 
