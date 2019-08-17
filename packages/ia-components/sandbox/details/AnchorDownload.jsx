@@ -72,7 +72,8 @@ class AnchorDownload extends IAReactComponent {
     AnchorDownload.urlparms.forEach(k => usp.append(k, this.props[k]));
     this.state.url.search = usp; // Note this copies, not updatable
     // Copy any parameters not specified in AnchorDownload.urlparms to anchorProps for inclusion in the <a>
-    this.state.anchorProps = ObjectFilter(this.props, (k, unusedV) => !AnchorDownload.urlparms.includes(k));
+    this.state.anchorProps = ObjectFilter(this.props,
+      (k, unusedV) => (!AnchorDownload.urlparms.includes(k) && !["disconnected"].includes(k)));
   }
 
   clickCallable(ev) {
