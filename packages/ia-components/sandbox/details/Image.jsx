@@ -3,7 +3,6 @@ import React from 'react';
 import { ObjectFilter } from '../../util';
 import IAReactComponent from '../IAReactComponent';
 import { AnchorDownload } from './AnchorDownload';
-
 const debug = require('debug')('Image Components');
 
 /**
@@ -15,6 +14,7 @@ const debug = require('debug')('Image Components');
  *    OR
  *      src     as in <img>
  *    alt     as in <img>
+ *    imgname optional name used for alt tag and mime type when rendering via blob
  * />
  * <ImageMainTheatre
  *  source  [ArchiveFile]  // Single ArchiveFile but in an array
@@ -32,32 +32,37 @@ class ImageDweb extends IAReactComponent {
   // Image that can, but doesnt have to be loaded via Dweb
 
   constructor(props) {
-    super(props); // { source, src, alt }
+    super(props);
     this.setState({
+      src: this.props.url,
       notImgProps: ObjectFilter(this.props, (k, unusedV) => ImageDweb.specificParms.includes(k)),
       imgProps: ObjectFilter(this.props, (k, unusedV) => (!ImageDweb.specificParms.includes(k) && !['children'].includes(k)))
     });
+    if (DwebArchive) {
+      //TODO imgname might be obsolete and unused (check dweb-archive and iaux)
+      const name = this.props.imgname || (this.props.source && this.props.source.metadata.name);
+      DwebArchive.getImageURI(name, this.props.source || this.props.src, (err, url) => {
+        if (!err) this.setState({src: url});
+      })
+    }
   }
 
-
-  loadcallable(enclosingspan) { // Defined as a closure so that can access identifier
-    // TODO this may move to a method on the source (e.g. on ArchiveFile)
-    const name = this.props.imgname || (this.props.source && this.props.source.metadata.name);
-    DwebArchive.loadImg(enclosingspan, name , this.props.source || this.props.src, (err, unusedEl) => {
-      if (err) {
-        debug('Fail to load %s: %s', name, err.message);
-      } else {
-        AJS.tiler(); // Make it redraw after img size known TODO see where/if this is needed
-      }
-    });
+  componentDidMount() {
+    //DwebArchive.page = this;
+    super.componentDidMount();
+    this.componentDidMountOrUpdate()
   }
 
+  componentDidUpdate() {
+    super.componentDidUpdate();
+    this.componentDidMountOrUpdate()
+  }
+  componentDidMountOrUpdate() {
+    AJS.tiler();
+  }
   render() {
-    // noinspection HtmlRequiredAltAttribute
     return (
-      typeof DwebArchive !== 'undefined'
-        ? <img ref={this.load} {...this.state.imgProps} />
-        : <img {...this.state.imgProps} src={this.props.src} />
+      <img {...this.state.imgProps} src={this.state.src} />
     );
   }
 }

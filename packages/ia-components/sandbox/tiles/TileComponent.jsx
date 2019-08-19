@@ -113,8 +113,9 @@ export default class TileComponent extends IAReactComponent {
           ? (
             <AnchorDetails className="stealth" tabIndex="-1" identifier={this.state.collection0}>
               <div className="item-parent">
+                {/*archive.org uses a background image on the div but that makes it hard to intercept*/}
                 <div className="item-parent-img">
-                  <ImageDweb src={this.state.parentimageurl} alt={this.state.collection0} imgname= '__ia_thumb.jpg'/>
+                  <ImageDweb className="item-parent-img" src={this.state.parentimageurl} alt={this.state.collection0} imgname= '__ia_thumb.jpg'/>
                 </div>
                 <div className="item-parent-ttl">{this.state.collection0title}</div>
               </div>

@@ -56,7 +56,7 @@ class NavSearchLI extends IAReactComponent {
   /** <NavSearchLI/>
    * Behavior:
    *   Renders: an <LI/> with a form and search icon as used on the Details page
-   *   On submit: Calls Nav.nav_search - this makes it Dweb only, if someone else uses it then a non-dweb version of onSubmit will be required
+   *   On submit: Calls Nav.navSearch - this makes it Dweb only, if someone else uses it then a non-dweb version of onSubmit will be required
    */
 
   constructor(props) {
@@ -67,9 +67,9 @@ class NavSearchLI extends IAReactComponent {
 
   onSubmit(event) {
       // TODO-IAUX this is dweb-archive only, needs a version that works in raw IAUX
-      debug('Search submitted');
+      debug('Search submitted %s',this.state.value);
     // noinspection JSUnresolvedFunction,JSUnresolvedVariable
-    Nav.nav_search(this.state.value, {wanthistory: true});
+    Nav.navSearch(this.state.value, {wanthistory: true});
       event.preventDefault();
   }
 
@@ -308,7 +308,7 @@ class DwebNavButtons extends IAReactComponent {
 }
 
 class DwebNavDIV extends IAReactComponent {
-  /*
+  /**
    * <DwebNavDIV
    *    item= {             // ArchiveItem
    *      itemid: identifier,
@@ -316,10 +316,11 @@ class DwebNavDIV extends IAReactComponent {
    *      sort:   string,
    *      downloaded: { ... }, passed to CrawlConfig
    *      crawl: object (optional) passed as props to CrawlConfig
-   *      mirror2gateway: bool
    *      canSave: bool   true if can save
    *    }
-   *    transportStatuses: [{name, status}]
+   *   transportStatuses=[{name: STRING, status: INT} Status of connected transports
+   *   mirror2gateway=BOOL  True if connected to a mirror that can see its upstream gateway
+   *   disconnected=BOOL    True if disconnected from upstream (so disable UI dependent on upstream)
    * />
    * Renders: A navigation row with the DwebStatusDIV (transport status buttons), CrawlConfig and DwebNavButtons
    * OnClick: See those subcomponents
@@ -414,10 +415,11 @@ class DwebStatusDIV extends IAReactComponent {
 class NavWrap extends IAReactComponent {
   /*
    * <NavWrap
-   *    item = ArchiveItem  passed to DwebNavDIV (optional if not on Dweb)
-   *    transportStatuses = [{name, status}*]
-   *    mirror2gateway bool
-   *    canSave=BOOL        True if can save
+   *   item = ArchiveItem  passed to DwebNavDIV (optional if not on Dweb)
+   *   canSave=BOOL        True if can save
+   *   transportStatuses=[{name: STRING, status: INT} Status of connected transports
+   *   mirror2gateway=BOOL  True if connected to a mirror that can see its upstream gateway
+   *   disconnected=BOOL    True if disconnected from upstream (so disable UI dependent on upstream)
    * />
    * Behavior
    *   On Render: Renders the head of a details or search page including NavDwebDIV, NavBrandLI NavSearchLI NavUploadLI NavAboutsUL DwebNavDIV

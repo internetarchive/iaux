@@ -12,7 +12,7 @@ const debug = require('debug')('ia-components:AnchorSearch');
  * On render we split props between the Anchor and the URL and build the URL.
  *
  * On click - behavior varies between Dweb and IAUX
- *      Dweb:   Navigate via the Nav.nav_search function
+ *      Dweb:   Navigate via the Nav.navSearch function
  *      !Dweb:  normal Anchor behavior to go to the href
  *
  * Technical:
@@ -20,7 +20,7 @@ const debug = require('debug')('ia-components:AnchorSearch');
  *
  * <AnchorSearch
  *  query       Object { field: value}   OR string (value can be Array, in which case it is OR-ed
- *  reload      if set, passed to Nav.nav_search as an opt TODO implement this
+ *  reload      if set, passed to Nav.navSearch as an opt TODO implement this
  *  TODO implement maybe: sort        passed to URL as a parameter
  *  Any other properties are passed to the <a />
  *
@@ -46,15 +46,25 @@ function queryFrom(query) {
 // End of DUPLICATEDCODE#0003
 
 class AnchorSearch extends IAReactComponent {
-  /*
-    !Dweb: no onClick unless want analytics
-    Dweb:  onClick={this.click}
-    */
+  /**
+   * Render an Anchor that navigates to a search
+   *
+   * <AnchorSearch
+   *  query   string in form can pass to URL or object like {collection: foo, title: bar} or string like 'collection:"foo" AND title:"bar"'
+   *  field,value pair to turn into a query field=value
+   *  sort
+   *  reload  Force a reload of query if supported (Dweb only)
+   *
+   *  Behavior:
+   *    on Dweb - click handler fires and calls navSearch
+   *    not on Dweb:  URL embedded in anchor, onClick can be passed if want analytics
+   */
+
   constructor(props) {
-    super(props); // { query, field, sort, value, reload }
+    super(props); // { query || field & value, sort, reload }
     this.setState({
       query: this.props.query || ObjectFromEntries([[this.props.field, this.props.value]]),
-      urlProps: ObjectFilter(this.props, (k, unusedV) => AnchorSearch.urlparms.includes(k)),
+      urlProps: ObjectFilter(this.props, (k, unusedV) => AnchorSearch.urlparms.includes(k)),  //sort, reload, query
       anchorProps: ObjectFilter(this.props, (k, unusedV) => (!AnchorSearch.urlparms.includes(k) && !['children'].includes(k)))
     });
   }
@@ -62,9 +72,9 @@ class AnchorSearch extends IAReactComponent {
   clickCallable(unusedEvent) {
     // Note this is only called in dweb; !Dweb has a director href
     debug('Clicking on link to search: %s', this.state.query);
-    DwebArchive.Nav.nav_search(
-      { query: this.state.query, sort: this.props.sort },
-      { noCache: this.props.reload, wanthistory: !this.props.reload });
+    DwebArchive.Nav.navSearch(
+      this.state.query,
+      { noCache: this.props.reload, wanthistory: !this.props.reload, sort: this.props.sort });
     return false; // Dont propagate event
   }
 
