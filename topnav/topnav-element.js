@@ -7,17 +7,19 @@ class TopnavElement extends LitElement {
   static get properties() {
     return {
       userMenuOpen: { type: Boolean },
-      userMenu: { type: Object }
+      userMenuAnimate: { type: Boolean }
     };
   }
 
   constructor() {
     super();
     this.userMenuOpen = false;
+    this.userMenuAnimate = false;
   }
 
   userMenu() {
     this.userMenuOpen = !this.userMenuOpen;
+    this.userMenuAnimate = true;
   }
 
   render() {
@@ -32,12 +34,12 @@ class TopnavElement extends LitElement {
       </div>
       <div class="right">
         <button><img src="assets/img/ia-search.svg" alt="Search"></button>
-        <button @click="${this.userMenu}">
+        <button class="${this.userMenuOpen ? 'user-menu-active' : ''}" @click="${this.userMenu}">
           <img src="assets/img/ia-user.svg" alt="User menu">
         </button>
       </div>
     </nav>
-    <user-menu ?userMenuOpen="${this.userMenuOpen}" tabindex="${this.userMenuOpen ? '' : '-1'}"></user-menu>
+    <user-menu ?userMenuOpen="${this.userMenuOpen}" ?userMenuAnimate="${this.userMenuAnimate}" tabindex="${this.userMenuOpen ? '' : '-1'}"></user-menu>
    `;
   }
 
@@ -48,7 +50,7 @@ class TopnavElement extends LitElement {
         display: flex;
         flex-direction: row;
         margin: 0px;
-        height: 50px;
+        height: 52px;
         padding: 0 10px;
         background: #000;
         padding: 0;
@@ -60,7 +62,7 @@ class TopnavElement extends LitElement {
         background: none;
         color: inherit;
         border: none;
-        padding: 10px;
+        padding: 4px 8px;
         font: inherit;
         cursor: pointer;
       }
@@ -81,6 +83,13 @@ class TopnavElement extends LitElement {
         flex: 1;
         justify-content: flex-end;
         align-items: center;
+      }
+      .logo img {
+        padding: 6px;
+      }
+      button.user-menu-active {
+        border-radius: 10px 10px 0px 0px;
+        background: #333;
       }
     `;
   }
