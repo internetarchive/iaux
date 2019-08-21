@@ -44,6 +44,7 @@ class TopnavElement extends LitElement {
   static get styles() {
     return css`
       .navbar {
+        position: relative;
         display: flex;
         flex-direction: row;
         margin: 0px;
