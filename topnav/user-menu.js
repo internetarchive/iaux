@@ -36,7 +36,7 @@ class UserMenu extends LitElement {
         width: 150px;
         background-color: #333;
         padding: 5px 10px;
-        animation: slide-out 0.5s backwards;
+        animation: slide-out 0.6s forwards;
         transform: translate(0px, -500px);
       }
       .open {
