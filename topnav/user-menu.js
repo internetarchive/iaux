@@ -8,52 +8,38 @@ class UserMenu extends LitElement {
     };
   }
 
-  constructor() {
-    super();
-  }
-
   render() {
     return html`
-    <ul
+    <nav
       class="${this.userMenuOpen ? 'user-menu open' : 'user-menu'}"
       aria-hidden="${this.userMenuOpen ? 'false' : 'true'}"
       aria-expanded="${this.userMenuOpen ? 'true' : 'false'}"
     >
-      <li><a href="#"><b>USERNAME</b></a></li>
-      <li><a href="#">Upload</a></li>
-      <li><a href="#">My library</a></li>
-      <li><a href="#">My loans</a></li>
-      <li><a href="#">My favourites</a></li>
-      <li><a href="#">My web archive</a></li>
-      <li><a href="#">Edit settings</a></li>
-      <li><a href="#">Get help</a></li>
-      <li><a href="#">Log out</a></li>
-    </ul>
+      <div><a href="#"><b>USERNAME</b></a></div>
+      <div><a href="#">Upload</a></div>
+      <div><a href="#">My library</a></div>
+      <div><a href="#">My loans</a></div>
+      <div><a href="#">My favourites</a></div>
+      <div><a href="#">My web archive</a></div>
+      <div><a href="#">Edit settings</a></div>
+      <div><a href="#">Get help</a></div>
+      <div><a href="#">Log out</a></div>
+    </nav>
     `;
   }
 
   static get styles() {
     return css`
-      button {
-        background: none;
-        color: inherit;
-        border: none;
-        padding: 10px;
-        font: inherit;
-        cursor: pointer;
-      }
       .user-menu {
         margin: 0px;
         float: right;
         width: 150px;
         background-color: #333;
-        flex-direction: column;
         padding: 5px 10px;
         animation: slide-out 0.5s backwards;
-        transform: translate(0px, -500px) !important;
+        transform: translate(0px, -500px);
       }
       .open {
-        display: flex;
         animation: slide-in 0.6s forwards;
         transform: translate(0px, 0px);
         z-index: 1;
@@ -74,10 +60,7 @@ class UserMenu extends LitElement {
           transform: translate(0px, -500px);
         }
       }
-      ul.user-menu {
-        list-style: none;
-      }
-      .user-menu li {
+      .user-menu div {
         padding: 10px;
       }
       a {
@@ -87,7 +70,6 @@ class UserMenu extends LitElement {
       }
      `;
   }
-
 }
 
 customElements.define('user-menu', UserMenu);
