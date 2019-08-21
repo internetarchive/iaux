@@ -4,14 +4,15 @@ class UserMenu extends LitElement {
 
   static get properties() {
     return {
-      userMenuOpen: { type: Boolean }
+      userMenuOpen: { type: Boolean },
+      userMenuAnimate: { type: Boolean }
     };
   }
 
   render() {
     return html`
     <nav
-      class="${this.userMenuOpen ? 'user-menu open' : 'user-menu'}"
+      class="${this.userMenuOpen ? 'user-menu open slide-in' : this.userMenuAnimate ? 'user-menu slide-out' : 'user-menu'}"
       aria-hidden="${this.userMenuOpen ? 'false' : 'true'}"
       aria-expanded="${this.userMenuOpen ? 'true' : 'false'}"
     >
@@ -30,17 +31,16 @@ class UserMenu extends LitElement {
 
   static get styles() {
     return css`
+      /**Now, activate animation class on click and send to this componenent. When it is on the add classes for aniation slide-in and slide-out*/
       .user-menu {
         margin: 0px;
         float: right;
         width: 150px;
         background-color: #333;
         padding: 5px 10px;
-        animation: slide-out 0.6s forwards;
         transform: translate(0px, -500px);
       }
       .open {
-        animation: slide-in 0.6s forwards;
         transform: translate(0px, 0px);
         z-index: 1;
       }
@@ -59,6 +59,12 @@ class UserMenu extends LitElement {
         100% {
           transform: translate(0px, -500px);
         }
+      }
+      .slide-in {
+        animation: slide-in 0.6s forwards;
+      }
+      .slide-out {
+        animation: slide-out 0.6s forwards;
       }
       .user-menu div {
         padding: 10px;
