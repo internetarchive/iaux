@@ -35,7 +35,7 @@ class TopnavElement extends LitElement {
       <div class="right">
         <button><img src="assets/img/ia-search.svg" alt="Search"></button>
         <button class="${this.userMenuOpen ? 'user-menu-active' : ''}" @click="${this.userMenu}">
-          <img src="assets/img/ia-user.svg" alt="User menu">
+          <img src="${this.userMenuOpen ? 'assets/img/ia-user-fff.svg' : 'assets/img/ia-user-999.svg'}" alt="User menu">
         </button>
       </div>
     </nav>
@@ -90,6 +90,9 @@ class TopnavElement extends LitElement {
       button.user-menu-active {
         border-radius: 10px 10px 0px 0px;
         background: #333;
+      }
+      button.user-menu-active g {
+          fill: #fff;
       }
     `;
   }
