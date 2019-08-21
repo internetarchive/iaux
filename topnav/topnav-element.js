@@ -37,7 +37,7 @@ class TopnavElement extends LitElement {
         </button>
       </div>
     </nav>
-    <user-menu ?userMenuOpen="${this.userMenuOpen}" tabindex="${this.userMenuOpen ? '0' : '-1'}"></user-menu>
+    <user-menu ?userMenuOpen="${this.userMenuOpen}" tabindex="${this.userMenuOpen ? '' : '-1'}"></user-menu>
    `;
   }
 
