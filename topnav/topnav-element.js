@@ -1,6 +1,24 @@
 import { LitElement, html, css } from 'lit-element'
 
+import './user-menu';
+
 class TopnavElement extends LitElement {
+
+  static get properties() {
+    return {
+      userMenuOpen: { type: Boolean },
+      userMenu: { type: Object }
+    };
+  }
+
+  constructor() {
+    super();
+    this.userMenuOpen = false;
+  }
+
+  userMenu() {
+    this.userMenuOpen = !this.userMenuOpen;
+  }
 
   render() {
     return html`
@@ -14,9 +32,12 @@ class TopnavElement extends LitElement {
       </div>
       <div class="right">
         <button><img src="assets/img/ia-search.svg" alt="Search"></button>
-        <button><img src="assets/img/ia-user.svg" alt="User menu"></button>
+        <button @click="${this.userMenu}">
+          <img src="assets/img/ia-user.svg" alt="User menu">
+        </button>
       </div>
     </nav>
+    <user-menu ?userMenuOpen="${this.userMenuOpen}" tabindex="${this.userMenuOpen ? '0' : '-1'}"></user-menu>
    `;
   }
 
@@ -32,6 +53,7 @@ class TopnavElement extends LitElement {
         padding: 0;
         list-style: none;
         align-items: center;
+        z-index: 2;
       }
       .navbar button {
         background: none;
