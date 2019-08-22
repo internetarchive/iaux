@@ -1,13 +1,15 @@
 import { LitElement, html, css } from 'lit-element'
 
 import './user-menu';
+import './search-menu';
 
 class TopnavElement extends LitElement {
 
   static get properties() {
     return {
       userMenuOpen: { type: Boolean },
-      userMenuAnimate: { type: Boolean }
+      userMenuAnimate: { type: Boolean },
+      searchMenuOpen: { type: Boolean }
     };
   }
 
@@ -15,11 +17,17 @@ class TopnavElement extends LitElement {
     super();
     this.userMenuOpen = false;
     this.userMenuAnimate = false;
+    this.searchMenuOpen = false;
   }
 
   userMenu() {
     this.userMenuOpen = !this.userMenuOpen;
     this.userMenuAnimate = true;
+  }
+
+  searchMenu() {
+    this.searchMenuOpen = !this.searchMenuOpen;
+    console.log(this.searchMenuOpen);
   }
 
   render() {
@@ -33,14 +41,17 @@ class TopnavElement extends LitElement {
         <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"></a>
       </div>
       <div class="right">
-        <button><img src="assets/img/ia-search.svg" alt="Search"></button>
+        <button @click="${this.searchMenu}">
+          <img src="assets/img/ia-search.svg" alt="Search">
+        </button>
         <button class="${this.userMenuOpen ? 'user-menu-active' : ''}" @click="${this.userMenu}">
           <img src="${this.userMenuOpen ? 'assets/img/ia-user-fff.svg' : 'assets/img/ia-user-999.svg'}" alt="User menu">
         </button>
       </div>
     </nav>
+    <search-menu ?searchMenuOpen="${this.searchMenuOpen}"></search-menu>
     <user-menu ?userMenuOpen="${this.userMenuOpen}" ?userMenuAnimate="${this.userMenuAnimate}" tabindex="${this.userMenuOpen ? '' : '-1'}"></user-menu>
-   `;
+    `;
   }
 
   static get styles() {
