@@ -43,6 +43,7 @@ class SearchMenu extends LitElement {
   static get styles() {
     return css`
       .search-menu {
+        position: relative;
         display: flex;
         flex-direction: column;
         margin: 0px;
