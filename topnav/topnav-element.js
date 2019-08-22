@@ -40,13 +40,23 @@ class TopnavElement extends LitElement {
       <div class="left">
         <button><img src="assets/img/ia-hamburger.svg" alt="Main menu"></button>
       </div>
-      <div class="center">
+      <div class="center" style="display: none">
         <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button> <!--Fake element for alignment purposes-->
-        <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"></a>
+        <a href="#"><img src="assets/img/ia-logo-99.svg" alt="Home"></a>
         <button class="search" @click="${this.searchMenu}">
           <img src="assets/img/ia-search.svg" alt="Search">
         </button>
       </div>
+      <!--New div created to replace above one when search is activated-->
+      <div class="center-search-activated">
+        <div class="fake-box">
+          <input type="text" id="search-field" placeholder="Search Internet Archive" required>
+          <button class="search" @click="${this.searchMenu}">
+            <img src="assets/img/ia-search-222.svg" alt="Search">
+          </button>
+        </div>
+      </div>
+      <!--End of replacement div-->
       <div class="right">
         <button class="${this.userMenuOpen ? 'user-menu-active' : ''}" @click="${this.userMenu}">
           <img src="${this.userMenuOpen ? 'assets/img/ia-user-fff.svg' : 'assets/img/ia-user-999.svg'}" alt="User menu">
@@ -104,8 +114,35 @@ class TopnavElement extends LitElement {
         border-radius: 10px 10px 0px 0px;
         background: #333;
       }
-      button.user-menu-active g {
-          fill: #fff;
+      .center-search-activated {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px 10px 0px 0px;
+        background: #333;
+        padding: 8px;
+      }
+      .center-search-activated .fake-box{
+        background: #fff;
+        border-radius: 10px;
+        display: flex;
+        width: 100%;
+      }
+      .center-search-activated .search{
+        background: #fff;
+        height: 36px;
+        border-radius: 10px;
+      }
+      #search-field {
+        width: 95%;
+        height: 34px;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        font: "Helvetica-Neue";
+        text-align: center;
+        font-size: 18px;
       }
     `;
   }
