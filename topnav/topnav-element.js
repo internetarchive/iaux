@@ -37,11 +37,11 @@ class TopnavElement extends LitElement {
   render() {
     return html`
     <nav class="navbar">
-      <div class="main-menu">
+      <div class="left">
         <button><img src="assets/img/ia-hamburger.svg" alt="Main menu"></button>
       </div>
       <div class="center">
-        <button style="padding: 17px 24px;">&nbsp;</button> <!--Fake element for alignment pusposes-->
+        <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button> <!--Fake element for alignment purposes-->
         <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"></a>
         <button class="search" @click="${this.searchMenu}">
           <img src="assets/img/ia-search.svg" alt="Search">
@@ -81,9 +81,8 @@ class TopnavElement extends LitElement {
         font: inherit;
         cursor: pointer;
       }
-      .main-menu {
+      .left {
         display: flex;
-        flex: 1;
         justify-content: flex-start;
         align-items: center;
       }
@@ -91,11 +90,10 @@ class TopnavElement extends LitElement {
         display: flex;
         flex: 1;
         align-items: center;
-        justify-content: space-around;
+        justify-content: space-between;
       }
       .right {
         display: flex;
-        flex: 1;
         justify-content: flex-end;
         align-items: center;
       }
