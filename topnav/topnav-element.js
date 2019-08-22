@@ -40,15 +40,15 @@ class TopnavElement extends LitElement {
       <div class="left">
         <button><img src="assets/img/ia-hamburger.svg" alt="Main menu"></button>
       </div>
-      <div class="center" style="display: none">
+      <div class="center" style="${this.searchMenuOpen ? 'display: none' : 'display: flex'}">
         <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button> <!--Fake element for alignment purposes-->
-        <a href="#"><img src="assets/img/ia-logo-99.svg" alt="Home"></a>
+        <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"></a>
         <button class="search" @click="${this.searchMenu}">
-          <img src="assets/img/ia-search.svg" alt="Search">
+          <img src="assets/img/ia-search-999.svg" alt="Search">
         </button>
       </div>
       <!--New div created to replace above one when search is activated-->
-      <div class="center-search-activated">
+      <div class="center-search-activated" style="${this.searchMenuOpen ? 'display: flex' : 'display: none'}">
         <div class="fake-box">
           <input type="text" id="search-field" placeholder="Search Internet Archive" required>
           <button class="search" @click="${this.searchMenu}">
@@ -128,15 +128,18 @@ class TopnavElement extends LitElement {
         border-radius: 10px;
         display: flex;
         width: 100%;
+        height: 40px;
+        padding: 0px;
       }
       .center-search-activated .search{
         background: #fff;
-        height: 36px;
+        height: 40px;
         border-radius: 10px;
+        padding: 0px 0px 2px 0px;
       }
       #search-field {
-        width: 95%;
-        height: 34px;
+        width: 100%;
+        height: 38px;
         border-radius: 10px;
         border: none;
         outline: none;
