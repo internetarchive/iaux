@@ -21,13 +21,15 @@ class TopnavElement extends LitElement {
   }
 
   userMenu() {
+    this.searchMenuOpen = this.searchMenuOpen ? !this.searchMenuOpen : this.searchMenuOpen;
     this.userMenuOpen = !this.userMenuOpen;
     this.userMenuAnimate = true;
   }
 
   searchMenu() {
+    this.userMenuOpen = this.userMenuOpen ? !this.userMenuOpen : this.userMenuOpen;
+    this.userMenuAnimate = true;
     this.searchMenuOpen = !this.searchMenuOpen;
-    console.log(this.searchMenuOpen);
   }
 
   render() {
