@@ -31,7 +31,6 @@ class UserMenu extends LitElement {
 
   static get styles() {
     return css`
-      /**Now, activate animation class on click and send to this componenent. When it is on the add classes for aniation slide-in and slide-out*/
       .user-menu {
         margin: 0px;
         float: right;

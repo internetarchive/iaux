@@ -36,7 +36,6 @@ class TopnavElement extends LitElement {
 
   render() {
     return html`
-    <!--https://a11y-style-guide.com/style-guide/section-navigation.html give 8px padding-->
     <nav class="navbar">
       <div class="main-menu">
         <button><img src="assets/img/ia-hamburger.svg" alt="Main menu"></button>
