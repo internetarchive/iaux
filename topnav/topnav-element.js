@@ -121,7 +121,7 @@ class TopnavElement extends LitElement {
         justify-content: center;
         border-radius: 10px 10px 0px 0px;
         background: #333;
-        padding: 8px;
+        padding: 6px 8px;
       }
       .center-search-activated .fake-box{
         background: #fff;
