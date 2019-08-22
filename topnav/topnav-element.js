@@ -9,7 +9,8 @@ class TopnavElement extends LitElement {
     return {
       userMenuOpen: { type: Boolean },
       userMenuAnimate: { type: Boolean },
-      searchMenuOpen: { type: Boolean }
+      searchMenuOpen: { type: Boolean },
+      searchMenuAnimate: { type: Boolean }
     };
   }
 
@@ -18,17 +19,18 @@ class TopnavElement extends LitElement {
     this.userMenuOpen = false;
     this.userMenuAnimate = false;
     this.searchMenuOpen = false;
+    this.searchMenuAnimate = false;
   }
 
   userMenu() {
     this.searchMenuOpen = this.searchMenuOpen ? !this.searchMenuOpen : this.searchMenuOpen;
-    this.userMenuOpen = !this.userMenuOpen;
     this.userMenuAnimate = true;
+    this.userMenuOpen = !this.userMenuOpen;
   }
 
   searchMenu() {
     this.userMenuOpen = this.userMenuOpen ? !this.userMenuOpen : this.userMenuOpen;
-    this.userMenuAnimate = true;
+    this.searchMenuAnimate = true;
     this.searchMenuOpen = !this.searchMenuOpen;
   }
 
@@ -51,7 +53,7 @@ class TopnavElement extends LitElement {
         </button>
       </div>
     </nav>
-    <search-menu ?searchMenuOpen="${this.searchMenuOpen}"></search-menu>
+    <search-menu ?searchMenuOpen="${this.searchMenuOpen}" ?searchMenuAnimate="${this.searchMenuAnimate}" tabindex="${this.searchMenuOpen ? '' : '-1'}"></search-menu>
     <user-menu ?userMenuOpen="${this.userMenuOpen}" ?userMenuAnimate="${this.userMenuAnimate}" tabindex="${this.userMenuOpen ? '' : '-1'}"></user-menu>
     `;
   }

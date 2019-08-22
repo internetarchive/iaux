@@ -4,14 +4,15 @@ class SearchMenu extends LitElement {
 
   static get properties() {
     return {
-      searchMenuOpen: { type: Boolean }
+      searchMenuOpen: { type: Boolean },
+      searchMenuAnimate: { type: Boolean }
     };
   }
 
   render() {
     return html`
     <nav
-      class="${this.searchMenuOpen ? 'search-menu open' : 'search-menu'}"
+      class="${this.searchMenuOpen ? 'search-menu open slide-in' : this.searchMenuAnimate ? 'search-menu slide-out': 'search-menu'}"
       aria-hidden="${this.searchMenuOpen ? 'false' : 'true'}"
       aria-expanded="${this.searchMenuOpen ? 'true' : 'false'}"
     >
@@ -52,11 +53,33 @@ class SearchMenu extends LitElement {
         font-size: 20px;
         background-color: #333;
         padding: 10px;
-        transform: translate(0px, -500px);
+        transform: translate(0px, -1000px);
       }
       .open {
         transform: translate(0px, 0px);
         z-index: 3;
+      }
+      @keyframes slide-in {
+        0% {
+          transform: translate(0px, -1000px);
+        }
+        100% {
+          transform: translate(0px, 0px);
+        }
+      }
+      @keyframes slide-out {
+        0% {
+          transform: translate(0px, 0px);
+        }
+        100% {
+          transform: translate(0px, -1000px);
+        }
+      }
+      .slide-in {
+        animation: slide-in 0.2s forwards;
+      }
+      .slide-out {
+        animation: slide-out 0.2s forwards;
       }
       .search-options {
         align-self: center;
