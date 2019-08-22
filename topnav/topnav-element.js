@@ -40,13 +40,14 @@ class TopnavElement extends LitElement {
       <div class="main-menu">
         <button><img src="assets/img/ia-hamburger.svg" alt="Main menu"></button>
       </div>
-      <div class="logo">
+      <div class="center">
+        <button style="padding: 17px 24px;">&nbsp;</button> <!--Fake element for alignment pusposes-->
         <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"></a>
-      </div>
-      <div class="right">
-        <button @click="${this.searchMenu}">
+        <button class="search" @click="${this.searchMenu}">
           <img src="assets/img/ia-search.svg" alt="Search">
         </button>
+      </div>
+      <div class="right">
         <button class="${this.userMenuOpen ? 'user-menu-active' : ''}" @click="${this.userMenu}">
           <img src="${this.userMenuOpen ? 'assets/img/ia-user-fff.svg' : 'assets/img/ia-user-999.svg'}" alt="User menu">
         </button>
@@ -86,11 +87,11 @@ class TopnavElement extends LitElement {
         justify-content: flex-start;
         align-items: center;
       }
-      .logo {
+      .center {
         display: flex;
         flex: 1;
-        justify-content: center;
         align-items: center;
+        justify-content: space-around;
       }
       .right {
         display: flex;
@@ -98,8 +99,8 @@ class TopnavElement extends LitElement {
         justify-content: flex-end;
         align-items: center;
       }
-      .logo img {
-        padding: 6px;
+      .center img {
+        /*padding: 6px;*/
       }
       button.user-menu-active {
         border-radius: 10px 10px 0px 0px;
