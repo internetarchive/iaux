@@ -56,11 +56,9 @@ class TopnavElement extends LitElement {
       <div class="center-search-activated" style="${this.searchMenuOpen ? 'display: flex' : 'display: none'}">
         <div class="fake-box">
           <input type="text" id="search-field" placeholder="Search Internet Archive" required>
-          <label for="search-field">
-            <button class="search" @click="${this.searchMenu}">
-              <img src="assets/img/ia-search-222.svg" alt="Search">
-            </button>
-          </label>
+          <button class="search" @click="${this.searchMenu}">
+            <img src="assets/img/ia-search-222.svg" alt="Search">
+          </button>
         </div>
       </div>
       <!--End of replacement div-->
