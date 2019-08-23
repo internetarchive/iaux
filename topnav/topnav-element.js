@@ -20,6 +20,7 @@ class TopnavElement extends LitElement {
     this.userMenuAnimate = false;
     this.searchMenuOpen = false;
     this.searchMenuAnimate = false;
+    this.searchMenuFade = false;
   }
 
   userMenu() {
@@ -31,6 +32,7 @@ class TopnavElement extends LitElement {
   searchMenu() {
     this.userMenuOpen = this.userMenuOpen ? !this.userMenuOpen : this.userMenuOpen;
     this.searchMenuAnimate = true;
+    this.searchMenuFade = true
     this.searchMenuOpen = !this.searchMenuOpen;
     if (this.searchMenuOpen) {
       window.setTimeout(() => {
@@ -45,7 +47,7 @@ class TopnavElement extends LitElement {
       <div class="left">
         <button><img src="assets/img/ia-hamburger.svg" alt="Main menu"></button>
       </div>
-      <div class="center" style="${this.searchMenuOpen ? 'display: none' : 'display: flex'}">
+      <div class="${this.searchMenuFade ? 'center fade-in' : 'center'}" style="${this.searchMenuOpen ? 'display: none' : 'display: flex'}">
         <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button> <!--Fake element for alignment purposes-->
         <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"></a>
         <button class="search" @click="${this.searchMenu}">
@@ -53,7 +55,7 @@ class TopnavElement extends LitElement {
         </button>
       </div>
       <!--New div created to replace above one when search is activated-->
-      <div class="center-search-activated" style="${this.searchMenuOpen ? 'display: flex' : 'display: none'}">
+      <div class="center-search-activated fade-in" style="${this.searchMenuOpen ? 'display: flex' : 'display: none'}">
         <div class="fake-box">
           <input type="text" id="search-field" placeholder="Search Internet Archive" required>
           <button class="search" @click="${this.searchMenu}">
@@ -151,6 +153,17 @@ class TopnavElement extends LitElement {
         font: "Helvetica-Neue";
         text-align: center;
         font-size: 18px;
+      }
+      @keyframes fade-in {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      .fade-in {
+        animation: fade-in 1s forwards;
       }
     `;
   }
