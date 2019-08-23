@@ -60,10 +60,10 @@ class UserMenu extends LitElement {
         }
       }
       .slide-in {
-        animation: slide-in 0.2s forwards;
+        animation: slide-in 0.5s forwards;
       }
       .slide-out {
-        animation: slide-out 0.2s forwards;
+        animation: slide-out 0.5s forwards;
       }
       .user-menu div {
         padding: 10px;

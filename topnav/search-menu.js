@@ -11,33 +11,41 @@ class SearchMenu extends LitElement {
 
   render() {
     return html`
-    <nav
+    <div
       class="${this.searchMenuOpen ? 'search-menu open slide-in' : this.searchMenuAnimate ? 'search-menu slide-out': 'search-menu'}"
       aria-hidden="${this.searchMenuOpen ? 'false' : 'true'}"
       aria-expanded="${this.searchMenuOpen ? 'true' : 'false'}"
     >
       <div class="search-options">
         <div>
-          <input type="radio" id="metadata" name="search" value="metadata" checked>
-          <label for="metadata">Search Metadata</label>
+          <label>
+            <input type="radio" name="search" value="metadata" checked>
+            Search Metadata
+          </label>
         </div>
         <div>
-          <input type="radio" id="text-contents" name="search" value="text-contents">
-          <label for="text-contents">Search text contents</label>
+          <label>
+            <input type="radio" name="search" value="text-contents">
+            Search text contents
+          </label>
         </div>
         <div>
-          <input type="radio" id="tv-news-captions" name="search" value="tv-news-captions">
-          <label for="tv-news-captions">Search TV news captions</label>
+          <label>
+            <input type="radio" name="search" value="tv-news-captions">
+            Search TV news captions
+          </label>
         </div>
         <div>
-          <input type="radio" id="archived-websites" name="search" value="archived-websites">
-          <label for="archived-websites">Search archived websites</label>
+          <label>
+            <input type="radio" name="search" value="archived-websites">
+            Search archived websites
+          </label>
         </div>
         <div>
           <a href="#">Advanced Search</a>
         </div>
       </div>
-    </nav>
+    </div>
     `;
   }
 
@@ -76,10 +84,10 @@ class SearchMenu extends LitElement {
         }
       }
       .slide-in {
-        animation: slide-in 0.2s forwards;
+        animation: slide-in 0.5s forwards;
       }
       .slide-out {
-        animation: slide-out 0.2s forwards;
+        animation: slide-out 0.5s forwards;
       }
       .search-options {
         align-self: center;
