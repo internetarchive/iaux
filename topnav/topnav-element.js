@@ -32,6 +32,11 @@ class TopnavElement extends LitElement {
     this.userMenuOpen = this.userMenuOpen ? !this.userMenuOpen : this.userMenuOpen;
     this.searchMenuAnimate = true;
     this.searchMenuOpen = !this.searchMenuOpen;
+    if (this.searchMenuOpen) {
+      window.setTimeout(() => {
+        this.shadowRoot.getElementById('search-field').focus();
+      }, 0);
+    }
   }
 
   render() {
@@ -51,9 +56,11 @@ class TopnavElement extends LitElement {
       <div class="center-search-activated" style="${this.searchMenuOpen ? 'display: flex' : 'display: none'}">
         <div class="fake-box">
           <input type="text" id="search-field" placeholder="Search Internet Archive" required>
-          <button class="search" @click="${this.searchMenu}">
-            <img src="assets/img/ia-search-222.svg" alt="Search">
-          </button>
+          <label for="search-field">
+            <button class="search" @click="${this.searchMenu}">
+              <img src="assets/img/ia-search-222.svg" alt="Search">
+            </button>
+          </label>
         </div>
       </div>
       <!--End of replacement div-->
