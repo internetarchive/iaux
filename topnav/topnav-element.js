@@ -77,6 +77,13 @@ class TopnavElement extends LitElement {
 
   static get styles() {
     return css`
+      :host {
+        --white: #fff;
+        --grey20: #333;
+        --black: #000;
+        --theme-font-family: "Helvetica Neue";
+        --link-color: #428bca;
+      }
       .navbar {
         position: relative;
         display: flex;
@@ -84,7 +91,7 @@ class TopnavElement extends LitElement {
         margin: 0px;
         height: 52px;
         padding: 0 10px;
-        background: #000;
+        background: var(--black);
         padding: 0;
         list-style: none;
         align-items: center;
@@ -119,7 +126,7 @@ class TopnavElement extends LitElement {
       }
       button.user-menu-active {
         border-radius: 10px 10px 0px 0px;
-        background: #333;
+        background: var(--grey20);
       }
       .center-search-activated {
         display: flex;
@@ -127,11 +134,11 @@ class TopnavElement extends LitElement {
         align-items: center;
         justify-content: center;
         border-radius: 10px 10px 0px 0px;
-        background: #333;
+        background: var(--grey20);
         padding: 6px 8px;
       }
       .center-search-activated .fake-box{
-        background: #fff;
+        background: var(--white);
         border-radius: 10px;
         display: flex;
         width: 100%;
@@ -139,7 +146,7 @@ class TopnavElement extends LitElement {
         padding: 0px;
       }
       .center-search-activated .search{
-        background: #fff;
+        background: var(--white);
         height: 40px;
         border-radius: 10px;
         padding: 0px 0px 2px 0px;
@@ -150,7 +157,6 @@ class TopnavElement extends LitElement {
         border-radius: 10px;
         border: none;
         outline: none;
-        font: "Helvetica-Neue";
         text-align: center;
         font-size: 18px;
       }
