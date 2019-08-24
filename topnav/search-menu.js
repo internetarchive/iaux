@@ -59,7 +59,7 @@ class SearchMenu extends LitElement {
         width: 100%;
         height: 200px;
         font-size: 20px;
-        background-color: #333;
+        background-color: var(--grey20);
         padding: 10px;
         transform: translate(0px, -1000px);
       }
@@ -94,11 +94,11 @@ class SearchMenu extends LitElement {
       }
       .search-options div {
         padding: 8px;
-        color: #fff;
-        font-family: "Helvetica Neue";
+        color: var(--white);
+        font-family: var(--theme-font-family);
       }
       .search-options a {
-        color: #428bca;
+        color: var(--link-color);
         text-decoration: none;
       }
      `;
