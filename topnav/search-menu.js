@@ -10,11 +10,14 @@ class SearchMenu extends LitElement {
   }
 
   render() {
+    const searchMenuClass = this.searchMenuOpen ? 'search-menu open slide-in' : this.searchMenuAnimate ? 'search-menu slide-out': 'search-menu';
+    const searchMenuHidden = this.searchMenuOpen ? 'false' : 'true';
+    const searchMenuExpanded = this.searchMenuOpen ? 'true' : 'false';
     return html`
     <div
-      class="${this.searchMenuOpen ? 'search-menu open slide-in' : this.searchMenuAnimate ? 'search-menu slide-out': 'search-menu'}"
-      aria-hidden="${this.searchMenuOpen ? 'false' : 'true'}"
-      aria-expanded="${this.searchMenuOpen ? 'true' : 'false'}"
+      class="${searchMenuClass}"
+      aria-hidden="${searchMenuHidden}"
+      aria-expanded="${searchMenuExpanded}"
     >
       <div class="search-options">
         <div>
