@@ -70,7 +70,7 @@ class UserMenu extends LitElement {
       }
       a {
         font-family: "Helvetica Neue";
-        color: #fff;
+        color: var(--white);
         text-decoration: none;
       }
      `;
