@@ -9,9 +9,12 @@ class DownloadDirectoryDiv extends IAReactComponent {
    * <Download
    *    identifier: identifier of collection, undefined for searches
    *    files: [{name, size}*]
+   *    disconnected: BOOL      True when cannot reach archive
    * />
    *
    * Renders a directory with name and pretty size
+   * if downloaded=false then only displays files in list
+   * TODO filter files before passing here as leaves artifacts of missing files (see filter in AnchorDownload)
    * TODO needs date in form probably like new Date().toLocaleDateString('en-GB',{day:'numeric', month:'short', year:'numeric',hour:'2-digit',minute:'2-digit'})
    * See https://github.com/internetarchive/dweb-archive/issues/10 for discussion - this is NOT complete yet, but works enough to use.
    */

@@ -24,7 +24,7 @@ import AnchorDetails from '../AnchorDetails';
 
 class DetailsReviews extends IAReactComponent {
   //Props: writeReviewsURL string; reviews: [{...}*] disconnected
-
+  //TODO-DWEB update this against current html
   render() {
     const reviews = this.props.reviews;
     const writeReviewsURL = this.props.writeReviewsURL;
