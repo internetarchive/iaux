@@ -42,12 +42,19 @@ class TopnavElement extends LitElement {
   }
 
   render() {
+    const centerClass = this.searchMenuFade ? 'center fade-in' : 'center';
+    const centerStyle = this.searchMenuOpen ? 'display: none' : 'display: flex';
+    const centerActivatedStyle = this.searchMenuOpen ? 'display: flex' : 'display: none';
+    const userButtonClass = this.userMenuOpen ? 'user-menu-active' : '';
+    const userImageSrc = this.userMenuOpen ? 'assets/img/ia-user-fff.svg' : 'assets/img/ia-user-999.svg';
+    const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
+    const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
     return html`
     <nav class="navbar">
       <div class="left">
         <button><img src="assets/img/ia-hamburger.svg" alt="Main menu"></button>
       </div>
-      <div class="${this.searchMenuFade ? 'center fade-in' : 'center'}" style="${this.searchMenuOpen ? 'display: none' : 'display: flex'}">
+      <div class="${centerClass}" style="${centerStyle}">
         <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button> <!--Fake element for alignment purposes-->
         <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"></a>
         <button class="search" @click="${this.searchMenu}">
@@ -55,7 +62,7 @@ class TopnavElement extends LitElement {
         </button>
       </div>
       <!--New div created to replace above one when search is activated-->
-      <div class="center-search-activated fade-in" style="${this.searchMenuOpen ? 'display: flex' : 'display: none'}">
+      <div class="center-search-activated fade-in" style="${centerActivatedStyle}">
         <div class="fake-box">
           <input type="text" id="search-field" placeholder="Search Internet Archive" required>
           <button class="search" @click="${this.searchMenu}">
@@ -65,13 +72,13 @@ class TopnavElement extends LitElement {
       </div>
       <!--End of replacement div-->
       <div class="right">
-        <button class="${this.userMenuOpen ? 'user-menu-active' : ''}" @click="${this.userMenu}">
-          <img src="${this.userMenuOpen ? 'assets/img/ia-user-fff.svg' : 'assets/img/ia-user-999.svg'}" alt="User menu">
+        <button class="${userButtonClass}" @click="${this.userMenu}">
+          <img src="${userImageSrc}" alt="User menu">
         </button>
       </div>
     </nav>
-    <search-menu ?searchMenuOpen="${this.searchMenuOpen}" ?searchMenuAnimate="${this.searchMenuAnimate}" tabindex="${this.searchMenuOpen ? '' : '-1'}"></search-menu>
-    <user-menu ?userMenuOpen="${this.userMenuOpen}" ?userMenuAnimate="${this.userMenuAnimate}" tabindex="${this.userMenuOpen ? '' : '-1'}"></user-menu>
+    <search-menu ?searchMenuOpen="${this.searchMenuOpen}" ?searchMenuAnimate="${this.searchMenuAnimate}" tabindex="${searchMenuTabIndex}"></search-menu>
+    <user-menu ?userMenuOpen="${this.userMenuOpen}" ?userMenuAnimate="${this.userMenuAnimate}" tabindex="${userMenuTabIndex}"></user-menu>
     `;
   }
 

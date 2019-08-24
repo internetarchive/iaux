@@ -10,11 +10,14 @@ class UserMenu extends LitElement {
   }
 
   render() {
+    const userMenuClass = this.userMenuOpen ? 'user-menu open slide-in' : this.userMenuAnimate ? 'user-menu slide-out' : 'user-menu';
+    const userMenuHidden = this.userMenuOpen ? 'false' : 'true';
+    const userMenuExpanded = this.userMenuOpen ? 'true' : 'false';
     return html`
     <nav
-      class="${this.userMenuOpen ? 'user-menu open slide-in' : this.userMenuAnimate ? 'user-menu slide-out' : 'user-menu'}"
-      aria-hidden="${this.userMenuOpen ? 'false' : 'true'}"
-      aria-expanded="${this.userMenuOpen ? 'true' : 'false'}"
+      class="${userMenuClass}"
+      aria-hidden="${userMenuHidden}"
+      aria-expanded="${userMenuExpanded}"
     >
       <div><a href="#"><b>USERNAME</b></a></div>
       <div><a href="#">Upload</a></div>
