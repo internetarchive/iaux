@@ -61,8 +61,16 @@ class ImageDweb extends IAReactComponent {
     super.componentDidUpdate();
     this.componentDidMountOrUpdate()
   }
+
   componentDidMountOrUpdate() {
-    AJS.tiler();
+    if (this.state.src) {
+      AJS.tiler();
+    }
+    // Need to do this here since there is a bug in Firefox causing its test of img.complete to return true prematurely.
+    if (this.state.src && this.state.imgProps.className && this.state.imgProps.className.includes("carousel-image")) {
+      AJS.theatresize();
+      AJS.carouselsize('#ia-carousel', true);
+    }
   }
   render() {
     return (
