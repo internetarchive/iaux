@@ -38,7 +38,7 @@ class UserMenu extends LitElement {
         margin: 0px;
         float: right;
         width: 150px;
-        background-color: #333;
+        background-color: var(--grey20);
         padding: 5px 10px;
         transform: translate(0px, -1000px);
       }

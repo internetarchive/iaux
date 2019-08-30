@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit-element';
 
 import './user-menu';
 import './search-menu';
+import './media-menu'
 
 class TopnavElement extends LitElement {
 
@@ -77,6 +78,7 @@ class TopnavElement extends LitElement {
         </button>
       </div>
     </nav>
+    <media-menu></media-menu>
     <search-menu ?searchMenuOpen="${this.searchMenuOpen}" ?searchMenuAnimate="${this.searchMenuAnimate}" tabindex="${searchMenuTabIndex}"></search-menu>
     <user-menu ?userMenuOpen="${this.userMenuOpen}" ?userMenuAnimate="${this.userMenuAnimate}" tabindex="${userMenuTabIndex}"></user-menu>
     `;
