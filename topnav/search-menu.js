@@ -67,7 +67,7 @@ class SearchMenu extends LitElement {
         transform: translate(0px, -1000px);
       }
       .open {
-        transform: translate(0px, 0px);
+        transform: translate(0px, -500px);
         z-index: 3;
       }
       @keyframes slide-in {
@@ -75,12 +75,12 @@ class SearchMenu extends LitElement {
           transform: translate(0px, -1000px);
         }
         100% {
-          transform: translate(0px, 0px);
+          transform: translate(0px, -500px);
         }
       }
       @keyframes slide-out {
         0% {
-          transform: translate(0px, 0px);
+          transform: translate(0px, -500px);
         }
         100% {
           transform: translate(0px, -1000px);

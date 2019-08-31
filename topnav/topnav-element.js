@@ -11,7 +11,9 @@ class TopnavElement extends LitElement {
       userMenuOpen: { type: Boolean },
       userMenuAnimate: { type: Boolean },
       searchMenuOpen: { type: Boolean },
-      searchMenuAnimate: { type: Boolean }
+      searchMenuAnimate: { type: Boolean },
+      mediaMenuOpen: { type: Boolean },
+      mediaMenuAnimate: { type: Boolean }
     };
   }
 
@@ -22,12 +24,13 @@ class TopnavElement extends LitElement {
     this.searchMenuOpen = false;
     this.searchMenuAnimate = false;
     this.searchMenuFade = false;
+    this.mediaMenuOpen = false;
+    this.mediaMenuAnimate = false;
   }
 
-  userMenu() {
-    this.searchMenuOpen = this.searchMenuOpen ? !this.searchMenuOpen : this.searchMenuOpen;
-    this.userMenuAnimate = true;
-    this.userMenuOpen = !this.userMenuOpen;
+  mediaMenu() {
+    this.mediaMenuAnimate = true;
+    this.mediaMenuOpen = !this.mediaMenuOpen;
   }
 
   searchMenu() {
@@ -42,6 +45,12 @@ class TopnavElement extends LitElement {
     }
   }
 
+  userMenu() {
+    this.searchMenuOpen = this.searchMenuOpen ? !this.searchMenuOpen : this.searchMenuOpen;
+    this.userMenuAnimate = true;
+    this.userMenuOpen = !this.userMenuOpen;
+  }
+
   render() {
     const centerClass = this.searchMenuFade ? 'center fade-in' : 'center';
     const centerStyle = this.searchMenuOpen ? 'display: none' : 'display: flex';
@@ -50,10 +59,11 @@ class TopnavElement extends LitElement {
     const userImageSrc = this.userMenuOpen ? 'assets/img/ia-user-fff.svg' : 'assets/img/ia-user-999.svg';
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
+    const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
     return html`
     <nav class="navbar">
       <div class="left">
-        <button><img src="assets/img/ia-hamburger.svg" alt="Main menu"></button>
+        <button @click="${this.mediaMenu}"><img src="assets/img/ia-hamburger.svg" alt="Main menu"></button>
       </div>
       <div class="${centerClass}" style="${centerStyle}">
         <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button> <!--Fake element for alignment purposes-->
@@ -78,7 +88,7 @@ class TopnavElement extends LitElement {
         </button>
       </div>
     </nav>
-    <media-menu></media-menu>
+    <media-menu ?mediaMenuOpen="${this.mediaMenuOpen}" ?mediaMenuAnimate="${this.mediaMenuAnimate}" tabindex="${mediaMenuTabIndex}"></media-menu>
     <search-menu ?searchMenuOpen="${this.searchMenuOpen}" ?searchMenuAnimate="${this.searchMenuAnimate}" tabindex="${searchMenuTabIndex}"></search-menu>
     <user-menu ?userMenuOpen="${this.userMenuOpen}" ?userMenuAnimate="${this.userMenuAnimate}" tabindex="${userMenuTabIndex}"></user-menu>
     `;
