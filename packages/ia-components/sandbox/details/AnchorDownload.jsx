@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { ObjectFilter } from '../../util';
-const each = require('async/each');
+const eachSeries = require('async/eachSeries');
 
 const debug = require('debug')('ia-components:AnchorDownload');
 
@@ -40,15 +40,38 @@ const debug = require('debug')('ia-components:AnchorDownload');
  *
  */
 
-async function downloadViaAnchor(el, source) {
-  //TODO dont use p_download, or simplify that, if on DwebMirror
+function downloadUrl(el, url, fileName, options) {
+  //Weird workaround for a browser problem, download data as a blob,
+  // edit parameters of an anchor to open this file in a new window,
+  // and click it to perform the opening.
+  //browser.downloads.download({filename: this.metadata.name, url: objectURL});   //Doesnt work
+  //Downloads.fetch(objectURL, this.metadata.name);   // Doesnt work
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = (options && options.target) || "_blank";                      // Open in new window by default
+  a.onclick = undefined;
+  a.download = fileName;
+  a.click();
+  document.removeChild(a);
+  //URL.revokeObjectURL(url)    //TODO figure out when can do this - maybe last one, or maybe dont care?
+}
+
+function downloadViaAnchor(el, source, options, cb) {
   if (Array.isArray(source)) {
     // Note cant do these in parallel as it does odd stuff to "el" to work around a browser bug
-    for (let s in source) { // noinspection JSUnfilteredForInLoop
-      await source[s].p_download(el);
-    }
-  } else {
-    await source.p_download(el);
+    eachSeries(source,
+      (s, cb1) => { downloadViaAnchor(el, s, options, cb1); },
+      (err) => { if (cb) cb(err) });
+  } else { //TODO could also handle source being a string
+    source.blobUrl((err, url) => {
+      if (err) {
+        debug("ERROR: failed to download %s", err.message);
+        cb(null); // Ignore and move on to next one
+      } else {
+        downloadUrl(el, url, source.metadata.name, options);
+        cb(null);
+      }
+    });
   }
 }
 
@@ -82,7 +105,7 @@ class AnchorDownload extends IAReactComponent {
     debug('Clicking on link to download: %s', this.props.identifier);
     // noinspection JSIgnoredPromiseFromCall,JSUnresolvedFunction
     if (this.props.source) {
-      downloadViaAnchor(this.props.source, ev.currentTarget)
+      downloadViaAnchor(ev.currentTarget, this.props.source)
     } else { // No source, must be plain identifier
       Nav.factory(this.props.identifier, {wanthistory: true, download: 1}); // ignore promise
     }
