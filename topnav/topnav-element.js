@@ -29,12 +29,15 @@ class TopnavElement extends LitElement {
   }
 
   mediaMenu() {
+    this.userMenuOpen = this.userMenuOpen ? !this.userMenuOpen : this.userMenuOpen;
+    this.searchMenuOpen = this.searchMenuOpen ? !this.searchMenuOpen : this.searchMenuOpen;
     this.mediaMenuAnimate = true;
     this.mediaMenuOpen = !this.mediaMenuOpen;
   }
 
   searchMenu() {
     this.userMenuOpen = this.userMenuOpen ? !this.userMenuOpen : this.userMenuOpen;
+    this.mediaMenuOpen = this.mediaMenuOpen ? !this.mediaMenuOpen : this.mediaMenuOpen;
     this.searchMenuAnimate = true;
     this.searchMenuFade = true
     this.searchMenuOpen = !this.searchMenuOpen;
@@ -47,6 +50,7 @@ class TopnavElement extends LitElement {
 
   userMenu() {
     this.searchMenuOpen = this.searchMenuOpen ? !this.searchMenuOpen : this.searchMenuOpen;
+    this.mediaMenuOpen = this.mediaMenuOpen ? !this.mediaMenuOpen : this.mediaMenuOpen;
     this.userMenuAnimate = true;
     this.userMenuOpen = !this.userMenuOpen;
   }
@@ -60,10 +64,11 @@ class TopnavElement extends LitElement {
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
     const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
+    const mediaImageSrc = this.mediaMenuOpen ? 'assets/img/ia-hamburger-fff.svg' : 'assets/img/ia-hamburger-999.svg';
     return html`
     <nav class="navbar">
       <div class="left">
-        <button @click="${this.mediaMenu}"><img src="assets/img/ia-hamburger.svg" alt="Main menu"></button>
+        <button @click="${this.mediaMenu}"><img src="${mediaImageSrc}" alt="Main menu"></button>
       </div>
       <div class="${centerClass}" style="${centerStyle}">
         <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button> <!--Fake element for alignment purposes-->

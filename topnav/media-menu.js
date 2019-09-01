@@ -20,19 +20,19 @@ class MediaMenu extends LitElement {
       aria-expanded="${mediaMenuExpanded}"
     >
       <div class="grid">
-        <a href="#"><div><img src="assets/img/ia-waybackmachine-999.svg"></div></a>
+        <div><button tabindex="-1"><img src="assets/img/ia-waybackmachine-999.svg"></button></div>
         <a href="#"><div>Wayback Machine</div></a>
-        <a href="#"><div><img src="assets/img/ia-texts-999.svg"></div></a>
+        <div><button tabindex="-1"><img src="assets/img/ia-texts-999.svg"></button></div>
         <a href="#"><div>Texts</div></a>
-        <a href="#"><div><img src="assets/img/ia-video-999.svg"></div></a>
+        <div><button tabindex="-1"><img src="assets/img/ia-video-999.svg"></button></div>
         <a href="#"><div>Video</div></a>
-        <a href="#"><div><img src="assets/img/ia-audio-999.svg"></div></a>
+        <div><button tabindex="-1"><img src="assets/img/ia-audio-999.svg"></button></div>
         <a href="#"><div>Audio</div></a>
-        <a href="#"><div><img src="assets/img/ia-software-999.svg"></div></a>
+        <div><button tabindex="-1"><img src="assets/img/ia-software-999.svg"></button></div>
         <a href="#"><div>Software</div></a>
-        <a href="#"><div><img src="assets/img/ia-images-999.svg"></div></a>
+        <div><button tabindex="-1"><img src="assets/img/ia-images-999.svg"></button></div>
         <a href="#"><div>Images</div></a>
-        <a href="#"><div><img src="assets/img/ia-more-999.svg"></div></a>
+        <div><button tabindex="-1"><img src="assets/img/ia-more-999.svg"></button></div>
         <a href="#"><div>More</div></a>
       </div>
     </nav>
@@ -50,6 +50,14 @@ class MediaMenu extends LitElement {
         font-size: 20px;
         font-family: "Helvetica Neue";
         transform: translate(0px, -1000px);
+      }
+      .media-menu button {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 4px 8px;
+        font: inherit;
+        cursor: pointer;
       }
       .open {
         transform: translate(0px, 0px);
