@@ -4,13 +4,16 @@ class MediaSlider extends LitElement {
 
   static get properties() {
     return {
+      mediaSliderOpen: { type: Boolean }
     };
   }
 
   render() {
+    const mediaSliderInfoClass = this.mediaSliderOpen ? 'information-menu' : 'information-menu offscreen';
+    const mediaSliderRectClass = this.mediaSliderOpen ? 'rounded-rectangle' : 'rounded-rectangle offscreen';
     return html`
-      <div class="information-menu">
-      <div class="rounded-rectangle">
+      <div class="${mediaSliderInfoClass}">
+      <div class="${mediaSliderRectClass}">
     `;
   }
 
@@ -18,7 +21,7 @@ class MediaSlider extends LitElement {
     return css`
       .rounded-rectangle {
         position: relative;
-        background: #333333;
+        background: var(--grey20);
         border-radius: 10px 0 0 10px;
         padding: 0px;
         width: 60px;
@@ -30,11 +33,15 @@ class MediaSlider extends LitElement {
       .information-menu {
         position: relative;
         padding: 0px;
-        background: #333333;
+        background: var(--grey20);
         height: 500px;
         width: 100%;
         transform: translate(60px, -500px);
         z-index: 4;
+      }
+
+      .offscreen {
+        transform: translate(2000px, -500px);
       }
      `;
   }

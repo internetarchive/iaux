@@ -7,8 +7,19 @@ class MediaMenu extends LitElement {
   static get properties() {
     return {
       mediaMenuOpen: { type: Boolean },
-      mediaMenuAnimate: { type: Boolean }
+      mediaMenuAnimate: { type: Boolean },
+      mediaSliderOpen: { type: Boolean }
     };
+  }
+
+  constructor() {
+    super();
+    this.mediaSliderOpen = false;
+  }
+
+  mediaSlider() {
+    console.log(this.mediaSliderOpen);
+    this.mediaSliderOpen = !this.mediaSliderOpen;
   }
 
   render() {
@@ -23,9 +34,9 @@ class MediaMenu extends LitElement {
     >
       <!-- Include icon and name inline in a button-->
       <div class="grid">
-        <button tabindex="-1"><div><img src="assets/img/ia-waybackmachine-999.svg"></div></button>
-        <button><div>Wayback Machine</div></button>
-        <button tabindex="-1"><div><img src="assets/img/ia-texts-999.svg"></div></button>
+        <button tabindex="-1" @click="${this.mediaSlider}"><div><img src="assets/img/ia-waybackmachine-999.svg"></div></button>
+        <button @click="${this.mediaSlider}"><div>Wayback Machine</div></button>
+        <button tabindex="-1" @click="${this.mediaSlider}"><div><img src="assets/img/ia-texts-999.svg"></div></button>
         <button><div>Texts</div></button>
         <button tabindex="-1"><div><img src="assets/img/ia-video-999.svg"></div></button>
         <button><div>Video</div></button>
@@ -39,7 +50,7 @@ class MediaMenu extends LitElement {
         <button><div>More</div></button>
       </div>
     </nav>
-    <meda-slider><media-slider>
+    <media-slider ?mediaSliderOpen="${this.mediaSliderOpen}"></media-slider>
     `;
   }
 
@@ -64,7 +75,6 @@ class MediaMenu extends LitElement {
         cursor: pointer;
         text-align: left;
         z-index: 5;
-        vertical-align:middle;
       }
       .open {
         transform: translate(0px, 0px);
