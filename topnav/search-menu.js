@@ -64,26 +64,26 @@ class SearchMenu extends LitElement {
         font-size: 20px;
         background-color: var(--grey20);
         padding: 10px;
-        transform: translate(0px, -1000px);
+        transform: translate(0px, -1500px);
       }
       .open {
-        transform: translate(0px, -500px);
+        transform: translate(0px, -1000px);
         z-index: 3;
       }
       @keyframes slide-in {
         0% {
-          transform: translate(0px, -1000px);
+          transform: translate(0px, -1500px);
         }
         100% {
-          transform: translate(0px, -500px);
+          transform: translate(0px, -1000px);
         }
       }
       @keyframes slide-out {
         0% {
-          transform: translate(0px, -500px);
+          transform: translate(0px, -1000px);
         }
         100% {
-          transform: translate(0px, -1000px);
+          transform: translate(0px, -1500px);
         }
       }
       .slide-in {

@@ -1,5 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 
+import './media-slider'
+
 class MediaMenu extends LitElement {
 
   static get properties() {
@@ -19,23 +21,25 @@ class MediaMenu extends LitElement {
       aria-hidden="${mediaMenuHidden}"
       aria-expanded="${mediaMenuExpanded}"
     >
+      <!-- Include icon and name inline in a button-->
       <div class="grid">
-        <div><button tabindex="-1"><img src="assets/img/ia-waybackmachine-999.svg"></button></div>
-        <a href="#"><div>Wayback Machine</div></a>
-        <div><button tabindex="-1"><img src="assets/img/ia-texts-999.svg"></button></div>
-        <a href="#"><div>Texts</div></a>
-        <div><button tabindex="-1"><img src="assets/img/ia-video-999.svg"></button></div>
-        <a href="#"><div>Video</div></a>
-        <div><button tabindex="-1"><img src="assets/img/ia-audio-999.svg"></button></div>
-        <a href="#"><div>Audio</div></a>
-        <div><button tabindex="-1"><img src="assets/img/ia-software-999.svg"></button></div>
-        <a href="#"><div>Software</div></a>
-        <div><button tabindex="-1"><img src="assets/img/ia-images-999.svg"></button></div>
-        <a href="#"><div>Images</div></a>
-        <div><button tabindex="-1"><img src="assets/img/ia-more-999.svg"></button></div>
-        <a href="#"><div>More</div></a>
+        <button tabindex="-1"><div><img src="assets/img/ia-waybackmachine-999.svg"></div></button>
+        <button><div>Wayback Machine</div></button>
+        <button tabindex="-1"><div><img src="assets/img/ia-texts-999.svg"></div></button>
+        <button><div>Texts</div></button>
+        <button tabindex="-1"><div><img src="assets/img/ia-video-999.svg"></div></button>
+        <button><div>Video</div></button>
+        <button tabindex="-1"><div><img src="assets/img/ia-audio-999.svg"></div></button>
+        <button><div>Audio</div></button>
+        <button tabindex="-1"><div><img src="assets/img/ia-software-999.svg"></div></button>
+        <button><div>Software</div></button>
+        <button tabindex="-1"><div><img src="assets/img/ia-images-999.svg"></div></button>
+        <button><div>Images</div></button>
+        <button tabindex="-1"><div><img src="assets/img/ia-more-999.svg"></div></button>
+        <button><div>More</div></button>
       </div>
     </nav>
+    <meda-slider><media-slider>
     `;
   }
 
@@ -52,12 +56,15 @@ class MediaMenu extends LitElement {
         transform: translate(0px, -1000px);
       }
       .media-menu button {
+        position: relative;
         background: none;
         color: inherit;
         border: none;
         font: inherit;
         cursor: pointer;
-        outline: none;
+        text-align: left;
+        z-index: 5;
+        vertical-align:middle;
       }
       .open {
         transform: translate(0px, 0px);

@@ -40,26 +40,26 @@ class UserMenu extends LitElement {
         width: 150px;
         background-color: var(--grey20);
         padding: 5px 10px;
-        transform: translate(0px, -1500px);
+        transform: translate(0px, -2000px);
       }
       .open {
-        transform: translate(0px, -720px);
+        transform: translate(0px, -1220px);
         z-index: 1;
       }
       @keyframes slide-in {
         0% {
-          transform: translate(0px, -1500px);
+          transform: translate(0px, -2000px);
         }
         100% {
-          transform: translate(0px, -720px);
+          transform: translate(0px, -1220px);
         }
       }
       @keyframes slide-out {
         0% {
-          transform: translate(0px, -720px);
+          transform: translate(0px, -1220px);
         }
         100% {
-          transform: translate(0px, -1500px);
+          transform: translate(0px, -2000px);
         }
       }
       .slide-in {
