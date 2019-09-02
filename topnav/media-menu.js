@@ -55,9 +55,9 @@ class MediaMenu extends LitElement {
         background: none;
         color: inherit;
         border: none;
-        padding: 4px 8px;
         font: inherit;
         cursor: pointer;
+        outline: none;
       }
       .open {
         transform: translate(0px, 0px);
