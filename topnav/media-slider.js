@@ -4,12 +4,13 @@ class MediaSlider extends LitElement {
 
   static get properties() {
     return {
-      mediaSliderOpen: { type: Boolean }
+      mediaSliderOpen: { type: Boolean },
+      mediaSliderAnimate: { type: Boolean }
     };
   }
 
   render() {
-    const mediaSliderInfoClass = this.mediaSliderOpen ? 'information-menu' : 'information-menu offscreen';
+    const mediaSliderInfoClass = this.mediaSliderOpen ? 'information-menu slide-in' : this.mediaSliderAnimate ? 'information-menu slide-out' : 'information-menu offscreen';
     const mediaSliderRectClass = this.mediaSliderOpen ? 'rounded-rectangle' : 'rounded-rectangle offscreen';
     return html`
       <div class="${mediaSliderInfoClass}">
@@ -42,6 +43,29 @@ class MediaSlider extends LitElement {
 
       .offscreen {
         transform: translate(2000px, -500px);
+      }
+
+      @keyframes slide-in {
+        0% {
+          transform: translate(2000px, -500px);
+        }
+        100% {
+          transform: translate(60px, -500px);
+        }
+      }
+      @keyframes slide-out {
+        0% {
+          transform: translate(60px, -500px);
+        }
+        100% {
+          transform: translate(2000px, -500px);
+        }
+      }
+      .slide-in {
+        animation: slide-in 0.5s forwards;
+      }
+      .slide-out {
+        animation: slide-out 0.5s forwards;
       }
      `;
   }
