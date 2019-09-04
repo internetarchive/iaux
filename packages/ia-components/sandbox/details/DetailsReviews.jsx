@@ -23,15 +23,14 @@ import AnchorDetails from '../AnchorDetails';
 
 
 class DetailsReviews extends IAReactComponent {
-  //Props: writeReviewsURL string; reviews: [{...}*] disconnected
-  //TODO-DWEB update this against current html
+  //Checked against archive.org output 2019-09-04
   render() {
     const reviews = this.props.reviews;
     const writeReviewsURL = this.props.writeReviewsURL;
     return (
       <div id="reviews">
         <h2
-          style={{fontSize: 36, fontWeight: 200, borderBottom: "1 solid #979797", paddingBottom: 5, marginTop: 50 }}>
+          style={{fontSize: 36, fontWeight: 200, borderBottom: "1px solid #979797", paddingBottom: 5, marginTop: 50 }}>
           { this.props.disconnected ? null :
             <>
               <div className="pull-right" style={{fontSize:14, fontWeight:500, paddingTop:14}}>
@@ -49,15 +48,15 @@ class DetailsReviews extends IAReactComponent {
           Reviews
         </h2>
         {reviews && reviews.length ? reviews.map((review, i) => (
-          <div key={i} className="aReview">
+          <div key={i} className="aReview" id={`review-${review.review_id}`}>
             <b>Reviewer:</b>{' '}
             <AnchorDetails identifier={`@${review.reviewer}`}
                            data-event-click-tracking="ItemReviews|ReviewerLink">{review.reviewer}</AnchorDetails>
             -
             <span alt={`${review.stars} out of 5 stars`} title={`${review.stars} out of 5 stars`}>
                                         {['*', '*', '*', '*', '*'].slice(0, review.stars).map((x,i) =>
-                                          <span key={i} className="iconochive-favorite size-75-percent"
-                                                aria-hidden="true"></span>, <span className="sr-only">favorite</span>
+                                          <><span key={i} className="iconochive-favorite size-75-percent"
+                                                aria-hidden="true"></span><span className="sr-only">favorite</span></>
                                         )}
                                     </span>
             - {review.reviewdate}{/*TODO reviewdate needs pretty printing*/}<br/>
