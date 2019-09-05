@@ -3,12 +3,6 @@ import { LitElement, html, css, unsafeCSS, customElement, property, PropertyValu
 @customElement('scrubber-bar')
 export class ScrubberBar extends LitElement {
   @property({ type: Number }) percentComplete = 0;
-  @property({ type: String }) trackOutlineColor = '#6e6d6d';
-  @property({ type: String }) trackColor = 'black';
-  @property({ type: String }) fillColor = '#3272b6';
-  @property({ type: String }) bufferColor = '#cccccc';
-  @property({ type: Number }) bufferedPercentage = 0;
-  @property({ type: String }) thumbColor = 'red';
   @property({ type: Boolean }) userInteracting = false;
 
   render() {
@@ -70,8 +64,8 @@ export class ScrubberBar extends LitElement {
       <style>
         input[type=range]::-webkit-slider-runnable-track {
           background: linear-gradient(to right,
-                                      ${this.fillColor} 0%, ${this.fillColor} ${sliderValue}%,
-                                      ${this.trackColor} ${sliderValue}%, ${this.trackColor} 100%);
+            var(--trackFillColor, #3272b6) 0%, var(--trackFillColor, #3272b6) ${sliderValue}%,
+            var(--trackColor, purple) ${sliderValue}%, var(--trackColor, purple) 100%);
         }
       </style>
     `;
@@ -86,35 +80,32 @@ export class ScrubberBar extends LitElement {
   }
 
   static get styles() {
-    const thumbColor = 'white';
-    const thumbDiameter = 20;
-    const trackHeight = 10;
+    const scrubberBarHeight = css`var(--scrubberBarHeight, 20px)`;
 
-    const measurementUnit = css`px`;
+    const thumbDiameter = css`var(--thumbDiameter, 20px)`;
+    const thumbBorderRadius = css`var(--thumbBorderRadius, 10px)`;
 
-    const trackBorder = css`1px solid #ffffff`;
-
-    const fillColor = css`#3272b6`;
-
-    const thumbDiameterCss = css`${thumbDiameter}`;
-    const thumbBackgroundColor = css`white`;
-    const thumbBorder = css`0px solid #ffffff`;
+    const trackHeight = css`var(--trackHeight, 10px)`;
+    const trackBorderRadius = css`var(--trackBorderRadius, 5px)`;
+    const trackBorder = css`var(--trackBorder, 1px solid black)`;
+    const trackFillColor = css`var(--trackFillColor, #3272b6)`;
 
     const commonThumbDefinitions = css`
-      height: ${thumbDiameterCss}${measurementUnit};
-      width: ${thumbDiameterCss}${measurementUnit};
-      border-radius: ${unsafeCSS(thumbDiameter / 2)}${measurementUnit};
-      border: 0;
+      background-color: var(--thumbColor, white);
+      height: ${thumbDiameter};
+      width: ${thumbDiameter};
+      border-radius: ${thumbBorderRadius};
+      border: var(--thumbBorder, 1px solid black);
       cursor: pointer;
     `;
 
     const trackSizeDefinitions = css`
-      height: ${trackHeight}${measurementUnit};
-      border-radius: ${unsafeCSS(trackHeight / 2)}${measurementUnit};
+      height: ${trackHeight};
+      border-radius: ${trackBorderRadius};
     `;
 
     const commonTrackDefinitions = css`
-      background-color: black;
+      background-color: var(--trackColor, black);
       border: ${trackBorder};
       ${trackSizeDefinitions};
     `;
@@ -122,7 +113,7 @@ export class ScrubberBar extends LitElement {
     return css`
       input[type=range] {
         -webkit-appearance: none;
-        height: 20px;
+        height: ${scrubberBarHeight};
         padding: 0;
         width: 100%;
         background: none;
@@ -132,7 +123,7 @@ export class ScrubberBar extends LitElement {
       input[type=range]::-webkit-slider-thumb {
         -webkit-appearance: none;
         box-sizing: content-box;
-        margin-top: ${unsafeCSS((thumbDiameter - trackHeight) / -2)}px;
+        margin-top: var(--webkitThumbTopMargin, -6px);
         ${commonThumbDefinitions}
       }
 
@@ -154,7 +145,7 @@ export class ScrubberBar extends LitElement {
       }
 
       input[type=range]::-moz-range-progress {
-        background-color: ${fillColor};
+        background-color: ${trackFillColor};
         ${trackSizeDefinitions};
       }
 
@@ -165,7 +156,7 @@ export class ScrubberBar extends LitElement {
       }
 
       input[type=range]::-ms-fill-lower {
-        background-color: ${fillColor};
+        background-color: ${trackFillColor};
         ${trackSizeDefinitions};
       }
 
