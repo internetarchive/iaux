@@ -1,7 +1,6 @@
 import { storiesOf, html, withKnobs, withClassPropertiesKnobs } from '@open-wc/demoing-storybook';
 
-import { ScrubberBar } from '../src/ScrubberBar.js';
-import '../scrubber-bar.js';
+import { ScrubberBar } from '../src/scrubber-bar.js';
 
 storiesOf('scrubber-bar', module)
   .addDecorator(withKnobs)
@@ -9,6 +8,6 @@ storiesOf('scrubber-bar', module)
   .add(
     'Alternative Title',
     () => html`
-      <scrubber-bar .title=${'Something else'}></scrubber-bar>
+      <scrubber-bar></scrubber-bar>
     `,
   );
