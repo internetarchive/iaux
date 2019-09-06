@@ -20,6 +20,8 @@ class MediaMenu extends LitElement {
   }
 
   mediaSlider() {
+    // Only keep side menu open until menu closed
+    // Shift menu downwards as per button clicked
     this.mediaSliderAnimate = true;
     this.mediaSliderOpen = !this.mediaSliderOpen;
   }

@@ -27,7 +27,7 @@ class MediaSlider extends LitElement {
         padding: 0px;
         width: 60px;
         height: 63px;
-        transform: translate(-60px, 10px);
+        transform: translate(-60px, 199px); /* 10, 73, 136, 199, 262, 325, 388 */
         z-index: 4;
       }
 
