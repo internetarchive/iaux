@@ -10,11 +10,13 @@ class MediaSlider extends LitElement {
   }
 
   render() {
-    const mediaSliderInfoClass = this.mediaSliderOpen ? 'information-menu slide-in' : this.mediaSliderAnimate ? 'information-menu slide-out' : 'information-menu offscreen';
-    const mediaSliderRectClass = this.mediaSliderOpen ? 'rounded-rectangle' : 'rounded-rectangle offscreen';
+    const mediaSliderInfoClass = this.mediaSliderOpen ? 'information-menu im-slide-in' : this.mediaSliderAnimate ? 'information-menu im-slide-out' : 'information-menu offscreen';
+    const mediaSliderRectClass = this.mediaSliderOpen ? 'rounded-rectangle rr-slide-in' : this.mediaSliderAnimate ? 'rounded-rectangle rr-slide-out' : 'rounded-rectangle offscreen';
+
     return html`
       <div class="${mediaSliderInfoClass}">
-      <div class="${mediaSliderRectClass}">
+      </div>
+      <div class="${mediaSliderRectClass}"></div>
     `;
   }
 
@@ -27,7 +29,7 @@ class MediaSlider extends LitElement {
         padding: 0px;
         width: 60px;
         height: 63px;
-        transform: translate(-60px, 199px); /* 10, 73, 136, 199, 262, 325, 388 */
+        translate(0px, -990px); /* 0, 63, 126, 189, 252, 315, 378 */
         z-index: 4;
       }
 
@@ -45,7 +47,9 @@ class MediaSlider extends LitElement {
         transform: translate(2000px, -500px);
       }
 
-      @keyframes slide-in {
+      /* Information box */
+
+      @keyframes im-slide-in {
         0% {
           transform: translate(2000px, -500px);
         }
@@ -53,7 +57,7 @@ class MediaSlider extends LitElement {
           transform: translate(60px, -500px);
         }
       }
-      @keyframes slide-out {
+      @keyframes im-slide-out {
         0% {
           transform: translate(60px, -500px);
         }
@@ -61,11 +65,36 @@ class MediaSlider extends LitElement {
           transform: translate(2000px, -500px);
         }
       }
-      .slide-in {
-        animation: slide-in 0.5s forwards;
+      .im-slide-in {
+        animation: im-slide-in 0.5s forwards;
       }
-      .slide-out {
-        animation: slide-out 0.5s forwards;
+      .im-slide-out {
+        animation: im-slide-out 0.5s forwards;
+      }
+
+      /* Rounded rectangle */
+
+      @keyframes rr-slide-in {
+        0% {
+          transform: translate(2000px, -990px);
+        }
+        100% {
+          transform: translate(0px, -990px);
+        }
+      }
+      @keyframes rr-slide-out {
+        0% {
+          transform: translate(0px, -990px);
+        }
+        100% {
+          transform: translate(2000px, -9990px);
+        }
+      }
+      .rr-slide-in {
+        animation: rr-slide-in 0.5s forwards;
+      }
+      .rr-slide-out {
+        animation: rr-slide-out 0.5s forwards;
       }
      `;
   }
