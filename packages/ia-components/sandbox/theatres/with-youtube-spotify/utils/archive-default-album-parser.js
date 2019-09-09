@@ -1,6 +1,6 @@
 import { endsWith, filter } from 'lodash';
 import gatherYoutubeAndSpotifyInfo from './youtube-spotify-parser';
-
+import { isValidAudioFile, isValidImageFile } from './utils';
 
 /**
  * Internet Archive Default Album Data Parser
@@ -37,8 +37,8 @@ const archiveDefaultAlbumParser = ({ fileDirectoryPrefix, files }) => {
     let flattenedImportantRelatedFiles = null;
     const externalIdentifiers = currentFile['external-identifier'] || null;
     const isOriginal = source === 'original';
-    const isAudioFile = currentFileName.match(/(mp3|ogg|flac|m4a|wma)$/g);
-    const isItemImageFile = isOriginal && currentFileName.match(/(png|jpg|jpeg)$/gi);
+    const isAudioFile = isValidAudioFile(currentFileName);
+    const isItemImageFile = isOriginal && isValidImageFile(currentFileName);
 
     // skip unneeded files
     if (!isOriginal && !isAudioFile) return neededItems;
