@@ -10,7 +10,7 @@ npm i scrubber-bar
 ## Usage
 ```html
 <script type="module">
-  import 'scrubber-bar/scrubber-bar.js';
+  import 'scrubber-bar/index.js';
 </script>
 
 <scrubber-bar></scrubber-bar>

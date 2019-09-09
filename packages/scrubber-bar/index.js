@@ -1,1 +1,1 @@
-export { ScrubberBar } from './src/scrubber-bar.js';
+export { ScrubberBar } from './lib/scrubber-bar.js';

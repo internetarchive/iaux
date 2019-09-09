@@ -17,6 +17,4 @@
 
 # build
 /_site/
-/dist/
-/src/*.js
-/src/*.js.map
+/lib/
