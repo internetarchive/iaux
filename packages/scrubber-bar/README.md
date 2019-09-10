@@ -31,7 +31,20 @@ yarn add @internetarchive/scrubber-bar
   }
 </style>
 
-<scrubber-bar></scrubber-bar>
+<scrubber-bar id="scrubberbar"></scrubber-bar>
+
+<script>
+  const scrubberBar = document.getElementById('scrubberbar');
+
+  // listen for value changes
+  scrubberBar.addEventListener('valuechange', e => {
+    console.log('Value has changed, new value:', e.detail.value);
+  });
+
+  // set a different value
+  scrubberBar.percentComplete = 23;
+</script>
+
 ```
 
 # Development
