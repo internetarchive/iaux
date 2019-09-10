@@ -4,34 +4,46 @@ This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) reco
 
 ## Installation
 ```bash
-npm i scrubber-bar
+yarn add @internetarchive/scrubber-bar
 ```
 
 ## Usage
 ```html
 <script type="module">
-  import 'scrubber-bar/index.js';
+  import '@internetarchive/scrubber-bar/index.js';
 </script>
 
 <scrubber-bar></scrubber-bar>
 ```
 
-## Testing using karma (if applied by author)
+# Development
+
+## Prerequisite
 ```bash
-npm run test
+yarn install
 ```
 
-## Testing using karma via browserstack (if applied by author)
+## Start Development Server
 ```bash
-npm run test:bs
+yarn start  // start development server and typescript compiler
 ```
 
-## Demoing using storybook (if applied by author)
+## Testing
 ```bash
-npm run storybook
+yarn test
 ```
 
-## Linting (if applied by author)
+## Testing via browserstack
 ```bash
-npm run lint
+yarn test:bs
+```
+
+## Demoing using storybook
+```bash
+yarn storybook
+```
+
+## Linting
+```bash
+yarn lint
 ```

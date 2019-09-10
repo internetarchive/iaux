@@ -1,11 +1,21 @@
-import { LitElement, html, css, unsafeCSS, customElement, property, PropertyValues } from 'lit-element';
+import {
+  LitElement,
+  html,
+  css,
+  customElement,
+  property,
+  PropertyValues,
+  TemplateResult,
+  CSSResult,
+} from 'lit-element';
 
 @customElement('scrubber-bar')
-export class ScrubberBar extends LitElement {
+export default class ScrubberBar extends LitElement {
   @property({ type: Number }) percentComplete = 0;
-  @property({ type: Boolean }) userInteracting = false;
 
-  render() {
+  userInteracting = false;
+
+  render(): TemplateResult {
     return html`
       <div class="container">
         <input
@@ -26,60 +36,65 @@ export class ScrubberBar extends LitElement {
     `;
   }
 
-  updated(changedProperties: PropertyValues) {
+  updated(changedProperties: PropertyValues): void {
     if (!this.userInteracting && changedProperties.has('percentComplete')) {
-      this.rangeSlider.value = `${this.percentComplete}`;
+      if (this.rangeSlider) {
+        this.rangeSlider.value = `${this.percentComplete}`;
+      }
       this.updateSliderProgress();
     }
   }
 
-  firstUpdated() {
+  firstUpdated(): void {
     this.updateSliderProgress();
   }
 
-  handleSlide() {
+  handleSlide(): void {
     this.updateSliderProgress();
     this.emitChangeEvent();
   }
 
-  interactionStarted() {
+  interactionStarted(): void {
     this.userInteracting = true;
   }
 
-  interactionEnded() {
+  interactionEnded(): void {
     this.userInteracting = false;
   }
 
-  get rangeSlider(): HTMLInputElement {
-    return this.shadowRoot.getElementById('slider') as HTMLInputElement;
+  get rangeSlider(): HTMLInputElement | null {
+    return this.shadowRoot && (this.shadowRoot.getElementById('slider') as HTMLInputElement);
   }
 
-  get webkitStyle(): HTMLElement {
-    return this.shadowRoot.getElementById('webkit-range-input-style');
+  get webkitStyle(): HTMLElement | null {
+    return this.shadowRoot && this.shadowRoot.getElementById('webkit-range-input-style');
   }
 
-  updateSliderProgress() {
-    const sliderValue = this.rangeSlider.value;
-    this.webkitStyle.innerHTML = `
-      <style>
-        input[type=range]::-webkit-slider-runnable-track {
-          background: linear-gradient(to right,
-            var(--trackFillColor, #3272b6) 0%, var(--trackFillColor, #3272b6) ${sliderValue}%,
-            var(--trackColor, purple) ${sliderValue}%, var(--trackColor, purple) 100%);
-        }
-      </style>
-    `;
+  updateSliderProgress(): void {
+    const sliderValue = (this.rangeSlider && this.rangeSlider.value) || 0;
+    if (this.webkitStyle) {
+      this.webkitStyle.innerHTML = `
+        <style>
+          input[type=range]::-webkit-slider-runnable-track {
+            background: linear-gradient(to right,
+              var(--trackFillColor, #3272b6) 0%, var(--trackFillColor, #3272b6) ${sliderValue}%,
+              var(--trackColor, purple) ${sliderValue}%, var(--trackColor, purple) 100%);
+          }
+        </style>
+      `;
+    }
   }
 
-  emitChangeEvent() {
+  emitChangeEvent(): void {
     const event = new CustomEvent('valuechange', {
-      detail: { value: this.rangeSlider.value },
+      detail: { value: (this.rangeSlider && this.rangeSlider.value) || 0 },
       bubbles: true,
-      composed: true });
+      composed: true,
+    });
     this.dispatchEvent(event);
   }
 
-  static get styles() {
+  static get styles(): CSSResult {
     const scrubberBarHeight = css`var(--scrubberBarHeight, 20px)`;
 
     const thumbDiameter = css`var(--thumbDiameter, 20px)`;
@@ -111,7 +126,7 @@ export class ScrubberBar extends LitElement {
     `;
 
     return css`
-      input[type=range] {
+      input[type='range'] {
         -webkit-appearance: none;
         height: ${scrubberBarHeight};
         padding: 0;
@@ -120,47 +135,49 @@ export class ScrubberBar extends LitElement {
         outline: none;
       }
 
-      input[type=range]::-webkit-slider-thumb {
+      input[type='range']::-webkit-slider-thumb {
         -webkit-appearance: none;
         box-sizing: content-box;
         margin-top: var(--webkitThumbTopMargin, -6px);
         ${commonThumbDefinitions}
       }
 
-      input[type=range]::-moz-range-thumb {
+      input[type='range']::-moz-range-thumb {
         ${commonThumbDefinitions}
       }
 
-      input[type=range]::-ms-thumb { /* should come after -webkit- */
+      input[type='range']::-ms-thumb {
+        /* should come after -webkit- */
         ${commonThumbDefinitions}
         margin-top: 0;
       }
 
-      input[type=range]::-webkit-slider-runnable-track {
+      input[type='range']::-webkit-slider-runnable-track {
         ${commonTrackDefinitions}
       }
 
-      input[type=range]::-moz-range-track {
+      input[type='range']::-moz-range-track {
         ${commonTrackDefinitions}
       }
 
-      input[type=range]::-moz-range-progress {
+      input[type='range']::-moz-range-progress {
         background-color: ${trackFillColor};
         ${trackSizeDefinitions};
       }
 
-      input[type=range]::-ms-track { /* should come after -webkit- */
+      input[type='range']::-ms-track {
+        /* should come after -webkit- */
         border-color: transparent;
         color: transparent;
         ${commonTrackDefinitions}
       }
 
-      input[type=range]::-ms-fill-lower {
+      input[type='range']::-ms-fill-lower {
         background-color: ${trackFillColor};
         ${trackSizeDefinitions};
       }
 
-      input[type=range]::-ms-tooltip {
+      input[type='range']::-ms-tooltip {
         display: none;
       }
     `;
