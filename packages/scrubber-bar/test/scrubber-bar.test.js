@@ -56,7 +56,7 @@ describe('ScrubberBar', () => {
     setTimeout(() => { rangeSlider.dispatchEvent(inputEvent); });
 
     const { detail } = await oneEvent(el, 'valuechange');
-    expect(detail.value).to.equal("0");
+    expect(detail.value).to.equal("1");
 
   });
 
