@@ -7,7 +7,6 @@
   "main": "index.js",
   "module": "index.js",
   "scripts": {
-    "lint:types": "tsc",
     "prepare": "npm run build",
     "build": "tsc -p tsconfig.build.json",
     "start": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch\"",
