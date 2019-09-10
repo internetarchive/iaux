@@ -42,8 +42,8 @@ describe('Music Player Util - Flatten Album Data', () => {
     });
     test('has itemPhoto', () => {
       expect(dataFlattened).toHaveProperty('itemPhoto');
-      expect(itemPhoto).toBeTruthy();
       expect(itemPhoto).toBeDefined();
+      expect(itemPhoto).toBeTruthy();
     });
     test('has title', () => {
       expect(dataFlattened).toHaveProperty('title');
