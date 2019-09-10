@@ -19,6 +19,12 @@ describe('Music Player Util - Flatten Album Data', () => {
 
   assert(dataFlattened instanceof Object);
 
+  describe('has main image file', () => {
+    test('when `*_itemimage.png` is available, it uses it as the image to display', () => {
+      expect(itemPhoto).toContain('_itemimage.png');
+    });
+  });
+
   describe('should always have certain keys at the top level', () => {
     test('has albumSpotifyYoutubeInfo', () => {
       assert('albumSpotifyYoutubeInfo' in dataFlattened);
