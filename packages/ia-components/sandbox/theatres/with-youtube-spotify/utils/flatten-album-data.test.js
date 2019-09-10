@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import flattenAlbumData from './flatten-album-data';
 import albumData from '../../../data-for-stories/album-private-with-spotify-youtube';
 
@@ -17,32 +15,39 @@ describe('Music Player Util - Flatten Album Data', () => {
   } = dataFlattened;
   const [firstTrack] = tracks;
 
-  assert(dataFlattened instanceof Object);
+  expect(dataFlattened).toBeInstanceOf(Object);
+
+  describe('has main image file', () => {
+    test('when `*_itemimage.png` is available, it uses it as the image to display', () => {
+      expect(itemPhoto).toContain('_itemimage.png');
+    });
+  });
 
   describe('should always have certain keys at the top level', () => {
     test('has albumSpotifyYoutubeInfo', () => {
-      assert('albumSpotifyYoutubeInfo' in dataFlattened);
-      assert(albumSpotifyYoutubeInfo instanceof Object);
+      expect(dataFlattened).toHaveProperty('albumSpotifyYoutubeInfo');
+      expect(albumSpotifyYoutubeInfo).toBeInstanceOf(Object);
     });
     test('has tracks', () => {
-      assert('tracks' in dataFlattened);
-      assert(tracks instanceof Array);
+      expect(dataFlattened).toHaveProperty('tracks');
+      expect(tracks).toBeInstanceOf(Array);
     });
     test('has albumMetadaToDisplay', () => {
-      assert('albumMetadaToDisplay' in dataFlattened);
-      assert(albumMetadaToDisplay instanceof Object);
+      expect(dataFlattened).toHaveProperty('albumMetadaToDisplay');
+      expect(albumMetadaToDisplay).toBeInstanceOf(Object);
     });
     test('has identifier', () => {
-      assert('identifier' in dataFlattened);
-      assert(identifier instanceof Array);
+      expect(dataFlattened).toHaveProperty('identifier');
+      expect(identifier).toBeInstanceOf(Array);
     });
     test('has itemPhoto', () => {
-      assert('itemPhoto' in dataFlattened);
-      assert.equal(typeof itemPhoto, 'string');
+      expect(dataFlattened).toHaveProperty('itemPhoto');
+      expect(itemPhoto).toBeDefined();
+      expect(itemPhoto).toBeTruthy();
     });
     test('has title', () => {
-      assert('title' in dataFlattened);
-      assert(title instanceof Array);
+      expect(dataFlattened).toHaveProperty('title');
+      expect(title).toBeInstanceOf(Array);
     });
   });
 
@@ -54,22 +59,26 @@ describe('Music Player Util - Flatten Album Data', () => {
       identifier: stringifiedID,
     } = albumMetadaToDisplay;
     test('has creator', () => {
-      assert('creator' in albumMetadaToDisplay);
-      assert.equal(typeof stringifiedCreator, 'string');
+      expect(albumMetadaToDisplay).toHaveProperty('creator');
+      expect(stringifiedCreator).toBeDefined();
+      expect(stringifiedCreator).toBeTruthy();
     });
     test('has title', () => {
-      assert('title' in albumMetadaToDisplay);
-      assert.equal(typeof stringifiedTitle, 'string');
+      expect(albumMetadaToDisplay).toHaveProperty('title');
+      expect(stringifiedTitle).toBeDefined();
+      expect(stringifiedTitle).toBeTruthy();
     });
     test('has identifier', () => {
-      assert('identifier' in albumMetadaToDisplay);
-      assert.equal(typeof stringifiedID, 'string');
-      assert.equal(stringifiedID, dataFlattened.identifier[0]);
+      expect(albumMetadaToDisplay).toHaveProperty('identifier');
+      expect(stringifiedID).toEqual(dataFlattened.identifier[0]);
+      expect(stringifiedID).toBeDefined();
+      expect(stringifiedID).toBeTruthy();
     });
     test('has collection', () => {
-      assert('collection' in albumMetadaToDisplay);
-      assert.equal(typeof collection, 'string');
-      assert.equal(collection.split(',').length, dataFlattened.collection.length);
+      expect(albumMetadaToDisplay).toHaveProperty('collection');
+      expect(collection.split(',').length).toEqual(dataFlattened.collection.length);
+      expect(collection).toBeDefined();
+      expect(collection).toBeTruthy();
     });
   });
 
@@ -84,32 +93,34 @@ describe('Music Player Util - Flatten Album Data', () => {
       youtube,
     } = firstTrack;
     test('has sampleMP3', () => {
-      assert('sampleMP3' in firstTrack);
-      assert(sampleMP3 instanceof Object);
+      expect(firstTrack).toHaveProperty('sampleMP3');
+      expect(sampleMP3).toBeInstanceOf(Object);
     });
     test('has fullMP3', () => {
-      assert('fullMP3' in firstTrack);
-      assert(fullMP3 instanceof Object);
+      expect(firstTrack).toHaveProperty('fullMP3');
+      expect(fullMP3).toBeInstanceOf(Object);
     });
     test('has fullFilePath', () => {
-      assert('fullFilePath' in firstTrack);
-      assert.equal(typeof fullFilePath, 'string');
+      expect(firstTrack).toHaveProperty('fullFilePath');
+      expect(fullFilePath).toBeDefined();
+      expect(fullFilePath).toBeTruthy();
     });
     test('has relatedFiles', () => {
-      assert('relatedFiles' in firstTrack);
-      assert(relatedFiles instanceof Object);
+      expect(firstTrack).toHaveProperty('relatedFiles');
+      expect(relatedFiles).toBeInstanceOf(Object);
     });
     test('has waveformURL', () => {
-      assert('waveformURL' in firstTrack);
-      assert.equal(typeof waveformURL, 'string');
+      expect(firstTrack).toHaveProperty('waveformURL');
+      expect(waveformURL).toBeDefined();
+      expect(waveformURL).toBeTruthy();
     });
     test('has spotify if available', () => {
-      assert('spotify' in firstTrack);
-      assert(spotify instanceof Object);
+      expect(firstTrack).toHaveProperty('spotify');
+      expect(spotify).toBeInstanceOf(Object);
     });
     test('has youtube if available', () => {
-      assert('youtube' in firstTrack);
-      assert(youtube instanceof Object);
+      expect(firstTrack).toHaveProperty('youtube');
+      expect(youtube).toBeInstanceOf(Object);
     });
   });
 });
