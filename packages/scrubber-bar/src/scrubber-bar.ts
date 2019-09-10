@@ -11,7 +11,10 @@ import {
 
 @customElement('scrubber-bar')
 export default class ScrubberBar extends LitElement {
-  @property({ type: Number }) percentComplete = 0;
+  @property({ type: Number }) value = 0;
+  @property({ type: Number }) min = 0;
+  @property({ type: Number }) max = 100;
+  @property({ type: Number }) step = 0.1;
 
   userInteracting = false;
 
@@ -21,17 +24,17 @@ export default class ScrubberBar extends LitElement {
         <input
           id="slider"
           type="range"
-          min="0"
-          max="100"
-          step="0.1"
-          value=${this.percentComplete}
+          min=${this.min}
+          max=${this.max}
+          step=${this.step}
+          value=${this.value}
           @mousedown=${this.interactionStarted}
           @mouseup=${this.interactionEnded}
           @touchstart=${this.interactionStarted}
           @touchend=${this.interactionEnded}
           @input=${this.handleSlide}
           @change=${this.handleSlide} />
-        <div id="webkit-range-input-style"></style>
+        <div id="webkit-range-input-style"></div>
       </div>
     `;
   }
@@ -39,7 +42,7 @@ export default class ScrubberBar extends LitElement {
   updated(changedProperties: PropertyValues): void {
     if (!this.userInteracting && changedProperties.has('percentComplete')) {
       if (this.rangeSlider) {
-        this.rangeSlider.value = `${this.percentComplete}`;
+        this.rangeSlider.value = `${this.value}`;
       }
       this.updateSliderProgress();
     }
@@ -98,7 +101,7 @@ export default class ScrubberBar extends LitElement {
     const scrubberBarHeight = css`var(--scrubberBarHeight, 20px)`;
 
     const thumbDiameter = css`var(--thumbDiameter, 20px)`;
-    const thumbBorderRadius = css`var(--thumbBorderRadius, 10px)`;
+    const thumbBorderRadius = css`var(--thumbBorderRadius, 50%)`;
 
     const trackHeight = css`var(--trackHeight, 10px)`;
     const trackBorderRadius = css`var(--trackBorderRadius, 5px)`;

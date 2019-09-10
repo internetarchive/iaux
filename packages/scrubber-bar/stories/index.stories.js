@@ -26,7 +26,7 @@ storiesOf('scrubber-bar', module)
           --trackHeight: ${text('Track Height', '10px', 'Layout')};
           --thumbDiameter: ${text('Thumb Diameter', '20px', 'Layout')};
           --scrubberBarHeight: ${text('Scrubber Bar Height', '20px', 'Layout')};
-          --thumbBorderRadius: ${text('Thumb Border Radius', '10px', 'Layout')};
+          --thumbBorderRadius: ${text('Thumb Border Radius', '50%', 'Layout')};
           --webkitThumbTopMargin: ${text('Webkit Thumb Top Margin', '-6px', 'Layout')};
         }
       </style>

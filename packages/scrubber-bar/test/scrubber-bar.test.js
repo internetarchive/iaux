@@ -8,7 +8,7 @@ describe('ScrubberBar', () => {
       <scrubber-bar></scrubber-bar>
     `);
 
-    expect(el.percentComplete).to.equal(0);
+    expect(el.value).to.equal(0);
   });
 
   it('userInteracting flag gets set to true when mousedown on slider', async () => {
@@ -34,12 +34,12 @@ describe('ScrubberBar', () => {
 
     const rangeSlider = el.shadowRoot.getElementById('slider');
     const mouseDownEvent = new MouseEvent('mousedown');
-    rangeSlider.dispatchEvent(mouseDownEvent)
+    rangeSlider.dispatchEvent(mouseDownEvent);
 
     expect(el.userInteracting).to.equal(true);
 
     const mouseUpEvent = new MouseEvent('mouseup');
-    rangeSlider.dispatchEvent(mouseUpEvent)
+    rangeSlider.dispatchEvent(mouseUpEvent);
 
     expect(el.userInteracting).to.equal(false);
   });
@@ -56,7 +56,7 @@ describe('ScrubberBar', () => {
     setTimeout(() => { rangeSlider.dispatchEvent(inputEvent); });
 
     const { detail } = await oneEvent(el, 'valuechange');
-    expect(detail.value).to.equal("0");
+    expect(detail.value).to.equal('0');
 
   });
 
