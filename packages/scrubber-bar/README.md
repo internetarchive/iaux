@@ -1,6 +1,8 @@
 # \<scrubber-bar>
 
-This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
+A customizable scrubber bar useful for scrubbing through media.
+
+![Scrubber Bar](./assets/img/scrubber.gif "Scrubber Bar Demo")
 
 ## Installation
 ```bash
@@ -12,6 +14,22 @@ yarn add @internetarchive/scrubber-bar
 <script type="module">
   import '@internetarchive/scrubber-bar/index.js';
 </script>
+
+<style>
+  scrubber-bar {
+    --thumbColor: 'white';
+    --thumbBorder: '1px solid black';
+    --trackFillColor: 'blue';
+    --trackColor: 'purple';
+    --trackBorder: '1px solid black';
+    --trackBorderRadius: '5px';
+    --trackHeight: '10px';
+    --thumbDiameter: '20px';
+    --scrubberBarHeight: '20px';
+    --thumbBorderRadius: '10px';
+    --webkitThumbTopMargin: '-6px';
+  }
+</style>
 
 <scrubber-bar></scrubber-bar>
 ```
