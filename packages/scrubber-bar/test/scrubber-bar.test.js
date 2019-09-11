@@ -123,4 +123,23 @@ describe('ScrubberBar', () => {
     expect(response.detail.value).to.equal(20);
     expect(el.percentage).to.equal(25);
   });
+
+  it('does not update the slider field value if the user is interacting', async () => {
+    const el = await fixture(html`
+      <scrubber-bar></scrubber-bar>
+    `);
+
+    expect(el.value).to.equal(0);
+
+    const event = new MouseEvent('mousedown');
+    const rangeSlider = el.shadowRoot.getElementById('slider');
+
+    setTimeout(() => { rangeSlider.dispatchEvent(event); });
+    await oneEvent(el, 'userInteractionStarted');
+
+    el.value = 20;
+
+    expect(rangeSlider.value).to.equal('0');
+  });
+
 });
