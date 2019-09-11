@@ -7,7 +7,7 @@ module.exports = config => {
   config.set(
     merge(bsSettings(config), createBaseConfig(config), {
       browserStack: {
-        project: 'your-name',
+        project: 'scrubber-bar',
       },
     }),
   );
