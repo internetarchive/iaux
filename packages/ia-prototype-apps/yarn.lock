@@ -725,7 +725,7 @@
     node-fetch "^2.2.0"
 
 "@internetarchive/scrubber-bar@file:../scrubber-bar":
-  version "0.0.0"
+  version "0.0.1"
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
