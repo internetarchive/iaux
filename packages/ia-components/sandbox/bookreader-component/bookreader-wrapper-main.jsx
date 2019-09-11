@@ -35,6 +35,7 @@ export default class BookReaderWrapper extends Component {
       searchInsideUrl: '/fulltext/inside.php',
       initialSearchTerm: null,
       imagesBaseURL: '/bookreader/BookReader/images/',
+      //TODO-ISA what is going on here, a comment would be useful ? (same on bookreader-wrapper-main and bookreader-wrapper-jsia)
       getPageURI: (index, reduce = 1, rotate = 0) => {
         let uri = originalGetPageURI.call(br, index, reduce, rotate);
         uri += (uri.indexOf('?') > -1 ? '&' : '?');
@@ -43,10 +44,10 @@ export default class BookReaderWrapper extends Component {
       },
     };
     const fullOptions = {
-      ...defaultOptions,
-      ...options,
       defaultStartLeaf: 0,
       titleLeaf: 0,
+      ...defaultOptions,
+      ...options,
     };
     const br = new BookReader(fullOptions);
     window.br = br;

@@ -194,7 +194,7 @@ class NavWebDIV extends IAReactComponent {
    *
    */
 
-  loadCallable(el) {
+  loadcallable(el) {
     this.hideableElement = el;
   }
 

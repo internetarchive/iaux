@@ -2,17 +2,36 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * BookReaderWrapper wraps globally accessible BookReader to create an instance
+ * BookReaderJSIAWrapper wraps globally accessible BookReader to create an instance
  *
  * This component is client-side only.
  * This component expects all necessary scripts for BookReader to be pre-loaded onto the page before use.
  * Please see https://github.com/internetarchive/bookreader for more instructions & examples.
  *
+ * This component is almost identical to bookreader-wrapper-main.jsx except that if jsia is specified then it adds
+ * Internet Archive specific stuff via the BookreaderJSIA function - the script BookreaderJSIA should previously have been loaded.
+ *
+ * TODO - someone could merge all or part of BookreaderJSIA into here and obsolete BookreaderJSIA ideally without changing the interface
+ * TODO - except Isa doesnt want the Archive's lending logic in here.
+ * Note this component is used by dweb-archive for offline and dweb versions.
+ *
  * global: BookReader
  * Creates a global: window.br (which Search will need)
  *
+ * <BookReaderJSIAWrapper
+ *   jsia={ options returned by JSIA call}  optional
+ *   options={ options to override default bookreader options}
+ *   />
+ *
+ * Note will almost certainly need a AJS.theatresize() in caller after this.
+ *
+ * Questions for ISA
+ * - why are defaultStartLeaf and titleLeaf not in defaultOptions ? I also moved them to start of list so can be overridden
+ * - I reinstated IABookReaderMessageWrapper which I'm guessing is used by lending tools to put their message
+ * - Any reason options.onePage.autofit is defaulting to 'height' not 'auto' (which is what I've seen before
+ * - What is going on with the getPgeURI definition, a comment would be good
  */
-export default class BookReaderWrapper extends Component {
+export default class BookReaderJSIAWrapper extends Component {
   constructor(props) {
     super(props);
     this.BookReaderRef = React.createRef();
@@ -35,6 +54,7 @@ export default class BookReaderWrapper extends Component {
       searchInsideUrl: '/fulltext/inside.php',
       initialSearchTerm: null,
       imagesBaseURL: '/bookreader/BookReader/images/',
+      //TODO-ISA what is going on here, a comment would be useful ? (same on bookreader-wrapper-main and bookreader-wrapper-jsia)
       getPageURI: (index, reduce = 1, rotate = 0) => {
         let uri = originalGetPageURI.call(br, index, reduce, rotate);
         uri += (uri.indexOf('?') > -1 ? '&' : '?');
@@ -43,29 +63,36 @@ export default class BookReaderWrapper extends Component {
       },
     };
     const fullOptions = {
-      ...defaultOptions,
-      ...options,
       defaultStartLeaf: 0,
       titleLeaf: 0,
+      ...defaultOptions,
+      ...options,
     };
-    const br = new BookReader(fullOptions);
-    window.br = br;
-    br.init();
+    if (this.props.jsia) {
+      BookReaderJSIAinit(this.props.jsia, fullOptions); // Creates window.br
+    } else {
+      const br = new BookReader(fullOptions);
+      window.br = br;
+      br.init();
+    }
   }
 
   render() {
     return (
       <section id="IABookReaderWrapper" {...this.props}>
+        {!this.props.jsia ? null :
+          <div id="IABookReaderMessageWrapper" style={{display: "none"}}></div>
+        }
         <div id="bookreader" ref={this.BookReaderRef} style={{ height: '100%', width: '100%' }} />
       </section>
     );
   }
 }
 
-BookReaderWrapper.defaultProps = {
+BookReaderJSIAWrapper.defaultProps = {
   options: {},
 };
 
-BookReaderWrapper.propTypes = {
+BookReaderJSIAWrapper.propTypes = {
   options: PropTypes.object,
 };
