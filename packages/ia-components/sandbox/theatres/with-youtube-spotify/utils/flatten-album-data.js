@@ -8,6 +8,7 @@ import {
 import archiveDefaultAlbumParser from './archive-default-album-parser';
 import archiveLPAlbumParser from './archive-lp-album-parser';
 import gatherYoutubeAndSpotifyInfo from './youtube-spotify-parser';
+import { isValidAudioFile, isValidImageFile } from './utils';
 
 /**
  * Stringify Album details
@@ -65,8 +66,7 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
    * & only return the files we are interested in
    */
   const slimFiles = reduce(fileNames, (neededFiles = [], fileName) => {
-    const neededExtensions = /(mp3|ogg|flac|m4a|jpg|png|jpeg|wma)$/gi;
-    const isNeededFile = fileName.match(neededExtensions);
+    const isNeededFile = isValidAudioFile(fileName) || isValidImageFile(fileName);
     const file = allFiles[fileName];
     file.name = fileName.slice(1, fileName.length);
     if (isNeededFile) {

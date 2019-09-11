@@ -1,6 +1,6 @@
 import { endsWith, filter } from 'lodash';
-
 import gatherYoutubeAndSpotifyInfo from './youtube-spotify-parser';
+import { isValidAudioFile, isValidImageFile } from './utils';
 
 /**
  * Internet Archive LP Album Data Parser
@@ -39,8 +39,8 @@ const archiveLPAlbumParser = ({ fileDirectoryPrefix, files, itemIdentifier }) =>
     const isOriginal = source === 'original';
     const isMainTrackItem = original.match(`${itemIdentifier}_segments.`);
     const fileToSkip = `${itemIdentifier}.mp3`; // phantom audio file to map to full album
-    const isAudioFile = currentFileName.match(/(mp3|ogg|flac|m4a)$/g);
-    const isItemImageFile = isOriginal && currentFileName.match(/(png|jpg|jpeg)$/gi);
+    const isAudioFile = isValidAudioFile(currentFileName);
+    const isItemImageFile = isOriginal && isValidImageFile(currentFileName);
     // skip unneeded files
     if ((!isOriginal && !isAudioFile) || (fileToSkip === currentFileName)) return neededItems;
 
