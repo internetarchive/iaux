@@ -21,7 +21,7 @@ class AnchorSearches extends IAReactComponent {
    * <AnchorSearches
    *    field=STRING    Search for value(s) in this field
    *    value=STRING || [STRING*] Either a string, or a series of alternatives
-   *    itemprop=STRING optional, for search engines TODO pass this down to AnchorSearch (should be in a span wrapping the value)
+   *    itemProp=STRING optional, for search engines TODO pass this down to AnchorSearch (should be in a span wrapping the value)
    *  />
    */
   // Props field, value: array or string mapping: object (optional)
@@ -29,7 +29,7 @@ class AnchorSearches extends IAReactComponent {
     return (Array.isArray(this.props.value)
       ? this.props.value.map(v => (
         <span key={v}>
-          <AnchorSearch field={this.props.field} value={v} rel="nofollow" itemprop={this.props.itemprop}>{v}</AnchorSearch>
+          <AnchorSearch field={this.props.field} value={v} rel="nofollow" itemProp={this.props.itemProp}>{v}</AnchorSearch>
           {' '}
         </span>
       ))
@@ -50,14 +50,14 @@ class DetailsMetadataField extends IAReactComponent {
    *    name=STRING               Override default name for field
    *    field=METADATAFIELD       Metadata Field Name
    *    value=STRING | [STRING*]  Value(s) in that field
-   *    itemprop=STRING           Optional - for search engines
+   *    itemProp=STRING           Optional - for search engines
    * />
    *
    * Behavior on rendering:
    *  Determines the name for the field, using the `name` prop, or a mapping in here, or by uppercasing the first character
    *  Values are rendered as anchors to searches
    */
-  // props: field=k value: v|[v*], mapping: {v: string},  className, role, itemprop
+  // props: field=k value: v|[v*], mapping: {v: string},  className, role, itemProp
   constructor(props) {
     super(props);
     this.state.name = this.props.name
@@ -70,7 +70,7 @@ class DetailsMetadataField extends IAReactComponent {
       <dl className="metadata-definition">
         <dt>{this.state.name}</dt>
         <dd><AnchorSearches field={this.props.field} value={this.props.value} mapping={this.props.mapping}
-                            itemprop={this.props.itemprop} /></dd>
+                            itemProp={this.props.itemProp} /></dd>
       </dl>
     );
   }
@@ -126,7 +126,7 @@ class DetailsMetadata extends IAReactComponent {
     return (
       <>
         <div className="row metadata-list" role="list">
-          <DetailsMetadataField field="date" value={md.date} name="Publication date" itemprop="datePublished" />
+          <DetailsMetadataField field="date" value={md.date} name="Publication date" itemProp="datePublished" />
           {!md.licenceurl ? null : ( // TODO this is wrong, its hard coding one specific licence
             <dl className="metadata-definition">
               <dt>Usage</dt>
@@ -146,9 +146,9 @@ class DetailsMetadata extends IAReactComponent {
               </dd>
             </dl>
           ) }
-          <DetailsMetadataField field="subject" value={md.subject} name="Topics" itemprop="keywords" />
-          <DetailsMetadataField field="publisher" value={md.publisher} name="Publishers" itemprop="publisher" />
-          <DetailsMetadataField field="sponsor" value={md.sponsor} name="Sponsor" itemprop="sponsor" />
+          <DetailsMetadataField field="subject" value={md.subject} name="Topics" itemProp="keywords" />
+          <DetailsMetadataField field="publisher" value={md.publisher} name="Publishers" itemProp="publisher" />
+          <DetailsMetadataField field="sponsor" value={md.sponsor} name="Sponsor" itemProp="sponsor" />
           <DetailsMetadataField field="contributor" value={md.contributor} name="Contributors" />
           <DetailsMetadataField className="key-val-big" field="language" value={md.language} name="Languages" mapping={languageMapping} />
         </div>
