@@ -21,6 +21,11 @@ export default class ScrubberBar extends LitElement {
 
   userInteracting = false;
 
+  // This is the canonical source for the current value. Since the value can be updated by either the consumer
+  // or the user, we need a single place for the actual value. It is non-reactive so we can update it in either
+  // scenario without causing a loop of `value` updates.
+  private _value: number = 0;
+
   render(): TemplateResult {
     return html`
       <div class="container">
@@ -44,7 +49,8 @@ export default class ScrubberBar extends LitElement {
   }
 
   updated(changedProperties: PropertyValues): void {
-    if (!this.userInteracting && changedProperties.has('percentComplete')) {
+    if (!this.userInteracting && changedProperties.has('value')) {
+      this._value = this.value;
       if (this.rangeSlider) {
         this.rangeSlider.value = `${this.value}`;
       }
@@ -56,7 +62,9 @@ export default class ScrubberBar extends LitElement {
     this.updateSliderProgress();
   }
 
-  handleSlide(): void {
+  handleSlide(e: Event): void {
+    const newValue = (e.target as HTMLInputElement).value;
+    this._value = parseFloat(newValue);
     this.updateSliderProgress();
     this.emitChangeEvent();
   }
@@ -77,15 +85,20 @@ export default class ScrubberBar extends LitElement {
     return this.shadowRoot && this.shadowRoot.getElementById('webkit-range-input-style');
   }
 
+  get percentage(): number {
+    const delta: number = this.max - this.min;
+    const minOffset: number = this._value - this.min;
+    return (minOffset / delta) * 100;
+  }
+
   updateSliderProgress(): void {
-    const sliderValue = (this.rangeSlider && this.rangeSlider.value) || 0;
     if (this.webkitStyle) {
       this.webkitStyle.innerHTML = `
         <style>
           input[type=range]::-webkit-slider-runnable-track {
             background: linear-gradient(to right,
-              var(--trackFillColor, #3272b6) 0%, var(--trackFillColor, #3272b6) ${sliderValue}%,
-              var(--trackColor, purple) ${sliderValue}%, var(--trackColor, purple) 100%);
+              var(--trackFillColor, #3272b6) 0%, var(--trackFillColor, #3272b6) ${this.percentage}%,
+              var(--trackColor, purple) ${this.percentage}%, var(--trackColor, purple) 100%);
           }
         </style>
       `;
@@ -94,7 +107,7 @@ export default class ScrubberBar extends LitElement {
 
   emitChangeEvent(): void {
     const event = new CustomEvent('valuechange', {
-      detail: { value: (this.rangeSlider && this.rangeSlider.value) || 0 },
+      detail: { value: this._value },
       bubbles: true,
       composed: true,
     });
