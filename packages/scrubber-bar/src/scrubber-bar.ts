@@ -120,18 +120,23 @@ export default class ScrubberBar extends LitElement {
 
     const thumbDiameter = css`var(--thumbDiameter, 20px)`;
     const thumbBorderRadius = css`var(--thumbBorderRadius, 50%)`;
+    const thumbBorder = css`var(--thumbBorder, 1px solid black)`;
+    const thumbColor = css`var(--thumbColor, white)`;
 
     const trackHeight = css`var(--trackHeight, 10px)`;
     const trackBorderRadius = css`var(--trackBorderRadius, 5px)`;
     const trackBorder = css`var(--trackBorder, 1px solid black)`;
     const trackFillColor = css`var(--trackFillColor, #3272b6)`;
+    const trackColor = css`var(--trackColor, black)`;
+
+    const webkitThumbTopMargin = css`var(--webkitThumbTopMargin, -6px)`;
 
     const commonThumbDefinitions = css`
-      background-color: var(--thumbColor, white);
+      background-color: ${thumbColor};
       height: ${thumbDiameter};
       width: ${thumbDiameter};
       border-radius: ${thumbBorderRadius};
-      border: var(--thumbBorder, 1px solid black);
+      border: ${thumbBorder};
       cursor: pointer;
     `;
 
@@ -141,7 +146,7 @@ export default class ScrubberBar extends LitElement {
     `;
 
     const commonTrackDefinitions = css`
-      background-color: var(--trackColor, black);
+      background-color: ${trackColor};
       border: ${trackBorder};
       ${trackSizeDefinitions};
     `;
@@ -159,7 +164,7 @@ export default class ScrubberBar extends LitElement {
       input[type='range']::-webkit-slider-thumb {
         -webkit-appearance: none;
         box-sizing: content-box;
-        margin-top: var(--webkitThumbTopMargin, -6px);
+        margin-top: ${webkitThumbTopMargin};
         ${commonThumbDefinitions}
       }
 
