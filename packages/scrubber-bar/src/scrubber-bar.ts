@@ -12,8 +12,11 @@ import {
 @customElement('scrubber-bar')
 export default class ScrubberBar extends LitElement {
   @property({ type: Number }) value = 0;
+
   @property({ type: Number }) min = 0;
+
   @property({ type: Number }) max = 100;
+
   @property({ type: Number }) step = 0.1;
 
   userInteracting = false;
@@ -33,7 +36,8 @@ export default class ScrubberBar extends LitElement {
           @touchstart=${this.interactionStarted}
           @touchend=${this.interactionEnded}
           @input=${this.handleSlide}
-          @change=${this.handleSlide} />
+          @change=${this.handleSlide}
+        />
         <div id="webkit-range-input-style"></div>
       </div>
     `;
