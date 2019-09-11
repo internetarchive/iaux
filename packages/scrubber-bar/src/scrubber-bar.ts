@@ -19,7 +19,13 @@ export default class ScrubberBar extends LitElement {
 
   @property({ type: Number }) step = 0.1;
 
-  userInteracting = false;
+  get percentage(): number {
+    const delta: number = this.max - this.min;
+    const minOffset: number = this._value - this.min;
+    return (minOffset / delta) * 100;
+  }
+
+  private _userInteracting = false;
 
   // This is the canonical source for the current value. Since the value can be updated by either the consumer
   // or the user, we need a single place for the actual value. It is non-reactive so we can update it in either
@@ -49,7 +55,7 @@ export default class ScrubberBar extends LitElement {
   }
 
   updated(changedProperties: PropertyValues): void {
-    if (!this.userInteracting && changedProperties.has('value')) {
+    if (!this._userInteracting && changedProperties.has('value')) {
       this._value = this.value;
       if (this.rangeSlider) {
         this.rangeSlider.value = `${this.value}`;
@@ -62,36 +68,32 @@ export default class ScrubberBar extends LitElement {
     this.updateSliderProgress();
   }
 
-  handleSlide(e: Event): void {
+  private handleSlide(e: Event): void {
     const newValue = (e.target as HTMLInputElement).value;
     this._value = parseFloat(newValue);
     this.updateSliderProgress();
     this.emitChangeEvent();
   }
 
-  interactionStarted(): void {
-    this.userInteracting = true;
+  private interactionStarted(): void {
+    this._userInteracting = true;
+    this.dispatchEvent(new Event('userInteractionStarted'));
   }
 
-  interactionEnded(): void {
-    this.userInteracting = false;
+  private interactionEnded(): void {
+    this._userInteracting = false;
+    this.dispatchEvent(new Event('userInteractionEnded'));
   }
 
-  get rangeSlider(): HTMLInputElement | null {
+  private get rangeSlider(): HTMLInputElement | null {
     return this.shadowRoot && (this.shadowRoot.getElementById('slider') as HTMLInputElement);
   }
 
-  get webkitStyle(): HTMLElement | null {
+  private get webkitStyle(): HTMLElement | null {
     return this.shadowRoot && this.shadowRoot.getElementById('webkit-range-input-style');
   }
 
-  get percentage(): number {
-    const delta: number = this.max - this.min;
-    const minOffset: number = this._value - this.min;
-    return (minOffset / delta) * 100;
-  }
-
-  updateSliderProgress(): void {
+  private updateSliderProgress(): void {
     if (this.webkitStyle) {
       this.webkitStyle.innerHTML = `
         <style>
@@ -105,7 +107,7 @@ export default class ScrubberBar extends LitElement {
     }
   }
 
-  emitChangeEvent(): void {
+  private emitChangeEvent(): void {
     const event = new CustomEvent('valuechange', {
       detail: { value: this._value },
       bubbles: true,

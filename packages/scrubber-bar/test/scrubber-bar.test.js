@@ -11,37 +11,60 @@ describe('ScrubberBar', () => {
     expect(el.value).to.equal(0);
   });
 
-  it('userInteracting flag gets set to true when mousedown on slider', async () => {
+  it('userInteractionStarted event dispatched on user mousedown', async () => {
     const el = await fixture(html`
       <scrubber-bar></scrubber-bar>
     `);
 
-    expect(el.userInteracting).to.equal(false);
-
     const rangeSlider = el.shadowRoot.getElementById('slider');
-    const mouseDownEvent = new MouseEvent('mousedown');
-    rangeSlider.dispatchEvent(mouseDownEvent)
+    const event = new MouseEvent('mousedown');
 
-    expect(el.userInteracting).to.equal(true);
+    // we have to do this in a setTimeout so the event listener below has a chance to listen
+    setTimeout(() => { rangeSlider.dispatchEvent(event); });
+    const response = await oneEvent(el, 'userInteractionStarted');
+    expect(response).to.exist;
   });
 
-  it('userInteracting flag gets set to false when mouseup on slider', async () => {
+  it('userInteractionEnded event dispatched on user mouseup', async () => {
     const el = await fixture(html`
       <scrubber-bar></scrubber-bar>
     `);
 
-    expect(el.userInteracting).to.equal(false);
+    const rangeSlider = el.shadowRoot.getElementById('slider');
+    const event = new MouseEvent('mouseup');
+
+    // we have to do this in a setTimeout so the event listener below has a chance to listen
+    setTimeout(() => { rangeSlider.dispatchEvent(event); });
+    const response = await oneEvent(el, 'userInteractionEnded');
+    expect(response).to.exist;
+  });
+
+  it('userInteractionStarted event dispatched on user touchstart', async () => {
+    const el = await fixture(html`
+      <scrubber-bar></scrubber-bar>
+    `);
 
     const rangeSlider = el.shadowRoot.getElementById('slider');
-    const mouseDownEvent = new MouseEvent('mousedown');
-    rangeSlider.dispatchEvent(mouseDownEvent);
+    const event = new Event('touchstart');
 
-    expect(el.userInteracting).to.equal(true);
+    // we have to do this in a setTimeout so the event listener below has a chance to listen
+    setTimeout(() => { rangeSlider.dispatchEvent(event); });
+    const response = await oneEvent(el, 'userInteractionStarted');
+    expect(response).to.exist;
+  });
 
-    const mouseUpEvent = new MouseEvent('mouseup');
-    rangeSlider.dispatchEvent(mouseUpEvent);
+  it('userInteractionEnded event dispatched on user touchend', async () => {
+    const el = await fixture(html`
+      <scrubber-bar></scrubber-bar>
+    `);
 
-    expect(el.userInteracting).to.equal(false);
+    const rangeSlider = el.shadowRoot.getElementById('slider');
+    const event = new Event('touchend');
+
+    // we have to do this in a setTimeout so the event listener below has a chance to listen
+    setTimeout(() => { rangeSlider.dispatchEvent(event); });
+    const response = await oneEvent(el, 'userInteractionEnded');
+    expect(response).to.exist;
   });
 
   it('valuechange event is emitted when input occurs on slider', async () => {
