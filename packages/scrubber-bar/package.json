@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Webcomponent scrubber-bar following open-wc recommendations",
   "author": "scrubber-bar",
-  "license": "MIT",
+  "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
   "scripts": {
