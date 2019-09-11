@@ -11,7 +11,7 @@ describe('ScrubberBar', () => {
     expect(el.value).to.equal(0);
   });
 
-  it('userInteractionStarted event dispatched on user mousedown', async () => {
+  it('dispatches userInteractionStarted event on user mousedown', async () => {
     const el = await fixture(html`
       <scrubber-bar></scrubber-bar>
     `);
@@ -25,7 +25,7 @@ describe('ScrubberBar', () => {
     expect(response).to.exist;
   });
 
-  it('userInteractionEnded event dispatched on user mouseup', async () => {
+  it('dispatches userInteractionEnded event on user mouseup', async () => {
     const el = await fixture(html`
       <scrubber-bar></scrubber-bar>
     `);
@@ -39,7 +39,7 @@ describe('ScrubberBar', () => {
     expect(response).to.exist;
   });
 
-  it('userInteractionStarted event dispatched on user touchstart', async () => {
+  it('dispatches userInteractionStarted event on user touchstart', async () => {
     const el = await fixture(html`
       <scrubber-bar></scrubber-bar>
     `);
@@ -53,7 +53,7 @@ describe('ScrubberBar', () => {
     expect(response).to.exist;
   });
 
-  it('userInteractionEnded event dispatched on user touchend', async () => {
+  it('dispatches userInteractionEnded event on user touchend', async () => {
     const el = await fixture(html`
       <scrubber-bar></scrubber-bar>
     `);
@@ -67,7 +67,7 @@ describe('ScrubberBar', () => {
     expect(response).to.exist;
   });
 
-  it('valuechange event is emitted when input occurs on slider', async () => {
+  it('dispatches valuechange event when input occurs on slider', async () => {
     const el = await fixture(html`
       <scrubber-bar></scrubber-bar>
     `);
@@ -83,7 +83,7 @@ describe('ScrubberBar', () => {
 
   });
 
-  it('the proper value is returned after an input change event', async () => {
+  it('dispatches the proper value after an input change event', async () => {
     const el = await fixture(html`
       <scrubber-bar></scrubber-bar>
     `);
@@ -100,7 +100,7 @@ describe('ScrubberBar', () => {
 
   });
 
-  it('the proper percentage is calculated', async () => {
+  it('calculates the proper percentage for the given value and range', async () => {
     const el = await fixture(html`
       <scrubber-bar min="10" max="50"></scrubber-bar>
     `);
