@@ -55,13 +55,12 @@ export default class ScrubberBar extends LitElement {
   }
 
   updated(changedProperties: PropertyValues): void {
-    if (!this._userInteracting && changedProperties.has('value')) {
-      this._value = this.value;
-      if (this.rangeSlider) {
-        this.rangeSlider.value = `${this.value}`;
-      }
-      this.updateSliderProgress();
+    if (this._userInteracting || !changedProperties.has('value')) { return; }
+    this._value = this.value;
+    if (this.rangeSlider) {
+      this.rangeSlider.value = `${this.value}`;
     }
+    this.updateSliderProgress();
   }
 
   firstUpdated(): void {
@@ -94,17 +93,17 @@ export default class ScrubberBar extends LitElement {
   }
 
   private updateSliderProgress(): void {
-    if (this.webkitStyle) {
-      this.webkitStyle.innerHTML = `
-        <style>
-          input[type=range]::-webkit-slider-runnable-track {
-            background: linear-gradient(to right,
-              var(--trackFillColor, #3272b6) 0%, var(--trackFillColor, #3272b6) ${this.percentage}%,
-              var(--trackColor, purple) ${this.percentage}%, var(--trackColor, purple) 100%);
-          }
-        </style>
-      `;
-    }
+    if (!this.webkitStyle) { return; }
+
+    this.webkitStyle.innerHTML = `
+      <style>
+        input[type=range]::-webkit-slider-runnable-track {
+          background: linear-gradient(to right,
+            var(--trackFillColor, #3272b6) 0%, var(--trackFillColor, #3272b6) ${this.percentage}%,
+            var(--trackColor, purple) ${this.percentage}%, var(--trackColor, purple) 100%);
+        }
+      </style>
+    `;
   }
 
   private emitChangeEvent(): void {
