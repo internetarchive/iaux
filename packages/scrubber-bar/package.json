@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/scrubber-bar",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Webcomponent scrubber-bar following open-wc recommendations",
   "author": "scrubber-bar",
   "license": "AGPL-3.0-only",
