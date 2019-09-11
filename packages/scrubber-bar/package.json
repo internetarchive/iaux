@@ -1,5 +1,5 @@
 {
-  "name": "scrubber-bar",
+  "name": "@internetarchive/scrubber-bar",
   "version": "0.0.0",
   "description": "Webcomponent scrubber-bar following open-wc recommendations",
   "author": "scrubber-bar",

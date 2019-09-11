@@ -2,8 +2,8 @@ packages/ia-prototype-apps/dist
 packages/ia-prototype-apps/.cache
 yarn-error.log
 node_modules
-npm-debug.log
 jest-test-utils
 __snapshots__
 /publish_dev.sh
 /dist
+*.log

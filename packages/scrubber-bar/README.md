@@ -10,24 +10,31 @@ yarn add @internetarchive/scrubber-bar
 ```
 
 ## Usage
+```js
+// scrubber-bar.js
+import ScrubberBar from '@internetarchive/scrubber-bar';
+export default ScrubberBar;
+```
+
 ```html
+<!-- index.html -->
 <script type="module">
-  import '@internetarchive/scrubber-bar/index.js';
+  import './scrubber-bar.js';
 </script>
 
 <style>
   scrubber-bar {
-    --thumbColor: 'white';
-    --thumbBorder: '1px solid black';
-    --trackFillColor: 'blue';
-    --trackColor: 'purple';
-    --trackBorder: '1px solid black';
-    --trackBorderRadius: '5px';
-    --trackHeight: '10px';
-    --thumbDiameter: '20px';
-    --scrubberBarHeight: '20px';
-    --thumbBorderRadius: '10px';
-    --webkitThumbTopMargin: '-6px';
+    --thumbColor: white;
+    --thumbBorder: 1px solid black;
+    --trackFillColor: blue;
+    --trackColor: purple;
+    --trackBorder: 1px solid black;
+    --trackBorderRadius: 5px;
+    --trackHeight: 10px;
+    --thumbDiameter: 20px;
+    --scrubberBarHeight: 20px;
+    --thumbBorderRadius: 10px;
+    --webkitThumbTopMargin: -6px;
   }
 </style>
 
@@ -42,7 +49,7 @@ yarn add @internetarchive/scrubber-bar
   });
 
   // set a different value
-  scrubberBar.percentComplete = 23;
+  scrubberBar.value = 23;
 </script>
 
 ```
