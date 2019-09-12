@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <style>
+    waveform-progress {
+      height: 10rem;
+      width: 100%;
+    }
+  </style>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import '../waveform-progress.js';
+
+    const defaultPercent = 27;
+
+    render(
+      html`
+        <waveform-progress
+          id="waveform"
+          waveformUrl='./waveform.png'
+          percentComplete=${defaultPercent}
+        ></waveform-progress>
+
+        <input type="range" min="0" max="100" value=${defaultPercent} id="slider">
+
+        <span id="percent">${defaultPercent}</span>%
+      `,
+      document.querySelector('#demo')
+    );
+
+    const waveform = document.getElementById('waveform');
+    const slider = document.getElementById('slider');
+    const percent = document.getElementById('percent');
+    slider.addEventListener('input', (e) => {
+      waveform.percentComplete = e.target.value;
+      percent.innerHTML = e.target.value;
+    });
+  </script>
+</body>
+</html>
