@@ -30,6 +30,7 @@
           id="waveform"
           waveformUrl='./waveform.png'
           percentComplete=${defaultPercent}
+          @valuechange=${userDraggedWaveform}
         ></waveform-progress>
 
         <input type="range" min="0" max="100" value=${defaultPercent} id="slider">
@@ -42,10 +43,17 @@
     const waveform = document.getElementById('waveform');
     const slider = document.getElementById('slider');
     const percent = document.getElementById('percent');
+
     slider.addEventListener('input', (e) => {
       waveform.percentComplete = e.target.value;
       percent.innerHTML = e.target.value;
     });
-  </script>
+
+    function userDraggedWaveform(e) {
+      slider.value = e.detail.value;
+      percent.innerHTML = Math.round(e.detail.value);
+    }
+
+</script>
 </body>
 </html>

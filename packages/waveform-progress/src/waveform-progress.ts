@@ -1,4 +1,12 @@
-import { LitElement, html, css, customElement, property } from 'lit-element';
+import {
+  LitElement,
+  html,
+  css,
+  customElement,
+  property,
+  PropertyValues,
+  TemplateResult,
+} from 'lit-element';
 
 @customElement('waveform-progress')
 export default class WaveformProgress extends LitElement {
@@ -7,22 +15,36 @@ export default class WaveformProgress extends LitElement {
   @property({ type: String }) fillColor = '#3272b6';
   @property({ type: Boolean }) interactive = true;
 
+  // This is our internal, canonical source for the `percentComplete`.
+  // The public `percentComplete` will be getting modified by outside modifiers
+  // like the audio player, but since the user can scrub through the waveform,
+  // we need to be able to control when that value gets updated
+  @property({ type: Number }) private _percentComplete = 0;
+
   private _userIsInteracting = false;
 
   render() {
     return html`
       <div class="container">
-        <div class="fill" style="width: ${this.percentComplete}%"></div>
+        <div id="fill" style="width: ${this._percentComplete}%"></div>
         <img class="waveform-image" src="${this.waveformUrl}">
         ${this.interactive ? this.interactionCoverTemplate : ''}
       </div>
       `;
   }
 
-  private drag(e: MouseEvent) {
-    if (this._userIsInteracting) {
-      this.percentComplete = this.offsetXToPercent(e.offsetX);
+  updated(changedProperties: PropertyValues): void {
+    if (!changedProperties.has('percentComplete') || this._userIsInteracting) {
+      return;
     }
+
+    this._percentComplete = this.percentComplete;
+  }
+
+  private drag(e: MouseEvent) {
+    if (!this._userIsInteracting) { return; }
+    this._percentComplete = this.offsetXToPercent(e.offsetX);
+    this.dispatchValueChangeEvent()
   }
 
   private dragstart(e: Event) {
@@ -33,17 +55,31 @@ export default class WaveformProgress extends LitElement {
     this._userIsInteracting = false;
   }
 
+  private dispatchValueChangeEvent() {
+    const event = new CustomEvent('valuechange', {
+      detail: { value: this._percentComplete },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
+  }
+
   get dragcover(): HTMLElement | null {
     return this.shadowRoot && this.shadowRoot.getElementById('dragcover');
   }
 
-  get interactionCoverTemplate(): TemplateFragment {
+  get colorfill(): HTMLElement | null {
+    return this.shadowRoot && this.shadowRoot.getElementById('fill');
+  }
+
+  get interactionCoverTemplate(): TemplateResult {
     return html`
       <div
         id="dragcover"
 
         @mousedown=${this.dragstart}
         @mouseup=${this.dragend}
+        @mouseleave=${this.dragend}
         @mousemove=${this.drag}
 
         @touchstart=${this.dragstart}
@@ -61,7 +97,7 @@ export default class WaveformProgress extends LitElement {
   }
 
   static get styles() {
-    const fillColor = css`#3272b6`;
+    const fillColorCss = css`var(--fillColor, #3272b6)`;
 
     return css`
       :host {
@@ -88,10 +124,10 @@ export default class WaveformProgress extends LitElement {
         position: absolute;
       }
 
-      .fill {
+      #fill {
         position: absolute;
         height: 100%;
-        background-color: ${fillColor};
+        background-color: ${fillColorCss};
       }
     `;
   }
