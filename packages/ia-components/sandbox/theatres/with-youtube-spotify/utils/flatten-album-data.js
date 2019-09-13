@@ -58,21 +58,23 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
   } = metadata;
   const { collection, identifier } = albumMetadata;
   const fileDirectoryPrefix = `https://${server}${directoryPath}/`;
-  const fileNames = Object.keys(allFiles);
   const itemIdentifier = head(identifier);
 
   /**
    * Take original item's file list
    * & only return the files we are interested in
    */
-  const slimFiles = reduce(fileNames, (neededFiles = [], fileName) => {
-    const isNeededFile = isValidAudioFile(fileName) || isValidImageFile(fileName);
-    const file = allFiles[fileName];
-    file.name = fileName.slice(1, fileName.length);
-    if (isNeededFile) {
-      neededFiles.push(file);
+  const slimFiles = allFiles.reduce((acc = [], file) => {
+    const { name: fileName } = file;
+    const isValidAudio = isValidAudioFile(fileName);
+    const isValidImage = isValidImageFile(fileName);
+    const isNeededFile = isValidAudio || isValidImage;
+    if (!isNeededFile) {
+      return acc;
     }
-    return neededFiles;
+
+    acc.push(file);
+    return acc;
   }, []);
 
   const playSamples = playFullIAAudio ? false : includes(collection, 'samples_only');

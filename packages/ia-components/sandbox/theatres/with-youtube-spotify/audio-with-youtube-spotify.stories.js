@@ -47,7 +47,7 @@ class DataHydrator extends Component {
   }
 
   fetchData(identifier) {
-    const detailsJSONPath = `/api/details/${identifier}?output=json`;
+    const detailsJSONPath = `/api/metadata/${identifier}`;
     const jwplayerPlaylistJSONPath = `/api/embed/${identifier}?output=json`;
     const base = axios.create({
       headers: {
