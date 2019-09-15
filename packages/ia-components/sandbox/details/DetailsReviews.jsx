@@ -55,8 +55,8 @@ class DetailsReviews extends IAReactComponent {
             -
             <span alt={`${review.stars} out of 5 stars`} title={`${review.stars} out of 5 stars`}>
                                         {['*', '*', '*', '*', '*'].slice(0, review.stars).map((x,i) =>
-                                          <><span key={i} className="iconochive-favorite size-75-percent"
-                                                aria-hidden="true"></span><span className="sr-only">favorite</span></>
+                                          <span key={i}><span className="iconochive-favorite size-75-percent"
+                                                aria-hidden="true"></span><span className="sr-only">favorite</span></span>
                                         )}
                                     </span>
             - {review.reviewdate}{/*TODO reviewdate needs pretty printing*/}<br/>
