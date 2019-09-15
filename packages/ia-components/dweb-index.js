@@ -7,7 +7,7 @@ export { default as RelatedItems } from './sandbox/tiles/RelatedItems';
 export { default as TileComponent } from './sandbox/tiles/TileComponent';
 export { TileGrid, ScrollableTileGrid } from './sandbox/tiles/TileGrid';
 // details page
-export { AnchorDownload } from './sandbox/details/AnchorDownload';
+export { AnchorDownload, reachable } from './sandbox/details/AnchorDownload';
 export { AnchorSearch } from './sandbox/details/AnchorSearch';
 export { Carousel } from './sandbox/details/Carousel';
 export { default as DetailsCollectionList } from './sandbox/details/DetailsCollectionList';

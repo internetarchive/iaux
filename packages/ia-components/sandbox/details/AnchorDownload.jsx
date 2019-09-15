@@ -75,6 +75,13 @@ function downloadViaAnchor(el, source, options, cb) {
   }
 }
 
+function reachable({disconnected, source, identifier, filename}) {
+  return ( !disconnected
+    || ( source
+        ? ( Array.isArray(source) ? ((source.length === 1) && source[0].downloaded) : source.downloaded )
+        : (identifier && !filename) // Just an identifier = want directory
+    ))
+}
 class AnchorDownload extends IAReactComponent {
   constructor(props) {
     super(props);
@@ -114,21 +121,11 @@ class AnchorDownload extends IAReactComponent {
 
   render() {
     // Note that anchorProps are passed on from constructor to the Anchor,
-    const reachable = (
-      (!this.props.disconnected)
-      || ( this.props.source && (
-        (Array.isArray(this.props.source) && (this.props.source.length === 1) && this.props.source[0].downloaded)
-        || (!Array.isArray(this.props.source) && this.props.source.downloaded)
-      ) )
-      || (
-        (this.props.identifier && !this.props.filename && !this.props.source) // Just an identifier = want directory
-      )
-    )
     return ( // Note there is intentionally no spacing in case JSX adds a unwanted line break /
       // /TODO-GREY this could be CSS instead of removed
       typeof DwebArchive === 'undefined'
       ? <a href={this.state.url.href} {...this.state.anchorProps} rel="noopener noreferrer" target="_blank">{this.props.children}</a>
-      : reachable //Its Dweb, but is it reachable
+      : reachable(this.props) //Its Dweb, but is it reachable (uses props. disconnected, source, identifier, filename)
       ? <a href={this.state.url.href} onClick={this.onClick} {...this.state.anchorProps}>{this.props.children}</a>
       : null
     );
@@ -138,4 +135,4 @@ AnchorDownload.urlparms = []; // Properties that go in the URL to download
 // Other props are passed to anchor,
 // known inuse include: className, source, title, data-toggle data-placement data-container target
 
-export { AnchorDownload }
+export { AnchorDownload, reachable }

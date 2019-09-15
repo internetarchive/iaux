@@ -2,7 +2,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
-import { AnchorDownload } from './AnchorDownload';
+import { AnchorDownload, reachable } from './AnchorDownload';
 
 class DownloadDirectoryDiv extends IAReactComponent {
   /**
@@ -14,7 +14,6 @@ class DownloadDirectoryDiv extends IAReactComponent {
    *
    * Renders a directory with name and pretty size
    * if downloaded=false then only displays files in list
-   * TODO filter files before passing here as leaves artifacts of missing files (see filter in AnchorDownload)
    * TODO needs date in form probably like new Date().toLocaleDateString('en-GB',{day:'numeric', month:'short', year:'numeric',hour:'2-digit',minute:'2-digit'})
    * See https://github.com/internetarchive/dweb-archive/issues/10 for discussion - this is NOT complete yet, but works enough to use.
    */
@@ -38,16 +37,18 @@ class DownloadDirectoryDiv extends IAReactComponent {
                   <td></td>
                   <td></td>
                 </tr>
-                {this.props.files.map(f => (
-                  <tr>
-                    <td><AnchorDownload source={f}
-                                        title={f.name}
-                                        disconnected={this.props.disconnected}><span
-                      className="sr-only">download</span>{f.name}</AnchorDownload></td>
-                    {/*--TODO-DIR handle directory here as foo/ --*/}
-                    {/*--<td>00-Apr-0000 00:00{--TODO-DIR handle date from mtime </td>--*/}
-                    <td>{f.size}{/*--TODO-DIR should be "-" for directory--*/}</td>
-                  </tr>
+                {this.props.files
+                  .filter(reachable({disconnected: this.props.disconnected, source: this.props.source}))
+                  .map(f => (
+                    <tr>
+                      <td><AnchorDownload source={f}
+                                          title={f.name}
+                                          disconnected={this.props.disconnected}><span
+                        className="sr-only">download</span>{f.name}</AnchorDownload></td>
+                      {/*--TODO-DIR handle directory here as foo/ --*/}
+                      {/*--<td>00-Apr-0000 00:00{--TODO-DIR handle date from mtime </td>--*/}
+                      <td>{f.size}{/*--TODO-DIR should be "-" for directory--*/}</td>
+                    </tr>
                 ))}
               </tbody>
             </table>
