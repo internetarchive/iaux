@@ -3,6 +3,7 @@ import {
 } from '@open-wc/testing';
 
 import '../waveform-progress';
+import ZoneOfSilence from '../lib/models/zone-of-silence.js';
 
 describe('Waveform Progress', () => {
   it('defaults percentage to 0', async () => {
@@ -82,4 +83,39 @@ describe('Waveform Progress', () => {
 
     expect(el.percentComplete).to.equal(20);
   });
+
+  it('does not show any zones of silence if none are passed in', async () => {
+    const el = await fixture(html`
+      <waveform-progress style="width: 100px; height: 50px"></waveform-progress>
+    `);
+
+    const zonesOfSilence = el.shadowRoot.querySelectorAll('.zone-of-silence');
+
+    expect(zonesOfSilence.length).to.equal(0);
+  });
+
+  it('renders the zones of silence properly if any are passed in', async () => {
+    const zone1 = new ZoneOfSilence(23, 27);
+    const zone2 = new ZoneOfSilence(56, 58);
+    const zonesOfSilence = JSON.stringify([zone1, zone2]);
+
+    const el = await fixture(html`
+      <waveform-progress
+        style="width: 100px; height: 50px"
+        zonesOfSilence=${zonesOfSilence}
+        ></waveform-progress>
+    `);
+
+    const renderedZonesOfSilence = el.shadowRoot.querySelectorAll('.zone-of-silence');
+    expect(renderedZonesOfSilence.length).to.equal(2);
+
+    const firstRenderedZone = renderedZonesOfSilence[0];
+    expect(firstRenderedZone.style.left).to.equal('23%');
+    expect(firstRenderedZone.style.width).to.equal('4%');
+
+    const secondRenderedZone = renderedZonesOfSilence[1];
+    expect(secondRenderedZone.style.left).to.equal('56%');
+    expect(secondRenderedZone.style.width).to.equal('2%');
+  });
+
 });
