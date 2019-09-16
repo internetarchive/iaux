@@ -7,6 +7,7 @@ import {
   PropertyValues,
   TemplateResult,
 } from 'lit-element';
+import ZoneOfSilence from './models/zone-of-silence';
 
 @customElement('waveform-progress')
 export default class WaveformProgress extends LitElement {
@@ -14,6 +15,7 @@ export default class WaveformProgress extends LitElement {
   @property({ type: String }) waveformUrl = '';
   @property({ type: String }) fillColor = '#3272b6';
   @property({ type: Boolean }) interactive = false;
+  @property({ type: Array }) zonesOfSilence = [];
 
   // This is our internal, canonical source for the `percentComplete`.
   // The public `percentComplete` will be getting modified by outside modifiers
@@ -28,9 +30,22 @@ export default class WaveformProgress extends LitElement {
       <div class="container">
         <div id="fill" style="width: ${this._percentComplete}%"></div>
         <img class="waveform-image" src="${this.waveformUrl}">
+        ${this.zonesOfSilenceTemplate}
         ${this.interactive ? this.interactionCoverTemplate : ''}
       </div>
       `;
+  }
+
+  private get zonesOfSilenceTemplate(): TemplateResult {
+    return html`
+      ${this.zonesOfSilence.map((zone: ZoneOfSilence) => {
+        return html`
+          <div
+            class="zone-of-silence"
+            style="left: ${zone.startPercent}%; width: ${zone.endPercent - zone.startPercent}%"></div>
+        `;
+      })}
+    `
   }
 
   private get interactionCoverTemplate(): TemplateResult {
@@ -94,6 +109,7 @@ export default class WaveformProgress extends LitElement {
 
   static get styles() {
     const fillColorCss = css`var(--fillColor, #3272b6)`;
+    const zoneOfSilenceColorCss = css`var(--zoneOfSilenceColor, orange)`;
 
     return css`
       :host {
@@ -118,6 +134,13 @@ export default class WaveformProgress extends LitElement {
         width: 100%;
         height: 100%;
         position: absolute;
+      }
+
+      .zone-of-silence {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        background: linear-gradient(#000, #000 47%, ${zoneOfSilenceColorCss} 50%, #000 53%, #000 100%);
       }
 
       #fill {

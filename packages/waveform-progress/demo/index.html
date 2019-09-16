@@ -15,14 +15,23 @@
     waveform-progress {
       height: 10rem;
       width: 100%;
+      --zoneOfSilenceColor: orange;
     }
   </style>
 
   <script type="module">
     import { html, render } from 'lit-html';
-    import '../waveform-progress.js';
+    import ZoneOfSilence from '../lib/models/zone-of-silence.js';
+    import WaveFormProgress from '../lib/waveform-progress.js';
 
     const defaultPercent = 27;
+
+    const zone1 = new ZoneOfSilence(23, 27);
+    const zone2 = new ZoneOfSilence(58, 60);
+
+    // I'm not sure why I need to stringify this, but if I don't, the array gets passed in
+    // as `[object Object]`.
+    const zonesOfSilence = JSON.stringify([zone1, zone2]);
 
     render(
       html`
@@ -31,12 +40,20 @@
           waveformUrl='./waveform.png'
           interactive=true
           percentComplete=${defaultPercent}
+          zonesOfSilence=${zonesOfSilence}
           @valuechange=${userDraggedWaveform}
         ></waveform-progress>
 
-        <input type="range" min="0" max="100" value=${defaultPercent} id="slider">
+        <p>
+          <label>
+          <input type="range" min="0" max="100" value=${defaultPercent} id="slider" />
+          <span id="percent">${defaultPercent}</span>%
+          </label>
+        </p>
 
-        <span id="percent">${defaultPercent}</span>%
+        <p>
+          <label><input type="checkbox" checked @change=${interactivityChanged} />Interactive</label>
+        </p>
       `,
       document.querySelector('#demo')
     );
@@ -55,6 +72,9 @@
       percent.innerHTML = Math.round(e.detail.value);
     }
 
-</script>
+    function interactivityChanged(e) {
+      waveform.interactive = e.target.checked;
+    }
+  </script>
 </body>
 </html>
