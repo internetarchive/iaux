@@ -90,10 +90,6 @@ export default class WaveformProgress extends LitElement {
     return this.shadowRoot && this.shadowRoot.getElementById('dragcover');
   }
 
-  private get colorfill(): HTMLElement | null {
-    return this.shadowRoot && this.shadowRoot.getElementById('fill');
-  }
-
   private offsetXToPercent(offsetX: number): number {
     if (this.dragcover === null) { return 0; }
     const width: number = this.dragcover.clientWidth;
