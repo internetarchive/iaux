@@ -29,9 +29,7 @@
     const zone1 = new ZoneOfSilence(23, 27);
     const zone2 = new ZoneOfSilence(58, 60);
 
-    // I'm not sure why I need to stringify this, but if I don't, the array gets passed in
-    // as `[object Object]`.
-    const zonesOfSilence = JSON.stringify([zone1, zone2]);
+    const zonesOfSilence = [zone1, zone2];
 
     render(
       html`
@@ -40,7 +38,7 @@
           waveformUrl='./waveform.png'
           interactive=true
           percentComplete=${defaultPercent}
-          zonesOfSilence=${zonesOfSilence}
+          zonesOfSilence=${JSON.stringify(zonesOfSilence)} // I'm not sure why you have to stringify here, but it gets passed through as [object Object] if you don't
           @valuechange=${userDraggedWaveform}
         ></waveform-progress>
 
@@ -53,6 +51,10 @@
 
         <p>
           <label><input type="checkbox" checked @change=${interactivityChanged} />Interactive</label>
+        </p>
+
+        <p>
+          <label><input type="checkbox" checked @change=${toggleZonesOfSilence} />Show Zones of Silence</label>
         </p>
       `,
       document.querySelector('#demo')
@@ -74,6 +76,14 @@
 
     function interactivityChanged(e) {
       waveform.interactive = e.target.checked;
+    }
+
+    function toggleZonesOfSilence(e) {
+      if (e.target.checked) {
+        waveform.zonesOfSilence = zonesOfSilence;
+      } else {
+        waveform.zonesOfSilence = [];
+      }
     }
   </script>
 </body>

@@ -13,7 +13,6 @@ import ZoneOfSilence from './models/zone-of-silence';
 export default class WaveformProgress extends LitElement {
   @property({ type: Number }) percentComplete = 0;
   @property({ type: String }) waveformUrl = '';
-  @property({ type: String }) fillColor = '#3272b6';
   @property({ type: Boolean }) interactive = false;
   @property({ type: Array }) zonesOfSilence = [];
 
