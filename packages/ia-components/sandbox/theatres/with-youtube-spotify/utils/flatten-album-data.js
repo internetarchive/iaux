@@ -2,11 +2,10 @@ import {
   includes,
   reduce,
   chain,
-  head,
 } from 'lodash';
 
 import archiveDefaultAlbumParser from './archive-default-album-parser';
-import archiveLPAlbumParser from './archive-lp-album-parser';
+import archiveDerivedAlbumParser from './archive-derived-album-parser';
 import gatherYoutubeAndSpotifyInfo from './youtube-spotify-parser';
 import { isValidAudioFile, isValidImageFile } from './utils';
 
@@ -89,7 +88,7 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
   const playSamples = playFullIAAudio ? false : includes(collection, 'samples_only');
   const albumSpotifyYoutubeInfo = gatherYoutubeAndSpotifyInfo(albumMetadata['external-identifier']) || {};
   const trackFilter = countOriginalAudioFiles < countSampleMP3
-    ? archiveLPAlbumParser
+    ? archiveDerivedAlbumParser
     : archiveDefaultAlbumParser;
 
   const {

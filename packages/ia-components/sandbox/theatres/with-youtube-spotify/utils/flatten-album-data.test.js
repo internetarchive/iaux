@@ -70,7 +70,7 @@ describe('Music Player Util - Flatten Album Data', () => {
     });
     test('has identifier', () => {
       expect(albumMetadaToDisplay).toHaveProperty('identifier');
-      expect(stringifiedID).toEqual(dataFlattened.identifier[0]);
+      expect(stringifiedID).toEqual(dataFlattened.identifier);
       expect(stringifiedID).toBeDefined();
       expect(stringifiedID).toBeTruthy();
     });

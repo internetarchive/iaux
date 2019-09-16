@@ -25,11 +25,12 @@ import { isValidAudioFile, isValidImageFile } from './utils';
  * @returns { object } : tracks, itemPhotoCandidates, trackFilesHaveYoutubeSpotify
  *
  */
-const archiveLPAlbumParser = ({ fileDirectoryPrefix, files, itemIdentifier }) => {
+const archiveDerivedAlbumParser = ({ fileDirectoryPrefix, files, itemIdentifier }) => {
   let itemPhoto = '';
   const itemPhotoCandidates = {};
   const trackFilesHaveYoutubeSpotify = [];
 
+  debugger;
   const tracks = files.reduce((neededItems = [], currentFile) => {
     const { source, original = '', name: currentFileName } = currentFile;
     const isPrivate = currentFile.private || null;
@@ -37,7 +38,7 @@ const archiveLPAlbumParser = ({ fileDirectoryPrefix, files, itemIdentifier }) =>
     let flattenedImportantRelatedFiles = null;
     const externalIdentifiers = currentFile['external-identifier'] || null;
     const isOriginal = source === 'original';
-    const isMainTrackItem = original.match(`${itemIdentifier}_segments.`);
+    const isDerivedFile = original.match(`${itemIdentifier}_segments.`);
     const fileToSkip = `${itemIdentifier}.mp3`; // phantom audio file to map to full album
     const isAudioFile = isValidAudioFile(currentFileName);
     const isItemImageFile = isOriginal && isValidImageFile(currentFileName);
@@ -61,7 +62,7 @@ const archiveLPAlbumParser = ({ fileDirectoryPrefix, files, itemIdentifier }) =>
       }
     }
 
-    if (isMainTrackItem && isAudioFile) {
+    if (isDerivedFile && isAudioFile) {
       // get related files
       const relatedFiles = filter(files, thisFile => thisFile.original === currentFileName);
 
@@ -116,4 +117,4 @@ const archiveLPAlbumParser = ({ fileDirectoryPrefix, files, itemIdentifier }) =>
   return returnItems;
 };
 
-export default archiveLPAlbumParser;
+export default archiveDerivedAlbumParser;
