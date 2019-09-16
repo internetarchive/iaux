@@ -7,29 +7,37 @@ import {
   withClassPropertiesKnobs,
 } from '@open-wc/demoing-storybook';
 
-import ScrubberBar from '../index.js';
+import WaveformProgress from '../index.js';
+import waveformImage from './waveform.png';
 
 storiesOf('waveform-progress', module)
   .addDecorator(withKnobs)
-  .add('Scrubber Bar Options', () => withClassPropertiesKnobs(ScrubberBar))
+  .add('Waveform Progress Options', () => withClassPropertiesKnobs(WaveformProgress, {
+    template: html`
+      <waveform-progress
+        waveformUrl=${waveformImage}
+        percentComplete=23
+        interactive=true
+        zonesOfSilence=${JSON.stringify([{startPercent: 23, endPercent: 27}, {startPercent: 58, endPercent: 60}])}
+        style="width: 100%; height: 10rem"
+      ></waveform-progress>
+    `
+  }))
   .add(
-    'Scrubber Bar Styling',
+    'Waveform Progress Styling',
     () => html`
       <style>
         waveform-progress {
-          --thumbColor: ${color('Thumb Color', 'red', 'Colors')};
-          --thumbBorder: ${text('Thumb Border', '1px solid black', 'Colors')};
-          --trackFillColor: ${color('Track Fill Color', 'blue', 'Colors')};
-          --trackColor: ${color('Track Color', 'black', 'Colors')};
-          --trackBorder: ${text('Track Border', '1px solid black', 'Colors')};
-          --trackBorderRadius: ${text('Track Border Radius', '5px', 'Layout')};
-          --trackHeight: ${text('Track Height', '10px', 'Layout')};
-          --thumbDiameter: ${text('Thumb Diameter', '20px', 'Layout')};
-          --scrubberBarHeight: ${text('Scrubber Bar Height', '20px', 'Layout')};
-          --thumbBorderRadius: ${text('Thumb Border Radius', '50%', 'Layout')};
-          --webkitThumbTopMargin: ${text('Webkit Thumb Top Margin', '-6px', 'Layout')};
+          height: 10rem;
+          width: 100%;
+          --fillColor: ${color('Fill Color', 'purple', 'Colors')};
+          --zoneOfSilenceColor: ${color('Zone of Silence Color', 'orange', 'Colors')};
         }
       </style>
-      <waveform-progress></waveform-progress>
+      <waveform-progress
+        waveformUrl=${waveformImage}
+        percentComplete=23
+        interactive=true
+      ></waveform-progress>
     `,
   );
