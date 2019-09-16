@@ -12,8 +12,8 @@
       scrubber-bar {
         --thumbColor: white;
         --thumbBorder: 1px solid black;
-        --trackFillColor: blue;
-        --trackColor: purple;
+        --trackFillColor: purple;
+        --trackColor: #3272b6;
         --trackBorder: 1px solid black;
         --trackBorderRadius: 5px;
         --trackHeight: 10px;
@@ -59,6 +59,7 @@
     scrubberBar.value = 23;
     waveformProgress.percentComplete = 23;
     waveformProgress.waveformUrl = waveformImage.src;
+    waveformProgress.zonesOfSilence = [{startPercent: 23, endPercent: 27}, {startPercent: 58, endPercent: 60}];
 
     scrubberBar.addEventListener('valuechange', e => {
       document.getElementById('currentValue').innerHTML = Math.round(e.detail.value);
