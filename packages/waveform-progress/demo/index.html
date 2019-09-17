@@ -15,7 +15,7 @@
     waveform-progress {
       height: 10rem;
       width: 100%;
-      --fillColor: purple;
+      --fillColor: #3272b6;
       --zoneOfSilenceColor: orange;
     }
   </style>
@@ -28,9 +28,11 @@
     const defaultPercent = 27;
 
     const zone1 = new ZoneOfSilence(23, 27);
-    const zone2 = new ZoneOfSilence(58, 60);
+    const zone2 = new ZoneOfSilence(42, 47);
+    const zone3 = new ZoneOfSilence(58, 60);
+    const zone4 = new ZoneOfSilence(78, 85);
 
-    const zonesOfSilence = [zone1, zone2];
+    const zonesOfSilence = [zone1, zone2, zone3, zone4];
 
     render(
       html`

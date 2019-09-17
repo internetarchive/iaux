@@ -2,7 +2,15 @@
 
 A customizable scrubber bar useful for scrubbing through media.
 
-![Scrubber Bar](./assets/img/scrubber.gif "Scrubber Bar Demo")
+![Waveform Progress](./assets/img/waveform-progress.gif "Waveform Progress Demo")
+
+## Zones of Silence
+
+![Waveform Progress Zones of Silence](./assets/img/zones-of-silence.png "Waveform Progress Zones of Silence")
+
+## Customizable Colors
+
+![Waveform Progress Color Changes](./assets/img/color-modification.png "Waveform Progress Color Changes")
 
 ## Installation
 ```bash
@@ -12,8 +20,8 @@ yarn add @internetarchive/waveform-progress
 ## Usage
 ```js
 // waveform-progress.js
-import ScrubberBar from '@internetarchive/waveform-progress';
-export default ScrubberBar;
+import WaveformProgress from '@internetarchive/waveform-progress';
+export default WaveformProgress;
 ```
 
 ```html
@@ -24,32 +32,36 @@ export default ScrubberBar;
 
 <style>
   waveform-progress {
-    --thumbColor: white;
-    --thumbBorder: 1px solid black;
-    --trackFillColor: blue;
-    --trackColor: purple;
-    --trackBorder: 1px solid black;
-    --trackBorderRadius: 5px;
-    --trackHeight: 10px;
-    --thumbDiameter: 20px;
-    --scrubberBarHeight: 20px;
-    --thumbBorderRadius: 10px;
-    --webkitThumbTopMargin: -6px;
+    height: 10rem;
+    width: 100%;
+    --fillColor: #3272b6;
+    --zoneOfSilenceColor: orange;
   }
 </style>
 
-<waveform-progress id="scrubberbar"></waveform-progress>
+<waveform-progress
+  id="waveform"
+  waveformUrl='./waveform.png'
+  interactive=true
+></waveform-progress>
 
 <script>
-  const scrubberBar = document.getElementById('scrubberbar');
+  const waveformProgress = document.getElementById('waveform');
+
+  // set a value
+  waveformProgress.percentComplete = 23;
+
+  // add zones of silence if needed
+  waveformProgress.zonesOfSilence = [
+    { startPercent: 20, endPercent: 23 },
+    { startPercent: 52, endPercent: 57 },
+    { startPercent: 73, endPercent: 76 }
+  ];
 
   // listen for value changes
-  scrubberBar.addEventListener('valuechange', e => {
+  waveformProgress.addEventListener('valuechange', e => {
     console.log('Value has changed, new value:', e.detail.value);
   });
-
-  // set a different value
-  scrubberBar.value = 23;
 </script>
 
 ```
