@@ -23,7 +23,7 @@ const parseTrackTitle = ({
   isAlbum = false
 }) => {
   if (isAlbum) { return 'Full album'; }
-  const albumCreatorString = albumCreator.join ? albumCreator.join('; ') : albumCreator;
+  const albumCreatorString = Array.isArray(albumCreator) ? albumCreator.join('; ') : albumCreator;
   const whichArtistVal = creator || artist;
   /* this considers "Best of" albums */
   const titleHasTrackArtist = albumName.includes(whichArtistVal);

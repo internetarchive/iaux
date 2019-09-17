@@ -30,7 +30,6 @@ const archiveDerivedAlbumParser = ({ fileDirectoryPrefix, files, itemIdentifier 
   const itemPhotoCandidates = {};
   const trackFilesHaveYoutubeSpotify = [];
 
-  debugger;
   const tracks = files.reduce((neededItems = [], currentFile) => {
     const { source, original = '', name: currentFileName } = currentFile;
     const isPrivate = currentFile.private || null;
