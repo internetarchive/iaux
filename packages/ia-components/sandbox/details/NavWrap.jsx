@@ -330,7 +330,7 @@ class DwebNavDIV extends IAReactComponent {
 
   render() {
     // Alternative to complex nav-dweb code
-    const crawl = Object.assign({ identifier: this.props.item.itemid, downloaded: this.props.item.downloaded }, this.props.item.crawl);
+    const crawl = Object.assign({ identifier: this.props.item.itemid, query: this.props.item.query, downloaded: this.props.item.downloaded }, this.props.item.crawl);
         return ((typeof DwebArchive === "undefined") ? null :
                 <div id="nav-dweb"><span
                     className="dweb-nav-left">DWeb</span>:

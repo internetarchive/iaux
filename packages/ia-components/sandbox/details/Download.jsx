@@ -16,6 +16,7 @@ class DownloadDirectoryDiv extends IAReactComponent {
    * if downloaded=false then only displays files in list
    * TODO needs date in form probably like new Date().toLocaleDateString('en-GB',{day:'numeric', month:'short', year:'numeric',hour:'2-digit',minute:'2-digit'})
    * See https://github.com/internetarchive/dweb-archive/issues/10 for discussion - this is NOT complete yet, but works enough to use.
+   * https://github.com/internetarchive/dweb-archivecontroller/issues/8 for better algirithm for reachable, and probably apply at ArchiveItem level when getting list
    */
 
   render() {
