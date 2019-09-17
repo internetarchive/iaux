@@ -6,8 +6,8 @@
   "dependencies": {
     "@internetarchive/ia-components": "^0.0.0-alpha.20+5039f8d",
     "@internetarchive/ia-js-client": "^0.0.0-alpha.20+5039f8d",
-    "@internetarchive/scrubber-bar": "file:../scrubber-bar",
-    "@internetarchive/waveform-progress": "file:../waveform-progress",
+    "@internetarchive/scrubber-bar": "^0.0.1",
+    "@internetarchive/waveform-progress": "^0.0.1",
     "babel-preset-react": "^6.24.1",
     "debug": "^4.1.1",
     "react": "^16.7.0",
