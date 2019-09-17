@@ -2,13 +2,16 @@ import { LitElement, html, customElement, property, PropertyValues } from 'lit-e
 import AudioSource from './models/audio-source';
 
 @customElement('audio-player')
-export class AudioPlayer extends LitElement {
+export default class AudioPlayer extends LitElement {
   @property({ type: Number }) playbackRate = 1;
-  @property({ type: [AudioSource] }) sources = Array<AudioSource>();
+  @property({ type: Array }) sources = Array<AudioSource>();
 
   render() {
+    console.log(this.sources);
+
     return html`
       <audio
+        controls
         @timeupdate=${this.handleTimeChange}
         @durationchange=${this.handleDurationChange}
         id="audioPlayer">

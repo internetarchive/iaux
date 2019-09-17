@@ -22,72 +22,22 @@
 
   <script type="module">
     import { html, render } from 'lit-html';
-    import ZoneOfSilence from '../lib/models/zone-of-silence.js';
-    import WaveFormProgress from '../lib/audio-player.js';
+    import AudioSource from '../lib/models/audio-source.js';
+    import AudioPlayer from '../lib/audio-player.js';
 
-    const defaultPercent = 27;
+    const audio1 = new AudioSource('./arrow.ogg', 'audio/ogg');
+    const audio2 = new AudioSource('./arrow.mp3', 'audio/mpeg');
 
-    const zone1 = new ZoneOfSilence(23, 27);
-    const zone2 = new ZoneOfSilence(42, 47);
-    const zone3 = new ZoneOfSilence(58, 60);
-    const zone4 = new ZoneOfSilence(78, 85);
-
-    const zonesOfSilence = [zone1, zone2, zone3, zone4];
+    const audioSources = [audio1, audio2];
 
     render(
       html`
         <audio-player
-          id="waveform"
-          waveformUrl='./waveform.png'
-          interactive=true
-          percentComplete=${defaultPercent}
-          zonesOfSilence=${JSON.stringify(zonesOfSilence)} // I'm not sure why you have to stringify here, but it gets passed through as [object Object] if you don't
-          @valuechange=${userDraggedWaveform}
+          sources=${JSON.stringify(audioSources)} // I'm not sure why you have to stringify here, but it gets passed through as [object Object] if you don't
         ></audio-player>
-
-        <p>
-          <label>
-          <input type="range" min="0" max="100" value=${defaultPercent} id="slider" />
-          <span id="percent">${defaultPercent}</span>%
-          </label>
-        </p>
-
-        <p>
-          <label><input type="checkbox" checked @change=${interactivityChanged} />Interactive</label>
-        </p>
-
-        <p>
-          <label><input type="checkbox" checked @change=${toggleZonesOfSilence} />Show Zones of Silence</label>
-        </p>
       `,
       document.querySelector('#demo')
     );
-
-    const waveform = document.getElementById('waveform');
-    const slider = document.getElementById('slider');
-    const percent = document.getElementById('percent');
-
-    slider.addEventListener('input', (e) => {
-      waveform.percentComplete = e.target.value;
-      percent.innerHTML = e.target.value;
-    });
-
-    function userDraggedWaveform(e) {
-      slider.value = e.detail.value;
-      percent.innerHTML = Math.round(e.detail.value);
-    }
-
-    function interactivityChanged(e) {
-      waveform.interactive = e.target.checked;
-    }
-
-    function toggleZonesOfSilence(e) {
-      if (e.target.checked) {
-        waveform.zonesOfSilence = zonesOfSilence;
-      } else {
-        waveform.zonesOfSilence = [];
-      }
-    }
   </script>
 </body>
 </html>

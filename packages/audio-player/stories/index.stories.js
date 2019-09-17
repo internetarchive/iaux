@@ -8,7 +8,6 @@ import {
 } from '@open-wc/demoing-storybook';
 
 import WaveformProgress from '../index.js';
-import waveformImage from './waveform.png';
 
 storiesOf('audio-player', module)
   .addDecorator(withKnobs)
