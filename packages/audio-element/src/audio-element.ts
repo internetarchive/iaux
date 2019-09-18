@@ -1,4 +1,11 @@
-import { LitElement, html, customElement, property, TemplateResult } from 'lit-element';
+import {
+  LitElement,
+  html,
+  customElement,
+  property,
+  TemplateResult,
+  PropertyValues,
+} from 'lit-element';
 import AudioSource from './models/audio-source';
 
 @customElement('audio-element')
@@ -35,7 +42,11 @@ export default class AudioElement extends LitElement {
 
   load(): void {
     /* istanbul ignore else */
-    if (this.audioElement) this.audioElement.load();
+    if (this.audioElement) {
+      this.audioElement.load();
+      // you have to reset the playback rate after loading
+      this.audioElement.playbackRate = this.playbackRate;
+    }
   }
 
   play(): void {
@@ -60,18 +71,24 @@ export default class AudioElement extends LitElement {
     this.audioElement.currentTime = seconds;
   }
 
-  updated(): void {
+  updated(changedProperties: PropertyValues): void {
     /* istanbul ignore if */
     if (!this.audioElement) return;
 
-    this.audioElement.playbackRate = this.playbackRate;
+    if (changedProperties.has('playbackRate')) {
+      this.audioElement.playbackRate = this.playbackRate;
+    }
 
-    this.audioElement.volume = this.volume;
+    if (changedProperties.has('volume')) {
+      this.audioElement.volume = this.volume;
+    }
 
-    if (this.showControls) {
-      this.audioElement.setAttribute('controls', 'true');
-    } else {
-      this.audioElement.removeAttribute('controls');
+    if (changedProperties.has('showControls')) {
+      if (this.showControls) {
+        this.audioElement.setAttribute('controls', 'true');
+      } else {
+        this.audioElement.removeAttribute('controls');
+      }
     }
   }
 
