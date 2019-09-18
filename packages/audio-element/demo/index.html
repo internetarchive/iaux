@@ -25,30 +25,51 @@
     import AudioSource from '../lib/models/audio-source.js';
     import AudioElement from '../lib/audio-element.js';
 
-    const audio1 = new AudioSource('./arrow.ogg', 'audio/ogg');
-    const audio2 = new AudioSource('./arrow.mp3', 'audio/mpeg');
+    const arrowOgg = new AudioSource('./arrow.ogg', 'audio/ogg');
+    const arrowMp3 = new AudioSource('./arrow.mp3', 'audio/mpeg');
 
-    const audioSources = [audio1, audio2];
+    const springOgg = new AudioSource('./spring.ogg', 'audio/ogg');
+    const springMp3 = new AudioSource('./spring.mp3', 'audio/mpeg');
+
+    const arrowSources = [arrowOgg, arrowMp3];
+    const springSources = [springOgg, springMp3];
 
     render(
       html`
         <audio-element
-          showControls=true
-          sources=${JSON.stringify(audioSources)}
+          sources=${JSON.stringify(arrowSources)}
         ></audio-element>
 
-        <button @click=${play}>Play</button>
+        <button @click=${playArrow}>Play Arrow</button>
+
+        <button @click=${playSpring}>Play Spring</button>
+
+        <button @click=${changeVolume} id="volume-button">Volume 1.0</button>
       `,
       document.querySelector('#demo')
     );
 
-    function play() {
+    function playArrow() {
       const audioElement = document.querySelector('audio-element');
-      console.log('play');
+      audioElement.sources = arrowSources;
       audioElement.load();
-      // audioElement.seekTo(0);
       audioElement.play();
     }
-  </script>
+
+    function playSpring() {
+      const audioElement = document.querySelector('audio-element');
+      audioElement.sources = springSources;
+      audioElement.load();
+      audioElement.play();
+    }
+
+    function changeVolume() {
+      const audioElement = document.querySelector('audio-element');
+      const volumeButton = document.getElementById('volume-button');
+      const volume = audioElement.volume === 0 ? 1 : audioElement.volume - 0.25;
+      audioElement.volume = volume;
+      volumeButton.innerText = `Volume ${volume}`;
+    }
+</script>
 </body>
 </html>
