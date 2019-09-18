@@ -1,16 +1,8 @@
 # \<audio-element>
 
-A customizable scrubber bar useful for scrubbing through media.
+A LitElement wrapper for the HTML audio element.
 
 ![Waveform Progress](./assets/img/audio-element.gif "Waveform Progress Demo")
-
-## Zones of Silence
-
-![Waveform Progress Zones of Silence](./assets/img/zones-of-silence.png "Waveform Progress Zones of Silence")
-
-## Customizable Colors
-
-![Waveform Progress Color Changes](./assets/img/color-modification.png "Waveform Progress Color Changes")
 
 ## Installation
 ```bash
@@ -20,8 +12,8 @@ yarn add @internetarchive/audio-element
 ## Usage
 ```js
 // audio-element.js
-import WaveformProgress from '@internetarchive/audio-element';
-export default WaveformProgress;
+import AudioELement from '@internetarchive/audio-element';
+export default AudioElement;
 ```
 
 ```html
@@ -30,38 +22,38 @@ export default WaveformProgress;
   import './audio-element.js';
 </script>
 
-<style>
-  audio-element {
-    height: 10rem;
-    width: 100%;
-    --fillColor: #3272b6;
-    --zoneOfSilenceColor: orange;
-  }
-</style>
-
-<audio-element
-  id="waveform"
-  waveformUrl='./waveform.png'
-  interactive=true
-></audio-element>
+<audio-element></audio-element>
 
 <script>
-  const waveformProgress = document.getElementById('waveform');
+  const audioElement = document.querySelector('audio-element');
 
-  // set a value
-  waveformProgress.percentComplete = 23;
+  // set volume
+  audioElement.volume = 0.75;
 
-  // add zones of silence if needed
-  waveformProgress.zonesOfSilence = [
-    { startPercent: 20, endPercent: 23 },
-    { startPercent: 52, endPercent: 57 },
-    { startPercent: 73, endPercent: 76 }
-  ];
+  // set playback rate
+  audioElement.playbackRate = 0.5;
 
-  // listen for value changes
-  waveformProgress.addEventListener('valuechange', e => {
-    console.log('Value has changed, new value:', e.detail.value);
+  // set audio sources
+  audioElement.sources = [
+    {url: "./spring.ogg", mimetype: "audio/ogg"}
+    {url: "./spring.mp3", mimetype: "audio/mpeg"}
+  ]
+
+  // listen for time changes; this updates many times per second as your media plays back
+  audioElement.addEventListener('timeupdate', e => {
+    console.log('Current time has changed, new value:', e.detail.currentTime);
   });
+
+  // listen for track duration changes like on load
+  audioElement.addEventListener('durationchange', e => {
+    console.log('Track duration has changed, new value:', e.detail.duration);
+  });
+
+  // start playing
+  audioElement.play();
+
+  // pause playing
+  audioElement.pause();
 </script>
 
 ```
