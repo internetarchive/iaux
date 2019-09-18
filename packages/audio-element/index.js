@@ -1,3 +1,3 @@
-import AudioElement from './lib/audio-element.js.js';
+import AudioElement from './lib/audio-element.js';
 
 export default AudioElement;
