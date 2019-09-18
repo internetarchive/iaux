@@ -6,6 +6,10 @@ import '../lib/audio-element.js';
 import AudioSource from '../lib/models/audio-source.js';
 
 describe('Audio Element', () => {
+  function promisedSleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   it('does not have any sources by default', async () => {
     const el = await fixture(html`
       <audio-element></audio-element>
@@ -100,10 +104,6 @@ describe('Audio Element', () => {
     expect(audioTag.controls).to.equal(false);
   });
 
-  function promisedSleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   it('can set the volume properly', async () => {
     const el = await fixture(html`
       <audio-element></audio-element>
@@ -156,5 +156,31 @@ describe('Audio Element', () => {
     el.seekBy(0.2);
     const audioTag = el.shadowRoot.querySelector('audio');
     expect(audioTag.currentTime).to.equal(0.2);
+  });
+
+  it('can change tracks', async () => {
+    const audio1 = new AudioSource('./assets/arrow.ogg', 'audio/ogg');
+    const audio2 = new AudioSource('./assets/arrow.mp3', 'audio/mpeg');
+    const audioSources = [audio1, audio2];
+    const el = await fixture(html`
+      <audio-element
+        sources=${JSON.stringify(audioSources)}
+      ></audio-element>
+    `);
+
+    const newAudio1 = new AudioSource('./assets/spring.ogg', 'audio/ogg');
+    const newAudio2 = new AudioSource('./assets/spring.mp3', 'audio/mpeg');
+    const newAudioSources = [newAudio1, newAudio2];
+
+    el.sources = newAudioSources;
+    await promisedSleep(0.5); // give it a change to update asynchronously
+
+    const sources = el.shadowRoot.querySelectorAll('source');
+    expect(sources.length).to.equal(2);
+
+    const firstSource = sources[0];
+    const secondSource = sources[1];
+    expect(firstSource.src.endsWith('spring.ogg')).to.be.true;
+    expect(secondSource.src.endsWith('spring.mp3')).to.be.true;
   });
 });

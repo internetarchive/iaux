@@ -34,38 +34,35 @@ export default class AudioElement extends LitElement {
   }
 
   load(): void {
+    /* istanbul ignore else */
     if (this.audioElement) this.audioElement.load();
   }
 
   play(): void {
+    /* istanbul ignore else */
     if (this.audioElement) this.audioElement.play();
   }
 
   pause(): void {
+    /* istanbul ignore else */
     if (this.audioElement) this.audioElement.pause();
   }
 
   seekBy(seconds: number): void {
     /* istanbul ignore if */
-    if (!this.audioElement) {
-      return;
-    }
+    if (!this.audioElement) return;
     this.audioElement.currentTime = this.audioElement.currentTime + seconds;
   }
 
   seekTo(seconds: number): void {
     /* istanbul ignore if */
-    if (!this.audioElement) {
-      return;
-    }
+    if (!this.audioElement) return;
     this.audioElement.currentTime = seconds;
   }
 
   updated(): void {
     /* istanbul ignore if */
-    if (!this.audioElement) {
-      return;
-    }
+    if (!this.audioElement) return;
 
     this.audioElement.playbackRate = this.playbackRate;
 
