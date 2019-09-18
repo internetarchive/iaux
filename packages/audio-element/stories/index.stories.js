@@ -9,34 +9,34 @@ import {
 
 import WaveformProgress from '../index.js';
 
-storiesOf('audio-player', module)
+storiesOf('audio-element', module)
   .addDecorator(withKnobs)
   .add('Waveform Progress Options', () => withClassPropertiesKnobs(WaveformProgress, {
     template: html`
-      <audio-player
+      <audio-element
         waveformUrl=${waveformImage}
         percentComplete=23
         interactive=true
-        zonesOfSilence=${JSON.stringify([{startPercent: 23, endPercent: 27}, {startPercent: 58, endPercent: 60}])}
+        zonesOfSilence=${JSON.stringify([{ startPercent: 23, endPercent: 27 }, { startPercent: 58, endPercent: 60 }])}
         style="width: 100%; height: 10rem"
-      ></audio-player>
+      ></audio-element>
     `
   }))
   .add(
     'Waveform Progress Styling',
     () => html`
       <style>
-        audio-player {
+        audio-element {
           height: 10rem;
           width: 100%;
           --fillColor: ${color('Fill Color', 'purple', 'Colors')};
           --zoneOfSilenceColor: ${color('Zone of Silence Color', 'orange', 'Colors')};
         }
       </style>
-      <audio-player
+      <audio-element
         waveformUrl=${waveformImage}
         percentComplete=23
         interactive=true
-      ></audio-player>
+      ></audio-element>
     `,
   );

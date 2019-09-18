@@ -12,7 +12,7 @@
   <div id="demo"></div>
 
   <style>
-    audio-player {
+    audio-element {
       height: 10rem;
       width: 100%;
       --fillColor: #3272b6;
@@ -23,7 +23,7 @@
   <script type="module">
     import { html, render } from 'lit-html';
     import AudioSource from '../lib/models/audio-source.js';
-    import AudioPlayer from '../lib/audio-player.js';
+    import AudioElement from '../lib/audio-element.js';
 
     const audio1 = new AudioSource('./arrow.ogg', 'audio/ogg');
     const audio2 = new AudioSource('./arrow.mp3', 'audio/mpeg');
@@ -32,12 +32,23 @@
 
     render(
       html`
-        <audio-player
-          sources=${JSON.stringify(audioSources)} // I'm not sure why you have to stringify here, but it gets passed through as [object Object] if you don't
-        ></audio-player>
+        <audio-element
+          showControls=true
+          sources=${JSON.stringify(audioSources)}
+        ></audio-element>
+
+        <button @click=${play}>Play</button>
       `,
       document.querySelector('#demo')
     );
+
+    function play() {
+      const audioElement = document.querySelector('audio-element');
+      console.log('play');
+      audioElement.load();
+      // audioElement.seekTo(0);
+      audioElement.play();
+    }
   </script>
 </body>
 </html>

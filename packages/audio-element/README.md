@@ -1,8 +1,8 @@
-# \<audio-player>
+# \<audio-element>
 
 A customizable scrubber bar useful for scrubbing through media.
 
-![Waveform Progress](./assets/img/audio-player.gif "Waveform Progress Demo")
+![Waveform Progress](./assets/img/audio-element.gif "Waveform Progress Demo")
 
 ## Zones of Silence
 
@@ -14,24 +14,24 @@ A customizable scrubber bar useful for scrubbing through media.
 
 ## Installation
 ```bash
-yarn add @internetarchive/audio-player
+yarn add @internetarchive/audio-element
 ```
 
 ## Usage
 ```js
-// audio-player.js
-import WaveformProgress from '@internetarchive/audio-player';
+// audio-element.js
+import WaveformProgress from '@internetarchive/audio-element';
 export default WaveformProgress;
 ```
 
 ```html
 <!-- index.html -->
 <script type="module">
-  import './audio-player.js';
+  import './audio-element.js';
 </script>
 
 <style>
-  audio-player {
+  audio-element {
     height: 10rem;
     width: 100%;
     --fillColor: #3272b6;
@@ -39,11 +39,11 @@ export default WaveformProgress;
   }
 </style>
 
-<audio-player
+<audio-element
   id="waveform"
   waveformUrl='./waveform.png'
   interactive=true
-></audio-player>
+></audio-element>
 
 <script>
   const waveformProgress = document.getElementById('waveform');

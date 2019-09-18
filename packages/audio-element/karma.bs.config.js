@@ -7,7 +7,7 @@ module.exports = (config) => {
   config.set(
     merge(bsSettings(config), createBaseConfig(config), {
       browserStack: {
-        project: 'audio-player',
+        project: 'audio-element',
       },
     }),
   );
