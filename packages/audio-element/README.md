@@ -2,7 +2,7 @@
 
 A LitElement wrapper for the HTML `<audio>` element.
 
-![Waveform Progress](./assets/img/audio-element-controls.png "Waveform Progress Demo")
+![Audio Element](./assets/img/audio-element-controls.png "Audio Element Demo")
 
 ## Installation
 ```bash
