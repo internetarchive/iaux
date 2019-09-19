@@ -1,8 +1,8 @@
 # \<audio-element>
 
-A LitElement wrapper for the HTML audio element.
+A LitElement wrapper for the HTML `<audio>` element.
 
-![Waveform Progress](./assets/img/audio-element.gif "Waveform Progress Demo")
+![Waveform Progress](./assets/img/audio-element-controls.png "Waveform Progress Demo")
 
 ## Installation
 ```bash
@@ -54,6 +54,12 @@ export default AudioElement;
 
   // pause playing
   audioElement.pause();
+
+  // seek to 10s
+  audioElement.currentTime = 10;
+
+  // seek by 10s
+  audioElement.seekBy(10);
 </script>
 
 ```
