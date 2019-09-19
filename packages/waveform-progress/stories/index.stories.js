@@ -37,6 +37,7 @@ storiesOf('waveform-progress', module)
       <waveform-progress
         waveformUrl=${waveformImage}
         percentComplete=23
+        zonesOfSilence=${JSON.stringify([{startPercent: 23, endPercent: 27}, {startPercent: 58, endPercent: 60}])}
         interactive=true
       ></waveform-progress>
     `,
