@@ -1,0 +1,75 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Radio Player Parcel</title>
+
+    <script type="module" src='./scrubber-bar.js'></script>
+    <script type="module" src='./waveform-progress.js'></script>
+
+    <style>
+      scrubber-bar {
+        --thumbColor: white;
+        --thumbBorder: 1px solid black;
+        --trackFillColor: purple;
+        --trackColor: #3272b6;
+        --trackBorder: 1px solid black;
+        --trackBorderRadius: 5px;
+        --trackHeight: 10px;
+        --thumbDiameter: 20px;
+        --scrubberBarHeight: 20px;
+        --thumbBorderRadius: 10px;
+        --webkitThumbTopMargin: -6px;
+      }
+
+      waveform-progress {
+        width: 100%;
+        height: 10rem;
+        --fillColor: #3272b6;
+        --zoneOfSilenceColor: orange;
+      }
+    </style>
+  </head>
+  <body>
+  <h1>Radio Player</h1>
+
+  <!--
+    This is a hack that I have to do because Parcel's asset detector doesn't seem to recognize
+    passing in an image into the `<waveform-progress>` tag so it wasn't bundling the image asset.
+    It does recognize the `img` tag, though, so I just load the waveform image in the `img` tag,
+    then set the `waveform-progress.waveformUrl` to be the same as the `img` tag.
+   -->
+  <img src="./waveform.png" id="waveform-image" style="display: none;" />
+  <waveform-progress
+    interactive=true>
+  </waveform-progress>
+
+  <scrubber-bar></scrubber-bar>
+
+  <p>
+    Value: <span id="currentValue">23</span>%
+  </p>
+
+  <script>
+    const scrubberBar = document.querySelector('scrubber-bar');
+    const waveformProgress = document.querySelector('waveform-progress');
+    const waveformImage = document.getElementById('waveform-image');
+
+    scrubberBar.value = 23;
+    waveformProgress.percentComplete = 23;
+    waveformProgress.waveformUrl = waveformImage.src;
+    waveformProgress.zonesOfSilence = [{startPercent: 23, endPercent: 27}, {startPercent: 58, endPercent: 60}];
+
+    scrubberBar.addEventListener('valuechange', e => {
+      document.getElementById('currentValue').innerHTML = Math.round(e.detail.value);
+      waveformProgress.percentComplete = e.detail.value;
+    });
+
+    waveformProgress.addEventListener('valuechange', e => {
+      document.getElementById('currentValue').innerHTML = Math.round(e.detail.value);
+      scrubberBar.value = e.detail.value;
+    });
+  </script>
+</body>
+</html>
