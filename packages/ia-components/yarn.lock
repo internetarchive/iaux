@@ -1129,14 +1129,6 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@internetarchive/ia-js-client@^0.0.0-alpha.20+5039f8d":
-  version "0.0.0-alpha.327"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-js-client/-/ia-js-client-0.0.0-alpha.327.tgz#86cd2f7e8f5435b71eae26f55a5ae21241b578e8"
-  integrity sha512-YJD17AemBVZQlJsi4FmTJp9ybvh3d2nxRb9QUl+sAbxjVm4JgLsUE17czmoz/7srSbvcvJ8Xt4lJVtDYJudeRQ==
-  dependencies:
-    debug "^4.1.1"
-    node-fetch "^2.2.0"
-
 "@jest/console@^24.7.1":
   version "24.7.1"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.7.1.tgz#32a9e42535a97aedfe037e725bd67e954b459545"

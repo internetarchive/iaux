@@ -16,9 +16,15 @@ export default class AudioElement extends LitElement {
 
   @property({ type: Number }) volume = 1;
 
-  @property({ type: Number }) currentTime = 0;
-
   @property({ type: Array }) sources = [];
+
+  get duration(): number {
+    return (this.audioElement && this.audioElement.duration) || 0;
+  }
+
+  get currentTime(): number {
+    return (this.audioElement && this.audioElement.currentTime) || 0;
+  }
 
   render(): TemplateResult {
     return html`
@@ -61,6 +67,12 @@ export default class AudioElement extends LitElement {
     if (this.audioElement) this.audioElement.pause();
   }
 
+  seekTo(seconds: number): void {
+    /* istanbul ignore if */
+    if (!this.audioElement) return;
+    this.audioElement.currentTime = seconds;
+  }
+
   seekBy(seconds: number): void {
     /* istanbul ignore if */
     if (!this.audioElement) return;
@@ -73,10 +85,6 @@ export default class AudioElement extends LitElement {
 
     if (changedProperties.has('playbackRate')) {
       this.audioElement.playbackRate = this.playbackRate;
-    }
-
-    if (changedProperties.has('currentTime')) {
-      this.audioElement.currentTime = this.currentTime;
     }
 
     if (changedProperties.has('volume')) {

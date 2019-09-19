@@ -7,6 +7,7 @@
 
     <script type="module" src='./scrubber-bar.js'></script>
     <script type="module" src='./waveform-progress.js'></script>
+    <script type="module" src='./audio-element.js'></script>
 
     <style>
       scrubber-bar {
@@ -47,29 +48,94 @@
 
   <scrubber-bar></scrubber-bar>
 
-  <p>
-    Value: <span id="currentValue">23</span>%
-  </p>
+  <audio-element></audio-element>
+
+  <div>
+    <button onclick=play()>Play</button>
+    <button onclick=pause()>Pause</button>
+    <button onclick=forward10()>Seek Forward 10s</button>
+    <button onclick=back10()>Seek Back 10s</button>
+  </div>
+
+  <div>
+    Volume: <input type="range" min="0" max="100" value="100" step="1" id="volume-slider"> <span id="volume-value">100</span>%
+  </div>
+
+  <div>
+    Playback Rate: <input type="range" min="0.1" max="3" value="1" step="0.001" id="playback-rate-slider"> <span id="playback-rate">1</span>x
+  </div>
 
   <script>
+    const audioElement = document.querySelector('audio-element');
+
     const scrubberBar = document.querySelector('scrubber-bar');
+
     const waveformProgress = document.querySelector('waveform-progress');
     const waveformImage = document.getElementById('waveform-image');
 
-    scrubberBar.value = 23;
-    waveformProgress.percentComplete = 23;
+    const volumeSlider = document.getElementById('volume-slider');
+    const volumeValue = document.getElementById('volume-value');
+
+    const playbackRateSlider = document.getElementById('playback-rate-slider');
+    const playbackRateValue = document.getElementById('playback-rate');
+
+    audioElement.sources = [{ url: "http://archive.org/download/VOA_Global_English_20180221_190000/VOA_Global_English_20180221_190000.mp3", mimetype: "audio/mpeg" }]
     waveformProgress.waveformUrl = waveformImage.src;
     waveformProgress.zonesOfSilence = [{startPercent: 23, endPercent: 27}, {startPercent: 58, endPercent: 60}];
 
-    scrubberBar.addEventListener('valuechange', e => {
-      document.getElementById('currentValue').innerHTML = Math.round(e.detail.value);
-      waveformProgress.percentComplete = e.detail.value;
+    audioElement.addEventListener('durationchange', (e) => {
+      scrubberBar.max = e.detail.duration;
     });
 
-    waveformProgress.addEventListener('valuechange', e => {
-      document.getElementById('currentValue').innerHTML = Math.round(e.detail.value);
-      scrubberBar.value = e.detail.value;
+    audioElement.addEventListener('timeupdate', (e) => {
+      scrubberBar.value = e.detail.currentTime;
+      const percentComplete = (audioElement.currentTime / audioElement.duration) * 100;
+      waveformProgress.percentComplete = percentComplete;
     });
+
+    scrubberBar.addEventListener('valuechange', (e) => {
+      audioElement.seekTo(e.detail.value);
+      waveformProgress.percentComplete = scrubberBar.percentage;
+    });
+
+    waveformProgress.addEventListener('valuechange', (e) => {
+      const percentComplete = e.detail.value;
+      const newTime = (percentComplete / 100) * audioElement.duration;
+      audioElement.seekTo(newTime);
+      scrubberBar.value = newTime;
+    });
+
+    volumeSlider.addEventListener('input', (e) => {
+      audioElement.volume = e.target.value / 100;
+      volumeValue.innerText = Math.round(e.target.value);
+    });
+
+    playbackRateSlider.addEventListener('input', (e) => {
+      audioElement.playbackRate = e.target.value;
+      playbackRateValue.innerText = e.target.value;
+    });
+
+    function play() {
+      audioElement.play()
+    }
+
+    function pause() {
+      audioElement.pause()
+    }
+
+    function forward10() {
+      audioElement.seekBy(10);
+    }
+
+    function back10() {
+      audioElement.seekBy(-10);
+    }
+
+    function changePlaybackRate(e) {
+      const playbackRate = document.getElementById('playback-rate');
+      audioElement.playbackRate = e.target.value;
+      playbackRate.innerText = e.target.value;
+    }
   </script>
 </body>
 </html>

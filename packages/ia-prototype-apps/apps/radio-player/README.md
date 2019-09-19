@@ -2,7 +2,7 @@
 
 ```
 > cd ia-prototype-apps
-> yarn install
+> lerna bootstrap
 > yarn run parcel apps/radio-player/index.html
 ```
 

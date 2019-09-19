@@ -138,8 +138,7 @@ describe('Audio Element', () => {
         sources=${JSON.stringify(audioSources)}
       ></audio-element>
     `);
-    el.currentTime = 0.7;
-    await promisedSleep(0.1); // give it a change to update asynchronously
+    el.seekTo(0.7);
     const audioTag = el.shadowRoot.querySelector('audio');
     expect(audioTag.currentTime).to.equal(0.7);
   });
