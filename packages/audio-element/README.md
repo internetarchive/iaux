@@ -56,7 +56,7 @@ export default AudioElement;
   audioElement.pause();
 
   // seek to 10s
-  audioElement.currentTime = 10;
+  audioElement.seekTo(10);
 
   // seek by 10s
   audioElement.seekBy(10);

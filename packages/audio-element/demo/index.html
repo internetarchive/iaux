@@ -144,7 +144,7 @@
     function seek(e) {
       const audioElement = document.querySelector('audio-element');
       const currentTime = document.getElementById('current-time');
-      audioElement.currentTime = e.target.value;
+      audioElement.seekTo(e.target.value);
       currentTime.innerText = e.target.value;
     }
 </script>

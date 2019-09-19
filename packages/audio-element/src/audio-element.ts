@@ -19,33 +19,19 @@ export default class AudioElement extends LitElement {
   @property({ type: Array }) sources = [];
 
   get duration(): number {
-    return (this.audioElement && this.audioElement.duration) || 0;
+    /* istanbul ignore next */
+    if (!this.audioElement) {
+      return 0;
+    }
+    return this.audioElement.duration;
   }
 
   get currentTime(): number {
-    return (this.audioElement && this.audioElement.currentTime) || 0;
-  }
-
-  render(): TemplateResult {
-    return html`
-      <audio
-        @timeupdate=${this.handleTimeChange}
-        @durationchange=${this.handleDurationChange}
-        @play=${this.playbackStarted}
-        @pause=${this.playbackPaused}
-        @canplay=${this.canplay}
-      >
-        ${this.sources.map(
-          (source: AudioSource) => html`
-            <source src=${source.url} type=${source.mimetype} />
-          `,
-        )}
-      </audio>
-    `;
-  }
-
-  get audioElement(): HTMLAudioElement | null {
-    return this.shadowRoot && (this.shadowRoot.querySelector('audio') as HTMLAudioElement);
+    /* istanbul ignore next */
+    if (!this.audioElement) {
+      return 0;
+    }
+    return this.audioElement.currentTime;
   }
 
   load(): void {
@@ -77,6 +63,28 @@ export default class AudioElement extends LitElement {
     /* istanbul ignore if */
     if (!this.audioElement) return;
     this.audioElement.currentTime = this.audioElement.currentTime + seconds;
+  }
+
+  render(): TemplateResult {
+    return html`
+      <audio
+        @timeupdate=${this.handleTimeChange}
+        @durationchange=${this.handleDurationChange}
+        @play=${this.playbackStarted}
+        @pause=${this.playbackPaused}
+        @canplay=${this.canplay}
+      >
+        ${this.sources.map(
+          (source: AudioSource) => html`
+            <source src=${source.url} type=${source.mimetype} />
+          `,
+        )}
+      </audio>
+    `;
+  }
+
+  get audioElement(): HTMLAudioElement | null {
+    return this.shadowRoot && (this.shadowRoot.querySelector('audio') as HTMLAudioElement);
   }
 
   updated(changedProperties: PropertyValues): void {

@@ -110,7 +110,7 @@ describe('Audio Element', () => {
     `);
     const audioTag = el.shadowRoot.querySelector('audio');
     el.volume = 0.5;
-    await promisedSleep(0.1);
+    await promisedSleep(1);
     expect(audioTag.volume).to.equal(0.5);
   });
 
@@ -158,6 +158,31 @@ describe('Audio Element', () => {
     expect(audioTag.currentTime).to.equal(0.2);
   });
 
+  it('returns the proper duration for tracks', async () => {
+    const testAudio = new AudioSource('./assets/spring.mp3', 'audio/mpeg');
+    const audioSources = [testAudio];
+    const el = await fixture(html`
+      <audio-element></audio-element>
+    `);
+    el.sources = audioSources;
+    el.load();
+    await promisedSleep(100);
+    const audioTag = el.shadowRoot.querySelector('audio');
+    expect(audioTag.duration).to.equal(1.07102);
+  });
+
+  it('returns the proper currentTime', async () => {
+    const testAudio = new AudioSource('./assets/spring.mp3', 'audio/mpeg');
+    const audioSources = [testAudio];
+    const el = await fixture(html`
+      <audio-element></audio-element>
+    `);
+    el.sources = audioSources;
+    el.seekTo(0.75);
+    const audioTag = el.shadowRoot.querySelector('audio');
+    expect(audioTag.currentTime).to.equal(0.75);
+  });
+
   it('can change tracks', async () => {
     const audio1 = new AudioSource('./assets/arrow.ogg', 'audio/ogg');
     const audio2 = new AudioSource('./assets/arrow.mp3', 'audio/mpeg');
@@ -173,7 +198,7 @@ describe('Audio Element', () => {
     const newAudioSources = [newAudio1, newAudio2];
 
     el.sources = newAudioSources;
-    await promisedSleep(0.1); // give it a change to update asynchronously
+    await promisedSleep(1); // give it a change to update asynchronously
 
     const sources = el.shadowRoot.querySelectorAll('source');
     expect(sources.length).to.equal(2);
