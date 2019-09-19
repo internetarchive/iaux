@@ -16,6 +16,8 @@ export default class AudioElement extends LitElement {
 
   @property({ type: Number }) volume = 1;
 
+  @property({ type: Number }) currentTime = 0;
+
   @property({ type: Array }) sources = [];
 
   render(): TemplateResult {
@@ -65,18 +67,16 @@ export default class AudioElement extends LitElement {
     this.audioElement.currentTime = this.audioElement.currentTime + seconds;
   }
 
-  seekTo(seconds: number): void {
-    /* istanbul ignore if */
-    if (!this.audioElement) return;
-    this.audioElement.currentTime = seconds;
-  }
-
   updated(changedProperties: PropertyValues): void {
     /* istanbul ignore if */
     if (!this.audioElement) return;
 
     if (changedProperties.has('playbackRate')) {
       this.audioElement.playbackRate = this.playbackRate;
+    }
+
+    if (changedProperties.has('currentTime')) {
+      this.audioElement.currentTime = this.currentTime;
     }
 
     if (changedProperties.has('volume')) {

@@ -38,11 +38,15 @@
       html`
         <audio-element
           sources=${JSON.stringify(arrowSources)}
+          @durationchange=${durationchanged}
+          @timeupdate=${timeupdate}
         ></audio-element>
 
         <div>
           <button @click=${play}>Play</button>
           <button @click=${pause}>Pause</button>
+          <button @click=${forward10}>Seek Forward 10s</button>
+          <button @click=${back10}>Seek Back 10s</button>
         </div>
 
         <div>
@@ -58,7 +62,11 @@
         <div>
           Playback Rate: <input type="range" min="0.1" max="3" value="1" step="0.001" @input=${changePlaybackRate}> <span id="playback-rate">1</span>x
         </div>
-        `,
+
+        <div>
+          Seek: <input type="range" min="0" max="100" value="0" step="0.1" @input=${seek} id="seek-bar"> <span id="current-time">0</span>s
+        </div>
+      `,
       document.querySelector('#demo')
     );
 
@@ -70,6 +78,16 @@
     function pause() {
       const audioElement = document.querySelector('audio-element');
       audioElement.pause()
+    }
+
+    function forward10() {
+      const audioElement = document.querySelector('audio-element');
+      audioElement.seekBy(10);
+    }
+
+    function back10() {
+      const audioElement = document.querySelector('audio-element');
+      audioElement.seekBy(-10);
     }
 
     function playArrow() {
@@ -108,6 +126,26 @@
       const playbackRate = document.getElementById('playback-rate');
       audioElement.playbackRate = e.target.value;
       playbackRate.innerText = e.target.value;
+    }
+
+    function durationchanged(e) {
+      const seekBar = document.getElementById('seek-bar');
+      const currentTime = document.getElementById('current-time');
+      seekBar.max = e.detail.duration;
+    }
+
+    function timeupdate(e) {
+      const seekBar = document.getElementById('seek-bar');
+      const currentTime = document.getElementById('current-time');
+      seekBar.value = e.detail.currentTime;
+      currentTime.innerText = e.detail.currentTime;
+    }
+
+    function seek(e) {
+      const audioElement = document.querySelector('audio-element');
+      const currentTime = document.getElementById('current-time');
+      audioElement.currentTime = e.target.value;
+      currentTime.innerText = e.target.value;
     }
 </script>
 </body>

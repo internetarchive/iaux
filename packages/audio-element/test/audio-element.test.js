@@ -110,7 +110,7 @@ describe('Audio Element', () => {
     `);
     const audioTag = el.shadowRoot.querySelector('audio');
     el.volume = 0.5;
-    await promisedSleep(0.5);
+    await promisedSleep(0.1);
     expect(audioTag.volume).to.equal(0.5);
   });
 
@@ -138,7 +138,8 @@ describe('Audio Element', () => {
         sources=${JSON.stringify(audioSources)}
       ></audio-element>
     `);
-    el.seekTo(0.7);
+    el.currentTime = 0.7;
+    await promisedSleep(0.1); // give it a change to update asynchronously
     const audioTag = el.shadowRoot.querySelector('audio');
     expect(audioTag.currentTime).to.equal(0.7);
   });
@@ -173,7 +174,7 @@ describe('Audio Element', () => {
     const newAudioSources = [newAudio1, newAudio2];
 
     el.sources = newAudioSources;
-    await promisedSleep(0.5); // give it a change to update asynchronously
+    await promisedSleep(0.1); // give it a change to update asynchronously
 
     const sources = el.shadowRoot.querySelectorAll('source');
     expect(sources.length).to.equal(2);
