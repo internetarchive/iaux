@@ -67,6 +67,23 @@ describe('Waveform Progress', () => {
     expect(detail.value).to.equal(10);
   });
 
+  it('emits a `valuechange` event as soon as the mousedown event happens', async () => {
+    const el = await fixture(html`
+      <waveform-progress interactive=true style="width: 100px; height: 50px"></waveform-progress>
+    `);
+    const dragCover = el.shadowRoot.getElementById('dragcover');
+    const mouseDownEvent = new MouseEvent('mousedown', { clientX: 20 });
+    // dragCover.dispatchEvent(mouseDownEvent);
+
+    // const mouseMoveEvent = new MouseEvent('mousemove', { clientX: 10 });
+
+    setTimeout(() => { dragCover.dispatchEvent(mouseDownEvent); });
+    const { detail } = await oneEvent(el, 'valuechange');
+
+    expect(detail.value).to.equal(20);
+  });
+
+
   it('can be updated from an external source after the user has finished interacting', async () => {
     const el = await fixture(html`
       <waveform-progress interactive=true style="width: 100px; height: 50px"></waveform-progress>
