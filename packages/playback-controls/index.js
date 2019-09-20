@@ -1,3 +1,4 @@
 import { PlaybackControls } from './lib/playback-controls.js';
+import { PlaybackMode } from './lib/playback-mode.js';
 
-export default { PlaybackControls };
+export { PlaybackControls, PlaybackMode };

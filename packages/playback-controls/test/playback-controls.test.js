@@ -1,8 +1,6 @@
 import { html, fixture, expect, oneEvent } from '@open-wc/testing';
 
-import PlaybackControls from '../playback-controls';
-import PlaybackMode from '../playback-mode';
-
+import { PlaybackControls, PlaybackMode } from '../playback-controls';
 
 describe('PlaybackControls', () => {
   it('defaults to paused', async () => {

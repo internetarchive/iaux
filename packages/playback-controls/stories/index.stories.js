@@ -7,29 +7,18 @@ import {
   withClassPropertiesKnobs,
 } from '@open-wc/demoing-storybook';
 
-import PlaybackControls from '../index.js';
+import '../playback-controls';
 
 storiesOf('playback-controls', module)
   .addDecorator(withKnobs)
-  .add('Scrubber Bar Options', () => withClassPropertiesKnobs(PlaybackControls))
   .add(
-    'Scrubber Bar Styling',
+    'Scrubber Bar',
     () => html`
+      <playback-controls></playback-controls>
       <style>
-        playback-controls {
-          --thumbColor: ${color('Thumb Color', 'red', 'Colors')};
-          --thumbBorder: ${text('Thumb Border', '1px solid black', 'Colors')};
-          --trackFillColor: ${color('Track Fill Color', 'blue', 'Colors')};
-          --trackColor: ${color('Track Color', 'black', 'Colors')};
-          --trackBorder: ${text('Track Border', '1px solid black', 'Colors')};
-          --trackBorderRadius: ${text('Track Border Radius', '5px', 'Layout')};
-          --trackHeight: ${text('Track Height', '10px', 'Layout')};
-          --thumbDiameter: ${text('Thumb Diameter', '20px', 'Layout')};
-          --PlaybackControlsHeight: ${text('Scrubber Bar Height', '20px', 'Layout')};
-          --thumbBorderRadius: ${text('Thumb Border Radius', '50%', 'Layout')};
-          --webkitThumbTopMargin: ${text('Webkit Thumb Top Margin', '-6px', 'Layout')};
+        body {
+          background-color: black;
         }
       </style>
-      <playback-controls></playback-controls>
     `,
   );

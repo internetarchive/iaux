@@ -1,8 +1,8 @@
 # \<playback-controls>
 
-A customizable scrubber bar useful for scrubbing through media.
+Playback controls for playing media.
 
-![Scrubber Bar](./assets/img/scrubber.gif "Scrubber Bar Demo")
+![Playback Controls](./assets/img/playback-controls.png "Playback Controls Demo")
 
 ## Installation
 ```bash
@@ -12,44 +12,35 @@ yarn add @internetarchive/playback-controls
 ## Usage
 ```js
 // playback-controls.js
-import PlaybackControls from '@internetarchive/playback-controls';
-export default PlaybackControls;
+import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-controls';
+export default { PlaybackControls, PlaybackMode };
 ```
 
 ```html
 <!-- index.html -->
 <script type="module">
-  import './playback-controls.js';
+  import { PlaybackControls, PlaybackMode } from './playback-controls.js';
 </script>
 
-<style>
-  playback-controls {
-    --thumbColor: white;
-    --thumbBorder: 1px solid black;
-    --trackFillColor: blue;
-    --trackColor: purple;
-    --trackBorder: 1px solid black;
-    --trackBorderRadius: 5px;
-    --trackHeight: 10px;
-    --thumbDiameter: 20px;
-    --PlaybackControlsHeight: 20px;
-    --thumbBorderRadius: 10px;
-    --webkitThumbTopMargin: -6px;
-  }
-</style>
-
-<playback-controls id="PlaybackControls"></playback-controls>
+<playback-controls id="playbackControls"></playback-controls>
 
 <script>
-  const PlaybackControls = document.getElementById('PlaybackControls');
+  const playbackControls = document.getElementById('playbackControls');
 
-  // listen for value changes
-  PlaybackControls.addEventListener('valuechange', e => {
-    console.log('Value has changed, new value:', e.detail.value);
+  playbackControls.addEventListener('back-button-pressed', e => {
+    console.log('Back button pressed');
   });
 
-  // set a different value
-  PlaybackControls.value = 23;
+  playbackControls.addEventListener('play-pause-button-pressed', e => {
+    console.log('Play/pause button pressed');
+  });
+
+  playbackControls.addEventListener('forward-button-pressed', e => {
+    console.log('Forward button pressed');
+  });
+
+  // set a different state
+  playbackControls.playbackMode = PlaybackMode.playing; // or PlaybackMode.paused
 </script>
 
 ```

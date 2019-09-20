@@ -15,6 +15,12 @@
     body {
       background-color: black;
     }
+
+    #currentAction {
+      color: white;
+      text-align: center;
+      margin-top: 2em;
+    }
   </style>
 
   <script type="module">
@@ -23,10 +29,30 @@
 
     render(
       html`
-        <playback-controls></playback-controls>
+        <playback-controls
+          @back-button-pressed=${backButtonPressed}
+          @play-pause-button-pressed=${playPauseButtonPressed}
+          @forward-button-pressed=${forwardButtonPressed}
+          >
+        </playback-controls>
+
+        <div id="currentAction">
+        </div>
       `,
       document.querySelector('#demo')
     );
+
+    function backButtonPressed() {
+      document.getElementById('currentAction').innerText = "Back Button Pressed"
+    }
+
+    function playPauseButtonPressed() {
+      document.getElementById('currentAction').innerText = "Play/Pause Button Pressed";
+    }
+
+    function forwardButtonPressed() {
+      document.getElementById('currentAction').innerText = "Forward Button Pressed"
+    }
   </script>
 </body>
 </html>
