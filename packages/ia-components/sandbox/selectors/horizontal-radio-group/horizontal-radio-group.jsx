@@ -44,14 +44,15 @@ const HorizontalRadioGroup = ({
 
     return (
       <div key={uniqueKey} className={optionClassName}>
-        <label {...clickTrackDataAttr}>
-          <input
-            type="radio"
-            name={name}
-            value={value}
-            onChange={onChange}
-            checked={isSelected ? 'checked' : ''}
-          />
+        <input
+          type="radio"
+          name={name}
+          id={`${name}-${value}`}
+          value={value}
+          onChange={onChange}
+          checked={isSelected ? 'checked' : ''}
+        />
+        <label htmlFor={`${name}-${value}`} {...clickTrackDataAttr}>
           <span>{label}</span>
         </label>
       </div>

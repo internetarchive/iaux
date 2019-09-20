@@ -44,14 +44,6 @@
   label {
     cursor: pointer;
     margin-bottom: 0;
-
-    > input[type='radio']:checked + span {
-      opacity: 1;
-    }
-
-    > input[type='radio'] + span {
-      opacity: 0.5;
-    }
   }
 
   input[type='radio'] {
@@ -59,5 +51,17 @@
     // the radio set should look like a button group
     // with only one "on" at a given time
     display: none;
+    + label {
+      > span {
+        opacity: 0.5;
+      }
+    }
+    &:checked {
+      + label {
+        > span {
+          opacity: 1;
+        }
+      }
+    }
   }
 }
