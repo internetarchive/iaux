@@ -1,5 +1,6 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
+import { I8nSpan } from '../../../../../dweb-archive/components/Languages';
 
 /**
  * This is for a single "tabby", usually there will be a set of them in a Tabbys
@@ -15,8 +16,8 @@ import IAReactComponent from '../IAReactComponent';
  * <Tabby
  *    identifier   Archive identifier
  *    id          id of this tab - used by code that switches tabs etc
- *    text        Text to go in the tab
- *    abbreviatedtext Optional shorter text for constrained windows
+ *    text EN-STRING Text to be internationalized and to go in the tab
+ *    abbreviatedtext Optional shorter text to be internationalized for constrained windows
  *    href        For the URL that pops up, but note that click goes to AJS.tabby
  *    default     Boolean - if present then tab is selected at initial render
  */
@@ -64,11 +65,11 @@ export default class Tabby extends IAReactComponent {
             { this.props.abbreviatedText
               ? (
                 <>
-                  <span className="tabby-text hidden-xs-span">{this.props.text}</span>
-                  <span className="tabby-text visible-xs-span">{this.props.abbreviatedText}</span>
+                  <I8nSpan className="tabby-text hidden-xs-span" en={this.props.text}/>
+                  <I8nSpan className="tabby-text visible-xs-span" en={this.props.abbreviatedText}/>
                 </>
               )
-              : <span className="tabby-text">{this.props.text}</span>
+              : <I8nSpan className="tabby-text" en={this.props.text}/>
             }
           </a>
         </div>

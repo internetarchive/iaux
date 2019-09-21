@@ -1,6 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
+import { I8nSpan, I8nIcon, I8nStr } from "../../../../../dweb-archive/components/Languages";
 
 /**
  *  List of reviews on details page
@@ -34,40 +35,34 @@ class DetailsReviews extends IAReactComponent {
           { this.props.disconnected ? null :
             <>
               <div className="pull-right" style={{fontSize:14, fontWeight:500, paddingTop:14}}>
-                <a className="stealth" href={writeReviewsURL}><span className="iconochive-plus-circle"
-                                                                    aria-hidden="true"></span><span
-                  className="sr-only">plus-circle</span>
-                  Add Review</a><br/>
+                <a className="stealth" href={writeReviewsURL}><I8nIcon className="iconochive-plus-circle" en="plus-circle"/>
+                  <I8nSpan en="Add Review"/></a><br/>
               </div>
-              <div className="left-icon" style={{marginTop: 3}}><span className="iconochive-comment"
-                                                                      aria-hidden="true"></span><span
-                className="sr-only">comment</span>
-              </div>
+              <div className="left-icon" style={{marginTop: 3}}><I8nIcon className="iconochive-comment" en="comment"/></div>
             </>
           }
           Reviews
         </h2>
         {reviews && reviews.length ? reviews.map((review, i) => (
           <div key={i} className="aReview" id={`review-${review.review_id}`}>
-            <b>Reviewer:</b>{' '}
+            <b><I8nSpan en="Reviewer"/>:</b>{' '}
             <AnchorDetails identifier={`@${review.reviewer}`}
                            data-event-click-tracking="ItemReviews|ReviewerLink">{review.reviewer}</AnchorDetails>
             -
-            <span alt={`${review.stars} out of 5 stars`} title={`${review.stars} out of 5 stars`}>
+            <span alt={`${review.stars} out of 5 stars`} title={`${review.stars} ${I8nStr('out of 5 stars')}`}>
                                         {['*', '*', '*', '*', '*'].slice(0, review.stars).map((x,i) =>
-                                          <span key={i}><span className="iconochive-favorite size-75-percent"
-                                                aria-hidden="true"></span><span className="sr-only">favorite</span></span>
+                                          <I8nIcon key={i} className="iconochive-favorite size-75-percent" en="favorite"/>
                                         )}
                                     </span>
             - {review.reviewdate}{/*TODO reviewdate needs pretty printing*/}<br/>
-            <b>Subject:</b>{' '}{review.reviewtitle}
+            <b><I8nSpan en="Subject"/>:</b>{' '}{review.reviewtitle}
             <div className="breaker-breaker">{review.reviewbody}</div>
           </div>
         )) : (
           <div className="small-label">
-            <span>There are no reviews yet. </span>
+            <I8nSpan en="There are no reviews yet."> </I8nSpan>
             {this.props.disconnected ? null :
-              <span>Be the first one to <a href={writeReviewsURL}>write a review</a>.</span>
+              <><I8nSpan en="Be the first one to" /> <a href={writeReviewsURL}><I8nSpan en="write a review" /></a>.</>
             }
           </div>
         )}

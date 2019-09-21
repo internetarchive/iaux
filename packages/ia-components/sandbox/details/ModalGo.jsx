@@ -2,26 +2,16 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { ObjectFilter } from '../../util.js';
+import { I8nStr } from '../../../../../dweb-archive/components/Languages';
 
 /**
  *  AnchorModalGo and ButtonModalGo wrap the AJS.modal_go call in archive.js to allow it to work with react.
- *
- *  <AnchorModalGo
- *    opts={}                               Opts to the AJS.modal_go call
- *    href, target (and any other props)     Passed to Anchor
- *  >.....</AnchorModalGo>
- *
- *  <ButtonModalGo
- *    opts={}                               Opts to the AJS.modal_go call
- *    any other properties                  Passed to Button
- *    >.....</AnchorModalGo>
- *
  */
 
 class _ModalGo extends IAReactComponent {
   constructor(props) {
     super(props); // opts, remaining props go to anchor, in particular href
-    this.state.linkProps = ObjectFilter(this.props, (k, unused_v) => !['opts', 'children'].includes(k)); // pass on any other props
+    this.state.linkProps = ObjectFilter(this.props, (k, unused_v) => !['opts', 'children', 'en'].includes(k)); // pass on any other props
   }
 
   clickCallable(ev) {
@@ -29,21 +19,38 @@ class _ModalGo extends IAReactComponent {
     return AJS.modal_go(ev.currentTarget, this.props.opts);
   }
 }
+
+/**
+ *  <AnchorModalGo
+ *    opts={}                               Opts to the AJS.modal_go call
+ *    en=ENSTRING                           Passed to title
+ *    href, target (and any other props)     Passed to Anchor
+ *  >.....</AnchorModalGo>
+
+ */
 class AnchorModalGo extends _ModalGo {
   constructor(props) { super(props); } // opts, remaining props go to anchor, in particular href
 
   render() {
     return (
-      <a {...this.state.linkProps} onClick={this.onClick}>{this.props.children}</a>
+      <a {...this.state.linkProps} onClick={this.onClick} title={this.props.en && I8nStr(this.props.en)}>{this.props.children}</a>
     );
   }
 }
+
+/**
+ *  <ButtonModalGo
+ *    opts={}                               Opts to the AJS.modal_go call
+ *    en=ENSTRING                           If present, translated and passed to .title
+ *    any other properties                  Passed to Button
+ *    >.....</BurronModalGo>
+ */
 class ButtonModalGo extends _ModalGo {
   constructor(props) { super(props); } // opts, remaining props go to anchor, in particular href
 
   render() {
     return (
-      <button {...this.state.linkProps} onClick={this.onClick}>{this.props.children}</button>
+      <button {...this.state.linkProps} onClick={this.onClick} title={this.props.en && I8nStr(this.props.en)}>{this.props.children}</button>
     );
   }
 }

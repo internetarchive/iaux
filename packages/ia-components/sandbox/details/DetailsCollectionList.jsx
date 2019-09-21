@@ -2,6 +2,7 @@ import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import { canonicalUrl } from '../../util';
+import { I8nSpan } from '../../../../../dweb-archive/components/Languages';
 
 /**
  *  List of collections on details page
@@ -32,7 +33,7 @@ export default class DetailsCollectionList extends IAReactComponent {
     return (
       <div className="boxy collection-list">
         <section className="collection-list">
-          <h5 className="collection-title">IN COLLECTIONS</h5>
+          <h5 className="collection-title"><I8nSpan en="IN COLLECTIONS"/></h5>
           {this.props.collections.map(collection => (
             <div className="collection-item" key={collection}>
               <AnchorDetails

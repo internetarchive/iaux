@@ -4,6 +4,8 @@ import AnchorDetails from '../AnchorDetails';
 import {ImageDweb} from "../details/Image";
 const debug = require('debug')('ia-components:TileComponent');
 // import PropTypes from 'prop-types'
+import { I8nSpan, I8nIcon, I8nStr } from "../../../../../dweb-archive/components/Languages";
+
 
 /* USE OUTSIDE DWEB
 For use outside Dweb its going to need the "collection0title" which is the title of the 0th collection in the collections the item is part of, its
@@ -170,18 +172,18 @@ export default class TileComponent extends IAReactComponent {
     return (
       <div className="collection-stats">
         <div className="iconochive-collection topinblock hidden-lists" aria-hidden="true" />
-        <span className="sr-only">collection</span>
+        <I8nSpan className="sr-only" en="collection"/>
         {typeof this.state.collectionSize === 'undefined' ? null
           : (
             <div className="num-items topinblock">
               {number_format(this.state.collectionSize)}
-              <div className="micro-label">ITEMS</div>
+              <div className="micro-label"><I8nSpan en="ITEMS"/></div>
             </div>
           )
                 }
         <div className="num-items hidden-tiles">
           {number_format(this.state.downloads)}
-          <div className="micro-label">VIEWS</div>
+          <div className="micro-label"><I8nSpan en="VIEWS"/></div>
         </div>
       </div>
     );
@@ -191,24 +193,17 @@ export default class TileComponent extends IAReactComponent {
     return (
       <div className="statbar ">
         <div className="mt-icon C C5">
-          <span className={this.state.iconnameClass} aria-hidden="true" />
-          <span className="sr-only">{this.state.mediatype}</span>
+          <I8nIcon className={this.state.iconnameClass} en={this.state.mediatype}/>
         </div>
         <h6 className="stat ">
-          <span className="iconochive-eye" aria-hidden="true" />
-          <span className="sr-only">eye</span>
+          <I8nIcon className="iconochive-eye" en="eye"/>
           <nobr>{number_format(this.state.downloads)}</nobr>
         </h6>
 
         { typeof this.state.nFavorites === 'undefined' ? undefined
           : (
             <h6 className="stat">
-              <span className="iconochive-favorite" aria-hidden="true" />
-              <span
-                className="sr-only"
-              >
-favorite
-              </span>
+              <I8nIcon className="iconochive-favorite" en="favorite"/>
               {' '}
               {number_format(this.state.nFavorites)}
               {' '}
@@ -217,8 +212,7 @@ favorite
           )
                 }
         <h6 className="stat">
-          <span className="iconochive-comment" aria-hidden="true" />
-          <span className="sr-only">comment</span>
+          <I8nIcon className="iconochive-comment" en="comment"/>
           {' '}
           {number_format(this.state.numReviews)}
         </h6>

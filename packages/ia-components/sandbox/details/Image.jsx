@@ -6,16 +6,7 @@ import { AnchorDownload } from './AnchorDownload';
 const debug = require('debug')('Image Components');
 
 /**
- *  Image display components
- *
- * <ImageMainTheatre
- *  source  [ArchiveFile]  // Single ArchiveFile but in an array
- *  alt     Alt text
- *  src     URL of image (for !Dweb)
- *  caption Caption to go under image
- *  identifier
- *  mediatype
- *  />
+ *  Image display components/**
  *
  *  Render an image with a caption and an anchor to download it
  */
@@ -25,8 +16,8 @@ const debug = require('debug')('Image Components');
  *    EITHER
  *      source  Flexible dweb parameter include ArchiveFile, ArchiveMember, relative urls, dweb: names, and arrays of alternatives (see dweb-archive/ReactSupport)
  *    OR
- *      src     as in <img>
- *    alt     as in <img>
+ *      src           as in <img>
+ *    alt String      as in <img> (not translated because in many cases comes from content)
  *    imgname optional name used for alt tag and mime type when rendering via blob
  * />
 

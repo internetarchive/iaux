@@ -6,6 +6,7 @@ import {DetailsReviews} from './DetailsReviews';
 import DetailsCollectionList from './DetailsCollectionList';
 import DetailsDownloadOptions from './DetailsDownloadOptions';
 import { languageMapping } from '../../util.js';
+import { I8nSpan, I8nIcon } from "../../../../../dweb-archive/components/Languages";
 
 const metadataListKeyStrings = { ocr: 'OCR', runtime: 'Run time', ppi: 'PPI' }; // Metadata with something other than capitalize first letter
 const metadataListExclude = [
@@ -47,10 +48,10 @@ class DetailsMetadataField extends IAReactComponent {
    * Display a single field of metadata, allows for flexibility to handle a lot of the cases.
    *
    * <DetailsMetadataField
-   *    name=STRING               Override default name for field
-   *    field=METADATAFIELD       Metadata Field Name
-   *    value=STRING | [STRING*]  Value(s) in that field
-   *    itemProp=STRING           Optional - for search engines
+   *    name=ENSTRING               Override default name for field
+   *    field=METADATAFIELD       Metadata Field Name (will be translated for display, but not for function)
+   *    value=STRING | [STRING*]  Value(s) in that field (will not be translated)
+   *    itemProp=STRING           Optional - for search engines (will not be translated)
    * />
    *
    * Behavior on rendering:
@@ -60,9 +61,9 @@ class DetailsMetadataField extends IAReactComponent {
   // props: field=k value: v|[v*], mapping: {v: string},  className, role, itemProp
   constructor(props) {
     super(props);
-    this.state.name = this.props.name
+    this.state.name = this.props.name //TODO-I8N separate translation table for metadata fields - mapping Capitalized string
       || metadataListKeyStrings[this.props.field]
-      || (this.props.field.charAt(0).toUpperCase() + this.props.field.substr(1));
+      || (this.props.field.charAt(0).toUpperCase() + this.props.field.substr(1)); //TODO-I8N should really use locale dependent capitalization BUT capitalized field is translated
   }
 
   render() {
@@ -82,7 +83,7 @@ class DetailsMetadataTitle extends IAReactComponent {
    * Displays the metadata title and by-line for this item,
    *
    * <DetailsMetadataTitle
-   *  metadata=OBJECT   metadata object as returned by API after santizing
+   *  metadata=OBJECT   metadata object as returned by API after sanitizing (will not be translated)
    * />
    *
    * Behavior on rendering:
@@ -94,9 +95,7 @@ class DetailsMetadataTitle extends IAReactComponent {
       <>
         <h1 style={{ fontSize: '30px', marginBottom: 0 }}>
           <div className="left-icon">
-            <span className={`iconochive-${md.mediatype} ${md.mediatype}`} aria-hidden="true" />
-            <span className="sr-only">{md.mediatype}
-            </span>
+            <I8nIcon className={`iconochive-${md.mediatype} ${md.mediatype}`} en={md.mediatype}/>
           </div>
           <span itemProp="name">{md.title}</span>
         </h1>
@@ -129,7 +128,7 @@ class DetailsMetadata extends IAReactComponent {
           <DetailsMetadataField field="date" value={md.date} name="Publication date" itemProp="datePublished" />
           {!md.licenceurl ? null : ( // TODO this is wrong, its hard coding one specific licence
             <dl className="metadata-definition">
-              <dt>Usage</dt>
+              <dt><I8nSpan en="Usage"/></dt>
               <dd>
                 <a
                   rel="license"
@@ -137,7 +136,7 @@ class DetailsMetadata extends IAReactComponent {
                   href="http://creativecommons.org/licenses/by-nc-nd/2.0/"
                   target="_blank"
                   rel="noopener noreferrer"
-                >"Attribution-NonCommercial-NoDerivs"
+                ><I8nSpan en="Attribution-NonCommercial-NoDerivs"/>
                   <img className="cclic" src="./images/cc/cc.png" />
                   <img className="cclic" src="./images/cc/by.png" />
                   <img className="cclic" src="./images/cc/nc.png" />
@@ -159,7 +158,7 @@ class DetailsMetadata extends IAReactComponent {
         )}
         { !md.credits ? null : ( // TODO postprocess Credits like description esp \n to <br> as in item=commute
           <>
-            <h2 style={{ fontSize: '18px' }}>Credits</h2>
+            <h2 style={{ fontSize: '18px' }}><I8nSpan en="Credits"/></h2>
             <p className="content">{(md.credits || []).join(', ')}</p>
           </>
         )}

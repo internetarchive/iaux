@@ -2,6 +2,7 @@ import React from "react";
 import IAReactComponent from '../IAReactComponent';
 import { AnchorDownload } from './AnchorDownload';
 import { ImageDweb } from './Image';
+import { I8nStr } from '../../../../../dweb-archive/components/Languages';
 
 //TODO-CAROUSEL
 /** Carousel
@@ -28,11 +29,11 @@ class Carousel extends IAReactComponent {
     render() { return (
       <div className="details-carousel-wrapper">
           <section id="ia-carousel" className="carousel slide" data-ride="carousel"
-                   data-interval="false" aria-label="Item image slideshow">
+                   data-interval="false" aria-label={I8nStr("Item image slideshow")}>
             <ol className="carousel-indicators" style={{display:"none"}}>
                 {this.props.slides.map((slide,i) => (
                   <li key={i} data-target="#ia-carousel" data-slide-to={i} className={i===this.state.startAt ? "active" : undefined}
-                      role="button" tabIndex="0" aria-label={`Go to image ${i}`}></li>
+                      role="button" tabIndex="0" aria-label={I8nStr("Go to image")+" "+ i}></li>
                 ))}
               </ol>
               <div className="carousel-inner">
@@ -42,12 +43,11 @@ class Carousel extends IAReactComponent {
                                         identifier={this.props.identifier}
                                         filename={slide.filename}
                                         source={slide.source}
-                                        title="Open full sized image"
+                                        title={I8nStr("Open full sized image")}
                                         disconnected={this.props.disconnected}>
                             <ImageDweb
                               className="rot0 carousel-image"
-                              alt="item image #1"
-                              src="/download/thetaleofpeterra14838gut/14838-h/images/peter04.jpg"
+                              alt={I8nStr("item image")+" #1"}
                               source={slide.source}/>
                         </AnchorDownload>
                         <div className="carousel-caption">
@@ -56,10 +56,10 @@ class Carousel extends IAReactComponent {
                     </div>
                   ))}
               </div>
-              <a className="left carousel-control" href="#ia-carousel" data-slide="prev" aria-label="Previous">
+              <a className="left carousel-control" href="#ia-carousel" data-slide="prev" aria-label={I8nStr("Previous")}>
                   <span className="iconochive iconochive-left"></span>
               </a>
-              <a className="right carousel-control" href="#ia-carousel" data-slide="next" aria-label="Next">
+              <a className="right carousel-control" href="#ia-carousel" data-slide="next" aria-label={I8nStr("Next")}>
                   <span className="iconochive iconochive-right"></span>
               </a>
           </section>
