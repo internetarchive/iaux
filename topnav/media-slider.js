@@ -15,6 +15,11 @@ class MediaSlider extends LitElement {
 
     return html`
       <div class="${mediaSliderInfoClass}">
+        <div class="info-box">
+          <div class="info-box-1">
+            <p>Internet archive audio</p>
+          </div>
+        </div>
       </div>
       <div class="${mediaSliderRectClass}"></div>
     `;
@@ -87,7 +92,7 @@ class MediaSlider extends LitElement {
           transform: translate(0px, -990px);
         }
         100% {
-          transform: translate(2000px, -9990px);
+          transform: translate(2000px, -990px);
         }
       }
       .rr-slide-in {
@@ -95,6 +100,17 @@ class MediaSlider extends LitElement {
       }
       .rr-slide-out {
         animation: rr-slide-out 0.5s forwards;
+      }
+
+      .info-box {
+        padding: 1px 20px;
+      }
+
+      .info-box-1 {
+        font-family: var(--theme-font-family);
+        font-size: 20px;
+        color: var(--white);
+        font-weight: bold;
       }
      `;
   }
