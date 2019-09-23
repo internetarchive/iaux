@@ -35,31 +35,31 @@ class UserMenu extends LitElement {
   static get styles() {
     return css`
       .user-menu {
-        margin: 0px;
+        margin: 0;
         float: right;
         width: 150px;
         background-color: var(--grey20);
         padding: 5px 10px;
-        transform: translate(0px, -2000px);
+        transform: translate(0, -2000px);
       }
       .open {
-        transform: translate(0px, -1220px);
+        transform: translate(0, -1220px);
         z-index: 1;
       }
       @keyframes slide-in {
         0% {
-          transform: translate(0px, -2000px);
+          transform: translate(0, -2000px);
         }
         100% {
-          transform: translate(0px, -1220px);
+          transform: translate(0, -1220px);
         }
       }
       @keyframes slide-out {
         0% {
-          transform: translate(0px, -1220px);
+          transform: translate(0, -1220px);
         }
         100% {
-          transform: translate(0px, -2000px);
+          transform: translate(0, -2000px);
         }
       }
       .slide-in {

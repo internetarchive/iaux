@@ -112,7 +112,7 @@ class TopnavElement extends LitElement {
         position: relative;
         display: flex;
         flex-direction: row;
-        margin: 0px;
+        margin: 0;
         height: 52px;
         padding: 0 10px;
         background: var(--black);
@@ -149,7 +149,7 @@ class TopnavElement extends LitElement {
         /*padding: 6px;*/
       }
       button.user-menu-active {
-        border-radius: 10px 10px 0px 0px;
+        border-radius: 10px 10px 0 0;
         background: var(--grey20);
       }
       .center-search-activated {
@@ -157,7 +157,7 @@ class TopnavElement extends LitElement {
         flex: 1;
         align-items: center;
         justify-content: center;
-        border-radius: 10px 10px 0px 0px;
+        border-radius: 10px 10px 0 0;
         background: var(--grey20);
         padding: 6px 8px;
       }
@@ -173,7 +173,7 @@ class TopnavElement extends LitElement {
         background: var(--white);
         height: 40px;
         border-radius: 10px;
-        padding: 0px 0px 2px 0px;
+        padding: 0 0 2px 0px;
       }
       #search-field {
         width: 100%;

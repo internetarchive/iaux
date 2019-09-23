@@ -31,16 +31,16 @@ class MediaSlider extends LitElement {
         position: relative;
         background: var(--grey20);
         border-radius: 10px 0 0 10px;
-        padding: 0px;
+        padding: 0;
         width: 60px;
         height: 63px;
-        translate(0px, -990px); /* 0, 63, 126, 189, 252, 315, 378 */
+        translate(0, -990px); /* 0, 63, 126, 189, 252, 315, 378 */
         z-index: 4;
       }
 
       .information-menu {
         position: relative;
-        padding: 0px;
+        padding: 0;
         background: var(--grey20);
         height: 500px;
         width: 100%;
@@ -84,12 +84,12 @@ class MediaSlider extends LitElement {
           transform: translate(2000px, -990px);
         }
         100% {
-          transform: translate(0px, -990px);
+          transform: translate(0, -990px);
         }
       }
       @keyframes rr-slide-out {
         0% {
-          transform: translate(0px, -990px);
+          transform: translate(0, -990px);
         }
         100% {
           transform: translate(2000px, -990px);

@@ -65,10 +65,10 @@ class MediaMenu extends LitElement {
         height: 500px;
         background-color: var(--black);
         color: var(--white);
-        margin: 0px;
+        margin: 0;
         font-size: 20px;
         font-family: "Helvetica Neue";
-        transform: translate(0px, -1000px);
+        transform: translate(0, -1000px);
       }
       .media-menu button {
         position: relative;
@@ -81,23 +81,23 @@ class MediaMenu extends LitElement {
         z-index: 5;
       }
       .open {
-        transform: translate(0px, 0px);
+        transform: translate(0, 0);
         z-index: 1;
       }
       @keyframes slide-in {
         0% {
-          transform: translate(0px, -1000px);
+          transform: translate(0, -1000px);
         }
         100% {
-          transform: translate(0px, 0px);
+          transform: translate(0, 0);
         }
       }
       @keyframes slide-out {
         0% {
-          transform: translate(0px, 0px);
+          transform: translate(0, 0);
         }
         100% {
-          transform: translate(0px, -1000px);
+          transform: translate(0, -1000px);
         }
       }
       .slide-in {
