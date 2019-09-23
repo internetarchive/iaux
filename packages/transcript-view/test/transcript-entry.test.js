@@ -27,20 +27,45 @@ describe('TranscriptEntry', () => {
       <transcript-entry .entry=${entry}></transcript-entry>
     `);
 
-    // el.entry = entry;
+    expect(el.shadowRoot.innerHTML).to.have.string('foo-bar');
+  });
 
-    // el.render();
+  it('has an `active` class if it is the active search result', async () => {
+    const entry = new TranscriptEntryConfig(1, 1, 2, 'foo-bar', undefined);
 
-    // await promisedSleep(1000);
+    const el = await fixture(html`
+      <transcript-entry .entry=${entry} ?isActive=${true}></transcript-entry>
+    `);
 
-    await elementUpdated(el)
+    const containerElement = el.shadowRoot.querySelector('span');
 
-    // const result = el.render();
+    expect(containerElement.className).to.have.string('active');
+  });
 
-    // el.entry = entry;
+  it('has a `selected` class if it is the selected search result', async () => {
+    const entry = new TranscriptEntryConfig(1, 1, 2, 'foo-bar', undefined);
 
-    console.log(el);
+    const el = await fixture(html`
+      <transcript-entry .entry=${entry} ?isSelected=${true}></transcript-entry>
+    `);
 
-    expect(el).to.have.string('foo-bar');
+    const containerElement = el.shadowRoot.querySelector('span');
+
+    expect(containerElement.className).to.have.string('selected');
+  });
+
+  it('emits a `userSelected` event if user selects it and it is a search match', async () => {
+    const entry = new TranscriptEntryConfig(1, 1, 2, 'foo-bar', 1);
+
+    const el = await fixture(html`
+      <transcript-entry .entry=${entry}></transcript-entry>
+    `);
+
+    const clickableSpan = el.shadowRoot.querySelector('span');
+    const clickEvent = new MouseEvent('click');
+
+    setTimeout(() => { clickableSpan.dispatchEvent(clickEvent); });
+    const response = await oneEvent(el, 'userSelected');
+    expect(response).to.exist;
   });
 });

@@ -18,8 +18,6 @@ export default class TranscriptEntry extends LitElement {
   @property({ type: Boolean }) isSelected = false;
 
   render(): TemplateResult {
-    console.log('TEXT', this.entry, typeof this.entry, this.entry ? this.entry.text : 'BUPKIS');
-
     return html`
       <span
         class="${this.activeClass} ${this.selectedClass} ${this.searchResultClass}"
