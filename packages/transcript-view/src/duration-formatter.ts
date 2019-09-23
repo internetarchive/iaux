@@ -11,7 +11,7 @@ export default class DurationFormatter extends LitElement {
   }
 
   get durationString(): string {
-    if (Number.isNaN(this.seconds)) {
+    if (typeof this.seconds !== 'number') {
       return '';
     }
 
