@@ -2,12 +2,9 @@ import {
   html, fixture, expect, oneEvent, elementUpdated
 } from '@open-wc/testing';
 
+import promisedSleep from './promised-sleep';
 import '../lib/transcript-entry';
 import TranscriptEntryConfig from '../lib/models/transcript-entry-config';
-
-function promisedSleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 describe('TranscriptEntry', () => {
   it('has no entry, nor is active or selected by default', async () => {

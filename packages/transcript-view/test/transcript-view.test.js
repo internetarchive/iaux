@@ -2,6 +2,7 @@ import {
   html, fixture, expect, oneEvent
 } from '@open-wc/testing';
 
+import promisedSleep from './promised-sleep';
 import '../transcript-view';
 import TranscriptEntryConfig from '../lib/models/transcript-entry-config';
 
@@ -50,6 +51,31 @@ describe('TranscriptView', () => {
     setTimeout(() => { spanToClick.dispatchEvent(clickEvent); });
     const response = await oneEvent(el, 'transcriptEntrySelected');
     expect(response).to.exist;
+  });
+
+  it('disables `autoScroll` if the user scrolls and reenables it after `scrollTimerDelay`', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', undefined);
+    const entry2 = new TranscriptEntryConfig(2, 67, 73, 'bar', undefined);
+    const entry3 = new TranscriptEntryConfig(3, 73, 78, 'baz', undefined);
+
+    const el = await fixture(html`
+      <transcript-view
+        .entries=${[entry1, entry2, entry3]}
+        .currentEntry=${entry2}>
+      </transcript-view>
+    `);
+
+    el.scrollTimerDelay = 50;
+
+    const scrollContainer = el.shadowRoot.querySelector('.scroll-container');
+    const wheelEvent = new MouseEvent('wheel');
+    scrollContainer.dispatchEvent(wheelEvent);
+
+    expect(el.autoScroll).to.equal(false);
+
+    await promisedSleep(55);
+
+    expect(el.autoScroll).to.equal(true);
   });
 
 });

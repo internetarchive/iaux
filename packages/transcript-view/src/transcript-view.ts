@@ -39,6 +39,8 @@ export default class TranscriptView extends LitElement {
 
   @property({ type: Number }) scrollResumeTimerId = -1;
 
+  scrollTimerDelay = 15000;
+
   render(): TemplateResult {
     return html`
       ${this.devMode ? this.transcriptDevOptionsTemplate : ''}
@@ -216,7 +218,7 @@ export default class TranscriptView extends LitElement {
     window.clearTimeout(this.scrollResumeTimerId);
     this.scrollResumeTimerId = window.setTimeout(() => {
       this.autoScroll = true;
-    }, 15000);
+    }, this.scrollTimerDelay);
   }
 
   changeAutoScroll(e: Event): void {
