@@ -286,7 +286,7 @@ export default class TranscriptView extends LitElement {
     return this.bottomContextVisible ? 'block' : 'none';
   }
 
-  scrollToActiveEntry(): void {
+  private scrollToActiveEntry(): void {
     if (!this.autoScroll) {
       return;
     }
@@ -297,7 +297,7 @@ export default class TranscriptView extends LitElement {
     this.scrollToElement(activeTranscriptEntry);
   }
 
-  scrollToElement(element: HTMLElement): void {
+  private scrollToElement(element: HTMLElement): void {
     const { scrollView } = this;
     if (!scrollView) {
       return;
@@ -318,11 +318,11 @@ export default class TranscriptView extends LitElement {
     ) {
       const newTargetScrollPos =
         activeEntryRect.top - scrollContainerRect.top + scrollView.scrollTop - topContextHeight;
-      this.scrollToElementWithDuration(newTargetScrollPos, 1);
+      this.scrollToOffsetWithDuration(newTargetScrollPos, 1);
     }
   }
 
-  updateTimePosition(): void {
+  private updateTimePosition(): void {
     const activeEntry = this.activeTranscriptEntry;
     if (!activeEntry) {
       return;
@@ -335,14 +335,14 @@ export default class TranscriptView extends LitElement {
     this.timeScrollTop = offset;
   }
 
-  scrollToElementWithDuration(to: number, duration: number, onDone?: () => void): void {
+  private scrollToOffsetWithDuration(offset: number, duration: number, onDone?: () => void): void {
     const { scrollView } = this;
     if (!scrollView) {
       return;
     }
 
     const start = scrollView.scrollTop;
-    const change = to - start;
+    const change = offset - start;
     const startTime = performance.now();
     let now;
     let elapsed;
