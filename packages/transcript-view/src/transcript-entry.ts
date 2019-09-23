@@ -11,13 +11,15 @@ import TranscriptEntryConfig from './models/transcript-entry-config';
 
 @customElement('transcript-entry')
 export default class TranscriptEntry extends LitElement {
-  @property({ type: TranscriptEntryConfig }) entry: TranscriptEntryConfig | undefined = undefined;
+  @property({ type: Object }) entry: TranscriptEntryConfig | undefined = undefined;
 
   @property({ type: Boolean }) isActive = false;
 
   @property({ type: Boolean }) isSelected = false;
 
   render(): TemplateResult {
+    console.log('TEXT', this.entry, typeof this.entry, this.entry ? this.entry.text : 'BUPKIS');
+
     return html`
       <span
         class="${this.activeClass} ${this.selectedClass} ${this.searchResultClass}"
@@ -28,7 +30,7 @@ export default class TranscriptEntry extends LitElement {
     `;
   }
 
-  userSelected(): void {
+  private userSelected(): void {
     // we only want to allow clicks on search matches
     if (!this.isSearchResultMatch) {
       return;
@@ -41,19 +43,19 @@ export default class TranscriptEntry extends LitElement {
     this.dispatchEvent(event);
   }
 
-  get isSearchResultMatch(): boolean {
+  private get isSearchResultMatch(): boolean {
     return this.entry ? this.entry.searchMatchIndex !== undefined : false;
   }
 
-  get activeClass(): string {
+  private get activeClass(): string {
     return this.isActive ? 'active' : '';
   }
 
-  get selectedClass(): string {
+  private get selectedClass(): string {
     return this.isSelected ? 'selected' : '';
   }
 
-  get searchResultClass(): string {
+  private get searchResultClass(): string {
     return this.entry && this.entry.searchMatchIndex !== undefined ? 'search-result' : '';
   }
 

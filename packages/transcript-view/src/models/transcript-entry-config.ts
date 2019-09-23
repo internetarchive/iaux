@@ -13,13 +13,13 @@ export default class TranscriptEntryConfig {
     id: number,
     startTime: number,
     endTime: number,
-    searchMatchIndex: number,
     text: string,
+    searchMatchIndex?: number,
   ) {
     this.id = id;
     this.startTime = startTime;
     this.endTime = endTime;
-    this.searchMatchIndex = searchMatchIndex;
     this.text = text;
+    this.searchMatchIndex = searchMatchIndex;
   }
 }
