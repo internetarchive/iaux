@@ -73,17 +73,23 @@ export default class WaveformProgress extends LitElement {
   }
 
   private drag(e: MouseEvent) {
+    /* istanbul ignore if */
     if (!this._userIsInteracting) { return; }
+    this.updatePercentComplete(e);
+  }
+
+  private dragstart(e: MouseEvent) {
+    this._userIsInteracting = true;
+    this.updatePercentComplete(e);
+  }
+
+  private dragend(e: MouseEvent) {
+    this._userIsInteracting = false;
+  }
+
+  private updatePercentComplete(e: MouseEvent) {
     this._percentComplete = this.offsetXToPercent(e.offsetX);
     this.dispatchValueChangeEvent()
-  }
-
-  private dragstart(e: Event) {
-    this._userIsInteracting = true;
-  }
-
-  private dragend(e: Event) {
-    this._userIsInteracting = false;
   }
 
   private dispatchValueChangeEvent() {
@@ -100,6 +106,7 @@ export default class WaveformProgress extends LitElement {
   }
 
   private offsetXToPercent(offsetX: number): number {
+    /* istanbul ignore if */
     if (this.dragcover === null) { return 0; }
     const width: number = this.dragcover.clientWidth;
     const percentComplete: number = offsetX / width * 100;
