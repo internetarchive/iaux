@@ -1,9 +1,11 @@
 export default class TranscriptEntryConfig {
   id: number;
 
-  startTime: number;
+  start: number;
 
-  endTime: number;
+  end: number;
+
+  isMusic: boolean;
 
   searchMatchIndex?: number;
 
@@ -11,15 +13,17 @@ export default class TranscriptEntryConfig {
 
   constructor(
     id: number,
-    startTime: number,
-    endTime: number,
+    start: number,
+    end: number,
     text: string,
+    isMusic: boolean,
     searchMatchIndex?: number,
   ) {
     this.id = id;
-    this.startTime = startTime;
-    this.endTime = endTime;
+    this.start = start;
+    this.end = end;
     this.text = text;
+    this.isMusic = isMusic;
     this.searchMatchIndex = searchMatchIndex;
   }
 }

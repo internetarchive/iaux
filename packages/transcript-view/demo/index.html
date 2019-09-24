@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <style>
     body {
-      background: #fafafa;
+      background: #000;
     }
   </style>
 </head>
@@ -14,12 +14,20 @@
   <script type="module">
     import { html, render } from 'lit-html';
     import '../transcript-view.js';
+    import TranscriptEntryConfig from '../lib/models/transcript-entry-config.js';
     import transcript from './transcript.js';
+
+    const convertedTranscript = transcript.map((entry) => {
+      return new TranscriptEntryConfig(
+        entry.id, entry.start, entry.end, entry.text, entry.is_music || false, entry.search_match_index);
+    })
 
     render(
       html`
         <transcript-view
-          .entries=${transcript}>
+          devMode=true
+          .entries=${convertedTranscript}
+          .currentEntry=${convertedTranscript[4]}>
         </transcript-view>
       `,
       document.querySelector('#demo')

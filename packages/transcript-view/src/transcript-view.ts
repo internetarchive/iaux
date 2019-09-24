@@ -27,15 +27,9 @@ export default class TranscriptView extends LitElement {
 
   @property({ type: Number }) timeScrollTop = 0;
 
-  @property({ type: Boolean }) topContextVisible = true;
-
-  @property({ type: Boolean }) bottomContextVisible = true;
-
   @property({ type: Boolean }) autoScroll = true;
 
   @property({ type: Number }) selectedSearchResultIndex = 0;
-
-  @property({ type: Boolean }) devMode = true;
 
   @property({ type: Number }) scrollResumeTimerId = -1;
 
@@ -43,8 +37,6 @@ export default class TranscriptView extends LitElement {
 
   render(): TemplateResult {
     return html`
-      ${this.devMode ? this.transcriptDevOptionsTemplate : ''}
-
       <div class="auto-scroll-option">
         <label>
           <input type="checkbox" .checked=${this.autoScroll} @change=${this.changeAutoScroll} />
@@ -53,8 +45,6 @@ export default class TranscriptView extends LitElement {
       </div>
 
       <div class="container">
-        ${this.devMode ? this.contextTemplates : ''}
-
         <div
           class="scroll-container"
           id="scroll-container"
@@ -92,50 +82,8 @@ export default class TranscriptView extends LitElement {
     `;
   }
 
-  get transcriptDevOptionsTemplate(): TemplateResult {
-    return html`
-      <transcript-view-dev-options
-        .transcriptHeight=${this.transcriptHeight}
-        .topContextHeight=${this.topContextHeight}
-        .bottomContextHeight=${this.bottomContextHeight}
-        ?topContextVisible=${this.topContextVisible}
-        ?bottomContextVisible=${this.bottomContextVisible}
-        @topContextHeightChanged=${this.topContextHeightChanged}
-        @bottomContextHeightChanged=${this.bottomContextHeightChanged}
-        @transcriptHeightChanged=${this.transcriptHeightChanged}
-        @showHideTopContext=${this.showHideTopContext}
-        @showHideBottomContext=${this.showHideBottomContext}
-      >
-      </transcript-view-dev-options>
-    `;
-  }
-
-  get contextTemplates(): TemplateResult {
-    return html`
-      ${this.topContextTemplate} ${this.bottomContextTemplate}
-    `;
-  }
-
-  get topContextTemplate(): TemplateResult {
-    return html`
-      <div
-        class="top context-overlay"
-        style="height: ${this.topContextHeight}px; display: ${this.topContextDisplayState}"
-      ></div>
-    `;
-  }
-
-  get bottomContextTemplate(): TemplateResult {
-    return html`
-      <div
-        class="bottom context-overlay"
-        style="height: ${this.bottomContextHeight}px; display: ${this.bottomContextDisplayState}"
-      ></div>
-    `;
-  }
-
   get currentEntryStartTime(): number {
-    return this.currentEntry ? this.currentEntry.startTime : 0;
+    return this.currentEntry ? this.currentEntry.start : 0;
   }
 
   static get styles(): CSSResult {
@@ -241,12 +189,9 @@ export default class TranscriptView extends LitElement {
     this.transcriptHeight = e.detail.height;
   }
 
-  showHideTopContext(e: CustomEvent): void {
-    this.topContextVisible = e.detail.visible;
-  }
-
-  showHideBottomContext(e: CustomEvent): void {
-    this.bottomContextVisible = e.detail.visible;
+  firstUpdated(): void {
+    this.scrollToActiveEntry();
+    this.updateTimePosition();
   }
 
   updated(changedProperties: PropertyValues): void {
@@ -278,14 +223,6 @@ export default class TranscriptView extends LitElement {
 
   get timeDisplay(): string {
     return this.activeTranscriptEntry ? 'block' : 'none';
-  }
-
-  get topContextDisplayState(): string {
-    return this.topContextVisible ? 'block' : 'none';
-  }
-
-  get bottomContextDisplayState(): string {
-    return this.bottomContextVisible ? 'block' : 'none';
   }
 
   private scrollToActiveEntry(): void {
