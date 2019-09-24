@@ -1,6 +1,6 @@
 {
     "name": "@internetarchive/ia-components",
-    "version": "0.0.0-alpha.20+5039f8d",
+    "version": "0.0.1-alpha.0",
     "source": true,
     "license": "AGPL-3.0-only",
     "scripts": {
@@ -17,7 +17,7 @@
         "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
         "@babel/plugin-transform-runtime": "^7.5.5",
         "@babel/runtime": "^7.5.5",
-        "@internetarchive/ia-js-client": "^0.0.0-alpha.20+5039f8d",
+        "@internetarchive/ia-js-client": "^0.0.1-alpha.0",
         "@storybook/addon-a11y": "4.2.0-alpha.10",
         "@storybook/addon-jest": "^4.1.6",
         "@storybook/addon-knobs": "^4.1.4",
