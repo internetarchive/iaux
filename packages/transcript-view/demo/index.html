@@ -14,10 +14,13 @@
   <script type="module">
     import { html, render } from 'lit-html';
     import '../transcript-view.js';
+    import transcript from './transcript.js';
 
     render(
       html`
-        <transcript-view></transcript-view>
+        <transcript-view
+          .entries=${transcript}>
+        </transcript-view>
       `,
       document.querySelector('#demo')
     );
