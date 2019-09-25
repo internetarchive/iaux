@@ -17,6 +17,7 @@ const debug = require('debug')('Image Components');
  *      source  Flexible dweb parameter include ArchiveFile, ArchiveMember, relative urls, dweb: names, and arrays of alternatives (see dweb-archive/ReactSupport)
  *    OR
  *      src           as in <img>
+ *    url (optional)  if provided will be used immediately and then overridden when src|source have been fetched
  *    alt String      as in <img> (not translated because in many cases comes from content)
  *    imgname optional name used for alt tag and mime type when rendering via blob
  * />
@@ -29,16 +30,19 @@ class ImageDweb extends IAReactComponent {
   constructor(props) {
     super(props);
     this.setState({
-      src: this.props.url,
+      src: (!DwebArchive && this.props.src) || this.props.url, // If not Dweb then can load from src like <img>
       notImgProps: ObjectFilter(this.props, (k, unusedV) => ImageDweb.specificParms.includes(k)),
       imgProps: ObjectFilter(this.props, (k, unusedV) => (!ImageDweb.specificParms.includes(k) && !['children'].includes(k)))
     });
     if (DwebArchive) {
-      //TODO imgname might be obsolete and unused (check dweb-archive and iaux)
-      const name = this.props.imgname || (typeof this.props.source === "string" && this.props.source) || (this.props.source && this.props.source.metadata && this.props.source.metadata.name) || "unknown.png";
-      DwebArchive.getImageURI(name, this.props.source || this.props.src, (err, url) => {
-        if (!err) this.setState({src: url});
-      })
+      const urls = this.props.source || this.props.src; // ArchiveFile or Url or string should be fine
+      if (urls) { // Sometimes ImageDweb called with no image, or filled in later.
+        //TODO imgname might be obsolete and unused (check dweb-archive and iaux)
+        const name = this.props.imgname || (typeof this.props.source === "string" && this.props.source) || (this.props.source && this.props.source.metadata && this.props.source.metadata.name) || "unknown.png";
+        DwebArchive.getImageURI(name, urls, (err, url) => {
+          if (!err) this.setState({src: url});
+        })
+      }
     }
   }
 
