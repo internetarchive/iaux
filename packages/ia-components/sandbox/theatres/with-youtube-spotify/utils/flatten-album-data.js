@@ -2,11 +2,10 @@ import {
   includes,
   reduce,
   chain,
-  head,
 } from 'lodash';
 
 import archiveDefaultAlbumParser from './archive-default-album-parser';
-import archiveLPAlbumParser from './archive-lp-album-parser';
+import archiveDerivedAlbumParser from './archive-derived-album-parser';
 import gatherYoutubeAndSpotifyInfo from './youtube-spotify-parser';
 import { isValidAudioFile, isValidImageFile } from './utils';
 
@@ -56,29 +55,40 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
     metadata: albumMetadata,
     files: allFiles
   } = metadata;
-  const { collection, identifier } = albumMetadata;
+  const { collection, identifier: itemIdentifier } = albumMetadata;
   const fileDirectoryPrefix = `https://${server}${directoryPath}/`;
-  const fileNames = Object.keys(allFiles);
-  const itemIdentifier = head(identifier);
 
+  let countSampleMP3 = 0;
+  let countOriginalAudioFiles = 0;
   /**
    * Take original item's file list
    * & only return the files we are interested in
    */
-  const slimFiles = reduce(fileNames, (neededFiles = [], fileName) => {
-    const isNeededFile = isValidAudioFile(fileName) || isValidImageFile(fileName);
-    const file = allFiles[fileName];
-    file.name = fileName.slice(1, fileName.length);
-    if (isNeededFile) {
-      neededFiles.push(file);
+  const slimFiles = allFiles.reduce((acc = [], file) => {
+    const { name: fileName, source = '' } = file;
+    const isValidAudio = isValidAudioFile(fileName);
+    const isValidImage = isValidImageFile(fileName);
+    const isNeededFile = isValidAudio || isValidImage;
+    if (!isNeededFile) {
+      return acc;
     }
-    return neededFiles;
+
+    if (isValidAudio && fileName.match('_sample.mp3')) {
+      countSampleMP3 += 1;
+    }
+
+    if (isValidAudio && (source === 'original')) {
+      countOriginalAudioFiles += 1;
+    }
+
+    acc.push(file);
+    return acc;
   }, []);
 
   const playSamples = playFullIAAudio ? false : includes(collection, 'samples_only');
   const albumSpotifyYoutubeInfo = gatherYoutubeAndSpotifyInfo(albumMetadata['external-identifier']) || {};
-  const trackFilter = includes(collection, 'album_recordings')
-    ? archiveLPAlbumParser
+  const trackFilter = countOriginalAudioFiles < countSampleMP3
+    ? archiveDerivedAlbumParser
     : archiveDefaultAlbumParser;
 
   const {
