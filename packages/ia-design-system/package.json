@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-design-system",
-  "version": "0.3.1-alpha.20+5039f8d",
+  "version": "0.3.1",
   "license": "AGPL-3.0-only",
   "main": "public/scripts/index.js",
   "scripts": {
