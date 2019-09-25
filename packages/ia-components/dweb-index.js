@@ -1,5 +1,7 @@
 export {default as IAReactComponent} from './sandbox/IAReactComponent';
 export { default as AnchorDetails } from './sandbox/AnchorDetails';
+// sandbox bookreader
+export { default as BookReaderWrapper} from './sandbox/bookreader-component/bookreader-wrapper-main';
 // sandbox tiles
 export { default as RelatedItems } from './sandbox/tiles/RelatedItems';
 export { default as TileComponent } from './sandbox/tiles/TileComponent';
