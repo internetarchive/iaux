@@ -243,7 +243,7 @@ export default class TranscriptView extends LitElement {
     if (changedProperties.has('currentTime')) {
       this.handleCurrentTimeChange();
     }
-    if (changedProperties.has('selectedSearchResult')) {
+    if (changedProperties.has('selectedSearchResultIndex')) {
       this.scrollToSelectedSearchResult();
     }
     if (changedProperties.has('_currentEntry')) {
