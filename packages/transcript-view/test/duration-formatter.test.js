@@ -2,7 +2,7 @@ import {
   html, fixture, expect, oneEvent
 } from '@open-wc/testing';
 
-import '../lib/duration-formatter.js';
+import '../lib/src/duration-formatter.js';
 
 describe('DurationFormatter', () => {
   it('defaults value to 0', async () => {

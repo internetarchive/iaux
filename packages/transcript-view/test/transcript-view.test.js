@@ -3,8 +3,8 @@ import {
 } from '@open-wc/testing';
 
 import promisedSleep from './promised-sleep';
-import '../transcript-view';
-import TranscriptEntryConfig from '../lib/models/transcript-entry-config';
+import '../lib/src/transcript-view';
+import TranscriptEntryConfig from '../lib/src/models/transcript-entry-config';
 
 describe('TranscriptView', () => {
   it('has no entries by default', async () => {
@@ -16,31 +16,31 @@ describe('TranscriptView', () => {
   });
 
   it('displays the current timestamp via the duration formatter', async () => {
-    const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', undefined);
-    const entry2 = new TranscriptEntryConfig(2, 67, 73, 'bar', undefined);
-    const entry3 = new TranscriptEntryConfig(3, 73, 78, 'baz', undefined);
+    const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', false);
+    const entry2 = new TranscriptEntryConfig(2, 68, 73, 'bar', false);
+    const entry3 = new TranscriptEntryConfig(3, 74, 78, 'baz', false);
 
     const el = await fixture(html`
       <transcript-view
         .entries=${[entry1, entry2, entry3]}
-        .currentEntry=${entry2}>
+        currentTime=69>
       </transcript-view>
     `);
 
     const durationFormatter = el.shadowRoot.querySelector('duration-formatter');
 
-    expect(durationFormatter.shadowRoot.innerHTML).to.have.string('01:07');
+    expect(durationFormatter.shadowRoot.innerHTML).to.have.string('01:08');
   });
 
   it('emits a `transcriptEntrySelected` event when the user clicks on a transcript entry', async () => {
-    const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', undefined);
-    const entry2 = new TranscriptEntryConfig(2, 67, 73, 'bar', 1);
-    const entry3 = new TranscriptEntryConfig(3, 73, 78, 'baz', undefined);
+    const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', false, undefined);
+    const entry2 = new TranscriptEntryConfig(2, 68, 73, 'bar', false, 1);
+    const entry3 = new TranscriptEntryConfig(3, 74, 78, 'baz', false, undefined);
 
     const el = await fixture(html`
       <transcript-view
         .entries=${[entry1, entry2, entry3]}
-        .currentEntry=${entry2}>
+        currentTime=70>
       </transcript-view>
     `);
 

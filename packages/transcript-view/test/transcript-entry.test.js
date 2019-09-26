@@ -3,8 +3,8 @@ import {
 } from '@open-wc/testing';
 
 import promisedSleep from './promised-sleep';
-import '../lib/transcript-entry';
-import TranscriptEntryConfig from '../lib/models/transcript-entry-config';
+import '../lib/src/transcript-entry';
+import TranscriptEntryConfig from '../lib/src/models/transcript-entry-config';
 
 describe('TranscriptEntry', () => {
   it('has no entry, nor is active or selected by default', async () => {
@@ -52,7 +52,7 @@ describe('TranscriptEntry', () => {
   });
 
   it('emits a `userSelected` event if user selects it and it is a search match', async () => {
-    const entry = new TranscriptEntryConfig(1, 1, 2, 'foo-bar', 1);
+    const entry = new TranscriptEntryConfig(1, 1, 2, 'foo-bar', false, 1);
 
     const el = await fixture(html`
       <transcript-entry .entry=${entry}></transcript-entry>
