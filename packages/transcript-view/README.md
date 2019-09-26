@@ -1,6 +1,6 @@
 # \<transcript-view>
 
-A customizable scrubber bar useful for scrubbing through media.
+A transcript view that handles closed captioning and search results.
 
 ![Transcript View](./assets/img/transcript-view.gif "Transcript View Demo")
 
