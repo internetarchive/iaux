@@ -58,13 +58,19 @@ export default class TranscriptEntry extends LitElement {
   }
 
   static get styles(): CSSResult {
+    const normalTextColor = css`var(--normalTextColor, gray)`;
+    const activeTextColor = css`var(--activeTextColor, white)`;
+
+    const searchResultInactiveBorderColor = css`var(--normalTextColor, gray)`;
+    const searchResultActiveBorderColor = css`var(--normalTextColor, green)`;
+
     return css`
       :host {
-        color: gray;
+        color: ${normalTextColor};
       }
 
       .active {
-        color: white;
+        color: ${activeTextColor};
       }
 
       .search-result {
@@ -82,12 +88,12 @@ export default class TranscriptEntry extends LitElement {
         bottom: 0;
         left: 0;
         right: 0;
-        border: 2px solid gray;
+        border: 2px solid ${searchResultInactiveBorderColor};
         border-radius: 5px;
       }
 
       .search-result.selected:after {
-        border: 2px solid green;
+        border: 2px solid ${searchResultActiveBorderColor};
       }
     `;
   }

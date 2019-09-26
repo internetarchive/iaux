@@ -6,6 +6,11 @@
     body {
       background: #000;
     }
+
+    transcript-view {
+      display: block;
+      border-bottom: 1px solid white;
+    }
   </style>
 </head>
 <body>
@@ -13,8 +18,9 @@
 
   <script type="module">
     import { html, render } from 'lit-html';
-    import '../transcript-view.js';
-    import TranscriptEntryConfig from '../lib/models/transcript-entry-config.js';
+    import '../lib/src/transcript-view.js';
+    import '../lib/dev_tools/transcript-view-dev-options.js';
+    import TranscriptEntryConfig from '../lib/src/models/transcript-entry-config.js';
     import transcript from './transcript.js';
 
     const convertedTranscript = transcript.map((entry) => {
@@ -24,14 +30,48 @@
 
     render(
       html`
+        <transcript-view-dev-options
+          @currentTimeChanged=${currentTimeChanged}
+          @topContextHeightChanged=${topContextHeightChanged}
+          @bottomContextHeightChanged=${bottomContextHeightChanged}
+          @transcriptHeightChanged=${transcriptHeightChanged}
+          @showContextZonesChanged=${showContextZonesChanged}
+          @searchResultIndexChanged=${searchResultIndexChanged}>
+        </transcript-view-dev-options>
+
         <transcript-view
-          devMode=true
+          showContextZones=true
+          currentTime=0
           .entries=${convertedTranscript}
-          .currentEntry=${convertedTranscript[4]}>
+          >
         </transcript-view>
       `,
       document.querySelector('#demo')
     );
+
+    function currentTimeChanged(e) {
+      document.querySelector('transcript-view').currentTime = e.detail.currentTime;
+    }
+
+    function topContextHeightChanged(e) {
+      document.querySelector('transcript-view').topContextHeight = e.detail.height;
+    }
+
+    function bottomContextHeightChanged(e) {
+      document.querySelector('transcript-view').bottomContextHeight = e.detail.height;
+    }
+
+    function transcriptHeightChanged(e) {
+      document.querySelector('transcript-view').style.setProperty('--transcriptHeight', `${e.detail.height}px`);
+    }
+
+    function showContextZonesChanged(e) {
+      document.querySelector('transcript-view').showContextZones = e.detail.showContextZones;
+    }
+
+    function searchResultIndexChanged(e) {
+      document.querySelector('transcript-view').selectedSearchResultIndex = e.detail.searchResultIndex;
+    }
   </script>
 </body>
 </html>

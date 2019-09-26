@@ -10,20 +10,17 @@ import {
 } from 'lit-element';
 import './transcript-entry';
 import './duration-formatter';
-import './transcript-view-dev-options';
 import TranscriptEntryConfig from './models/transcript-entry-config';
 
 @customElement('transcript-view')
 export default class TranscriptView extends LitElement {
   @property({ type: [TranscriptEntryConfig] }) entries: TranscriptEntryConfig[] = [];
 
-  @property({ type: TranscriptEntryConfig }) currentEntry: TranscriptEntryConfig | undefined;
+  @property({ type: Number }) currentTime = 0;
 
   @property({ type: Number }) topContextHeight = 50;
 
   @property({ type: Number }) bottomContextHeight = 50;
-
-  @property({ type: Number }) transcriptHeight = 200;
 
   @property({ type: Number }) timeScrollTop = 0;
 
@@ -33,52 +30,86 @@ export default class TranscriptView extends LitElement {
 
   @property({ type: Number }) scrollResumeTimerId = -1;
 
+  @property({ type: Boolean }) showContextZones = false;
+
+  @property({ type: TranscriptEntryConfig }) private currentEntry:
+    | TranscriptEntryConfig
+    | undefined;
+
   scrollTimerDelay = 15000;
 
   render(): TemplateResult {
     return html`
-      <div class="auto-scroll-option">
-        <label>
-          <input type="checkbox" .checked=${this.autoScroll} @change=${this.changeAutoScroll} />
-          Auto Scroll
-        </label>
-      </div>
-
       <div class="container">
-        <div
-          class="scroll-container"
-          id="scroll-container"
-          @wheel=${this.didScroll}
-          style="height: ${this.transcriptHeight}px"
-        >
+        ${this.showContextZones ? this.contextZoneDevTemplates : ''}
+
+        <div class="scroll-container" id="scroll-container" @wheel=${this.didScroll}>
           <div class="col time">
-            <div
-              class="time-display"
-              style="top: ${this.timeScrollTop}px; display: ${this.timeDisplay}"
-            >
-              <duration-formatter .seconds=${this.currentEntryStartTime}> </duration-formatter>
-            </div>
+            ${this.timeDisplayTemplate}
           </div>
 
           <div class="col">
-            ${(this.entries ? this.entries : []).map((entry: TranscriptEntryConfig) => {
-              const currentEntryId = this.currentEntry ? this.currentEntry.id : -1;
-              const active = entry.id === currentEntryId;
-              const selected = entry.searchMatchIndex === this.selectedSearchResultIndex;
-              return html`
-                <transcript-entry
-                  .entry=${entry}
-                  ?isSelected=${selected}
-                  ?isActive=${active}
-                  data-search-result-index=${entry.searchMatchIndex}
-                  @userSelected=${this.transcriptEntrySelected}
-                >
-                </transcript-entry>
-              `;
-            })}
+            ${this.autoScrollButtonTemplate}
+            ${(this.entries ? this.entries : []).map((entry: TranscriptEntryConfig) =>
+              this.transcriptEntryTemplate(entry),
+            )}
           </div>
         </div>
       </div>
+    `;
+  }
+
+  private get autoScrollButtonTemplate(): TemplateResult {
+    return html`
+      <button
+        @click=${this.enableAutoScroll}
+        class="auto-scroll-button"
+        style="display: ${this.autoScroll ? 'none' : 'inline-block'}"
+      >
+        Scroll text with audio
+      </button>
+    `;
+  }
+
+  private get timeDisplayTemplate(): TemplateResult {
+    return html`
+      <div class="time-display" style="top: ${this.timeScrollTop}px; display: ${this.timeDisplay}">
+        <duration-formatter .seconds=${this.currentEntryStartTime}> </duration-formatter>
+      </div>
+    `;
+  }
+
+  private transcriptEntryTemplate(entry: TranscriptEntryConfig): TemplateResult {
+    const currentEntryId = this.currentEntry ? this.currentEntry.id : -1;
+    const active = entry.id === currentEntryId;
+    const selected = entry.searchMatchIndex === this.selectedSearchResultIndex;
+    return html`
+      <transcript-entry
+        .entry=${entry}
+        ?isSelected=${selected}
+        ?isActive=${active}
+        data-search-result-index=${entry.searchMatchIndex}
+        @userSelected=${this.transcriptEntrySelected}
+      >
+      </transcript-entry>
+    `;
+  }
+
+  private get contextZoneDevTemplates(): TemplateResult {
+    return html`
+      ${this.topContextZoneDevTemplate} ${this.bottomContextZoneDevTemplate}
+    `;
+  }
+
+  private get topContextZoneDevTemplate(): TemplateResult {
+    return html`
+      <div class="top context-overlay" style="height: ${this.topContextHeight}px"></div>
+    `;
+  }
+
+  private get bottomContextZoneDevTemplate(): TemplateResult {
+    return html`
+      <div class="bottom context-overlay" style="height: ${this.bottomContextHeight}px"></div>
     `;
   }
 
@@ -87,6 +118,8 @@ export default class TranscriptView extends LitElement {
   }
 
   static get styles(): CSSResult {
+    const transcriptHeightCss = css`var(--transcriptHeight, 200px)`;
+
     return css`
       .container {
         position: relative;
@@ -96,12 +129,24 @@ export default class TranscriptView extends LitElement {
         background-color: white;
       }
 
+      .auto-scroll-button {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 8rem;
+        bottom: 1rem;
+        border-radius: 1rem;
+        border: 0;
+      }
+
       .context-overlay {
         position: absolute;
         left: 0;
         width: 100%;
         height: 0;
         z-index: -1;
+        display: block;
       }
 
       .context-overlay.top {
@@ -132,6 +177,7 @@ export default class TranscriptView extends LitElement {
         line-height: 24px;
         -ms-overflow-style: none;
         scrollbar-width: none;
+        height: ${transcriptHeightCss};
       }
 
       .scroll-container::-webkit-scrollbar {
@@ -140,7 +186,7 @@ export default class TranscriptView extends LitElement {
     `;
   }
 
-  transcriptEntrySelected(e: CustomEvent): void {
+  private transcriptEntrySelected(e: CustomEvent): void {
     const { entry } = e.detail;
     const event = new CustomEvent('transcriptEntrySelected', {
       detail: { entry },
@@ -152,50 +198,55 @@ export default class TranscriptView extends LitElement {
     this.autoScroll = false;
   }
 
-  searchResultIndexChanged(e: CustomEvent): void {
-    this.selectedSearchResultIndex = e.detail.searchResultIndex;
-    this.autoScroll = false;
-    if (!this.selectedSearchResult) {
+  private handleCurrentTimeChange(): void {
+    const entries = this.entries ? this.entries : [];
+    const activeEntry = entries.find(
+      (entry: TranscriptEntryConfig) =>
+        this.currentTime >= entry.start && this.currentTime <= entry.end,
+    );
+
+    if (!activeEntry) {
+      this.currentEntry = undefined;
       return;
     }
-    this.scrollToElement(this.selectedSearchResult);
+
+    if (this.currentEntry && this.currentEntry.id === activeEntry.id) {
+      return;
+    }
+
+    this.currentEntry = activeEntry;
   }
 
-  didScroll(): void {
+  private didScroll(): void {
     this.autoScroll = false;
     window.clearTimeout(this.scrollResumeTimerId);
-    this.scrollResumeTimerId = window.setTimeout(() => {
-      this.autoScroll = true;
-    }, this.scrollTimerDelay);
+    // this.scrollResumeTimerId = window.setTimeout(() => {
+    //   this.autoScroll = true;
+    // }, this.scrollTimerDelay);
   }
 
-  changeAutoScroll(e: Event): void {
-    const target = e.target as HTMLFormElement;
-    this.autoScroll = target.checked;
-    if (this.autoScroll) {
-      this.scrollToActiveEntry();
-    }
-  }
-
-  topContextHeightChanged(e: CustomEvent): void {
-    this.topContextHeight = e.detail.height;
-  }
-
-  bottomContextHeightChanged(e: CustomEvent): void {
-    this.bottomContextHeight = e.detail.height;
-  }
-
-  transcriptHeightChanged(e: CustomEvent): void {
-    this.transcriptHeight = e.detail.height;
+  private enableAutoScroll(): void {
+    this.autoScroll = true;
+    this.scrollToActiveEntry();
   }
 
   firstUpdated(): void {
-    this.scrollToActiveEntry();
-    this.updateTimePosition();
+    // this is put on a setTimeout to allow the rest of the UI
+    // to update before doing the initial scrolling
+    window.setTimeout(() => {
+      this.scrollToActiveEntry();
+      this.updateTimePosition();
+    });
   }
 
   updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has('currentEntry')) {
+    if (changedProperties.has('currentTime')) {
+      this.handleCurrentTimeChange();
+    }
+    if (changedProperties.has('selectedSearchResult')) {
+      this.scrollToSelectedSearchResult();
+    }
+    if (changedProperties.has('_currentEntry')) {
       this.scrollToActiveEntry();
       this.updateTimePosition();
     }
@@ -234,6 +285,14 @@ export default class TranscriptView extends LitElement {
       return;
     }
     this.scrollToElement(activeTranscriptEntry);
+  }
+
+  private scrollToSelectedSearchResult(): void {
+    const { selectedSearchResult } = this;
+    if (!selectedSearchResult) {
+      return;
+    }
+    this.scrollToElement(selectedSearchResult);
   }
 
   private scrollToElement(element: HTMLElement): void {
