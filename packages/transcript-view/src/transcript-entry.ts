@@ -61,8 +61,8 @@ export default class TranscriptEntry extends LitElement {
     const normalTextColor = css`var(--normalTextColor, gray)`;
     const activeTextColor = css`var(--activeTextColor, white)`;
 
-    const searchResultInactiveBorderColor = css`var(--normalTextColor, gray)`;
-    const searchResultActiveBorderColor = css`var(--normalTextColor, green)`;
+    const searchResultInactiveBorderColor = css`var(--searchResultInactiveBorderColor, gray)`;
+    const searchResultActiveBorderColor = css`var(--searchResultActiveBorderColor, green)`;
 
     return css`
       :host {

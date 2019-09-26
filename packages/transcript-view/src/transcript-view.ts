@@ -22,21 +22,21 @@ export default class TranscriptView extends LitElement {
 
   @property({ type: Number }) bottomContextHeight = 50;
 
-  @property({ type: Number }) timeScrollTop = 0;
-
-  @property({ type: Boolean, reflect: true }) autoScroll = true;
+  @property({ type: Boolean }) autoScroll = true;
 
   @property({ type: Number }) selectedSearchResultIndex = 0;
 
-  @property({ type: Number }) scrollResumeTimerId = -1;
-
   @property({ type: Boolean }) showContextZones = false;
+
+  @property({ type: Number }) private timeScrollTop = 0;
 
   @property({ type: TranscriptEntryConfig }) private currentEntry:
     | TranscriptEntryConfig
     | undefined;
 
-  scrollTimerDelay = 15000;
+  private scrollTimerDelay = 15000;
+
+  private scrollResumeTimerId = -1;
 
   render(): TemplateResult {
     return html`
@@ -120,6 +120,12 @@ export default class TranscriptView extends LitElement {
   static get styles(): CSSResult {
     const transcriptHeightCss = css`var(--transcriptHeight, 200px)`;
 
+    const timeColorCss = css`var(--timeColor, white)`;
+    const timeColumnWidthCss = css`var(--timeColumnWidth, 5rem)`;
+
+    const autoScrollButtonFontColorCss = css`var(--autoScrollButtonFontColor, black)`;
+    const autoScrollButtonBackgroundColorCss = css`var(--autoScrollButtonBackgroundColor, white)`;
+
     return css`
       .container {
         position: relative;
@@ -134,6 +140,8 @@ export default class TranscriptView extends LitElement {
         bottom: 1rem;
         border-radius: 1rem;
         border: 0;
+        color: ${autoScrollButtonFontColorCss};
+        background-color: ${autoScrollButtonBackgroundColorCss};
       }
 
       .context-overlay {
@@ -156,8 +164,8 @@ export default class TranscriptView extends LitElement {
       }
 
       .time {
-        flex: 0 0 5rem;
-        color: white;
+        flex: 0 0 ${timeColumnWidthCss};
+        color: ${timeColorCss};
         position: relative;
       }
 

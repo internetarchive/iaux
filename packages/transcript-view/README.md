@@ -2,7 +2,7 @@
 
 A customizable scrubber bar useful for scrubbing through media.
 
-![Scrubber Bar](./assets/img/scrubber.gif "Scrubber Bar Demo")
+![Transcript View](./assets/img/transcript-view.gif "Transcript View Demo")
 
 ## Installation
 ```bash
@@ -24,32 +24,36 @@ export default TranscriptView;
 
 <style>
   transcript-view {
-    --thumbColor: white;
-    --thumbBorder: 1px solid black;
-    --trackFillColor: blue;
-    --trackColor: purple;
-    --trackBorder: 1px solid black;
-    --trackBorderRadius: 5px;
-    --trackHeight: 10px;
-    --thumbDiameter: 20px;
-    --transcriptViewHeight: 20px;
-    --thumbBorderRadius: 10px;
-    --webkitThumbTopMargin: -6px;
+    display: block;
+    --timeColor: white;
+    --timeColumnWidth: 5rem;
+    --transcriptHeight: 200px;
+
+    --autoScrollButtonFontColor: black;
+    --autoScrollButtonBackgroundColor: white;
+
+    --normalTextColor: gray;
+    --activeTextColor: white;
+    --searchResultInactiveBorderColor: gray;
+    --searchResultActiveBorderColor: green;
   }
 </style>
 
-<transcript-view id="scrubberbar"></transcript-view>
+<transcript-view
+  currentTime=10
+  showContextZones=true
+  topContextHeight=50
+  bottomContextHeight=50
+  selectedSearchResultIndex=1
+  .entries=${transcript}>
+</transcript-view>
 
 <script>
-  const transcriptView = document.getElementById('scrubberbar');
+  const transcriptView = document.querySelector('transcript-view');
 
-  // listen for value changes
-  transcriptView.addEventListener('valuechange', e => {
-    console.log('Value has changed, new value:', e.detail.value);
-  });
-
-  // set a different value
-  transcriptView.value = 23;
+  // change the current time and the transcript view
+  // will scroll to the proper entry
+  transcriptView.currentTime = 50;
 </script>
 
 ```
