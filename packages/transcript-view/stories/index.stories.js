@@ -4,32 +4,41 @@ import {
   withKnobs,
   color,
   text,
+  boolean,
+  number,
   withClassPropertiesKnobs,
 } from '@open-wc/demoing-storybook';
 
-import TranscriptView from '../index.js';
+import TranscriptView from '../lib/src/transcript-view';
+import TranscriptEntryConfig from '../lib/src/models/transcript-entry-config';
+import transcript from './transcript';
+
+const convertedTranscript = transcript.map((entry) => {
+  return new TranscriptEntryConfig(
+    entry.id, entry.start, entry.end, entry.text, entry.is_music || false, entry.search_match_index);
+})
+
+console.log(convertedTranscript);
 
 storiesOf('transcript-view', module)
   .addDecorator(withKnobs)
-  .add('Scrubber Bar Options', () => withClassPropertiesKnobs(TranscriptView))
-  .add(
-    'Scrubber Bar Styling',
-    () => html`
-      <style>
-        transcript-view {
-          --thumbColor: ${color('Thumb Color', 'red', 'Colors')};
-          --thumbBorder: ${text('Thumb Border', '1px solid black', 'Colors')};
-          --trackFillColor: ${color('Track Fill Color', 'blue', 'Colors')};
-          --trackColor: ${color('Track Color', 'black', 'Colors')};
-          --trackBorder: ${text('Track Border', '1px solid black', 'Colors')};
-          --trackBorderRadius: ${text('Track Border Radius', '5px', 'Layout')};
-          --trackHeight: ${text('Track Height', '10px', 'Layout')};
-          --thumbDiameter: ${text('Thumb Diameter', '20px', 'Layout')};
-          --transcriptViewHeight: ${text('Scrubber Bar Height', '20px', 'Layout')};
-          --thumbBorderRadius: ${text('Thumb Border Radius', '50%', 'Layout')};
-          --webkitThumbTopMargin: ${text('Webkit Thumb Top Margin', '-6px', 'Layout')};
-        }
-      </style>
-      <transcript-view></transcript-view>
-    `,
+  .add('Transcript View', () => html`
+    <transcript-view
+      showContextZones=true
+      .currentTime=${number('Current Time', 22, 'Controls')}
+      autoPlay=${boolean('Autoplay', true, 'Controls')}
+      .entries=${convertedTranscript}>
+    </transcript-view>
+
+    <style>
+      body {
+        background-color: black;
+      }
+
+      transcript-view {
+        height: 400px;
+        --transcriptHeight: ${text('Transcript Height', '200px', 'Sizing')};
+      }
+    </style>
+    `
   );

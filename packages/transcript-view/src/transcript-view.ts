@@ -125,10 +125,6 @@ export default class TranscriptView extends LitElement {
         position: relative;
       }
 
-      .auto-scroll-option {
-        background-color: white;
-      }
-
       .auto-scroll-button {
         position: absolute;
         left: 0;
@@ -201,6 +197,7 @@ export default class TranscriptView extends LitElement {
   private handleCurrentTimeChange(): void {
     const entries = this.entries ? this.entries : [];
     const activeEntry = entries.find(
+      // eslint-disable-next-line max-len
       (entry: TranscriptEntryConfig) =>
         this.currentTime >= entry.start && this.currentTime <= entry.end,
     );
