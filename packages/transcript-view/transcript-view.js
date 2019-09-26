@@ -1,3 +1,3 @@
-import TranscriptView from './lib/transcript-view.js';
+import TranscriptView from './lib/src/transcript-view.js';
 
 export default TranscriptView;
