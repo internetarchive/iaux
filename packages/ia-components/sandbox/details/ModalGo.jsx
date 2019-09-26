@@ -2,7 +2,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { ObjectFilter } from '../../util.js';
-import { I8nStr } from '../../../../../dweb-archive/components/Languages';
+import { I18nStr } from '../../../../../dweb-archive/components/Languages';
 
 /**
  *  AnchorModalGo and ButtonModalGo wrap the AJS.modal_go call in archive.js to allow it to work with react.
@@ -33,7 +33,7 @@ class AnchorModalGo extends _ModalGo {
 
   render() {
     return (
-      <a {...this.state.linkProps} onClick={this.onClick} title={this.props.en && I8nStr(this.props.en)}>{this.props.children}</a>
+      <a {...this.state.linkProps} onClick={this.onClick} title={this.props.en && I18nStr(this.props.en)}>{this.props.children}</a>
     );
   }
 }
@@ -50,7 +50,7 @@ class ButtonModalGo extends _ModalGo {
 
   render() {
     return (
-      <button {...this.state.linkProps} onClick={this.onClick} title={this.props.en && I8nStr(this.props.en)}>{this.props.children}</button>
+      <button {...this.state.linkProps} onClick={this.onClick} title={this.props.en && I18nStr(this.props.en)}>{this.props.children}</button>
     );
   }
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import { AnchorDownload, reachable } from './AnchorDownload';
-import { I8nSpan, I8nStr } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nStr } from "../../../../../dweb-archive/components/Languages";
 
 class DownloadDirectoryDiv extends IAReactComponent {
   /**
@@ -24,18 +24,18 @@ class DownloadDirectoryDiv extends IAReactComponent {
     return (
       <div className="container container-ia">
         <div className="download-directory-listing">
-          <h1><I8nSpan en="Files for"/> {this.props.identifier}</h1>
+          <h1><I18nSpan en="Files for"/> {this.props.identifier}</h1>
           <hr/>
           <pre>
             <table className="directory-listing-table">
-              <thead><tr><th><I8nSpan en="Name"/></th>
+              <thead><tr><th><I18nSpan en="Name"/></th>
               {/*--<th>Last modified</th>--*/}
               <th>Size</th></tr></thead>
               <tbody>
                 <tr>
                   <td><AnchorDetails identifier={this.props.identifier}><span className="iconochive-Uplevel"
-                                                                              title={I8nStr("Parent Directory")}
-                                                                              aria-hidden="true"></span> <I8nSpan en="Go to item page"/></AnchorDetails></td>
+                                                                              title={I18nStr("Parent Directory")}
+                                                                              aria-hidden="true"></span> <I18nSpan en="Go to item page"/></AnchorDetails></td>
                   <td></td>
                   <td></td>
                 </tr>
@@ -45,7 +45,7 @@ class DownloadDirectoryDiv extends IAReactComponent {
                     <tr key={f.name}>
                       <td><AnchorDownload source={f}
                                           title={f.name}
-                                          disconnected={this.props.disconnected}><I8nSpan
+                                          disconnected={this.props.disconnected}><I18nSpan
                         className="sr-only" en="download"/>{f.name}</AnchorDownload></td>
                       {/*--TODO-DIR handle directory here as foo/ --*/}
                       {/*--<td>00-Apr-0000 00:00{--TODO-DIR handle date from mtime </td>--*/}

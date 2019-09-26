@@ -1,6 +1,6 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
-import { I8nSpan } from '../../../../../dweb-archive/components/Languages';
+import { I18nSpan } from '../../../../../dweb-archive/components/Languages';
 
 /**
  * This is for a single "tabby", usually there will be a set of them in a Tabbys
@@ -65,11 +65,11 @@ export default class Tabby extends IAReactComponent {
             { this.props.abbreviatedText
               ? (
                 <>
-                  <I8nSpan className="tabby-text hidden-xs-span" en={this.props.text}/>
-                  <I8nSpan className="tabby-text visible-xs-span" en={this.props.abbreviatedText}/>
+                  <I18nSpan className="tabby-text hidden-xs-span" en={this.props.text}/>
+                  <I18nSpan className="tabby-text visible-xs-span" en={this.props.abbreviatedText}/>
                 </>
               )
-              : <I8nSpan className="tabby-text" en={this.props.text}/>
+              : <I18nSpan className="tabby-text" en={this.props.text}/>
             }
           </a>
         </div>

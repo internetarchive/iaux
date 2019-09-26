@@ -4,7 +4,7 @@ import AnchorDetails from '../AnchorDetails';
 import {ImageDweb} from "../details/Image";
 const debug = require('debug')('ia-components:TileComponent');
 // import PropTypes from 'prop-types'
-import { I8nSpan, I8nIcon, I8nStr } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nIcon, I18nStr } from "../../../../../dweb-archive/components/Languages";
 
 
 /* USE OUTSIDE DWEB
@@ -172,18 +172,18 @@ export default class TileComponent extends IAReactComponent {
     return (
       <div className="collection-stats">
         <div className="iconochive-collection topinblock hidden-lists" aria-hidden="true" />
-        <I8nSpan className="sr-only" en="collection"/>
+        <I18nSpan className="sr-only" en="collection"/>
         {typeof this.state.collectionSize === 'undefined' ? null
           : (
             <div className="num-items topinblock">
               {number_format(this.state.collectionSize)}
-              <div className="micro-label"><I8nSpan en="ITEMS"/></div>
+              <div className="micro-label"><I18nSpan en="ITEMS"/></div>
             </div>
           )
                 }
         <div className="num-items hidden-tiles">
           {number_format(this.state.downloads)}
-          <div className="micro-label"><I8nSpan en="VIEWS"/></div>
+          <div className="micro-label"><I18nSpan en="VIEWS"/></div>
         </div>
       </div>
     );
@@ -193,17 +193,17 @@ export default class TileComponent extends IAReactComponent {
     return (
       <div className="statbar ">
         <div className="mt-icon C C5">
-          <I8nIcon className={this.state.iconnameClass} en={this.state.mediatype}/>
+          <I18nIcon className={this.state.iconnameClass} en={this.state.mediatype}/>
         </div>
         <h6 className="stat ">
-          <I8nIcon className="iconochive-eye" en="eye"/>
+          <I18nIcon className="iconochive-eye" en="eye"/>
           <nobr>{number_format(this.state.downloads)}</nobr>
         </h6>
 
         { typeof this.state.nFavorites === 'undefined' ? undefined
           : (
             <h6 className="stat">
-              <I8nIcon className="iconochive-favorite" en="favorite"/>
+              <I18nIcon className="iconochive-favorite" en="favorite"/>
               {' '}
               {number_format(this.state.nFavorites)}
               {' '}
@@ -212,7 +212,7 @@ export default class TileComponent extends IAReactComponent {
           )
                 }
         <h6 className="stat">
-          <I8nIcon className="iconochive-comment" en="comment"/>
+          <I18nIcon className="iconochive-comment" en="comment"/>
           {' '}
           {number_format(this.state.numReviews)}
         </h6>

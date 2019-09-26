@@ -2,7 +2,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { AnchorModalGo, ButtonModalGo } from './ModalGo';
-import { I8nSpan, I8nIcon, I8nStr } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nIcon, I18nStr } from "../../../../../dweb-archive/components/Languages";
 
 /**
  * DetailsActionButtons are a group of buttons, usually shown on the right, that include bookmarking, sharing and flagging.
@@ -37,7 +37,7 @@ class DetailsFlagLI extends IAReactComponent {
     return (
       <li className="">
         <a href={this.props.href} role="menuitem">
-          <I8nSpan en={this.props.en}/>}
+          <I18nSpan en={this.props.en}/>}
         </a>
       </li>
     );
@@ -61,7 +61,7 @@ class DetailsFlags extends IAReactComponent {
         data-toggle="tooltip"
         data-placement="bottom"
         data-container="body"
-        title={I8nStr("Flag this item")}
+        title={I18nStr("Flag this item")}
       >
         <div className="dropup">
           <button
@@ -72,10 +72,10 @@ class DetailsFlags extends IAReactComponent {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <I8nIcon className="iconochive-Flag" en="flag"/>
+            <I18nIcon className="iconochive-Flag" en="flag"/>
           </button>
           <div id="flag-popover" className="dropdown-menu" aria-labelledby="flag-button">
-            <h3 className="dropdown-title"><I8nSpan en="Flag this item for"/></h3>
+            <h3 className="dropdown-title"><I18nSpan en="Flag this item for"/></h3>
             <ul role="menu">
               <DetailsFlagLI href={loginURL} en="Graphic Violence"/>
               <DetailsFlagLI href={loginURL} en="Graphic Sexual Content"/>
@@ -118,7 +118,7 @@ class DetailsActionButtons extends IAReactComponent {
               data-placement="bottom"
               en="Favorite this item"
             >
-              <I8nIcon className="iconochive-favorite" en="favorite"/>
+              <I18nIcon className="iconochive-favorite" en="favorite"/>
             </AnchorModalGo>
           </div>
         }
@@ -135,7 +135,7 @@ class DetailsActionButtons extends IAReactComponent {
             data-placement="bottom"
             en="Share this item"
           >
-            <I8nSpan className="iconochive-share" en="share"/>
+            <I18nSpan className="iconochive-share" en="share"/>
           </ButtonModalGo>
         </div>
         <DetailsFlags disconnected={this.props.disconnected}/>

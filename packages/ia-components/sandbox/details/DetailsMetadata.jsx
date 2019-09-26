@@ -6,7 +6,7 @@ import {DetailsReviews} from './DetailsReviews';
 import DetailsCollectionList from './DetailsCollectionList';
 import DetailsDownloadOptions from './DetailsDownloadOptions';
 import { languageMapping } from '../../util.js';
-import { I8nSpan, I8nIcon } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nIcon } from "../../../../../dweb-archive/components/Languages";
 
 const metadataListKeyStrings = { ocr: 'OCR', runtime: 'Run time', ppi: 'PPI' }; // Metadata with something other than capitalize first letter
 const metadataListExclude = [
@@ -95,7 +95,7 @@ class DetailsMetadataTitle extends IAReactComponent {
       <>
         <h1 style={{ fontSize: '30px', marginBottom: 0 }}>
           <div className="left-icon">
-            <I8nIcon className={`iconochive-${md.mediatype} ${md.mediatype}`} en={md.mediatype}/>
+            <I18nIcon className={`iconochive-${md.mediatype} ${md.mediatype}`} en={md.mediatype}/>
           </div>
           <span itemProp="name">{md.title}</span>
         </h1>
@@ -128,7 +128,7 @@ class DetailsMetadata extends IAReactComponent {
           <DetailsMetadataField field="date" value={md.date} name="Publication date" itemProp="datePublished" />
           {!md.licenceurl ? null : ( // TODO this is wrong, its hard coding one specific licence
             <dl className="metadata-definition">
-              <dt><I8nSpan en="Usage"/></dt>
+              <dt><I18nSpan en="Usage"/></dt>
               <dd>
                 <a
                   rel="license"
@@ -136,7 +136,7 @@ class DetailsMetadata extends IAReactComponent {
                   href="http://creativecommons.org/licenses/by-nc-nd/2.0/"
                   target="_blank"
                   rel="noopener noreferrer"
-                ><I8nSpan en="Attribution-NonCommercial-NoDerivs"/>
+                ><I18nSpan en="Attribution-NonCommercial-NoDerivs"/>
                   <img className="cclic" src="./images/cc/cc.png" />
                   <img className="cclic" src="./images/cc/by.png" />
                   <img className="cclic" src="./images/cc/nc.png" />
@@ -158,7 +158,7 @@ class DetailsMetadata extends IAReactComponent {
         )}
         { !md.credits ? null : ( // TODO postprocess Credits like description esp \n to <br> as in item=commute
           <>
-            <h2 style={{ fontSize: '18px' }}><I8nSpan en="Credits"/></h2>
+            <h2 style={{ fontSize: '18px' }}><I18nSpan en="Credits"/></h2>
             <p className="content">{(md.credits || []).join(', ')}</p>
           </>
         )}

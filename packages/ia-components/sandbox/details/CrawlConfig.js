@@ -3,7 +3,7 @@ import React from 'react';
 import prettierBytes from 'prettier-bytes';
 import IAReactComponent from '../IAReactComponent';
 import { gatewayServer } from '../../util';
-import { I8nSpan, I8nStr } from '../../../../../dweb-archive/components/Languages';
+import { I18nSpan, I18nStr } from '../../../../../dweb-archive/components/Languages';
 
 const debug = require('debug')('dweb-archive:CrawlConfig');
 // DwebTransports is not needed, its a global
@@ -67,16 +67,16 @@ export default class CrawlConfig extends IAReactComponent {
       (!this.props.identifier && !this.props.query) ? null :
         <ul>
           <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.state.clickable ? this.onClick : undefined}>
-            <I8nSpan en={this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'}> </I8nSpan>
+            <I18nSpan en={this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'}> </I18nSpan>
             {!dl ? null
               : dl.members_all_count
-                ? <span>{`${prettierBytes(dl.members_size || 0)} ${I8nStr("in")} ${dl.members_details_count} ${I8nStr("of")} ${dl.members_all_count} ${I8nStr("items")}`}</span>
+                ? <span>{`${prettierBytes(dl.members_size || 0)} ${I18nStr("in")} ${dl.members_details_count} ${I18nStr("of")} ${dl.members_all_count} ${I18nStr("items")}`}</span>
                 : dl.pages_size
                   ? <span>{prettierBytes(dl.files_size + (dl.pages_size || 0))} </span>
                   : <span>{prettierBytes(dl.files_size) + " / " + prettierBytes(dl.files_all_size)} </span>
             }
             { (this.props.search && CrawlConfig._levels.indexOf(this.props.level) >= CrawlConfig._levels.indexOf('details'))
-              ? <span>{`  ${I8nStr("Searching")} ${this.props.search.rows} ${I8nStr("rows at")} ${I8nStr(this.props.search.level)}`}</span>
+              ? <span>{`  ${I18nStr("Searching")} ${this.props.search.rows} ${I18nStr("rows at")} ${I18nStr(this.props.search.level)}`}</span>
               : null }
           </li>
         </ul>

@@ -4,7 +4,7 @@ import AnchorDetails from '../AnchorDetails';
 import { AnchorSearch } from './AnchorSearch';
 import CrawlConfig from './CrawlConfig';
 import {AnchorModalGo} from "./ModalGo";
-import { I8nSpan, I8nStr, I8nIcon } from '../../../../../dweb-archive/components/Languages';
+import { I18nSpan, I18nStr, I18nIcon } from '../../../../../dweb-archive/components/Languages';
 
 const debug = require('debug')('NavWrap');
 
@@ -24,7 +24,7 @@ const debug = require('debug')('NavWrap');
 class NavAboutsLI extends IAReactComponent {
   render() {
     return (
-      <li><a target="_top" data-event-click-tracking={this.props["data-event-click-tracking"]} href={this.props.href}><I8nSpan en={this.props.en}/></a></li>
+      <li><a target="_top" data-event-click-tracking={this.props["data-event-click-tracking"]} href={this.props.href}><I18nSpan en={this.props.en}/></a></li>
     );
   }
 }
@@ -93,7 +93,7 @@ class NavSearchLI extends IAReactComponent {
     // noinspection JSUnresolvedVariable
     return ((typeof DwebArchive === "undefined" || this.props.disconnected) ? null :
         <li id="nav-search" className="dropdown dropdown-ia pull-right" key="search">
-          <a onClick={this.onClick}><I8nIcon className="iconochive-search" en="search" /></a>
+          <a onClick={this.onClick}><I18nIcon className="iconochive-search" en="search" /></a>
           <div className="searchbar">
             <form
               className="search-form js-search-form"
@@ -102,13 +102,13 @@ class NavSearchLI extends IAReactComponent {
               data-event-form-tracking="TopNav|SearchForm"
               data-wayback-machine-search-url="https://web.archive.org/web/*/"
             >
-              <label htmlFor="search-bar-2" className="sr-only"><I8nSpan en="Search the Archive"/></label>
+              <label htmlFor="search-bar-2" className="sr-only"><I18nSpan en="Search the Archive"/></label>
               <input
-                id="search-bar-2" className="js-search-bar" placeholder={I8nStr("Search")} type="text"
+                id="search-bar-2" className="js-search-bar" placeholder={I18nStr("Search")} type="text"
                 onChange={this.onChange}
                 name="search" defaultValue=""
                 aria-controls="navbar_search_options"
-                aria-label={I8nStr("Search the Archive. Filters and Advanced Search available below.")}
+                aria-label={I18nStr("Search the Archive. Filters and Advanced Search available below.")}
               />
               <input type="submit" value="Search"/>
             </form>
@@ -133,9 +133,9 @@ class NavUploadLI extends IAReactComponent {
           <li className="dropdown dropdown-ia pull-right" key="upload">
             <a
               href="https://archive.org/create" target="top" data-toggle="tooltip"
-              data-placement="bottom" title={I8nStr("Upload")}
+              data-placement="bottom" title={I18nStr("Upload")}
             >
-              <I8nIcon className="iconochive-upload" en="upload"/>
+              <I18nIcon className="iconochive-upload" en="upload"/>
             </a>
           </li>
     );
@@ -153,7 +153,7 @@ class NavBrandLI extends IAReactComponent {
     return (
       <li className="navbar-brand-li" key="brand">
         <AnchorDetails className="navbar-brand" identifier={"home"} target="_top">
-          <I8nIcon className="iconochive-logo" en="logo"/>
+          <I18nIcon className="iconochive-logo" en="logo"/>
         </AnchorDetails>
       </li>
     );
@@ -174,9 +174,9 @@ class NavMediatypeLI extends IAReactComponent {
     return (
       <li key={`mt${this.props.mediatype}`} className="dropdown dropdown-ia pull-left">
             <AnchorDetails
-                title={I8nStr(this.props.mediatype)} className={`navia-link ${this.props.mediatype}`} identifier={this.props.mediatype}
+                title={I18nStr(this.props.mediatype)} className={`navia-link ${this.props.mediatype}`} identifier={this.props.mediatype}
               >{/* --disabled till top hat worked on dweb-archive issue#70 -- data-top-kind={mt} data-toggle="tooltip" target="_top" data-placement="bottom"--*/}
-                <I8nIcon className={`iconochive-${ this.props.mediatype}`} en={this.props.mediatype}/>
+                <I18nIcon className={`iconochive-${ this.props.mediatype}`} en={this.props.mediatype}/>
               </AnchorDetails>
           </li>
     );
@@ -212,9 +212,9 @@ class NavWebDIV extends IAReactComponent {
           <div className="row toprow web" style={{maxWidth: 1000, margin: "auto"}}>
             <div className="col-xs-12">
               <div className="wayback-txt">
-                <I8nSpan en="Search the history of over 338 billion"/>
+                <I18nSpan en="Search the history of over 338 billion"/>
                 <a style={{display: "inline"}}
-                   href="https://blog.archive.org/2016/10/23/defining-web-pages-web-sites-and-web-captures/"><I8nSpan en="web pages"/></a> <I8nSpan en="on the Internet."/>
+                   href="https://blog.archive.org/2016/10/23/defining-web-pages-web-sites-and-web-captures/"><I18nSpan en="web pages"/></a> <I18nSpan en="on the Internet."/>
               </div>
               <div className="roundbox7 wayback-main">
                 <div className="row">
@@ -224,10 +224,10 @@ class NavWebDIV extends IAReactComponent {
                   </div>
                   <div className="col-sm-6" style={{paddingTop: 13}}>
                     <form style={{position: "relative"}}>
-                      <I8nIcon className="iconochive-search" iconref={this.load} en="search"/> <label htmlFor="nav-wb-url" className="sr-only"><I8nSpan en="Search the Wayback Machine"/></label>
+                      <I18nIcon className="iconochive-search" iconref={this.load} en="search"/> <label htmlFor="nav-wb-url" className="sr-only"><I18nSpan en="Search the Wayback Machine"/></label>
                       <input id="nav-wb-url" className="form-control input-sm roundbox20"
                              type="text"
-                             placeholder={I8nStr("enter URL or keywords")} name="url" autoComplete="off"
+                             placeholder={I18nStr("enter URL or keywords")} name="url" autoComplete="off"
                              onClick={this.onClick}/>
                     </form>
                   </div>
@@ -268,14 +268,14 @@ class DwebNavButtons extends IAReactComponent {
           : <li className="reload">
             <span className="iconochive-Refresh"></span>
             {this.props.identifier
-              ? <AnchorDetails identifier={this.props.identifier} reload><I8nSpan en="Reload"/></AnchorDetails>
-              : <AnchorSearch query={this.props.query} sort={this.props.sort} reload><I8nSpan en="Reload"/></AnchorSearch>
+              ? <AnchorDetails identifier={this.props.identifier} reload><I18nSpan en="Reload"/></AnchorDetails>
+              : <AnchorSearch query={this.props.query} sort={this.props.sort} reload><I18nSpan en="Reload"/></AnchorSearch>
             }
           </li>
         }
         <li className="settings">
           <span className="iconochive-gear"></span>
-          <AnchorDetails identifier="settings"><I8nSpan en="Settings"/></AnchorDetails></li>
+          <AnchorDetails identifier="settings"><I18nSpan en="Settings"/></AnchorDetails></li>
         { !this.props.canSave ? null :
           <li className="save"><span className="iconochive-download"></span>
             <AnchorModalGo
@@ -289,11 +289,11 @@ class DwebNavButtons extends IAReactComponent {
               data-container="body"
               data-placement="bottom"
               en="Save this item"
-              ><I8nSpan en="Save"/>
+              ><I18nSpan en="Save"/>
             </AnchorModalGo></li>
         }
         <li className="local"><span className="iconochive-folder"></span>
-          <AnchorDetails identifier="local"><I8nSpan en="Local"/></AnchorDetails></li>
+          <AnchorDetails identifier="local"><I18nSpan en="Local"/></AnchorDetails></li>
       </ul>
     );
   }
@@ -395,7 +395,7 @@ class DwebStatusDIV extends IAReactComponent {
     return ((typeof DwebTransports === 'undefined') ? null :
       <div id='dweb-status'>
         {typeof this.props.statuses === 'undefined' ?
-          I8nStr('Connecting')+'  '
+          I18nStr('Connecting')+'  '
           :
           <ul>
             {this.props.statuses.map(s =>

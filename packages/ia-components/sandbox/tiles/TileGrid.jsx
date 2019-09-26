@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import TileComponent from './TileComponent';
-import { I8nSpan, I8nIcon, I8nStr } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nIcon, I18nStr } from "../../../../../dweb-archive/components/Languages";
 
 const debug = require('debug')('ia-components:TileGrid');
 // import PropTypes from 'prop-types' // Not currently used by IAUX
@@ -30,16 +30,16 @@ class TileGrid extends IAReactComponent {
       <div className="results" id="appendTiles">
         <div className="item-ia mobile-header hidden-tiles" data-id="__mobile_header__">
           <div className="views C C1">
-            <I8nIcon className="iconochive-eye" en="eye"/>
+            <I18nIcon className="iconochive-eye" en="eye"/>
           </div>
           <div className="C234">
             <div className="C C2">Title</div>
             <div className="pubdate C C3">
               <div>
-                <div><I8nSpan en="Date Archived"/></div>
+                <div><I18nSpan en="Date Archived"/></div>
               </div>
             </div>
-            <div className="by C C4"><I8nSpan en="Creator"/></div>
+            <div className="by C C4"><I18nSpan en="Creator"/></div>
           </div>
           <div className="C C5" />
         </div>
@@ -100,13 +100,13 @@ class ScrollableTileGrid extends IAReactComponent {
         <div id="ikind-search" className="ikind in">
           <TileGrid members={(this.props.item.membersFav || []).concat(this.props.item.membersSearch || [])} disconnected={this.props.disconnected} />
           <center className="more_search">
-            <a className="btn btn-info btn-sm" onClick={this.onClick} style={{ visibility: 'hidden' }} href="#"><I8nSpan en="MORE RESULTS"/></a>
+            <a className="btn btn-info btn-sm" onClick={this.onClick} style={{ visibility: 'hidden' }} href="#"><I18nSpan en="MORE RESULTS"/></a>
             <br />
             <span className="more-search-fetching">
               <span en="Fetching more results"/>
               <img
                 src="/images/loading.gif"
-                alt={I8nStr("loading")}
+                alt={I18nStr("loading")}
               />
             </span>
           </center>

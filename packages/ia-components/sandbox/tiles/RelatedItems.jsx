@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import TileComponent from './TileComponent';
-import {I8nStr, I8nSpan} from '../../../../../dweb-archive/components/Languages';
+import {I18nStr, I18nSpan} from '../../../../../dweb-archive/components/Languages';
 
 //Unused: const debug = require('debug')('ia-components:RelatedItems');
 
@@ -41,18 +41,18 @@ export default class RelatedItems extends IAReactComponent {
           { (!this.props.members && !this.state.loading)
             ? null
             : this.state.loading
-            ? <I8nSpan en="Loading related items">...</I8nSpan>
+            ? <I18nSpan en="Loading related items">...</I18nSpan>
             :
               <div className="row">
                 <div className="col-xs-12 tilebars" style={{ display: 'block' }}>
                   <h5 className="small-label">
-                    <I8nSpan en="SIMILAR ITEMS (based on metadata)"/>
+                    <I18nSpan en="SIMILAR ITEMS (based on metadata)"/>
                     {/* <span id="playplayset">
                         *<a data-reactroot="" className="stealth" href="#play-items" data-event-click-tracking="Playset|PlayAllLink">
-                        <I8nIcon className="iconochive-play" en="play" xs="Play All"/><br></a></span> */}
+                        <I18nIcon className="iconochive-play" en="play" xs="Play All"/><br></a></span> */}
                   </h5>
                   <div id="also-found-result">
-                    <section data-reactroot="" aria-label={I8nStr("Related Items")}>
+                    <section data-reactroot="" aria-label={I18nStr("Related Items")}>
                       { // Note this is odd - results normally encloses all the tasks, but AJS.tiler doesnt seem to work without this
                     this.props.members.map(member => (
                       <div className="results" key={member.identifier} style={{ visibility: 'visible' }}>
