@@ -35,6 +35,8 @@ export default class TranscriptViewDevOptions extends LitElement {
 
   private timer = -1;
 
+  private timerDelay = 1000;
+
   render(): TemplateResult {
     return html`
       <div class="container">
@@ -92,7 +94,10 @@ export default class TranscriptViewDevOptions extends LitElement {
         @change=${this.handleCurrentTimeSlide}
       />
       ${this.currentTime}s
-      <button @click=${this.startStopTimer}>${this.timerRunning ? 'Stop' : 'Start'} Timer</button>
+      <button @click=${this.setNormalTimerDelay}>1x</button>
+      <button @click=${this.setFastTimerDelay}>2x</button>
+      <button @click=${this.setFasterTimerDelay}>3x</button>
+      <button @click=${this.stopTimer}>Stop Timer</button>
     `;
   }
 
@@ -174,9 +179,12 @@ export default class TranscriptViewDevOptions extends LitElement {
   private changeAutoScroll(e: Event): void {
     const target = e.target as HTMLFormElement;
     this.autoScroll = target.checked;
-    // if (this.autoScroll) {
-    //   this.scrollToActiveEntry();
-    // }
+    const event = new CustomEvent('shouldAutoScroll', {
+      detail: { autoScroll: this.autoScroll },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
   }
 
   private changeShowContextZones(e: Event): void {
@@ -190,6 +198,23 @@ export default class TranscriptViewDevOptions extends LitElement {
     this.dispatchEvent(event);
   }
 
+  private setNormalTimerDelay(): void {
+    this.changeTimerDelay(1000);
+  }
+
+  private setFastTimerDelay(): void {
+    this.changeTimerDelay(500);
+  }
+
+  private setFasterTimerDelay(): void {
+    this.changeTimerDelay(250);
+  }
+
+  private changeTimerDelay(delay: number): void {
+    this.timerDelay = delay;
+    this.startTimer();
+  }
+
   private startStopTimer(): void {
     if (this.timerRunning) {
       this.stopTimer();
@@ -199,6 +224,7 @@ export default class TranscriptViewDevOptions extends LitElement {
   }
 
   private startTimer(): void {
+    this.stopTimer();
     this.timerRunning = true;
     this.timer = window.setInterval(() => {
       if (this.currentTime >= 445) {
@@ -207,7 +233,7 @@ export default class TranscriptViewDevOptions extends LitElement {
       }
       this.currentTime += 1;
       this.emitCurrentTimeChangedEvent();
-    }, 250);
+    }, this.timerDelay);
   }
 
   private stopTimer(): void {

@@ -36,13 +36,15 @@
           @bottomContextHeightChanged=${bottomContextHeightChanged}
           @transcriptHeightChanged=${transcriptHeightChanged}
           @showContextZonesChanged=${showContextZonesChanged}
-          @searchResultIndexChanged=${searchResultIndexChanged}>
+          @searchResultIndexChanged=${searchResultIndexChanged}
+          @shouldAutoScroll=${shouldAutoScroll}>
         </transcript-view-dev-options>
 
         <transcript-view
           showContextZones=true
-          currentTime=0
+          currentTime=10
           .entries=${convertedTranscript}
+          @autoScrollChanged=${autoScrollChanged}
           >
         </transcript-view>
       `,
@@ -71,6 +73,14 @@
 
     function searchResultIndexChanged(e) {
       document.querySelector('transcript-view').selectedSearchResultIndex = e.detail.searchResultIndex;
+    }
+
+    function shouldAutoScroll(e) {
+      document.querySelector('transcript-view').autoScroll = e.detail.autoScroll;
+    }
+
+    function autoScrollChanged(e) {
+      document.querySelector('transcript-view-dev-options').autoScroll = e.detail.autoScroll;
     }
   </script>
 </body>

@@ -24,7 +24,7 @@ export default class TranscriptView extends LitElement {
 
   @property({ type: Number }) timeScrollTop = 0;
 
-  @property({ type: Boolean }) autoScroll = true;
+  @property({ type: Boolean, reflect: true }) autoScroll = true;
 
   @property({ type: Number }) selectedSearchResultIndex = 0;
 
@@ -220,23 +220,14 @@ export default class TranscriptView extends LitElement {
   private didScroll(): void {
     this.autoScroll = false;
     window.clearTimeout(this.scrollResumeTimerId);
-    // this.scrollResumeTimerId = window.setTimeout(() => {
-    //   this.autoScroll = true;
-    // }, this.scrollTimerDelay);
+    this.scrollResumeTimerId = window.setTimeout(() => {
+      this.autoScroll = true;
+    }, this.scrollTimerDelay);
   }
 
   private enableAutoScroll(): void {
     this.autoScroll = true;
     this.scrollToActiveEntry();
-  }
-
-  firstUpdated(): void {
-    // this is put on a setTimeout to allow the rest of the UI
-    // to update before doing the initial scrolling
-    window.setTimeout(() => {
-      this.scrollToActiveEntry();
-      this.updateTimePosition();
-    });
   }
 
   updated(changedProperties: PropertyValues): void {
@@ -246,9 +237,12 @@ export default class TranscriptView extends LitElement {
     if (changedProperties.has('selectedSearchResultIndex')) {
       this.scrollToSelectedSearchResult();
     }
-    if (changedProperties.has('_currentEntry')) {
+    if (changedProperties.has('currentEntry')) {
       this.scrollToActiveEntry();
       this.updateTimePosition();
+    }
+    if (changedProperties.has('autoScroll')) {
+      this.handleAutoScrollChange();
     }
   }
 
@@ -276,6 +270,15 @@ export default class TranscriptView extends LitElement {
     return this.activeTranscriptEntry ? 'block' : 'none';
   }
 
+  private handleAutoScrollChange(): void {
+    const autoScrollChangedEvent = new CustomEvent('autoScrollChanged', {
+      detail: { autoScroll: this.autoScroll },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(autoScrollChangedEvent);
+  }
+
   private scrollToActiveEntry(): void {
     if (!this.autoScroll) {
       return;
@@ -292,6 +295,7 @@ export default class TranscriptView extends LitElement {
     if (!selectedSearchResult) {
       return;
     }
+    this.autoScroll = false;
     this.scrollToElement(selectedSearchResult);
   }
 
@@ -314,6 +318,7 @@ export default class TranscriptView extends LitElement {
       activeEntryRect.bottom > scrollContainerRect.top + focusBottom ||
       activeEntryRect.top < scrollContainerRect.top
     ) {
+      // eslint-disable-next-line max-len
       const newTargetScrollPos =
         activeEntryRect.top - scrollContainerRect.top + scrollView.scrollTop - topContextHeight;
       this.scrollToOffsetWithDuration(newTargetScrollPos, 1);
