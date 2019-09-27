@@ -40,36 +40,47 @@ export default class TranscriptViewDevOptions extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="container">
-        <div>
-          <search-results-switcher
-            @searchResultIndexChanged=${this.searchResultIndexChanged}
-          ></search-results-switcher>
-        </div>
+        <h3>Dev Options</h3>
 
-        <div>
-          ${this.autoScrollTemplate}
-        </div>
+        <ul class="dev-options">
+          <li>
+            ${this.searchResultTemplate}
+          </li>
 
-        <div>
-          ${this.transcriptHeightTemplate}
-        </div>
+          <li>
+            ${this.autoScrollTemplate}
+          </li>
 
-        <div>
-          ${this.showContextBoxesTemplate}
-        </div>
+          <li>
+            ${this.transcriptHeightTemplate}
+          </li>
 
-        <div>
-          ${this.topContextHeightTemplate}
-        </div>
+          <li>
+            ${this.showContextBoxesTemplate}
+          </li>
 
-        <div>
-          ${this.bottomContextHeightTemplate}
-        </div>
+          <li>
+            ${this.topContextHeightTemplate}
+          </li>
 
-        <div>
-          ${this.currentTimeTemplate}
-        </div>
+          <li>
+            ${this.bottomContextHeightTemplate}
+          </li>
+
+          <li>
+            ${this.currentTimeTemplate}
+          </li>
+        </ul>
       </div>
+    `;
+  }
+
+  get searchResultTemplate(): TemplateResult {
+    return html`
+      Search Result:
+      <search-results-switcher
+        @searchResultIndexChanged=${this.searchResultIndexChanged}
+      ></search-results-switcher>
     `;
   }
 
@@ -84,15 +95,17 @@ export default class TranscriptViewDevOptions extends LitElement {
 
   get currentTimeTemplate(): TemplateResult {
     return html`
-      <label>Current Time:</label>
-      <input
-        type="range"
-        min="0"
-        max="445"
-        .value=${this.currentTime}
-        @input=${this.handleCurrentTimeSlide}
-        @change=${this.handleCurrentTimeSlide}
-      />
+      <label
+        >Current Time:
+        <input
+          type="range"
+          min="0"
+          max="445"
+          .value=${this.currentTime}
+          @input=${this.handleCurrentTimeSlide}
+          @change=${this.handleCurrentTimeSlide}
+        />
+      </label>
       ${this.currentTime}s
       <button @click=${this.setNormalTimerDelay}>1x</button>
       <button @click=${this.setFastTimerDelay}>2x</button>
@@ -103,15 +116,17 @@ export default class TranscriptViewDevOptions extends LitElement {
 
   get transcriptHeightTemplate(): TemplateResult {
     return html`
-      <label>Transcript Height:</label>
-      <input
-        type="range"
-        min="100"
-        max="400"
-        .value=${this.transcriptHeight}
-        @input=${this.handleTranscriptSizeSlide}
-        @change=${this.handleTranscriptSizeSlide}
-      />
+      <label
+        >Transcript Height:
+        <input
+          type="range"
+          min="100"
+          max="400"
+          .value=${this.transcriptHeight}
+          @input=${this.handleTranscriptSizeSlide}
+          @change=${this.handleTranscriptSizeSlide}
+        />
+      </label>
       ${this.transcriptHeight}px
     `;
   }
@@ -131,30 +146,34 @@ export default class TranscriptViewDevOptions extends LitElement {
 
   get topContextHeightTemplate(): TemplateResult {
     return html`
-      <label>Top Context Size:</label>
-      <input
-        type="range"
-        min="10"
-        max="100"
-        .value=${this.topContextHeight}
-        @input=${this.handleTopContextSlide}
-        @change=${this.handleTopContextSlide}
-      />
+      <label
+        >Top Context Size:
+        <input
+          type="range"
+          min="10"
+          max="100"
+          .value=${this.topContextHeight}
+          @input=${this.handleTopContextSlide}
+          @change=${this.handleTopContextSlide}
+        />
+      </label>
       ${this.topContextHeight}px
     `;
   }
 
   get bottomContextHeightTemplate(): TemplateResult {
     return html`
-      <label> Bottom Context Size:</label>
-      <input
-        type="range"
-        min="10"
-        max="100"
-        .value=${this.bottomContextHeight}
-        @input=${this.handleBottomContextSlide}
-        @change=${this.handleBottomContextSlide}
-      />
+      <label>
+        Bottom Context Size:
+        <input
+          type="range"
+          min="10"
+          max="100"
+          .value=${this.bottomContextHeight}
+          @input=${this.handleBottomContextSlide}
+          @change=${this.handleBottomContextSlide}
+        />
+      </label>
       ${this.bottomContextHeight}px
     `;
   }
@@ -163,6 +182,24 @@ export default class TranscriptViewDevOptions extends LitElement {
     return css`
       .container {
         background-color: white;
+      }
+
+      search-results-switcher {
+        display: inline-block;
+      }
+
+      .dev-options {
+        list-style: none;
+        padding-left: 0.5rem;
+      }
+
+      .dev-options li {
+        border-bottom: 1px solid lightgrey;
+        line-height: 1.5rem;
+      }
+
+      .dev-options li:last-child {
+        border-bottom: 0;
       }
     `;
   }

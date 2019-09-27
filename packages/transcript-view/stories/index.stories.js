@@ -16,9 +16,7 @@ import transcript from './transcript';
 const convertedTranscript = transcript.map((entry) => {
   return new TranscriptEntryConfig(
     entry.id, entry.start, entry.end, entry.text, entry.is_music || false, entry.search_match_index);
-})
-
-console.log(convertedTranscript);
+});
 
 storiesOf('transcript-view', module)
   .addDecorator(withKnobs)

@@ -10,6 +10,7 @@
     transcript-view {
       display: block;
       border-bottom: 1px solid white;
+      line-height: 1.5rem;
       --timeColor: white;
       --timeColumnWidth: 5rem;
       --transcriptHeight: 200px;
@@ -42,6 +43,7 @@
     render(
       html`
         <transcript-view-dev-options
+          currentTime=10
           @currentTimeChanged=${currentTimeChanged}
           @topContextHeightChanged=${topContextHeightChanged}
           @bottomContextHeightChanged=${bottomContextHeightChanged}
@@ -61,6 +63,10 @@
       `,
       document.querySelector('#demo')
     );
+
+    window.setTimeout(() => {
+      document.querySelector('transcript-view').autoScroll = true;
+    }, 0);
 
     function currentTimeChanged(e) {
       document.querySelector('transcript-view').currentTime = e.detail.currentTime;

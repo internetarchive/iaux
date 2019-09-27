@@ -172,13 +172,13 @@ export default class TranscriptView extends LitElement {
       .time-display {
         position: absolute;
         top: 0;
+        line-height: 1rem;
+        transition: top 1s;
       }
 
       .scroll-container {
         display: flex;
         overflow-y: auto;
-        font-size: 16px;
-        line-height: 24px;
         -ms-overflow-style: none;
         scrollbar-width: none;
         height: ${transcriptHeightCss};
@@ -204,6 +204,10 @@ export default class TranscriptView extends LitElement {
 
   private handleCurrentTimeChange(): void {
     const entries = this.entries ? this.entries : [];
+    if (entries.length === 0) {
+      return;
+    }
+
     const activeEntry = entries.find(
       // eslint-disable-next-line max-len
       (entry: TranscriptEntryConfig) =>
@@ -215,6 +219,9 @@ export default class TranscriptView extends LitElement {
       return;
     }
 
+    // this method gets called for every time update, which happens several times per second, but
+    // we only want to update the UI if the `currentEntry` has actually changed
+    // (ie, their ids don't match)
     if (this.currentEntry && this.currentEntry.id === activeEntry.id) {
       return;
     }
@@ -354,7 +361,7 @@ export default class TranscriptView extends LitElement {
     const startTime = performance.now();
     let now;
     let elapsed;
-    let t;
+    let percentComplete;
 
     function easeInOutQuad(time: number): number {
       return time < 0.5 ? 2 * time * time : -1 + (4 - 2 * time) * time;
@@ -367,11 +374,11 @@ export default class TranscriptView extends LitElement {
 
       now = performance.now();
       elapsed = (now - startTime) / 1000;
-      t = elapsed / duration;
+      percentComplete = elapsed / duration;
 
-      scrollView.scrollTop = start + change * easeInOutQuad(t);
+      scrollView.scrollTop = start + change * easeInOutQuad(percentComplete);
 
-      if (t < 1) {
+      if (percentComplete < 1) {
         window.requestAnimationFrame(animateScroll);
       } else if (onDone) {
         onDone();
