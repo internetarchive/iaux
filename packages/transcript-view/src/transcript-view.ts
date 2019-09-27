@@ -50,7 +50,7 @@ export default class TranscriptView extends LitElement {
 
           <div class="col">
             ${this.autoScrollButtonTemplate}
-            ${(this.entries ? this.entries : []).map((entry: TranscriptEntryConfig) =>
+            ${(this.entries || []).map((entry: TranscriptEntryConfig) =>
               this.transcriptEntryTemplate(entry),
             )}
           </div>
@@ -138,9 +138,9 @@ export default class TranscriptView extends LitElement {
         position: absolute;
         left: 0;
         right: 0;
+        bottom: 1rem;
         margin: auto;
         width: 8rem;
-        bottom: 1rem;
         border-radius: 1rem;
         border: 0;
         display: inline-block;
@@ -154,7 +154,6 @@ export default class TranscriptView extends LitElement {
         width: 100%;
         height: 0;
         z-index: -1;
-        display: block;
       }
 
       .context-overlay.top {
@@ -207,7 +206,7 @@ export default class TranscriptView extends LitElement {
   }
 
   private handleCurrentTimeChange(): void {
-    const entries = this.entries ? this.entries : [];
+    const entries = this.entries || [];
     if (entries.length === 0) {
       return;
     }
