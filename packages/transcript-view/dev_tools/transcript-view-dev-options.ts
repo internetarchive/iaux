@@ -23,6 +23,8 @@ export default class TranscriptViewDevOptions extends LitElement {
 
   @property({ type: Number }) currentTime = 0;
 
+  @property({ type: Number }) totalTime = 0;
+
   @property({ type: Boolean }) topContextVisible = true;
 
   @property({ type: Boolean }) bottomContextVisible = true;
@@ -100,7 +102,7 @@ export default class TranscriptViewDevOptions extends LitElement {
         <input
           type="range"
           min="0"
-          max="445"
+          max=${this.totalTime}
           .value=${this.currentTime}
           @input=${this.handleCurrentTimeSlide}
           @change=${this.handleCurrentTimeSlide}
@@ -264,7 +266,7 @@ export default class TranscriptViewDevOptions extends LitElement {
     this.stopTimer();
     this.timerRunning = true;
     this.timer = window.setInterval(() => {
-      if (this.currentTime >= 445) {
+      if (this.currentTime >= this.totalTime) {
         this.stopTimer();
         return;
       }

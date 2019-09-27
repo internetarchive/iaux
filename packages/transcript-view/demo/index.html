@@ -40,10 +40,13 @@
         entry.id, entry.start, entry.end, entry.text, entry.is_music || false, entry.search_match_index);
     })
 
+    const totalTime = convertedTranscript[convertedTranscript.length - 1].end;
+
     render(
       html`
         <transcript-view-dev-options
           currentTime=10
+          totalTime=${totalTime}
           @currentTimeChanged=${currentTimeChanged}
           @topContextHeightChanged=${topContextHeightChanged}
           @bottomContextHeightChanged=${bottomContextHeightChanged}
