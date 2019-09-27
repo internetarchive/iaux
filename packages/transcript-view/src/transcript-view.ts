@@ -63,8 +63,7 @@ export default class TranscriptView extends LitElement {
     return html`
       <button
         @click=${this.enableAutoScroll}
-        class="auto-scroll-button"
-        style="display: ${this.autoScroll ? 'none' : 'inline-block'}"
+        class="auto-scroll-button ${this.autoScroll ? 'hidden' : ''}"
       >
         Scroll text with audio
       </button>
@@ -131,6 +130,10 @@ export default class TranscriptView extends LitElement {
         position: relative;
       }
 
+      .auto-scroll-button.hidden {
+        display: none;
+      }
+
       .auto-scroll-button {
         position: absolute;
         left: 0;
@@ -140,6 +143,7 @@ export default class TranscriptView extends LitElement {
         bottom: 1rem;
         border-radius: 1rem;
         border: 0;
+        display: inline-block;
         color: ${autoScrollButtonFontColorCss};
         background-color: ${autoScrollButtonBackgroundColorCss};
       }
