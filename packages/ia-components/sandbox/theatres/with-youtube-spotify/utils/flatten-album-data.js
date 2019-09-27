@@ -59,6 +59,7 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
   const fileDirectoryPrefix = `https://${server}${directoryPath}/`;
 
   let countSampleMP3 = 0;
+  let countFullMP3 = 0;
   let countOriginalAudioFiles = 0;
   /**
    * Take original item's file list
@@ -69,16 +70,26 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
     const isValidAudio = isValidAudioFile(fileName);
     const isValidImage = isValidImageFile(fileName);
     const isNeededFile = isValidAudio || isValidImage;
+    const fileIsDerived = source === 'derivative';
+    const isSampleMP3 = fileName.match('_sample.mp3');
+    const isMP3 = fileName.match('.mp3');
+
     if (!isNeededFile) {
       return acc;
     }
 
-    if (isValidAudio && fileName.match('_sample.mp3')) {
-      countSampleMP3 += 1;
-    }
+    if (isValidAudio) {
+      if (isSampleMP3) {
+        countSampleMP3 += 1;
+      }
 
-    if (isValidAudio && (source === 'original')) {
-      countOriginalAudioFiles += 1;
+      if (isMP3 && fileIsDerived && !isSampleMP3) {
+        countFullMP3 += 1;
+      }
+
+      if (source === 'original') {
+        countOriginalAudioFiles += 1;
+      }
     }
 
     acc.push(file);
@@ -87,7 +98,7 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
 
   const playSamples = playFullIAAudio ? false : includes(collection, 'samples_only');
   const albumSpotifyYoutubeInfo = gatherYoutubeAndSpotifyInfo(albumMetadata['external-identifier']) || {};
-  const trackFilter = countOriginalAudioFiles < countSampleMP3
+  const trackFilter = ((countOriginalAudioFiles < countSampleMP3) || (countOriginalAudioFiles < countFullMP3))
     ? archiveDerivedAlbumParser
     : archiveDefaultAlbumParser;
 
