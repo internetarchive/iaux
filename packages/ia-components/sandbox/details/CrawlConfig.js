@@ -3,7 +3,7 @@ import React from 'react';
 import prettierBytes from 'prettier-bytes';
 import IAReactComponent from '../IAReactComponent';
 import { gatewayServer } from '../../util';
-import { I18nSpan, I18nStr } from '../../../../../dweb-archive/components/Languages';
+import { I18nSpan, I18nStr } from '../languages/Languages';
 
 const debug = require('debug')('dweb-archive:CrawlConfig');
 // DwebTransports is not needed, its a global

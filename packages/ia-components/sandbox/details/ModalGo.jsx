@@ -2,7 +2,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { ObjectFilter } from '../../util.js';
-import { I18nStr } from '../../../../../dweb-archive/components/Languages';
+import { I18nStr } from '../languages/Languages';
 
 /**
  *  AnchorModalGo and ButtonModalGo wrap the AJS.modal_go call in archive.js to allow it to work with react.

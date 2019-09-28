@@ -2,7 +2,7 @@ import React from "react";
 import IAReactComponent from '../IAReactComponent';
 import { AnchorDownload } from './AnchorDownload';
 import { ImageDweb } from './Image';
-import { I18nStr } from '../../../../../dweb-archive/components/Languages';
+import { I18nStr } from '../languages/Languages';
 
 //TODO-CAROUSEL
 /** Carousel

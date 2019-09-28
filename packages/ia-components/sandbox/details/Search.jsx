@@ -2,7 +2,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { AnchorSearch } from './AnchorSearch';
-import { I18nSpan } from '../../../../../dweb-archive/components/Languages';
+import { I18nSpan } from '../languages/Languages';
 
 class SearchSwitcher extends IAReactComponent {
 /**

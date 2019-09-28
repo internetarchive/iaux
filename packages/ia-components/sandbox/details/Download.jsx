@@ -3,7 +3,7 @@ import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import { AnchorDownload, reachable } from './AnchorDownload';
-import { I18nSpan, I18nStr } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nStr } from "../languages/Languages";
 
 class DownloadDirectoryDiv extends IAReactComponent {
   /**

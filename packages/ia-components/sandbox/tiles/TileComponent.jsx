@@ -4,7 +4,7 @@ import AnchorDetails from '../AnchorDetails';
 import {ImageDweb} from "../details/Image";
 const debug = require('debug')('ia-components:TileComponent');
 // import PropTypes from 'prop-types'
-import { I18nSpan, I18nIcon, I18nStr } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nIcon, I18nStr } from "../languages/Languages";
 
 
 /* USE OUTSIDE DWEB

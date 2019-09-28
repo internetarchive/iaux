@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
-import { I18nSpan, I18nIcon, I18nStr } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nIcon, I18nStr } from "../languages/Languages";
 
 /**
  *  List of reviews on details page

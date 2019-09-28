@@ -1,6 +1,6 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
-import { I18nSpan } from '../../../../../dweb-archive/components/Languages';
+import { I18nSpan } from '../languages/Languages';
 
 /**
  * This is for a single "tabby", usually there will be a set of them in a Tabbys

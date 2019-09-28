@@ -6,7 +6,7 @@ import {DetailsReviews} from './DetailsReviews';
 import DetailsCollectionList from './DetailsCollectionList';
 import DetailsDownloadOptions from './DetailsDownloadOptions';
 import { languageMapping } from '../../util.js';
-import { I18nSpan, I18nIcon } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nIcon } from "../languages/Languages";
 
 const metadataListKeyStrings = { ocr: 'OCR', runtime: 'Run time', ppi: 'PPI' }; // Metadata with something other than capitalize first letter
 const metadataListExclude = [

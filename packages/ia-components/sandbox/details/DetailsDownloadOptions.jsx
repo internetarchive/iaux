@@ -2,7 +2,7 @@ import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { formats } from '../../util.js';
 import { AnchorDownload } from './AnchorDownload';
-import { I18nSpan, I18nStr, I18nIcon } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nStr, I18nIcon } from "../languages/Languages";
 
 /**
  *  The Download Options box on the details page

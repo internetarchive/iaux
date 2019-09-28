@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import TileComponent from './TileComponent';
-import {I18nStr, I18nSpan} from '../../../../../dweb-archive/components/Languages';
+import {I18nStr, I18nSpan} from '../languages/Languages';
 
 //Unused: const debug = require('debug')('ia-components:RelatedItems');
 

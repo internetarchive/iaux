@@ -2,7 +2,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { AnchorModalGo, ButtonModalGo } from './ModalGo';
-import { I18nSpan, I18nIcon, I18nStr } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nIcon, I18nStr } from "../languages/Languages";
 
 /**
  * DetailsActionButtons are a group of buttons, usually shown on the right, that include bookmarking, sharing and flagging.

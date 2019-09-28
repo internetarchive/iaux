@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import TileComponent from './TileComponent';
-import { I18nSpan, I18nIcon, I18nStr } from "../../../../../dweb-archive/components/Languages";
+import { I18nSpan, I18nIcon, I18nStr } from "../languages/Languages";
 
 const debug = require('debug')('ia-components:TileGrid');
 // import PropTypes from 'prop-types' // Not currently used by IAUX

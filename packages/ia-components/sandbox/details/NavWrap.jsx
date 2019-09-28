@@ -4,7 +4,7 @@ import AnchorDetails from '../AnchorDetails';
 import { AnchorSearch } from './AnchorSearch';
 import CrawlConfig from './CrawlConfig';
 import {AnchorModalGo} from "./ModalGo";
-import { I18nSpan, I18nStr, I18nIcon } from '../../../../../dweb-archive/components/Languages';
+import { I18nSpan, I18nStr, I18nIcon } from '../languages/Languages';
 
 const debug = require('debug')('NavWrap');
 

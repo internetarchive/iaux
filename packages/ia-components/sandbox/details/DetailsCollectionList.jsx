@@ -2,7 +2,7 @@ import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import { canonicalUrl } from '../../util';
-import { I18nSpan } from '../../../../../dweb-archive/components/Languages';
+import { I18nSpan } from '../languages/Languages';
 
 /**
  *  List of collections on details page
