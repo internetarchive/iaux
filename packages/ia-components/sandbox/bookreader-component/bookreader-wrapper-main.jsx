@@ -62,6 +62,8 @@ export default class BookReaderWrapper extends Component {
   }
 }
 
+BookReaderWrapper.displayName = 'BookReaderWrapper';
+
 BookReaderWrapper.defaultProps = {
   options: {},
 };
