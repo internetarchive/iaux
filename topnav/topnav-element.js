@@ -5,6 +5,7 @@ import './search-menu';
 import './media-menu';
 import './assets/img/hamburger'
 import './assets/img/search'
+import './assets/img/user'
 
 class TopnavElement extends LitElement {
 
@@ -62,12 +63,12 @@ class TopnavElement extends LitElement {
     const centerStyle = this.searchMenuOpen ? 'display: none' : 'display: flex';
     const centerActivatedStyle = this.searchMenuOpen ? 'display: flex' : 'display: none';
     const userButtonClass = this.userMenuOpen ? 'user-menu-active' : '';
-    const userImageSrc = this.userMenuOpen ? 'assets/img/ia-user-fff.svg' : 'assets/img/ia-user-999.svg';
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
     const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
     const hamburgerColour = this.mediaMenuOpen ? '#fff' : '#999';
     const searchGlassColour = this.searchMenuOpen ? '#222' : '#999';
+    const userColour = this.userMenuOpen ? '#fff' : '#999';
     return html`
     <nav class="navbar">
       <div class="left">
@@ -92,7 +93,7 @@ class TopnavElement extends LitElement {
       <!--End of replacement div-->
       <div class="right">
         <button class="${userButtonClass}" @click="${this.userMenu}">
-          <img src="${userImageSrc}" alt="User menu">
+          <user-image colour="${userColour}"></user-image>
         </button>
       </div>
     </nav>
