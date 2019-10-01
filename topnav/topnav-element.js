@@ -2,6 +2,10 @@ import { LitElement, html, css } from 'lit-element';
 
 import './user-menu';
 import './search-menu';
+import './media-menu';
+import './assets/img/hamburger';
+import './assets/img/search';
+import './assets/img/user';
 
 class TopnavElement extends LitElement {
 
@@ -10,7 +14,9 @@ class TopnavElement extends LitElement {
       userMenuOpen: { type: Boolean },
       userMenuAnimate: { type: Boolean },
       searchMenuOpen: { type: Boolean },
-      searchMenuAnimate: { type: Boolean }
+      searchMenuAnimate: { type: Boolean },
+      mediaMenuOpen: { type: Boolean },
+      mediaMenuAnimate: { type: Boolean }
     };
   }
 
@@ -21,16 +27,20 @@ class TopnavElement extends LitElement {
     this.searchMenuOpen = false;
     this.searchMenuAnimate = false;
     this.searchMenuFade = false;
+    this.mediaMenuOpen = false;
+    this.mediaMenuAnimate = false;
   }
 
-  userMenu() {
+  mediaMenu() {
+    this.userMenuOpen = this.userMenuOpen ? !this.userMenuOpen : this.userMenuOpen;
     this.searchMenuOpen = this.searchMenuOpen ? !this.searchMenuOpen : this.searchMenuOpen;
-    this.userMenuAnimate = true;
-    this.userMenuOpen = !this.userMenuOpen;
+    this.mediaMenuAnimate = true;
+    this.mediaMenuOpen = !this.mediaMenuOpen;
   }
 
   searchMenu() {
     this.userMenuOpen = this.userMenuOpen ? !this.userMenuOpen : this.userMenuOpen;
+    this.mediaMenuOpen = this.mediaMenuOpen ? !this.mediaMenuOpen : this.mediaMenuOpen;
     this.searchMenuAnimate = true;
     this.searchMenuFade = true
     this.searchMenuOpen = !this.searchMenuOpen;
@@ -41,24 +51,34 @@ class TopnavElement extends LitElement {
     }
   }
 
+  userMenu() {
+    this.searchMenuOpen = this.searchMenuOpen ? !this.searchMenuOpen : this.searchMenuOpen;
+    this.mediaMenuOpen = this.mediaMenuOpen ? !this.mediaMenuOpen : this.mediaMenuOpen;
+    this.userMenuAnimate = true;
+    this.userMenuOpen = !this.userMenuOpen;
+  }
+
   render() {
     const centerClass = this.searchMenuFade ? 'center fade-in' : 'center';
     const centerStyle = this.searchMenuOpen ? 'display: none' : 'display: flex';
     const centerActivatedStyle = this.searchMenuOpen ? 'display: flex' : 'display: none';
     const userButtonClass = this.userMenuOpen ? 'user-menu-active' : '';
-    const userImageSrc = this.userMenuOpen ? 'assets/img/ia-user-fff.svg' : 'assets/img/ia-user-999.svg';
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
+    const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
+    const hamburgerColour = this.mediaMenuOpen ? '#fff' : '#999';
+    const searchGlassColour = this.searchMenuOpen ? '#222' : '#999';
+    const userColour = this.userMenuOpen ? '#fff' : '#999';
     return html`
     <nav class="navbar">
       <div class="left">
-        <button><img src="assets/img/ia-hamburger.svg" alt="Main menu"></button>
+        <button @click="${this.mediaMenu}"><ham-burger colour="${hamburgerColour}"></ham-burger></button>
       </div>
       <div class="${centerClass}" style="${centerStyle}">
         <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button> <!--Fake element for alignment purposes-->
         <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"></a>
         <button class="search" @click="${this.searchMenu}">
-          <img src="assets/img/ia-search-999.svg" alt="Search">
+          <search-image colour="${searchGlassColour}"></search-image>
         </button>
       </div>
       <!--New div created to replace above one when search is activated-->
@@ -66,17 +86,18 @@ class TopnavElement extends LitElement {
         <div class="fake-box">
           <input type="text" id="search-field" placeholder="Search Internet Archive" required>
           <button class="search" @click="${this.searchMenu}">
-            <img src="assets/img/ia-search-222.svg" alt="Search">
+            <search-image colour="${searchGlassColour}"></search-image>
           </button>
         </div>
       </div>
       <!--End of replacement div-->
       <div class="right">
         <button class="${userButtonClass}" @click="${this.userMenu}">
-          <img src="${userImageSrc}" alt="User menu">
+          <user-image colour="${userColour}"></user-image>
         </button>
       </div>
     </nav>
+    <media-menu ?mediaMenuOpen="${this.mediaMenuOpen}" ?mediaMenuAnimate="${this.mediaMenuAnimate}" tabindex="${mediaMenuTabIndex}"></media-menu>
     <search-menu ?searchMenuOpen="${this.searchMenuOpen}" ?searchMenuAnimate="${this.searchMenuAnimate}" tabindex="${searchMenuTabIndex}"></search-menu>
     <user-menu ?userMenuOpen="${this.userMenuOpen}" ?userMenuAnimate="${this.userMenuAnimate}" tabindex="${userMenuTabIndex}"></user-menu>
     `;
@@ -95,7 +116,7 @@ class TopnavElement extends LitElement {
         position: relative;
         display: flex;
         flex-direction: row;
-        margin: 0px;
+        margin: 0;
         height: 52px;
         padding: 0 10px;
         background: var(--black);
@@ -132,7 +153,7 @@ class TopnavElement extends LitElement {
         /*padding: 6px;*/
       }
       button.user-menu-active {
-        border-radius: 10px 10px 0px 0px;
+        border-radius: 10px 10px 0 0;
         background: var(--grey20);
       }
       .center-search-activated {
@@ -140,7 +161,7 @@ class TopnavElement extends LitElement {
         flex: 1;
         align-items: center;
         justify-content: center;
-        border-radius: 10px 10px 0px 0px;
+        border-radius: 10px 10px 0 0;
         background: var(--grey20);
         padding: 6px 8px;
       }
@@ -156,7 +177,7 @@ class TopnavElement extends LitElement {
         background: var(--white);
         height: 40px;
         border-radius: 10px;
-        padding: 0px 0px 2px 0px;
+        padding: 0 0 2px 0px;
       }
       #search-field {
         width: 100%;
