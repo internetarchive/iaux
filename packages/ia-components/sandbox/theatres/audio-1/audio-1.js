@@ -14,7 +14,6 @@ import PlayTriangle from './play-triangle.svg'
 // import JwNavImg from './jw-screenshot2.png'
 
 import AudioNavigation from './audio-nav'
-import TheatreHamburger from '../../theatre-hamburger/theatre-hamburger'
 
 import JWPlayerContainer from '../../jwplayer-comp/jwplayer-comp'
 
@@ -202,7 +201,6 @@ class DwebableImg {
           </div>
         </div>
         {/* <AudioNavigation waveformImgUrl={waveformImgUrl} /> */}
-        <TheatreHamburger/>
     </div>
     )
   }
