@@ -8,10 +8,9 @@ class mediaMenuImage extends LitElement {
     };
   }
 
-  svgType() {
-    let svg;
+  render() {
     if (this.type === 'waybackMachine') {
-      svg = `
+      return html`
       <svg width="24px" height="18px" viewBox="0 0 24 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <g id="Topnav---mobile---hamburger-open-Copy-2" transform="translate(-10.000000, -53.000000)" fill="#999999">
@@ -30,7 +29,7 @@ class mediaMenuImage extends LitElement {
           </g>
       </svg>`;
     } else if (this.type === 'texts') {
-      svg = `
+      return html`
         <svg width="24px" height="19px" viewBox="0 0 24 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g id="Topnav---mobile---hamburger-open-Copy-2" transform="translate(-10.000000, -97.000000)" fill="#999999">
@@ -51,7 +50,7 @@ class mediaMenuImage extends LitElement {
             </g>
         </svg>`;
     } else if (this.type === 'video') {
-      svg = `
+      return html`
       <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <g id="Topnav---mobile---hamburger-open-Copy-2" transform="translate(-10.000000, -138.000000)" fill="#999999">
@@ -70,7 +69,7 @@ class mediaMenuImage extends LitElement {
           </g>
       </svg>`;
     } else if (this.type === 'audio') {
-      svg = `
+      return html`
       <svg width="20px" height="24px" viewBox="0 0 20 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <g id="Topnav---mobile---hamburger-open-Copy-2" transform="translate(-12.000000, -182.000000)" fill="#999999">
@@ -90,7 +89,7 @@ class mediaMenuImage extends LitElement {
           </g>
       </svg>`;
     } else if (this.type === 'software') {
-      svg = `
+      return html`
       <svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <g id="Topnav---mobile---hamburger-open-Copy-2" transform="translate(-11.000000, -226.000000)" fill="#999999">
@@ -109,7 +108,7 @@ class mediaMenuImage extends LitElement {
           </g>
       </svg>`;
     } else if (this.type === 'images') {
-      svg = `
+      return html`
       <svg width="24px" height="20px" viewBox="0 0 24 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <g id="Topnav---mobile---hamburger-open-Copy-2" transform="translate(-10.000000, -272.000000)" fill="#999999">
@@ -128,7 +127,7 @@ class mediaMenuImage extends LitElement {
           </g>
       </svg>`;
     } else if (this.type === 'more') {
-      svg = `
+      return html`
       <svg width="24px" height="20px" viewBox="0 0 24 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <g id="Topnav---mobile---hamburger-open-Copy-2" transform="translate(-10.000000, -272.000000)" fill="#999999">
@@ -147,14 +146,6 @@ class mediaMenuImage extends LitElement {
           </g>
       </svg>`;
     }
-    return svg;
-}
-
-  render() {
-    const svg = this.svgType()
-    return html`
-      ${svg}
-    `;
   }
 }
 

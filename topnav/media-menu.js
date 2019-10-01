@@ -39,19 +39,19 @@ class MediaMenu extends LitElement {
     >
       <!-- Include icon and name inline in a button-->
       <div class="grid">
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><img src="assets/img/ia-waybackmachine-999.svg"></div></button>
+        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="waybackMachine"></mediamenu-image></div></button>
         <button><div>Wayback Machine</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><img src="assets/img/ia-texts-999.svg"></div></button>
+        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="texts"></mediamenu-image></button>
         <button><div>Texts</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><img src="assets/img/ia-video-999.svg"></div></button>
+        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="video"></mediamenu-image></div></button>
         <button><div>Video</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><img src="assets/img/ia-audio-999.svg"></div></button>
+        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="audio"></mediamenu-image></div></button>
         <button><div>Audio</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><img src="assets/img/ia-software-999.svg"></div></button>
+        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="software"></mediamenu-image></div></button>
         <button><div>Software</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><img src="assets/img/ia-images-999.svg"></div></button>
+        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="images"></mediamenu-image></div></button>
         <button><div>Images</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><img src="assets/img/ia-more-999.svg"></div></button>
+        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="more"></mediamenu-image></div></button>
         <button><div>More</div></button>
       </div>
     </nav>
