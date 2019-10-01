@@ -3,9 +3,9 @@ import { LitElement, html, css } from 'lit-element';
 import './user-menu';
 import './search-menu';
 import './media-menu';
-import './assets/img/hamburger'
-import './assets/img/search'
-import './assets/img/user'
+import './assets/img/hamburger';
+import './assets/img/search';
+import './assets/img/user';
 
 class TopnavElement extends LitElement {
 

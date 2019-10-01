@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 
-import './media-slider'
-import './assets/img/media-menu-images'
+import './media-slider';
+import './assets/img/media-menu-images';
 
 class MediaMenu extends LitElement {
 
