@@ -43,7 +43,7 @@ class UserMenu extends LitElement {
         transform: translate(0, -2000px);
       }
       .open {
-        transform: translate(0, -1220px);
+        transform: translate(0, -1285px);
         z-index: 1;
       }
       @keyframes slide-in {
@@ -51,12 +51,12 @@ class UserMenu extends LitElement {
           transform: translate(0, -2000px);
         }
         100% {
-          transform: translate(0, -1220px);
+          transform: translate(0, -1285px);
         }
       }
       @keyframes slide-out {
         0% {
-          transform: translate(0, -1220px);
+          transform: translate(0, -1285px);
         }
         100% {
           transform: translate(0, -2000px);
