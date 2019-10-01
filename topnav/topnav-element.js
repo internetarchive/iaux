@@ -2,7 +2,8 @@ import { LitElement, html, css } from 'lit-element';
 
 import './user-menu';
 import './search-menu';
-import './media-menu'
+import './media-menu';
+import './assets/img/hamburger'
 
 class TopnavElement extends LitElement {
 
@@ -64,11 +65,11 @@ class TopnavElement extends LitElement {
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
     const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
-    const mediaImageSrc = this.mediaMenuOpen ? 'assets/img/ia-hamburger-fff.svg' : 'assets/img/ia-hamburger-999.svg';
+    const hamburgerColor = this.mediaMenuOpen ? '#fff' : '#999';
     return html`
     <nav class="navbar">
       <div class="left">
-        <button @click="${this.mediaMenu}"><img src="${mediaImageSrc}" alt="Main menu"></button>
+        <button @click="${this.mediaMenu}"><ham-burger colour="${hamburgerColor}"></ham-burger></button>
       </div>
       <div class="${centerClass}" style="${centerStyle}">
         <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button> <!--Fake element for alignment purposes-->
