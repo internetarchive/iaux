@@ -4,6 +4,7 @@ import './user-menu';
 import './search-menu';
 import './media-menu';
 import './assets/img/hamburger'
+import './assets/img/search'
 
 class TopnavElement extends LitElement {
 
@@ -65,17 +66,18 @@ class TopnavElement extends LitElement {
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
     const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
-    const hamburgerColor = this.mediaMenuOpen ? '#fff' : '#999';
+    const hamburgerColour = this.mediaMenuOpen ? '#fff' : '#999';
+    const searchGlassColour = this.searchMenuOpen ? '#222' : '#999';
     return html`
     <nav class="navbar">
       <div class="left">
-        <button @click="${this.mediaMenu}"><ham-burger colour="${hamburgerColor}"></ham-burger></button>
+        <button @click="${this.mediaMenu}"><ham-burger colour="${hamburgerColour}"></ham-burger></button>
       </div>
       <div class="${centerClass}" style="${centerStyle}">
         <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button> <!--Fake element for alignment purposes-->
         <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"></a>
         <button class="search" @click="${this.searchMenu}">
-          <img src="assets/img/ia-search-999.svg" alt="Search">
+          <search-image colour="${searchGlassColour}"></search-image>
         </button>
       </div>
       <!--New div created to replace above one when search is activated-->
@@ -83,7 +85,7 @@ class TopnavElement extends LitElement {
         <div class="fake-box">
           <input type="text" id="search-field" placeholder="Search Internet Archive" required>
           <button class="search" @click="${this.searchMenu}">
-            <img src="assets/img/ia-search-222.svg" alt="Search">
+            <search-image colour="${searchGlassColour}"></search-image>
           </button>
         </div>
       </div>
