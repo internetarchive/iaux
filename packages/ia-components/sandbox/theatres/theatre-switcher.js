@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Item } from 'ia-js-client';
 import BookreaderTheatre from './bookreader-theatre/bookreader-theatre';
-import Audio1 from './audio-1/audio-1'
 
 /**
  * Uses the Item instance, to detect what theatre to show and shows it.
@@ -42,7 +41,6 @@ export default class TheatreSwitcher extends React.Component {
         theatreEl = <BookreaderTheatre item={this.props.item} />
         break;
       case TheatreSwitcher.THEATRE_TYPES.AUDIO:
-        theatreEl = <Audio1 identifier={this.props.item.identifier} />
         break;
       case TheatreSwitcher.THEATRE_TYPES.NONE:
         theatreEl = <div style={{
