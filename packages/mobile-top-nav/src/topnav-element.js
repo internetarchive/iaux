@@ -8,7 +8,6 @@ import './assets/img/search';
 import './assets/img/user';
 
 class TopnavElement extends LitElement {
-
   static get properties() {
     return {
       userMenuOpen: { type: Boolean },
@@ -42,7 +41,7 @@ class TopnavElement extends LitElement {
     this.userMenuOpen = this.userMenuOpen ? !this.userMenuOpen : this.userMenuOpen;
     this.mediaMenuOpen = this.mediaMenuOpen ? !this.mediaMenuOpen : this.mediaMenuOpen;
     this.searchMenuAnimate = true;
-    this.searchMenuFade = true
+    this.searchMenuFade = true;
     this.searchMenuOpen = !this.searchMenuOpen;
     if (this.searchMenuOpen) {
       window.setTimeout(() => {
