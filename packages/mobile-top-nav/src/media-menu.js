@@ -4,7 +4,6 @@ import './media-slider';
 import './assets/img/media-menu-images';
 
 class MediaMenu extends LitElement {
-
   static get properties() {
     return {
       mediaMenuOpen: { type: Boolean },

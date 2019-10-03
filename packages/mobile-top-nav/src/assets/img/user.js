@@ -1,7 +1,6 @@
 import { LitElement, html } from 'lit-element';
 
 class User extends LitElement {
-
   static get properties() {
     return {
       colour: { type: String }
