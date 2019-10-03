@@ -40,8 +40,6 @@ export default class TheatreSwitcher extends React.Component {
       case TheatreSwitcher.THEATRE_TYPES.BOOKREADER:
         theatreEl = <BookreaderTheatre item={this.props.item} />
         break;
-      case TheatreSwitcher.THEATRE_TYPES.AUDIO:
-        break;
       case TheatreSwitcher.THEATRE_TYPES.NONE:
         theatreEl = <div style={{
           color: 'grey',
