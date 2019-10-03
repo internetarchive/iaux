@@ -1,7 +1,7 @@
+/* eslint-disable */
 import { LitElement, html } from 'lit-element';
 
 class mediaMenuImage extends LitElement {
-
   static get properties() {
     return {
       type: { type: String }
@@ -28,7 +28,7 @@ class mediaMenuImage extends LitElement {
               </g>
           </g>
       </svg>`;
-    } else if (this.type === 'texts') {
+    } if (this.type === 'texts') {
       return html`
         <svg width="24px" height="19px" viewBox="0 0 24 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -49,7 +49,7 @@ class mediaMenuImage extends LitElement {
                 </g>
             </g>
         </svg>`;
-    } else if (this.type === 'video') {
+    } if (this.type === 'video') {
       return html`
       <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -68,7 +68,7 @@ class mediaMenuImage extends LitElement {
               </g>
           </g>
       </svg>`;
-    } else if (this.type === 'audio') {
+    } if (this.type === 'audio') {
       return html`
       <svg width="20px" height="24px" viewBox="0 0 20 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -88,7 +88,7 @@ class mediaMenuImage extends LitElement {
               </g>
           </g>
       </svg>`;
-    } else if (this.type === 'software') {
+    } if (this.type === 'software') {
       return html`
       <svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -107,7 +107,7 @@ class mediaMenuImage extends LitElement {
               </g>
           </g>
       </svg>`;
-    } else if (this.type === 'images') {
+    } if (this.type === 'images') {
       return html`
       <svg width="24px" height="20px" viewBox="0 0 24 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -126,7 +126,7 @@ class mediaMenuImage extends LitElement {
               </g>
           </g>
       </svg>`;
-    } else if (this.type === 'more') {
+    } if (this.type === 'more') {
       return html`
       <svg width="24px" height="20px" viewBox="0 0 24 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g id="Mockups-&amp;-Interactions-(Revised)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -146,6 +146,7 @@ class mediaMenuImage extends LitElement {
           </g>
       </svg>`;
     }
+    return '';
   }
 }
 

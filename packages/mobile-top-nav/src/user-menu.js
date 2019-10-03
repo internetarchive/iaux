@@ -1,7 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 
 class UserMenu extends LitElement {
-
   static get properties() {
     return {
       userMenuOpen: { type: Boolean },
