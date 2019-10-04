@@ -7,7 +7,7 @@ import './assets/img/hamburger';
 import './assets/img/search';
 import './assets/img/user';
 
-class TopnavElement extends LitElement {
+export default class TopnavElement extends LitElement {
   static get properties() {
     return {
       userMenuOpen: { type: Boolean },
@@ -15,7 +15,7 @@ class TopnavElement extends LitElement {
       searchMenuOpen: { type: Boolean },
       searchMenuAnimate: { type: Boolean },
       mediaMenuOpen: { type: Boolean },
-      mediaMenuAnimate: { type: Boolean }
+      mediaMenuAnimate: { type: Boolean },
     };
   }
 
@@ -69,36 +69,51 @@ class TopnavElement extends LitElement {
     const searchGlassColour = this.searchMenuOpen ? '#222' : '#999';
     const userColour = this.userMenuOpen ? '#fff' : '#999';
     return html`
-    <nav class="navbar">
-      <div class="left">
-        <button @click="${this.mediaMenu}"><ham-burger colour="${hamburgerColour}"></ham-burger></button>
-      </div>
-      <div class="${centerClass}" style="${centerStyle}">
-        <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button> <!--Fake element for alignment purposes-->
-        <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"></a>
-        <button class="search" @click="${this.searchMenu}">
-          <search-image colour="${searchGlassColour}"></search-image>
-        </button>
-      </div>
-      <!--New div created to replace above one when search is activated-->
-      <div class="center-search-activated fade-in" style="${centerActivatedStyle}">
-        <div class="fake-box">
-          <input type="text" id="search-field" placeholder="Search Internet Archive" required>
+      <nav class="navbar">
+        <div class="left">
+          <button @click="${this.mediaMenu}">
+            <ham-burger colour="${hamburgerColour}"></ham-burger>
+          </button>
+        </div>
+        <div class="${centerClass}" style="${centerStyle}">
+          <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button>
+          <!--Fake element for alignment purposes-->
+          <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"/></a>
           <button class="search" @click="${this.searchMenu}">
             <search-image colour="${searchGlassColour}"></search-image>
           </button>
         </div>
-      </div>
-      <!--End of replacement div-->
-      <div class="right">
-        <button class="${userButtonClass}" @click="${this.userMenu}">
-          <user-image colour="${userColour}"></user-image>
-        </button>
-      </div>
-    </nav>
-    <media-menu ?mediaMenuOpen="${this.mediaMenuOpen}" ?mediaMenuAnimate="${this.mediaMenuAnimate}" tabindex="${mediaMenuTabIndex}"></media-menu>
-    <search-menu ?searchMenuOpen="${this.searchMenuOpen}" ?searchMenuAnimate="${this.searchMenuAnimate}" tabindex="${searchMenuTabIndex}"></search-menu>
-    <user-menu ?userMenuOpen="${this.userMenuOpen}" ?userMenuAnimate="${this.userMenuAnimate}" tabindex="${userMenuTabIndex}"></user-menu>
+        <!--New div created to replace above one when search is activated-->
+        <div class="center-search-activated fade-in" style="${centerActivatedStyle}">
+          <div class="fake-box">
+            <input type="text" id="search-field" placeholder="Search Internet Archive" required />
+            <button class="search" @click="${this.searchMenu}">
+              <search-image colour="${searchGlassColour}"></search-image>
+            </button>
+          </div>
+        </div>
+        <!--End of replacement div-->
+        <div class="right">
+          <button class="${userButtonClass}" @click="${this.userMenu}">
+            <user-image colour="${userColour}"></user-image>
+          </button>
+        </div>
+      </nav>
+      <media-menu
+        ?mediaMenuOpen="${this.mediaMenuOpen}"
+        ?mediaMenuAnimate="${this.mediaMenuAnimate}"
+        tabindex="${mediaMenuTabIndex}"
+      ></media-menu>
+      <search-menu
+        ?searchMenuOpen="${this.searchMenuOpen}"
+        ?searchMenuAnimate="${this.searchMenuAnimate}"
+        tabindex="${searchMenuTabIndex}"
+      ></search-menu>
+      <user-menu
+        ?userMenuOpen="${this.userMenuOpen}"
+        ?userMenuAnimate="${this.userMenuAnimate}"
+        tabindex="${userMenuTabIndex}"
+      ></user-menu>
     `;
   }
 
@@ -108,7 +123,7 @@ class TopnavElement extends LitElement {
         --white: #fff;
         --grey20: #333;
         --black: #000;
-        --theme-font-family: "Helvetica Neue";
+        --theme-font-family: 'Helvetica Neue';
         --link-color: #428bca;
       }
       .navbar {
@@ -164,7 +179,7 @@ class TopnavElement extends LitElement {
         background: var(--grey20);
         padding: 6px 8px;
       }
-      .center-search-activated .fake-box{
+      .center-search-activated .fake-box {
         background: var(--white);
         border-radius: 10px;
         display: flex;
@@ -172,7 +187,7 @@ class TopnavElement extends LitElement {
         height: 40px;
         padding: 0px;
       }
-      .center-search-activated .search{
+      .center-search-activated .search {
         background: var(--white);
         height: 40px;
         border-radius: 10px;
