@@ -1,3 +1,3 @@
-import IAMobileTopNav from './src/mobile-top-nav';
+import IAMobileTopNav from './src/topnav-element';
 
 export default IAMobileTopNav;
