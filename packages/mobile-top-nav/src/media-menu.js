@@ -9,7 +9,7 @@ class MediaMenu extends LitElement {
       mediaMenuOpen: { type: Boolean },
       mediaMenuAnimate: { type: Boolean },
       mediaSliderOpen: { type: Boolean },
-      mediaSliderAnimate: { type: Boolean }
+      mediaSliderAnimate: { type: Boolean },
     };
   }
 
@@ -27,34 +27,51 @@ class MediaMenu extends LitElement {
   }
 
   render() {
-    const mediaMenuClass = this.mediaMenuOpen ? 'media-menu open slide-in' : this.mediaMenuAnimate ? 'media-menu slide-out' : 'media-menu';
+    let mediaMenuClass = '';
+    if (this.mediaMenuOpen) {
+      mediaMenuClass = 'open slide-in';
+    }
+    if (!this.mediaMenuOpen && this.mediaMenuAnimate) {
+      mediaMenuClass = 'slide-out';
+    }
     const mediaMenuHidden = this.mediaMenuOpen ? 'false' : 'true';
     const mediaMenuExpanded = this.mediaMenuOpen ? 'true' : 'false';
     return html`
-    <nav
-      class="${mediaMenuClass}"
-      aria-hidden="${mediaMenuHidden}"
-      aria-expanded="${mediaMenuExpanded}"
-    >
-      <!-- Include icon and name inline in a button-->
-      <div class="grid">
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="waybackMachine"></mediamenu-image></div></button>
-        <button><div>Wayback Machine</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="texts"></mediamenu-image></button>
-        <button><div>Texts</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="video"></mediamenu-image></div></button>
-        <button><div>Video</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="audio"></mediamenu-image></div></button>
-        <button><div>Audio</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="software"></mediamenu-image></div></button>
-        <button><div>Software</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="images"></mediamenu-image></div></button>
-        <button><div>Images</div></button>
-        <button tabindex="-1" @click="${this.mediaSlider}"><div><mediamenu-image type="more"></mediamenu-image></div></button>
-        <button><div>More</div></button>
-      </div>
-    </nav>
-    <media-slider ?mediaSliderOpen="${this.mediaSliderOpen}" ?mediaSliderAnimate="${this.mediaSliderAnimate}"></media-slider>
+      <nav
+        class="media-menu ${mediaMenuClass}"
+        aria-hidden="${mediaMenuHidden}"
+        aria-expanded="${mediaMenuExpanded}"
+      >
+        <!-- Include icon and name inline in a button-->
+        <div class="main-menu">
+          <button tabindex="-1" @click="${this.mediaSlider}">
+            <span><mediamenu-image type="waybackMachine"></mediamenu-image></span
+            ><span>Wayback Machine</span>
+          </button>
+          <button tabindex="-1" @click="${this.mediaSlider}">
+            <span><mediamenu-image type="texts"></mediamenu-image></span><span>Texts</span>
+          </button>
+          <button tabindex="-1" @click="${this.mediaSlider}">
+            <span><mediamenu-image type="video"></mediamenu-image></span><span>Video</span>
+          </button>
+          <button tabindex="-1" @click="${this.mediaSlider}">
+            <span><mediamenu-image type="audio"></mediamenu-image></span><span>Audio</span>
+          </button>
+          <button tabindex="-1" @click="${this.mediaSlider}">
+            <span><mediamenu-image type="software"></mediamenu-image></span><span>Software</span>
+          </button>
+          <button tabindex="-1" @click="${this.mediaSlider}">
+            <span><mediamenu-image type="images"></mediamenu-image></span><span>Images</span>
+          </button>
+          <button tabindex="-1" @click="${this.mediaSlider}">
+            <span><mediamenu-image type="more"></mediamenu-image></span><span>More</span>
+          </button>
+        </div>
+      </nav>
+      <media-slider
+        ?mediaSliderOpen="${this.mediaSliderOpen}"
+        ?mediaSliderAnimate="${this.mediaSliderAnimate}"
+      ></media-slider>
     `;
   }
 
@@ -67,7 +84,7 @@ class MediaMenu extends LitElement {
         color: var(--white);
         margin: 0;
         font-size: 20px;
-        font-family: "Helvetica Neue";
+        font-family: 'Helvetica Neue';
         transform: translate(0, -1000px);
       }
       .media-menu button {
@@ -106,21 +123,25 @@ class MediaMenu extends LitElement {
       .slide-out {
         animation: slide-out 0.5s forwards;
       }
-      .grid {
+      .main-menu {
         padding: 10px;
-        display: grid;
-        grid-template-columns: 50px 300px;
       }
-      .grid div {
-        height: 40px;
+      .main-menu button {
+        width: 100%;
+        display: block;
+        height: 70px;
         padding: 10px;
+        outline: none;
+      }
+      .main-menu button > span {
+        padding: 0 10px;
       }
       a {
         display: inline;
         color: var(--white);
         text-decoration: none;
       }
-     `;
+    `;
   }
 }
 
