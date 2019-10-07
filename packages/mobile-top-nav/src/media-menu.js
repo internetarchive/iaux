@@ -10,6 +10,7 @@ class MediaMenu extends LitElement {
       mediaMenuAnimate: { type: Boolean },
       mediaSliderOpen: { type: Boolean },
       mediaSliderAnimate: { type: Boolean },
+      tabHeightMultiplier: { type: Number },
     };
   }
 
@@ -17,13 +18,17 @@ class MediaMenu extends LitElement {
     super();
     this.mediaSliderOpen = false;
     this.mediaSliderAnimate = false;
+    this.tabHeightMultiplier = 0;
   }
 
-  mediaSlider() {
+  mediaSlider(tabMultiplier) {
     // Only keep side menu open until menu closed
     // Shift menu downwards as per button clicked
-    this.mediaSliderAnimate = true;
-    this.mediaSliderOpen = !this.mediaSliderOpen;
+    if (!this.mediaSliderOpen) {
+      this.mediaSliderAnimate = true;
+      this.mediaSliderOpen = !this.mediaSliderOpen;
+    }
+    this.tabHeightMultiplier = tabMultiplier;
   }
 
   render() {
@@ -44,26 +49,26 @@ class MediaMenu extends LitElement {
       >
         <!-- Include icon and name inline in a button-->
         <div class="main-menu">
-          <button tabindex="-1" @click="${this.mediaSlider}">
+          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 0)}">
             <span><mediamenu-image type="waybackMachine"></mediamenu-image></span
             ><span>Wayback Machine</span>
           </button>
-          <button tabindex="-1" @click="${this.mediaSlider}">
+          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 1)}">
             <span><mediamenu-image type="texts"></mediamenu-image></span><span>Texts</span>
           </button>
-          <button tabindex="-1" @click="${this.mediaSlider}">
+          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 2)}">
             <span><mediamenu-image type="video"></mediamenu-image></span><span>Video</span>
           </button>
-          <button tabindex="-1" @click="${this.mediaSlider}">
+          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 3)}">
             <span><mediamenu-image type="audio"></mediamenu-image></span><span>Audio</span>
           </button>
-          <button tabindex="-1" @click="${this.mediaSlider}">
+          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 4)}">
             <span><mediamenu-image type="software"></mediamenu-image></span><span>Software</span>
           </button>
-          <button tabindex="-1" @click="${this.mediaSlider}">
+          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 5)}">
             <span><mediamenu-image type="images"></mediamenu-image></span><span>Images</span>
           </button>
-          <button tabindex="-1" @click="${this.mediaSlider}">
+          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 6)}">
             <span><mediamenu-image type="more"></mediamenu-image></span><span>More</span>
           </button>
         </div>
@@ -71,6 +76,7 @@ class MediaMenu extends LitElement {
       <media-slider
         ?mediaSliderOpen="${this.mediaSliderOpen}"
         ?mediaSliderAnimate="${this.mediaSliderAnimate}"
+        .tabHeightMultiplier="${this.tabHeightMultiplier}"
       ></media-slider>
     `;
   }
