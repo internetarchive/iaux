@@ -4,23 +4,41 @@ class MediaSlider extends LitElement {
   static get properties() {
     return {
       mediaSliderOpen: { type: Boolean },
-      mediaSliderAnimate: { type: Boolean }
+      mediaSliderAnimate: { type: Boolean },
+      links: { type: Array },
+      tabHeightMultiplier: { type: Number },
     };
   }
 
-  render() {
-    const mediaSliderInfoClass = this.mediaSliderOpen ? 'information-menu im-slide-in' : this.mediaSliderAnimate ? 'information-menu im-slide-out' : 'information-menu offscreen';
-    const mediaSliderRectClass = this.mediaSliderOpen ? 'rounded-rectangle rr-slide-in' : this.mediaSliderAnimate ? 'rounded-rectangle rr-slide-out' : 'rounded-rectangle offscreen';
+  constructor() {
+    super();
+    this.tabHeightPx = 70;
+  }
 
+  render() {
+    let sliderDetailsClass = 'offscreen';
+    let tabClass = 'offscreen';
+
+    if (this.mediaSliderOpen) {
+      sliderDetailsClass = 'im-slide-in';
+      tabClass = 'rr-slide-in';
+    }
+
+    if (!this.mediaSliderOpen && this.mediaSliderAnimate) {
+      sliderDetailsClass = 'im-slide-out';
+      tabClass = 'rr-slide-out';
+    }
+
+    const tabTopStyle = `${Math.round(this.tabHeightPx * this.tabHeightMultiplier)}px`;
     return html`
-      <div class="${mediaSliderInfoClass}">
+      <div class="information-menu ${sliderDetailsClass}">
         <div class="info-box">
           <div class="info-box-1">
             <p>Internet archive audio</p>
           </div>
         </div>
       </div>
-      <div class="${mediaSliderRectClass}"></div>
+      <div class="rounded-rectangle ${tabClass}" style="top:${tabTopStyle}"></div>
     `;
   }
 
