@@ -4,7 +4,7 @@ Monorepo for [Archive.org](https://archive.org) UX development and prototyping.
 
 **Note:** This is work-in-progress code, and until development has stabilized, things may change a lot. This library is being published with our use cases in mind and is not necessarily meant to be consumed by the broader public.
 
-There are multiple npm packages in this repo, and [Lerna](https://lernajs.io) is used to manage them.
+There are multiple npm packages in this repo, and [Lerna](https://lerna.js.org/) is used to manage them.
 
 
 ## Setup
