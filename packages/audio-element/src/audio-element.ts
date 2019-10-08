@@ -16,7 +16,7 @@ export default class AudioElement extends LitElement {
 
   @property({ type: Number }) volume = 1;
 
-  @property({ type: Array }) sources = [];
+  @property({ type: Array }) sources: AudioSource[] = [];
 
   get duration(): number {
     /* istanbul ignore next */

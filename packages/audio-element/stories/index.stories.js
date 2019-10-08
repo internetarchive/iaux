@@ -7,7 +7,7 @@ import {
   withClassPropertiesKnobs,
 } from '@open-wc/demoing-storybook';
 
-import AudioElement from '../index.js';
+import { AudioElement } from '../index.js';
 import springMp3 from './spring.mp3';
 
 storiesOf('audio-element', module)
