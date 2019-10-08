@@ -1,7 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 
 class MediaSlider extends LitElement {
-
   static get properties() {
     return {
       mediaSliderOpen: { type: Boolean },
