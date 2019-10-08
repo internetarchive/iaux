@@ -125,7 +125,7 @@ export default class ScrubberBar extends LitElement {
 
     const trackHeight = css`var(--trackHeight, 10px)`;
     const trackBorderRadius = css`var(--trackBorderRadius, 5px)`;
-    const trackBorder = css`var(--trackBorder, 1px solid black)`;
+    const trackBorder = css`var(--trackBorder, 1px solid white)`;
     const trackFillColor = css`var(--trackFillColor, #3272b6)`;
     const trackColor = css`var(--trackColor, black)`;
 
