@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <title>Grid Test</title>
+
+    <style>
+      main {
+        display: grid;
+        grid-gap: 0.5rem;
+      }
+
+      main > div {
+        outline: 1px solid green;
+      }
+
+      /* mobile view */
+      @media (max-width: 30em) {
+        main {
+          grid-template-columns: 192px 1fr;
+          grid-template-areas:
+            "logo title-date"
+            "waveform-scrubber-bar waveform-scrubber-bar"
+            "playback-controls playback-controls"
+            "search-section search-section"
+            "transcript-container transcript-container";
+        }
+        .date {
+          text-align: left;
+        }
+      }
+
+      /* wide view */
+      @media (min-width: 30em) {
+        main {
+          grid-template-columns: 192px 200px 1fr;
+          grid-template-areas:
+            "title-date title-date title-date"
+            "logo playback-controls waveform-scrubber-bar"
+            "search-section transcript-container transcript-container";
+        }
+        .title-date {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+      .logo {
+        grid-area: logo;
+      }
+      .title-date {
+        grid-area: title-date;
+      }
+      .playback-controls {
+        grid-area: playback-controls;
+      }
+      .waveform-scrubber-bar {
+        grid-area: waveform-scrubber-bar;
+      }
+      .search-section {
+        grid-area: search-section;
+      }
+      .transcript-container {
+        grid-area: transcript-container;
+      }
+      .transcript-view {
+        border: 1px solid red;
+        max-width: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="./logo.jpg" class="logo" />
+      <div class="title-date">
+        <div class="title">
+          Voice of America
+        </div>
+
+        <div class="date">
+          2019-09-12 17:00:00
+        </div>
+      </div>
+
+      <div class="playback-controls">Playback Controls</div>
+
+      <div class="waveform-scrubber-bar">Waveform Scrubber</div>
+
+      <div class="search-section">Search</div>
+
+      <div class="transcript-container">
+        <div class="transcript-view">
+          Transcript View
+        </div>
+      </div>
+
+    </main>
+  </body>
+</html>

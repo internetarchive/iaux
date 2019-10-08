@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      background: #000;
+      font-family: sans-serif;
+    }
+
+    radio-player-controller {
+      display: block;
+      border-bottom: 1px solid white;
+      line-height: 1.5rem;
+      color: white;
+
+      --timeColor: white;
+      --timeColumnWidth: 3rem;
+      --transcriptHeight: 200px;
+
+      --autoScrollButtonFontColor: black;
+      --autoScrollButtonBackgroundColor: white;
+
+      --normalTextColor: gray;
+      --activeTextColor: white;
+      --searchResultInactiveBorderColor: gray;
+      --searchResultActiveBorderColor: green;
+
+      --trackColor: black;
+      --trackBorder: 1px solid white;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import '../lib/demo/radio-player-controller.js'
+
+    render(
+      html`
+        <radio-player-controller>
+        </radio-player-controller>
+      `,
+      document.querySelector('#demo')
+    );
+  </script>
+</body>
+</html>
