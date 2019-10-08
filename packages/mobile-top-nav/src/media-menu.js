@@ -21,6 +21,19 @@ class MediaMenu extends LitElement {
     this.tabHeightMultiplier = 0;
   }
 
+  updated(changedProperties) {
+    const { mediaMenuOpen, mediaSliderOpen } = this;
+    const menuClosed =
+      changedProperties.has('mediaMenuOpen') &&
+      changedProperties.get('mediaMenuOpen') &&
+      !mediaMenuOpen;
+
+    if (menuClosed && mediaSliderOpen) {
+      this.mediaSliderOpen = false;
+      this.mediaSliderAnimate = false;
+    }
+  }
+
   mediaSlider(tabMultiplier) {
     // Only keep side menu open until menu closed
     // Shift menu downwards as per button clicked
