@@ -1,26 +1,56 @@
-import { LitElement, html, css, customElement, property } from 'lit-element';
+import { LitElement, html, css, customElement, property, TemplateResult } from 'lit-element';
 import { PlaybackMode } from './playback-mode';
+
 import replayImage from './assets/img/replay';
 import skipAheadImage from './assets/img/skip-ahead';
 import playImage from './assets/img/play';
 import pauseImage from './assets/img/pause';
+import playbackSpeedImage from './assets/img/playback-speed';
+
+import volumeFullImage from './assets/img/volume/volume-full';
+import volumeMediumImage from './assets/img/volume/volume-medium';
+import volumeMuteImage from './assets/img/volume/volume-mute';
 
 @customElement('playback-controls')
 export default class PlaybackControls extends LitElement {
   @property({ type: PlaybackMode }) playbackMode = PlaybackMode.paused;
 
-  render() {
+  @property({ type: Number }) playbackRate = 1;
+
+  @property({ type: Number }) volume = 1;
+
+  render(): TemplateResult {
     return html`
       <div class="container">
-        <button id="back-btn" class="jump-btn" @click="${this.handleBackButton}">
+        <div class="vertical-button-stack playback-speed">
+          <div class="vertical-button-container">
+            <button class="unstyled-button" @click="${this.handlePlaybackRateChange}">
+              ${playbackSpeedImage}
+            </button>
+          </div>
+          <div class="vertical-button-value">
+            ${this.playbackRate}x
+          </div>
+        </div>
+        <button id="back-btn" class="jump-btn unstyled-button" @click="${this.handleBackButton}">
           ${replayImage}
         </button>
         <button id="play-pause-btn" @click="${this.handlePlayPauseButton}">
           ${this.playPauseButtonImage}
         </button>
-        <button id="forward-btn" class="jump-btn" @click="${this.handleForwardButton}">
+        <button id="forward-btn" class="jump-btn unstyled-button" @click="${this.handleForwardButton}">
           ${skipAheadImage}
         </button>
+        <div class="vertical-button-stack volume">
+          <div class="vertical-button-container">
+            <button class="unstyled-button" @click="${this.handleVolumeChange}">
+              ${this.volumeButtonImage}
+            </button>
+          </div>
+          <div class="vertical-button-value">
+            ${this.volume * 100}%
+          </div>
+        </div>
       </div>
     `;
   }
@@ -36,6 +66,47 @@ export default class PlaybackControls extends LitElement {
         break;
     }
     return image;
+  }
+
+  get volumeButtonImage(): TemplateResult {
+    var image = volumeMediumImage;
+    if (this.volume === 0) {
+      image = volumeMuteImage;
+    }
+    if (this.volume === 1) {
+      image = volumeFullImage;
+    }
+    return image
+  }
+
+  handlePlaybackRateChange() {
+    if (this.playbackRate === 2.0) {
+      this.playbackRate = 0.5;
+    } else {
+      this.playbackRate += 0.25;
+    }
+
+    const event = new CustomEvent('playbackRateChange', {
+      detail: { playbackRate: this.playbackRate },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
+  }
+
+  handleVolumeChange() {
+    if (this.volume === 1) {
+      this.volume = 0;
+    } else {
+      this.volume += 0.25;
+    }
+
+    const event = new CustomEvent('volumeChange', {
+      detail: { volume: this.volume },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
   }
 
   handleBackButton() {
@@ -56,15 +127,49 @@ export default class PlaybackControls extends LitElement {
 
   static get styles() {
     return css`
+      :host {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+      }
+
       .container {
         display: flex;
         justify-content: space-between;
+        color: white;
+        width: 100%;
+      }
+
+      .vertical-button-stack {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .vertical-button-container {
+        text-align: center;
+      }
+
+      .vertical-button-container button {
+        vertical-align: bottom;
+      }
+
+      .vertical-button-container svg {
+        vertical-align: bottom;
+      }
+
+      .vertical-button-value {
+        font-size: 0.7em;
+        line-height: 1.4em;
+        text-align: center;
       }
 
       #play-pause-btn {
         border-radius: 50%;
-        width: 5rem;
-        height: 5rem;
+        height: 3rem;
+        width: 3rem;
         border: none;
         background-color: white;
         vertical-align: middle;
@@ -79,9 +184,15 @@ export default class PlaybackControls extends LitElement {
         height: 100%;
       }
 
-      .jump-btn {
+      .unstyled-button {
         background: none;
         border: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      button {
+        cursor: pointer;
       }
 
       .jump-btn:active img {
