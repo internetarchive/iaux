@@ -10,6 +10,8 @@ import {
 } from '@internetarchive/transcript-view';
 
 import transcript from './transcript3.js';
+// prettier-ignore
+import '../src/radio-player';
 import RadioPlayer from '../src/radio-player';
 import RadioPlayerConfig from '../src/models/radio-player-config';
 
