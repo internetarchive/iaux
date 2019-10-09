@@ -7,7 +7,7 @@ import {
   withClassPropertiesKnobs,
 } from '@open-wc/demoing-storybook';
 
-import '../playback-controls';
+import '../index';
 
 storiesOf('playback-controls', module)
   .addDecorator(withKnobs)
