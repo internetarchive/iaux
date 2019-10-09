@@ -319,24 +319,28 @@ export default class TranscriptView extends LitElement {
     }
   }
 
-  get scrollView(): HTMLElement | null {
+  private get scrollView(): HTMLElement | null {
     return this.shadowRoot && (this.shadowRoot.getElementById('scroll-container') as HTMLElement);
   }
 
-  get activeTranscriptEntry(): HTMLElement | null {
+  private get activeTranscriptEntry(): HTMLElement | null {
     return (
       this.shadowRoot &&
       (this.shadowRoot.querySelector('transcript-entry[isActive]') as HTMLElement)
     );
   }
 
-  get selectedSearchResult(): HTMLElement | null {
+  private get selectedSearchResult(): HTMLElement | null {
     const selectedResult =
       this.shadowRoot &&
       this.shadowRoot.querySelector(
         `transcript-entry[data-search-result-index="${this.selectedSearchResultIndex}"]`,
       );
     return selectedResult as HTMLElement;
+  }
+
+  private get closestEntryToCurrentTime(): HTMLElement | null {
+    return this.activeTranscriptEntry || this.elementClosestToTime(this.currentTime);
   }
 
   private handleAutoScrollChange(): void {
@@ -352,7 +356,7 @@ export default class TranscriptView extends LitElement {
     if (!this.autoScroll) {
       return;
     }
-    const closestEntry: HTMLElement | null = this.activeTranscriptEntry || this.elementClosestToTime(this.currentTime);
+    const closestEntry: HTMLElement | null = this.closestEntryToCurrentTime;
     if (!closestEntry) {
       return;
     }
@@ -395,7 +399,7 @@ export default class TranscriptView extends LitElement {
   }
 
   private updateTimePosition(): void {
-    const scrollToEntry = this.activeTranscriptEntry || this.elementClosestToTime(this.currentTime);
+    const scrollToEntry = this.closestEntryToCurrentTime;
     if (!scrollToEntry) {
       return;
     }
