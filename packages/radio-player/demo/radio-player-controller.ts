@@ -10,12 +10,19 @@ import RadioPlayer from '../src/radio-player.js';
 import RadioPlayerConfig from '../src/models/radio-player-config.js';
 
 import { AudioSource } from '@internetarchive/audio-element';
-import { TranscriptConfig, TranscriptEntryConfig, TranscriptView } from '@internetarchive/transcript-view';
+import {
+  TranscriptConfig,
+  TranscriptEntryConfig,
+  TranscriptView,
+} from '@internetarchive/transcript-view';
+import '../src/radio-player';
+
+import RadioPlayerConfig from '../src/models/radio-player-config.js';
+
 import transcript from './transcript3.js';
 
 @customElement('radio-player-controller')
 export default class RadioPlayerController extends LitElement {
-
   render(): TemplateResult {
     return html`
       <radio-player
