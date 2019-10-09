@@ -328,8 +328,10 @@ class DwebNavDIV extends IAReactComponent {
     // Alternative to complex nav-dweb code
     const crawl = Object.assign({ identifier: this.props.item.itemid, query: this.props.item.query, downloaded: this.props.item.downloaded }, this.props.item.crawl);
         return ((typeof DwebArchive === "undefined") ? null :
-                <div id="nav-dweb"><span
-                    className="dweb-nav-left">DWeb</span>:
+                <div id="nav-dweb">
+                  { DwebArchive.mirror
+                    ? <I18nSpan className="dweb-nav-left" en="Offline"/>
+                    : <span className="dweb-nav-left">DWeb</span>}:
                   <DwebStatusDIV statuses={this.props.transportStatuses}/>
                     {!DwebArchive.mirror ? null :
                         <>
