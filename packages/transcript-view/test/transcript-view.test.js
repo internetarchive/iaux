@@ -5,6 +5,7 @@ import {
 import promisedSleep from './promised-sleep';
 import '../lib/src/transcript-view';
 import TranscriptEntryConfig from '../lib/src/models/transcript-entry-config';
+import TranscriptConfig from '../lib/src/models/transcript-config';
 
 describe('TranscriptView', () => {
   it('has no entries by default', async () => {
@@ -12,7 +13,7 @@ describe('TranscriptView', () => {
       <transcript-view></transcript-view>
     `);
 
-    expect(el.entries.length).to.equal(0);
+    expect(el.config).to.equal(undefined);
   });
 
   it('displays the current timestamp via the duration formatter', async () => {
@@ -20,9 +21,11 @@ describe('TranscriptView', () => {
     const entry2 = new TranscriptEntryConfig(2, 68, 73, 'bar', false);
     const entry3 = new TranscriptEntryConfig(3, 74, 78, 'baz', false);
 
+    const config = new TranscriptConfig([entry1, entry2, entry3])
+
     const el = await fixture(html`
       <transcript-view
-        .entries=${[entry1, entry2, entry3]}
+        .config=${config}
         currentTime=69>
       </transcript-view>
     `);
@@ -37,9 +40,11 @@ describe('TranscriptView', () => {
     const entry2 = new TranscriptEntryConfig(2, 68, 73, 'bar', false, 1);
     const entry3 = new TranscriptEntryConfig(3, 74, 78, 'baz', false, undefined);
 
+    const config = new TranscriptConfig([entry1, entry2, entry3])
+
     const el = await fixture(html`
       <transcript-view
-        .entries=${[entry1, entry2, entry3]}
+        .config=${config}
         currentTime=70>
       </transcript-view>
     `);
@@ -58,9 +63,11 @@ describe('TranscriptView', () => {
     const entry2 = new TranscriptEntryConfig(2, 67, 73, 'bar', undefined);
     const entry3 = new TranscriptEntryConfig(3, 73, 78, 'baz', undefined);
 
+    const config = new TranscriptConfig([entry1, entry2, entry3])
+
     const el = await fixture(html`
       <transcript-view
-        .entries=${[entry1, entry2, entry3]}
+        .config=${config}
         .currentEntry=${entry2}>
       </transcript-view>
     `);

@@ -9,7 +9,7 @@ export default class TranscriptEntryConfig {
 
   searchMatchIndex?: number;
 
-  text: string;
+  private text: string;
 
   constructor(
     id: number,
@@ -25,5 +25,14 @@ export default class TranscriptEntryConfig {
     this.text = text;
     this.isMusic = isMusic;
     this.searchMatchIndex = searchMatchIndex;
+  }
+
+  get entryText(): string {
+    if (this.isMusic) {
+      const seconds = Math.round(this.end - this.start);
+      return `[${seconds} seconds of music omitted]`;
+    }
+
+    return this.text;
   }
 }

@@ -20,10 +20,10 @@ export default class TranscriptEntry extends LitElement {
   render(): TemplateResult {
     return html`
       <span
-        class="${this.activeClass} ${this.selectedClass} ${this.searchResultClass}"
+        class="${this.activeClass} ${this.selectedClass} ${this.searchResultClass} ${this.isMusicEntryClass}"
         @click=${this.userSelected}
       >
-        ${this.entry ? this.entry.text : ''}
+        ${this.entry ? this.entry.entryText : ''}
       </span>
     `;
   }
@@ -53,6 +53,10 @@ export default class TranscriptEntry extends LitElement {
     return this.isSelected ? 'selected' : '';
   }
 
+  private get isMusicEntryClass(): string {
+    return this.entry && this.entry.isMusic === true ? 'is-music' : '';
+  }
+
   private get searchResultClass(): string {
     return this.entry && this.entry.searchMatchIndex !== undefined ? 'search-result' : '';
   }
@@ -60,6 +64,8 @@ export default class TranscriptEntry extends LitElement {
   static get styles(): CSSResult {
     const normalTextColor = css`var(--normalTextColor, gray)`;
     const activeTextColor = css`var(--activeTextColor, white)`;
+
+    const musicTextColor = css`var(--musicTextColor, #f6e652)`;
 
     const searchResultInactiveBorderColor = css`var(--searchResultInactiveBorderColor, gray)`;
     const searchResultActiveBorderColor = css`var(--searchResultActiveBorderColor, green)`;
@@ -71,6 +77,12 @@ export default class TranscriptEntry extends LitElement {
 
       .active {
         color: ${activeTextColor};
+      }
+
+      .is-music {
+        display: block;
+        color: ${musicTextColor};
+        font-style: italic;
       }
 
       .search-result {
