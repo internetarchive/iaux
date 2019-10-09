@@ -1,13 +1,6 @@
-import {
-  LitElement,
-  html,
-  customElement,
-  TemplateResult,
-} from 'lit-element';
+import { LitElement, html, customElement, TemplateResult } from 'lit-element';
 
-import '../src/radio-player.js';
-import RadioPlayer from '../src/radio-player.js';
-import RadioPlayerConfig from '../src/models/radio-player-config.js';
+/* eslint-disable */
 
 import { AudioSource } from '@internetarchive/audio-element';
 import {
@@ -15,11 +8,10 @@ import {
   TranscriptEntryConfig,
   TranscriptView,
 } from '@internetarchive/transcript-view';
-import '../src/radio-player';
-
-import RadioPlayerConfig from '../src/models/radio-player-config.js';
 
 import transcript from './transcript3.js';
+import RadioPlayer from '../src/radio-player';
+import RadioPlayerConfig from '../src/models/radio-player-config';
 
 @customElement('radio-player-controller')
 export default class RadioPlayerController extends LitElement {
@@ -29,7 +21,8 @@ export default class RadioPlayerController extends LitElement {
         .config=${this.radioPlayerConfig}
         .transcriptConfig=${this.baseTranscriptConfig}
         @searchrequested=${this.doSearch}
-        @searchCleared=${this.searchCleared}>
+        @searchCleared=${this.searchCleared}
+      >
       </radio-player>
     `;
   }
@@ -37,7 +30,8 @@ export default class RadioPlayerController extends LitElement {
   private get radioPlayerConfig(): RadioPlayerConfig {
     const audioSource = new AudioSource(
       'https://ia803005.us.archive.org/30/items/BBC_Radio_2_20190502_180000/BBC_Radio_2_20190502_180000.mp3',
-      'audio/mpeg');
+      'audio/mpeg',
+    );
 
     const quickSearchTerms = [
       'International relations',
@@ -65,8 +59,8 @@ export default class RadioPlayerController extends LitElement {
       'Java platform software',
       'Capitals in Asia',
       'Cigarettes',
-      'Tobacco'
-    ]
+      'Tobacco',
+    ];
 
     const config = new RadioPlayerConfig(
       'Voice of America',
@@ -74,17 +68,24 @@ export default class RadioPlayerController extends LitElement {
       './logo.jpg',
       './waveform.png',
       [audioSource],
-      quickSearchTerms
+      quickSearchTerms,
     );
 
     return config;
   }
 
   private get baseTranscriptConfig(): TranscriptConfig {
-    const convertedTranscript: TranscriptEntryConfig[] = transcript.map((entry: any) => {
-      return new TranscriptEntryConfig(
-        entry.id, entry.start, entry.end, entry.text, entry.is_music || false, entry.searchMatchIndex);
-    })
+    const convertedTranscript: TranscriptEntryConfig[] = transcript.map(
+      (entry: any) =>
+        new TranscriptEntryConfig(
+          entry.id,
+          entry.start,
+          entry.end,
+          entry.text,
+          entry.is_music || false,
+          entry.searchMatchIndex,
+        ),
+    );
 
     const transcriptConfig = new TranscriptConfig(convertedTranscript);
 
@@ -92,7 +93,7 @@ export default class RadioPlayerController extends LitElement {
   }
 
   private get radioPlayer(): RadioPlayer | null {
-    return this.shadowRoot ? this.shadowRoot.querySelector('radio-player') as RadioPlayer : null;
+    return this.shadowRoot ? (this.shadowRoot.querySelector('radio-player') as RadioPlayer) : null;
   }
 
   async doSearch(e: CustomEvent) {
@@ -101,10 +102,17 @@ export default class RadioPlayerController extends LitElement {
     const response = await fetch(searchUrl);
     const json = await response.json();
 
-    const convertedTranscript = json.map((entry: any) => {
-      return new TranscriptEntryConfig(
-        entry.id, entry.start, entry.end, entry.text, entry.is_music || false, entry.search_match_index);
-    })
+    const convertedTranscript = json.map(
+      (entry: any) =>
+        new TranscriptEntryConfig(
+          entry.id,
+          entry.start,
+          entry.end,
+          entry.text,
+          entry.is_music || false,
+          entry.search_match_index,
+        ),
+    );
 
     const transcriptConfig = new TranscriptConfig(convertedTranscript);
 
