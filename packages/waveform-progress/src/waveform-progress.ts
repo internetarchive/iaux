@@ -14,7 +14,7 @@ export default class WaveformProgress extends LitElement {
   @property({ type: Number }) percentComplete = 0;
   @property({ type: String }) waveformUrl = '';
   @property({ type: Boolean }) interactive = false;
-  @property({ type: Array }) zonesOfSilence = [];
+  @property({ type: Array }) zonesOfSilence: ZoneOfSilence[] = [];
 
   // This is our internal, canonical source for the `percentComplete`.
   // The public `percentComplete` will be getting modified by outside modifiers
@@ -22,7 +22,7 @@ export default class WaveformProgress extends LitElement {
   // we need to be able to control when that value gets updated
   @property({ type: Number }) private _percentComplete = 0;
 
-  private _userIsInteracting = false;
+  private _userIsInteracting: boolean = false;
 
   render() {
     return html`
@@ -115,7 +115,7 @@ export default class WaveformProgress extends LitElement {
 
   static get styles() {
     const fillColorCss = css`var(--fillColor, #3272b6)`;
-    const zoneOfSilenceColorCss = css`var(--zoneOfSilenceColor, orange)`;
+    const zoneOfSilenceColorCss = css`var(--zoneOfSilenceColor, #f6e652)`;
 
     return css`
       :host {
