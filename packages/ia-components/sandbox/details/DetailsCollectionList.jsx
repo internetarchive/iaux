@@ -25,10 +25,6 @@ import { I18nSpan } from '../languages/Languages';
 
 
 export default class DetailsCollectionList extends IAReactComponent {
-  constructor(props) {
-    super(props); // collections collectionTitles
-  }
-
   render() {
     return (
       <div className="boxy collection-list">

@@ -20,11 +20,6 @@ class TileGrid extends IAReactComponent {
   /**
    * <TileGrid members=[ArchiveMember*] disconnected=BOOL>
    **/
-  constructor(props) {
-    super(props); // members
-    console.assert(props.members);
-  }
-
   render() {
     return (
       <div className="results" id="appendTiles">
@@ -58,7 +53,7 @@ class ScrollableTileGrid extends IAReactComponent {
   constructor(props) {
     super(props); // item
     console.assert(props.item.membersFav || props.item.membersSearch);
-    this.state.xxx = true;
+    this.state.xxx = true; // Used as a toggle to force rerender
     $(window).scroll(() => {
       this.scrolled.call(this);
     });

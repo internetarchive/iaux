@@ -29,6 +29,7 @@ export default class Tabby extends IAReactComponent {
      */
   constructor(props) {
     super(props);
+    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
     this.onClick = ev => this.clickCallable.call(this, ev);
     // Can override href e.g. for "web-archive"
     // Note original tabby uses IA's weird, invalid urls like /details/IDENTIFIER&tab=xx which break URL(location)

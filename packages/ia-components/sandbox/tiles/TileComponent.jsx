@@ -41,6 +41,7 @@ export default class TileComponent extends IAReactComponent {
    */
   constructor(props) {
     super(props);
+    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
     this.state.identifier = props.identifier || props.member.identifier;
 
     try {

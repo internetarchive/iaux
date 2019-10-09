@@ -35,6 +35,7 @@ export default class AnchorDetails extends IAReactComponent {
     */
   constructor(props) {
     super(props); // { identifier, reload }
+    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
     this.setState({
       urlProps: ObjectFilter(this.props, (k, v) => AnchorDetails.urlparms.includes(k)),
       anchorProps: ObjectFilter(this.props, (k, v) => (!AnchorDetails.urlparms.includes(k) && !['children'].includes(k)))

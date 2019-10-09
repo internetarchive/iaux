@@ -29,10 +29,6 @@ import { I18nSpan, I18nIcon, I18nStr } from "../languages/Languages";
  * />
  */
 class DetailsFlagLI extends IAReactComponent {
-  constructor(props) {
-    super(props); // href, text
-  }
-
   render() {
     return (
       <li className="">
@@ -45,13 +41,11 @@ class DetailsFlagLI extends IAReactComponent {
 }
 
 /**
- *  <DetailsFlags/>             Render just the flag icon leading to the popup.
+ *  <DetailsFlags
+ *    disconnected=BOOL If true then cant see upstream so not displayed
+ *  />             Render just the flag icon leading to the popup.
  */
 class DetailsFlags extends IAReactComponent {
-  constructor(props) {
-    super(props); // disconnected
-  }
-
   render() {
     const loginURL = 'https://archive.org/account/login.php'; // TODO - its a Direct link as dont support authentication in DWeb version, may be better URL for IAUX
     return ( this.props.disconnected ? null :
@@ -93,13 +87,10 @@ class DetailsFlags extends IAReactComponent {
  *  <DetailsActionButtons
  *      identifier="xxx"        Identifier of item being bookmarked
  *      title=ENSTRING          String to use for the bookmark (from the item's title)
+ *      disconnected=BOOL       If true, then cant see upstream, some buttons disabled
  *  />
  */
 class DetailsActionButtons extends IAReactComponent {
-  constructor(props) {
-    super(props); // identifier, title, disconnected
-  }
-
   render() {
     const bookmarksAddURL = `https://archive.org/bookmarks.php?add_bookmark=1&amp;mediatype=image&amp;identifier=${this.props.identifier}&amp;title=${this.props.title}`; // TODO find way to submit distributed
     return (

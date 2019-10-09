@@ -62,6 +62,7 @@ class AnchorSearch extends IAReactComponent {
 
   constructor(props) {
     super(props); // { query || field & value, sort, reload }
+    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
     this.setState({
       query: this.props.query || ObjectFromEntries([[this.props.field, this.props.value]]),
       urlProps: ObjectFilter(this.props, (k, unusedV) => AnchorSearch.urlparms.includes(k)),  //sort, reload, query

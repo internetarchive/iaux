@@ -198,9 +198,6 @@ class DetailsAbout extends IAReactComponent {
   * />
   */
 
-  constructor(props) {
-    super(props);
-  }
   render() {
     /* This sits underneth theatre-ia-wrap DIV that is built by theatreIaWrap */
     const md = this.props.metadata;

@@ -22,9 +22,10 @@ import { I18nStr } from '../languages/Languages';
 
 class Carousel extends IAReactComponent {
   constructor(props) {
-        super(props); // identifier, slides: [ {filename, source: ArchiveFile} ]  // The source is optional, make it more efficient on Dweb
-        this.state.startAt = 0;
-     }
+    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
+    super(props); // identifier, slides: [ {filename, source: ArchiveFile} ]  // The source is optional, make it more efficient on Dweb
+    this.state.startAt = 0;
+  }
 
     render() { return (
       <div className="details-carousel-wrapper">

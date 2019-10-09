@@ -22,11 +22,6 @@ import { I18nSpan, I18nStr, I18nIcon } from "../languages/Languages";
  */
 
 export default class DetailsDownloadOptions extends IAReactComponent {
-
-  constructor(props) {
-    super(props); //disconnected
-  }
-
   downloadableFilesDict() {
     return this.props.files.reduce((res, af) => {
       const format = af.metadata.format;

@@ -10,6 +10,7 @@ import { I18nStr } from '../languages/Languages';
 
 class _ModalGo extends IAReactComponent {
   constructor(props) {
+    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
     super(props); // opts, remaining props go to anchor, in particular href
     this.state.linkProps = ObjectFilter(this.props, (k, unused_v) => !['opts', 'children', 'en'].includes(k)); // pass on any other props
   }
@@ -29,8 +30,6 @@ class _ModalGo extends IAReactComponent {
 
  */
 class AnchorModalGo extends _ModalGo {
-  constructor(props) { super(props); } // opts, remaining props go to anchor, in particular href
-
   render() {
     return (
       <a {...this.state.linkProps} onClick={this.onClick} title={this.props.en && I18nStr(this.props.en)}>{this.props.children}</a>
@@ -46,8 +45,6 @@ class AnchorModalGo extends _ModalGo {
  *    >.....</BurronModalGo>
  */
 class ButtonModalGo extends _ModalGo {
-  constructor(props) { super(props); } // opts, remaining props go to anchor, in particular href
-
   render() {
     return (
       <button {...this.state.linkProps} onClick={this.onClick} title={this.props.en && I18nStr(this.props.en)}>{this.props.children}</button>

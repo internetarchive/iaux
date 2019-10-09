@@ -47,6 +47,7 @@ const debug = require('debug')('dweb-archive:CrawlConfig');
 export default class CrawlConfig extends IAReactComponent {
   constructor(props) {
     super(props); // { identifier, level, search, downloaded, query }
+    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
     this.setState({
       level: props.level,
       clickable:  !CrawlConfig.unclickable.includes(this.props.identifier)
