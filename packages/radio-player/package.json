@@ -29,11 +29,11 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
-    "@internetarchive/audio-element": "^0.0.1",
-    "@internetarchive/playback-controls": "^0.0.1",
-    "@internetarchive/scrubber-bar": "^0.0.1",
-    "@internetarchive/transcript-view": "^0.0.1",
-    "@internetarchive/waveform-progress": "^0.0.1",
+    "@internetarchive/audio-element": "0.0.1-alpha.378",
+    "@internetarchive/playback-controls": "0.0.1-alpha.378",
+    "@internetarchive/scrubber-bar": "0.0.1-alpha.378",
+    "@internetarchive/transcript-view": "0.0.1-alpha.378",
+    "@internetarchive/waveform-progress": "0.0.1-alpha.378",
 
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"

@@ -1048,6 +1048,46 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
+"@internetarchive/audio-element@0.0.1-alpha.378":
+  version "0.0.1-alpha.378"
+  resolved "https://registry.yarnpkg.com/@internetarchive/audio-element/-/audio-element-0.0.1-alpha.378.tgz#2f2a208899d373af67e1669ed7231706d84985fb"
+  integrity sha512-ldp8TqSwqAENHGcW45jsLMQBikCBcM19j1ZpgidiSsb3r2Cik7YBv+mpMUp3QD/ptpRXCT/eqvhj2cTWK2Ea+w==
+  dependencies:
+    lit-element "^2.2.1"
+    lit-html "^1.0.0"
+
+"@internetarchive/playback-controls@0.0.1-alpha.378":
+  version "0.0.1-alpha.378"
+  resolved "https://registry.yarnpkg.com/@internetarchive/playback-controls/-/playback-controls-0.0.1-alpha.378.tgz#8fa45add7e8bf44ec61679928defd952246de71a"
+  integrity sha512-WQ5BB0YjUEWzgTqO2bBtmahAPzB8Ol9JrlqV3zpuu4ZqU39sDiV3iq7QL3HEPkXaxRY8s91sG+yAyyNJEnz8Nw==
+  dependencies:
+    lit-element "^2.2.1"
+    lit-html "^1.0.0"
+
+"@internetarchive/scrubber-bar@0.0.1-alpha.378":
+  version "0.0.1-alpha.378"
+  resolved "https://registry.yarnpkg.com/@internetarchive/scrubber-bar/-/scrubber-bar-0.0.1-alpha.378.tgz#89a54a26be9c2389485a39c94a055f284a0a9d96"
+  integrity sha512-VVsI/xY178evlR/HNd0mjs9GDHVTSAEocOImzukM/FTQFwBGrDQbtRYADIOx8yqo/un7UlQLg42g+BBYC0DHFw==
+  dependencies:
+    lit-element "^2.2.1"
+    lit-html "^1.0.0"
+
+"@internetarchive/transcript-view@0.0.1-alpha.378":
+  version "0.0.1-alpha.378"
+  resolved "https://registry.yarnpkg.com/@internetarchive/transcript-view/-/transcript-view-0.0.1-alpha.378.tgz#9074011158975d98e9e5ce7825cdd52edff5df3a"
+  integrity sha512-CbgEqqWVutUDFma3BRMaiLjsnHmAR/45k6EdzW1MCzrzd1ABgcBYPhpNDd8A8jrtVPTcLNVOg70FA7PVMqHwaw==
+  dependencies:
+    lit-element "^2.2.1"
+    lit-html "^1.0.0"
+
+"@internetarchive/waveform-progress@0.0.1-alpha.378":
+  version "0.0.1-alpha.378"
+  resolved "https://registry.yarnpkg.com/@internetarchive/waveform-progress/-/waveform-progress-0.0.1-alpha.378.tgz#ef6680744f20f13a1f3604c2cb1d0073bb01b11a"
+  integrity sha512-+V5zaGdxs4LQ38pt2qfgQ2wRbmpR0ZYUhZodDEsIUKk5TPU+07f/YEHPmQtO0n3+gH+x+/krZ2l+Zd2ruhRLIQ==
+  dependencies:
+    lit-element "^2.2.1"
+    lit-html "^1.0.0"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -2744,12 +2784,12 @@
     "@types/events" "*"
     "@types/inquirer" "*"
 
-"@typescript-eslint/eslint-plugin@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-2.3.2.tgz#7e112ca0bb29044d915baf10163a8199a20f7c69"
-  integrity sha512-tcnpksq1bXzcIRbYLeXkgp6l+ggEMXXUcl1wsSvL807fRtmvVQKygElwEUf4hBA76dNag3VAK1q2m3vd7qJaZA==
+"@typescript-eslint/eslint-plugin@^2.2.0":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-2.3.3.tgz#71e06c6887650301e02105c99b4c8f67454157e3"
+  integrity sha512-12cCbwu5PbQudkq2xCIS/QhB7hCMrsNPXK+vJtqy/zFqtzVkPRGy12O5Yy0gUK086f3VHV/P4a4R4CjMW853pA==
   dependencies:
-    "@typescript-eslint/experimental-utils" "2.3.2"
+    "@typescript-eslint/experimental-utils" "2.3.3"
     eslint-utils "^1.4.2"
     functional-red-black-tree "^1.0.1"
     regexpp "^2.0.1"
@@ -2764,13 +2804,13 @@
     "@typescript-eslint/typescript-estree" "2.2.0"
     eslint-scope "^5.0.0"
 
-"@typescript-eslint/experimental-utils@2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-2.3.2.tgz#e50f31264507e6fec7b33840bb6af260c24f4ea8"
-  integrity sha512-t+JGdTT6dRbmvKDlhlVkEueoZa0fhJNfG6z2cpnRPLwm3VwYr2BjR//acJGC1Yza0I9ZNcDfRY7ubQEvvfG6Jg==
+"@typescript-eslint/experimental-utils@2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-2.3.3.tgz#0685613063ff397cfa9209be2e6e81c0382a9b11"
+  integrity sha512-MQ4jKPMTU1ty4TigJCRKFPye2qyQdH8jzIIkceaHgecKFmkNS1hXPqKiZ+mOehkz6+HcN5Nuvwm+frmWZR9tdg==
   dependencies:
     "@types/json-schema" "^7.0.3"
-    "@typescript-eslint/typescript-estree" "2.3.2"
+    "@typescript-eslint/typescript-estree" "2.3.3"
     eslint-scope "^5.0.0"
 
 "@typescript-eslint/parser@^2.2.0":
@@ -2793,10 +2833,10 @@
     lodash.unescape "4.0.1"
     semver "^6.3.0"
 
-"@typescript-eslint/typescript-estree@2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-2.3.2.tgz#107414aa04e689fe6f7251eb63fb500217f2b7f4"
-  integrity sha512-eZNEAai16nwyhIVIEaWQlaUgAU3S9CkQ58qvK0+3IuSdLJD3W1PNuehQFMIhW/mTP1oFR9GNoTcLg7gtXz6lzA==
+"@typescript-eslint/typescript-estree@2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-2.3.3.tgz#be802220876bedfb80384cde1d46fe57ae7abf71"
+  integrity sha512-GkACs12Xp8d/STunNv/iSMYJFQrkrax9vuPZySlgSzoJJtw1cp6tbEw4qsLskQv6vloLrkFJHcTJ0a/yCB5cIA==
   dependencies:
     glob "^7.1.4"
     is-glob "^4.0.1"
