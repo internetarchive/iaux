@@ -6,7 +6,7 @@ import {DetailsReviews} from './DetailsReviews';
 import DetailsCollectionList from './DetailsCollectionList';
 import DetailsDownloadOptions from './DetailsDownloadOptions';
 import { languageMapping } from '../../util.js';
-import { I18nSpan, I18nIcon } from "../languages/Languages";
+import { I18nSpan, I18nStr, I18nIcon } from "../languages/Languages";
 
 const metadataListKeyStrings = { ocr: 'OCR', runtime: 'Run time', ppi: 'PPI' }; // Metadata with something other than capitalize first letter
 const metadataListExclude = [
@@ -61,9 +61,10 @@ class DetailsMetadataField extends IAReactComponent {
   // props: field=k value: v|[v*], mapping: {v: string},  className, role, itemProp
   constructor(props) {
     super(props);
-    this.state.name = this.props.name //TODO-I8N separate translation table for metadata fields - mapping Capitalized string
+    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
+    this.state.name = I18nStr(this.props.name //TODO-I8N separate translation table for metadata fields - mapping Capitalized string
       || metadataListKeyStrings[this.props.field]
-      || (this.props.field.charAt(0).toUpperCase() + this.props.field.substr(1)); //TODO-I8N should really use locale dependent capitalization BUT capitalized field is translated
+      || (this.props.field.charAt(0).toUpperCase() + this.props.field.substr(1))); //TODO-I8N should really use locale dependent capitalization BUT capitalized field is translated
   }
 
   render() {
