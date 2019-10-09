@@ -112,6 +112,7 @@ Name
 Next
 Not Downloaded
 of
+Offline
 on
 on the Internet.
 Open full sized image
@@ -215,3 +216,4 @@ web pages
 Working on
 write a review
 Your search did not match any items in the Archive. Suggestions
+Uploader

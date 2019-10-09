@@ -7,9 +7,9 @@ const waterfall = require('async/waterfall');
 const each = require('async/each');
 const source = [];
 
-function readSource(cb) {
+function readOne(name, cb) {
   const rlsource = readline.createInterface({
-    input: fs.createReadStream(sourceFileName),
+    input: fs.createReadStream(name),
     output: process.stdout,
     terminal: false
   });
@@ -19,6 +19,12 @@ function readSource(cb) {
   rlsource.on('close', () => {
     cb();
   })
+}
+function readSource(cb) {
+  waterfall([
+    cb1 => readOne('google/_.txt', cb1),
+    cb1 => readOne('google/_metadata.txt', cb1),
+    ], cb);
 }
 function writeOne(name, cb) {
   const outputFileName = `js/${name}.js`;
@@ -48,7 +54,7 @@ function writeOne(name, cb) {
 //SEE-OTHER-ADDLANGUAGE - note cant import this from languages as may include ones here before built
 fulllanguages = ["myanmar", "english", "french", "german", "hindi", "indonesian", "japanese", "marathi", "spanish", "portugese"];
 thisbuild = fulllanguages;
-//thisbuild = ["english"]; //Uncomment this to only rebuild english while testing before translating
+thisbuild = ["english"]; //Uncomment this to only rebuild english while testing before translating
 waterfall([
     cb => readSource(cb),
     cb2 => each(thisbuild,

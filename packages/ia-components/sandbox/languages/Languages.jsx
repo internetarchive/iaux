@@ -31,16 +31,16 @@ const languages = {
 }
 //SEE-OTHER-ADDLANGUAGE
 const languageConfig = {
-  'en': { inEnglish: 'English', inLocal: 'English' },
-  'fr': { inEnglish: 'French',  inLocal: 'Française' },
-  'de': { inEnglish: 'German',  inLocal: 'Deutsche ' },
-  'es': { inEnglish: 'Spanish', inLocal: 'Española' },
-  'hi': { inEnglish: 'Hindi', inLocal: 'हिंदी'},
-  'id': { inEnglish: 'Indonesian', inLocal: 'Bahasa'},
-  'ja': { inEnglish: 'Japanese', inLocal: '日本語'},
-  'mr': { inEnglish: 'Marathi', inLocal: 'मराठी' },
-  'my': { inEnglish: 'Myanmar', inLocal: 'မြန်မာ' },
-  'pt': { inEnglish: 'Portugese', inLocal: 'Portuguesa'},
+  'en': { inEnglish: 'English', inLocal: 'English', flag: '🇬🇧' },
+  'fr': { inEnglish: 'French',  inLocal: 'Française', flag: '🇫🇷' },
+  'de': { inEnglish: 'German',  inLocal: 'Deutsche ', flag: '🇩🇪' },
+  'es': { inEnglish: 'Spanish', inLocal: 'Española', flag: '🇪🇸' },
+  'hi': { inEnglish: 'Hindi', inLocal: 'हिंदी', flag: '🇮🇳'},
+  'id': { inEnglish: 'Indonesian', inLocal: 'Bahasa', flag: '🇮🇩'},
+  'ja': { inEnglish: 'Japanese', inLocal: '日本語', flag: '🇯🇵'},
+  'mr': { inEnglish: 'Marathi', inLocal: 'मराठी', flag: '🇮🇳' },
+  'my': { inEnglish: 'Myanmar', inLocal: 'မြန်မာ', flag: '🇲🇲' },
+  'pt': { inEnglish: 'Portugese', inLocal: 'Portuguesa', flag: '🇵🇹'},
 }
 if (!currentISO()) currentISO("en");
 
@@ -94,9 +94,6 @@ class I18nSpan extends IAReactComponent {
   /**
    * <I18nSpan en="Yes" ... />
    */
-  constructor(props) {
-    super(props);
-  }
   render() {
       let {s, l} = I18n(this.props.en);
       const spanProps = ObjectFilter(this.props, (k,v)=> (k !== "en"));

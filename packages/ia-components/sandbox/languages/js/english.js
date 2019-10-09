@@ -113,6 +113,7 @@ const english = {
 "Next": "Next",
 "Not Downloaded": "Not Downloaded",
 "of": "of",
+"Offline": "Offline",
 "on": "on",
 "on the Internet.": "on the Internet.",
 "Open full sized image": "Open full sized image",
@@ -216,5 +217,6 @@ const english = {
 "Working on": "Working on",
 "write a review": "write a review",
 "Your search did not match any items in the Archive. Suggestions": "Your search did not match any items in the Archive. Suggestions",
+"Uploader": "Uploader",
 };
 export { english };
