@@ -93,6 +93,7 @@ export default class TileComponent extends IAReactComponent {
   }
 
   render() {
+    //Until DM issue#211 have to fake disconencted for item="local" as dont have downloaded
     return ( (this.props.disconnected && !(this.state.downloaded && this.state.downloaded.details)) ? null :
       <div className={this.state.classes.join(' ')} data-id={this.state.identifier} key={this.state.identifier}>
         {/* -- Add in experimental crawl notification for dweb-mirror, if member.crawl=undefined then ignored --*/}

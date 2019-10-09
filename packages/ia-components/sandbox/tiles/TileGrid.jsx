@@ -38,8 +38,8 @@ class TileGrid extends IAReactComponent {
           </div>
           <div className="C C5" />
         </div>
-        {this.props.members.map(member => ( // Note rendering tiles is quick, its the fetch of the img (async) which is slow.
-          <TileComponent key={member.identifier} member={member} disconnected={this.props.disconnected}/>
+        {this.props.members.map((member,i) => ( // Note rendering tiles is quick, its the fetch of the img (async) which is slow.
+          <TileComponent key={member.identifier || member.query || i} member={member} disconnected={this.props.disconnected}/>
         ))}
       </div>
     );
