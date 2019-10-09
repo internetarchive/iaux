@@ -1,7 +1,7 @@
 {
   "name": "@internetarchive/playback-controls",
   "version": "0.0.0",
-  "description": "A Scrubber Bar WebComponent for use in scrubbing through media",
+  "description": "A Playback Controls LitElement for use in controlling media playback.",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
