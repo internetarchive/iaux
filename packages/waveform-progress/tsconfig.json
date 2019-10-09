@@ -7,8 +7,7 @@
     "sourceMap": true,
     "outDir": "./lib",
     "declaration": true,
-    "strict": true,
-    "preserveSymlinks": true
+    "strict": true
   },
   "include": [
     "src/**/*.ts"

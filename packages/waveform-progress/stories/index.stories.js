@@ -7,7 +7,7 @@ import {
   withClassPropertiesKnobs,
 } from '@open-wc/demoing-storybook';
 
-import WaveformProgress from '../index.js';
+import { WaveformProgress } from '../index.js';
 import waveformImage from './waveform.png';
 
 storiesOf('waveform-progress', module)
