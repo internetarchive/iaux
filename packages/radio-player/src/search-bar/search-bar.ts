@@ -29,7 +29,8 @@ export default class SearchBar extends LitElement {
         class="
           container
           ${this.isOpen ? 'is-open' : ''}
-          ${this.showsDisclosure ? 'shows-disclosure' : ''}">
+          ${this.showsDisclosure ? 'shows-disclosure' : ''}"
+      >
         <div class="search-bar">
           <div class="magnifier-container endcap">
             ${MagnifyingGlass}
@@ -41,7 +42,9 @@ export default class SearchBar extends LitElement {
             value=${this.searchTerm}
             @keyup=${this.inputChanged}
           />
-          <div class="clear-search-container endcap ${this.searchTerm === '' ? '' : 'is-searching'}">
+          <div
+            class="clear-search-container endcap ${this.searchTerm === '' ? '' : 'is-searching'}"
+          >
             <button @click=${this.clearSearch}>
               ${ClearResultsIcon}
             </button>
@@ -70,7 +73,7 @@ export default class SearchBar extends LitElement {
 
   private inputChanged(e: KeyboardEvent): void {
     this.emitInputChangeEvent();
-    if(e.key === 'Enter') {
+    if (e.key === 'Enter') {
       this.emitEnterKeyPressedEvent();
     }
   }
@@ -78,7 +81,7 @@ export default class SearchBar extends LitElement {
   private emitInputChangeEvent(): void {
     const value = this.searchInput && this.searchInput.value;
     const event = new CustomEvent('inputchange', {
-      detail: { value: value },
+      detail: { value },
       bubbles: true,
       composed: true,
     });
@@ -198,7 +201,7 @@ export default class SearchBar extends LitElement {
         border-right: 0;
         background-color: black;
         color: white;
-        padding: 2.5px 0 2.5px 0;  /* I don't totally understand this, but for IE, this makes the input the correct height */
+        padding: 5px 0;
         margin: 0;
         flex: 1 1 auto;
       }
