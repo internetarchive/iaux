@@ -66,6 +66,9 @@
       "pre-commit": "lint-staged"
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "lint-staged": {
     "*.ts": [
       "eslint --fix",
