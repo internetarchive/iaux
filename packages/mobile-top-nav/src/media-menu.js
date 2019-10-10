@@ -3,6 +3,37 @@ import { LitElement, html, css } from 'lit-element';
 import './media-slider';
 import './assets/img/media-menu-images';
 
+const menuSelection = [
+  {
+    icon: 'web',
+    label: 'Wayback Machine',
+  },
+  {
+    icon: 'texts',
+    label: 'Texts',
+  },
+  {
+    icon: 'video',
+    label: 'Video',
+  },
+  {
+    icon: 'audio',
+    label: 'Audio',
+  },
+  {
+    icon: 'software',
+    label: 'Software',
+  },
+  {
+    icon: 'images',
+    label: 'Images',
+  },
+  {
+    icon: 'more',
+    label: 'More',
+  },
+];
+
 class MediaMenu extends LitElement {
   static get properties() {
     return {
@@ -10,7 +41,7 @@ class MediaMenu extends LitElement {
       mediaMenuAnimate: { type: Boolean },
       mediaSliderOpen: { type: Boolean },
       mediaSliderAnimate: { type: Boolean },
-      tabHeightMultiplier: { type: Number },
+      selected: { type: String },
     };
   }
 
@@ -18,7 +49,7 @@ class MediaMenu extends LitElement {
     super();
     this.mediaSliderOpen = false;
     this.mediaSliderAnimate = false;
-    this.tabHeightMultiplier = 0;
+    this.selected = '';
   }
 
   updated(changedProperties) {
@@ -31,66 +62,74 @@ class MediaMenu extends LitElement {
     if (menuClosed && mediaSliderOpen) {
       this.mediaSliderOpen = false;
       this.mediaSliderAnimate = false;
+      this.selected = '';
     }
   }
 
-  mediaSlider(tabMultiplier) {
-    // Only keep side menu open until menu closed
-    // Shift menu downwards as per button clicked
+  closeMediaSlider() {
+    this.mediaSliderAnimate = true;
+    this.mediaSliderOpen = false;
+    this.selected = '';
+  }
+
+  toggleMediaSlider() {
     if (!this.mediaSliderOpen) {
       this.mediaSliderAnimate = true;
       this.mediaSliderOpen = !this.mediaSliderOpen;
     }
-    this.tabHeightMultiplier = tabMultiplier;
+  }
+
+  select(mediatype) {
+    const currentSelection = this.selected;
+
+    if (currentSelection === mediatype) {
+      this.closeMediaSlider();
+      return;
+    }
+
+    this.selected = mediatype;
+    this.toggleMediaSlider();
   }
 
   render() {
-    let mediaMenuClass = '';
+    let mediaMenuClass = 'initial';
     if (this.mediaMenuOpen) {
-      mediaMenuClass = 'open slide-in';
+      mediaMenuClass = 'open';
     }
     if (!this.mediaMenuOpen && this.mediaMenuAnimate) {
-      mediaMenuClass = 'slide-out';
+      mediaMenuClass = 'closed';
     }
-    const mediaMenuHidden = this.mediaMenuOpen ? 'false' : 'true';
-    const mediaMenuExpanded = this.mediaMenuOpen ? 'true' : 'false';
+    const mediaMenuHidden = Boolean(!this.mediaMenuOpen).toString();
+    const mediaMenuExpanded = Boolean(this.mediaMenuOpen).toString();
+
+    const buttons = menuSelection.map(({ icon: mediatype, label }) => {
+      const selected = this.selected === mediatype ? 'selected' : '';
+      return html`
+        <button class="menu-item ${selected}" @click="${this.select.bind(this, mediatype)}">
+          <span class="icon"
+            ><mediamenu-image
+              type="${mediatype}"
+              fill="${selected ? 'white' : ''}"
+            ></mediamenu-image
+          ></span>
+          <span class="label">${label}</span>
+        </button>
+      `;
+    });
     return html`
       <nav
-        class="media-menu ${mediaMenuClass}"
+        class="media-menu tx-slide ${mediaMenuClass}"
         aria-hidden="${mediaMenuHidden}"
         aria-expanded="${mediaMenuExpanded}"
       >
-        <!-- Include icon and name inline in a button-->
-        <div class="main-menu">
-          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 0)}">
-            <span><mediamenu-image type="waybackMachine"></mediamenu-image></span
-            ><span>Wayback Machine</span>
-          </button>
-          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 1)}">
-            <span><mediamenu-image type="texts"></mediamenu-image></span><span>Texts</span>
-          </button>
-          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 2)}">
-            <span><mediamenu-image type="video"></mediamenu-image></span><span>Video</span>
-          </button>
-          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 3)}">
-            <span><mediamenu-image type="audio"></mediamenu-image></span><span>Audio</span>
-          </button>
-          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 4)}">
-            <span><mediamenu-image type="software"></mediamenu-image></span><span>Software</span>
-          </button>
-          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 5)}">
-            <span><mediamenu-image type="images"></mediamenu-image></span><span>Images</span>
-          </button>
-          <button tabindex="-1" @click="${this.mediaSlider.bind(this, 6)}">
-            <span><mediamenu-image type="more"></mediamenu-image></span><span>More</span>
-          </button>
+        <div class="menu-group">
+          ${buttons}
+          <media-slider
+            ?mediaSliderOpen="${this.mediaSliderOpen}"
+            ?mediaSliderAnimate="${this.mediaSliderAnimate}"
+          ></media-slider>
         </div>
       </nav>
-      <media-slider
-        ?mediaSliderOpen="${this.mediaSliderOpen}"
-        ?mediaSliderAnimate="${this.mediaSliderAnimate}"
-        .tabHeightMultiplier="${this.tabHeightMultiplier}"
-      ></media-slider>
     `;
   }
 
@@ -98,67 +137,62 @@ class MediaMenu extends LitElement {
     return css`
       .media-menu {
         width: 100%;
-        height: 500px;
         background-color: var(--black);
         color: var(--white);
         margin: 0;
         font-size: 20px;
         font-family: 'Helvetica Neue';
-        transform: translate(0, -1000px);
+        overflow: hidden;
       }
-      .media-menu button {
+      .media-menu.tx-slide {
+        transition-property: max-height;
+        transition-duration: 1s;
+        transition-timing-function: ease;
+      }
+      .media-menu.tx-slide.open {
+        max-height: 100vh;
+      }
+      .media-menu.tx-slide.initial,
+      .media-menu.tx-slide.closed {
+        max-height: 0;
+      }
+      .media-menu.tx-slide.closed {
+        transition-duration: 0.1s;
+      }
+      .media-menu .menu-group {
+        height: 80vh;
         position: relative;
-        background: none;
-        color: inherit;
-        border: none;
-        font: inherit;
-        cursor: pointer;
-        text-align: left;
-        z-index: 5;
+        // font-size: inherit;
       }
-      .open {
-        transform: translate(0, 0);
-        z-index: 1;
-      }
-      @keyframes slide-in {
-        0% {
-          transform: translate(0, -1000px);
-        }
-        100% {
-          transform: translate(0, 0);
-        }
-      }
-      @keyframes slide-out {
-        0% {
-          transform: translate(0, 0);
-        }
-        100% {
-          transform: translate(0, -1000px);
-        }
-      }
-      .slide-in {
-        animation: slide-in 0.5s forwards;
-      }
-      .slide-out {
-        animation: slide-out 0.5s forwards;
-      }
-      .main-menu {
-        padding: 10px;
-      }
-      .main-menu button {
+      .media-menu .menu-item {
         width: 100%;
-        display: block;
-        height: 70px;
-        padding: 10px;
         outline: none;
+        background: transparent;
+        font-size: inherit;
+        cursor: pointer;
+        height: 12%;
+        border: none;
+
+        text-align: left;
+
+        padding: 0;
       }
-      .main-menu button > span {
-        padding: 0 10px;
-      }
-      a {
+      .media-menu .menu-item > .label {
+        color: var(--grey999);
+        text-align: left;
         display: inline;
-        color: var(--white);
-        text-decoration: none;
+      }
+      .media-menu .menu-item > .icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+
+        width: 8%;
+      }
+      .menu-item.selected .icon {
+        background-color: var(--grey20);
+        border-radius: 17% 0 0 17%;
       }
     `;
   }

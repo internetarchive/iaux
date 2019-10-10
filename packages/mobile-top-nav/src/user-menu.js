@@ -4,30 +4,40 @@ class UserMenu extends LitElement {
   static get properties() {
     return {
       userMenuOpen: { type: Boolean },
-      userMenuAnimate: { type: Boolean }
+      userMenuAnimate: { type: Boolean },
     };
   }
 
   render() {
-    const userMenuClass = this.userMenuOpen ? 'user-menu open slide-in' : this.userMenuAnimate ? 'user-menu slide-out' : 'user-menu';
-    const userMenuHidden = this.userMenuOpen ? 'false' : 'true';
-    const userMenuExpanded = this.userMenuOpen ? 'true' : 'false';
+    let userMenuClass = 'initial';
+    if (this.userMenuOpen) {
+      userMenuClass = 'open';
+    }
+    if (!this.userMenuOpen && this.userMenuAnimate) {
+      userMenuClass = 'closed';
+    }
+
+    const userMenuHidden = Boolean(!this.userMenuOpen).toString();
+    const userMenuExpanded = Boolean(this.userMenuOpen).toString();
+
     return html`
-    <nav
-      class="${userMenuClass}"
-      aria-hidden="${userMenuHidden}"
-      aria-expanded="${userMenuExpanded}"
-    >
-      <div><a href="#"><b>USERNAME</b></a></div>
-      <div><a href="#">Upload</a></div>
-      <div><a href="#">My library</a></div>
-      <div><a href="#">My loans</a></div>
-      <div><a href="#">My favourites</a></div>
-      <div><a href="#">My web archive</a></div>
-      <div><a href="#">Edit settings</a></div>
-      <div><a href="#">Get help</a></div>
-      <div><a href="#">Log out</a></div>
-    </nav>
+      <nav
+        class="user-menu tx-slide ${userMenuClass}"
+        aria-hidden="${userMenuHidden}"
+        aria-expanded="${userMenuExpanded}"
+      >
+        <div class="menu-group">
+          <a href="#"><b>USERNAME</b></a>
+          <a href="#">Upload</a>
+          <a href="#">My library</a>
+          <a href="#">My loans</a>
+          <a href="#">My favourites</a>
+          <a href="#">My web archive</a>
+          <a href="#">Edit settings</a>
+          <a href="#">Get help</a>
+          <a href="#">Log out</a>
+        </div>
+      </nav>
     `;
   }
 
@@ -36,46 +46,39 @@ class UserMenu extends LitElement {
       .user-menu {
         margin: 0;
         float: right;
-        width: 150px;
         background-color: var(--grey20);
-        padding: 5px 10px;
-        transform: translate(0, -2000px);
       }
-      .open {
-        transform: translate(0, -1285px);
-        z-index: 1;
+      .user-menu.tx-slide {
+        overflow: hidden;
+        transition-property: max-height;
+        transition-duration: 1.5s;
+        transition-timing-function: ease;
       }
-      @keyframes slide-in {
-        0% {
-          transform: translate(0, -2000px);
-        }
-        100% {
-          transform: translate(0, -1285px);
-        }
+      .user-menu.tx-slide.initial,
+      .user-menu.tx-slide.closed {
+        max-height: 0;
       }
-      @keyframes slide-out {
-        0% {
-          transform: translate(0, -1285px);
-        }
-        100% {
-          transform: translate(0, -2000px);
-        }
+      .user-menu.tx-slide.closed {
+        transition-duration: 0.1s;
       }
-      .slide-in {
-        animation: slide-in 0.5s forwards;
+      .user-menu.tx-slide.open {
+        max-height: 100vh;
+        max-width: 100vw;
       }
-      .slide-out {
-        animation: slide-out 0.5s forwards;
-      }
-      .user-menu div {
-        padding: 10px;
+      .user-menu .menu-group {
+        min-height: 50vh;
+        min-width: 30vw;
       }
       a {
-        font-family: "Helvetica Neue";
+        display: block;
+        width: 100%;
+        font-family: 'Helvetica Neue';
         color: var(--white);
         text-decoration: none;
+        height: 8%;
+        padding: 2.5% 5%;
       }
-     `;
+    `;
   }
 }
 

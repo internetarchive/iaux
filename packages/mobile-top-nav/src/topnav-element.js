@@ -122,6 +122,7 @@ export default class TopnavElement extends LitElement {
       :host {
         --white: #fff;
         --grey20: #333;
+        --grey999: #999;
         --black: #000;
         --theme-font-family: 'Helvetica Neue';
         --link-color: #428bca;
