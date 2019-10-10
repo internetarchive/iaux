@@ -68,12 +68,12 @@ class UserMenu extends LitElement {
       .user-menu .menu-group {
         min-height: 50vh;
         min-width: 30vw;
+        margin: 4% auto;
       }
-      a {
+      .user-menu .menu-group a {
         display: block;
         width: 100%;
-        font-family: 'Helvetica Neue';
-        color: var(--white);
+        color: var(--primary-text-color);
         text-decoration: none;
         height: 8%;
         padding: 2.5% 5%;
