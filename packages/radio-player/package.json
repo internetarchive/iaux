@@ -12,7 +12,7 @@
     "index.js"
   ],
   "scripts": {
-    "postinstall": "npm run build",
+    "prepare": "npm run build",
     "build": "tsc -p tsconfig.build.json",
     "start": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch --preserve-symlinks\"",
     "start:compatibility": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch --compatibility all --preserve-symlinks\"",
