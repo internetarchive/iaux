@@ -74,7 +74,7 @@ export default class TopnavElement extends LitElement {
     return html`
       <nav class="navbar flex align-center">
         <div class="left flex align-center">
-          <button @click="${this.mediaMenu}">
+          <button @click="${this.mediaMenu}" tabindex="1">
             <ham-burger colour="${hamburgerColour}"></ham-burger>
           </button>
         </div>
@@ -136,6 +136,12 @@ export default class TopnavElement extends LitElement {
         --theme-font-family: 'Helvetica Neue';
         font-size: 1.25rem;
         font-family: var(--theme-font-family);
+      }
+      button:focus,
+      input:focus {
+        outline-color: var(--link-color);
+        outline-width: 0.1rem;
+        outline-style: auto;
       }
       .flex {
         display: flex;
@@ -203,7 +209,6 @@ export default class TopnavElement extends LitElement {
         height: 3rem;
         border-radius: 0.6rem;
         border: none;
-        outline: none;
         text-align: center;
         font-size: 1.125rem;
       }
