@@ -5,7 +5,39 @@ class SearchMenu extends LitElement {
     return {
       searchMenuOpen: { type: Boolean },
       searchMenuAnimate: { type: Boolean },
+      selectedSearchType: { type: String },
     };
+  }
+
+  constructor() {
+    super();
+    this.selectedSearchType = '';
+  }
+
+  selectedSearchType() {
+    const { selectedSearchType } = this;
+    // placeholder for click handler
+    return selectedSearchType;
+  }
+
+  get searchTypesTemplate() {
+    const searchTypes = [
+      { option: 'metadata', label: 'Metadata' },
+      { option: 'text', label: 'text contents' },
+      { option: 'tv', label: 'TV news captions' },
+      { option: 'web', label: 'archived websites' },
+    ].map(({ option, label }) => {
+      const checked = option === 'metadata' ? 'checked' : '';
+
+      return html`
+        <label class="search-type" @click="${this.selectedSearchType}">
+          <input type="radio" name="search" value="${option}" checked="${checked}" />
+          <span>Search ${label}</span>
+        </label>
+      `;
+    });
+
+    return searchTypes;
   }
 
   render() {
@@ -20,21 +52,6 @@ class SearchMenu extends LitElement {
     const searchMenuHidden = Boolean(!this.searchMenuOpen).toString();
     const searchMenuExpanded = Boolean(this.searchMenuOpen).toString();
 
-    const searchTypes = [
-      { option: 'metadata', label: 'Metadata' },
-      { option: 'text', label: 'text contents' },
-      { option: 'tv', label: 'TV news captions' },
-      { option: 'web', label: 'archived websites' },
-    ].map(({ option, label }) => {
-      const checked = option === 'metadata' ? 'checked' : '';
-
-      return html`
-        <label class="search-type">
-          <input type="radio" name="search" value="${option}" checked="${checked}" />
-          <span>Search ${label}</span>
-        </label>
-      `;
-    });
     return html`
       <div
         class="search-menu tx-slide ${searchMenuClass}"
@@ -42,7 +59,7 @@ class SearchMenu extends LitElement {
         aria-expanded="${searchMenuExpanded}"
       >
         <div class="search-options">
-          ${searchTypes}
+          ${this.searchTypesTemplate}
           <a class="advanced-search" href="#">Advanced Search</a>
         </div>
       </div>

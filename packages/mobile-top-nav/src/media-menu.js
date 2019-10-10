@@ -91,17 +91,7 @@ class MediaMenu extends LitElement {
     this.toggleMediaSlider();
   }
 
-  render() {
-    let mediaMenuClass = 'initial';
-    if (this.mediaMenuOpen) {
-      mediaMenuClass = 'open';
-    }
-    if (!this.mediaMenuOpen && this.mediaMenuAnimate) {
-      mediaMenuClass = 'closed';
-    }
-    const mediaMenuHidden = Boolean(!this.mediaMenuOpen).toString();
-    const mediaMenuExpanded = Boolean(this.mediaMenuOpen).toString();
-
+  get mediaMenuOptionsTemplate() {
     const buttons = menuSelection.map(({ icon: mediatype, label }) => {
       const selected = this.selectedMenuOption === mediatype ? 'selected' : '';
       return html`
@@ -116,6 +106,20 @@ class MediaMenu extends LitElement {
         </button>
       `;
     });
+    return buttons;
+  }
+
+  render() {
+    let mediaMenuClass = 'initial';
+    if (this.mediaMenuOpen) {
+      mediaMenuClass = 'open';
+    }
+    if (!this.mediaMenuOpen && this.mediaMenuAnimate) {
+      mediaMenuClass = 'closed';
+    }
+    const mediaMenuHidden = Boolean(!this.mediaMenuOpen).toString();
+    const mediaMenuExpanded = Boolean(this.mediaMenuOpen).toString();
+
     return html`
       <nav
         class="media-menu tx-slide ${mediaMenuClass}"
@@ -123,7 +127,7 @@ class MediaMenu extends LitElement {
         aria-expanded="${mediaMenuExpanded}"
       >
         <div class="menu-group">
-          ${buttons}
+          ${this.mediaMenuOptionsTemplate}
           <media-slider
             ?mediaSliderOpen="${this.mediaSliderOpen}"
             ?mediaSliderAnimate="${this.mediaSliderAnimate}"
