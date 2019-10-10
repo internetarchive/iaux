@@ -41,7 +41,7 @@ class MediaMenu extends LitElement {
       mediaMenuAnimate: { type: Boolean },
       mediaSliderOpen: { type: Boolean },
       mediaSliderAnimate: { type: Boolean },
-      selected: { type: String },
+      selectedMenuOption: { type: String },
     };
   }
 
@@ -62,7 +62,7 @@ class MediaMenu extends LitElement {
     if (menuClosed && mediaSliderOpen) {
       this.mediaSliderOpen = false;
       this.mediaSliderAnimate = false;
-      this.selected = '';
+      this.selectedMenuOption = '';
     }
   }
 
@@ -80,7 +80,7 @@ class MediaMenu extends LitElement {
   }
 
   select(mediatype) {
-    const currentSelection = this.selected;
+    const currentSelection = this.selectedMenuOption;
 
     if (currentSelection === mediatype) {
       this.closeMediaSlider();
