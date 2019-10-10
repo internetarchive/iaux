@@ -40,7 +40,7 @@ export default TranscriptView;
 </style>
 
 <transcript-view
-  currentTime=10
+  currentTime=11
   showContextZones=true
   topContextHeight=50
   bottomContextHeight=50
