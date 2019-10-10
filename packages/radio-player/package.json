@@ -8,6 +8,7 @@
   "types": "index.d.ts",
   "files": [
     "lib/**/*",
+    "!lib/demo",
     "index.d.ts",
     "index.js"
   ],
