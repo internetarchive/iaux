@@ -20,6 +20,21 @@ class SearchMenu extends LitElement {
     const searchMenuHidden = Boolean(!this.searchMenuOpen).toString();
     const searchMenuExpanded = Boolean(this.searchMenuOpen).toString();
 
+    const searchTypes = [
+      { option: 'metadata', label: 'Metadata' },
+      { option: 'text', label: 'text contents' },
+      { option: 'tv', label: 'TV news captions' },
+      { option: 'web', label: 'archived websites' },
+    ].map(({ option, label }) => {
+      const checked = option === 'metadata' ? 'checked' : '';
+
+      return html`
+        <label class="search-type">
+          <input type="radio" name="search" value="${option}" checked="${checked}" />
+          <span>Search ${label}</span>
+        </label>
+      `;
+    });
     return html`
       <div
         class="search-menu tx-slide ${searchMenuClass}"
@@ -27,33 +42,8 @@ class SearchMenu extends LitElement {
         aria-expanded="${searchMenuExpanded}"
       >
         <div class="search-options">
-          <div>
-            <label>
-              <input type="radio" name="search" value="metadata" checked />
-              Search Metadata
-            </label>
-          </div>
-          <div>
-            <label>
-              <input type="radio" name="search" value="text-contents" />
-              Search text contents
-            </label>
-          </div>
-          <div>
-            <label>
-              <input type="radio" name="search" value="tv-news-captions" />
-              Search TV news captions
-            </label>
-          </div>
-          <div>
-            <label>
-              <input type="radio" name="search" value="archived-websites" />
-              Search archived websites
-            </label>
-          </div>
-          <div>
-            <a href="#">Advanced Search</a>
-          </div>
+          ${searchTypes}
+          <a class="advanced-search" href="#">Advanced Search</a>
         </div>
       </div>
     `;
@@ -65,7 +55,6 @@ class SearchMenu extends LitElement {
         position: relative;
         margin: 0;
         width: 100%;
-        font-size: 20px;
         background-color: var(--grey20);
         display: flex;
         flex-direction: column;
@@ -85,20 +74,21 @@ class SearchMenu extends LitElement {
       }
       .search-menu.tx-slide.open {
         max-height: 100vh;
-        z-index: 3;
       }
       .search-options {
         align-self: center;
-        margin: 1% auto;
+        min-width: 38%;
+        margin-bottom: 1%;
       }
-      .search-options div {
-        padding: 8px;
-        color: var(--white);
-        font-family: var(--theme-font-family);
+
+      .search-options > * {
+        padding: 3%;
+        display: block;
       }
-      .search-options a {
-        color: var(--link-color);
+
+      .search-options .advanced-search {
         text-decoration: none;
+        color: var(--link-color);
       }
     `;
   }

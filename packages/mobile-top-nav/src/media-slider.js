@@ -9,11 +9,6 @@ class MediaSlider extends LitElement {
     };
   }
 
-  constructor() {
-    super();
-    this.tabHeightPx = 70;
-  }
-
   render() {
     let sliderDetailsClass = 'menu-slider-offscreen';
 
@@ -43,7 +38,6 @@ class MediaSlider extends LitElement {
         padding: 0;
         background: var(--grey20);
         width: 100%;
-        z-index: 4;
         height: 100%;
         overflow: hidden;
         position: relative;
@@ -79,13 +73,10 @@ class MediaSlider extends LitElement {
       }
 
       .info-box {
-        padding: 1px 20px;
+        padding: 0 1%;
       }
 
       .info-box-1 {
-        font-family: var(--theme-font-family);
-        font-size: 20px;
-        color: var(--white);
         font-weight: bold;
       }
     `;

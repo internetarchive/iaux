@@ -138,10 +138,7 @@ class MediaMenu extends LitElement {
       .media-menu {
         width: 100%;
         background-color: var(--black);
-        color: var(--white);
         margin: 0;
-        font-size: 20px;
-        font-family: 'Helvetica Neue';
         overflow: hidden;
       }
       .media-menu.tx-slide {
@@ -161,8 +158,6 @@ class MediaMenu extends LitElement {
       }
       .media-menu .menu-group {
         height: 80vh;
-        position: relative;
-        // font-size: inherit;
       }
       .media-menu .menu-item {
         width: 100%;
@@ -172,9 +167,7 @@ class MediaMenu extends LitElement {
         cursor: pointer;
         height: 12%;
         border: none;
-
         text-align: left;
-
         padding: 0;
       }
       .media-menu .menu-item > .label {
@@ -187,7 +180,6 @@ class MediaMenu extends LitElement {
         align-items: center;
         justify-content: center;
         height: 100%;
-
         width: 8%;
       }
       .menu-item.selected .icon {
