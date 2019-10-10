@@ -45,7 +45,7 @@ export default class TopnavElement extends LitElement {
     this.searchMenuOpen = !this.searchMenuOpen;
     if (this.searchMenuOpen) {
       window.setTimeout(() => {
-        this.shadowRoot.getElementById('search-field').focus();
+        this.shadowRoot.querySelector('.search-field').focus();
       }, 0);
     }
   }
@@ -58,43 +58,49 @@ export default class TopnavElement extends LitElement {
   }
 
   render() {
-    const centerClass = this.searchMenuFade ? 'center fade-in' : 'center';
-    const centerStyle = this.searchMenuOpen ? 'display: none' : 'display: flex';
-    const centerActivatedStyle = this.searchMenuOpen ? 'display: flex' : 'display: none';
-    const userButtonClass = this.userMenuOpen ? 'user-menu-active' : '';
+    const searchFade = this.searchMenuFade ? 'fade-in' : '';
+    const searchMenuToggleState = this.searchMenuOpen ? 'search-inactive' : '';
+    const searchMenuOpen = this.searchMenuOpen ? 'flex' : 'search-inactive';
+    const userMenuToggle = this.userMenuOpen ? 'active' : '';
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
     const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
-    const hamburgerColour = this.mediaMenuOpen ? '#fff' : '#999';
-    const searchGlassColour = this.searchMenuOpen ? '#222' : '#999';
-    const userColour = this.userMenuOpen ? '#fff' : '#999';
+    const baseColor = '#999';
+    const activeColor = '#fff';
+    const hamburgerColour = this.mediaMenuOpen ? activeColor : baseColor;
+    const searchGlassColour = this.searchMenuOpen ? '#222' : baseColor;
+    const userColour = this.userMenuOpen ? activeColor : baseColor;
+
     return html`
-      <nav class="navbar">
-        <div class="left">
+      <nav class="navbar flex align-center">
+        <div class="left flex align-center">
           <button @click="${this.mediaMenu}">
             <ham-burger colour="${hamburgerColour}"></ham-burger>
           </button>
         </div>
-        <div class="${centerClass}" style="${centerStyle}">
-          <button style="padding: 17px 24px;" tabindex="-1" aria-hidden="true">&nbsp;</button>
-          <!--Fake element for alignment purposes-->
-          <a href="#"><img src="assets/img/ia-logo.svg" alt="Home"/></a>
+        <div class="center flex align-center ${searchFade} ${searchMenuToggleState}">
+          <a class="link-home" href="#"><img src="assets/img/ia-logo.svg" alt="Home"/></a>
           <button class="search" @click="${this.searchMenu}">
             <search-image colour="${searchGlassColour}"></search-image>
           </button>
         </div>
         <!--New div created to replace above one when search is activated-->
-        <div class="center-search-activated fade-in" style="${centerActivatedStyle}">
-          <div class="fake-box">
-            <input type="text" id="search-field" placeholder="Search Internet Archive" required />
+        <div class="center search-activated align-center fade-in ${searchMenuOpen}">
+          <div class="highlight">
+            <input
+              type="text"
+              class="search-field"
+              placeholder="Search Internet Archive"
+              required
+            />
             <button class="search" @click="${this.searchMenu}">
               <search-image colour="${searchGlassColour}"></search-image>
             </button>
           </div>
         </div>
         <!--End of replacement div-->
-        <div class="right">
-          <button class="${userButtonClass}" @click="${this.userMenu}">
+        <div class="right flex align-center">
+          <button class="user-menu ${userMenuToggle}" @click="${this.userMenu}">
             <user-image colour="${userColour}"></user-image>
           </button>
         </div>
@@ -124,84 +130,89 @@ export default class TopnavElement extends LitElement {
         --grey20: #333;
         --grey999: #999;
         --black: #000;
-        --theme-font-family: 'Helvetica Neue';
         --link-color: #428bca;
+        --primary-text-color: var(--white);
+        color: var(--primary-text-color);
+        --theme-font-family: 'Helvetica Neue';
+        font-size: 1.25rem;
+        font-family: var(--theme-font-family);
+      }
+      .flex {
+        display: flex;
+      }
+      .search-inactive {
+        display: none;
+      }
+      .align-center {
+        align-items: center;
       }
       .navbar {
         position: relative;
-        display: flex;
         flex-direction: row;
-        margin: 0;
-        height: 52px;
-        padding: 0 10px;
+        padding: 0 1%;
         background: var(--black);
-        padding: 0;
-        list-style: none;
-        align-items: center;
-        z-index: 2;
       }
       .navbar button {
         background: none;
         color: inherit;
         border: none;
-        padding: 4px 8px;
         font: inherit;
         cursor: pointer;
       }
       .left {
-        display: flex;
         justify-content: flex-start;
-        align-items: center;
-      }
-      .center {
-        display: flex;
-        flex: 1;
-        align-items: center;
-        justify-content: space-between;
       }
       .right {
-        display: flex;
         justify-content: flex-end;
-        align-items: center;
       }
-      .center img {
-        /*padding: 6px;*/
-      }
-      button.user-menu-active {
-        border-radius: 10px 10px 0 0;
-        background: var(--grey20);
-      }
-      .center-search-activated {
-        display: flex;
+      .center {
+        margin: auto 3% auto 1%;
         flex: 1;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px 10px 0 0;
-        background: var(--grey20);
-        padding: 6px 8px;
+        justify-content: space-between;
+        min-height: 3.75rem;
+        max-height: 3.75rem;
       }
-      .center-search-activated .fake-box {
+      .center .search {
+        padding-top: 0;
+        margin-right: 1.5%;
+      }
+      .center .link-home {
+        display: block;
+        margin: auto;
+      }
+      .center.search-activated {
+        justify-content: center;
+        border-radius: 0.6rem 0.6rem 0 0;
+        background: var(--grey20);
+      }
+      .search-activated .highlight,
+      .search-activated .search {
         background: var(--white);
-        border-radius: 10px;
+        border-radius: 0.6rem;
+      }
+      .search-activated .highlight {
         display: flex;
         width: 100%;
-        height: 40px;
-        padding: 0px;
+        margin: 0 1.5%;
       }
-      .center-search-activated .search {
-        background: var(--white);
-        height: 40px;
-        border-radius: 10px;
-        padding: 0 0 2px 0px;
+      .search-activated .search {
+        margin-right: 0;
       }
-      #search-field {
+      .search-activated .search-field {
         width: 100%;
-        height: 38px;
-        border-radius: 10px;
+        height: 3rem;
+        border-radius: 0.6rem;
         border: none;
         outline: none;
         text-align: center;
-        font-size: 18px;
+        font-size: 1.125rem;
+      }
+      .user-menu {
+        padding: 18% 30%;
+      }
+      .user-menu.active {
+        border-radius: 0.6rem 0.6rem 0 0;
+        background: var(--grey20);
       }
       @keyframes fade-in {
         0% {
