@@ -138,6 +138,7 @@ export default class TopnavElement extends LitElement {
         font-family: var(--theme-font-family);
       }
       button:focus,
+      a:focus,
       input:focus {
         outline-color: var(--link-color);
         outline-width: 0.1rem;
