@@ -201,9 +201,11 @@ export default class SearchBar extends LitElement {
         border-right: 0;
         background-color: black;
         color: white;
-        padding: 5px 0;
+        padding: 0;
         margin: 0;
+        font-size: 1em;
         flex: 1 1 auto;
+        width: 10em;
       }
 
       .search-input:focus {
