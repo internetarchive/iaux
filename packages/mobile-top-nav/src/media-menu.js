@@ -135,6 +135,11 @@ class MediaMenu extends LitElement {
 
   static get styles() {
     return css`
+      button:focus {
+        outline-color: var(--link-color);
+        outline-width: 0.1rem;
+        outline-style: auto;
+      }
       .media-menu {
         width: 100%;
         background-color: var(--black);
@@ -161,7 +166,6 @@ class MediaMenu extends LitElement {
       }
       .media-menu .menu-item {
         width: 100%;
-        outline: none;
         background: transparent;
         font-size: inherit;
         cursor: pointer;

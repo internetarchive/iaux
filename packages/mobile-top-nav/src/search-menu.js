@@ -51,6 +51,12 @@ class SearchMenu extends LitElement {
 
   static get styles() {
     return css`
+      button:focus,
+      input:focus {
+        outline-color: var(--link-color);
+        outline-width: 0.1rem;
+        outline-style: auto;
+      }
       .search-menu {
         position: relative;
         margin: 0;
