@@ -49,7 +49,7 @@ class MediaMenu extends LitElement {
     super();
     this.mediaSliderOpen = false;
     this.mediaSliderAnimate = false;
-    this.selected = '';
+    this.selectedMenuOption = '';
   }
 
   updated(changedProperties) {
@@ -69,7 +69,7 @@ class MediaMenu extends LitElement {
   closeMediaSlider() {
     this.mediaSliderAnimate = true;
     this.mediaSliderOpen = false;
-    this.selected = '';
+    this.selectedMenuOption = '';
   }
 
   toggleMediaSlider() {
@@ -87,7 +87,7 @@ class MediaMenu extends LitElement {
       return;
     }
 
-    this.selected = mediatype;
+    this.selectedMenuOption = mediatype;
     this.toggleMediaSlider();
   }
 
@@ -103,7 +103,7 @@ class MediaMenu extends LitElement {
     const mediaMenuExpanded = Boolean(this.mediaMenuOpen).toString();
 
     const buttons = menuSelection.map(({ icon: mediatype, label }) => {
-      const selected = this.selected === mediatype ? 'selected' : '';
+      const selected = this.selectedMenuOption === mediatype ? 'selected' : '';
       return html`
         <button class="menu-item ${selected}" @click="${this.select.bind(this, mediatype)}">
           <span class="icon"
