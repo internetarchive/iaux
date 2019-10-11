@@ -245,7 +245,7 @@ export default class RadioPlayer extends LitElement {
 
   private searchEnterKeyPressed(e: CustomEvent): void {
     this.searchRequested = true;
-    const event = new CustomEvent('searchrequested', {
+    const event = new CustomEvent('searchRequested', {
       detail: { searchTerm: e.detail.value },
       bubbles: true,
       composed: true,
@@ -323,11 +323,22 @@ export default class RadioPlayer extends LitElement {
     this.percentComplete = percent * 100;
   }
 
+  private emitCurrentTimeChangedEvent(): void {
+    const event = new CustomEvent('currentTimeChanged', {
+      detail: { currentTime: this.currentTime },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
+  }
+
   private playbackPaused(): void {
     this.isPlaying = false;
     if (this.playbackControls) {
       this.playbackControls.playbackMode = PlaybackMode.paused;
     }
+    const event = new Event('playbackPaused');
+    this.dispatchEvent(event);
   }
 
   private playbackStarted(): void {
@@ -335,23 +346,39 @@ export default class RadioPlayer extends LitElement {
     if (this.playbackControls) {
       this.playbackControls.playbackMode = PlaybackMode.playing;
     }
+    const event = new Event('playbackStarted');
+    this.dispatchEvent(event);
   }
 
   private valueChangedFromScrub(e: CustomEvent): void {
     const percentage = e.detail.value;
     const newTime = this.duration * (percentage / 100);
+    this.currentTime = newTime;
     if (this.audioElement) {
       this.audioElement.seekTo(newTime);
     }
     this.percentComplete = percentage;
+    const event = new CustomEvent('timeChangedFromScrub', {
+      detail: { newTime: this.currentTime },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
   }
 
   private transcriptEntrySelected(e: CustomEvent): void {
     const newTime = e.detail.entry.start;
+    this.currentTime = newTime;
     if (this.audioElement) {
       this.audioElement.seekTo(newTime);
       this.audioElement.play();
     }
+    const event = new CustomEvent('transcriptEntrySelected', {
+      detail: { newTime: this.currentTime },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
   }
 
   private updateMusicZones(): void {
@@ -408,6 +435,7 @@ export default class RadioPlayer extends LitElement {
     }
 
     if (changedProperties.has('currentTime')) {
+      this.emitCurrentTimeChangedEvent();
       this.checkForMusicZone();
     }
   }

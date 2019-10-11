@@ -1,4 +1,4 @@
-import { LitElement, html, customElement, TemplateResult } from 'lit-element';
+import { LitElement, html, customElement, TemplateResult, property } from 'lit-element';
 
 /* eslint-disable */
 
@@ -17,13 +17,21 @@ import RadioPlayerConfig from '../src/models/radio-player-config';
 
 @customElement('radio-player-controller')
 export default class RadioPlayerController extends LitElement {
+  @property({ type: Number }) currentTime = 0;
+
+  @property({ type: String }) searchTerm = '';
+
   render(): TemplateResult {
     return html`
       <radio-player
         .config=${this.radioPlayerConfig}
         .transcriptConfig=${this.baseTranscriptConfig}
-        @searchrequested=${this.doSearch}
+        @searchRequested=${this.doSearch}
         @searchCleared=${this.searchCleared}
+        @playbackPaused=${this.playbackPaused}
+        @currentTimeChanged=${this.currentTimeChanged}
+        @timeChangedFromScrub=${this.timeChangedFromScrub}
+        @transcriptEntrySelected=${this.transcriptEntrySelected}
       >
       </radio-player>
     `;
@@ -100,11 +108,13 @@ export default class RadioPlayerController extends LitElement {
 
   async doSearch(e: CustomEvent) {
     const term = e.detail.searchTerm;
+    this.searchTerm = term;
+    this.updateSearchQueryParam();
     const searchUrl = `https://books-search0.us.archive.org/explorer/get_radio_captions_matches/BBC_Radio_2_20190502_180000/BBC_Radio_2_20190502_180000_speech_vs_music_asr.json?q=${term}`;
     const response = await fetch(searchUrl);
     const json = await response.json();
 
-    const convertedTranscript = json.map(
+    const convertedTranscript = json.transcript.map(
       (entry: any) =>
         new TranscriptEntryConfig(
           entry.id,
@@ -124,7 +134,43 @@ export default class RadioPlayerController extends LitElement {
   }
 
   private searchCleared() {
+    this.searchTerm = '';
     this.resetTranscript();
+    this.updateSearchQueryParam();
+  }
+
+  private currentTimeChanged(e: CustomEvent): void {
+    this.currentTime = e.detail.currentTime;
+  }
+
+  private playbackPaused(): void {
+    this.updateStartTimeQueryParam();
+  }
+
+  private timeChangedFromScrub(e: CustomEvent): void {
+    this.currentTime = e.detail.newTime;
+    this.updateStartTimeQueryParam();
+  }
+
+  private transcriptEntrySelected(e: CustomEvent): void {
+    this.currentTime = e.detail.newTime;
+    this.updateStartTimeQueryParam();
+  }
+
+  private updateStartTimeQueryParam(): void {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('start', `${this.currentTime}`);
+    window.history.replaceState({}, '', `?${searchParams.toString()}`);
+  }
+
+  private updateSearchQueryParam(): void {
+    const searchParams = new URLSearchParams(window.location.search);
+    if (this.searchTerm === '') {
+      searchParams.delete('q');
+    } else {
+      searchParams.set('q', `${this.searchTerm}`);
+    }
+    window.history.replaceState({}, '', `?${searchParams.toString()}`);
   }
 
   private resetTranscript() {
