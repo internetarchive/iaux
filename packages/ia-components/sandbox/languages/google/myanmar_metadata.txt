@@ -1,0 +1,250 @@
+အသုံးပြုခွင့်
+Accession_number
+ကဗျာ
+မင်္ဂလာပါ
+အယ်လ်ဘမ်
+မော်ကွန်းတိုက် - အကောင့် - id
+မော်ကွန်းတိုက် - အကောင့် - အဖွဲ့အစည်းက - အမည်
+မော်ကွန်းတိုက် - စုဆောင်းခြင်း - အိုင်ဒီ
+မော်ကွန်းတိုက် - စုဆောင်းမှု - အမည်
+မော်ကွန်းတိုက် - ထပ်မဖြစ်အောင်
+ဆောင်းပါးအမျိုးအစား
+အနုပညာရှင်
+ရှုခင်း
+တာဝန်ပေးအပ်ရန်
+ပူးတွဲပါနံပါတ်
+Audio_codec
+Audio_sample_rate
+audio_type
+စာရေးသူ
+Avg_rating
+Backup_location
+ဘားကုဒ်
+ကွမ်းခြံကုန်း
+Boxid
+Boxid_2
+Btih
+Call_number
+ကင်မရာ
+ကိစ္စရပ် - အကြောင်းမရှိ
+အမှုအခင်းအမည်
+ccnum
+မြို့တော်
+အတန်း
+ပိတောက်ပန်း
+စုဆောင်းမှု
+စုဆောင်းမှု - စာကြည့်တိုက်
+အရောင်
+လှူဒါန်းသူ
+မူပိုင်ခွင့်အထောက်အထား
+မူပိုင်ခွင့်အထောက်အထား - နေ့စွဲ
+မူပိုင်ခွင့် - သက်သေအထောက်အထား - အော်ပရေတာ
+မူပိုင်ခွင့်ဒေသ
+တရားရုံး
+လွှမ်းခြုံမှု
+ခွေး
+နင်
+နေပြည်တော်
+ဖန်ဆင်းရှင်
+မင်္ဂလာပါ
+မင်္ဂလာပါ
+ချေးငွေ
+ယဉျကြေးမှု
+ရူပ
+ရက်စွဲ
+ရက်စွဲ - အမှု - တင်သွင်း
+ရက်စွဲ - ကိစ္စရပ် - ရပ်စဲ
+ရက်စွဲ - နောက်ဆုံး - ဖြည့်စွက်
+ရက်
+ရက်စွဲ
+ဖော်ပြချက်
+အရွယ်အစား
+Doc-num
+စာရင်းနံပါတ်
+အလှူရှင်
+downloads
+ကြာချိန်
+ထုတ်ဝေ
+Examinername
+ပြင်ပ - အမှတ်အသား
+Extramarc
+Filesxml
+Filingdate
+ပထမအကြိမ်
+ပထမ ဦး ဆုံးခေါင်းစဉ်
+ပထမ
+ပထမ
+ပထမ ဦး ဆုံး
+Foldoutcount
+Frames_per_second
+Google-id
+တောင်ကြီးမြို့
+အမှတ်အသား
+အမှတ်အသား - ဝင်ရောက်ခွင့်
+အမှတ်အသား - သင်္ဘော
+အမှတ်အသား -bob
+ပုံရိပ်
+ကန ဦး က
+တီထွင်မှု
+တီထွင်သူ
+ငွေတောင်းခံလွှာ
+Is_clip
+Isbn
+အရေး
+ထုတ်ပြန်ရက်စွဲ
+ဂျာနယ်
+ဂျာနယ်
+တရားစီရင်ပိုင်ခွင့်
+ဂျူရီဝယ်လိုအား
+ဘာသာစကား
+ဘာသာစကား
+နောက်ဆုံးရက်
+နောက်ဆုံး
+နောက်ဆုံး
+လတ္တီတွဒ်
+Lcamid
+Lccn
+Lg_lastmodifieddate
+လိုင်ဇာ
+နွယ်
+တည်နေရာ
+လောင်ဂျီတွဒ်
+ချစ်သူ
+Md5s
+အမျိုးအစား
+အလယ်အလတ်
+Monochromatic
+လ
+Mpeg_program
+Nal ခေါ်ဆိုမှုနံပါတ်
+သဘာဝ -of- ဝတ်စုံကို
+နောက်တစ်ခု
+နောက်တစ်ခု
+Noindex
+မှတ်စုများ
+Num_reviews
+Numwarcs
+Oclc-id
+Ocr
+Olsearch
+စာကြည့်တိုက်
+အော်ပရေတာ
+မူရင်း
+Other_copyright_holders
+Pacer-case-num
+စာမျက်နှာတိုးတက်မှု
+ပုဂံ
+လုပ်ဖော်ကိုင်ဖက်
+တစ်စိတ်တစ်ပိုင်း
+Perma_url
+ဖြစ်နိုင်သော - မူပိုင်ခွင့်အခြေအနေ
+နေပြည်တော်
+ppi
+ရှေ့
+Previous_item
+သက်သေပြချက်
+ရက်စွဲ
+ထုတ်ဝေသူ
+အဆင့်သတ်မှတ်ချက်
+Rcamid
+ဆက်စပ် - ပြင်ပ - အိုင်ဒီ
+လွှတ်ပေးရေး
+Repub_seconds
+Repub_state
+ထုတ်ဝေသူ
+အရင်းအမြစ်
+ပြန်လည်သုံးသပ်ခြင်း
+သုံးသပ်ချက်
+ပြန်လည်သုံးသပ်သူ
+ပြန်လည်သုံးသပ်ခြင်း
+အခွင့်အရေး
+အချိန်
+Salients
+လွိုင်ကော်
+အရှုပ်တော်ပုံ
+။
+နေ့
+Scanner
+Scanningcenter
+Serialurl
+စီးရီး
+Shipping_container
+ရေကြောင်း
+Sizehint
+အသံ
+ရင်းမြစ်
+Source_pixel_height
+Source_pixel_width
+ရင်းမြစ်
+နေပြည်တော်
+စပွန်ဆာ
+စပွန်ဆာ
+ကြယ်များ
+Start_localtime
+Start_time
+Station_name
+အခြေအနေ
+Stop_time
+Stripped_tags
+subclass
+ဘာသာရပ်
+အကြောင်းအရာ
+Submitted_url
+Taper
+ခေါင်းစဥ်
+ခေါင်းစဉ်
+ခေါင်းစဉ်
+သယ်ဆောင်
+Trk_cnt
+Trk_coherent
+Trk_disc_cnt
+Trk_format
+Trk_len_01
+Trk_len_02
+Trk_len_03
+Trk_len_04
+Trk_len_05
+Trk_len_06
+Trk_len_07
+Trk_len_08
+Trk_len_09
+Trk_len_10
+Trk_len_11
+Trk_len_12
+Trk_len_13
+Trk_len_14
+Trk_len_15
+Trk_len_16
+Trk_len_17
+Trk_len_18
+Trk_len_19
+Trk_len_20
+Trk_len_sum
+Trk_src_fmt
+tuner
+ပုံစံ
+ထူးအိမ်သင်
+မွမ်းမံ
+Updater
+တင်ပါ
+ဥရိ
+url
+Utc_offset
+နေရာ
+Video_codec
+Volume ကို
+Wcd_uploaddate
+အပတ်
+ဘာ
+ဘယ်မှာလဲ
+နှစ်
+Youtube-height
+Youtube-id
+Youtube-n-entries တွေကို
+Youtube-playlist
+Youtube-playlist-index
+Youtube-uploader
+Youtube-uploader-id
+Youtube-view- ရေတွက်
+Youtube-webpage-url
+Youtube-width

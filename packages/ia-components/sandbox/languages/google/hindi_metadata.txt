@@ -1,0 +1,250 @@
+पहुंच
+परिग्रहण संख्या
+Addeddate
+एडर
+एल्बम
+Archiveit-खाता-आईडी
+Archiveit-खाता-संगठन-नाम
+Archiveit-संग्रह-आईडी
+Archiveit-संग्रह-नाम
+Archiveit-पुनरावृत्ति
+अनुच्छेद प्रकार
+कलाकार
+आस्पेक्ट अनुपात
+को सौंपना
+लगाव संख्या
+ऑडियो कोडेक
+Audio_sample_rate
+Audio_type
+लेखक
+AVG_RATING
+Backup_location
+बारकोड
+Bookplateleaf
+Boxid
+Boxid_2
+Btih
+कॉल नंबर
+कैमरा
+केस कारण
+केस-नाम
+Ccnum
+Faridabad
+कक्षा
+बंद शीर्षक
+संग्रह
+संग्रह-पुस्तकालय
+रंग
+योगदान देने वाला
+कॉपीराइट-सबूत
+कॉपीराइट-सबूत की तारीख
+कॉपीराइट-सबूत के ऑपरेटर
+कॉपीराइट-क्षेत्र
+कोर्ट
+कवरेज
+क्रॉलर
+Crawljob
+तारीख बनाना
+रचनाकार
+CreatorSorter
+CreatorSorterRaw
+क्रेडिट
+संस्कृति
+संकलन
+दिनांक
+दिनांक-केस दायर
+दिनांक-केस समाप्त
+दिनांक-पिछले-फाइलिंग
+Date.raw
+निर्माण की तिथि
+विवरण
+आयाम
+डॉक्टर-संख्या
+डॉकेट-संख्या
+दाता
+डाउनलोड
+अवधि
+संस्करण
+Examinername
+बाहरी-पहचानकर्ता
+Extramarc
+Filesxml
+दाखिल करने की तारीख
+FirstCreator
+FirstTitle
+Firstfiledate
+Firstfileserial
+Firstnamedinventor
+Foldoutcount
+चित्र हर क्षण में
+गूगल-आईडी
+Groupartunit
+पहचानकर्ता
+पहचानकर्ता का उपयोग
+पहचानकर्ता-संदूक
+पहचानकर्ता-बिब
+Imagecount
+आरंभिक रिलीज
+Inventorcity
+Inventorcountry
+बीजक
+Is_clip
+Isbn
+Issn
+जारी करने की तिथि
+Journalabbrv
+Journaltitle
+अधिकार - क्षेत्र
+जूरी मांग
+भाषा: हिन्दी
+LanguageSorter
+अंतिम तिथी
+Lastfiledate
+Lastfileserial
+अक्षांश
+Lcamid
+LCCN
+Lg_lastmodifieddate
+Licenseurl
+वंशावली
+स्थान
+देशान्तर
+परिपक्व सामग्री
+Md5s
+मीडिया का स्वरूप
+मध्यम
+एकरंगा
+महीना
+Mpeg_program
+नल का नंबर
+प्रकृति के-सूट
+आगे
+अगला आइटम
+नोइंडेक्स
+टिप्पणियाँ
+NUM_REVIEWS
+Numwarcs
+OCLC-आईडी
+ओसीआर
+Olsearch
+Openlibrary
+ऑपरेटर
+Originalurl
+Other_copyright_holders
+पेसर-केस संख्या
+पृष्ठ-प्रगति
+पेज सीमा
+Partner_shiptracking
+का हिस्सा
+Perma_url
+संभव-कॉपीराइट-स्थिति
+द्वारा प्रकाशित किया गया था
+ppi
+पिछला
+Previous_item
+उत्पत्ति
+Publicdate
+प्रकाशक
+रेटिंग
+Rcamid
+संबंधित-बाहरी-आईडी
+Releasetype
+Repub_seconds
+Repub_state
+republisher
+संसाधन
+Reviewbody
+पुनरीक्षण दिनांक
+आलोचक
+शीर्षक की समीक्षा करें
+अधिकार
+क्रम
+Salients
+Salients.raw
+scandate
+Scanfactors
+Scanfee
+चित्रान्वीक्षक
+Scanningcenter
+Serialurl
+श्रृंखला
+शिपिंग कंटेनर
+Shiptracking
+Sizehint
+ध्वनि
+स्रोत
+Source_pixel_height
+Source_pixel_width
+Source_schedule
+SOURCE_URL
+प्रायोजक
+Sponsordate
+सितारे
+Start_localtime
+समय शुरू
+स्थानक का नाम
+स्थिति
+रुकने का समय
+Stripped_tags
+उपवर्ग
+विषय
+SubjectSorter
+Submitted_url
+शंकु
+शीर्षक
+TitleSorter
+TitleSorterRaw
+Transferer
+Trk_cnt
+Trk_coherent
+Trk_disc_cnt
+Trk_format
+Trk_len_01
+Trk_len_02
+Trk_len_03
+Trk_len_04
+Trk_len_05
+Trk_len_06
+Trk_len_07
+Trk_len_08
+Trk_len_09
+Trk_len_10
+Trk_len_11
+Trk_len_12
+Trk_len_13
+Trk_len_14
+Trk_len_15
+Trk_len_16
+Trk_len_17
+Trk_len_18
+Trk_len_19
+Trk_len_20
+Trk_len_sum
+Trk_src_fmt
+ट्यूनर
+प्रकार
+एक अलग पहचान
+डेट अपडेट करें
+updater
+अपलोडर
+उरी
+यूआरएल
+Utc_offset
+स्थान
+वीडियो कोडेक
+आयतन
+Wcd_uploaddate
+सप्ताह
+क्या
+कहाँ पे
+साल
+यूट्यूब-ऊंचाई
+यूट्यूब-आईडी
+यूट्यूब-एन-प्रविष्टियों
+यूट्यूब प्लेलिस्ट
+यूट्यूब प्लेलिस्ट सूचकांक
+यूट्यूब-अपलोड करने वाले
+यूट्यूब-अपलोड करने वाले-आईडी
+यूट्यूब पर-व्यू गिनती
+यूट्यूब-वेबपेज-यूआरएल
+यूट्यूब-चौड़ाई

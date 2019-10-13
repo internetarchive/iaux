@@ -55,7 +55,7 @@ Velocidad de Descarga
 Descargado
 editar
 EMPOTRAR
-EMBED (para blogs alojados en wordpress.com y etiquetas de <description> del elemento archive.org)
+EMBED (para los blogs alojados en wordpress.com y las etiquetas <description> del elemento archive.org)
 Inglés
 ingrese URL o palabras clave
 Errores
@@ -112,6 +112,7 @@ Nombre
 próximo
 No descargado
 de
+Desconectado
 en
 En Internet.
 Abrir imagen a tamaño completo
@@ -126,9 +127,10 @@ Descargue los archivos de este elemento para interactuar con ellos en su computa
 círculo más
 Póster
 Publicaciones
+avance
 Anterior
 Progreso
-Proyectos
+PROYECTOS
 Cola
 Artículos relacionados
 PERTINENCIA

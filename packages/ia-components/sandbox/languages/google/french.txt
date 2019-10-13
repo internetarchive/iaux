@@ -112,6 +112,7 @@ Nom
 Prochain
 Non téléchargé
 de
+Hors ligne
 sur
 sur Internet.
 Ouvrir l'image en taille réelle
@@ -126,6 +127,7 @@ Veuillez télécharger les fichiers de cet élément pour interagir avec eux sur
 cercle plus
 Affiche
 DES POSTES
+Aperçu
 précédent
 Le progrès
 PROJETS
@@ -176,14 +178,14 @@ Logiciel
 TRIER PAR
 le son est éteint. cliquez pour le son.
 le son est activé. cliquez pour couper le son.
-Spam, escroquerie ou fraude
+Spam, arnaque ou fraude
 Toujours en cours de réalisation
 Matière
 Conditions d'utilisation
 Des textes
 des textes
 Il n'y a pas encore de critiques.
-Cet élément ne semble pas contenir de fichiers pouvant être manipulés sur Archive.org
+Cet élément ne semble pas contenir de fichiers pouvant être utilisés sur Archive.org
 tuile
 temps
 TITRE

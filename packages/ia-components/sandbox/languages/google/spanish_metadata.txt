@@ -1,0 +1,250 @@
+Acceso
+Número de acceso
+Fecha agregada
+Sumador
+Álbum
+Archiveit-account-id
+Archiveit-account-organization-name
+Archiveit-collection-id
+Archiveit-collection-name
+Archiveit-recurrence
+Tipo de artículo
+Artista
+Aspect_ratio
+Asignado a
+Adjunto-num
+Audio_codec
+Audio_sample_rate
+Audio_type
+Autor
+Promedio
+Ubicación_de_respaldo
+Código de barras
+Hoja de libro
+Boxid
+Boxid_2
+Btih
+Número de llamada
+Cámara
+Causa
+Nombre del caso
+Ccnum
+Ciudad
+Clase
+Subtítulos
+Colección
+Colección-biblioteca
+Color
+Contribuyente
+Copyright-evidencia
+Fecha de evidencia de copyright
+Copyright-evidencia-operador
+Región de derechos de autor
+Corte
+Cobertura
+Tractor
+Crawljob
+Fecha de Creación
+Creador
+CreatorSorter
+CreatorSorterRaw
+Créditos
+Cultura
+Curación
+Fecha
+Fecha-caso-archivado
+Fecha-caso-terminado
+Fecha-última-presentación
+Date.raw
+Fecha de creacion
+Descripción
+Dimensiones
+Doc-num
+Docket-num
+Donante
+Descargas
+Duración
+Edición
+Nombre del examinador
+Identificador externo
+Extramarc
+Filesxml
+Fecha de presentación
+FirstCreator
+FirstTitle
+Primer archivo
+Firstfileserial
+Primerinventor
+Cuenta desplegable
+Cuadros por segundo
+ID de Google
+Groupartunit
+Identificador
+Acceso identificador
+Arca de identificación
+Babero identificador
+Recuento de imágenes
+Versión inicial
+Inventorcity
+País inventor
+Factura
+Is_clip
+Isbn
+Issn
+Fecha de asunto
+Journalabbrv
+Journaltitle
+Jurisdicción
+Demanda del jurado
+Idioma
+LanguageSorter
+Ultima cita
+Lastfiledate
+Lastfileserial
+Latitud
+Lcamid
+Lccn
+Lg_lastmodifieddate
+Licenseurl
+Linaje
+Ubicación
+Longitud
+Contenido para adultos
+Md5s
+Tipo de medio
+Medio
+Monocromo
+Mes
+Mpeg_program
+Nal número de llamada
+Naturaleza del traje
+próximo
+Proximo articulo
+Noindex
+Notas
+Num_reviews
+Numwarcs
+Oclc-id
+LOC
+Olsearch
+Openlibrary
+Operador
+Originalurl
+Otros titulares de derechos de autor
+Pacer-case-num
+Progresión de la página
+Rango de páginas
+Partner_shiptracking
+Parte de
+Perma_url
+Posible estado de copyright
+Publicado por
+Ppi
+Anterior
+Elemento_anterior
+Procedencia
+Fecha pública
+Editor
+Clasificación
+Rcamid
+ID-externo-relacionado
+Releasetype
+Repub_seconds
+Repub_state
+Republisher
+Recurso
+Reviewbody
+Fecha de revisión
+Crítico
+Título de Revisión
+Derechos
+Tiempo de ejecución
+Salientes
+Salients.raw
+Scandate
+Scanfactors
+Scanfee
+Escáner
+Centro de escaneo
+Serialurl
+Serie
+Contenedor de envío
+Seguimiento de buques
+Sugerencia de tamaño
+Sonido
+Fuente
+Source_pixel_height
+Source_pixel_width
+Horario de origen
+Source_url
+Patrocinador
+Sponsordate
+Estrellas
+Start_localtime
+Hora de inicio
+Nombre de estación
+Estado
+Para el tiempo
+Stripped_tags
+Subclase
+Tema
+Sujeto
+Enviado_url
+Cirio
+Título
+TitleSorter
+TitleSorterRaw
+Transferencia
+Trk_cnt
+Trk_coherente
+Trk_disc_cnt
+Trk_format
+Trk_len_01
+Trk_len_02
+Trk_len_03
+Trk_len_04
+Trk_len_05
+Trk_len_06
+Trk_len_07
+Trk_len_08
+Trk_len_09
+Trk_len_10
+Trk_len_11
+Trk_len_12
+Trk_len_13
+Trk_len_14
+Trk_len_15
+Trk_len_16
+Trk_len_17
+Trk_len_18
+Trk_len_19
+Trk_len_20
+Trk_len_sum
+Trk_src_fmt
+Sintonizador
+Tipo
+Identificación única
+Fecha de actualización
+Updater
+Cargador
+Uri
+Url
+Utc_offset
+Lugar de encuentro
+Códec de vídeo
+Volumen
+Wcd_uploaddate
+Semana
+Qué
+Dónde
+Año
+Altura de Youtube
+ID de YouTube
+Youtube-n-entradas
+Lista de reproducción de Youtube
+Youtube-playlist-index
+Cargador de YouTube
+Youtube-uploader-id
+Youtube-view-count
+Youtube-webpage-url
+Ancho de YouTube

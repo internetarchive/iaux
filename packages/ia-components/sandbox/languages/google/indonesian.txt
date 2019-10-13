@@ -112,6 +112,7 @@ Nama
 Lanjut
 Tidak terunduh
 dari
+Offline
 di
 di internet.
 Buka gambar berukuran penuh
@@ -126,6 +127,7 @@ Silakan unduh file dalam item ini untuk berinteraksi dengannya di komputer Anda
 plus-lingkaran
 Poster
 POS
+pratinjau
 Sebelumnya
 Kemajuan
 PROYEK

@@ -36,7 +36,7 @@ O Criador
 O Criador
 Créditos
 Encontro
-DATA ARQUIVADA
+DATA DE ARQUIVO
 Data de arquivamento
 DATA DE PUBLICAÇÃO
 Data de publicação
@@ -112,6 +112,7 @@ Nome
 Próximo
 Não baixado
 do
+desligada
 em
 na internet.
 Abrir imagem em tamanho normal
@@ -126,6 +127,7 @@ Faça o download dos arquivos deste item para interagir com eles no seu computad
 círculo positivo
 Poster
 POSTAGENS
+pré-visualização
 Anterior
 Progresso
 PROJETOS

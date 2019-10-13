@@ -13,7 +13,7 @@ Defekte oder leere Daten
 kann nicht gefunden werden oder hat keine Metadaten
 Ändern der Sprache von
 Sprache wechseln zu
-Klicken Sie, damit der Player zuerst Flash und dann HTML5 versucht
+Klicken Sie hier, damit der Player zuerst Flash und dann HTML5 versucht
 SAMMLUNG
 Sammlung
 Sammlung
@@ -112,6 +112,7 @@ Name
 Nächster
 Nicht heruntergeladen
 von
+Offline
 auf
 im Internet.
 Bild in voller Größe öffnen
@@ -126,6 +127,7 @@ Laden Sie die Dateien in diesem Element herunter, um mit ihnen auf Ihrem Compute
 Plus-Kreis
 Poster
 POSTS
+Vorschau
 Bisherige
 Fortschritt
 PROJEKTE
