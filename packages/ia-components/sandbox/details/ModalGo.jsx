@@ -1,6 +1,5 @@
 // const debug = require('debug')('dweb-archive:ModalGo');
 import React from 'react';
-import IAReactComponent from '../IAReactComponent';
 import { ObjectFilter } from '../../util.js';
 import { I18nStr } from '../languages/Languages';
 
@@ -8,14 +7,15 @@ import { I18nStr } from '../languages/Languages';
  *  AnchorModalGo and ButtonModalGo wrap the AJS.modal_go call in archive.js to allow it to work with react.
  */
 
-class _ModalGo extends IAReactComponent {
+class _ModalGo extends React.Component {
   constructor(props) {
     //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
     super(props); // opts, remaining props go to anchor, in particular href
-    this.state.linkProps = ObjectFilter(this.props, (k, unused_v) => !['opts', 'children', 'en'].includes(k)); // pass on any other props
+    this.state = {linkProps: ObjectFilter(this.props, (k, unused_v) => !['opts', 'children', 'en'].includes(k))}; // pass on any other props
+    this.onClick = this.onClick.bind(this);
   }
 
-  clickCallable(ev) {
+  onClick(ev) {
     // ev.currentTarget is the HTML Element on which the onClick sits
     return AJS.modal_go(ev.currentTarget, this.props.opts);
   }
