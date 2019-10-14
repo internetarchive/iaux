@@ -10,6 +10,7 @@ audio
 Jadilah yang pertama
 BLOG
 Data Rusak atau Kosong
+oleh
 tidak dapat ditemukan atau tidak memiliki metadata
 Mengubah bahasa dari
 Mengubah bahasa menjadi
@@ -25,6 +26,7 @@ Lengkap
 Konser
 Menghubungkan
 KONTAK
+Kontributor
 dijelajahi oleh
 Merangkak semua
 Detail perayapan
@@ -55,7 +57,7 @@ Kecepatan unduh
 Diunduh
 sunting
 MENANAMKAN
-EMBED (untuk tag yang di-host pada blog-blog wordpress.com dan item <description>)
+EMBED (untuk tag yang di-host pada blog wordpress.com dan item <description>)
 Inggris
 masukkan URL atau kata kunci
 Kesalahan
@@ -64,6 +66,7 @@ mata
 Favorit
 favorit
 Favorit item ini
+Mengambil file bahasa untuk
 Mengambil lebih banyak hasil
 File
 file
@@ -75,6 +78,7 @@ FORUM
 Forum
 Forum belum didukung di DWeb - menuju ke web lawas
 tampilan layar penuh
+PINTU GERBANG
 PERGI
 pergi
 Pergi ke gambar
@@ -111,6 +115,7 @@ film
 Nama
 Lanjut
 Tidak terunduh
+OCR
 dari
 Offline
 di
@@ -127,10 +132,13 @@ Silakan unduh file dalam item ini untuk berinteraksi dengannya di komputer Anda
 plus-lingkaran
 Poster
 POS
+PPI
 pratinjau
 Sebelumnya
 Kemajuan
 PROYEK
+Tanggal penerbitan
+Penerbit
 Antre
 Item terkait
 RELEVANSI
@@ -142,6 +150,7 @@ Peninjau
 ULASAN
 HAK
 baris pada
+Jalankan waktu
 Lari
 Menyimpan
 Simpan ini
@@ -179,6 +188,7 @@ SORTIR DENGAN
 suara mati. klik untuk suara.
 suara menyala. klik untuk membisukan suara.
 Spam, Penipuan, atau Penipuan
+Sponsor
 Masih diimplementasikan
 Subyek
 Ketentuan Layanan
@@ -190,6 +200,7 @@ ubin
 waktu
 JUDUL
 Koleksi Teratas di Arsip
+Topik
 Coba pencarian yang lebih umum
 Coba kata kunci yang berbeda
 televisi

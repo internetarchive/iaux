@@ -10,6 +10,7 @@ Audio-
 Seien Sie der Erste
 BLOG
 Defekte oder leere Daten
+durch
 kann nicht gefunden werden oder hat keine Metadaten
 Ändern der Sprache von
 Sprache wechseln zu
@@ -25,6 +26,7 @@ Vollendet, fertiggestellt
 Konzerte
 Anschließen
 KONTAKT
+Mitwirkende
 krabbelte vorbei
 Alle krabbeln
 Kriechende Details
@@ -64,6 +66,7 @@ Auge
 Lieblings
 Lieblings
 Favorit dieses Artikels
+Abrufen der Sprachdatei für
 Weitere Ergebnisse abrufen
 Dateien
 Dateien
@@ -75,6 +78,7 @@ FORUM
 Forum
 Forum noch nicht auf DWeb unterstützt - Überschrift zum Legacy-Web
 Vollbildansicht
+TOR
 GEHEN
 gehen
 Gehe zum Bild
@@ -111,6 +115,7 @@ Filme
 Name
 Nächster
 Nicht heruntergeladen
+OCR
 von
 Offline
 auf
@@ -127,10 +132,13 @@ Laden Sie die Dateien in diesem Element herunter, um mit ihnen auf Ihrem Compute
 Plus-Kreis
 Poster
 POSTS
+PPI
 Vorschau
 Bisherige
 Fortschritt
 PROJEKTE
+Veröffentlichungsdatum
+Verlag
 Warteschlange
 ähnliche Artikel
 RELEVANZ
@@ -142,6 +150,7 @@ Gutachter
 BEWERTUNGEN
 RECHTE
 Reihen bei
+Laufzeit
 Laufen
 sparen
 Speichere das
@@ -179,6 +188,7 @@ SORTIEREN NACH
 Ton ist aus. Klicken für Ton.
 Ton ist an. Klicken Sie, um den Ton stummzuschalten.
 Spam, Betrug oder Betrug
+Sponsor
 Wird noch umgesetzt
 Gegenstand
 Nutzungsbedingungen
@@ -190,6 +200,7 @@ Fliese
 Zeit
 TITEL
 Top-Sammlungen im Archiv
+Themen
 Versuchen Sie eine allgemeinere Suche
 Probieren Sie verschiedene Suchbegriffe aus
 Fernseher

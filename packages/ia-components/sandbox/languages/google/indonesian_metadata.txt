@@ -1,250 +1,398 @@
 Mengakses
-Accession_number
-Tanggal ditambahkan
+Nomor aksesi
+Tanggal tambahan
 Adder
 Album
-Archiveit-akun-id
-Archiveit-akun-nama-organisasi
-Archiveit-collection-id
-Nama koleksi arsip
-Pengulangan-Archiveit
+Izinkan JPG
+Ketinggian
+Banding dari
+ID akun Archiveit
+Nama organisasi akun Archiveit
+ID koleksi Archiveit
+Nama koleksi Archiveit
+Jenis pekerjaan Archiveit
+Pengulangan arsip
 Jenis artikel
 Artis
-Aspect_ratio
+Rasio aspek
 Ditugaskan untuk
-Lampiran-num
-Audio_codec
-Audio_sample_rate
-Audio_type
+Nomor lampiran
+Codec audio
+Tingkat sampel audio
+Jenis audio
 Penulis
-Avg_rating
-Backup_location
+ID Penulis
+Penilaian rata-rata
+Lokasi cadangan
 Kode batang
-Bookplateleaf
-Boxid
-Boxid_2
-Btih
+PDF yang lebih baik
+ID BIB
+Tingkat BIB
+Nama file Bitsavers
+Daun rak buku
+Kotak ID
+Kotak ID 2
+BTIH
+Nomor panggilan
 Nomor panggilan
 Kamera
 Penyebab kasus
 Nama kasus
-Ccnum
+Info jenis kasus
+Kategori
+Nomor CC
+Bab
+Karakter
 Kota
 Kelas
-Closed_captioning
+Teks tertutup
 Koleksi
-Koleksi-perpustakaan
+Perpustakaan koleksi
+ID Pengumpulan
 Warna
+Kontak
+ID Kontainer
+ID Kontainer 2
+Jenis konten
 Penyumbang
-Bukti-hak cipta
-Hak cipta-bukti-tanggal
-Operator bukti-hak cipta
+hak cipta
+Bukti hak cipta
+Tanggal bukti hak cipta
+Operator bukti hak cipta
 Wilayah hak cipta
+Pemegang hak cipta
+Pernyataan hak cipta
+Pemegang hak cipta
+Tahun hak cipta
 Pengadilan
 Cakupan
 Crawler
-Merayap
-Dibuat
+Pekerjaan merangkak
+Buat tanggal
+Tanggal dibuat
 Pencipta
-CreatorSorter
-CreatorSorterRaw
+Script alt pembuat
+Penyortir Pembuat
+Penyortir Pencipta Mentah
 Kredit
 Budaya
+Catatan pendeta
+Status kurator
 Kurasi
 Tanggal
-Tanggal-kasus yang diajukan
-Tanggal-kasus diakhiri
-Tanggal-pengarsipan terakhir
-Date.raw
+Tanggal kasus diajukan
+Tanggal kasus dihentikan
+Tanggal pengajuan terakhir
+Tanggal mentah
 Tanggal Diciptakan
+Hari
 Deskripsi
+Barang digital
+Tanggal publikasi digital
 Ukuran
-Doc-num
-Map-num
+Direktur
+Cakram
+Nomor dokumen
+Nomor map
+ID dokumen
 Penyumbang
 Unduhan
+Kategori DRG
+Rotasi DRG
+Sektor DRG
+Terjemahan DRG
+DRG UTM bagian timur
+DRG UTM northe NIN g
+Skala DRG X
+Skala DRG Y
 Durasi
 Edisi
-Nama pengguna
+Emulator
+Ext emulator
+Emulator mulai
+Nama pemeriksa
 Pengidentifikasi eksternal
-Extramarc
-Filesxml
-Tanggal penerimaan
-FirstCreator
-FirstTitle
-Arsip pertama
-Film pertama
-Firstnamedinventor
-Lipat jumlah
+MARC ekstra
+Alasan gagal
+Favorit
+Status biaya
+Nama file
+File XML
+Tanggal pengarsipan
+Pencipta Pertama
+Judul Pertama
+Pertama kali diterbitkan
+Tanggal file pertama
+File seri pertama
+Penemu bernama pertama
+Operator lipat
+Lipat detik
+Hitungan lipat
+Mengikuti
 Bingkai per detik
-Google-id
-Groupartunit
+ID Galeri
+Aliran
+ID Google
+Unit seni kelompok
+Memiliki mp3
+Tersembunyi
+Pemegang
+ID
 Identifier
 Akses pengidentifikasi
-Identifier-bahtera
-Identifier-bib
-Imagecount
+ARK pengidentifikasi
+Identifier BIB
+Identifier BIB
+Jumlah gambar
+Jejak
 Peluncuran pertama
-Inventoritas
+ID Insightu
+Kota penemu
 Negara penemu
+Provinsi negara penemu
 Faktur
-Is_clip
-Isbn
-Masalah
+Apakah klip
+ISBN
+ISSN
+Isu
 Tanggal pembuatan
-Journalabbrv
+Jurnal
+Judul jurnal
+Singkatan jurnal
 Judul jurnal
 Yurisdiksi
 Permintaan juri
+Kata kunci
+Landmark
 Bahasa
-LanguageSorter
+Penyortir Bahasa
+Tanggal terakhir diperbarui
 Tanggal terakhir
-Lastfiledate
-Lastfileserial
+Tanggal file terakhir
+Seri file terakhir
 Lintang
-Lcamid
-Lccn
-Lg_lastmodifieddate
-Penerima Lisensi
+ID LCAM
+LCCN
+Lg tanggal modifikasi terakhir
+Lisensi
+URL lisensi
 Garis keturunan
+Tautan ke katalog
 Lokasi
+Tanggal lokasi
 Garis bujur
-Isi Mature_
-MD5
+Konten dewasa
+MD5S
 Tipe media
 Medium
 Monokromatik
 Bulan
-Program Mpeg_
-Nomor panggilan terakhir
-Sifat sesuai
+Program MPEG
+Nomor panggilan NAL
+Sifat jas
 Lanjut
 Item berikutnya
+File NIN
+ID campuran NIN
+Peringkat nomor NIN
+NIN foto
+Rata-rata peringkat NIN
+NIN total mendengarkan
+ID pengguna NIN
+Noarchivetorrent
 Noindex
 Catatan
-Jumlahnya
-Numwarcs
-Oclc-id
-Ocr
+Jumlah ulasan terbaru
+Ulasan angka
+Nomor atas dl
+Nomor ID eric
+Nomor WARC
+OCLC
+ID OCLC
+OCR
 Olsearch
 Openlibrary
 Operator
-Originalurl
-Pemegang_lain_kata_pihak
-Pacer-case-num
+URL asli
+Pemegang hak cipta lainnya
+Nomor kasus pacer
 Perkembangan halaman
-Pagerange
-Partner_shiptracking
+Tata letak halaman
+Rentang halaman
+Halaman
+Pelacakan kapal mitra
 Bagian dari
-Perma_url
+URL Perma
+Deskripsi Fisik
+Barang fisik
+Memilih
+Sepotong gaya
 Kemungkinan status hak cipta
 Diposting oleh
-Ppi
+PPI
 Sebelumnya
-Previous_item
+Item sebelumnya
 Asal
+Tanggal unggah Ptp
+Tanggal pub
+Publik
+Jenis publikasi
 Tanggal publik
+Diterbitkan
 Penerbit
 Peringkat
-Rcamid
-Terkait-eksternal-id
-Releasetype
-Repub_seconds
-Repub_state
+ID RCAM
+Disebut untuk
+ID eksternal terkait
+Tanggal rilis
+Jenis rilis
+Publikasikan ulang detik
+Status publikasi ulang
 Penerbit ulang
+Tanggal penerbitan ulang
+Operator penerbit ulang
+Waktu penerbit ulang
 Sumber
-Ulasan siapa
+ID Peninjauan
+Tinjau tubuh
 Tanggal peninjauan
 Peninjau
+Ulasan
 Judul ulasan
 Hak
-Runtime
+Pernyataan hak
+Jalankan waktu
 Salients
-Salients.raw
-Skandal
-Faktor pemindai
-Scanfee
+Salients mentah
+Tanggal pemindaian
+Faktor pemindaian
+Biaya pemindaian
 Pemindai
 Pusat pemindaian
-Serialurl
+Seccion
+Judul kedua
+Bagian
+URL serial
 Seri
-Kontainer_pengiriman
-Pelacakan
+Tanda Shelf
+Kontainer pengiriman
+Pelacakan kapal
+Shndiscs
+Situs
 Petunjuk ukuran
+ID SK
+Sihir SK
+Pemilik SK
+Pemilik SK nick
+Jenis SK
 Suara
 Sumber
-Source_pixel_height
-Source_pixel_width
-Source_schedule
-Source_url
+Sumber organisasi
+Tinggi piksel sumber
+Lebar sumber piksel
+Proyek sumber
+Jadwal sumber
+URL sumber
 Sponsor
-Sponsordate
+Tanggal sponsor
 Bintang
-Start_localtime
+Mulai waktu setempat
 Waktu mulai
+Negara
 Nama Stasiun
 Status
 Hentikan waktu
-Stripped_tags
+Tag dilucuti
 Subkelas
+Subkoleksi
 Subyek
-SubjectSorter
-Submitted_url
+Penyortir Subjek
+URL yang dikirim
+Ringkasan
 Lancip
+Zona waktu
 Judul
-TitleSorter
-TitleSorterRaw
+Script alt judul
+Penyortir Judul
+Judul Penyortir Mentah
+ID Judul
+Transcludes
 Pemindah
-Trk_cnt
-Trk_coherent
-Trk_disc_cnt
-Trk_format
-Trk_len_01
-Trk_len_02
-Trk_len_03
-Trk_len_04
-Trk_len_05
-Trk_len_06
-Trk_len_07
-Trk_len_08
-Trk_len_09
-Trk_len_10
-Trk_len_11
-Trk_len_12
-Trk_len_13
-Trk_len_14
-Trk_len_15
-Trk_len_16
-Trk_len_17
-Trk_len_18
-Trk_len_19
-Trk_len_20
-Trk_len_sum
-Trk_src_fmt
+Penterjemah
+Hitungan lintasan
+Lacak koheren
+Lacak jumlah disk
+Format trek
+Panjang lintasan 01
+Panjang lintasan 02
+Panjang lintasan 03
+Panjang lintasan 04
+Panjang lintasan 05
+Panjang lintasan 06
+Panjang lintasan 07
+Panjang lintasan 08
+Panjang lintasan 09
+Panjang lintasan 10
+Panjang lintasan 11
+Panjang lintasan 12
+Panjang lintasan 13
+Panjang lintasan 14
+Panjang lintasan 15
+Panjang lintasan 16
+Panjang lintasan 17
+Panjang lintasan 18
+Panjang lintasan 19
+Panjang lintasan 20
+Panjang lintasan 21
+Panjang lintasan 22
+Panjang lintasan 23
+Panjang lintasan 24
+Panjang lintasan 25
+Panjang lintasan 26
+Panjang lintasan 27
+Panjang lintasan 28
+Panjang lintasan 29
+Jumlah panjang lintasan
+Lacak format src
 Tuner
 Tipe
 Identitas unik
 Diperbarui
+Tanggal pembaruan
 Pembaru
 Pengunggah
-Uri
-Url
-Utc_offset
+URI
+URL
+UTC diimbangi
 Lokasi
-Video_codec
+Codec video
+Jenis video
+Tinggi Vimeo
+ID Vimeo
+Vimeo dan entri
+Daftar putar Vimeo
+Indeks daftar putar Vimeo
+Pengunggah Vimeo
+ID pengunggah Vimeo
+Jumlah tampilan Vimeo
+URL halaman web Vimeo
+Lebar Vimeo
 Volume
-Wcd_uploaddate
+Peringatan
+Tanggal pengunggahan WCD
 Minggu
 Apa
 Dimana
+Sumber daya WMA
+Kata-kata
 Tahun
+Tahun diciptakan
+Tahun yang dimodifikasi
 Tinggi Youtube
-Youtube-id
-Entri-Youtube
-Youtube-playlist
-Youtube-playlist-index
+ID Youtube
+Youtube dan entri
+Daftar putar Youtube
+Indeks daftar putar Youtube
 Pengunggah Youtube
-Youtube-uploader-id
-YouTube-view-count
-Youtube-webpage-url
-Lebar Youtube
+ID pengunggah Youtube
+Youtube

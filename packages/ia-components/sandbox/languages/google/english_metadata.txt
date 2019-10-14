@@ -1,250 +1,398 @@
 Access
-Accession_number
-Addeddate
+Accession number
+Added date
 Adder
 Album
-Archiveit-account-id
-Archiveit-account-organization-name
-Archiveit-collection-id
-Archiveit-collection-name
-Archiveit-recurrence
-Article-type
+Allow JPGs
+Altitude
+Appeal from
+Archiveit account ID
+Archiveit account organization name
+Archiveit collection ID
+Archiveit collection name
+Archiveit job type
+Archiveit recurrence
+Article type
 Artist
-Aspect_ratio
-Assigned-to
-Attachment-num
-Audio_codec
-Audio_sample_rate
-Audio_type
+Aspect ratio
+Assigned to
+Attachment number
+Audio codec
+Audio sample rate
+Audio type
 Author
-Avg_rating
-Backup_location
+Author ID
+Average rating
+Backup location
 Barcode
-Bookplateleaf
-Boxid
-Boxid_2
-Btih
-Call_number
+Better PDF
+BIB ID
+BIB level
+Bitsavers file name
+Bookplate leaf
+Box ID
+Box ID 2
+BTIH
+Call number
+Call number
 Camera
-Case-cause
-Case-name
-Ccnum
+Case cause
+Case name
+Case type info
+Category
+CC Number
+Chapters
+Characters
 City
 Class
-Closed_captioning
+Closed captioning
 Collection
-Collection-library
+Collection library
+Collection ID
 Color
+Contact
+Container ID
+Container ID 2
+Content type
 Contributor
-Copyright-evidence
-Copyright-evidence-date
-Copyright-evidence-operator
-Copyright-region
+Copyright
+Copyright evidence
+Copyright evidence date
+Copyright evidence operator
+Copyright region
+Copyright holder
+Copyright statement
+Copyright holder
+Copyright year
 Court
 Coverage
 Crawler
-Crawljob
-Createdate
+Crawl job
+Create date
+Created date
 Creator
-CreatorSorter
-CreatorSorterRaw
+Creator alt script
+Creator Sorter
+Creator Sorter Raw
 Credits
 Culture
+Curate note
+Curate state
 Curation
 Date
-Date-case-filed
-Date-case-terminated
-Date-last-filing
-Date.raw
-Date_created
+Date case filed
+Date case terminated
+Date last filing
+Date raw
+Date created
+Day
 Description
+Digital item
+Digital publication date
 Dimensions
-Doc-num
-Docket-num
+Director
+Discs
+Document number
+Docket number
+Document ID
 Donor
 Downloads
+DRG category
+DRG rotation
+DRG sector
+DRG translation
+DRG UTM eastening
+DRG UTM northe NIN g
+DRG X scale
+DRG Y scale
 Duration
 Edition
-Examinername
-External-identifier
-Extramarc
-Filesxml
-Filingdate
-FirstCreator
-FirstTitle
-Firstfiledate
-Firstfileserial
-Firstnamedinventor
-Foldoutcount
-Frames_per_second
-Google-id
-Groupartunit
+Emulator
+Emulator ext
+Emulator start
+Examiner name
+External identifier
+Extra MARC
+Fail reasons
+Favourites
+Fee status
+File name
+Files XML
+Filing date
+First Creator
+First Title
+First published
+First file date
+First file serial
+First named inventor
+Foldout operator
+Foldout seconds
+Foldout count
+Follows
+Frames per second
+Gallery ID
+Genre
+Google ID
+Group art unit
+Has mp3
+Hidden
+Holder
+ID
 Identifier
-Identifier-access
-Identifier-ark
-Identifier-bib
-Imagecount
-Initialrelease
-Inventorcity
-Inventorcountry
+Identifier access
+Identifier ARK
+Identifier BIB
+Identifier BIB
+Image count
+Imprint
+Initial release
+Insightu ID
+Inventor city
+Inventor country
+Inventor state province
 Invoice
-Is_clip
-Isbn
-Issn
-Issuedate
-Journalabbrv
-Journaltitle
+Is clip
+ISBN
+ISSN
+Issue
+Issue date
+Journal
+Journal title
+Journal abbreviation
+Journal title
 Jurisdiction
-Jury-demand
+Jury demand
+Keywords
+Landmark
 Language
-LanguageSorter
-Lastdate
-Lastfiledate
-Lastfileserial
+Language Sorter
+Last updated date
+Last date
+Last file date
+Last file serial
 Latitude
-Lcamid
-Lccn
-Lg_lastmodifieddate
-Licenseurl
+LCAM ID
+LCCN
+Lg last modified date
+License
+License URL
 Lineage
+Link to catalog
 Location
+Location date
 Longitude
-Mature_content
-Md5s
-Mediatype
+Mature content
+MD5S
+Media type
 Medium
 Monochromatic
 Month
-Mpeg_program
-Nal_call_number
-Nature-of-suit
+MPEG program
+NAL call number
+Nature of suit
 Next
-Next_item
+Next item
+NIN file
+NIN mix ID
+NIN number ratings
+NIN photo
+NIN ratings average
+NIN total listens
+NIN user ID
+Noarchivetorrent
 Noindex
 Notes
-Num_reviews
-Numwarcs
-Oclc-id
-Ocr
+Number recent reviews
+Number reviews
+Number top dl
+Number eric ID
+Number WARCs
+OCLC
+OCLC ID
+OCR
 Olsearch
 Openlibrary
 Operator
-Originalurl
-Other_copyright_holders
-Pacer-case-num
-Page-progression
-Pagerange
-Partner_shiptracking
-Partof
-Perma_url
-Possible-copyright-status
-Postedby
-Ppi
+Original URL
+Other copyright holders
+Pacer case number
+Page progression
+Page layout
+Page range
+Pages
+Partner ship tracking
+Part of
+Perma URL
+Physical description
+Physical item
+Pick
+Piece style
+Possible copyright status
+Posted by
+PPI
 Previous
-Previous_item
+Previous item
 Provenance
-Publicdate
+Ptp upload date
+Pub date
+Public
+Publication type
+Public date
+Published
 Publisher
 Rating
-Rcamid
-Related-external-id
-Releasetype
-Repub_seconds
-Repub_state
+RCAM ID
+Referred to
+Related external ID
+Release date
+Release type
+Republish seconds
+Republish state
 Republisher
+Republisher date
+Republisher operator
+Republisher time
 Resource
-Reviewbody
-Reviewdate
+Review ID
+Review body
+Review date
 Reviewer
-Reviewtitle
+Reviews
+Review title
 Rights
-Runtime
+Rights statement
+Run time
 Salients
-Salients.raw
-Scandate
-Scanfactors
-Scanfee
+Salients raw
+Scan date
+Scan factors
+Scan fee
 Scanner
-Scanningcenter
-Serialurl
+Scanning center
+Seccion
+Secondary title
+Section
+Serial URL
 Series
-Shipping_container
-Shiptracking
-Sizehint
+Shelfmark
+Shipping container
+Ship tracking
+Shndiscs
+Site
+Size hint
+SK ID
+SK magic
+SK owner
+SK owner nick
+SK type
 Sound
 Source
-Source_pixel_height
-Source_pixel_width
-Source_schedule
-Source_url
+Source organization
+Source pixel height
+Source pixel width
+Source project
+Source schedule
+Source URL
 Sponsor
-Sponsordate
+Sponsor date
 Stars
-Start_localtime
-Start_time
-Station_name
+Start local time
+Start time
+State
+Station name
 Status
-Stop_time
-Stripped_tags
+Stop time
+Stripped tags
 Subclass
+Subcollection
 Subject
-SubjectSorter
-Submitted_url
+Subject Sorter
+Submitted URL
+Summary
 Taper
+Timezone
 Title
-TitleSorter
-TitleSorterRaw
+Title alt script
+Title Sorter
+Title Sorter Raw
+Title ID
+Transcludes
 Transferer
-Trk_cnt
-Trk_coherent
-Trk_disc_cnt
-Trk_format
-Trk_len_01
-Trk_len_02
-Trk_len_03
-Trk_len_04
-Trk_len_05
-Trk_len_06
-Trk_len_07
-Trk_len_08
-Trk_len_09
-Trk_len_10
-Trk_len_11
-Trk_len_12
-Trk_len_13
-Trk_len_14
-Trk_len_15
-Trk_len_16
-Trk_len_17
-Trk_len_18
-Trk_len_19
-Trk_len_20
-Trk_len_sum
-Trk_src_fmt
+Translator
+Track count 
+Track coherent
+Track disc count 
+Track format
+Track length 01
+Track length 02
+Track length 03
+Track length 04
+Track length 05
+Track length 06
+Track length 07
+Track length 08
+Track length 09
+Track length 10
+Track length 11
+Track length 12
+Track length 13
+Track length 14
+Track length 15
+Track length 16
+Track length 17
+Track length 18
+Track length 19
+Track length 20
+Track length 21
+Track length 22
+Track length 23
+Track length 24
+Track length 25
+Track length 26
+Track length 27
+Track length 28
+Track length 29
+Track length sum
+Track src format
 Tuner
 Type
-Unique_id
-Updatedate
+Unique ID
+Updated
+Update date
 Updater
 Uploader
-Uri
-Url
-Utc_offset
+URI
+URL
+UTC offset
 Venue
-Video_codec
+Video codec
+Video type
+Vimeo height
+Vimeo ID
+Vimeo n entries
+Vimeo playlist
+Vimeo playlist index
+Vimeo uploader
+Vimeo uploader ID
+Vimeo view count
+Vimeo web page URL
+Vimeo width
 Volume
-Wcd_uploaddate
+Warning
+WCD upload date
 Week
 What
 Where
+WMA resource
+Words
 Year
-Youtube-height
-Youtube-id
-Youtube-n-entries
-Youtube-playlist
-Youtube-playlist-index
-Youtube-uploader
-Youtube-uploader-id
-Youtube-view-count
-Youtube-webpage-url
-Youtube-width
+Year created
+Year modified
+Youtube height
+Youtube ID
+Youtube n entries
+Youtube playlist
+Youtube playlist index
+Youtube uploader
+Youtube uploader ID
+Youtube

@@ -1,42 +1,26 @@
-//SEE-OTHER-ADDLANGUAGE
 import waterfall from 'async/waterfall';
-import IAReactComponent from "../IAReactComponent";
 import React from "react";
 const debug = require('debug')('dweb-archive:languages');
-import { ObjectFilter } from "../../util";
-import {myanmar} from "./js/myanmar";
-import {english} from "./js/english";
-import {french} from "./js/french";
-import {german} from "./js/german";
-import {hindi} from "./js/hindi";
-import {japanese} from "./js/japanese";
-import {indonesian} from "./js/indonesian";
-import {spanish} from "./js/spanish";
-import {marathi} from "./js/marathi";
-import {portugese} from "./js/portugese";
+const parallel = require('async/parallel'); //https://caolan.github.io/async/docs.html#parallel
+import {gatewayServer, ObjectFilter} from "../../util";
 
-// If you add a language here also add in dweb-archive-styles.css
+
+/*
+  Implements a first cut at internationalization (I18n) with language files in json, built by languagebuild.
+  See dweb-archive/Nav.js/metaFactory() for an example of how to load up a language and fall back to English if not available
+ */
+
+const languages = { }
+
 //SEE-OTHER-ADDLANGUAGE
-const languages = {
-  'en': english,
-  'fr': french,
-  'de': german,
-  'es': spanish,
-  'hi': hindi,
-  'id': indonesian,
-  'ja': japanese,
-  'mr': marathi,
-  'my': myanmar,
-  'pt': portugese,
-}
-//SEE-OTHER-ADDLANGUAGE
-const languageConfig = {
+const languageConfig = { // Note the flags are dragged out of the Mac Emoji and Symbol viewer
   'en': { inEnglish: 'English', inLocal: 'English', flag: '🇬🇧' },
   'fr': { inEnglish: 'French',  inLocal: 'Française', flag: '🇫🇷' },
   'de': { inEnglish: 'German',  inLocal: 'Deutsche ', flag: '🇩🇪' },
   'es': { inEnglish: 'Spanish', inLocal: 'Española', flag: '🇪🇸' },
   'hi': { inEnglish: 'Hindi', inLocal: 'हिंदी', flag: '🇮🇳'},
   'id': { inEnglish: 'Indonesian', inLocal: 'Bahasa', flag: '🇮🇩'},
+  'it': { inEnglish: 'Italian', inLocal: 'Italiana', flag: '🇮🇹'}
   'ja': { inEnglish: 'Japanese', inLocal: '日本語', flag: '🇯🇵'},
   'mr': { inEnglish: 'Marathi', inLocal: 'मराठी', flag: '🇮🇳' },
   'my': { inEnglish: 'Myanmar', inLocal: 'မြန်မာ', flag: '🇲🇲' },
@@ -44,27 +28,48 @@ const languageConfig = {
 }
 if (!currentISO()) currentISO("en");
 
+function getLanguage(lang, cb) {
+  if (!languageConfig[lang]) { cb(new Error('Do not support language: '+lang));
+  } else {
+    const url = [gatewayServer(), 'languages', languageConfig[lang].inEnglish.toLowerCase() + ".json"].join('/');
+    DwebTransports.httptools.p_GET(url, {}, (err, languageObj) => {
+      if (!err) languages[lang] = languageObj;
+      cb(err);
+    });
+  }
+}
 function setLanguage(lang) {
   const olditem = DwebArchive.page.state.item; // Should be an item, not a message
-  DwebArchive.page.setState({message: <I18nSpan en="Changing language from"> {languages[currentISO()]._LanguageInEnglish}</I18nSpan>});
+
+  // Fetch the language file, and while doing so tell the user we are doing so in english and new languages
+  DwebArchive.page.setState({message: <I18nSpan en="Changing language from"> {languageConfig[currentISO()].inEnglish}</I18nSpan>});
   waterfall([
-    cb => setTimeout(cb, 300),
     cb => {
-      DwebArchive.page.setState({message: <I18nSpan en="Changing language to"> {languages[lang]._LanguageInEnglish}</I18nSpan>});
-      setTimeout(cb, 300); },
+      if (languages[lang]) {
+        setTimeout(cb, 300);
+      } else {
+        DwebArchive.page.setState({message: <I18nSpan en="Fetching language file for"> {languageConfig[lang].inEnglish}</I18nSpan>});
+        getLanguage(lang, cb);
+      }
+    },
+    cb => {
+      DwebArchive.page.setState({message: <I18nSpan en="Changing language to"> {languageConfig[lang].inEnglish}</I18nSpan>});
+      setTimeout(cb, 300);
+    },
     cb => {
       currentISO(lang);
-      DwebArchive.page.setState({message: <I18nSpan en="Changing language to">{languages[lang]._LanguageInLocal}</I18nSpan>});
-      setTimeout(cb, 300); }
-  ],(err)=>{
-    if (err) {
-      debug("Unable to change language %O", err);
-    } else {
-      DwebArchive.page.setState({item: olditem, message: undefined})
-    }
-  });
-  //document.body.classList.remove(...Object.keys(languages));
-  //document.body.classList.add(lang);
+      DwebArchive.page.setState({message: <I18nSpan en="Changing language to">{languageConfig[lang].inLocal}</I18nSpan>});
+      cb(); // No delay here as will also delay after err message
+    },
+  ], (err) => {
+      if (err) {
+        // If fails, tell them
+        currentISO("en");
+        DwebArchive.page.setState({message: <I18nSpan en="Failed to set language to">{languageConfig[lang].inEnglish}</I18nSpan>});
+      }
+      // In both cases wait a short while then redisplay old page
+      setTimeout(() => DwebArchive.page.setState({item: olditem, message: undefined}),1000);
+    });
 }
 function currentISO(iso=undefined) {
   // Note where we store this might change, so use this if want to set or get the code
@@ -90,7 +95,7 @@ function I18n(messageEnglish) {
 function I18nStr(messageEnglish) {
   return I18n(messageEnglish)["s"];
 }
-class I18nSpan extends IAReactComponent {
+class I18nSpan extends React.Component {
   /**
    * <I18nSpan en="Yes" ... />
    */
@@ -100,7 +105,7 @@ class I18nSpan extends IAReactComponent {
       return <span lang={l} {...spanProps} >{s}{this.props.children}</span>
   }
 }
-class I18nIcon extends IAReactComponent {
+class I18nIcon extends React.Component {
   /**
    * <I18nIcon
    *    className="iconochive-xxxx"
@@ -126,4 +131,4 @@ class I18nIcon extends IAReactComponent {
   }
 }
 
-export { languages, languageConfig, currentISO, I18nSpan, setLanguage, I18n, I18nStr, I18nIcon }
+export { languages, languageConfig, currentISO, getLanguage, I18nSpan, setLanguage, I18n, I18nStr, I18nIcon }

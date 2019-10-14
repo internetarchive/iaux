@@ -64,7 +64,8 @@ class DetailsMetadataField extends IAReactComponent {
     //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
     this.state.name = I18nStr(this.props.name //TODO-I8N separate translation table for metadata fields - mapping Capitalized string
       || metadataListKeyStrings[this.props.field]
-      || (this.props.field.charAt(0).toUpperCase() + this.props.field.substr(1))); //TODO-I8N should really use locale dependent capitalization BUT capitalized field is translated
+      || this.props.field);
+      //|| (this.props.field.charAt(0).toUpperCase() + this.props.field.substr(1))); //TODO-I8N should really use locale dependent capitalization BUT capitalized field is translated
   }
 
   render() {

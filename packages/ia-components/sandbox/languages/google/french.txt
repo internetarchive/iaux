@@ -10,6 +10,7 @@ l'audio
 Soyez le premier à
 BLOG
 Données cassées ou vides
+par
 introuvable ou n'a pas de métadonnées
 Changer de langue de
 Changer de langue pour
@@ -25,6 +26,7 @@ Terminé
 Concerts
 De liaison
 CONTACT
+Contributeurs
 rampé par
 Rampant tout
 Détails rampants
@@ -64,6 +66,7 @@ etree
 Favori
 favori
 Favoris cet article
+Récupérer le fichier de langue pour
 Obtenir plus de résultats
 Des dossiers
 des dossiers
@@ -75,6 +78,7 @@ FORUM
 Forum
 Forum non encore pris en charge sur DWeb - en route vers le Web hérité
 vue plein écran
+PASSERELLE
 ALLER
 aller
 Aller à l'image
@@ -111,6 +115,7 @@ films
 Nom
 Prochain
 Non téléchargé
+OCR
 de
 Hors ligne
 sur
@@ -127,10 +132,13 @@ Veuillez télécharger les fichiers de cet élément pour interagir avec eux sur
 cercle plus
 Affiche
 DES POSTES
+IPP
 Aperçu
 précédent
 Le progrès
 PROJETS
+Date de publication
+Les éditeurs
 Queue
 Articles connexes
 PERTINENCE
@@ -142,6 +150,7 @@ Critique
 COMMENTAIRES
 DROITS
 rangées à
+Temps d'exécution
 Fonctionnement
 sauver
 Sauvegarde ça
@@ -179,6 +188,7 @@ TRIER PAR
 le son est éteint. cliquez pour le son.
 le son est activé. cliquez pour couper le son.
 Spam, arnaque ou fraude
+Parrainer
 Toujours en cours de réalisation
 Matière
 Conditions d'utilisation
@@ -190,6 +200,7 @@ tuile
 temps
 TITRE
 Top Collections aux Archives
+Les sujets
 Essayez une recherche plus générale
 Essayez des mots-clés différents
 la télé

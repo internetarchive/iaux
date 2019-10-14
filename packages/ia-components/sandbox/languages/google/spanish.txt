@@ -10,6 +10,7 @@ audio
 Se el primero en
 BLOG
 Datos rotos o vacíos
+por
 no se puede encontrar o no tiene metadatos
 Cambiar el idioma de
 Cambiar el idioma a
@@ -25,6 +26,7 @@ Terminado
 Conciertos
 Conectando
 CONTACTO
+Colaboradores
 gateado por
 Arrastrándose todo
 Detalles de rastreo
@@ -64,6 +66,7 @@ ojo
 Favorito
 favorito
 Favorito este artículo
+Obteniendo archivo de idioma para
 Obteniendo más resultados
 Archivos
 archivos
@@ -75,6 +78,7 @@ FORO
 Foro
 El foro aún no es compatible con DWeb - se dirige a la web heredada
 vista de pantalla completa
+PUERTA
 IR
 ir
 Ir a la imagen
@@ -111,6 +115,7 @@ películas
 Nombre
 próximo
 No descargado
+LOC
 de
 Desconectado
 en
@@ -127,10 +132,13 @@ Descargue los archivos de este elemento para interactuar con ellos en su computa
 círculo más
 Póster
 Publicaciones
+PPI
 avance
 Anterior
 Progreso
 PROYECTOS
+Fecha de publicación
+Editores
 Cola
 Artículos relacionados
 PERTINENCIA
@@ -142,6 +150,7 @@ Crítico
 Comentarios
 DERECHOS
 filas en
+Tiempo de ejecución
 Corriendo
 Salvar
 Guarda esto
@@ -179,6 +188,7 @@ ORDENAR POR
 El sonido está apagado. Haga clic para el sonido.
 El sonido está encendido. haga clic para silenciar el sonido.
 Spam, estafa o fraude
+Patrocinador
 Aún en implementación
 Tema
 Términos de servicio
@@ -190,6 +200,7 @@ loseta
 hora
 TÍTULO
 Colecciones principales en el archivo
+Temas
 Intente una búsqueda más general
 Pruebe diferentes palabras clave
 televisión

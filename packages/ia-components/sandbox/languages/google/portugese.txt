@@ -10,6 +10,7 @@ audio
 Seja o primeiro a
 BLOG
 Dados quebrados ou vazios
+por
 não pode ser encontrado ou não possui metadados
 Mudando o idioma de
 Mudando o idioma para
@@ -25,6 +26,7 @@ Concluído
 Concertos
 Conectando
 CONTATO
+Contribuintes
 rastreado por
 Rastreando tudo
 Detalhes de rastreamento
@@ -36,7 +38,7 @@ O Criador
 O Criador
 Créditos
 Encontro
-DATA DE ARQUIVO
+DATA ARQUIVADA
 Data de arquivamento
 DATA DE PUBLICAÇÃO
 Data de publicação
@@ -64,6 +66,7 @@ olho
 Favorito
 favorito
 Favorito este item
+Buscando arquivo de idioma para
 Buscando mais resultados
 arquivos
 arquivos
@@ -75,6 +78,7 @@ FÓRUM
 Fórum
 Fórum ainda não suportado no DWeb - indo para a Web herdada
 visualização em tela cheia
+PORTA DE ENTRADA
 IR
 ir
 Ir para a imagem
@@ -111,6 +115,7 @@ filmes
 Nome
 Próximo
 Não baixado
+OCR
 do
 desligada
 em
@@ -127,10 +132,13 @@ Faça o download dos arquivos deste item para interagir com eles no seu computad
 círculo positivo
 Poster
 POSTAGENS
+PPI
 pré-visualização
 Anterior
 Progresso
 PROJETOS
+Data de publicação
+Editores
 Fila
 itens relacionados
 RELEVÂNCIA
@@ -142,6 +150,7 @@ Revisor
 REVER
 DIREITOS
 linhas em
+Tempo de execução
 Corrida
 Salve 
 Guarde isso
@@ -157,7 +166,7 @@ Opções de pesquisa
 Pesquisar no arquivo
 Pesquise no arquivo. Filtros e pesquisa avançada disponíveis abaixo.
 Pesquise a história de mais de 338 bilhões
-Pesquise na Máquina Wayback
+Pesquise na Wayback Machine
 Pesquisar legendas da TV
 Procurando
 Semente
@@ -179,6 +188,7 @@ ORDENAR POR
 o som está desligado. clique para ouvir.
 o som está ligado. clique para silenciar o som.
 Spam, Scam ou Fraude
+Patrocinador
 Ainda sendo implementado
 Sujeito
 Termos de serviço
@@ -190,6 +200,7 @@ telha
 Tempo
 TÍTULO
 Principais coleções no arquivo
+Tópicos
 Tente uma pesquisa mais geral
 Experimente palavras-chave diferentes
 televisão

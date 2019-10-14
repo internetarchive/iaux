@@ -1,250 +1,398 @@
 Accès
 Numéro d'accès
-Ajouter
+Date ajoutée
 Additionneur
 Album
-Archiveit-compte-id
-Nom de l'organisation archiveit
-Archiveit-collection-id
-Archiveit-collection-name
-Archiveit-récurrence
+Autoriser les JPG
+Altitude
+Appel de
+ID de compte Archiveit
+Nom de l'organisation du compte Archiveit
+ID de collection Archiveit
+Nom de la collection Archiveit
+Type de travail Archiveit
+Archiveit récurrence
 Type d'article
 Artiste
 Ratio d'aspect
 Assigné à
-Attachment-num
+Numéro de pièce jointe
 Un codec audio
-Audio_sample_rate
+Taux d'échantillonnage audio
 Type audio
 Auteur
-Moyenne_rating
-Emplacement_sauvegarde
+ID de l'auteur
+Note moyenne
+Emplacement de sauvegarde
 code à barre
-Librairie
-Boxid
-Boxid_2
-Btih
+Meilleur PDF
+BIB ID
+Niveau BIB
+Nom du fichier Bitsavers
+Feuille de cahier
+ID de boîte
+ID de boîte 2
+BTIH
+Numéro de téléphone
 Numéro de téléphone
 Caméra
 Cause cause
-Nom de l'affaire
-Ccnum
+Nom du cas
+Informations sur le type de cas
+Catégorie
+Numéro CC
+Chapitres
+Personnages
 Ville
 Classe
 Sous-titrage
 Collection
-Collection-bibliothèque
+Bibliothèque de collection
+ID de collection
 Couleur
+Contact
+Identifiant du conteneur
+ID de conteneur 2
+Type de contenu
 Donateur
-Droit d'auteur-preuve
-Copyright-preuve-date
-Copyright-preuve-opérateur
+droits d'auteur
+Preuve de droit d'auteur
+Date de preuve de copyright
+Opérateur de preuve de droit d'auteur
 Région du droit d'auteur
+Détenteur du droit d'auteur
+Déclaration de droit d'auteur
+Détenteur du droit d'auteur
+Année du droit d'auteur
 Tribunal
 Couverture
 Chenille
-Crawljob
+Travail d'analyse
 Créer un rendez-vous
+Date de création
 Créateur
-CreatorSorter
-CreatorSorterRaw
+Créateur alt script
+Créateur Trieur
+Créateur Trieur Brut
 Crédits
 Culture
+Note curate
+État curé
 Curation
 Date
-Date de dépôt de l'affaire
-Date de fin du cas
-Date de dernier dépôt
-Date.raw
+Date de dépôt du dossier
+Date de clôture du cas
+Date du dernier dépôt
+Date brute
 Date créée
+journée
 La description
+Article numérique
+Date de publication numérique
 Dimensions
-Doc-num
+Réalisateur
+Des disques
+Numéro de document
 Numéro de dossier
+ID de document
 Donneur
 Téléchargements
+Catégorie DRG
+Rotation DRG
+Secteur DRG
+Traduction DRG
+DRG UTM est en hausse
+DRG UTM northe NIN g
+Échelle DRG X
+Échelle DRG Y
 Durée
 Édition
-Examinername
+Émulateur
+Émulateur ext
+Début de l'émulateur
+Nom de l'examinateur
 Identifiant externe
-Extramarc
-Filesxml
-Date de classement
-FirstCreator
+Extra MARC
+Raisons d'échec
+Favoris
+Statut des frais
+Nom de fichier
+Fichiers XML
+Date de dépôt
+Premier créateur
 Premier titre
-Premier fichier
-Firstfileserial
-Prénom d'inventeur
-Foldoutcount
+Première publication
+Date du premier fichier
+Premier fichier série
+Premier inventeur nommé
+Opérateur de dépliage
+Secondes dépliables
+Nombre de dépliants
+Suit
 Images par seconde
-Google-id
-Groupartunit
+Identifiant de galerie
+Genre
+Identifiant Google
+Unité d'art du groupe
+A mp3
+Caché
+Titulaire
+ID
 Identifiant
-Identifiant-accès
-Identifiant-arche
-Identifiant-bavette
+Accès identifiant
+Identifiant ARK
+Identifiant BIB
+Identifiant BIB
 Nombre d'images
+Imprimer
 Première version
-Inventorcité
-Pays d'invention
+ID Insightu
+Ville inventeur
+Pays inventeur
+Province de l'inventeur
 Facture d'achat
-Is_clip
-Isbn
-Issn
+Est clip
+ISBN
+ISSN
+Problème
 Date d'émission
-Journalabbrv
-Journaltitle
+Journal
+Titre de la revue
+Abréviation de journal
+Titre de la revue
 Juridiction
 Demande du jury
+Mots clés
+Point de repère
 La langue
-LanguageSorter
+Trieur de langue
+Date de dernière mise à jour
 Dernier rendez-vous
-Dernier fichier
-Lastfileserial
+Date du dernier fichier
+Dernier fichier série
 Latitude
-Lcamid
-Lccn
-Lg_lastmodifieddate
+LCAM ID
+LCCN
+Lg date de dernière modification
 Licence
+URL de la licence
 Lignée
+Lien vers le catalogue
 Emplacement
+Date de localisation
 Longitude
 Contenus pour adultes
-Md5s
+MD5S
 Type de support
 Moyen
 Monochromatique
 Mois
-Mpeg_program
-Numéro d'appel
-Nature-costume
+Programme MPEG
+Numéro d'appel NAL
+Nature du costume
 Prochain
 Prochain point
+Fichier NIN
+ID de mélange NIN
+Cotes numériques NIN
+NIN photo
+Moyenne des notes NIN
+NIN total écoute
+NIN ID utilisateur
+Noarchivetorrent
 Noindex
 Remarques
-Num_reviews
-Numwarcs
-Oclc-id
-Ocr
+Nombre de commentaires récents
+Nombre d'avis
+Numéro haut dl
+Numéro eric ID
+Nombre WARCs
+OCLC
+ID OCLC
+OCR
 Olsearch
 Openlibrary
 Opérateur
-Originalurl
-Other_copyright_holders
-Pacer-case-num
-Page-progression
+URL d'origine
+Autres détenteurs de droits d'auteur
+Numéro de cas du stimulateur
+Progression de la page
+Mise en page
 Intervalle de pages
-Partner_shiptracking
+Des pages
+Suivi des navires partenaires
 Partie de
-Perma_url
+URL perma
+Description physique
+Article physique
+Choisir
+Style de pièce
 Statut de copyright possible
-Posté par
-Ppi
+posté par
+IPP
 précédent
 Article précédent
 Provenance
-Publicdate
+Date de téléchargement Ptp
+Date de publication
+Publique
+Type de publication
+Date publique
+Publié
 Éditeur
 Évaluation
-Rcamid
-Related-external-id
-Type de communiqué
-Repub_seconds
-Repub_state
+ID RCAM
+Référé à
+Identifiant externe associé
+Date de sortie
+Type de version
+Republier les secondes
+Republier état
 Republisher
+Date de republication
+Opérateur de republication
+Temps de republication
 Ressource
-Critique
+Identifiant de revue
+Organe de révision
 Date de révision
 Critique
+Commentaires
 Titre du commentaire
 Droits
-Runtime
+Déclaration de droits
+Temps d'exécution
 Saillants
-Salients.raw
-Scandale
-Facteurs de numérisation
-Scanfee
+Les crus
+Date de numérisation
+Facteurs de balayage
+Frais de scan
 Scanner
 Centre de numérisation
-Serialurl
+Seccion
+Titre secondaire
+Section
+URL série
 Séries
+Marque de commerce
 Paquet de livraison
 Suivi des navires
-Sizehint
+Shndiscs
+Site
+Indice de taille
+SK ID
+SK magie
+Propriétaire SK
+Pseudo propriétaire
+Type de SK
 Du son
 La source
-Source_pixel_height
-Source_pixel_width
-Calendrier_source
-Source_url
+Organisation source
+Hauteur du pixel source
+Largeur de pixel source
+Projet source
+Calendrier source
+URL source
 Parrainer
-Parrainer
+Date du sponsor
 Étoiles
-Start_localtime
+Début heure locale
 Heure de début
+Etat
 Nom de la station
 Statut
 Temps d'arrêt
-Stripped_tags
+Tags décapés
 Sous-classe
+Sous-collection
 Matière
-SubjectSorter
-Submitted_url
+Tri par sujet
+URL soumise
+Sommaire
 Cône
+Fuseau horaire
 Titre
-TitreSorteur
-TitreSorterRaw
+Titre alt script
+Titre Trieur
+Titre Sorter Raw
+Titre ID
+Transcludes
 Cédant
-Trk_cnt
-Trk_coherent
-Trk_disc_cnt
-Trk_format
-Trk_len_01
-Trk_len_02
-Trk_len_03
-Trk_len_04
-Trk_len_05
-Trk_len_06
-Trk_len_07
-Trk_len_08
-Trk_len_09
-Trk_len_10
-Trk_len_11
-Trk_len_12
-Trk_len_13
-Trk_len_14
-Trk_len_15
-Trk_len_16
-Trk_len_17
-Trk_len_18
-Trk_len_19
-Trk_len_20
-Trk_len_sum
-Trk_src_fmt
+Traducteur
+Nombre de pistes
+Piste cohérente
+Suivre le nombre de disques
+Format de piste
+Longueur de piste 01
+Longueur de piste 02
+Longueur de piste 03
+Longueur de piste 04
+Longueur de piste 05
+Longueur de piste 06
+Longueur de piste 07
+Longueur de piste 08
+Longueur de piste 09
+Longueur de piste 10
+Longueur de piste 11
+Longueur de piste 12
+Longueur de piste 13
+Longueur de piste 14
+Longueur de piste 15
+Longueur de piste 16
+Longueur de piste 17
+Longueur de piste 18
+Longueur de la piste 19
+Longueur de piste 20
+Longueur de piste 21
+Longueur de piste 22
+Longueur de piste 23
+Longueur de piste 24
+Longueur de piste 25
+Longueur de piste 26
+Longueur de piste 27
+Longueur de piste 28
+Longueur de piste 29
+Somme de longueur de piste
+Suivre le format src
 Tuner
 Type
 Identifiant unique
+Mis à jour
 Date de mise à jour
 Updater
 Uploader
-Uri
+URI
 URL
-Utc_offset
+Décalage UTC
 Lieu
-Video_codec
+Codec vidéo
+Type de vidéo
+Hauteur vimeo
+ID Vimeo
+Vimeo n entrées
+Vimeo playlist
+Index de la playlist Vimeo
+Vimeo uploader
+ID de téléverseur Vimeo
+Nombre de vues Vimeo
+URL de la page Web Vimeo
+Largeur Vimeo
 Le volume
-Wcd_uploaddate
+Attention
+Date de téléchargement du WCD
 La semaine
 Quoi
 Où
+Ressource WMA
+Mots
 Année
-Youtube-hauteur
-Youtube-id
-Youtube-n-entrées
-Youtube-playlist
-Youtube-playlist-index
-Youtube-uploader
-Youtube-uploader-id
-Youtube-voir-compter
-Youtube-webpage-url
-Youtube-largeur
+Année de création
+Année modifiée
+Hauteur Youtube
+Identifiant Youtube
+Youtube n entrées
+Playlist Youtube
+Index de playlist Youtube
+Téléchargeur Youtube
+Identifiant de téléverseur Youtube
+Youtube
