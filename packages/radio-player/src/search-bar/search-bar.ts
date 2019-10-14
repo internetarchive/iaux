@@ -9,9 +9,9 @@ import {
   PropertyValues,
 } from 'lit-element';
 
-import MagnifyingGlass from './assets/img/magnifying-glass';
-import DisclosureTriangle from './assets/img/disclosure';
-import ClearResultsIcon from './assets/img/clear-results';
+import magnifyingGlassIcon from './assets/img/magnifying-glass';
+import disclosureTriangleIcon from './assets/img/disclosure';
+import clearResultsIcon from './assets/img/clear-results';
 
 @customElement('search-bar')
 export default class SearchBar extends LitElement {
@@ -33,7 +33,7 @@ export default class SearchBar extends LitElement {
       >
         <div class="search-bar">
           <div class="magnifier-container endcap">
-            ${MagnifyingGlass}
+            ${magnifyingGlassIcon}
           </div>
           <input
             type="text"
@@ -46,12 +46,12 @@ export default class SearchBar extends LitElement {
             class="clear-search-container endcap ${this.searchTerm === '' ? '' : 'is-searching'}"
           >
             <button @click=${this.clearSearch}>
-              ${ClearResultsIcon}
+              ${clearResultsIcon}
             </button>
           </div>
           <div class="disclosure-container endcap">
             <button @click=${this.toggleDisclosure}>
-              ${DisclosureTriangle}
+              ${disclosureTriangleIcon}
             </button>
           </div>
         </div>
