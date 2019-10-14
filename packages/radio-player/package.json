@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@internetarchive/audio-element": "0.0.1-alpha.381+fb6279b",
-    "@internetarchive/playback-controls": "0.0.1-alpha.381+fb6279b",
+    "@internetarchive/playback-controls": "0.0.1-alpha.401+db3648a",
     "@internetarchive/scrubber-bar": "0.0.1-alpha.381+fb6279b",
     "@internetarchive/transcript-view": "0.0.1-alpha.399+54a193c",
     "@internetarchive/waveform-progress": "0.0.1-alpha.381+fb6279b",

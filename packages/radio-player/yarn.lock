@@ -1056,10 +1056,10 @@
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/playback-controls@0.0.1-alpha.381+fb6279b":
-  version "0.0.1-alpha.381"
-  resolved "https://registry.yarnpkg.com/@internetarchive/playback-controls/-/playback-controls-0.0.1-alpha.381.tgz#8866b4a31b3f2b00753c9c8250890aae3f8af5c7"
-  integrity sha512-YTMbYW7Q/YUGprh4Xb21eAv1Lhv4+KXw+ki/SgR5z/WILhFqm0teHkYzgG8te1Rz/xQH+QQ619Hxl50Ws1RfbA==
+"@internetarchive/playback-controls@0.0.1-alpha.401+db3648a":
+  version "0.0.1-alpha.401"
+  resolved "https://registry.yarnpkg.com/@internetarchive/playback-controls/-/playback-controls-0.0.1-alpha.401.tgz#46c7a635a6e9247f656ce6b2b10e5b5be62ca301"
+  integrity sha512-qxG8ZgY/afg8by1eKvQEtkoyM2oXKBEJozQFgcuYU0y3cDwyHLX813/ttjwtT44obKbK6ZzFucSGgPaln829Eg==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
