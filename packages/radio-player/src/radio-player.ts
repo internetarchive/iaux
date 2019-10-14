@@ -66,6 +66,18 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
+  play() {
+    this.audioElement && this.audioElement.play();
+  }
+
+  pause() {
+    this.audioElement && this.audioElement.pause();
+  }
+
+  seekTo(seconds: number) {
+    this.audioElement && this.audioElement.seekTo(seconds);
+  }
+
   private get titleDateTemplate(): TemplateResult {
     return html`
       <div class="title-date">
@@ -124,6 +136,8 @@ export default class RadioPlayer extends LitElement {
   }
 
   private get audioElementTemplate(): TemplateResult {
+    console.log('audioElementTemplate');
+
     return html`
       <audio-element
         .sources=${this.audioSources}
@@ -133,6 +147,7 @@ export default class RadioPlayer extends LitElement {
         @durationchange=${this.handleDurationChange}
         @playbackStarted=${this.playbackStarted}
         @playbackPaused=${this.playbackPaused}
+        @canplay=${this.canplay}
       >
       </audio-element>
     `;
@@ -350,6 +365,11 @@ export default class RadioPlayer extends LitElement {
     this.dispatchEvent(event);
   }
 
+  private canplay(): void {
+    const event: Event = new Event('canplay');
+    this.dispatchEvent(event);
+  }
+
   private valueChangedFromScrub(e: CustomEvent): void {
     const percentage = e.detail.value;
     const newTime = this.duration * (percentage / 100);
@@ -437,6 +457,14 @@ export default class RadioPlayer extends LitElement {
     if (changedProperties.has('currentTime')) {
       this.emitCurrentTimeChangedEvent();
       this.checkForMusicZone();
+    }
+  }
+
+  firstUpdated() {
+    console.log('firstUpdated');
+
+    if (this.audioElement) {
+      this.audioElement.seekTo(this.currentTime);
     }
   }
 

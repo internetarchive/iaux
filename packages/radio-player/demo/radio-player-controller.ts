@@ -21,17 +21,20 @@ export default class RadioPlayerController extends LitElement {
 
   @property({ type: String }) searchTerm = '';
 
+  private startPlaybackAt: number | undefined = undefined;
+
   render(): TemplateResult {
     return html`
       <radio-player
         .config=${this.radioPlayerConfig}
         .transcriptConfig=${this.baseTranscriptConfig}
-        @searchRequested=${this.doSearch}
+        @searchRequested=${this.searchRequested}
         @searchCleared=${this.searchCleared}
         @playbackPaused=${this.playbackPaused}
         @currentTimeChanged=${this.currentTimeChanged}
         @timeChangedFromScrub=${this.timeChangedFromScrub}
         @transcriptEntrySelected=${this.transcriptEntrySelected}
+        @canplay=${this.canplay}
       >
       </radio-player>
     `;
@@ -106,11 +109,37 @@ export default class RadioPlayerController extends LitElement {
     return this.shadowRoot ? (this.shadowRoot.querySelector('radio-player') as RadioPlayer) : null;
   }
 
-  async doSearch(e: CustomEvent) {
+  private searchRequested(e: CustomEvent) {
     const term = e.detail.searchTerm;
-    this.searchTerm = term;
+    this.doSearch(term);
+  }
+
+  firstUpdated() {
+    const searchParams = new URLSearchParams(window.location.search);
+    const searchTerm = searchParams.get('q');
+    const startTime = searchParams.get('start');
+
+    if (searchTerm) {
+      this.doSearch(searchTerm);
+    }
+
+    if (startTime) {
+      this.startPlaybackAt = parseFloat(startTime);
+    }
+  }
+
+  private canplay() {
+    console.log('controller can play');
+    if (this.startPlaybackAt && this.radioPlayer) {
+      this.radioPlayer.seekTo(this.startPlaybackAt);
+      this.startPlaybackAt = undefined;
+    }
+  }
+
+  async doSearch(searchTerm: string) {
+    this.searchTerm = searchTerm;
     this.updateSearchQueryParam();
-    const searchUrl = `https://books-search0.us.archive.org/explorer/get_radio_captions_matches/BBC_Radio_2_20190502_180000/BBC_Radio_2_20190502_180000_speech_vs_music_asr.json?q=${term}`;
+    const searchUrl = `https://books-search0.us.archive.org/explorer/get_radio_captions_matches/BBC_Radio_2_20190502_180000/BBC_Radio_2_20190502_180000_speech_vs_music_asr.json?q=${searchTerm}`;
     const response = await fetch(searchUrl);
     const json = await response.json();
 

@@ -141,5 +141,12 @@ export default class AudioElement extends LitElement {
   private canplay(): void {
     const event: Event = new Event('canplay');
     this.dispatchEvent(event);
+    if (this.audioElement) {
+      console.log('seekable',
+                  this.audioElement.seekable,
+                  this.audioElement.seekable.length,
+                  this.audioElement.seekable.start(0),
+                  this.audioElement.seekable.end(0));
+    }
   }
 }
