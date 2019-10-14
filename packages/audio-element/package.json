@@ -6,6 +6,11 @@
   "main": "index.js",
   "module": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "lib/**/*",
+    "index.d.ts",
+    "index.js"
+  ],
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc -p tsconfig.build.json",
