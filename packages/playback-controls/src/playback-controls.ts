@@ -126,6 +126,8 @@ export default class PlaybackControls extends LitElement {
   }
 
   static get styles() {
+    const playPauseDiameterCss = css`var(--playPauseDiameter, 4rem)`;
+
     return css`
       :host {
         display: flex;
@@ -168,8 +170,8 @@ export default class PlaybackControls extends LitElement {
 
       #play-pause-btn {
         border-radius: 50%;
-        height: 3rem;
-        width: 3rem;
+        height: ${playPauseDiameterCss};
+        width: ${playPauseDiameterCss};
         border: none;
         background-color: white;
         vertical-align: middle;

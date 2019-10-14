@@ -441,11 +441,15 @@ export default class RadioPlayer extends LitElement {
   }
 
   static get styles(): CSSResult {
+    const collectionLogoMaxHeightCss = css`var(--collectionLogoMaxHeight, 8rem)`;
+
     const titleColorCss = css`var(--titleColor, white)`;
     const titleFontCss = css`var(--titleFont, 1.5em sans-serif)`;
 
     const dateColorCss = css`var(--dateColor, white)`;
     const dateFontCss = css`var(--dateFont, 1em sans-serif)`;
+
+    const waveformProgressHeightCss = css`var(--waveformProgressHeight, 5rem)`;
 
     return css`
       section[role="main"] {
@@ -574,7 +578,7 @@ export default class RadioPlayer extends LitElement {
 
       waveform-progress {
         width: 100%;
-        height: 3rem;
+        height: ${waveformProgressHeightCss};
       }
 
       playback-controls {
@@ -592,6 +596,7 @@ export default class RadioPlayer extends LitElement {
 
       .collection-logo {
         width: 100%;
+        max-height: ${collectionLogoMaxHeightCss};
         object-fit: contain;
         grid-area: collection-logo;
         align-self: center;
