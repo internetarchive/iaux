@@ -131,6 +131,7 @@ export default class TranscriptView extends LitElement {
 
     const autoScrollButtonFontColorCss = css`var(--autoScrollButtonFontColor, black)`;
     const autoScrollButtonBackgroundColorCss = css`var(--autoScrollButtonBackgroundColor, white)`;
+    const autoScrollButtonWidthCss = css`var(--autoScrollButtonWidth, 8rem)`;
 
     return css`
       .container {
@@ -147,7 +148,7 @@ export default class TranscriptView extends LitElement {
         right: 0;
         bottom: 1rem;
         margin: auto;
-        width: 8rem;
+        width: ${autoScrollButtonWidthCss};
         border-radius: 1rem;
         border: 0;
         display: inline-block;
