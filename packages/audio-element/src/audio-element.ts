@@ -56,7 +56,9 @@ export default class AudioElement extends LitElement {
   seekTo(seconds: number): void {
     /* istanbul ignore if */
     if (!this.audioElement) return;
+    console.log('seconds', seconds);
     this.audioElement.currentTime = seconds;
+    console.log('this.audioElement.currentTime', this.audioElement.currentTime);
   }
 
   seekBy(seconds: number): void {

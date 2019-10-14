@@ -374,6 +374,7 @@ export default class RadioPlayer extends LitElement {
     const percentage = e.detail.value;
     const newTime = this.duration * (percentage / 100);
     this.currentTime = newTime;
+    console.log('valueChangedFromScrub', newTime);
     if (this.audioElement) {
       this.audioElement.seekTo(newTime);
     }
@@ -460,13 +461,13 @@ export default class RadioPlayer extends LitElement {
     }
   }
 
-  firstUpdated() {
-    console.log('firstUpdated');
+  // firstUpdated() {
+  //   console.log('firstUpdated', this.currentTime);
 
-    if (this.audioElement) {
-      this.audioElement.seekTo(this.currentTime);
-    }
-  }
+  //   if (this.audioElement) {
+  //     this.audioElement.seekTo(this.currentTime);
+  //   }
+  // }
 
   static get styles(): CSSResult {
     const collectionLogoMaxHeightCss = css`var(--collectionLogoMaxHeight, 8rem)`;
