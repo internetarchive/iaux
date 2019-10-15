@@ -33,7 +33,7 @@ export default class RadioPlayer extends LitElement {
 
   @property({ type: Number }) currentTime = 0;
 
-  @property({ type: String }) private searchTerm = '';
+  @property({ type: String }) searchTerm = '';
 
   @property({ type: Number }) private percentComplete = 0;
 

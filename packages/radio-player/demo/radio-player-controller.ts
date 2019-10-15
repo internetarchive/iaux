@@ -121,6 +121,9 @@ export default class RadioPlayerController extends LitElement {
 
     if (searchTerm) {
       this.doSearch(searchTerm);
+      if (this.radioPlayer) {
+        this.radioPlayer.searchTerm = searchTerm;
+      }
     }
 
     if (startTime) {
