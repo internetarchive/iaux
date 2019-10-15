@@ -2,9 +2,7 @@ import {
   html, fixture, expect, oneEvent, elementUpdated
 } from '@open-wc/testing';
 
-import promisedSleep from './promised-sleep';
-import '../lib/radio-player';
-import RadioPlayerConfig from '../lib/models/radio-player-config';
+import '../lib/src/radio-player';
 
 describe('Radio Player', () => {
   it('has no configuration', async () => {

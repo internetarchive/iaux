@@ -1,8 +1,8 @@
 # \<radio-player>
 
-A transcript view that handles closed captioning and search results.
+A Radio Player that displays closed captioning and allows searching.
 
-![Transcript View](./assets/img/radio-player.gif "Transcript View Demo")
+![Radio Player](./assets/img/radio-player.png "Radio Player Demo")
 
 ## Installation
 ```bash
@@ -20,13 +20,35 @@ export default RadioPlayer;
 <!-- index.html -->
 <script type="module">
   import './radio-player.js';
+
+  const quickSearchTerms = [];
+
+  const audioSource = new AudioSource(
+    'https://ia803005.us.archive.org/30/items/BBC_Radio_2_20190502_180000/BBC_Radio_2_20190502_180000.mp3',
+    'audio/mpeg',
+  );
+
+  const radioConfig = new RadioPlayerConfig(
+    'Voice of America',
+    '7:00pm',
+    './logo.jpg',
+    './waveform.png',
+    [audioSource],
+    quickSearchTerms,
+  );
+
+  const transcriptEntries: TranscriptEntryConfig[] = [...];
+
+  const transcriptConfig = new TranscriptConfig(transcriptEntries);
 </script>
 
 <style>
   radio-player {
-    display: block;
+    line-height: 1.5rem;
+    color: white;
+
     --timeColor: white;
-    --timeColumnWidth: 5rem;
+    --timeColumnWidth: 3rem;
     --transcriptHeight: 200px;
 
     --autoScrollButtonFontColor: black;
@@ -36,16 +58,23 @@ export default RadioPlayer;
     --activeTextColor: white;
     --searchResultInactiveBorderColor: gray;
     --searchResultActiveBorderColor: green;
+
+    --trackColor: black;
+    --trackBorder: 1px solid white;
   }
 </style>
 
 <radio-player
-  currentTime=10
-  showContextZones=true
-  topContextHeight=50
-  bottomContextHeight=50
-  selectedSearchResultIndex=1
-  .entries=${transcript}>
+  .config=${radioConfig}
+  .transcriptConfig=${transcriptConfig}
+  @searchRequested=${this.searchRequested}
+  @searchCleared=${this.searchCleared}
+  @playbackPaused=${this.playbackPaused}
+  @currentTimeChanged=${this.currentTimeChanged}
+  @timeChangedFromScrub=${this.timeChangedFromScrub}
+  @transcriptEntrySelected=${this.transcriptEntrySelected}
+  @canplay=${this.canplay}
+>
 </radio-player>
 
 <script>
