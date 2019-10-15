@@ -129,7 +129,6 @@ export default class RadioPlayerController extends LitElement {
   }
 
   private canplay() {
-    console.log('controller can play', this.startPlaybackAt);
     if (this.startPlaybackAt && this.radioPlayer) {
       this.radioPlayer.seekTo(this.startPlaybackAt);
       this.startPlaybackAt = undefined;

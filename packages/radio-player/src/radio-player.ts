@@ -136,8 +136,6 @@ export default class RadioPlayer extends LitElement {
   }
 
   private get audioElementTemplate(): TemplateResult {
-    console.log('audioElementTemplate');
-
     return html`
       <audio-element
         .sources=${this.audioSources}
@@ -374,7 +372,6 @@ export default class RadioPlayer extends LitElement {
     const percentage = e.detail.value;
     const newTime = this.duration * (percentage / 100);
     this.currentTime = newTime;
-    console.log('valueChangedFromScrub', newTime);
     if (this.audioElement) {
       this.audioElement.seekTo(newTime);
     }
@@ -460,14 +457,6 @@ export default class RadioPlayer extends LitElement {
       this.checkForMusicZone();
     }
   }
-
-  // firstUpdated() {
-  //   console.log('firstUpdated', this.currentTime);
-
-  //   if (this.audioElement) {
-  //     this.audioElement.seekTo(this.currentTime);
-  //   }
-  // }
 
   static get styles(): CSSResult {
     const collectionLogoMaxHeightCss = css`var(--collectionLogoMaxHeight, 8rem)`;
