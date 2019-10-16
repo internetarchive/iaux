@@ -60,6 +60,15 @@ export default class TranscriptView extends LitElement {
     `;
   }
 
+  scrollToSelectedSearchResult(): void {
+    const { selectedSearchResult } = this;
+    if (!selectedSearchResult) {
+      return;
+    }
+    this.autoScroll = false;
+    this.scrollToElement(selectedSearchResult);
+  }
+
   private get autoScrollButtonTemplate(): TemplateResult {
     return html`
       <button
@@ -362,15 +371,6 @@ export default class TranscriptView extends LitElement {
       return;
     }
     this.scrollToElement(closestEntry);
-  }
-
-  private scrollToSelectedSearchResult(): void {
-    const { selectedSearchResult } = this;
-    if (!selectedSearchResult) {
-      return;
-    }
-    this.autoScroll = false;
-    this.scrollToElement(selectedSearchResult);
   }
 
   private scrollToElement(element: HTMLElement): void {
