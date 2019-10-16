@@ -1,3 +1,4 @@
+// prettier-ignore-start
 import {
   LitElement,
   html,
@@ -8,7 +9,6 @@ import {
   TemplateResult,
   PropertyValues,
 } from 'lit-element';
-import { AudioElement, AudioSource } from '@internetarchive/audio-element';
 import {
   TranscriptConfig,
   TranscriptEntryConfig,
@@ -25,6 +25,8 @@ import './quick-search';
 import SearchResultsSwitcher from './search-results-switcher';
 
 import MusicZone from './models/music-zone';
+
+// prettier-ignore-end
 
 @customElement('radio-player')
 export default class RadioPlayer extends LitElement {
