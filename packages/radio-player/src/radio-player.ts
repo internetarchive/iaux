@@ -8,6 +8,7 @@ import {
   TemplateResult,
   PropertyValues,
 } from 'lit-element';
+import { AudioElement, AudioSource } from '@internetarchive/audio-element';
 import {
   TranscriptConfig,
   TranscriptEntryConfig,
