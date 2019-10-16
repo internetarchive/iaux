@@ -96,7 +96,7 @@ export default class RadioPlayerController extends LitElement {
           entry.end,
           entry.text,
           entry.is_music || false,
-          entry.searchMatchIndex,
+          entry.search_match_index,
         ),
     );
 

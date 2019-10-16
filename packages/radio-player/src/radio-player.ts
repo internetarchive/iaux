@@ -9,21 +9,22 @@ import {
   PropertyValues,
 } from 'lit-element';
 import { AudioElement, AudioSource } from '@internetarchive/audio-element';
-import { TranscriptConfig, TranscriptEntryConfig, TranscriptView } from '@internetarchive/transcript-view';
+import {
+  TranscriptConfig,
+  TranscriptEntryConfig,
+  TranscriptView,
+} from '@internetarchive/transcript-view';
+import { ZoneOfSilence } from '@internetarchive/waveform-progress';
+import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-controls';
 import RadioPlayerConfig from './models/radio-player-config';
 
-import '@internetarchive/waveform-progress';
-import '@internetarchive/playback-controls';
 import '@internetarchive/scrubber-bar';
 
 import './search-bar/search-bar';
 import './quick-search';
-import './search-results-switcher';
 import SearchResultsSwitcher from './search-results-switcher';
 
 import MusicZone from './models/music-zone';
-import { ZoneOfSilence } from '@internetarchive/waveform-progress';
-import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-controls';
 
 @customElement('radio-player')
 export default class RadioPlayer extends LitElement {
@@ -51,8 +52,6 @@ export default class RadioPlayer extends LitElement {
 
   private musicZones: MusicZone[] = [];
 
-  private searchRequested: boolean = false;
-
   render(): TemplateResult {
     return html`
       ${this.audioElementTemplate}
@@ -66,16 +65,16 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
-  play() {
-    this.audioElement && this.audioElement.play();
+  play(): void {
+    if (this.audioElement) this.audioElement.play();
   }
 
-  pause() {
-    this.audioElement && this.audioElement.pause();
+  pause(): void {
+    if (this.audioElement) this.audioElement.pause();
   }
 
-  seekTo(seconds: number) {
-    this.audioElement && this.audioElement.seekTo(seconds);
+  seekTo(seconds: number): void {
+    if (this.audioElement) this.audioElement.seekTo(seconds);
   }
 
   private get titleDateTemplate(): TemplateResult {
@@ -116,11 +115,14 @@ export default class RadioPlayer extends LitElement {
   }
 
   private get zonesOfSilence(): ZoneOfSilence[] {
-    if (this.duration === 0) { return []; }
+    if (this.duration === 0) {
+      return [];
+    }
 
-    const musicEntries: TranscriptEntryConfig[] = this.transcriptEntries.filter((entry: TranscriptEntryConfig) => {
-      return entry.isMusic === true;
-    })
+    // eslint-disable-next-line max-len
+    const musicEntries: TranscriptEntryConfig[] = this.transcriptEntries.filter(
+      (entry: TranscriptEntryConfig) => entry.isMusic === true,
+    );
 
     const zonesOfSilence: ZoneOfSilence[] = musicEntries.map((entry: TranscriptEntryConfig) => {
       const startPercent: number = (entry.start / this.duration) * 100;
@@ -200,11 +202,11 @@ export default class RadioPlayer extends LitElement {
           .quickSearches=${this.quickSearches}
           @inputchange=${this.updateSearchTerm}
           @enterKeyPressed=${this.searchEnterKeyPressed}
-          @searchCleared=${this.searchCleared}>
+          @searchCleared=${this.searchCleared}
+        >
         </search-bar>
         <div class="search-results-info">
-          ${this.searchResultsSwitcherTemplate}
-          ${this.noSearchResultsTemplate}
+          ${this.searchResultsSwitcherTemplate} ${this.noSearchResultsTemplate}
         </div>
       </div>
     `;
@@ -214,14 +216,17 @@ export default class RadioPlayer extends LitElement {
     return html`
       <search-results-switcher
         class="${this.shouldShowSearchResultSwitcher ? '' : 'hidden'}"
-        @searchResultIndexChanged=${this.searchResultIndexChanged}>
+        @searchResultIndexChanged=${this.searchResultIndexChanged}
+      >
       </search-results-switcher>
     `;
   }
 
   private get noSearchResultsTemplate(): TemplateResult {
     return html`
-      <div class="no-search-results-message ${this.shouldShowNoSearchResultMessage ? '' : 'hidden'}">
+      <div
+        class="no-search-results-message ${this.shouldShowNoSearchResultMessage ? '' : 'hidden'}"
+      >
         No search results.
       </div>
     `;
@@ -252,12 +257,14 @@ export default class RadioPlayer extends LitElement {
   }
 
   private searchResultIndexChanged(e: CustomEvent): void {
-    if (!this.transcriptView) { return; }
+    if (!this.transcriptView) {
+      return;
+    }
     this.transcriptView.selectedSearchResultIndex = e.detail.searchResultIndex;
+    this.transcriptView.scrollToSelectedSearchResult();
   }
 
   private searchEnterKeyPressed(e: CustomEvent): void {
-    this.searchRequested = true;
     const event = new CustomEvent('searchRequested', {
       detail: { searchTerm: e.detail.value },
       bubbles: true,
@@ -400,21 +407,24 @@ export default class RadioPlayer extends LitElement {
   }
 
   private updateMusicZones(): void {
-    const musicEntries: TranscriptEntryConfig[] = this.transcriptEntries.filter((entry: TranscriptEntryConfig) => {
-      return entry.isMusic === true;
-    })
+    // eslint-disable-next-line max-len
+    const musicEntries: TranscriptEntryConfig[] = this.transcriptEntries.filter(
+      (entry: TranscriptEntryConfig) => entry.isMusic === true,
+    );
 
-    const musicZones: MusicZone[] = musicEntries.map((entry: TranscriptEntryConfig) => {
-      return new MusicZone(entry.start, entry.end);
-    });
+    // eslint-disable-next-line max-len
+    const musicZones: MusicZone[] = musicEntries.map(
+      (entry: TranscriptEntryConfig) => new MusicZone(entry.start, entry.end),
+    );
 
     this.musicZones = musicZones;
   }
 
   private checkForMusicZone(): void {
-    const activeMusicZone: MusicZone | undefined = this.musicZones.find((zone: MusicZone) => {
-      return this.currentTime > zone.start && this.currentTime < zone.end;
-    });
+    // eslint-disable-next-line max-len
+    const activeMusicZone: MusicZone | undefined = this.musicZones.find(
+      (zone: MusicZone) => this.currentTime > zone.start && this.currentTime < zone.end,
+    );
 
     if (activeMusicZone && this.audioElement) {
       this.audioElement.seekTo(activeMusicZone.end + 0.1);
@@ -425,9 +435,9 @@ export default class RadioPlayer extends LitElement {
     this.shouldShowNoSearchResultMessage = false;
     this.shouldShowSearchResultSwitcher = false;
 
-    // we only want to show the search results switcher or message if the user has previously requested a search
-    // since this method will be called independent of the search
-    if (!this.searchRequested) { return; }
+    if (this.searchTerm.length === 0) {
+      return;
+    }
 
     const resultCount: number = this.searchResults.length;
     if (resultCount === 0) {
@@ -438,8 +448,6 @@ export default class RadioPlayer extends LitElement {
         this.searchResultsSwitcher.numberOfResults = resultCount;
       }
     }
-
-    this.searchRequested = false;
   }
 
   private get searchResults(): TranscriptEntryConfig[] {
@@ -470,7 +478,7 @@ export default class RadioPlayer extends LitElement {
     const waveformProgressHeightCss = css`var(--waveformProgressHeight, 5rem)`;
 
     return css`
-      section[role="main"] {
+      section[role='main'] {
         display: -ms-grid;
         display: grid;
         grid-gap: 0.5rem;
@@ -478,7 +486,7 @@ export default class RadioPlayer extends LitElement {
 
       /* mobile view */
       @media (max-width: 770px) {
-        section[role="main"] {
+        section[role='main'] {
           -ms-grid-columns: 25% 0.5rem 1fr;
           -ms-grid-rows: auto 0.5rem auto 0.5rem auto 0.5rem auto 0.5rem auto;
           grid-template-columns: 25% 1fr;
@@ -534,7 +542,7 @@ export default class RadioPlayer extends LitElement {
 
       /* wide view */
       @media (min-width: 770px) {
-        section[role="main"] {
+        section[role='main'] {
           -ms-grid-columns: 192px 0.5rem 3rem 0.5rem 200px 0.5rem 1fr;
           -ms-grid-rows: auto 0.5rem auto 0.5rem auto;
           grid-template-columns: 192px 3rem 200px 1fr;

@@ -38,7 +38,7 @@
     "@internetarchive/audio-element": "0.0.1-alpha.381+fb6279b",
     "@internetarchive/playback-controls": "0.0.1-alpha.401+db3648a",
     "@internetarchive/scrubber-bar": "0.0.1-alpha.381+fb6279b",
-    "@internetarchive/transcript-view": "0.0.1-alpha.399+54a193c",
+    "@internetarchive/transcript-view": "0.0.1-alpha.415+e4ce1a5",
     "@internetarchive/waveform-progress": "0.0.1-alpha.381+fb6279b",
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"
