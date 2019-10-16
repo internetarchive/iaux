@@ -9,6 +9,9 @@ import {
   PropertyValues,
 } from 'lit-element';
 
+import leftImage from './assets/img/left';
+import rightImage from './assets/img/right';
+
 @customElement('search-results-switcher')
 export default class SearchResultsSwitcher extends LitElement {
   @property({ type: Number }) numberOfResults = 0;
@@ -18,9 +21,9 @@ export default class SearchResultsSwitcher extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="container">
-        <a @click=${this.goToPreviousResult}>&lt;</a>
-        ${this.currentResultIndex + 1} / ${this.numberOfResults}
-        <a @click=${this.goToNextResult}>&gt;</a>
+        <a @click=${this.goToPreviousResult}>${leftImage}</a>
+        <span class="results-range">${this.currentResultIndex + 1} / ${this.numberOfResults}</span>
+        <a @click=${this.goToNextResult}>${rightImage}</a>
       </div>
     `;
   }
