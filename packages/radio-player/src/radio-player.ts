@@ -1,4 +1,3 @@
-// prettier-ignore-start
 import {
   LitElement,
   html,
@@ -14,19 +13,21 @@ import {
   TranscriptEntryConfig,
   TranscriptView,
 } from '@internetarchive/transcript-view';
-import { ZoneOfSilence } from '@internetarchive/waveform-progress';
-import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-controls';
 import RadioPlayerConfig from './models/radio-player-config';
 
+import '@internetarchive/waveform-progress';
+import '@internetarchive/playback-controls';
 import '@internetarchive/scrubber-bar';
 
 import './search-bar/search-bar';
 import './quick-search';
+import './search-results-switcher';
+
 import SearchResultsSwitcher from './search-results-switcher';
 
 import MusicZone from './models/music-zone';
-
-// prettier-ignore-end
+import { ZoneOfSilence } from '@internetarchive/waveform-progress';
+import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-controls';
 
 @customElement('radio-player')
 export default class RadioPlayer extends LitElement {
