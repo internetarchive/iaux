@@ -89,9 +89,9 @@ export default class SearchBar extends LitElement {
   }
 
   private emitEnterKeyPressedEvent(): void {
-    const value = this.searchInput && this.searchInput.value;
+    const value = (this.searchInput && this.searchInput.value) || '';
     const event = new CustomEvent('enterKeyPressed', {
-      detail: { value: value || '' },
+      detail: { value },
       bubbles: true,
       composed: true,
     });
