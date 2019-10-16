@@ -141,7 +141,7 @@ export default class RadioPlayerController extends LitElement {
   async doSearch(searchTerm: string) {
     this.searchTerm = searchTerm;
     this.updateSearchQueryParam();
-    const searchUrl = `https://books-search0.us.archive.org/explorer/get_radio_captions_matches/BBC_Radio_2_20190502_180000/BBC_Radio_2_20190502_180000_speech_vs_music_asr.json?q=${searchTerm}`;
+    const searchUrl = `https://be-api.us.archive.org/explorer/get_radio_captions_matches/BBC_Radio_2_20190502_180000/BBC_Radio_2_20190502_180000_speech_vs_music_asr.json?q=${searchTerm}`;
     const response = await fetch(searchUrl);
     const json = await response.json();
 
