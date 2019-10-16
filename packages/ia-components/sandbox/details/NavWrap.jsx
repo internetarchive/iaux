@@ -4,7 +4,7 @@ import AnchorDetails from '../AnchorDetails';
 import { AnchorSearch } from './AnchorSearch';
 import CrawlConfig from './CrawlConfig';
 import {AnchorModalGo} from "./ModalGo";
-import { I18nSpan, I18nStr, I18nIcon } from '../languages/Languages';
+import { I18nSpan, I18nStr, I18nIcon, currentISO, languageConfig } from '../languages/Languages';
 
 const debug = require('debug')('NavWrap');
 
@@ -274,8 +274,8 @@ class DwebNavButtons extends IAReactComponent {
           </li>
         }
         <li className="settings">
-          <span className="iconochive-gear"></span>
-          <AnchorDetails identifier="settings"><I18nSpan en="Settings"/></AnchorDetails></li>
+          <span className="iconochive-gear"/>
+          <AnchorDetails identifier="settings"><I18nSpan en="Settings"/>&nbsp;&nbsp;{languageConfig[currentISO()].flag}</AnchorDetails></li>
         { !this.props.canSave ? null :
           <li className="save"><span className="iconochive-download"></span>
             <AnchorModalGo
