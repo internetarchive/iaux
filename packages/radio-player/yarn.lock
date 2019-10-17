@@ -1048,42 +1048,42 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@internetarchive/audio-element@0.0.1-alpha.420+0a25f9e":
-  version "0.0.1-alpha.420"
-  resolved "https://registry.yarnpkg.com/@internetarchive/audio-element/-/audio-element-0.0.1-alpha.420.tgz#e9064d8e36fed104d11dc7fe5568fbc8c959e9bc"
-  integrity sha512-zeu6UhNnHpopbhtLg5wozjEsifpDWgiit81S1JKSdxivH4dIfXMkufVo86amjfr/LTiia2kfXSiYXH5nied+og==
+"@internetarchive/audio-element@0.0.1-alpha.422+18a94d7":
+  version "0.0.1-alpha.422"
+  resolved "https://registry.yarnpkg.com/@internetarchive/audio-element/-/audio-element-0.0.1-alpha.422.tgz#c4519daf01ec47caed124acad5e656d4f302c757"
+  integrity sha512-RfK1eDN5X1UCcKZO1GzpQ4nuR04GeEQ4ZerD03PU+cD5hUe3WAzM2EOAspn6fvIuFR5i2eFRJkWy5o2so6DSIg==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/playback-controls@0.0.1-alpha.420+0a25f9e":
-  version "0.0.1-alpha.420"
-  resolved "https://registry.yarnpkg.com/@internetarchive/playback-controls/-/playback-controls-0.0.1-alpha.420.tgz#741fe56d597630ddf9bb9634cf9c8a08eb9fddd0"
-  integrity sha512-04ejPjTBh4z6bpI0+lvcAoelIjc750xmeR+bu34FcVvFcQk3ailWGhANmdDYGdBNg2i3hsEegjU8No9e7yfXcw==
+"@internetarchive/playback-controls@0.0.1-alpha.422+18a94d7":
+  version "0.0.1-alpha.422"
+  resolved "https://registry.yarnpkg.com/@internetarchive/playback-controls/-/playback-controls-0.0.1-alpha.422.tgz#f289fe55502380cc013c8e6890d7cd9eff761d69"
+  integrity sha512-r57gA8oKm+yb53/pOFdIKWFymwyIFlJmL4wbqr6SrgAsy2VejKU2OmB2XioKN/WzPkkMxFsvHAhJF2bodyaCEg==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/scrubber-bar@0.0.1-alpha.420+0a25f9e":
-  version "0.0.1-alpha.420"
-  resolved "https://registry.yarnpkg.com/@internetarchive/scrubber-bar/-/scrubber-bar-0.0.1-alpha.420.tgz#1042edce96a3e27a9255df84dfc2b09b83659085"
-  integrity sha512-ltY0xqBTrMzvoo/pupQW3bOVbzbRbQpkSm9YsL3SkZaCS8UWO1QmMTmtFF9XAYaDkfZyetWq7qPXFUKDZ9BoPw==
+"@internetarchive/scrubber-bar@0.0.1-alpha.422+18a94d7":
+  version "0.0.1-alpha.422"
+  resolved "https://registry.yarnpkg.com/@internetarchive/scrubber-bar/-/scrubber-bar-0.0.1-alpha.422.tgz#0cf5df3bccb35a4af55e2da9c10252ef65c574bb"
+  integrity sha512-tCUhtWLXj1JJWNf49mqYUaS5Goyka+mqvOiWByN0t8w1GufSKDmv/rvXwL5Z9LxbQ1+2CFwOBs1O8GBjPTE+EQ==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/transcript-view@0.0.1-alpha.420+0a25f9e":
-  version "0.0.1-alpha.420"
-  resolved "https://registry.yarnpkg.com/@internetarchive/transcript-view/-/transcript-view-0.0.1-alpha.420.tgz#df44759ca9636dd268501ad2bbb39a78d15ae045"
-  integrity sha512-dj29Obz1gQGu/bpWK2z7XEBZe9Yq9f+kJX3tjEuqHukcc7fIHYzpJVXp8zuVWGBiSXpF1aJT0srt4hE9WFUFWA==
+"@internetarchive/transcript-view@0.0.1-alpha.422+18a94d7":
+  version "0.0.1-alpha.422"
+  resolved "https://registry.yarnpkg.com/@internetarchive/transcript-view/-/transcript-view-0.0.1-alpha.422.tgz#3c97d5631fede10a52e2329a043d547cbee60ec4"
+  integrity sha512-64ATjvRgiRZ+3/suf0GR13bHN8ivvkLUKNNKkrcRi9ctFWSZmVtk6361/IYpfJwgcNop7yGhLFyfGju1cUQ94Q==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/waveform-progress@0.0.1-alpha.420+0a25f9e":
-  version "0.0.1-alpha.420"
-  resolved "https://registry.yarnpkg.com/@internetarchive/waveform-progress/-/waveform-progress-0.0.1-alpha.420.tgz#ff84022a88c52950daef7485db243db836d2757d"
-  integrity sha512-LBROKc+oz5YLn5OhhXLF9N0IU7aK/TMw3NwoltOMAm7MpC+wfCFDILLDY7ueVmEXAZqdOqn9Vm7s4CxpNL8MEA==
+"@internetarchive/waveform-progress@0.0.1-alpha.422+18a94d7":
+  version "0.0.1-alpha.422"
+  resolved "https://registry.yarnpkg.com/@internetarchive/waveform-progress/-/waveform-progress-0.0.1-alpha.422.tgz#63c17ffe970ac4e1ab63c74eaec6638b30c5f496"
+  integrity sha512-75KlVdmfU81pf4YIpYMK6h0MBuqSb36q7tqXBDrg0Zo5AwHlGufREswP8hiUeYRf//9iMH5AVjHXA6PYPVeZwQ==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
