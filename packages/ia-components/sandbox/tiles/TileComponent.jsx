@@ -54,7 +54,7 @@ export default class TileComponent extends React.Component {
       if (member.crawl) classes.push(`crawl-${member.crawl.level}`); // Whether crawled or not and at what level
       const useDate = (member.publicdate || member.updateddate || (item && item.metadata.publicdate));
       const date = useDate && useDate.substr(0, 10);
-      this.setState({
+      this.state = {
         identifier,
         isCollection,
         collection0,
@@ -76,9 +76,9 @@ export default class TileComponent extends React.Component {
         parentimageurl: (member && member.collection0thumbnaillinks && (member.collection0thumbnaillinks.length > 0))
           ? member.collection0thumbnaillinks
           : ('/services/img/' + collection0)
-      });
+      };
     } catch (err) { // Catch error here as not generating debugging info at caller level for some reason
-      debug('ERROR in TileComponent.constructor for %s: %s', this.state.identifier, err.message);
+      debug('ERROR in TileComponent.constructor for %s: %s', identifier, err.message);
     }
   }
 
