@@ -97,6 +97,7 @@ export default class TranscriptView extends LitElement {
         .entry=${entry}
         ?isSelected=${selected}
         ?isActive=${active}
+        isClickable=true
         data-search-result-index=${entry.searchMatchIndex}
         data-identifier=${entry.id}
         @userSelected=${this.transcriptEntrySelected}

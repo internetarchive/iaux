@@ -17,10 +17,17 @@ export default class TranscriptEntry extends LitElement {
 
   @property({ type: Boolean }) isSelected = false;
 
+  @property({ type: Boolean }) isClickable = false;
+
   render(): TemplateResult {
     return html`
       <span
-        class="${this.activeClass} ${this.selectedClass} ${this.searchResultClass} ${this.isMusicEntryClass}"
+        class="
+          ${this.activeClass}
+          ${this.selectedClass}
+          ${this.searchResultClass}
+          ${this.isMusicEntryClass}
+          ${this.isClickableClass}"
         @click=${this.userSelected}
       >
         ${this.entry ? this.entry.entryText : ''}
@@ -29,13 +36,11 @@ export default class TranscriptEntry extends LitElement {
   }
 
   private userSelected(): void {
-    // we only want to allow clicks on search matches
-    if (!this.isSearchResultMatch) {
+    if (!this.isClickable) {
       return;
     }
     const event = new CustomEvent('userSelected', {
       detail: { entry: this.entry },
-
     });
     this.dispatchEvent(event);
   }
@@ -54,6 +59,10 @@ export default class TranscriptEntry extends LitElement {
 
   private get isMusicEntryClass(): string {
     return this.entry && this.entry.isMusic === true ? 'is-music' : '';
+  }
+
+  private get isClickableClass(): string {
+    return this.isClickable === true ? 'is-clickable' : '';
   }
 
   private get searchResultClass(): string {
@@ -84,8 +93,11 @@ export default class TranscriptEntry extends LitElement {
         font-style: italic;
       }
 
-      .search-result {
+      .is-clickable {
         cursor: pointer;
+      }
+
+      .search-result {
         display: inline-block; /* without this, the outline adds an extra space to the right of the text */
         padding: 0 5px;
         position: relative;
