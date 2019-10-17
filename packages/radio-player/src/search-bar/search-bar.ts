@@ -82,8 +82,8 @@ export default class SearchBar extends LitElement {
     const value = this.searchInput && this.searchInput.value;
     const event = new CustomEvent('inputchange', {
       detail: { value },
-      bubbles: true,
-      composed: true,
+      bubbles: false,
+      composed: false,
     });
     this.dispatchEvent(event);
   }
@@ -92,8 +92,8 @@ export default class SearchBar extends LitElement {
     const value = (this.searchInput && this.searchInput.value) || '';
     const event = new CustomEvent('enterKeyPressed', {
       detail: { value },
-      bubbles: true,
-      composed: true,
+      bubbles: false,
+      composed: false,
     });
     this.dispatchEvent(event);
   }

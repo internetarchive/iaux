@@ -88,8 +88,8 @@ export default class PlaybackControls extends LitElement {
 
     const event = new CustomEvent('playbackRateChange', {
       detail: { playbackRate: this.playbackRate },
-      bubbles: true,
-      composed: true,
+      bubbles: false,
+      composed: false,
     });
     this.dispatchEvent(event);
   }
@@ -103,8 +103,8 @@ export default class PlaybackControls extends LitElement {
 
     const event = new CustomEvent('volumeChange', {
       detail: { volume: this.volume },
-      bubbles: true,
-      composed: true,
+      bubbles: false,
+      composed: false,
     });
     this.dispatchEvent(event);
   }

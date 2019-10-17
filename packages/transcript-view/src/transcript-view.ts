@@ -216,8 +216,8 @@ export default class TranscriptView extends LitElement {
     const { entry } = e.detail;
     const event = new CustomEvent('transcriptEntrySelected', {
       detail: { entry },
-      bubbles: true,
-      composed: true,
+      bubbles: false,
+      composed: false,
     });
     this.dispatchEvent(event);
     this.selectedSearchResultIndex = entry.searchMatchIndex;
@@ -356,8 +356,8 @@ export default class TranscriptView extends LitElement {
   private handleAutoScrollChange(): void {
     const autoScrollChangedEvent = new CustomEvent('autoScrollChanged', {
       detail: { autoScroll: this.autoScroll },
-      bubbles: true,
-      composed: true,
+      bubbles: false,
+      composed: false,
     });
     this.dispatchEvent(autoScrollChangedEvent);
   }
