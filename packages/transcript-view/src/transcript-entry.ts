@@ -30,7 +30,7 @@ export default class TranscriptEntry extends LitElement {
           ${this.isClickableClass}"
         @click=${this.userSelected}
       >
-        ${this.entry ? this.entry.entryText : ''}
+        ${this.entry ? this.entry.displayText : ''}
       </span>
     `;
   }
@@ -73,7 +73,7 @@ export default class TranscriptEntry extends LitElement {
     const normalTextColor = css`var(--normalTextColor, gray)`;
     const activeTextColor = css`var(--activeTextColor, white)`;
 
-    const musicTextColor = css`var(--musicTextColor, #f6e652)`;
+    const musicTextColor = css`var(--musicTextColor, initial)`;
 
     const searchResultInactiveBorderColor = css`var(--searchResultInactiveBorderColor, gray)`;
     const searchResultActiveBorderColor = css`var(--searchResultActiveBorderColor, green)`;
@@ -91,6 +91,10 @@ export default class TranscriptEntry extends LitElement {
         display: block;
         color: ${musicTextColor};
         font-style: italic;
+      }
+
+      .is-music.active {
+        color: ${activeTextColor};
       }
 
       .is-clickable {

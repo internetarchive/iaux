@@ -27,10 +27,9 @@ export default class TranscriptEntryConfig {
     this.searchMatchIndex = searchMatchIndex;
   }
 
-  get entryText(): string {
+  get displayText(): string {
     if (this.isMusic) {
-      const seconds = Math.round(this.end - this.start);
-      return `[${seconds} seconds of music omitted]`;
+      return `[Transcript unavailable]`;
     }
 
     return this.text;
