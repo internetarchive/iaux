@@ -39,10 +39,11 @@ export default class TileComponent extends React.Component {
   constructor(props) {
     super(props);
     // TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch, but it should be used with a unique key
-    const identifier = props.identifier || props.member.identifier;
     try {
+      const identifier = props.identifier || props.member.identifier;
       const member = this.props.member;
       const item = this.props.item;
+      const query = props.query || (item && item.query) || (member && member.query);
       const isCollection = (member.mediatype === 'collection');
       const collection0 = member.collection0() || (item && item.metadata.collection[0]);
       const by = member.creator || member.creatorSorter || (item && item.metadata.creator); // Should be array
@@ -54,6 +55,8 @@ export default class TileComponent extends React.Component {
       if (member.crawl) classes.push(`crawl-${member.crawl.level}`); // Whether crawled or not and at what level
       const useDate = (member.publicdate || member.updateddate || (item && item.metadata.publicdate));
       const date = useDate && useDate.substr(0, 10);
+      //Intentionally rooted URL so dweb, mirror and other should all handle it see dweb-archive/ReactSupport for docs
+      const imageurl = identifier ? ('/services/img/' + identifier) : query ? '/images/search-saved.png' : '/images/notfound.png';
       this.state = {
         identifier,
         isCollection,
@@ -62,6 +65,7 @@ export default class TileComponent extends React.Component {
         nFavorites,
         collectionSize,
         date,
+        imageurl,
         mediatype: member.mediatype,
         collection0title: member.collection0title || (item && item.collection_titles[collection0]), // TODO-IAUX collection_titles is dweb only, unsure how server side IAUX gets it
         classes,
@@ -72,7 +76,6 @@ export default class TileComponent extends React.Component {
         numReviews: member.num_reviews || (item && item.reviews && item.reviews.length) || 0,
         crawl: member.crawl || {},
         downloaded: member.downloaded,
-        imageurl: '/services/img/' + identifier, //Intentionally rooted URL so dweb, mirror and other should all handle it see dweb-archive/ReactSupport for docs
         parentimageurl: (member && member.collection0thumbnaillinks && (member.collection0thumbnaillinks.length > 0))
           ? member.collection0thumbnaillinks
           : ('/services/img/' + collection0)
