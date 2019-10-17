@@ -216,7 +216,9 @@ export default class TranscriptView extends LitElement {
 
     });
     this.dispatchEvent(event);
-    this.selectedSearchResultIndex = entry.searchMatchIndex;
+    if (entry.searchMatchIndex !== undefined) {
+      this.selectedSearchResultIndex = entry.searchMatchIndex;
+    }
     this.autoScroll = false;
   }
 
