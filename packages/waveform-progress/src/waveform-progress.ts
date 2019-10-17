@@ -95,8 +95,7 @@ export default class WaveformProgress extends LitElement {
   private dispatchValueChangeEvent() {
     const event = new CustomEvent('valuechange', {
       detail: { value: this._percentComplete },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }

@@ -209,8 +209,7 @@ export default class TranscriptViewDevOptions extends LitElement {
   private searchResultIndexChanged(e: CustomEvent): void {
     const event = new CustomEvent('searchResultIndexChanged', {
       detail: { searchResultIndex: e.detail.searchResultIndex },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
@@ -220,8 +219,7 @@ export default class TranscriptViewDevOptions extends LitElement {
     this.autoScroll = target.checked;
     const event = new CustomEvent('shouldAutoScroll', {
       detail: { autoScroll: this.autoScroll },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
@@ -231,8 +229,7 @@ export default class TranscriptViewDevOptions extends LitElement {
     this.showContextZones = target.checked;
     const event = new CustomEvent('showContextZonesChanged', {
       detail: { showContextZones: this.showContextZones },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
@@ -291,8 +288,7 @@ export default class TranscriptViewDevOptions extends LitElement {
   emitCurrentTimeChangedEvent(): void {
     const event = new CustomEvent('currentTimeChanged', {
       detail: { currentTime: this.currentTime },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
@@ -303,8 +299,7 @@ export default class TranscriptViewDevOptions extends LitElement {
     this.topContextHeight = height;
     const event = new CustomEvent('topContextHeightChanged', {
       detail: { height },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
@@ -315,8 +310,7 @@ export default class TranscriptViewDevOptions extends LitElement {
     this.bottomContextHeight = height;
     const event = new CustomEvent('bottomContextHeightChanged', {
       detail: { height },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
@@ -327,8 +321,7 @@ export default class TranscriptViewDevOptions extends LitElement {
     this.transcriptHeight = height;
     const event = new CustomEvent('transcriptHeightChanged', {
       detail: { height },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
@@ -337,8 +330,7 @@ export default class TranscriptViewDevOptions extends LitElement {
     const target = e.target as HTMLFormElement;
     const event = new CustomEvent('showHideBottomContext', {
       detail: { visible: target.checked },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
@@ -347,8 +339,7 @@ export default class TranscriptViewDevOptions extends LitElement {
     const target = e.target as HTMLFormElement;
     const event = new CustomEvent('showHideTopContext', {
       detail: { visible: target.checked },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }

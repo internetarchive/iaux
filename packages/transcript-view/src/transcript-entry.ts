@@ -35,8 +35,7 @@ export default class TranscriptEntry extends LitElement {
     }
     const event = new CustomEvent('userSelected', {
       detail: { entry: this.entry },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }

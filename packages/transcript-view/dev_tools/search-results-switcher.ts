@@ -62,8 +62,7 @@ export default class SearchResultsSwitcher extends LitElement {
   emitSearchResultIndexChangedEvent(): void {
     const event = new CustomEvent('searchResultIndexChanged', {
       detail: { searchResultIndex: this.currentResultIndex },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }

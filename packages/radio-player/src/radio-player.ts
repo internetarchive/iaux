@@ -271,8 +271,7 @@ export default class RadioPlayer extends LitElement {
   private searchEnterKeyPressed(e: CustomEvent): void {
     const event = new CustomEvent('searchRequested', {
       detail: { searchTerm: e.detail.value },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
@@ -350,8 +349,7 @@ export default class RadioPlayer extends LitElement {
   private emitCurrentTimeChangedEvent(): void {
     const event = new CustomEvent('currentTimeChanged', {
       detail: { currentTime: this.currentTime },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
@@ -389,8 +387,7 @@ export default class RadioPlayer extends LitElement {
     this.percentComplete = percentage;
     const event = new CustomEvent('timeChangedFromScrub', {
       detail: { newTime: this.currentTime },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
@@ -404,8 +401,7 @@ export default class RadioPlayer extends LitElement {
     }
     const event = new CustomEvent('transcriptEntrySelected', {
       detail: { newTime: this.currentTime },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }

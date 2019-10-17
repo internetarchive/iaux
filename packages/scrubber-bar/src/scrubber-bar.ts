@@ -109,8 +109,7 @@ export default class ScrubberBar extends LitElement {
   private emitChangeEvent(): void {
     const event = new CustomEvent('valuechange', {
       detail: { value: this._value },
-      bubbles: false,
-      composed: false,
+
     });
     this.dispatchEvent(event);
   }
