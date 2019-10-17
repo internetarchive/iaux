@@ -203,7 +203,7 @@ export default class SearchBar extends LitElement {
         margin: 0;
         font-size: 1em;
         flex: 1 1 auto;
-        width: 10em;
+        min-width: 5em;
       }
 
       .search-input:focus {
