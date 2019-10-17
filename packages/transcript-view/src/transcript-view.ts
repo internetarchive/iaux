@@ -83,7 +83,7 @@ export default class TranscriptView extends LitElement {
   private get timeDisplayTemplate(): TemplateResult {
     return html`
       <div class="time-display" style="top: ${this.timeScrollTop}px">
-        <duration-formatter .seconds=${this.currentEntryStartTime}> </duration-formatter>
+        <duration-formatter .seconds=${this.currentTime}> </duration-formatter>
       </div>
     `;
   }
@@ -126,10 +126,6 @@ export default class TranscriptView extends LitElement {
 
   private get transcriptEntries(): TranscriptEntryConfig[] {
     return this.config ? this.config.entries : [];
-  }
-
-  private get currentEntryStartTime(): number {
-    return this.currentEntry ? this.currentEntry.start : this.currentTime;
   }
 
   static get styles(): CSSResult {
