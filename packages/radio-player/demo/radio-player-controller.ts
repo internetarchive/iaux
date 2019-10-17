@@ -17,11 +17,11 @@ import RadioPlayerConfig from '../src/models/radio-player-config';
 
 @customElement('radio-player-controller')
 export default class RadioPlayerController extends LitElement {
-  @property({ type: Number }) currentTime = 0;
-
-  @property({ type: String }) searchTerm = '';
-
   private startPlaybackAt: number | undefined = undefined;
+
+  private currentTime: number = 0;
+
+  private searchTerm: string = '';
 
   render(): TemplateResult {
     return html`
