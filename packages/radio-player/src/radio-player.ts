@@ -40,6 +40,8 @@ export default class RadioPlayer extends LitElement {
 
   @property({ type: String }) searchTerm = '';
 
+  @property({ type: Boolean }) skipMusicSections = false;
+
   @property({ type: Number }) private percentComplete = 0;
 
   @property({ type: Boolean }) private isPlaying = false;
@@ -462,7 +464,9 @@ export default class RadioPlayer extends LitElement {
 
     if (changedProperties.has('currentTime')) {
       this.emitCurrentTimeChangedEvent();
-      this.checkForMusicZone();
+      if (this.skipMusicSections) {
+        this.checkForMusicZone();
+      }
     }
   }
 
