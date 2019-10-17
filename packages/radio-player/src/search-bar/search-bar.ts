@@ -131,6 +131,11 @@ export default class SearchBar extends LitElement {
   }
 
   static get styles(): CSSResult {
+    const searchBarBackgroundColorCss = css`var(--searchBarBackgroundColor, black)`;
+    const searchBarTextColorCss = css`var(--searchBarTextColor, white)`;
+    const searchBarFontSizeCss = css`var(--searchBarFontSize, 1em)`;
+    const searchBarBorderCss = css`var(--searchBarBorderColor, 1px solid white)`;
+
     return css`
       .container {
         position: relative;
@@ -145,7 +150,7 @@ export default class SearchBar extends LitElement {
         justify-content: center;
         align-items: center;
         height: 2em;
-        border: 1px solid white;
+        border: ${searchBarBorderCss};
         padding: 0 0.5em;
       }
       .endcap svg {
@@ -193,15 +198,15 @@ export default class SearchBar extends LitElement {
 
       .search-input {
         height: 2em;
-        border-top: 1px solid white;
-        border-bottom: 1px solid white;
+        border-top: ${searchBarBorderCss};
+        border-bottom: ${searchBarBorderCss};
         border-left: 0;
         border-right: 0;
-        background-color: black;
-        color: white;
+        background-color: ${searchBarBackgroundColorCss};
+        color: ${searchBarTextColorCss};
         padding: 0;
         margin: 0;
-        font-size: 1em;
+        font-size: ${searchBarFontSizeCss};
         flex: 1 1 auto;
         min-width: 5em;
       }
