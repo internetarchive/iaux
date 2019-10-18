@@ -9,6 +9,8 @@ import {
   CSSResult,
 } from 'lit-element';
 
+import './section-marker';
+
 @customElement('scrubber-bar')
 export default class ScrubberBar extends LitElement {
   @property({ type: Number }) value = 0;
@@ -49,6 +51,8 @@ export default class ScrubberBar extends LitElement {
           @input=${this.handleSlide}
           @change=${this.handleSlide}
         />
+        <section-marker></section-marker>
+
         <div id="webkit-range-input-style"></div>
       </div>
     `;
@@ -100,7 +104,7 @@ export default class ScrubberBar extends LitElement {
         input[type=range]::-webkit-slider-runnable-track {
           background: linear-gradient(to right,
             var(--trackFillColor, #3272b6) 0%, var(--trackFillColor, #3272b6) ${this.percentage}%,
-            var(--trackColor, purple) ${this.percentage}%, var(--trackColor, purple) 100%);
+            var(--trackColor, rgba(0, 0, 0, 0.5)) ${this.percentage}%, var(--trackColor, rgba(0, 0, 0, 0.5)) 100%);
         }
       </style>
     `;
@@ -151,6 +155,19 @@ export default class ScrubberBar extends LitElement {
     `;
 
     return css`
+      .container {
+        position: relative;
+        height: 50px;
+      }
+
+      section-marker {
+        position: absolute;
+        z-index: -1;
+        width: 2rem;
+        height: 50px;
+        left: 25%;
+      }
+
       input[type='range'] {
         -webkit-appearance: none;
         height: ${scrubberBarHeight};
@@ -158,6 +175,8 @@ export default class ScrubberBar extends LitElement {
         width: 100%;
         background: none;
         outline: none;
+        position: absolute;
+        bottom: 0;
       }
 
       input[type='range']::-webkit-slider-thumb {
@@ -204,6 +223,14 @@ export default class ScrubberBar extends LitElement {
 
       input[type='range']::-ms-tooltip {
         display: none;
+      }
+
+      .marker {
+        width: 1px;
+        border-left: 1px solid white;
+        position: absolute;
+        bottom: 0;
+        left: 10%;
       }
     `;
   }
