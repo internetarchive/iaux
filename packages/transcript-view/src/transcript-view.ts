@@ -9,6 +9,7 @@ import {
   CSSResult,
 } from 'lit-element';
 import './transcript-entry';
+import TranscriptEntry from './transcript-entry';
 import './duration-formatter';
 import TranscriptEntryConfig from './models/transcript-entry-config';
 import TranscriptConfig from './models/transcript-config';
@@ -92,15 +93,20 @@ export default class TranscriptView extends LitElement {
     const currentEntryId = this.currentEntry ? this.currentEntry.id : -1;
     const active = entry.id === currentEntryId;
     const selected = entry.searchMatchIndex === this.selectedSearchResultIndex;
+    const isSearchResult = entry.searchMatchIndex !== undefined;
+    const isMusicEntry = entry.isMusic;
+
     return html`
       <transcript-entry
         .entry=${entry}
         ?isSelected=${selected}
         ?isActive=${active}
+        ?isSearchResult=${isSearchResult}
+        ?isMusicEntry=${isMusicEntry}
         isClickable=true
         data-search-result-index=${entry.searchMatchIndex}
         data-identifier=${entry.id}
-        @userSelected=${this.transcriptEntrySelected}
+        @click=${this.transcriptEntrySelected}
       >
       </transcript-entry>
     `;
@@ -139,7 +145,20 @@ export default class TranscriptView extends LitElement {
     const autoScrollButtonBackgroundColorCss = css`var(--autoScrollButtonBackgroundColor, white)`;
     const autoScrollButtonWidthCss = css`var(--autoScrollButtonWidth, 8rem)`;
 
+    const normalTextColor = css`var(--transcriptNormalTextColor, gray)`;
+    const activeTextColor = css`var(--transcriptActiveTextColor, white)`;
+
+    const musicNormalTextColor = css`var(--transcriptMusicNormalTextColor, gray)`;
+    const musicActiveTextColor = css`var(--transcriptMusicActiveTextColor, white)`;
+
+    const searchResultInactiveBorderColor = css`var(--transcriptSearchResultInactiveBorderColor, gray)`;
+    const searchResultActiveBorderColor = css`var(--transcriptSearchResultActiveBorderColor, green)`;
+
     return css`
+      :host {
+        color: ${normalTextColor}
+      }
+
       .container {
         position: relative;
       }
@@ -206,14 +225,60 @@ export default class TranscriptView extends LitElement {
       .scroll-container::-webkit-scrollbar {
         display: none;
       }
+
+      transcript-entry {
+        cursor: pointer;
+      }
+
+      transcript-entry:hover {
+        color: lightgray;
+      }
+
+      transcript-entry[ismusicentry] {
+        color: ${musicNormalTextColor};
+        display: block;
+        font-style: italic;
+      }
+
+      transcript-entry[ismusicentry][isactive] {
+        color: ${musicActiveTextColor};
+      }
+
+      transcript-entry[isactive] {
+        color: ${activeTextColor};
+      }
+
+      transcript-entry[issearchresult] {
+        display: inline-block; /* without this, the outline adds an extra space to the right of the text */
+        padding: 0 5px;
+        position: relative;
+      }
+
+      transcript-entry[issearchresult]:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border: 2px solid ${searchResultInactiveBorderColor};
+        border-radius: 5px;
+      }
+
+      transcript-entry[issearchresult][isselected]:after {
+        border: 2px solid ${searchResultActiveBorderColor};
+      }
+
     `;
   }
 
   private transcriptEntrySelected(e: CustomEvent): void {
-    const { entry } = e.detail;
+    const entry: TranscriptEntryConfig | undefined = (e.target as TranscriptEntry).entry;
+    if (!entry) { return; }
+
     const event = new CustomEvent('transcriptEntrySelected', {
       detail: { entry },
-
     });
     this.dispatchEvent(event);
     if (entry.searchMatchIndex !== undefined) {
