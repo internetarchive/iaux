@@ -147,9 +147,11 @@ export default class TranscriptView extends LitElement {
 
     const normalTextColor = css`var(--transcriptNormalTextColor, gray)`;
     const activeTextColor = css`var(--transcriptActiveTextColor, white)`;
+    const hoverTextColor = css`var(--transcriptHoverTextColor, silver)`;
 
     const musicNormalTextColor = css`var(--transcriptMusicNormalTextColor, gray)`;
     const musicActiveTextColor = css`var(--transcriptMusicActiveTextColor, white)`;
+    const musicHoverTextColor = css`var(--transcriptMusicActiveTextColor, silver)`;
 
     const searchResultInactiveBorderColor = css`var(--transcriptSearchResultInactiveBorderColor, gray)`;
     const searchResultActiveBorderColor = css`var(--transcriptSearchResultActiveBorderColor, green)`;
@@ -231,13 +233,17 @@ export default class TranscriptView extends LitElement {
       }
 
       transcript-entry:hover {
-        color: lightgray;
+        color: ${hoverTextColor};
       }
 
       transcript-entry[ismusicentry] {
         color: ${musicNormalTextColor};
         display: block;
         font-style: italic;
+      }
+
+      transcript-entry[ismusicentry]:hover {
+        color: ${musicHoverTextColor};
       }
 
       transcript-entry[ismusicentry][isactive] {

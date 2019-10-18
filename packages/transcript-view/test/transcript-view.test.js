@@ -32,7 +32,7 @@ describe('TranscriptView', () => {
 
     const durationFormatter = el.shadowRoot.querySelector('duration-formatter');
 
-    expect(durationFormatter.shadowRoot.innerHTML).to.have.string('01:08');
+    expect(durationFormatter.shadowRoot.innerHTML).to.have.string('01:09');
   });
 
   it('emits a `transcriptEntrySelected` event when the user clicks on a transcript entry', async () => {
@@ -50,10 +50,8 @@ describe('TranscriptView', () => {
     `);
 
     const entryToSelect = el.shadowRoot.querySelectorAll('transcript-entry')[1];
-    const spanToClick = entryToSelect.shadowRoot.querySelector('span');
-
     const clickEvent = new MouseEvent('click');
-    setTimeout(() => { spanToClick.dispatchEvent(clickEvent); });
+    setTimeout(() => { entryToSelect.dispatchEvent(clickEvent); });
     const response = await oneEvent(el, 'transcriptEntrySelected');
     expect(response).to.exist;
   });
