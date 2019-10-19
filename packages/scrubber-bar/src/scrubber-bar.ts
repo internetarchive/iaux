@@ -10,6 +10,7 @@ import {
 } from 'lit-element';
 
 import './section-marker';
+import { SectionMarker, SectionMarkerMode } from './section-marker';
 
 @customElement('scrubber-bar')
 export default class ScrubberBar extends LitElement {
@@ -20,6 +21,8 @@ export default class ScrubberBar extends LitElement {
   @property({ type: Number }) max = 100;
 
   @property({ type: Number }) step = 0.1;
+
+  @property({ type: Array }) sectionMarkerPercentages: number[] = [];
 
   get percentage(): number {
     const delta: number = this.max - this.min;
@@ -37,6 +40,15 @@ export default class ScrubberBar extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="container">
+        ${this.sectionMarkerPercentages.map((markerPercent: number) => {
+          return html`
+            <section-marker
+              data-location=${markerPercent}
+              style="left: ${markerPercent}%">
+            </section-marker>
+          `;
+        })}
+
         <input
           id="slider"
           type="range"
@@ -51,7 +63,6 @@ export default class ScrubberBar extends LitElement {
           @input=${this.handleSlide}
           @change=${this.handleSlide}
         />
-        <section-marker></section-marker>
 
         <div id="webkit-range-input-style"></div>
       </div>
@@ -64,17 +75,19 @@ export default class ScrubberBar extends LitElement {
     if (this.rangeSlider) {
       this.rangeSlider.value = `${this.value}`;
     }
-    this.updateSliderProgress();
+    this.updateWebkitSliderStyle();
   }
 
   firstUpdated(): void {
-    this.updateSliderProgress();
+    this.updateWebkitSliderStyle();
+    this.updateMarkerFlags();
   }
 
   private handleSlide(e: Event): void {
     const newValue = (e.target as HTMLInputElement).value;
     this._value = parseFloat(newValue);
-    this.updateSliderProgress();
+    this.updateWebkitSliderStyle();
+    this.updateMarkerFlags();
     this.emitChangeEvent();
   }
 
@@ -96,7 +109,7 @@ export default class ScrubberBar extends LitElement {
     return this.shadowRoot && this.shadowRoot.getElementById('webkit-range-input-style');
   }
 
-  private updateSliderProgress(): void {
+  private updateWebkitSliderStyle(): void {
     if (!this.webkitStyle) { return; }
 
     this.webkitStyle.innerHTML = `
@@ -104,7 +117,7 @@ export default class ScrubberBar extends LitElement {
         input[type=range]::-webkit-slider-runnable-track {
           background: linear-gradient(to right,
             var(--trackFillColor, #3272b6) 0%, var(--trackFillColor, #3272b6) ${this.percentage}%,
-            var(--trackColor, rgba(0, 0, 0, 0.5)) ${this.percentage}%, var(--trackColor, rgba(0, 0, 0, 0.5)) 100%);
+            var(--trackColor, rgba(0, 0, 0, 0.1)) ${this.percentage}%, var(--trackColor, rgba(0, 0, 0, 0.1)) 100%);
         }
       </style>
     `;
@@ -116,6 +129,36 @@ export default class ScrubberBar extends LitElement {
 
     });
     this.dispatchEvent(event);
+  }
+
+  private get sortedMarkers(): number[] {
+    return this.sectionMarkerPercentages.sort();
+  }
+
+  private updateMarkerFlags(): void {
+    const currentValue: number = this._value;
+
+    const percentsLessThanValue: number[] = this.sortedMarkers.filter(value => value <= currentValue);
+    const percentsGreaterThanValue: number[] = this.sortedMarkers.filter(value => value > currentValue);
+    const closestLower = Math.max(...percentsLessThanValue);
+    const closestUpper = Math.min(...percentsGreaterThanValue);
+
+    this.sectionMarkerPercentages.forEach(value => {
+      if (!this.shadowRoot) { return; }
+      const marker: SectionMarker | null = this.shadowRoot.querySelector(`section-marker[data-location="${value}"]`)
+      if (!marker) { return; }
+
+      switch (value) {
+        case closestLower:
+          marker.markerMode = SectionMarkerMode.right;
+          break;
+        case closestUpper:
+          marker.markerMode = SectionMarkerMode.left;
+          break;
+        default:
+          marker.markerMode = SectionMarkerMode.neither;
+      }
+    });
   }
 
   static get styles(): CSSResult {
@@ -130,7 +173,7 @@ export default class ScrubberBar extends LitElement {
     const trackBorderRadius = css`var(--trackBorderRadius, 5px)`;
     const trackBorder = css`var(--trackBorder, 1px solid white)`;
     const trackFillColor = css`var(--trackFillColor, #3272b6)`;
-    const trackColor = css`var(--trackColor, black)`;
+    const trackColor = css`var(--trackColor, rgba(0, 0, 0, 0.1))`;
 
     const webkitThumbTopMargin = css`var(--webkitThumbTopMargin, -6px)`;
 
@@ -157,17 +200,14 @@ export default class ScrubberBar extends LitElement {
     return css`
       .container {
         position: relative;
-        height: 50px;
+        height: 40px;
       }
 
       section-marker {
         position: absolute;
-        z-index: 1;
         width: 2rem;
-        height: 50px;
-        left: 25%;
+        height: 40px;
         transform: translateX(-50%);
-        outline: 1px solid green;
       }
 
       input[type='range'] {

@@ -7,6 +7,11 @@
       background: black;
       color: white;
     }
+
+    scrubber-bar {
+      --trackFillColor: rgba(50, 114, 182, 0.8);
+      --trackColor: rgba(0, 0, 0, 0.1);
+    }
   </style>
 </head>
 <body>
@@ -18,7 +23,10 @@
 
     render(
       html`
-        <scrubber-bar @valuechange=${valueChange}></scrubber-bar>
+        <scrubber-bar
+          sectionMarkerPercentages='[10, 25, 30, 50, 75]'
+          @valuechange=${valueChange}>
+        </scrubber-bar>
         <span class="value">0</span>%
       `,
       document.querySelector('#demo')

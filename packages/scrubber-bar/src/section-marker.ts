@@ -22,7 +22,7 @@ import nextSectionImage from './assets/img/next-section-marker';
 @customElement('section-marker')
 class SectionMarker extends LitElement {
 
-  @property({ type: SectionMarkerMode }) markerMode = SectionMarkerMode.both;
+  @property({ type: SectionMarkerMode }) markerMode = SectionMarkerMode.neither;
 
   render(): TemplateResult {
     return html`
@@ -39,30 +39,40 @@ class SectionMarker extends LitElement {
       .container {
         display: flex;
         justify-content: center;
-        outline: 1px solid purple;
         height: 100%;
       }
 
+      .arrow {
+        opacity: 1;
+        transition: opacity 0.2s ease-out;
+      }
+
       .container.mode-left .right-arrow {
-        display: none;
+        opacity: 0;
       }
 
       .container.mode-right .left-arrow {
-        display: none;
+        opacity: 0;
       }
 
       .container.mode-both {
       }
 
       .container.mode-neither .left-arrow, .container.mode-neither .right-arrow {
-        display: none;
+        opacity: 0;
+      }
+
+      .container.mode-neither .center-divider {
+        height: 50%;
       }
 
       .center-divider {
         border-left: 1px solid white;
         width: 1px;
         left: 50%;
-        outline: 1px solid red;
+        height: 100%;
+        align-self: flex-end;
+        transition: height 0.2s ease-out;
       }
 
       .left-arrow {
