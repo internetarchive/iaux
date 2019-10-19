@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <style>
     body {
-      background: purple;
+      background: black;
+      color: white;
     }
   </style>
 </head>
@@ -17,10 +18,15 @@
 
     render(
       html`
-        <scrubber-bar></scrubber-bar>
+        <scrubber-bar @valuechange=${valueChange}></scrubber-bar>
+        <span class="value">0</span>%
       `,
       document.querySelector('#demo')
     );
+
+    function valueChange(e) {
+      document.querySelector('.value').innerHTML = e.detail.value;
+    }
   </script>
 </body>
 </html>

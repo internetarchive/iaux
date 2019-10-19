@@ -162,10 +162,12 @@ export default class ScrubberBar extends LitElement {
 
       section-marker {
         position: absolute;
-        z-index: -1;
+        z-index: 1;
         width: 2rem;
         height: 50px;
         left: 25%;
+        transform: translateX(-50%);
+        outline: 1px solid green;
       }
 
       input[type='range'] {
@@ -223,14 +225,6 @@ export default class ScrubberBar extends LitElement {
 
       input[type='range']::-ms-tooltip {
         display: none;
-      }
-
-      .marker {
-        width: 1px;
-        border-left: 1px solid white;
-        position: absolute;
-        bottom: 0;
-        left: 10%;
       }
     `;
   }
