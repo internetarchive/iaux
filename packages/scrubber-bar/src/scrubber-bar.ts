@@ -200,13 +200,19 @@ export default class ScrubberBar extends LitElement {
     return css`
       .container {
         position: relative;
-        height: 40px;
+        height: 50px;
       }
 
       section-marker {
         position: absolute;
         width: 2rem;
         height: 40px;
+        bottom: 7px;
+        /*
+          we set the left side of the marker to the spot where we want it, but the marker line is in
+          the center of the marker so we need to shift it to the left by half its width so this transform
+          is doing that
+         */
         transform: translateX(-50%);
       }
 
