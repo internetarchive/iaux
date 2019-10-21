@@ -35,7 +35,9 @@ class SectionMarker extends LitElement {
   }
 
   static get styles(): CSSResult {
-    const animationSpeed: CSSResult = css`0.3s`;
+    const animationSpeed: CSSResult = css`0.1s`;
+    const markerHeightCollapsedCss = css`var(--markerHeightCollapsed, 10px)`;
+    const markerHeightExpandedCss = css`var(--markerHeightExpanded, 25px)`;
 
     return css`
       .container {
@@ -45,8 +47,17 @@ class SectionMarker extends LitElement {
       }
 
       .arrow {
+        padding-top: 10px;
         opacity: 1;
         transition: opacity ${animationSpeed} ease-out, padding-top ${animationSpeed} ease-out;
+      }
+
+      .right-arrow {
+        visibility: hidden;
+      }
+
+      .arrow {
+        visibility: hidden;
       }
 
       .container.mode-left .right-arrow {
@@ -59,18 +70,18 @@ class SectionMarker extends LitElement {
 
       .container.mode-neither .left-arrow, .container.mode-neither .right-arrow {
         opacity: 0;
-        padding-top: 50%;
+        padding-top: 75%;
       }
 
       .container.mode-neither .center-divider {
-        height: 50%;
+        height: ${markerHeightCollapsedCss};
       }
 
       .center-divider {
         border-left: 1px solid white;
         width: 1px;
         left: 50%;
-        height: 90%;
+        height: ${markerHeightExpandedCss};
         align-self: flex-end;
         transition: height ${animationSpeed} ease-out;
       }

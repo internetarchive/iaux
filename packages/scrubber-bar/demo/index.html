@@ -9,8 +9,10 @@
     }
 
     scrubber-bar {
-      --trackFillColor: rgba(50, 114, 182, 0.6);
-      --trackColor: rgba(0, 0, 0, 0.1);
+      --trackFillColor: rgba(50, 114, 182, 1);
+      --trackColor: rgba(255, 255, 255, 0.2);
+      --markerHeightExpanded: 25px;
+      --markerHeightCollapsed: 10px;
     }
   </style>
 </head>
@@ -24,7 +26,8 @@
     render(
       html`
         <scrubber-bar
-          sectionMarkerPercentages='[10, 25, 30, 50, 75]'
+          sectionMarkerPercentages='[0, 10, 11, 25, 30, 50, 75, 100]'
+          value='37'
           @valuechange=${valueChange}>
         </scrubber-bar>
         <span class="value">0</span>%
