@@ -353,60 +353,27 @@ export default class RadioPlayer extends LitElement {
   }
 
   private nextSectionButtonHandler(): void {
-    console.log(
-      'nextSectionButtonHandler',
-      this.scrubberBarMarkerPercentages,
-      this.currentTime,
-      this.percentComplete,
-    );
+    if (!this.audioElement) {
+      return;
+    }
     const percentsGreaterThanValue: number[] = this.scrubberBarMarkerPercentages.filter(
       value => value > this.percentComplete + 0.1,
     );
     const closestUpper = Math.min(...percentsGreaterThanValue);
-
     const seekTo: number = this.duration * (closestUpper / 100) + 0.1;
-
-    console.log(
-      'nextSectionButtonHandler',
-      percentsGreaterThanValue,
-      closestUpper,
-      this.duration,
-      seekTo,
-    );
-
-    if (this.audioElement) {
-      this.audioElement.seekTo(seekTo);
-    }
+    this.audioElement.seekTo(seekTo);
   }
 
   private prevSectionButtonHandler(): void {
-    console.log(
-      'prevSectionButtonHandler',
-      this.scrubberBarMarkerPercentages,
-      this.currentTime,
-      this.percentComplete,
-    );
-    // this.currentTime
-    // this.percentComplete
-
+    if (!this.audioElement) {
+      return;
+    }
     const percentsLessThanValue: number[] = this.scrubberBarMarkerPercentages.filter(
       value => value < this.percentComplete - 0.1,
     );
     const closestLower = Math.max(...percentsLessThanValue);
-
     const seekTo: number = this.duration * (closestLower / 100) - 0.1;
-
-    console.log(
-      'prevSectionButtonHandler',
-      percentsLessThanValue,
-      closestLower,
-      this.duration,
-      seekTo,
-    );
-
-    if (this.audioElement) {
-      this.audioElement.seekTo(seekTo);
-    }
+    this.audioElement.seekTo(seekTo);
   }
 
   private handleDurationChange(e: CustomEvent): void {
