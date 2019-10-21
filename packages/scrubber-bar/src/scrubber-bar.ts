@@ -76,6 +76,7 @@ export default class ScrubberBar extends LitElement {
       this.rangeSlider.value = `${this.value}`;
     }
     this.updateWebkitSliderStyle();
+    this.updateMarkerFlags();
   }
 
   firstUpdated(): void {

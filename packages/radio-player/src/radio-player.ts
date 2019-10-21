@@ -111,7 +111,6 @@ export default class RadioPlayer extends LitElement {
     return html`
       <waveform-progress
         interactive="true"
-        .zonesOfSilence=${this.zonesOfSilence}
         .waveformUrl=${this.waveformUrl}
         .percentComplete=${this.percentComplete}
         @valuechange=${this.valueChangedFromScrub}
@@ -171,14 +170,30 @@ export default class RadioPlayer extends LitElement {
         @forward-button-pressed=${this.forwardButtonHandler}
         @volumeChange=${this.volumeChanged}
         @playbackRateChange=${this.changePlaybackRate}
+        @next-section-button-pressed=${this.nextSectionButtonHandler}
+        @prev-section-button-pressed=${this.prevSectionButtonHandler}
       >
       </playback-controls>
     `;
   }
 
+  private get scrubberBarMarkerPercentages(): number[] {
+    var percentages: number[] = [0];
+    this.zonesOfSilence.forEach(zone => {
+      percentages.push(zone.startPercent);
+      percentages.push(zone.endPercent);
+    });
+    percentages.push(100);
+    return percentages;
+  }
+
   private get scrubberBarTemplate(): TemplateResult {
     return html`
-      <scrubber-bar .value=${this.percentComplete} @valuechange=${this.valueChangedFromScrub}>
+      <scrubber-bar
+        .sectionMarkerPercentages=${this.scrubberBarMarkerPercentages}
+        .value=${this.percentComplete}
+        @valuechange=${this.valueChangedFromScrub}
+      >
       </scrubber-bar>
     `;
   }
@@ -273,7 +288,6 @@ export default class RadioPlayer extends LitElement {
   private searchEnterKeyPressed(e: CustomEvent): void {
     const event = new CustomEvent('searchRequested', {
       detail: { searchTerm: e.detail.value },
-
     });
     this.dispatchEvent(event);
   }
@@ -338,6 +352,63 @@ export default class RadioPlayer extends LitElement {
     }
   }
 
+  private nextSectionButtonHandler(): void {
+    console.log(
+      'nextSectionButtonHandler',
+      this.scrubberBarMarkerPercentages,
+      this.currentTime,
+      this.percentComplete,
+    );
+    const percentsGreaterThanValue: number[] = this.scrubberBarMarkerPercentages.filter(
+      value => value > this.percentComplete + 0.1,
+    );
+    const closestUpper = Math.min(...percentsGreaterThanValue);
+
+    const seekTo: number = this.duration * (closestUpper / 100) + 0.1;
+
+    console.log(
+      'nextSectionButtonHandler',
+      percentsGreaterThanValue,
+      closestUpper,
+      this.duration,
+      seekTo,
+    );
+
+    if (this.audioElement) {
+      this.audioElement.seekTo(seekTo);
+    }
+  }
+
+  private prevSectionButtonHandler(): void {
+    console.log(
+      'prevSectionButtonHandler',
+      this.scrubberBarMarkerPercentages,
+      this.currentTime,
+      this.percentComplete,
+    );
+    // this.currentTime
+    // this.percentComplete
+
+    const percentsLessThanValue: number[] = this.scrubberBarMarkerPercentages.filter(
+      value => value < this.percentComplete - 0.1,
+    );
+    const closestLower = Math.max(...percentsLessThanValue);
+
+    const seekTo: number = this.duration * (closestLower / 100) - 0.1;
+
+    console.log(
+      'prevSectionButtonHandler',
+      percentsLessThanValue,
+      closestLower,
+      this.duration,
+      seekTo,
+    );
+
+    if (this.audioElement) {
+      this.audioElement.seekTo(seekTo);
+    }
+  }
+
   private handleDurationChange(e: CustomEvent): void {
     this.duration = e.detail.duration;
   }
@@ -351,7 +422,6 @@ export default class RadioPlayer extends LitElement {
   private emitCurrentTimeChangedEvent(): void {
     const event = new CustomEvent('currentTimeChanged', {
       detail: { currentTime: this.currentTime },
-
     });
     this.dispatchEvent(event);
   }
@@ -389,7 +459,6 @@ export default class RadioPlayer extends LitElement {
     this.percentComplete = percentage;
     const event = new CustomEvent('timeChangedFromScrub', {
       detail: { newTime: this.currentTime },
-
     });
     this.dispatchEvent(event);
   }
@@ -403,7 +472,6 @@ export default class RadioPlayer extends LitElement {
     }
     const event = new CustomEvent('transcriptEntrySelected', {
       detail: { newTime: this.currentTime },
-
     });
     this.dispatchEvent(event);
   }
@@ -547,9 +615,9 @@ export default class RadioPlayer extends LitElement {
       /* wide view */
       @media (min-width: 770px) {
         section[role='main'] {
-          -ms-grid-columns: 192px 0.5rem 3rem 0.5rem 200px 0.5rem 1fr;
+          -ms-grid-columns: 192px 0.5rem 0 0.5rem 250px 0.5rem 1fr;
           -ms-grid-rows: auto 0.5rem auto 0.5rem auto;
-          grid-template-columns: 192px 3rem 200px 1fr;
+          grid-template-columns: 192px 0 250px 1fr;
           grid-template-areas:
             'title-date title-date title-date title-date'
             'collection-logo 1 playback-controls waveform-scrubber'

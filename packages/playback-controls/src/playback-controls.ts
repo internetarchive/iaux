@@ -1,6 +1,9 @@
 import { LitElement, html, css, customElement, property, TemplateResult } from 'lit-element';
 import { PlaybackMode } from './playback-mode';
 
+import nextSectionImage from './assets/img/next-section';
+import prevSectionImage from './assets/img/previous-section';
+
 import replayImage from './assets/img/replay';
 import skipAheadImage from './assets/img/skip-ahead';
 import playImage from './assets/img/play';
@@ -32,6 +35,9 @@ export default class PlaybackControls extends LitElement {
             ${this.playbackRate}x
           </div>
         </div>
+        <button id="prev-section-btn" class="jump-btn unstyled-button" @click="${this.handlePrevSectionButton}">
+          ${prevSectionImage}
+        </button>
         <button id="back-btn" class="jump-btn unstyled-button" @click="${this.handleBackButton}">
           ${replayImage}
         </button>
@@ -40,6 +46,9 @@ export default class PlaybackControls extends LitElement {
         </button>
         <button id="forward-btn" class="jump-btn unstyled-button" @click="${this.handleForwardButton}">
           ${skipAheadImage}
+        </button>
+        <button id="next-section-btn" class="jump-btn unstyled-button" @click="${this.handleNextSectionButton}">
+          ${nextSectionImage}
         </button>
         <div class="vertical-button-stack volume">
           <div class="vertical-button-container">
@@ -109,6 +118,18 @@ export default class PlaybackControls extends LitElement {
 
   handleBackButton() {
     const event = new Event('back-button-pressed');
+    this.dispatchEvent(event);
+  }
+
+  handlePrevSectionButton() {
+    console.log('handlePrevSectionButton');
+    const event = new Event('prev-section-button-pressed');
+    this.dispatchEvent(event);
+  }
+
+  handleNextSectionButton() {
+    console.log('handleNextSectionButton');
+    const event = new Event('next-section-button-pressed');
     this.dispatchEvent(event);
   }
 
