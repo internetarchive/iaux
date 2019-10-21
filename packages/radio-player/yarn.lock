@@ -1080,10 +1080,10 @@
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/waveform-progress@0.0.1-alpha.422+18a94d7":
-  version "0.0.1-alpha.422"
-  resolved "https://registry.yarnpkg.com/@internetarchive/waveform-progress/-/waveform-progress-0.0.1-alpha.422.tgz#63c17ffe970ac4e1ab63c74eaec6638b30c5f496"
-  integrity sha512-75KlVdmfU81pf4YIpYMK6h0MBuqSb36q7tqXBDrg0Zo5AwHlGufREswP8hiUeYRf//9iMH5AVjHXA6PYPVeZwQ==
+"@internetarchive/waveform-progress@0.0.1-alpha.447+9eae4b4":
+  version "0.0.1-alpha.447"
+  resolved "https://registry.yarnpkg.com/@internetarchive/waveform-progress/-/waveform-progress-0.0.1-alpha.447.tgz#0255ee24b86bd654e8cde1ad940c22aa03defee2"
+  integrity sha512-4jr/ozYZpsCSBE3jN0xwxktJzInCzqHyWhKXp/Nd9s5AimVP3dCVTqtY7xi5NhsuXLEXKZKgmAXQKQdUyL8eAw==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
