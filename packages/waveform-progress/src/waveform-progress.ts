@@ -131,8 +131,9 @@ export default class WaveformProgress extends LitElement {
         display: block;
         position: relative;
         background-color: white;
-        width: 100%;
         height: 100%;
+        margin-left: 10px;
+        margin-right: 10px;
       }
 
       .waveform-image {
