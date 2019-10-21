@@ -97,7 +97,6 @@ export default class PlaybackControls extends LitElement {
 
     const event = new CustomEvent('playbackRateChange', {
       detail: { playbackRate: this.playbackRate },
-
     });
     this.dispatchEvent(event);
   }
@@ -111,7 +110,6 @@ export default class PlaybackControls extends LitElement {
 
     const event = new CustomEvent('volumeChange', {
       detail: { volume: this.volume },
-
     });
     this.dispatchEvent(event);
   }
@@ -122,13 +120,11 @@ export default class PlaybackControls extends LitElement {
   }
 
   handlePrevSectionButton() {
-    console.log('handlePrevSectionButton');
     const event = new Event('prev-section-button-pressed');
     this.dispatchEvent(event);
   }
 
   handleNextSectionButton() {
-    console.log('handleNextSectionButton');
     const event = new Event('next-section-button-pressed');
     this.dispatchEvent(event);
   }
