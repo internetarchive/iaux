@@ -1,3 +1,5 @@
+/* eslint-disable no-duplicate-imports */
+
 import {
   LitElement,
   html,
@@ -8,8 +10,9 @@ import {
   TemplateResult,
   CSSResult,
 } from 'lit-element';
-import './transcript-entry';
+
 import TranscriptEntry from './transcript-entry';
+
 import './duration-formatter';
 import TranscriptEntryConfig from './models/transcript-entry-config';
 import TranscriptConfig from './models/transcript-config';
@@ -36,9 +39,9 @@ export default class TranscriptView extends LitElement {
     | TranscriptEntryConfig
     | undefined;
 
-  private scrollTimerDelay: number = 15000;
+  private scrollTimerDelay = 15000;
 
-  private scrollResumeTimerId: number = -1;
+  private scrollResumeTimerId = -1;
 
   render(): TemplateResult {
     return html`
@@ -52,7 +55,7 @@ export default class TranscriptView extends LitElement {
 
           <div class="col">
             ${this.autoScrollButtonTemplate}
-            ${(this.transcriptEntries).map((entry: TranscriptEntryConfig) =>
+            ${this.transcriptEntries.map((entry: TranscriptEntryConfig) =>
               this.transcriptEntryTemplate(entry),
             )}
           </div>
@@ -103,7 +106,7 @@ export default class TranscriptView extends LitElement {
         ?isActive=${active}
         ?isSearchResult=${isSearchResult}
         ?isMusicEntry=${isMusicEntry}
-        isClickable=true
+        isClickable="true"
         data-search-result-index=${entry.searchMatchIndex}
         data-identifier=${entry.id}
         @click=${this.transcriptEntrySelected}
@@ -137,6 +140,8 @@ export default class TranscriptView extends LitElement {
   static get styles(): CSSResult {
     const transcriptHeightCss = css`var(--transcriptHeight, 200px)`;
 
+    const timeFontSizeCss = css`var(--timeFontSize, 1em)`;
+    const timeLineHeightCss = css`var(--timeLineHeight, 1em)`;
     const timeColorCss = css`var(--timeColor, white)`;
     const timeColumnWidthCss = css`var(--timeColumnWidth, 3rem)`;
     const timeDisplayCss = css`var(--timeDisplay, block)`;
@@ -158,7 +163,7 @@ export default class TranscriptView extends LitElement {
 
     return css`
       :host {
-        color: ${normalTextColor}
+        color: ${normalTextColor};
       }
 
       .container {
@@ -212,7 +217,8 @@ export default class TranscriptView extends LitElement {
       .time-display {
         position: absolute;
         top: 0;
-        line-height: 1rem;
+        font-size: ${timeFontSizeCss};
+        line-height: ${timeLineHeightCss};
         transition: top 1s;
       }
 
@@ -275,13 +281,14 @@ export default class TranscriptView extends LitElement {
       transcript-entry[issearchresult][isselected]:after {
         border: 2px solid ${searchResultActiveBorderColor};
       }
-
     `;
   }
 
   private transcriptEntrySelected(e: CustomEvent): void {
-    const entry: TranscriptEntryConfig | undefined = (e.target as TranscriptEntry).entry;
-    if (!entry) { return; }
+    const { entry } = e.target as TranscriptEntry;
+    if (!entry) {
+      return;
+    }
 
     const event = new CustomEvent('transcriptEntrySelected', {
       detail: { entry },
@@ -322,29 +329,33 @@ export default class TranscriptView extends LitElement {
 
   // This finds the transcript entry that is closest to a given time.
   //
-  // If we don't have a currentEntry to work with, ie. we're in-between transcript entries or we're before the
-  // transcript starts or after it ends, we want to find the element closest to the time. This allows
+  // If we don't have a currentEntry to work with, ie. we're in-between transcript entries
+  // or we're before the  transcript starts or after it ends, we want to find the element
+  // closest to the time. This allows
   // us to scroll to the proper location and set the current time's position.
   //
   // This is a somewhat heavy method since it has to check all of the entries so it's faster
-  // to rely on accessing the `currentEntry` element if you can, but this should work for any given time.
+  // to rely on accessing the `currentEntry` element if you can, but this should work
+  // for any given time.
   private entryIdentifierClosestToTime(time: number): number | null {
-    if (this.transcriptEntries.length === 0) { return null; }
+    if (this.transcriptEntries.length === 0) {
+      return null;
+    }
 
     const firstEntry: TranscriptEntryConfig = this.transcriptEntries[0];
-    var delta: number = Math.abs(time - firstEntry.start);
-    var closestIdentifier: number = firstEntry.id;
+    let delta: number = Math.abs(time - firstEntry.start);
+    let closestIdentifier: number = firstEntry.id;
 
     this.transcriptEntries.forEach((entry: TranscriptEntryConfig) => {
       const entryDelta: number = Math.abs(time - entry.start);
 
-      // if the entryDelta is less than the previous delta, we're moving closer to `time`;
-      // once the delta starts increasing, we're moving away from it so we've just passed the closest
+      // if the entryDelta is less than the previous delta,
+      // we're moving closer to `time`;
+      // once the delta starts increasing, we're moving away
+      // from it so we've just passed the closest
       if (entryDelta < delta) {
         delta = entryDelta;
         closestIdentifier = entry.id;
-      } else {
-        return;
       }
     });
 
@@ -360,8 +371,9 @@ export default class TranscriptView extends LitElement {
   }
 
   private elementForIdentifier(identifier: number): HTMLElement | null {
-    return this.shadowRoot && this.shadowRoot.querySelector(
-      `transcript-entry[data-identifier="${identifier}"]`
+    return (
+      this.shadowRoot &&
+      this.shadowRoot.querySelector(`transcript-entry[data-identifier="${identifier}"]`)
     );
   }
 
@@ -425,7 +437,6 @@ export default class TranscriptView extends LitElement {
   private handleAutoScrollChange(): void {
     const autoScrollChangedEvent = new CustomEvent('autoScrollChanged', {
       detail: { autoScroll: this.autoScroll },
-
     });
     this.dispatchEvent(autoScrollChangedEvent);
   }
