@@ -378,7 +378,7 @@ class DwebStatusLI extends IAReactComponent {
   }
 
   render() {
-    return <li className={`transportstatus${this.state.status}`} onClick={this.onClick} key={`status${this.props.name}`}>{this.props.name}</li>;
+    return <li className={`transportstatus${this.state.status}`} onClick={this.onClick} key={`status${this.props.name}`}><I18nSpan en={this.props.name} /></li>;
   }
 }
 
