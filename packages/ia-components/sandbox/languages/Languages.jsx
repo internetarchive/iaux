@@ -1,3 +1,4 @@
+/* global DwebArchive, DWebTransports */
 import waterfall from 'async/waterfall';
 import React from "react";
 const debug = require('debug')('dweb-archive:languages');

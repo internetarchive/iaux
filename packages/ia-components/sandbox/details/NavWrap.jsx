@@ -1,3 +1,4 @@
+/* global DwebArchive, DWebTransports, Nav */
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';

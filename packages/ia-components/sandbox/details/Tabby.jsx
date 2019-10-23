@@ -1,3 +1,4 @@
+/* global DwebArchive */
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { I18nSpan } from '../languages/Languages';

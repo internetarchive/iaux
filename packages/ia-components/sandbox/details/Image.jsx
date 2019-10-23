@@ -1,4 +1,4 @@
-
+/* global DwebArchive */
 import React from 'react';
 import { ObjectFilter } from '../../util';
 // const debug = require('debug')('Image Components');

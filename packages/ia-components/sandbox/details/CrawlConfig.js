@@ -1,3 +1,4 @@
+/* global DwebArchive, DwebTransports */
 // DwebTransports is not needed, its a global
 import React from 'react';
 import prettierBytes from 'prettier-bytes';
@@ -106,7 +107,6 @@ export default class CrawlConfig extends IAReactComponent {
       // Tell server the desired new state.
       let urlSetConfig = [gatewayServer(), 'admin/setconfig', this.props.identifier || "_", level || 'none'].join('/');
       if (this.props.query) { urlSetConfig += "?q=" + encodeURIComponent(this.props.query); }
-      // noinspection JSUnresolvedFunction,JSUnresolvedVariable
       DwebTransports.httptools.p_GET(urlSetConfig, {}, (err, unusedInfo) => {
         // Gets back info, but not currently using
         if (err) {

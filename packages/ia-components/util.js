@@ -1,3 +1,4 @@
+/* global DwebArchive */
 /* A place for utility functions used in other parts of ia-components. */
 
 /* This is a group of functions that work on Objects (there are more in dweb-archivecontroller/Util.js) */

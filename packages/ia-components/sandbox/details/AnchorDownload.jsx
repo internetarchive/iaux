@@ -1,3 +1,4 @@
+/* global DwebArchive, Nav */
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { ObjectFilter } from '../../util';
