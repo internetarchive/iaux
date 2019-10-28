@@ -288,7 +288,6 @@ export default class RadioPlayerController extends LitElement {
   }
 
   private currentTimeChanged(e: CustomEvent): void {
-    console.log(e.detail.currentTime);
     this.currentTime = e.detail.currentTime;
   }
 
