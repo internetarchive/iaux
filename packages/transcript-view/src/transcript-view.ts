@@ -1,4 +1,6 @@
-/* eslint-disable no-duplicate-imports */
+// I'm disabling `import/no-duplicates` because it removes some imports that we need
+// like importing `TranscriptEntry` and './transcript-entry`
+/* eslint-disable import/no-duplicates */
 
 import {
   LitElement,
@@ -11,6 +13,7 @@ import {
   CSSResult,
 } from 'lit-element';
 
+import './transcript-entry';
 import TranscriptEntry from './transcript-entry';
 
 import './duration-formatter';
@@ -55,9 +58,7 @@ export default class TranscriptView extends LitElement {
 
           <div class="col">
             ${this.autoScrollButtonTemplate}
-            ${this.transcriptEntries.map((entry: TranscriptEntryConfig) =>
-              this.transcriptEntryTemplate(entry),
-            )}
+            ${this.transcriptEntries.map((entry: TranscriptEntryConfig) => this.transcriptEntryTemplate(entry),)}
           </div>
         </div>
       </div>
@@ -308,8 +309,7 @@ export default class TranscriptView extends LitElement {
 
     const activeEntry = entries.find(
       // eslint-disable-next-line max-len
-      (entry: TranscriptEntryConfig) =>
-        this.currentTime >= entry.start && this.currentTime <= entry.end,
+      (entry: TranscriptEntryConfig) => this.currentTime >= entry.start && this.currentTime <= entry.end,
     );
 
     if (!activeEntry) {
@@ -372,8 +372,8 @@ export default class TranscriptView extends LitElement {
 
   private elementForIdentifier(identifier: number): HTMLElement | null {
     return (
-      this.shadowRoot &&
-      this.shadowRoot.querySelector(`transcript-entry[data-identifier="${identifier}"]`)
+      this.shadowRoot
+      && this.shadowRoot.querySelector(`transcript-entry[data-identifier="${identifier}"]`)
     );
   }
 
@@ -416,15 +416,14 @@ export default class TranscriptView extends LitElement {
 
   private get activeTranscriptEntry(): HTMLElement | null {
     return (
-      this.shadowRoot &&
-      (this.shadowRoot.querySelector('transcript-entry[isActive]') as HTMLElement)
+      this.shadowRoot
+      && (this.shadowRoot.querySelector('transcript-entry[isActive]') as HTMLElement)
     );
   }
 
   private get selectedSearchResult(): HTMLElement | null {
-    const selectedResult =
-      this.shadowRoot &&
-      this.shadowRoot.querySelector(
+    const selectedResult = this.shadowRoot
+      && this.shadowRoot.querySelector(
         `transcript-entry[data-search-result-index="${this.selectedSearchResultIndex}"]`,
       );
     return selectedResult as HTMLElement;
@@ -468,12 +467,11 @@ export default class TranscriptView extends LitElement {
     // if the active entry is above the top context area or below the bottom of the focus area,
     // scroll it to the top of the focus area
     if (
-      activeEntryRect.bottom > scrollContainerRect.top + focusBottom ||
-      activeEntryRect.top < scrollContainerRect.top
+      activeEntryRect.bottom > scrollContainerRect.top + focusBottom
+      || activeEntryRect.top < scrollContainerRect.top
     ) {
       // eslint-disable-next-line max-len
-      const newTargetScrollPos =
-        activeEntryRect.top - scrollContainerRect.top + scrollView.scrollTop - topContextHeight;
+      const newTargetScrollPos = activeEntryRect.top - scrollContainerRect.top + scrollView.scrollTop - topContextHeight;
       this.scrollToOffsetWithDuration(newTargetScrollPos, 1);
     }
   }

@@ -1,11 +1,9 @@
 import {
   LitElement,
   html,
-  css,
   customElement,
   property,
   TemplateResult,
-  CSSResult,
 } from 'lit-element';
 import TranscriptEntryConfig from './models/transcript-entry-config';
 

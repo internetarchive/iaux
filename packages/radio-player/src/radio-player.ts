@@ -1,3 +1,4 @@
+/* eslint-disable import/no-duplicates */
 import {
   LitElement,
   html,
@@ -14,7 +15,6 @@ import {
   TranscriptEntryConfig,
   TranscriptView,
 } from '@internetarchive/transcript-view';
-import RadioPlayerConfig from './models/radio-player-config';
 
 import '@internetarchive/waveform-progress';
 import '@internetarchive/playback-controls';
@@ -24,11 +24,11 @@ import './search-bar/search-bar';
 import './quick-search';
 import './search-results-switcher';
 
-import SearchResultsSwitcher from './search-results-switcher';
-
-import MusicZone from './models/music-zone';
 import { ZoneOfSilence } from '@internetarchive/waveform-progress';
 import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-controls';
+import SearchResultsSwitcher from './search-results-switcher';
+import MusicZone from './models/music-zone';
+import RadioPlayerConfig from './models/radio-player-config';
 
 @customElement('radio-player')
 export default class RadioPlayer extends LitElement {
@@ -178,7 +178,7 @@ export default class RadioPlayer extends LitElement {
   }
 
   private get scrubberBarMarkerPercentages(): number[] {
-    var percentages: number[] = [0];
+    const percentages: number[] = [0];
     this.zonesOfSilence.forEach(zone => {
       percentages.push(zone.startPercent);
       percentages.push(zone.endPercent);

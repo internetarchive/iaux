@@ -29,7 +29,7 @@ export default class TranscriptEntryConfig {
 
   get displayText(): string {
     if (this.isMusic) {
-      return `[Transcript unavailable]`;
+      return '[Transcript unavailable]';
     }
 
     return this.text;
