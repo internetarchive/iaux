@@ -16,6 +16,41 @@ describe('TranscriptView', () => {
     expect(el.config).to.equal(undefined);
   });
 
+  it('displays context zones if enabled', async () => {
+    const el = await fixture(html`
+      <transcript-view
+        showContextZones='true'>
+      </transcript-view>
+    `);
+
+    const contextZones = el.shadowRoot.querySelectorAll('.context-overlay');
+    expect(contextZones.length).to.equal(2);
+  });
+
+  it('autoscroll button enables autoscroll', async () => {
+    var scrollToClosestEntryCalled = false;
+
+    const el = await fixture(html`
+      <transcript-view>
+      </transcript-view>
+    `);
+
+    el.scrollToClosestEntry = function() {
+      scrollToClosestEntryCalled = true;
+    }
+
+    el.autoScroll = false;
+
+    expect(el.autoScroll).to.equal(false);
+
+    const autoScrollButton = el.shadowRoot.querySelector('.auto-scroll-button');
+    const clickEvent = new MouseEvent('click');
+    autoScrollButton.dispatchEvent(clickEvent);
+
+    expect(el.autoScroll).to.equal(true);
+    expect(scrollToClosestEntryCalled).to.equal(true);
+  });
+
   it('displays the current timestamp via the duration formatter', async () => {
     const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', false);
     const entry2 = new TranscriptEntryConfig(2, 68, 73, 'bar', false);
