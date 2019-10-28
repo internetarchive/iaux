@@ -1,5 +1,3 @@
-// I'm disabling `import/no-duplicates` because it removes some imports that we need
-// like importing `TranscriptEntry` and './transcript-entry`
 /* eslint-disable import/no-duplicates */
 
 import {
