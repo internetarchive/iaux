@@ -79,6 +79,7 @@ export default class ScrubberBar extends LitElement {
   updated(changedProperties: PropertyValues): void {
     if (this._userInteracting || !changedProperties.has('value')) { return; }
     this._value = this.value;
+    /* istanbul ignore else */
     if (this.rangeSlider) {
       this.rangeSlider.value = `${this.value}`;
     }
@@ -118,6 +119,7 @@ export default class ScrubberBar extends LitElement {
   }
 
   private updateWebkitSliderStyle(): void {
+    /* istanbul ignore if */
     if (!this.webkitStyle) { return; }
 
     this.webkitStyle.innerHTML = `
@@ -154,8 +156,10 @@ export default class ScrubberBar extends LitElement {
     const closestLower = Math.max(...percentsLessThanValue);
 
     this.sectionMarkerPercentages.forEach(value => {
+      /* istanbul ignore if */
       if (!this.shadowRoot) { return; }
       const marker: SectionMarker | null = this.shadowRoot.querySelector(`section-marker[data-location="${value}"]`)
+      /* istanbul ignore if */
       if (!marker) { return; }
 
       switch (value) {
