@@ -27,7 +27,7 @@ export default class PlaybackControls extends LitElement {
       <div class="container">
         <div class="vertical-button-stack playback-speed">
           <div class="vertical-button-container">
-            <button class="unstyled-button" @click="${this.handlePlaybackRateChange}">
+            <button id="playback-rate-btn" class="unstyled-button" @click="${this.handlePlaybackRateChange}">
               ${playbackSpeedImage}
             </button>
           </div>
@@ -52,7 +52,7 @@ export default class PlaybackControls extends LitElement {
         </button>
         <div class="vertical-button-stack volume">
           <div class="vertical-button-container">
-            <button class="unstyled-button" @click="${this.handleVolumeChange}">
+            <button id="volume-control-btn" class="unstyled-button" @click="${this.handleVolumeChange}">
               ${this.volumeButtonImage}
             </button>
           </div>
