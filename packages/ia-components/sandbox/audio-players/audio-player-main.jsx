@@ -146,7 +146,7 @@ export default class TheatreAudioPlayer extends Component {
     return (
       <div style={bookReaderStyle}>
         <BookReaderWrapper
-          options={linerNotes.data.brOptions}
+          options={{...linerNotes.data.brOptions, defaultStartLeaf:0, titleLeaf:0}}
           style={{
             position: 'absolute',
             top: 0,
@@ -190,6 +190,8 @@ export default class TheatreAudioPlayer extends Component {
     );
   }
 }
+
+TheatreAudioPlayer.displayName = 'TheatreAudioPlayer';
 
 TheatreAudioPlayer.defaultProps = {
   backgroundPhoto: '',

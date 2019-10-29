@@ -32,7 +32,7 @@ export default { PlaybackControls, PlaybackMode };
   });
 
   playbackControls.addEventListener('play-pause-button-pressed', e => {
-    console.log('Play/pause button pressed');
+    console.log('Play pause button pressed');
   });
 
   playbackControls.addEventListener('forward-button-pressed', e => {

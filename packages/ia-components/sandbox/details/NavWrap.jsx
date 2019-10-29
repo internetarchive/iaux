@@ -316,6 +316,7 @@ class DwebNavDIV extends IAReactComponent {
    *      canSave: bool   true if can save
    *    }
    *   transportStatuses=[{name: STRING, status: INT} Status of connected transports
+   *   transportsClickable = BOOL
    *   mirror2gateway=BOOL  True if connected to a mirror that can see its upstream gateway
    *   disconnected=BOOL    True if disconnected from upstream (so disable UI dependent on upstream)
    * />
@@ -352,11 +353,12 @@ class DwebNavDIV extends IAReactComponent {
 
 const TRANSPORT_STATUS_FAILED = 1; // From dweb-transport/Transport.js
 
-class DwebStatusLI extends IAReactComponent {
+class DwebStatusLI extends React.Component {
   /**
    * <DwebStatusLI
    *    name =  string    Name of transport e.g. HTTP
    *    status = integer  Status of transport 0 is ok, anything else is not connected (yet)
+   *    clickable = BOOL  True if can click the status to change it
    * />
    * Renders: a button
    * Onclick: Toggles paused on the transport with that name
@@ -364,17 +366,18 @@ class DwebStatusLI extends IAReactComponent {
    */
   constructor(props) {
     super(props); // name, status
-    this.setState({ status: props.status }); // Copy to state as will (soon) be changed by Transports
+    this.state = {status: props.status }; // Copy to state as will (soon) be changed by Transports
+    this.onClick = this.onClick.bind(this);
   }
 
-  clickCallable(unusedEv) {
+  onClick(ev) {
     debug('Toggling transport for %s', this.props.name);
     // noinspection JSUnresolvedFunction
-
     DwebTransports.togglePaused(this.props.name, (err, s) => {
       // TODO display err.message if hover
       this.setState({ error: err, status: err ? TRANSPORT_STATUS_FAILED : s });
     });
+    ev.preventDefault(); // Prevent click propogating (equivalent to "return false" in non-React
   }
 
   render() {
@@ -385,7 +388,8 @@ class DwebStatusLI extends IAReactComponent {
 class DwebStatusDIV extends IAReactComponent {
   /**
    /* <DwebStatusDIV
-   *   statuses = [{name (string), status (int)}*]
+   *   statuses = [{name: STRING, status: INT]
+   *   clickable = BOOL
    * />
    *
    * Behavior
@@ -402,7 +406,7 @@ class DwebStatusDIV extends IAReactComponent {
           :
           <ul>
             {this.props.statuses.map(s =>
-              <DwebStatusLI {...s} key={s.name}/>
+              <DwebStatusLI {...s} clickable={this.props.clicakable} key={s.name}/>
             )}
           </ul>
         }
@@ -419,6 +423,7 @@ class NavWrap extends IAReactComponent {
    *   transportStatuses=[{name: STRING, status: INT} Status of connected transports
    *   mirror2gateway=BOOL  True if connected to a mirror that can see its upstream gateway
    *   disconnected=BOOL    True if disconnected from upstream (so disable UI dependent on upstream)
+   *   transportsClickable=BOOL True if can click on transports to pause them
    * />
    * Behavior
    *   On Render: Renders the head of a details or search page including NavDwebDIV, NavBrandLI NavSearchLI NavUploadLI NavAboutsUL DwebNavDIV
@@ -454,7 +459,9 @@ class NavWrap extends IAReactComponent {
             <DwebNavDIV item={this.props.item}
                         transportStatuses={this.props.transportStatuses}
                         mirror2gateway={this.props.mirror2gateway}
-                        canSave={this.props.canSave} />
+                        canSave={this.props.canSave}
+                        transportsClickable={this.props.transportsClickable}
+            />
           </div>
         </div>
       </div>

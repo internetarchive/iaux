@@ -10,8 +10,6 @@ import MockDescMeta from 'ia-components/sandbox/v2mocks/desc-meta'
 import MockNav from 'ia-components/sandbox/v2mocks/nav'
 
 // prototypes
-import Audio1 from 'ia-components/sandbox/theatres/audio-1/audio-1'
-import Audio1Br from 'ia-components/sandbox/theatres/audio-1/audio-1-br-nav-wav'
 import TheatreSwitcher from 'ia-components/sandbox/theatres/theatre-switcher'
 
 import RelatedAsList from 'ia-components/sandbox/related-as-list'
