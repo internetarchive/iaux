@@ -288,11 +288,12 @@ export default class TranscriptView extends LitElement {
     if (!entry) {
       return;
     }
-
     const event = new CustomEvent('transcriptEntrySelected', {
       detail: { entry },
     });
     this.dispatchEvent(event);
+
+    /* istanbul ignore else */
     if (entry.searchMatchIndex !== undefined) {
       this.selectedSearchResultIndex = entry.searchMatchIndex;
     }
@@ -451,6 +452,7 @@ export default class TranscriptView extends LitElement {
 
   private scrollToElement(element: HTMLElement): void {
     const { scrollView } = this;
+    /* istanbul ignore if */
     if (!scrollView) {
       return;
     }
