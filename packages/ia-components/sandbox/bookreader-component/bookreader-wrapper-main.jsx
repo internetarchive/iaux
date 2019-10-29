@@ -25,12 +25,6 @@ import PropTypes from 'prop-types';
  *   />
  *
  * Note will almost certainly need a AJS.theatresize() in caller after this.
- *
- * Questions for ISA
- * - why are defaultStartLeaf and titleLeaf not in defaultOptions ? I also moved them to start of list so can be overridden
- * - I reinstated IABookReaderMessageWrapper (just for the JSIA case) which I'm guessing is used by lending tools to put their message
- * - Any reason options.onePage.autofit is defaulting to 'height' not 'auto' (which is what I've seen before
- * - What is going on with the getPgeURI definition, a comment would be good
  */
 export default class BookReaderWrapper extends Component {
   constructor(props) {
@@ -64,8 +58,6 @@ export default class BookReaderWrapper extends Component {
       },
     };
     const fullOptions = {
-      defaultStartLeaf: 0,
-      titleLeaf: 0,
       ...defaultOptions,
       ...options,
     };
