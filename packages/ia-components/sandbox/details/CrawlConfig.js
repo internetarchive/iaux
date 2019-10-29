@@ -24,7 +24,8 @@ const debug = require('debug')('dweb-archive:CrawlConfig');
  *   It sends the new level to the server.
  *
  * <CrawlConfig
- *  identifier              of item
+ *  EITHER identifier       of item
+ *  OR     query            if its a search
  *  level       string      Current crawling level of object
  *  search      {}          Current search parameters for crawl
  *  downloaded {
@@ -47,7 +48,7 @@ export default class CrawlConfig extends IAReactComponent {
     super(props); // { identifier, level, search, downloaded, query }
     this.setState({
       level: props.level,
-      clickable: this.props.identifier && !CrawlConfig.unclickable.includes(this.props.identifier)
+      clickable:  !CrawlConfig.unclickable.includes(this.props.identifier)
     })
     CrawlConfig.instance = this; // Allow finding it
   }
@@ -83,7 +84,7 @@ export default class CrawlConfig extends IAReactComponent {
 
   clickCallable() {
     // Cycle through possible states on click
-    debug('%s: Crawl clicked', this.props.identifier);
+    debug('%s: Crawl clicked', this.props.identifier || this.props.query);
 
     if (!this.state.clickable) {
       debug('Clicking but %s', this.props.identifier ? ("invalid identifier "+this.props.identifier) : "but not an identifier");
@@ -101,7 +102,8 @@ export default class CrawlConfig extends IAReactComponent {
       this.setState({ level });
 
       // Tell server the desired new state.
-      const urlSetConfig = [gatewayServer(), 'admin/setconfig', this.props.identifier, level || 'none'].join('/');
+      let urlSetConfig = [gatewayServer(), 'admin/setconfig', this.props.identifier || "_", level || 'none'].join('/');
+      if (this.props.query) { urlSetConfig += "?q=" + encodeURIComponent(this.props.query); }
       // noinspection JSUnresolvedFunction,JSUnresolvedVariable
       DwebTransports.httptools.p_GET(urlSetConfig, {}, (err, unusedInfo) => {
         // Gets back info, but not currently using

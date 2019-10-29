@@ -8,14 +8,6 @@ const debug = require('debug')('Image Components');
 /**
  *  Image display components
  *
- * <ImageDweb
- *    EITHER
- *      source  Flexible dweb parameter include ArchiveFile, ArchiveMember, relative urls, dweb: names, and arrays of alternatives (see dweb-archive/ReactSupport)
- *    OR
- *      src     as in <img>
- *    alt     as in <img>
- *    imgname optional name used for alt tag and mime type when rendering via blob
- * />
  * <ImageMainTheatre
  *  source  [ArchiveFile]  // Single ArchiveFile but in an array
  *  alt     Alt text
@@ -26,6 +18,18 @@ const debug = require('debug')('Image Components');
  *  />
  *
  *  Render an image with a caption and an anchor to download it
+ */
+
+/**
+ * <ImageDweb
+ *    EITHER
+ *      source  Flexible dweb parameter include ArchiveFile, ArchiveMember, relative urls, dweb: names, and arrays of alternatives (see dweb-archive/ReactSupport)
+ *    OR
+ *      src     as in <img>
+ *    alt     as in <img>
+ *    imgname optional name used for alt tag and mime type when rendering via blob
+ * />
+
  */
 
 class ImageDweb extends IAReactComponent {
@@ -40,7 +44,7 @@ class ImageDweb extends IAReactComponent {
     });
     if (DwebArchive) {
       //TODO imgname might be obsolete and unused (check dweb-archive and iaux)
-      const name = this.props.imgname || (this.props.source && this.props.source.metadata.name);
+      const name = this.props.imgname || (typeof this.props.source === "string" && this.props.source) || (this.props.source && this.props.source.metadata && this.props.source.metadata.name) || "unknown.png";
       DwebArchive.getImageURI(name, this.props.source || this.props.src, (err, url) => {
         if (!err) this.setState({src: url});
       })
@@ -57,8 +61,16 @@ class ImageDweb extends IAReactComponent {
     super.componentDidUpdate();
     this.componentDidMountOrUpdate()
   }
+
   componentDidMountOrUpdate() {
-    AJS.tiler();
+    if (this.state.src) {
+      AJS.tiler();
+    }
+    // Need to do this here since there is a bug in Firefox causing its test of img.complete to return true prematurely.
+    if (this.state.src && this.state.imgProps.className && this.state.imgProps.className.includes("carousel-image")) {
+      AJS.theatresize();
+      AJS.carouselsize('#ia-carousel', true);
+    }
   }
   render() {
     return (

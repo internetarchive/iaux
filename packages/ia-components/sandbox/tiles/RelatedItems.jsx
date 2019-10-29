@@ -11,6 +11,7 @@ import TileComponent from './TileComponent';
  *    members = [ ArchiveMember ]
  *           or [ { object } ]  where object has the fields of a member (as returned by Gio's related api) as required for TileComponent
  *    disconnected = BOOL       True if browser cannot see archive.org
+ *    loading = BOOL            True if in process of loading - if not then don't display this section
  * />
  * RelatedItems is a component intended for the bottom of details page to display related items.
  * It should be called either with members=[member*] in which case it will render them immediately
@@ -36,9 +37,11 @@ export default class RelatedItems extends IAReactComponent {
           className="container container-ia width-max"
           data-identifier={this.props.identifier}
         >
-          { (!this.props.members) ? <span>Loading related items...</span>
-
-            : (
+          { (!this.props.members && !this.state.loading)
+            ? null
+            : this.state.loading
+            ? <span>Loading related items...</span>
+            :
               <div className="row">
                 <div className="col-xs-12 tilebars" style={{ display: 'block' }}>
                   <h5 className="small-label">
@@ -60,7 +63,6 @@ SIMILAR ITEMS (based on metadata)
                   </div>
                 </div>
               </div>
-            )
         }
         </div>
       )

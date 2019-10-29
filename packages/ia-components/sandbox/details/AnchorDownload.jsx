@@ -1,7 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { ObjectFilter } from '../../util';
-const each = require('async/each');
+const eachSeries = require('async/eachSeries');
 
 const debug = require('debug')('ia-components:AnchorDownload');
 
@@ -40,18 +40,48 @@ const debug = require('debug')('ia-components:AnchorDownload');
  *
  */
 
-async function downloadViaAnchor(el, source) {
-  //TODO dont use p_download, or simplify that, if on DwebMirror
+function downloadUrl(el, url, fileName, options) {
+  //Weird workaround for a browser problem, download data as a blob,
+  // edit parameters of an anchor to open this file in a new window,
+  // and click it to perform the opening.
+  //browser.downloads.download({filename: this.metadata.name, url: objectURL});   //Doesnt work
+  //Downloads.fetch(objectURL, this.metadata.name);   // Doesnt work
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = (options && options.target) || "_blank";                      // Open in new window by default
+  a.onclick = undefined;
+  a.download = fileName;
+  a.click();
+  document.removeChild(a);
+  //URL.revokeObjectURL(url)    //TODO figure out when can do this - maybe last one, or maybe dont care?
+}
+
+function downloadViaAnchor(el, source, options, cb) {
   if (Array.isArray(source)) {
     // Note cant do these in parallel as it does odd stuff to "el" to work around a browser bug
-    for (let s in source) { // noinspection JSUnfilteredForInLoop
-      await source[s].p_download(el);
-    }
-  } else {
-    await source.p_download(el);
+    eachSeries(source,
+      (s, cb1) => { downloadViaAnchor(el, s, options, cb1); },
+      (err) => { if (cb) cb(err) });
+  } else { //TODO could also handle source being a string
+    source.blobUrl((err, url) => {
+      if (err) {
+        debug("ERROR: failed to download %s", err.message);
+        cb(null); // Ignore and move on to next one
+      } else {
+        downloadUrl(el, url, source.metadata.name, options);
+        cb(null);
+      }
+    });
   }
 }
 
+function reachable({disconnected, source, identifier, filename}) {
+  return ( !disconnected
+    || ( source
+        ? ( Array.isArray(source) ? ((source.length === 1) && source[0].downloaded) : source.downloaded )
+        : (identifier && !filename) // Just an identifier = want directory
+    ))
+}
 class AnchorDownload extends IAReactComponent {
   constructor(props) {
     super(props);
@@ -82,7 +112,7 @@ class AnchorDownload extends IAReactComponent {
     debug('Clicking on link to download: %s', this.props.identifier);
     // noinspection JSIgnoredPromiseFromCall,JSUnresolvedFunction
     if (this.props.source) {
-      downloadViaAnchor(this.props.source, ev.currentTarget)
+      downloadViaAnchor(ev.currentTarget, this.props.source)
     } else { // No source, must be plain identifier
       Nav.factory(this.props.identifier, {wanthistory: true, download: 1}); // ignore promise
     }
@@ -91,21 +121,11 @@ class AnchorDownload extends IAReactComponent {
 
   render() {
     // Note that anchorProps are passed on from constructor to the Anchor,
-    const reachable = (
-      (!this.props.disconnected)
-      || ( this.props.source && (
-        (Array.isArray(this.props.source) && (this.props.source.length === 1) && this.props.source[0].downloaded)
-        || (!Array.isArray(this.props.source) && this.props.source.downloaded)
-      ) )
-      || (
-        (this.props.identifier && !this.props.filename && !this.props.source) // Just an identifier = want directory
-      )
-    )
     return ( // Note there is intentionally no spacing in case JSX adds a unwanted line break /
       // /TODO-GREY this could be CSS instead of removed
       typeof DwebArchive === 'undefined'
       ? <a href={this.state.url.href} {...this.state.anchorProps} rel="noopener noreferrer" target="_blank">{this.props.children}</a>
-      : reachable //Its Dweb, but is it reachable
+      : reachable(this.props) //Its Dweb, but is it reachable (uses props. disconnected, source, identifier, filename)
       ? <a href={this.state.url.href} onClick={this.onClick} {...this.state.anchorProps}>{this.props.children}</a>
       : null
     );
@@ -115,4 +135,4 @@ AnchorDownload.urlparms = []; // Properties that go in the URL to download
 // Other props are passed to anchor,
 // known inuse include: className, source, title, data-toggle data-placement data-container target
 
-export { AnchorDownload }
+export { AnchorDownload, reachable }

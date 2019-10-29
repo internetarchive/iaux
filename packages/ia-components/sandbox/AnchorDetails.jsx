@@ -22,7 +22,7 @@ const debug = require('debug')('ia-components:AnchorDetails');
  *  identifier  of item
  *  reload      if set, passed to Nav.nav_details as an opt
  *  sort        passed to URL as a parameter
- *  Any other properties are passed to the <a />
+ *  Any other properties are passed to the (see list at bottom of ones known to be in use)
  *
  */
 

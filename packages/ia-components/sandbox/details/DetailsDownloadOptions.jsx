@@ -26,16 +26,24 @@ export default class DetailsDownloadOptions extends IAReactComponent {
     super(props); //disconnected
   }
 
-  render() {
-    // Build a dictionary of file formats
-    const downloadableFilesDict = this.props.files.reduce((res, af) => {
-      if (af.downloadable()) { // Note on image it EXCLUDED JPEG Thumb, but included JPEG*Thumb
-        const format = af.metadata.format;
+  downloadableFilesDict() {
+    return this.props.files.reduce((res, af) => {
+      const format = af.metadata.format;
+      const formatInfo = formats("format", format);
+      if (formatInfo && !!formatInfo.downloadable) { // Note on image it EXCLUDED JPEG Thumb, but included JPEG*Thumb
         if (!res[format]) { res[format] = []; }
         res[format].push(af);
       }
       return res;
     }, {});
+  }
+
+
+  render() {
+    // Build a dictionary of file formats
+    //TODO Add the 'reachable' test in Anchor Download to this filter
+
+    const downloadableFilesDict = this.downloadableFilesDict();
     const filesCount = this.props.files_count;
     const originalFilesCount = this.props.files.filter(f => f.metadata.source === 'original').length + 1; // Adds in Archive BitTorrent
     const compressURL = `https://archive.org/compress/${this.props.identifier}`; // leave as direct link, else need to zip and store each item in IPFS

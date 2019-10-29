@@ -36,7 +36,7 @@ export default class IAReactComponent extends React.Component {
   }
 
   loadcallable(el) { // Catch error of ref=this.load without defining loadcallable
-    debug('loadcallable needs defining if using ref=this.load');
+    debug('ERROR loadcallable needs defining if using ref=this.load');
   }
 
   componentDidMount() { this._isMounted = true; }

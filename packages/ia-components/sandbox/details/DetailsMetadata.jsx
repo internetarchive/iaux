@@ -21,6 +21,7 @@ class AnchorSearches extends IAReactComponent {
    * <AnchorSearches
    *    field=STRING    Search for value(s) in this field
    *    value=STRING || [STRING*] Either a string, or a series of alternatives
+   *    itemProp=STRING optional, for search engines TODO pass this down to AnchorSearch (should be in a span wrapping the value)
    *  />
    */
   // Props field, value: array or string mapping: object (optional)
@@ -28,13 +29,13 @@ class AnchorSearches extends IAReactComponent {
     return (Array.isArray(this.props.value)
       ? this.props.value.map(v => (
         <span key={v}>
-          <AnchorSearch field={this.props.field} value={v}>{v}</AnchorSearch>
+          <AnchorSearch field={this.props.field} value={v} rel="nofollow" itemProp={this.props.itemProp}>{v}</AnchorSearch>
           {' '}
         </span>
       ))
       : (
         <>
-          <AnchorSearch key={this.props.field} field={this.props.field} value={this.props.value}>{this.props.mapping ? (this.props.mapping[this.props.value] || this.props.value) : this.props.value}</AnchorSearch>
+          <AnchorSearch key={this.props.field} field={this.props.field} value={this.props.value} rel="nofollow">{this.props.mapping ? (this.props.mapping[this.props.value] || this.props.value) : this.props.value}</AnchorSearch>
           {' '}
         </>
       )
@@ -49,13 +50,14 @@ class DetailsMetadataField extends IAReactComponent {
    *    name=STRING               Override default name for field
    *    field=METADATAFIELD       Metadata Field Name
    *    value=STRING | [STRING*]  Value(s) in that field
+   *    itemProp=STRING           Optional - for search engines
    * />
    *
    * Behavior on rendering:
    *  Determines the name for the field, using the `name` prop, or a mapping in here, or by uppercasing the first character
    *  Values are rendered as anchors to searches
    */
-  // props: field=k value: v|[v*], mapping: {v: string},  className, role, itemprop
+  // props: field=k value: v|[v*], mapping: {v: string},  className, role, itemProp
   constructor(props) {
     super(props);
     this.state.name = this.props.name
@@ -65,20 +67,48 @@ class DetailsMetadataField extends IAReactComponent {
 
   render() {
     return !(this.props.value && this.props.value.length) ? null : (
-      <div className={this.props.className} role={this.props.role}>
-        <span className="key">{this.state.name}</span>
-        {' '}
-        <span className="value" itemProp={this.props.itemprop}>
-          <AnchorSearches field={this.props.field} value={this.props.value} mapping={this.props.mapping} />
-        </span>
-      </div>
+      <dl className="metadata-definition">
+        <dt>{this.state.name}</dt>
+        <dd><AnchorSearches field={this.props.field} value={this.props.value} mapping={this.props.mapping}
+                            itemProp={this.props.itemProp} /></dd>
+      </dl>
     );
   }
 }
 
+
+class DetailsMetadataTitle extends IAReactComponent {
+  /**
+   * Displays the metadata title and by-line for this item,
+   *
+   * <DetailsMetadataTitle
+   *  metadata=OBJECT   metadata object as returned by API after santizing
+   * />
+   *
+   * Behavior on rendering:
+   *  Displays title, icon and byline to go above metadata
+   */
+  render() {
+    const md = this.props.metadata;
+    return (
+      <>
+        <h1 style={{ fontSize: '30px', marginBottom: 0 }}>
+          <div className="left-icon">
+            <span className={`iconochive-${md.mediatype} ${md.mediatype}`} aria-hidden="true" />
+            <span className="sr-only">{md.mediatype}
+            </span>
+          </div>
+          <span itemProp="name">{md.title}</span>
+        </h1>
+        {/*Note archive.org wraps inside dd with a span but only for this field*/}
+        <DetailsMetadataField field="creator" value={md.creator} name="by" />
+      </>
+    )
+  }
+}
 class DetailsMetadata extends IAReactComponent {
   /**
-   * Displays the metadata for this field,
+   * Displays the metadata for this item,
    *
    * <DetailsMetadata
    *  metadata=OBJECT   metadata object as returned by API after santizing
@@ -95,52 +125,39 @@ class DetailsMetadata extends IAReactComponent {
     const md = this.props.metadata; // Shortcut
     return (
       <>
-        <h1 style={{ fontSize: '30px', marginBottom: 0 }}>
-          <div className="left-icon">
-            <span className={`iconochive-${md.mediatype} ${md.mediatype}`} aria-hidden="true" />
-            <span
-              className="sr-only"
-            >
-              {md.mediatype}
-            </span>
-          </div>
-          <span itemProp="name">{md.title}</span>
-        </h1>
-
-        <div className="actions-ia">
-          {/* TODO check if this is used anywhere */}
+        <div className="row metadata-list" role="list">
+          <DetailsMetadataField field="date" value={md.date} name="Publication date" itemProp="datePublished" />
+          {!md.licenceurl ? null : ( // TODO this is wrong, its hard coding one specific licence
+            <dl className="metadata-definition">
+              <dt>Usage</dt>
+              <dd>
+                <a
+                  rel="license"
+                  title="http://creativecommons.org/licenses/by-nc-nd/2.0/"
+                  href="http://creativecommons.org/licenses/by-nc-nd/2.0/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >"Attribution-NonCommercial-NoDerivs"
+                  <img className="cclic" src="./images/cc/cc.png" />
+                  <img className="cclic" src="./images/cc/by.png" />
+                  <img className="cclic" src="./images/cc/nc.png" />
+                  <img className="cclic" src="./images/cc/nd.png" />
+                </a>
+              </dd>
+            </dl>
+          ) }
+          <DetailsMetadataField field="subject" value={md.subject} name="Topics" itemProp="keywords" />
+          <DetailsMetadataField field="publisher" value={md.publisher} name="Publishers" itemProp="publisher" />
+          <DetailsMetadataField field="sponsor" value={md.sponsor} name="Sponsor" itemProp="sponsor" />
+          <DetailsMetadataField field="contributor" value={md.contributor} name="Contributors" />
+          <DetailsMetadataField className="key-val-big" field="language" value={md.language} name="Languages" mapping={languageMapping} />
         </div>
-
-        <DetailsMetadataField className="key-val-big" field="creator" value={md.creator} name="by" />
-        <br />
-        <DetailsMetadataField className="key-val-big" field="date" value={md.date} name="Publication date" itemprop="datePublished" />
-        {!md.licenceurl ? null : ( // TODO this is wrong, its hard coding one specific licence
-          <div className="key-val-big">
-            Usage
-            {' '}
-            <a
-              rel="license"
-              title="http://creativecommons.org/licenses/by-nc-nd/2.0/"
-              href="http://creativecommons.org/licenses/by-nc-nd/2.0/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              http://creativecommons.org/licenses/by-nc-nd/2.0/
-              <img className="cclic" src="./images/cc/cc.png" />
-              <img className="cclic" src="./images/cc/by.png" />
-              <img className="cclic" src="./images/cc/nc.png" />
-              <img className="cclic" src="./images/cc/nd.png" />
-            </a>
-          </div>
-        ) }
-        <DetailsMetadataField className="key-val-big" field="subject" value={md.subject} name="Topics" itemprop="keywords" />
-        <DetailsMetadataField field="publisher" value={md.publisher} name="Publishers" itemprop="publisher" />
-        <DetailsMetadataField field="contributor" value={md.contributor} name="Contributors" />
-        <DetailsMetadataField className="key-val-big" field="language" value={md.language} name="Languages" mapping={languageMapping} />
         <div className="clearfix" />
         {/* Contains HTML (supposedly safe) inserted via innerHTML thing */}
-        { !md.description ? null : (<div id="descript" itemProp="description" dangerouslySetInnerHTML={{ __html: this.props.description }} />)}
-        { !md.credits ? null : (
+        { !md.description ? null : (
+          <div id="descript" itemProp="description" dangerouslySetInnerHTML={{ __html: this.props.description }} />
+        )}
+        { !md.credits ? null : ( // TODO postprocess Credits like description esp \n to <br> as in item=commute
           <>
             <h2 style={{ fontSize: '18px' }}>Credits</h2>
             <p className="content">{(md.credits || []).join(', ')}</p>
@@ -150,7 +167,7 @@ class DetailsMetadata extends IAReactComponent {
         <div className="metadata-expandable-list" role="list">
           {/* List of keys in the metadata that are not empty strings or empty arrays */}
           { Object.keys(md).filter(k => (!metadataListExclude.includes(k)) && md[k] && md[k].length).map(k => (
-            <DetailsMetadataField key={k} field={k} value={md[k]} role="listitem" />))
+            <DetailsMetadataField key={k} field={k} value={md[k]} />))
           }
         </div>
       </>
@@ -191,28 +208,45 @@ class DetailsAbout extends IAReactComponent {
     //TODO-DETAILS note the structure of this has changed - see the difference in originals between multitrackaudio and mbid for example
     // TODO-DETAILS https://github.com/internetarchive/dweb-archive/issues/130
     return (
-      <div className="container container-ia item-details-about">
-        <div className="relative-row row">
-          <div className="thats-right" style={{textAlign:"right"}}>
-            <DetailsActionButtons identifier={md.identifier} title={md.title} disconnected={this.props.disconnected} />
-          </div>
-          {/*-- flag initialization moved to browserAfter() --*/}
-          <div className="col-sm-8 thats-left item-details-metadata">
-            <DetailsMetadata metadata={md}
-                             description={this.props.description}/>
-            {/* TODO need an dweb way to submit a review*/}
-            <DetailsReviews reviews={this.props.reviews} disconnected={this.props.disconnected}
-                            writeReviewsURL={`https://archive.org/write-review.php?identifier=${md.identifier}` }/>
-          </div>
-          {/*--/.col-md-10--*/}
-          <div className="col-sm-4 thats-right item-details-archive-info">
-            {/*TODO need section className=boxy item-stats-summary- not obvious where data from, its not in metadata */}
-            <DetailsDownloadOptions identifier={md.identifier} files={this.props.files} files_count={this.props.files_count} disconnected={this.props.disconnected}/>
-            <DetailsCollectionList collections={md.collection} collectionTitles={this.props.collection_titles}/>
-            {/* <DetailsUploaderBox identifier={} name={} date={}> see https://github.com/internetarchive/dweb-archive/issues/24 */}
+      <>
+        <div className="container container-ia item-details-about"></div>
+        <div className="container container-ia width-max relative-row-wrap">
+        </div>
+        <div className="container container-ia width-max relative-row-wrap info-top">
+          <div className="container container-ia">
+            <div className="relative-row row">
+              <div className="thats-right col-sm-4 col-sm-push-8">
+                <DetailsActionButtons identifier={md.identifier} title={md.title} disconnected={this.props.disconnected} />
+              </div>
+              <div className="thats-left item-details-metadata col-sm-8 col-sm-pull-4">
+                <DetailsMetadataTitle metadata={md}/>
+                <br/>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+        <div className="container container-ia width-max relative-row-wrap">
+          <div className="container container-ia">
+            <div className="relative-row row">
+              <div className="col-sm-8 thats-left item-details-metadata">
+                <div className="actions-ia">
+                </div>
+                <DetailsMetadata metadata={md}
+                                 description={this.props.description}/>
+                {/* TODO need an dweb way to submit a review*/}
+                <DetailsReviews reviews={this.props.reviews} disconnected={this.props.disconnected}
+                                writeReviewsURL={`https://archive.org/write-review.php?identifier=${md.identifier}` }/>
+              </div>
+              <div className="col-sm-4 thats-right item-details-archive-info">
+                {/*TODO need section className=boxy item-stats-summary- not obvious where data from, its not in metadata */}
+                <DetailsDownloadOptions identifier={md.identifier} files={this.props.files} files_count={this.props.files_count} disconnected={this.props.disconnected}/>
+                <DetailsCollectionList collections={md.collection} collectionTitles={this.props.collection_titles}/>
+                {/* <DetailsUploaderBox identifier={} name={} date={}> see https://github.com/internetarchive/dweb-archive/issues/24 */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 
