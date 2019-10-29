@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       background: #000;
@@ -14,6 +15,8 @@
       --timeColor: white;
       --timeColumnWidth: 5rem;
       --transcriptHeight: 200px;
+      --timeFontSize: 1em;
+      --timeLineHeight: 1em;
 
       --autoScrollButtonFontColor: black;
       --autoScrollButtonBackgroundColor: white;
@@ -64,6 +67,7 @@
           currentTime=10
           .config=${config}
           @autoScrollChanged=${autoScrollChanged}
+          @transcriptEntrySelected=${transcriptEntrySelected}
           >
         </transcript-view>
       `,
@@ -104,6 +108,12 @@
 
     function autoScrollChanged(e) {
       document.querySelector('transcript-view-dev-options').autoScroll = e.detail.autoScroll;
+    }
+
+    function transcriptEntrySelected(e) {
+      var newStart = e.detail.entry.start;
+      document.querySelector('transcript-view-dev-options').currentTime = newStart;
+      document.querySelector('transcript-view').currentTime = newStart;
     }
   </script>
 </body>

@@ -114,7 +114,8 @@ export default [
       "id": 14,
       "start": 53.077,
       "end": 58.074,
-      "text": "the president there might not be Nicolas Maduro accuse Smartmatic the international"
+      "text": "",
+      "is_music": true
   },
   {
       "id": 15,

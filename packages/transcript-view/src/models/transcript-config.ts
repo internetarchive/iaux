@@ -8,6 +8,8 @@ export default class TranscriptConfig {
   }
 
   get searchResults(): TranscriptEntryConfig[] {
-    return this.entries.filter((entry: TranscriptEntryConfig) => entry.searchMatchIndex !== undefined);
+    return this.entries.filter(
+      (entry: TranscriptEntryConfig) => entry.searchMatchIndex !== undefined
+    );
   }
 }

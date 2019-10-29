@@ -1,3 +1,5 @@
+/* eslint-disable import/no-duplicates */
+
 import {
   LitElement,
   html,
@@ -8,7 +10,10 @@ import {
   TemplateResult,
   CSSResult,
 } from 'lit-element';
+
 import './transcript-entry';
+import TranscriptEntry from './transcript-entry';
+
 import './duration-formatter';
 import TranscriptEntryConfig from './models/transcript-entry-config';
 import TranscriptConfig from './models/transcript-config';
@@ -35,9 +40,9 @@ export default class TranscriptView extends LitElement {
     | TranscriptEntryConfig
     | undefined;
 
-  private scrollTimerDelay: number = 15000;
+  private scrollTimerDelay = 15000;
 
-  private scrollResumeTimerId: number = -1;
+  private scrollResumeTimerId = -1;
 
   render(): TemplateResult {
     return html`
@@ -51,13 +56,20 @@ export default class TranscriptView extends LitElement {
 
           <div class="col">
             ${this.autoScrollButtonTemplate}
-            ${(this.transcriptEntries).map((entry: TranscriptEntryConfig) =>
-              this.transcriptEntryTemplate(entry),
-            )}
+            ${this.transcriptEntries.map((entry: TranscriptEntryConfig) => this.transcriptEntryTemplate(entry),)}
           </div>
         </div>
       </div>
     `;
+  }
+
+  scrollToSelectedSearchResult(): void {
+    const { selectedSearchResult } = this;
+    if (!selectedSearchResult) {
+      return;
+    }
+    this.autoScroll = false;
+    this.scrollToElement(selectedSearchResult);
   }
 
   private get autoScrollButtonTemplate(): TemplateResult {
@@ -74,7 +86,7 @@ export default class TranscriptView extends LitElement {
   private get timeDisplayTemplate(): TemplateResult {
     return html`
       <div class="time-display" style="top: ${this.timeScrollTop}px">
-        <duration-formatter .seconds=${this.currentEntryStartTime}> </duration-formatter>
+        <duration-formatter .seconds=${this.currentTime}> </duration-formatter>
       </div>
     `;
   }
@@ -83,14 +95,20 @@ export default class TranscriptView extends LitElement {
     const currentEntryId = this.currentEntry ? this.currentEntry.id : -1;
     const active = entry.id === currentEntryId;
     const selected = entry.searchMatchIndex === this.selectedSearchResultIndex;
+    const isSearchResult = entry.searchMatchIndex !== undefined;
+    const isMusicEntry = entry.isMusic;
+
     return html`
       <transcript-entry
         .entry=${entry}
         ?isSelected=${selected}
         ?isActive=${active}
+        ?isSearchResult=${isSearchResult}
+        ?isMusicEntry=${isMusicEntry}
+        isClickable="true"
         data-search-result-index=${entry.searchMatchIndex}
         data-identifier=${entry.id}
-        @userSelected=${this.transcriptEntrySelected}
+        @click=${this.transcriptEntrySelected}
       >
       </transcript-entry>
     `;
@@ -118,21 +136,35 @@ export default class TranscriptView extends LitElement {
     return this.config ? this.config.entries : [];
   }
 
-  private get currentEntryStartTime(): number {
-    return this.currentEntry ? this.currentEntry.start : this.currentTime;
-  }
-
   static get styles(): CSSResult {
     const transcriptHeightCss = css`var(--transcriptHeight, 200px)`;
 
+    const timeFontSizeCss = css`var(--timeFontSize, 1em)`;
+    const timeLineHeightCss = css`var(--timeLineHeight, 1em)`;
     const timeColorCss = css`var(--timeColor, white)`;
     const timeColumnWidthCss = css`var(--timeColumnWidth, 3rem)`;
     const timeDisplayCss = css`var(--timeDisplay, block)`;
 
     const autoScrollButtonFontColorCss = css`var(--autoScrollButtonFontColor, black)`;
     const autoScrollButtonBackgroundColorCss = css`var(--autoScrollButtonBackgroundColor, white)`;
+    const autoScrollButtonWidthCss = css`var(--autoScrollButtonWidth, 8rem)`;
+
+    const normalTextColor = css`var(--transcriptNormalTextColor, gray)`;
+    const activeTextColor = css`var(--transcriptActiveTextColor, white)`;
+    const hoverTextColor = css`var(--transcriptHoverTextColor, silver)`;
+
+    const musicNormalTextColor = css`var(--transcriptMusicNormalTextColor, gray)`;
+    const musicActiveTextColor = css`var(--transcriptMusicActiveTextColor, white)`;
+    const musicHoverTextColor = css`var(--transcriptMusicActiveTextColor, silver)`;
+
+    const searchResultInactiveBorderColor = css`var(--transcriptSearchResultInactiveBorderColor, gray)`;
+    const searchResultActiveBorderColor = css`var(--transcriptSearchResultActiveBorderColor, green)`;
 
     return css`
+      :host {
+        color: ${normalTextColor};
+      }
+
       .container {
         position: relative;
       }
@@ -147,7 +179,7 @@ export default class TranscriptView extends LitElement {
         right: 0;
         bottom: 1rem;
         margin: auto;
-        width: 8rem;
+        width: ${autoScrollButtonWidthCss};
         border-radius: 1rem;
         border: 0;
         display: inline-block;
@@ -184,7 +216,8 @@ export default class TranscriptView extends LitElement {
       .time-display {
         position: absolute;
         top: 0;
-        line-height: 1rem;
+        font-size: ${timeFontSizeCss};
+        line-height: ${timeLineHeightCss};
         transition: top 1s;
       }
 
@@ -199,18 +232,71 @@ export default class TranscriptView extends LitElement {
       .scroll-container::-webkit-scrollbar {
         display: none;
       }
+
+      transcript-entry {
+        cursor: pointer;
+      }
+
+      transcript-entry:hover {
+        color: ${hoverTextColor};
+      }
+
+      transcript-entry[ismusicentry] {
+        color: ${musicNormalTextColor};
+        display: block;
+        font-style: italic;
+      }
+
+      transcript-entry[ismusicentry]:hover {
+        color: ${musicHoverTextColor};
+      }
+
+      transcript-entry[ismusicentry][isactive] {
+        color: ${musicActiveTextColor};
+      }
+
+      transcript-entry[isactive] {
+        color: ${activeTextColor};
+      }
+
+      transcript-entry[issearchresult] {
+        display: inline-block; /* without this, the outline adds an extra space to the right of the text */
+        padding: 0 5px;
+        position: relative;
+      }
+
+      transcript-entry[issearchresult]:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border: 2px solid ${searchResultInactiveBorderColor};
+        border-radius: 5px;
+      }
+
+      transcript-entry[issearchresult][isselected]:after {
+        border: 2px solid ${searchResultActiveBorderColor};
+      }
     `;
   }
 
   private transcriptEntrySelected(e: CustomEvent): void {
-    const { entry } = e.detail;
+    const { entry } = e.target as TranscriptEntry;
+    if (!entry) {
+      return;
+    }
     const event = new CustomEvent('transcriptEntrySelected', {
       detail: { entry },
-      bubbles: true,
-      composed: true,
     });
     this.dispatchEvent(event);
-    this.selectedSearchResultIndex = entry.searchMatchIndex;
+
+    /* istanbul ignore else */
+    if (entry.searchMatchIndex !== undefined) {
+      this.selectedSearchResultIndex = entry.searchMatchIndex;
+    }
     this.autoScroll = false;
   }
 
@@ -222,8 +308,7 @@ export default class TranscriptView extends LitElement {
 
     const activeEntry = entries.find(
       // eslint-disable-next-line max-len
-      (entry: TranscriptEntryConfig) =>
-        this.currentTime >= entry.start && this.currentTime <= entry.end,
+      (entry: TranscriptEntryConfig) => this.currentTime >= entry.start && this.currentTime <= entry.end,
     );
 
     if (!activeEntry) {
@@ -243,29 +328,33 @@ export default class TranscriptView extends LitElement {
 
   // This finds the transcript entry that is closest to a given time.
   //
-  // If we don't have a currentEntry to work with, ie. we're in-between transcript entries or we're before the
-  // transcript starts or after it ends, we want to find the element closest to the time. This allows
+  // If we don't have a currentEntry to work with, ie. we're in-between transcript entries
+  // or we're before the  transcript starts or after it ends, we want to find the element
+  // closest to the time. This allows
   // us to scroll to the proper location and set the current time's position.
   //
   // This is a somewhat heavy method since it has to check all of the entries so it's faster
-  // to rely on accessing the `currentEntry` element if you can, but this should work for any given time.
+  // to rely on accessing the `currentEntry` element if you can, but this should work
+  // for any given time.
   private entryIdentifierClosestToTime(time: number): number | null {
-    if (this.transcriptEntries.length === 0) { return null; }
+    if (this.transcriptEntries.length === 0) {
+      return null;
+    }
 
     const firstEntry: TranscriptEntryConfig = this.transcriptEntries[0];
-    var delta: number = Math.abs(time - firstEntry.start);
-    var closestIdentifier: number = firstEntry.id;
+    let delta: number = Math.abs(time - firstEntry.start);
+    let closestIdentifier: number = firstEntry.id;
 
     this.transcriptEntries.forEach((entry: TranscriptEntryConfig) => {
       const entryDelta: number = Math.abs(time - entry.start);
 
-      // if the entryDelta is less than the previous delta, we're moving closer to `time`;
-      // once the delta starts increasing, we're moving away from it so we've just passed the closest
+      // if the entryDelta is less than the previous delta,
+      // we're moving closer to `time`;
+      // once the delta starts increasing, we're moving away
+      // from it so we've just passed the closest
       if (entryDelta < delta) {
         delta = entryDelta;
         closestIdentifier = entry.id;
-      } else {
-        return;
       }
     });
 
@@ -281,8 +370,9 @@ export default class TranscriptView extends LitElement {
   }
 
   private elementForIdentifier(identifier: number): HTMLElement | null {
-    return this.shadowRoot && this.shadowRoot.querySelector(
-      `transcript-entry[data-identifier="${identifier}"]`
+    return (
+      this.shadowRoot
+      && this.shadowRoot.querySelector(`transcript-entry[data-identifier="${identifier}"]`)
     );
   }
 
@@ -325,15 +415,14 @@ export default class TranscriptView extends LitElement {
 
   private get activeTranscriptEntry(): HTMLElement | null {
     return (
-      this.shadowRoot &&
-      (this.shadowRoot.querySelector('transcript-entry[isActive]') as HTMLElement)
+      this.shadowRoot
+      && (this.shadowRoot.querySelector('transcript-entry[isActive]') as HTMLElement)
     );
   }
 
   private get selectedSearchResult(): HTMLElement | null {
-    const selectedResult =
-      this.shadowRoot &&
-      this.shadowRoot.querySelector(
+    const selectedResult = this.shadowRoot
+      && this.shadowRoot.querySelector(
         `transcript-entry[data-search-result-index="${this.selectedSearchResultIndex}"]`,
       );
     return selectedResult as HTMLElement;
@@ -346,8 +435,6 @@ export default class TranscriptView extends LitElement {
   private handleAutoScrollChange(): void {
     const autoScrollChangedEvent = new CustomEvent('autoScrollChanged', {
       detail: { autoScroll: this.autoScroll },
-      bubbles: true,
-      composed: true,
     });
     this.dispatchEvent(autoScrollChangedEvent);
   }
@@ -363,17 +450,9 @@ export default class TranscriptView extends LitElement {
     this.scrollToElement(closestEntry);
   }
 
-  private scrollToSelectedSearchResult(): void {
-    const { selectedSearchResult } = this;
-    if (!selectedSearchResult) {
-      return;
-    }
-    this.autoScroll = false;
-    this.scrollToElement(selectedSearchResult);
-  }
-
   private scrollToElement(element: HTMLElement): void {
     const { scrollView } = this;
+    /* istanbul ignore if */
     if (!scrollView) {
       return;
     }
@@ -388,12 +467,11 @@ export default class TranscriptView extends LitElement {
     // if the active entry is above the top context area or below the bottom of the focus area,
     // scroll it to the top of the focus area
     if (
-      activeEntryRect.bottom > scrollContainerRect.top + focusBottom ||
-      activeEntryRect.top < scrollContainerRect.top
+      activeEntryRect.bottom > scrollContainerRect.top + focusBottom
+      || activeEntryRect.top < scrollContainerRect.top
     ) {
       // eslint-disable-next-line max-len
-      const newTargetScrollPos =
-        activeEntryRect.top - scrollContainerRect.top + scrollView.scrollTop - topContextHeight;
+      const newTargetScrollPos = activeEntryRect.top - scrollContainerRect.top + scrollView.scrollTop - topContextHeight;
       this.scrollToOffsetWithDuration(newTargetScrollPos, 1);
     }
   }

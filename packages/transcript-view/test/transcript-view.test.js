@@ -16,6 +16,41 @@ describe('TranscriptView', () => {
     expect(el.config).to.equal(undefined);
   });
 
+  it('displays context zones if enabled', async () => {
+    const el = await fixture(html`
+      <transcript-view
+        showContextZones='true'>
+      </transcript-view>
+    `);
+
+    const contextZones = el.shadowRoot.querySelectorAll('.context-overlay');
+    expect(contextZones.length).to.equal(2);
+  });
+
+  it('autoscroll button enables autoscroll', async () => {
+    var scrollToClosestEntryCalled = false;
+
+    const el = await fixture(html`
+      <transcript-view>
+      </transcript-view>
+    `);
+
+    el.scrollToClosestEntry = function() {
+      scrollToClosestEntryCalled = true;
+    }
+
+    el.autoScroll = false;
+
+    expect(el.autoScroll).to.equal(false);
+
+    const autoScrollButton = el.shadowRoot.querySelector('.auto-scroll-button');
+    const clickEvent = new MouseEvent('click');
+    autoScrollButton.dispatchEvent(clickEvent);
+
+    expect(el.autoScroll).to.equal(true);
+    expect(scrollToClosestEntryCalled).to.equal(true);
+  });
+
   it('displays the current timestamp via the duration formatter', async () => {
     const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', false);
     const entry2 = new TranscriptEntryConfig(2, 68, 73, 'bar', false);
@@ -32,7 +67,7 @@ describe('TranscriptView', () => {
 
     const durationFormatter = el.shadowRoot.querySelector('duration-formatter');
 
-    expect(durationFormatter.shadowRoot.innerHTML).to.have.string('01:08');
+    expect(durationFormatter.shadowRoot.innerHTML).to.have.string('01:09');
   });
 
   it('emits a `transcriptEntrySelected` event when the user clicks on a transcript entry', async () => {
@@ -50,10 +85,8 @@ describe('TranscriptView', () => {
     `);
 
     const entryToSelect = el.shadowRoot.querySelectorAll('transcript-entry')[1];
-    const spanToClick = entryToSelect.shadowRoot.querySelector('span');
-
     const clickEvent = new MouseEvent('click');
-    setTimeout(() => { spanToClick.dispatchEvent(clickEvent); });
+    setTimeout(() => { entryToSelect.dispatchEvent(clickEvent); });
     const response = await oneEvent(el, 'transcriptEntrySelected');
     expect(response).to.exist;
   });
@@ -83,6 +116,92 @@ describe('TranscriptView', () => {
     await promisedSleep(55);
 
     expect(el.autoScroll).to.equal(true);
+  });
+
+  it('changes the current entry when the id has changed', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', undefined);
+    const entry2 = new TranscriptEntryConfig(2, 68, 73, 'bar', undefined);
+    const entry3 = new TranscriptEntryConfig(3, 74, 78, 'baz', undefined);
+
+    const config = new TranscriptConfig([entry1, entry2, entry3])
+
+    const el = await fixture(html`
+      <transcript-view
+        .config=${config}
+        currentTime='65'>
+      </transcript-view>
+    `);
+
+    expect(el.currentEntry).to.equal(entry1);
+
+    el.currentTime = 69;
+
+    await promisedSleep(1);
+
+    expect(el.currentEntry).to.equal(entry2);
+  });
+
+  it('does not change the current entry if the id has not changed', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', undefined);
+    const entry2 = new TranscriptEntryConfig(2, 68, 73, 'bar', undefined);
+    const entry3 = new TranscriptEntryConfig(3, 74, 78, 'baz', undefined);
+
+    const config = new TranscriptConfig([entry1, entry2, entry3])
+
+    const el = await fixture(html`
+      <transcript-view
+        .config=${config}
+        currentTime='65'>
+      </transcript-view>
+    `);
+
+    expect(el.currentEntry).to.equal(entry1);
+
+    el.currentTime = 66;
+
+    await promisedSleep(1);
+
+    expect(el.currentEntry).to.equal(entry1);
+  });
+
+  it('returns null for closest id if there are no entries', async () => {
+    const el = await fixture(html`
+      <transcript-view>
+      </transcript-view>
+    `);
+
+    const closestTime = el.entryIdentifierClosestToTime(65);
+    expect(closestTime).to.be.null;
+  });
+
+  it('finds the id closest to a given time', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', undefined);
+    const entry2 = new TranscriptEntryConfig(2, 68, 73, 'bar', undefined);
+    const entry3 = new TranscriptEntryConfig(3, 74, 78, 'baz', undefined);
+
+    const config = new TranscriptConfig([entry1, entry2, entry3])
+
+    const el = await fixture(html`
+      <transcript-view
+        .config=${config}>
+      </transcript-view>
+    `);
+
+    const closestTime = el.entryIdentifierClosestToTime(65);
+    expect(closestTime).to.equal(1);
+
+    const closestTime2 = el.entryIdentifierClosestToTime(68);
+    expect(closestTime2).to.equal(2);
+  });
+
+  it('returns null for closest element if there are no entries', async () => {
+    const el = await fixture(html`
+      <transcript-view>
+      </transcript-view>
+    `);
+
+    const closestTime = el.elementClosestToTime(65);
+    expect(closestTime).to.be.null;
   });
 
 });

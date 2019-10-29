@@ -34,9 +34,7 @@ describe('TranscriptEntry', () => {
       <transcript-entry .entry=${entry} ?isActive=${true}></transcript-entry>
     `);
 
-    const containerElement = el.shadowRoot.querySelector('span');
-
-    expect(containerElement.className).to.have.string('active');
+    expect(el.attributes.getNamedItem('isactive')).to.not.be.null;
   });
 
   it('has a `selected` class if it is the selected search result', async () => {
@@ -46,9 +44,7 @@ describe('TranscriptEntry', () => {
       <transcript-entry .entry=${entry} ?isSelected=${true}></transcript-entry>
     `);
 
-    const containerElement = el.shadowRoot.querySelector('span');
-
-    expect(containerElement.className).to.have.string('selected');
+    expect(el.attributes.getNamedItem('isselected')).to.not.be.null;
   });
 
   it('emits a `userSelected` event if user selects it and it is a search match', async () => {
@@ -58,11 +54,11 @@ describe('TranscriptEntry', () => {
       <transcript-entry .entry=${entry}></transcript-entry>
     `);
 
-    const clickableSpan = el.shadowRoot.querySelector('span');
+    // const clickableSpan = el.shadowRoot.querySelector('span');
     const clickEvent = new MouseEvent('click');
 
-    setTimeout(() => { clickableSpan.dispatchEvent(clickEvent); });
-    const response = await oneEvent(el, 'userSelected');
+    setTimeout(() => { el.dispatchEvent(clickEvent); });
+    const response = await oneEvent(el, 'click');
     expect(response).to.exist;
   });
 });
