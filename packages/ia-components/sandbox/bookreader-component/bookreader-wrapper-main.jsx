@@ -11,8 +11,9 @@ import PropTypes from 'prop-types';
  * If jsia is specified then it adds Internet Archive specific stuff via the BookreaderJSIA function
  * the script BookreaderJSIA should previously have been loaded.
  *
- * TODO - someone could merge all or part of BookreaderJSIA into here and obsolete BookreaderJSIA ideally without changing the interface
- * TODO - except Isa doesnt want the Archive's lending logic in here.
+ * The BookreaderJSIA code cant go in here, because it is InternetArchive specific,
+ * future development could be a wrapper, for this, that includes BookreaderJSIA
+ *
  * Note this component is used by dweb-archive for offline and dweb versions.
  *
  * global: BookReader
