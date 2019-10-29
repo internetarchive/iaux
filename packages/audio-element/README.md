@@ -31,7 +31,7 @@ export default AudioElement;
   audioElement.volume = 0.75;
 
   // set playback rate
-  audioElement.playbackRate = 0.5;
+  audioElement.playbackRate = 0.75;
 
   // set audio sources
   audioElement.sources = [

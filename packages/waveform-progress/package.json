@@ -1,10 +1,16 @@
 {
   "name": "@internetarchive/waveform-progress",
-  "version": "0.0.2",
-  "description": "A Scrubber Bar WebComponent for use in scrubbing through media",
+  "version": "0.0.0",
+  "description": "A Waveform Progress LitElement for displaying media progress in a waveform",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "lib/**/*",
+    "index.d.ts",
+    "index.js"
+  ],
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc -p tsconfig.build.json",
@@ -64,6 +70,9 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "lint-staged": {
     "*.js": [

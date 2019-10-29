@@ -424,6 +424,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   }
 }
 
+AudioPlayerWithYoutubeSpotify.displayName = 'AudioPlayerWithYoutubeSpotify';
+
 AudioPlayerWithYoutubeSpotify.defaultProps = {
   jwplayerPlaylist: null,
   playFullIAAudio: false,

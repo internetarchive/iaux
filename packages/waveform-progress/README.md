@@ -32,7 +32,7 @@ export default WaveformProgress;
 
 <style>
   waveform-progress {
-    height: 10rem;
+    height: 5rem;
     width: 100%;
     --fillColor: #3272b6;
     --zoneOfSilenceColor: orange;

@@ -2,7 +2,7 @@ import {
   html, fixture, expect, oneEvent
 } from '@open-wc/testing';
 
-import '../waveform-progress';
+import '../index';
 import ZoneOfSilence from '../lib/models/zone-of-silence.js';
 
 describe('Waveform Progress', () => {

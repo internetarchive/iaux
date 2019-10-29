@@ -26,6 +26,8 @@ const ThirdPartyEmbeddedPlayer = ({ sourceURL, title }) => (
   </div>
 );
 
+ThirdPartyEmbeddedPlayer.displayName = 'ThirdPartyEmbeddedPlayer';
+
 ThirdPartyEmbeddedPlayer.defaultProps = {
   title: 'Playing external media source from Archive.org',
 };
