@@ -334,7 +334,7 @@ class DwebNavDIV extends IAReactComponent {
                   { DwebArchive.mirror
                     ? <I18nSpan className="dweb-nav-left" en="Offline"/>
                     : <span className="dweb-nav-left">DWeb</span>}:
-                  <DwebStatusDIV statuses={this.props.transportStatuses}/>
+                  <DwebStatusDIV statuses={this.props.transportStatuses} clickable={this.props.transportsClickable}/>
                     {!DwebArchive.mirror ? null :
                         <>
                           <div id="dweb-mirrorconfig"><CrawlConfig {...crawl} /></div>
@@ -381,7 +381,7 @@ class DwebStatusLI extends React.Component {
   }
 
   render() {
-    return <li className={`transportstatus${this.state.status}`} onClick={this.onClick} key={`status${this.props.name}`}><I18nSpan en={this.props.name} /></li>;
+    return <li className={`transportstatus${this.state.status}${this.props.clickable ? " clickable" : ""}`} onClick={this.props.clickable ? this.onClick : undefined} key={`status${this.props.name}`}><I18nSpan en={this.props.name} /></li>;
   }
 }
 
