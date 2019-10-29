@@ -1,0 +1,398 @@
+Access
+Accession number
+Added date
+Adder
+Album
+Allow JPGs
+Altitude
+Appeal from
+Archiveit account ID
+Archiveit account organization name
+Archiveit collection ID
+Archiveit collection name
+Archiveit job type
+Archiveit recurrence
+Article type
+Artist
+Aspect ratio
+Assigned to
+Attachment number
+Audio codec
+Audio sample rate
+Audio type
+Author
+Author ID
+Average rating
+Backup location
+Barcode
+Better PDF
+BIB ID
+BIB level
+Bitsavers file name
+Bookplate leaf
+Box ID
+Box ID 2
+BTIH
+Call number
+Call number
+Camera
+Case cause
+Case name
+Case type info
+Category
+CC Number
+Chapters
+Characters
+City
+Class
+Closed captioning
+Collection
+Collection library
+Collection ID
+Color
+Contact
+Container ID
+Container ID 2
+Content type
+Contributor
+Copyright
+Copyright evidence
+Copyright evidence date
+Copyright evidence operator
+Copyright region
+Copyright holder
+Copyright statement
+Copyright holder
+Copyright year
+Court
+Coverage
+Crawler
+Crawl job
+Create date
+Created date
+Creator
+Creator alt script
+Creator Sorter
+Creator Sorter Raw
+Credits
+Culture
+Curate note
+Curate state
+Curation
+Date
+Date case filed
+Date case terminated
+Date last filing
+Date raw
+Date created
+Day
+Description
+Digital item
+Digital publication date
+Dimensions
+Director
+Discs
+Document number
+Docket number
+Document ID
+Donor
+Downloads
+DRG category
+DRG rotation
+DRG sector
+DRG translation
+DRG UTM eastening
+DRG UTM northe NIN g
+DRG X scale
+DRG Y scale
+Duration
+Edition
+Emulator
+Emulator ext
+Emulator start
+Examiner name
+External identifier
+Extra MARC
+Fail reasons
+Favourites
+Fee status
+File name
+Files XML
+Filing date
+First Creator
+First Title
+First published
+First file date
+First file serial
+First named inventor
+Foldout operator
+Foldout seconds
+Foldout count
+Follows
+Frames per second
+Gallery ID
+Genre
+Google ID
+Group art unit
+Has mp3
+Hidden
+Holder
+ID
+Identifier
+Identifier access
+Identifier ARK
+Identifier BIB
+Identifier BIB
+Image count
+Imprint
+Initial release
+Insightu ID
+Inventor city
+Inventor country
+Inventor state province
+Invoice
+Is clip
+ISBN
+ISSN
+Issue
+Issue date
+Journal
+Journal title
+Journal abbreviation
+Journal title
+Jurisdiction
+Jury demand
+Keywords
+Landmark
+Language
+Language Sorter
+Last updated date
+Last date
+Last file date
+Last file serial
+Latitude
+LCAM ID
+LCCN
+Lg last modified date
+License
+License URL
+Lineage
+Link to catalog
+Location
+Location date
+Longitude
+Mature content
+MD5S
+Media type
+Medium
+Monochromatic
+Month
+MPEG program
+NAL call number
+Nature of suit
+Next
+Next item
+NIN file
+NIN mix ID
+NIN number ratings
+NIN photo
+NIN ratings average
+NIN total listens
+NIN user ID
+Noarchivetorrent
+Noindex
+Notes
+Number recent reviews
+Number reviews
+Number top dl
+Number eric ID
+Number WARCs
+OCLC
+OCLC ID
+OCR
+Olsearch
+Openlibrary
+Operator
+Original URL
+Other copyright holders
+Pacer case number
+Page progression
+Page layout
+Page range
+Pages
+Partner ship tracking
+Part of
+Perma URL
+Physical description
+Physical item
+Pick
+Piece style
+Possible copyright status
+Posted by
+PPI
+Previous
+Previous item
+Provenance
+Ptp upload date
+Pub date
+Public
+Publication type
+Public date
+Published
+Publisher
+Rating
+RCAM ID
+Referred to
+Related external ID
+Release date
+Release type
+Republish seconds
+Republish state
+Republisher
+Republisher date
+Republisher operator
+Republisher time
+Resource
+Review ID
+Review body
+Review date
+Reviewer
+Reviews
+Review title
+Rights
+Rights statement
+Run time
+Salients
+Salients raw
+Scan date
+Scan factors
+Scan fee
+Scanner
+Scanning center
+Seccion
+Secondary title
+Section
+Serial URL
+Series
+Shelfmark
+Shipping container
+Ship tracking
+Shndiscs
+Site
+Size hint
+SK ID
+SK magic
+SK owner
+SK owner nick
+SK type
+Sound
+Source
+Source organization
+Source pixel height
+Source pixel width
+Source project
+Source schedule
+Source URL
+Sponsor
+Sponsor date
+Stars
+Start local time
+Start time
+State
+Station name
+Status
+Stop time
+Stripped tags
+Subclass
+Subcollection
+Subject
+Subject Sorter
+Submitted URL
+Summary
+Taper
+Timezone
+Title
+Title alt script
+Title Sorter
+Title Sorter Raw
+Title ID
+Transcludes
+Transferer
+Translator
+Track count 
+Track coherent
+Track disc count 
+Track format
+Track length 01
+Track length 02
+Track length 03
+Track length 04
+Track length 05
+Track length 06
+Track length 07
+Track length 08
+Track length 09
+Track length 10
+Track length 11
+Track length 12
+Track length 13
+Track length 14
+Track length 15
+Track length 16
+Track length 17
+Track length 18
+Track length 19
+Track length 20
+Track length 21
+Track length 22
+Track length 23
+Track length 24
+Track length 25
+Track length 26
+Track length 27
+Track length 28
+Track length 29
+Track length sum
+Track src format
+Tuner
+Type
+Unique ID
+Updated
+Update date
+Updater
+Uploader
+URI
+URL
+UTC offset
+Venue
+Video codec
+Video type
+Vimeo height
+Vimeo ID
+Vimeo n entries
+Vimeo playlist
+Vimeo playlist index
+Vimeo uploader
+Vimeo uploader ID
+Vimeo view count
+Vimeo web page URL
+Vimeo width
+Volume
+Warning
+WCD upload date
+Week
+What
+Where
+WMA resource
+Words
+Year
+Year created
+Year modified
+Youtube height
+Youtube ID
+Youtube n entries
+Youtube playlist
+Youtube playlist index
+Youtube uploader
+Youtube uploader ID
+Youtube

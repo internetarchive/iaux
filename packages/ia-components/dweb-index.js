@@ -21,4 +21,5 @@ export { DetailsReviews} from './sandbox/details/DetailsReviews';
 export { SearchSwitcher } from './sandbox/details/Search';
 export { default as Tabby } from './sandbox/details/Tabby';
 export { DownloadDirectoryDiv } from './sandbox/details/Download';
+export { languages, languageConfig, currentISO, getLanguage, I18nSpan, setLanguage, I18n, I18nStr, I18nIcon } from './sandbox/languages/Languages';
 

@@ -2,6 +2,7 @@ import React from "react";
 import IAReactComponent from '../IAReactComponent';
 import { AnchorDownload } from './AnchorDownload';
 import { ImageDweb } from './Image';
+import { I18nStr } from '../languages/Languages';
 
 //TODO-CAROUSEL
 /** Carousel
@@ -21,18 +22,19 @@ import { ImageDweb } from './Image';
 
 class Carousel extends IAReactComponent {
   constructor(props) {
-        super(props); // identifier, slides: [ {filename, source: ArchiveFile} ]  // The source is optional, make it more efficient on Dweb
-        this.state.startAt = 0;
-     }
+    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
+    super(props); // identifier, slides: [ {filename, source: ArchiveFile} ]  // The source is optional, make it more efficient on Dweb
+    this.state.startAt = 0;
+  }
 
     render() { return (
       <div className="details-carousel-wrapper">
           <section id="ia-carousel" className="carousel slide" data-ride="carousel"
-                   data-interval="false" aria-label="Item image slideshow">
+                   data-interval="false" aria-label={I18nStr("Item image slideshow")}>
             <ol className="carousel-indicators" style={{display:"none"}}>
                 {this.props.slides.map((slide,i) => (
                   <li key={i} data-target="#ia-carousel" data-slide-to={i} className={i===this.state.startAt ? "active" : undefined}
-                      role="button" tabIndex="0" aria-label={`Go to image ${i}`}></li>
+                      role="button" tabIndex="0" aria-label={I18nStr("Go to image")+" "+ i}></li>
                 ))}
               </ol>
               <div className="carousel-inner">
@@ -42,12 +44,11 @@ class Carousel extends IAReactComponent {
                                         identifier={this.props.identifier}
                                         filename={slide.filename}
                                         source={slide.source}
-                                        title="Open full sized image"
+                                        title={I18nStr("Open full sized image")}
                                         disconnected={this.props.disconnected}>
                             <ImageDweb
                               className="rot0 carousel-image"
-                              alt="item image #1"
-                              src="/download/thetaleofpeterra14838gut/14838-h/images/peter04.jpg"
+                              alt={I18nStr("item image")+" #1"}
                               source={slide.source}/>
                         </AnchorDownload>
                         <div className="carousel-caption">
@@ -56,10 +57,10 @@ class Carousel extends IAReactComponent {
                     </div>
                   ))}
               </div>
-              <a className="left carousel-control" href="#ia-carousel" data-slide="prev" aria-label="Previous">
+              <a className="left carousel-control" href="#ia-carousel" data-slide="prev" aria-label={I18nStr("Previous")}>
                   <span className="iconochive iconochive-left"></span>
               </a>
-              <a className="right carousel-control" href="#ia-carousel" data-slide="next" aria-label="Next">
+              <a className="right carousel-control" href="#ia-carousel" data-slide="next" aria-label={I18nStr("Next")}>
                   <span className="iconochive iconochive-right"></span>
               </a>
           </section>

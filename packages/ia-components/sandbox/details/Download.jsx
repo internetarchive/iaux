@@ -3,6 +3,7 @@ import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import { AnchorDownload, reachable } from './AnchorDownload';
+import { I18nSpan, I18nStr } from "../languages/Languages";
 
 class DownloadDirectoryDiv extends IAReactComponent {
   /**
@@ -23,29 +24,29 @@ class DownloadDirectoryDiv extends IAReactComponent {
     return (
       <div className="container container-ia">
         <div className="download-directory-listing">
-          <h1>Files for {this.props.identifier}</h1>
+          <h1><I18nSpan en="Files for"/> {this.props.identifier}</h1>
           <hr/>
           <pre>
             <table className="directory-listing-table">
-              <thead><th>Name</th>
+              <thead><tr><th><I18nSpan en="Name"/></th>
               {/*--<th>Last modified</th>--*/}
-              <th>Size</th></thead>
+              <th>Size</th></tr></thead>
               <tbody>
                 <tr>
                   <td><AnchorDetails identifier={this.props.identifier}><span className="iconochive-Uplevel"
-                                                                              title="Parent Directory"
-                                                                              aria-hidden="true"></span> Go to item page</AnchorDetails></td>
+                                                                              title={I18nStr("Parent Directory")}
+                                                                              aria-hidden="true"></span> <I18nSpan en="Go to item page"/></AnchorDetails></td>
                   <td></td>
                   <td></td>
                 </tr>
                 {this.props.files
-                  .filter(reachable({disconnected: this.props.disconnected, source: this.props.source}))
+                  .filter(f => reachable({disconnected: this.props.disconnected, source: f}))
                   .map(f => (
-                    <tr>
+                    <tr key={f.name}>
                       <td><AnchorDownload source={f}
                                           title={f.name}
-                                          disconnected={this.props.disconnected}><span
-                        className="sr-only">download</span>{f.name}</AnchorDownload></td>
+                                          disconnected={this.props.disconnected}><I18nSpan
+                        className="sr-only" en="download"/>{f.name}</AnchorDownload></td>
                       {/*--TODO-DIR handle directory here as foo/ --*/}
                       {/*--<td>00-Apr-0000 00:00{--TODO-DIR handle date from mtime </td>--*/}
                       <td>{f.size}{/*--TODO-DIR should be "-" for directory--*/}</td>

@@ -2,6 +2,7 @@ import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import { formats } from '../../util.js';
 import { AnchorDownload } from './AnchorDownload';
+import { I18nSpan, I18nStr, I18nIcon } from "../languages/Languages";
 
 /**
  *  The Download Options box on the details page
@@ -21,11 +22,6 @@ import { AnchorDownload } from './AnchorDownload';
  */
 
 export default class DetailsDownloadOptions extends IAReactComponent {
-
-  constructor(props) {
-    super(props); //disconnected
-  }
-
   downloadableFilesDict() {
     return this.props.files.reduce((res, af) => {
       const format = af.metadata.format;
@@ -50,15 +46,14 @@ export default class DetailsDownloadOptions extends IAReactComponent {
     const compressAllURL = `https://archive.org/compress/${this.props.identifier}/formats=JSON,METADATA,JPEG,ARCHIVE BITTORRENT,MUSICBRAINZ METADATA`; // As above leave as direct
     return (
       <section className="boxy item-download-options">
-        <div className="download-button" role="heading" aria-level="5">DOWNLOAD OPTIONS</div>
+        <div className="download-button" role="heading" aria-level="5"><I18nSpan en="DOWNLOAD OPTIONS"/></div>
         {Object.keys(downloadableFilesDict).sort().map(k => (
           <div className="format-group" key={k}>
             <div className="summary-rite">
               <AnchorDownload className="stealth" identifier={this.props.identifier} format={k} source={downloadableFilesDict[k]} title={k} disconnected={this.props.disconnected}>
                 <span className="hover-badge-stealth">
-                  <span className="iconochive-download" aria-hidden="true" />
-                  <span className="sr-only">download</span>
-                  {downloadableFilesDict[k].length} {' '} files
+                  <I18nIcon className="iconochive-download" en="download"/>
+                  {downloadableFilesDict[k].length} {' '} {I18nStr("files")}
                 </span>
               </AnchorDownload>
             </div>
@@ -77,11 +72,7 @@ export default class DetailsDownloadOptions extends IAReactComponent {
             >
               {formats('format', k).downloadable}
               {' '}
-              <span
-                className="iconochive-download"
-                aria-hidden="true"
-              />
-              <span className="sr-only">download</span>
+              <I18nIcon className="iconochive-download" en="download"/>
             </AnchorDownload>
           </div>
         ))}
@@ -89,26 +80,18 @@ export default class DetailsDownloadOptions extends IAReactComponent {
           {(this.props.disconnected) ? null :
             <div className="pull-right">
               <a className="boxy-ttl hover-badge" href={compressURL}>
-              <span
-                className="iconochive-download"
-                aria-hidden="true"
-              />
-                <span className="sr-only">download</span>
-                {' '}{filesCount}{' '}Files
+                <I18nIcon className="iconochive-download" en="download"/>
+                {' '}{filesCount}{' '}{I18nStr("Files")}
               </a>
               <br/>
               <a className="boxy-ttl hover-badge" href={compressAllURL}>
-              <span
-                className="iconochive-download"
-                aria-hidden="true"
-              />
-                <span className="sr-only">download</span>{' '}
-                {originalFilesCount}{' '}Original
+                <I18nSpan className="iconochive-download" en="download"/>
+                {originalFilesCount}{' '}{I18nStr("Original")}
               </a>
               <br/>
             </div>
           }
-          <AnchorDownload className="boxy-ttl" identifier={this.props.identifier} disconnected={this.props.disconnected}>SHOW ALL</AnchorDownload>
+          <AnchorDownload className="boxy-ttl" identifier={this.props.identifier} disconnected={this.props.disconnected}><I18nSpan en="SHOW ALL"/></AnchorDownload>
           <br clear="all" className="clearfix" />
         </div>
       </section>

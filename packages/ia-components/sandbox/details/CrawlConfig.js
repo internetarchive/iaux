@@ -1,8 +1,10 @@
+/* global DwebArchive, DwebTransports */
 // DwebTransports is not needed, its a global
 import React from 'react';
 import prettierBytes from 'prettier-bytes';
 import IAReactComponent from '../IAReactComponent';
 import { gatewayServer } from '../../util';
+import { I18nSpan, I18nStr } from '../languages/Languages';
 
 const debug = require('debug')('dweb-archive:CrawlConfig');
 // DwebTransports is not needed, its a global
@@ -26,7 +28,7 @@ const debug = require('debug')('dweb-archive:CrawlConfig');
  * <CrawlConfig
  *  EITHER identifier       of item
  *  OR     query            if its a search
- *  level       string      Current crawling level of object
+ *  level       ENstring      Current crawling level of object
  *  search      {}          Current search parameters for crawl
  *  downloaded {
  *    details:  boolean - true if downloaded at least all files for minimum UI
@@ -46,6 +48,7 @@ const debug = require('debug')('dweb-archive:CrawlConfig');
 export default class CrawlConfig extends IAReactComponent {
   constructor(props) {
     super(props); // { identifier, level, search, downloaded, query }
+    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
     this.setState({
       level: props.level,
       clickable:  !CrawlConfig.unclickable.includes(this.props.identifier)
@@ -66,16 +69,16 @@ export default class CrawlConfig extends IAReactComponent {
       (!this.props.identifier && !this.props.query) ? null :
         <ul>
           <li className={className} data-id={this.props.identifier} key={this.props.identifier} onClick={this.state.clickable ? this.onClick : undefined}>
-            <span>{this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'} </span>
+            <I18nSpan en={this.state.level ? `Crawling ${this.state.level}` : isDownloaded ? 'Downloaded' : 'Not Downloaded'}> </I18nSpan>
             {!dl ? null
               : dl.members_all_count
-                ? <span>{`${prettierBytes(dl.members_size || 0)} in ${dl.members_details_count} of ${dl.members_all_count} items`}</span>
+                ? <span>{`${prettierBytes(dl.members_size || 0)} ${I18nStr("in")} ${dl.members_details_count} ${I18nStr("of")} ${dl.members_all_count} ${I18nStr("items")}`}</span>
                 : dl.pages_size
                   ? <span>{prettierBytes(dl.files_size + (dl.pages_size || 0))} </span>
                   : <span>{prettierBytes(dl.files_size) + " / " + prettierBytes(dl.files_all_size)} </span>
             }
             { (this.props.search && CrawlConfig._levels.indexOf(this.props.level) >= CrawlConfig._levels.indexOf('details'))
-              ? <span>{`  Searching ${this.props.search.rows} rows at ${this.props.search.level}`}</span>
+              ? <span>{`  ${I18nStr("Searching")} ${this.props.search.rows} ${I18nStr("rows at")} ${I18nStr(this.props.search.level)}`}</span>
               : null }
           </li>
         </ul>
@@ -104,7 +107,6 @@ export default class CrawlConfig extends IAReactComponent {
       // Tell server the desired new state.
       let urlSetConfig = [gatewayServer(), 'admin/setconfig', this.props.identifier || "_", level || 'none'].join('/');
       if (this.props.query) { urlSetConfig += "?q=" + encodeURIComponent(this.props.query); }
-      // noinspection JSUnresolvedFunction,JSUnresolvedVariable
       DwebTransports.httptools.p_GET(urlSetConfig, {}, (err, unusedInfo) => {
         // Gets back info, but not currently using
         if (err) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import TileComponent from './TileComponent';
+import { I18nSpan, I18nIcon, I18nStr } from "../languages/Languages";
 
 const debug = require('debug')('ia-components:TileGrid');
 // import PropTypes from 'prop-types' // Not currently used by IAUX
@@ -19,32 +20,26 @@ class TileGrid extends IAReactComponent {
   /**
    * <TileGrid members=[ArchiveMember*] disconnected=BOOL>
    **/
-  constructor(props) {
-    super(props); // members
-    console.assert(props.members);
-  }
-
   render() {
     return (
       <div className="results" id="appendTiles">
         <div className="item-ia mobile-header hidden-tiles" data-id="__mobile_header__">
           <div className="views C C1">
-            <span className="iconochive-eye" aria-hidden="true" />
-            <span className="sr-only">eye</span>
+            <I18nIcon className="iconochive-eye" en="eye"/>
           </div>
           <div className="C234">
             <div className="C C2">Title</div>
             <div className="pubdate C C3">
               <div>
-                <div>Date Archived</div>
+                <div><I18nSpan en="Date Archived"/></div>
               </div>
             </div>
-            <div className="by C C4">Creator</div>
+            <div className="by C C4"><I18nSpan en="Creator"/></div>
           </div>
           <div className="C C5" />
         </div>
-        {this.props.members.map(member => ( // Note rendering tiles is quick, its the fetch of the img (async) which is slow.
-          <TileComponent key={member.identifier} member={member} disconnected={this.props.disconnected}/>
+        {this.props.members.map((member,i) => ( // Note rendering tiles is quick, its the fetch of the img (async) which is slow.
+          <TileComponent key={member.identifier || member.query || i} member={member} disconnected={this.props.disconnected}/>
         ))}
       </div>
     );
@@ -58,7 +53,7 @@ class ScrollableTileGrid extends IAReactComponent {
   constructor(props) {
     super(props); // item
     console.assert(props.item.membersFav || props.item.membersSearch);
-    this.state.xxx = true;
+    this.state.xxx = true; // Used as a toggle to force rerender
     $(window).scroll(() => {
       this.scrolled.call(this);
     });
@@ -100,13 +95,13 @@ class ScrollableTileGrid extends IAReactComponent {
         <div id="ikind-search" className="ikind in">
           <TileGrid members={(this.props.item.membersFav || []).concat(this.props.item.membersSearch || [])} disconnected={this.props.disconnected} />
           <center className="more_search">
-            <a className="btn btn-info btn-sm" onClick={this.onClick} style={{ visibility: 'hidden' }} href="#">MORE RESULTS</a>
+            <a className="btn btn-info btn-sm" onClick={this.onClick} style={{ visibility: 'hidden' }} href="#"><I18nSpan en="MORE RESULTS"/></a>
             <br />
             <span className="more-search-fetching">
-Fetching more results
+              <span en="Fetching more results"/>
               <img
                 src="/images/loading.gif"
-                alt="loading"
+                alt={I18nStr("loading")}
               />
             </span>
           </center>

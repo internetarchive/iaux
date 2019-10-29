@@ -1,0 +1,398 @@
+Mengakses
+Nomor aksesi
+Tanggal tambahan
+Adder
+Album
+Izinkan JPG
+Ketinggian
+Banding dari
+ID akun Archiveit
+Nama organisasi akun Archiveit
+ID koleksi Archiveit
+Nama koleksi Archiveit
+Jenis pekerjaan Archiveit
+Pengulangan arsip
+Jenis artikel
+Artis
+Rasio aspek
+Ditugaskan untuk
+Nomor lampiran
+Codec audio
+Tingkat sampel audio
+Jenis audio
+Penulis
+ID Penulis
+Penilaian rata-rata
+Lokasi cadangan
+Kode batang
+PDF yang lebih baik
+ID BIB
+Tingkat BIB
+Nama file Bitsavers
+Daun rak buku
+Kotak ID
+Kotak ID 2
+BTIH
+Nomor panggilan
+Nomor panggilan
+Kamera
+Penyebab kasus
+Nama kasus
+Info jenis kasus
+Kategori
+Nomor CC
+Bab
+Karakter
+Kota
+Kelas
+Teks tertutup
+Koleksi
+Perpustakaan koleksi
+ID Pengumpulan
+Warna
+Kontak
+ID Kontainer
+ID Kontainer 2
+Jenis konten
+Penyumbang
+hak cipta
+Bukti hak cipta
+Tanggal bukti hak cipta
+Operator bukti hak cipta
+Wilayah hak cipta
+Pemegang hak cipta
+Pernyataan hak cipta
+Pemegang hak cipta
+Tahun hak cipta
+Pengadilan
+Cakupan
+Crawler
+Pekerjaan merangkak
+Buat tanggal
+Tanggal dibuat
+Pencipta
+Script alt pembuat
+Penyortir Pembuat
+Penyortir Pencipta Mentah
+Kredit
+Budaya
+Catatan pendeta
+Status kurator
+Kurasi
+Tanggal
+Tanggal kasus diajukan
+Tanggal kasus dihentikan
+Tanggal pengajuan terakhir
+Tanggal mentah
+Tanggal Diciptakan
+Hari
+Deskripsi
+Barang digital
+Tanggal publikasi digital
+Ukuran
+Direktur
+Cakram
+Nomor dokumen
+Nomor map
+ID dokumen
+Penyumbang
+Unduhan
+Kategori DRG
+Rotasi DRG
+Sektor DRG
+Terjemahan DRG
+DRG UTM bagian timur
+DRG UTM northe NIN g
+Skala DRG X
+Skala DRG Y
+Durasi
+Edisi
+Emulator
+Ext emulator
+Emulator mulai
+Nama pemeriksa
+Pengidentifikasi eksternal
+MARC ekstra
+Alasan gagal
+Favorit
+Status biaya
+Nama file
+File XML
+Tanggal pengarsipan
+Pencipta Pertama
+Judul Pertama
+Pertama kali diterbitkan
+Tanggal file pertama
+File seri pertama
+Penemu bernama pertama
+Operator lipat
+Lipat detik
+Hitungan lipat
+Mengikuti
+Bingkai per detik
+ID Galeri
+Aliran
+ID Google
+Unit seni kelompok
+Memiliki mp3
+Tersembunyi
+Pemegang
+ID
+Identifier
+Akses pengidentifikasi
+ARK pengidentifikasi
+Identifier BIB
+Identifier BIB
+Jumlah gambar
+Jejak
+Peluncuran pertama
+ID Insightu
+Kota penemu
+Negara penemu
+Provinsi negara penemu
+Faktur
+Apakah klip
+ISBN
+ISSN
+Isu
+Tanggal pembuatan
+Jurnal
+Judul jurnal
+Singkatan jurnal
+Judul jurnal
+Yurisdiksi
+Permintaan juri
+Kata kunci
+Landmark
+Bahasa
+Penyortir Bahasa
+Tanggal terakhir diperbarui
+Tanggal terakhir
+Tanggal file terakhir
+Seri file terakhir
+Lintang
+ID LCAM
+LCCN
+Lg tanggal modifikasi terakhir
+Lisensi
+URL lisensi
+Garis keturunan
+Tautan ke katalog
+Lokasi
+Tanggal lokasi
+Garis bujur
+Konten dewasa
+MD5S
+Tipe media
+Medium
+Monokromatik
+Bulan
+Program MPEG
+Nomor panggilan NAL
+Sifat jas
+Lanjut
+Item berikutnya
+File NIN
+ID campuran NIN
+Peringkat nomor NIN
+NIN foto
+Rata-rata peringkat NIN
+NIN total mendengarkan
+ID pengguna NIN
+Noarchivetorrent
+Noindex
+Catatan
+Jumlah ulasan terbaru
+Ulasan angka
+Nomor atas dl
+Nomor ID eric
+Nomor WARC
+OCLC
+ID OCLC
+OCR
+Olsearch
+Openlibrary
+Operator
+URL asli
+Pemegang hak cipta lainnya
+Nomor kasus pacer
+Perkembangan halaman
+Tata letak halaman
+Rentang halaman
+Halaman
+Pelacakan kapal mitra
+Bagian dari
+URL Perma
+Deskripsi Fisik
+Barang fisik
+Memilih
+Sepotong gaya
+Kemungkinan status hak cipta
+Diposting oleh
+PPI
+Sebelumnya
+Item sebelumnya
+Asal
+Tanggal unggah Ptp
+Tanggal pub
+Publik
+Jenis publikasi
+Tanggal publik
+Diterbitkan
+Penerbit
+Peringkat
+ID RCAM
+Disebut untuk
+ID eksternal terkait
+Tanggal rilis
+Jenis rilis
+Publikasikan ulang detik
+Status publikasi ulang
+Penerbit ulang
+Tanggal penerbitan ulang
+Operator penerbit ulang
+Waktu penerbit ulang
+Sumber
+ID Peninjauan
+Tinjau tubuh
+Tanggal peninjauan
+Peninjau
+Ulasan
+Judul ulasan
+Hak
+Pernyataan hak
+Jalankan waktu
+Salients
+Salients mentah
+Tanggal pemindaian
+Faktor pemindaian
+Biaya pemindaian
+Pemindai
+Pusat pemindaian
+Seccion
+Judul kedua
+Bagian
+URL serial
+Seri
+Tanda Shelf
+Kontainer pengiriman
+Pelacakan kapal
+Shndiscs
+Situs
+Petunjuk ukuran
+ID SK
+Sihir SK
+Pemilik SK
+Pemilik SK nick
+Jenis SK
+Suara
+Sumber
+Sumber organisasi
+Tinggi piksel sumber
+Lebar sumber piksel
+Proyek sumber
+Jadwal sumber
+URL sumber
+Sponsor
+Tanggal sponsor
+Bintang
+Mulai waktu setempat
+Waktu mulai
+Negara
+Nama Stasiun
+Status
+Hentikan waktu
+Tag dilucuti
+Subkelas
+Subkoleksi
+Subyek
+Penyortir Subjek
+URL yang dikirim
+Ringkasan
+Lancip
+Zona waktu
+Judul
+Script alt judul
+Penyortir Judul
+Judul Penyortir Mentah
+ID Judul
+Transcludes
+Pemindah
+Penterjemah
+Hitungan lintasan
+Lacak koheren
+Lacak jumlah disk
+Format trek
+Panjang lintasan 01
+Panjang lintasan 02
+Panjang lintasan 03
+Panjang lintasan 04
+Panjang lintasan 05
+Panjang lintasan 06
+Panjang lintasan 07
+Panjang lintasan 08
+Panjang lintasan 09
+Panjang lintasan 10
+Panjang lintasan 11
+Panjang lintasan 12
+Panjang lintasan 13
+Panjang lintasan 14
+Panjang lintasan 15
+Panjang lintasan 16
+Panjang lintasan 17
+Panjang lintasan 18
+Panjang lintasan 19
+Panjang lintasan 20
+Panjang lintasan 21
+Panjang lintasan 22
+Panjang lintasan 23
+Panjang lintasan 24
+Panjang lintasan 25
+Panjang lintasan 26
+Panjang lintasan 27
+Panjang lintasan 28
+Panjang lintasan 29
+Jumlah panjang lintasan
+Lacak format src
+Tuner
+Tipe
+Identitas unik
+Diperbarui
+Tanggal pembaruan
+Pembaru
+Pengunggah
+URI
+URL
+UTC diimbangi
+Lokasi
+Codec video
+Jenis video
+Tinggi Vimeo
+ID Vimeo
+Vimeo dan entri
+Daftar putar Vimeo
+Indeks daftar putar Vimeo
+Pengunggah Vimeo
+ID pengunggah Vimeo
+Jumlah tampilan Vimeo
+URL halaman web Vimeo
+Lebar Vimeo
+Volume
+Peringatan
+Tanggal pengunggahan WCD
+Minggu
+Apa
+Dimana
+Sumber daya WMA
+Kata-kata
+Tahun
+Tahun diciptakan
+Tahun yang dimodifikasi
+Tinggi Youtube
+ID Youtube
+Youtube dan entri
+Daftar putar Youtube
+Indeks daftar putar Youtube
+Pengunggah Youtube
+ID pengunggah Youtube
+Youtube

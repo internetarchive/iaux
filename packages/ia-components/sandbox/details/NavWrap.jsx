@@ -1,9 +1,12 @@
+/* global DwebArchive, DWebTransports, Nav */
 import React from 'react';
 import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
 import { AnchorSearch } from './AnchorSearch';
 import CrawlConfig from './CrawlConfig';
-import {AnchorModalGo, ButtonModalGo} from "./ModalGo";
+import {AnchorModalGo} from "./ModalGo";
+import { I18nSpan, I18nStr, I18nIcon, currentISO, languageConfig } from '../languages/Languages';
+
 const debug = require('debug')('NavWrap');
 
 /**
@@ -12,53 +15,56 @@ const debug = require('debug')('NavWrap');
  * It includes several subcomponents, but generally only <NavWrap item=ArchiveItem /> should be used
  */
 
-class NavAboutsUL extends IAReactComponent {
-  /**
-   * <NavAboutsUL
-   *    disconnected=BOOL   True to not display since cannot reach archive.org
-   * />
-   *
-   * Behavior:
-   *  On rendering: renders a <UL> containing an <LI> for each of the ABOUT ... PEOPLE buttons
-   */
-
+/**
+ * <NavAboutsLI
+ *    key=STRING    Not clear how used (this was on the LI, but React removes it anyway)
+ *    data-event-click-tracking=STRING  For click tracking mechanisms (not used offline?)
+ *    href=URL
+ *    en=ENSTRING   For translation and display
+ */
+class NavAboutsLI extends IAReactComponent {
   render() {
     return (
-        this.props.disconnected ? null :
-          <ul id="nav-abouts">
-            {/* --TODO-BOOTSTRAP ongoing, was trying to make these eg. /about and use name lookup, but fails because not CORS and have not built gateway, and there is no "headless" version of these pages--*/}
-            <li key="about"><a target="_top" data-event-click-tracking="TopNav|AboutLink"
-                               href="https://archive.org/about/">ABOUT</a>
-            </li>
-            <li key="contact"><a target="_top" data-event-click-tracking="TopNav|ContactLink"
-                                 href="https://archive.org/about/contact.php">CONTACT</a></li>
-            <li key="blog"><a target="_top" data-event-click-tracking="TopNav|BlogLink"
-                              href="https://blog.archive.org">BLOG</a>{/*--TODO-BOOTSTRAP this was //blog, no good reason why not forcing https --*/}
-            </li>
-            <li key="projects"><a target="_top" data-event-click-tracking="TopNav|ProjectsLink"
-                                  href="https://archive.org/projects">PROJECTS</a></li>
-            <li key="faqs"><a target="_top" data-event-click-tracking="TopNav|HelpLink"
-                              href="https://archive.org/about/faqs.php">HELP</a></li>
-            <li key="donate"><a target="_top" data-event-click-tracking="TopNav|DonateLink"
-                                href="https://archive.org/donate">DONATE</a></li>
-            <li key="jobs"><a target="_top" data-event-click-tracking="TopNav|JobsLink"
-                              href="https://archive.org/about/jobs.php">JOBS</a></li>
-            <li key="volunteerpositions"><a target="_top" data-event-click-tracking="TopNav|VolunteerLink"
-                                            href="https://archive.org/about/volunteerpositions.php">VOLUNTEER</a></li>
-            <li key="bios"><a target="_top" data-event-click-tracking="TopNav|PeopleLink"
-                              href="https://archive.org/about/bios.php">PEOPLE</a></li>
-          </ul>
+      <li><a target="_top" data-event-click-tracking={this.props["data-event-click-tracking"]} href={this.props.href}><I18nSpan en={this.props.en}/></a></li>
     );
   }
 }
 
-class NavSearchLI extends IAReactComponent {
-  /** <NavSearchLI/>
-   * Behavior:
-   *   Renders: an <LI/> with a form and search icon as used on the Details page
-   *   On submit: Calls Nav.navSearch - this makes it Dweb only, if someone else uses it then a non-dweb version of onSubmit will be required
-   */
+/**
+ * <NavAboutsUL
+ *    disconnected=BOOL   True to not display since cannot reach archive.org
+ * />
+ *
+ * Behavior:
+ *  On rendering: renders a <UL> containing an <LI> for each of the ABOUT ... PEOPLE buttons
+ */
+class NavAboutsUL extends IAReactComponent {
 
+  render() {
+    return (
+      this.props.disconnected ? null :
+        <ul id="nav-abouts">
+          {/* --TODO-BOOTSTRAP ongoing, was trying to make these eg. /about and use name lookup, but fails because not CORS and have not built gateway, and there is no "headless" version of these pages--*/}
+          <NavAboutsLI key="about" data-event-click-tracking="TopNav|AboutLink" href="https://archive.org/about/" en="ABOUT" />
+          <NavAboutsLI key="contact" data-event-click-tracking="TopNav|ContactLink" href="https://archive.org/about/contact.php" en="CONTACT" />
+          <NavAboutsLI key="blog" data-event-click-tracking="TopNav|BlogLink" href="https://blog.archive.org" en="BLOG" />
+          <NavAboutsLI key="projects" data-event-click-tracking="TopNav|ProjectsLink" href="https://archive.org/projects" en="PROJECTS" />
+          <NavAboutsLI key="faqs" data-event-click-tracking="TopNav|HelpLink" href="https://archive.org/about/faqs.php" en="HELP" />
+          <NavAboutsLI key="donate" data-event-click-tracking="TopNav|DonateLink" href="https://archive.org/donate" en="DONATE" />
+          <NavAboutsLI key="jobs" data-event-click-tracking="TopNav|JobsLink" href="https://archive.org/about/jobs.php" en="JOBS" />
+          <NavAboutsLI key="volunteerpositions" data-event-click-tracking="TopNav|VolunteerLink" href="https://archive.org/about/volunteerpositions.php" en="VOLUNTEER" />
+          <NavAboutsLI key="bios" data-event-click-tracking="TopNav|PeopleLink" href="https://archive.org/about/bios.php" en="PEOPLE" />
+        </ul>
+    );
+  }
+}
+
+/** <NavSearchLI/>
+ * Behavior:
+ *   Renders: an <LI/> with a form and search icon as used on the Details page
+ *   On submit: Calls Nav.navSearch - this makes it Dweb only, if someone else uses it then a non-dweb version of onSubmit will be required
+ */
+class NavSearchLI extends IAReactComponent {
   constructor(props) {
     super(props); // None
     this.onSubmit = this.onSubmit.bind(this);
@@ -66,11 +72,11 @@ class NavSearchLI extends IAReactComponent {
   }
 
   onSubmit(event) {
-      // TODO-IAUX this is dweb-archive only, needs a version that works in raw IAUX
-      debug('Search submitted %s',this.state.value);
+    // TODO-IAUX this is dweb-archive only, needs a version that works in raw IAUX
+    debug('Search submitted %s',this.state.value);
     // noinspection JSUnresolvedFunction,JSUnresolvedVariable
     Nav.navSearch(this.state.value, {wanthistory: true});
-      event.preventDefault();
+    event.preventDefault();
   }
 
   clickCallable(unusedEvent) {
@@ -86,26 +92,24 @@ class NavSearchLI extends IAReactComponent {
   render() {
     // TODO Component is required, but is not yet defined for non-Dweb
     // noinspection JSUnresolvedVariable
-    return (( typeof DwebArchive === "undefined" || this.props.disconnected ) ? null :
+    return ((typeof DwebArchive === "undefined" || this.props.disconnected) ? null :
         <li id="nav-search" className="dropdown dropdown-ia pull-right" key="search">
-          <a onClick={this.onClick}>
-            <span className="iconochive-search" aria-hidden="true"/>
-            <span className="sr-only">search</span>
-          </a>
+          <a onClick={this.onClick}><I18nIcon className="iconochive-search" en="search" /></a>
           <div className="searchbar">
             <form
-              className="search-form js-search-form" role="search"
+              className="search-form js-search-form"
+              role="search"
               onSubmit={this.onSubmit}
               data-event-form-tracking="TopNav|SearchForm"
               data-wayback-machine-search-url="https://web.archive.org/web/*/"
             >
-              <label htmlFor="search-bar-2" className="sr-only">Search the Archive</label>
+              <label htmlFor="search-bar-2" className="sr-only"><I18nSpan en="Search the Archive"/></label>
               <input
-                id="search-bar-2" className="js-search-bar" placeholder="Search" type="text"
+                id="search-bar-2" className="js-search-bar" placeholder={I18nStr("Search")} type="text"
                 onChange={this.onChange}
                 name="search" defaultValue=""
                 aria-controls="navbar_search_options"
-                aria-label="Search the Archive. Filters and Advanced Search available below."
+                aria-label={I18nStr("Search the Archive. Filters and Advanced Search available below.")}
               />
               <input type="submit" value="Search"/>
             </form>
@@ -130,10 +134,9 @@ class NavUploadLI extends IAReactComponent {
           <li className="dropdown dropdown-ia pull-right" key="upload">
             <a
               href="https://archive.org/create" target="top" data-toggle="tooltip"
-              data-placement="bottom" title="Upload"
+              data-placement="bottom" title={I18nStr("Upload")}
             >
-              <span className="iconochive-upload" aria-hidden="true"/>
-              <span className="sr-only">upload</span>
+              <I18nIcon className="iconochive-upload" en="upload"/>
             </a>
           </li>
     );
@@ -151,8 +154,7 @@ class NavBrandLI extends IAReactComponent {
     return (
       <li className="navbar-brand-li" key="brand">
         <AnchorDetails className="navbar-brand" identifier={"home"} target="_top">
-          <span className="iconochive-logo" aria-hidden="true" />
-          <span className="sr-only">logo</span>
+          <I18nIcon className="iconochive-logo" en="logo"/>
         </AnchorDetails>
       </li>
     );
@@ -162,7 +164,7 @@ class NavBrandLI extends IAReactComponent {
 class NavMediatypeLI extends IAReactComponent {
   /**
    * <class >NavMediatypeLI
-   *    mediatype string  e.g. "texts"
+   *    mediatype EN-STRING  e.g. "texts"
    *  />
    *  Behavior
    *    Renders the icon for the mediatype
@@ -173,10 +175,9 @@ class NavMediatypeLI extends IAReactComponent {
     return (
       <li key={`mt${this.props.mediatype}`} className="dropdown dropdown-ia pull-left">
             <AnchorDetails
-                title={this.props.mediatype} className={`navia-link ${this.props.mediatype}`} identifier={this.props.mediatype}
+                title={I18nStr(this.props.mediatype)} className={`navia-link ${this.props.mediatype}`} identifier={this.props.mediatype}
               >{/* --disabled till top hat worked on dweb-archive issue#70 -- data-top-kind={mt} data-toggle="tooltip" target="_top" data-placement="bottom"--*/}
-                <span className={`iconochive-${ this.props.mediatype}`} aria-hidden="true" />
-                <span className="sr-only">{this.props.mediatype}</span>
+                <I18nIcon className={`iconochive-${ this.props.mediatype}`} en={this.props.mediatype}/>
               </AnchorDetails>
           </li>
     );
@@ -212,10 +213,9 @@ class NavWebDIV extends IAReactComponent {
           <div className="row toprow web" style={{maxWidth: 1000, margin: "auto"}}>
             <div className="col-xs-12">
               <div className="wayback-txt">
-                Search the history of over 338 billion
+                <I18nSpan en="Search the history of over 338 billion"/>
                 <a style={{display: "inline"}}
-                   href="https://blog.archive.org/2016/10/23/defining-web-pages-web-sites-and-web-captures/">web
-                  pages</a> on the Internet.
+                   href="https://blog.archive.org/2016/10/23/defining-web-pages-web-sites-and-web-captures/"><I18nSpan en="web pages"/></a> <I18nSpan en="on the Internet."/>
               </div>
               <div className="roundbox7 wayback-main">
                 <div className="row">
@@ -225,13 +225,10 @@ class NavWebDIV extends IAReactComponent {
                   </div>
                   <div className="col-sm-6" style={{paddingTop: 13}}>
                     <form style={{position: "relative"}}>
-                      <span className="iconochive-search" aria-hidden="true" ref={this.load}></span><span
-                      className="sr-only">search</span> <label htmlFor="nav-wb-url" className="sr-only">Search
-                      the Wayback
-                      Machine</label>
+                      <I18nIcon className="iconochive-search" iconref={this.load} en="search"/> <label htmlFor="nav-wb-url" className="sr-only"><I18nSpan en="Search the Wayback Machine"/></label>
                       <input id="nav-wb-url" className="form-control input-sm roundbox20"
                              type="text"
-                             placeholder="enter URL or keywords" name="url" autoComplete="off"
+                             placeholder={I18nStr("enter URL or keywords")} name="url" autoComplete="off"
                              onClick={this.onClick}/>
                     </form>
                   </div>
@@ -272,14 +269,14 @@ class DwebNavButtons extends IAReactComponent {
           : <li className="reload">
             <span className="iconochive-Refresh"></span>
             {this.props.identifier
-              ? <AnchorDetails identifier={this.props.identifier} reload>Reload</AnchorDetails>
-              : <AnchorSearch query={this.props.query} sort={this.props.sort} reload>Reload</AnchorSearch>
+              ? <AnchorDetails identifier={this.props.identifier} reload><I18nSpan en="Reload"/></AnchorDetails>
+              : <AnchorSearch query={this.props.query} sort={this.props.sort} reload><I18nSpan en="Reload"/></AnchorSearch>
             }
           </li>
         }
         <li className="settings">
-          <span className="iconochive-gear"></span>
-          <AnchorDetails identifier="settings">Settings</AnchorDetails></li>
+          <span className="iconochive-gear"/>
+          <AnchorDetails identifier="settings"><I18nSpan en="Settings"/>&nbsp;&nbsp;{languageConfig[currentISO()].flag}</AnchorDetails></li>
         { !this.props.canSave ? null :
           <li className="save"><span className="iconochive-download"></span>
             <AnchorModalGo
@@ -292,12 +289,12 @@ class DwebNavButtons extends IAReactComponent {
               data-toggle="tooltip"
               data-container="body"
               data-placement="bottom"
-              title="Save this item"
-              ><span>Save</span>
+              en="Save this item"
+              ><I18nSpan en="Save"/>
             </AnchorModalGo></li>
         }
         <li className="local"><span className="iconochive-folder"></span>
-          <AnchorDetails identifier="local">Local</AnchorDetails></li>
+          <AnchorDetails identifier="local"><I18nSpan en="Local"/></AnchorDetails></li>
       </ul>
     );
   }
@@ -315,7 +312,7 @@ class DwebNavDIV extends IAReactComponent {
    *      query:  string or object,
    *      sort:   string,
    *      downloaded: { ... }, passed to CrawlConfig
-   *      crawl: object (optional) passed as props to CrawlConfig
+   *      crawl: object (optional) passed as props to CrawlConfig (strings in English)
    *      canSave: bool   true if can save
    *    }
    *   transportStatuses=[{name: STRING, status: INT} Status of connected transports
@@ -333,9 +330,11 @@ class DwebNavDIV extends IAReactComponent {
     // Alternative to complex nav-dweb code
     const crawl = Object.assign({ identifier: this.props.item.itemid, query: this.props.item.query, downloaded: this.props.item.downloaded }, this.props.item.crawl);
         return ((typeof DwebArchive === "undefined") ? null :
-                <div id="nav-dweb"><span
-                    className="dweb-nav-left">DWeb</span>:
-                  <DwebStatusDIV statuses={this.props.transportStatuses} clickable={this.props.transportsClickable}/>
+                <div id="nav-dweb">
+                  { DwebArchive.mirror
+                    ? <I18nSpan className="dweb-nav-left" en="Offline"/>
+                    : <span className="dweb-nav-left">DWeb</span>}:
+                  <DwebStatusDIV statuses={this.props.transportStatuses}/>
                     {!DwebArchive.mirror ? null :
                         <>
                           <div id="dweb-mirrorconfig"><CrawlConfig {...crawl} /></div>
@@ -382,7 +381,7 @@ class DwebStatusLI extends React.Component {
   }
 
   render() {
-    return <li className={`transportstatus${this.state.status}${this.props.clickable ? " clickable" : ""}`} onClick={this.props.clickable ? this.onClick : undefined} key={`status${this.props.name}`}>{this.props.name}</li>;
+    return <li className={`transportstatus${this.state.status}`} onClick={this.onClick} key={`status${this.props.name}`}><I18nSpan en={this.props.name} /></li>;
   }
 }
 
@@ -403,7 +402,7 @@ class DwebStatusDIV extends IAReactComponent {
     return ((typeof DwebTransports === 'undefined') ? null :
       <div id='dweb-status'>
         {typeof this.props.statuses === 'undefined' ?
-          'Connecting  '
+          I18nStr('Connecting')+'  '
           :
           <ul>
             {this.props.statuses.map(s =>
@@ -419,7 +418,7 @@ class DwebStatusDIV extends IAReactComponent {
 class NavWrap extends IAReactComponent {
   /*
    * <NavWrap
-   *   item = ArchiveItem  passed to DwebNavDIV (optional if not on Dweb)
+   *   item = ArchiveItem  passed to DwebNavDIV (optional if not on Dweb), should have ".crawl" = {}
    *   canSave=BOOL        True if can save
    *   transportStatuses=[{name: STRING, status: INT} Status of connected transports
    *   mirror2gateway=BOOL  True if connected to a mirror that can see its upstream gateway
@@ -442,7 +441,7 @@ class NavWrap extends IAReactComponent {
       <div id="navwrap1">
         <div id="navwrap2">
           <div id="nav-tophat" className="collapse">
-            <NavWebDIV disconnected={this.props.disconnected}/>
+            <NavWebDIV disconnected={this.props.disconnected} />
               {/* TODO-DETAILS-INFOREQD Need to figure out how to auto-generator the other rows of nav-tophat for each media type */}
           </div>
 
