@@ -1,3 +1,4 @@
 import ScrubberBar from './lib/scrubber-bar.js';
+import { SectionMarker, SectionMarkerMode } from './lib/section-marker.js';
 
-export default ScrubberBar;
+export { ScrubberBar, SectionMarker, SectionMarkerMode };

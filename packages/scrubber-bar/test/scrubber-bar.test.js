@@ -1,6 +1,7 @@
 import { html, fixture, expect, oneEvent } from '@open-wc/testing';
 
 import '../index';
+import promisedSleep from './promised-sleep';
 
 /* eslint-disable no-unused-expressions */
 
@@ -158,5 +159,58 @@ describe('ScrubberBar', () => {
     el.value = 20;
 
     expect(rangeSlider.value).to.equal('0');
+  });
+
+  it('properly lays out section markers', async() => {
+    const el = await fixture(html`
+      <scrubber-bar
+        sectionMarkerPercentages='[10, 11, 25, 30, 50, 75]'>
+      </scrubber-bar>
+    `);
+
+    const sectionMarkers = el.shadowRoot.querySelectorAll('section-marker');
+    expect(sectionMarkers.length).to.equal(6);
+
+    const testMarker = sectionMarkers[1];
+    expect(testMarker.style.left).to.equal('11%');
+  });
+
+  it('sets the marker flag values properly', async() => {
+    const el = await fixture(html`
+      <scrubber-bar
+        sectionMarkerPercentages='[10, 11, 25, 30, 50, 75]'
+        value='37'
+        expandSectionMarkers='true'>
+      </scrubber-bar>
+    `);
+
+    const sectionMarkers = el.shadowRoot.querySelectorAll('section-marker');
+    const prevMarker = sectionMarkers[2];
+    const leftMarker = sectionMarkers[3];
+    const rightMarker = sectionMarkers[4];
+    const nextMarker = sectionMarkers[5];
+    expect(prevMarker.markerMode).to.equal('neither');
+    expect(leftMarker.markerMode).to.equal('right');
+    expect(rightMarker.markerMode).to.equal('left');
+    expect(nextMarker.markerMode).to.equal('neither');
+  });
+
+  it('sets does not set the section markers if `expandSectionMarkers` is `false`', async() => {
+    const el = await fixture(html`
+      <scrubber-bar
+        sectionMarkerPercentages='[10, 11, 25, 30, 50, 75]'
+        value='37'>
+      </scrubber-bar>
+    `);
+
+    const sectionMarkers = el.shadowRoot.querySelectorAll('section-marker');
+    const prevMarker = sectionMarkers[2];
+    const leftMarker = sectionMarkers[3];
+    const rightMarker = sectionMarkers[4];
+    const nextMarker = sectionMarkers[5];
+    expect(prevMarker.markerMode).to.equal('neither');
+    expect(leftMarker.markerMode).to.equal('neither');
+    expect(rightMarker.markerMode).to.equal('neither');
+    expect(nextMarker.markerMode).to.equal('neither');
   });
 });
