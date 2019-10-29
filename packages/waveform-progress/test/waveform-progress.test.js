@@ -32,7 +32,7 @@ describe('Waveform Progress', () => {
 
   it('does not update from external source if user is interacting', async () => {
     const el = await fixture(html`
-      <waveform-progress interactive=true style="width: 100px; height: 50px"></waveform-progress>
+      <waveform-progress interactive=true style="width: 120px; height: 50px"></waveform-progress>
     `);
 
     expect(el.percentComplete).to.equal(0);
@@ -43,7 +43,8 @@ describe('Waveform Progress', () => {
 
     el.percentComplete = 20;
 
-    const mouseMoveEvent = new MouseEvent('mousemove', { clientX: 10 });
+    // we set a margin on the waveform progress (10px by default) so 20px mouse position will result in a value of 10
+    const mouseMoveEvent = new MouseEvent('mousemove', { clientX: 20 });
 
     setTimeout(() => { dragCover.dispatchEvent(mouseMoveEvent); });
     const { detail } = await oneEvent(el, 'valuechange');
@@ -53,13 +54,14 @@ describe('Waveform Progress', () => {
 
   it('emits a `valuechange` event if it is interactive', async () => {
     const el = await fixture(html`
-      <waveform-progress interactive=true style="width: 100px; height: 50px"></waveform-progress>
+      <waveform-progress interactive=true style="width: 120px; height: 50px"></waveform-progress>
     `);
     const dragCover = el.shadowRoot.getElementById('dragcover');
     const mouseDownEvent = new MouseEvent('mousedown');
     dragCover.dispatchEvent(mouseDownEvent);
 
-    const mouseMoveEvent = new MouseEvent('mousemove', { clientX: 10 });
+    // we set a margin on the waveform progress (10px by default) so 20px mouse position will result in a value of 10
+    const mouseMoveEvent = new MouseEvent('mousemove', { clientX: 20 });
 
     setTimeout(() => { dragCover.dispatchEvent(mouseMoveEvent); });
     const { detail } = await oneEvent(el, 'valuechange');
@@ -69,13 +71,12 @@ describe('Waveform Progress', () => {
 
   it('emits a `valuechange` event as soon as the mousedown event happens', async () => {
     const el = await fixture(html`
-      <waveform-progress interactive=true style="width: 100px; height: 50px"></waveform-progress>
+      <waveform-progress interactive=true style="width: 120px; height: 50px"></waveform-progress>
     `);
     const dragCover = el.shadowRoot.getElementById('dragcover');
-    const mouseDownEvent = new MouseEvent('mousedown', { clientX: 20 });
-    // dragCover.dispatchEvent(mouseDownEvent);
 
-    // const mouseMoveEvent = new MouseEvent('mousemove', { clientX: 10 });
+    // we set a margin on the waveform progress (10px by default) so 30px mouse position will result in a value of 20
+    const mouseDownEvent = new MouseEvent('mousedown', { clientX: 30 });
 
     setTimeout(() => { dragCover.dispatchEvent(mouseDownEvent); });
     const { detail } = await oneEvent(el, 'valuechange');
@@ -134,5 +135,4 @@ describe('Waveform Progress', () => {
     expect(secondRenderedZone.style.left).to.equal('56%');
     expect(secondRenderedZone.style.width).to.equal('2%');
   });
-
 });
