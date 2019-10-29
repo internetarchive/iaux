@@ -1,14 +1,13 @@
-import React from 'react'
-import TestRenderer from 'react-test-renderer'
-import assert from 'assert'
+import React from 'react';
+import TestRenderer from 'react-test-renderer';
 
 // Moved this to a local import rather than via index because depends on experimental extension
-import { IAUXExampleComponent } from '../index'
+import IAUXExampleComponent from './index';
 
 /**
  * Test for IAUXExampleComponent
  *
- * Using both `expect` (from Jest) & `assert`
+ * Using `expect` (from Jest)
  */
 test('IAUXExampleComponent draws', () => {
   const component = TestRenderer.create(
@@ -22,6 +21,5 @@ test('IAUXExampleComponent draws', () => {
   expect(tree).toMatchSnapshot()
   expect(testInstance.children.length).toEqual(1)
 
-  assert(component instanceof Object)
-  assert.equal(testInstance.children.length, 1, 'number of children')
-})
+  expect(component instanceof Object)
+});

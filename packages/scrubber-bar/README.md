@@ -25,7 +25,7 @@ export default ScrubberBar;
 <style>
   scrubber-bar {
     --thumbColor: white;
-    --thumbBorder: 1px solid black;
+    --thumbBorder: 1px solid white;
     --trackFillColor: blue;
     --trackColor: purple;
     --trackBorder: 1px solid black;

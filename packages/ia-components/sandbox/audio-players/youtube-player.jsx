@@ -304,6 +304,8 @@ class YoutubePlayer extends Component {
   }
 }
 
+YoutubePlayer.displayName = 'YouTube Player';
+
 YoutubePlayer.propTypes = {
   selectedTrack: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
