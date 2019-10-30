@@ -1,8 +1,8 @@
 # \<expandable-search-bar>
 
-A Radio Player that displays closed captioning and allows searching.
+A Search Bar for searching and also including an expandable Quick Search Menu.
 
-![Radio Player](./assets/img/expandable-search-bar.png "Radio Player Demo")
+![Expandable Search Bar](./assets/img/screenshot.png "Expandable Search Bar Demo")
 
 ## Installation
 ```bash
@@ -12,8 +12,8 @@ yarn add @internetarchive/expandable-search-bar
 ## Usage
 ```js
 // expandable-search-bar.js
-import RadioPlayer from '@internetarchive/expandable-search-bar';
-export default RadioPlayer;
+import { ExpandableSearchBar, QuickSearchEntry } from '@internetarchive/expandable-search-bar';
+export { ExpandableSearchBar, QuickSearchEntry };
 ```
 
 ```html
@@ -24,87 +24,53 @@ export default RadioPlayer;
 
 <style>
   expandable-search-bar {
-    line-height: 1.5rem;
-    color: white;
+    display: block;
 
-    --timeColor: white;
-    --timeColumnWidth: 3rem;
-    --transcriptHeight: 200px;
+    --expandableSearchBarBackgroundColor: black;
+    --expandableSearchBarTextColor: white;
+    --expandableSearchBarFontSize: 1em;
+    --expandableSearchBarBorderColor: 1px solid white;
 
-    --autoScrollButtonFontColor: black;
-    --autoScrollButtonBackgroundColor: white;
+    --expandableSearchBarMaxExpansionHeight: 150px;
+    --expandableSearchBarMinWidth: 5em;
 
-    --normalTextColor: gray;
-    --activeTextColor: white;
-    --searchResultInactiveBorderColor: gray;
-    --searchResultActiveBorderColor: green;
-
-    --trackColor: black;
-    --trackBorder: 1px solid white;
+    --quickSearchListPadding: 0 0 0.5em 0;
+    --quickSearchListItemPadding: 0.5em 0 0 0;
+    --quickSearchLinkColor: rgb(68, 132, 202);
+    --quickSearchLinkDecoration: none;
   }
 </style>
 
-<expandable-search-bar></expandable-search-bar>
+<expandable-search-bar showsDisclosure='true'>
+</expandable-search-bar>
 
 <script>
-  // Configure the radio player
+  // Configure the search bar
+  const searchBar = document.querySelector('expandable-search-bar');
 
-  const radioPlayer = document.querySelector('expandable-search-bar');
-
-  radioPlayer.addEventListener('searchRequested', e => {
-    console.log('Search requested', e.detail.searchTerm);
+  searchBar.addEventListener('inputchange', e => {
+    console.log('Input changed', e.detail.value);
   });
 
-  radioPlayer.addEventListener('searchCleared', e => {
+  searchBar.addEventListener('enterKeyPressed', e => {
+    console.log('Enter key pressed', e.detail.value);
+  });
+
+  searchBar.addEventListener('searchCleared', e => {
     console.log('Search cleared');
   });
 
-  radioPlayer.addEventListener('playbackPaused', e => {
-    console.log('Playback paused');
+  searchBar.addEventListener('quickSearchSelected', e => {
+    console.log('Quick search selected', e.detail.quickSearchEntry);
   });
 
-  radioPlayer.addEventListener('playbackStarted', e => {
-    console.log('Playback started');
-  });
+  const quickSearch1 = new QuickSearchEntry('Gumballs', { identifier: 'gumballs' });
+  const quickSearch2 = new QuickSearchEntry('Lolly Pops', { identifier: 'lollipops' });
+  const quickSearch3 = new QuickSearchEntry('Gobstoppers', { identifier: 'gobstoppers' });
 
-  radioPlayer.addEventListener('currentTimeChanged', e => {
-    console.log('Current time changed', e.detail.currentTime);
-  });
+  const quickSearches = [quickSearch1, quickSearch2, quickSearch3];
 
-  radioPlayer.addEventListener('timeChangedFromScrub', e => {
-    console.log('New time', e.detail.newTime);
-  });
-
-  radioPlayer.addEventListener('transcriptEntrySelected', e => {
-    console.log('New time', e.detail.newTime);
-  });
-
-  radioPlayer.addEventListener('canplay', e => {
-    console.log('Media can play');
-  });
-
-  const quickSearchTerms = [];
-
-  const audioSource = new AudioSource(
-    'https://ia803005.us.archive.org/30/items/BBC_Radio_2_20190502_180000/BBC_Radio_2_20190502_180000.mp3',
-    'audio/mpeg',
-  );
-
-  const radioConfig = new RadioPlayerConfig(
-    'Voice of America',
-    '7:00pm',
-    './logo.jpg',
-    './waveform.png',
-    [audioSource],
-    quickSearchTerms,
-  );
-
-  const transcriptEntries: TranscriptEntryConfig[] = [...];
-
-  const transcriptConfig = new TranscriptConfig(transcriptEntries);
-
-  radioPlayer.config = radioConfig;
-  radioPlayer.transcriptConfig = transcriptConfig
+  searchBar.quickSearches = quickSearches;
 </script>
 
 ```
