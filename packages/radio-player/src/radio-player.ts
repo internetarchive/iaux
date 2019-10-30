@@ -76,14 +76,17 @@ export default class RadioPlayer extends LitElement {
   }
 
   play(): void {
+    /* istanbul ignore else */
     if (this.audioElement) this.audioElement.play();
   }
 
   pause(): void {
+    /* istanbul ignore else */
     if (this.audioElement) this.audioElement.pause();
   }
 
   seekTo(seconds: number): void {
+    /* istanbul ignore else */
     if (this.audioElement) this.audioElement.seekTo(seconds);
   }
 
@@ -124,6 +127,7 @@ export default class RadioPlayer extends LitElement {
   }
 
   private get zonesOfSilence(): ZoneOfSilence[] {
+    /* istanbul ignore else */
     if (this.duration === 0) {
       return [];
     }

@@ -21,9 +21,12 @@ export default class SearchResultsSwitcher extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="container">
-        <a @click=${this.goToPreviousResult}>${leftImage}</a>
-        <span class="results-range">${this.currentResultIndex + 1} / ${this.numberOfResults}</span>
-        <a @click=${this.goToNextResult}>${rightImage}</a>
+        <a @click=${this.goToPreviousResult} id="previous-button">${leftImage}</a>
+        <span class="results-range">
+          <span id="current-result">${this.currentResultIndex + 1}</span> /
+          <span id="number-of-results">${this.numberOfResults}</span>
+        </span>
+        <a @click=${this.goToNextResult} id="next-button">${rightImage}</a>
       </div>
     `;
   }
@@ -72,7 +75,6 @@ export default class SearchResultsSwitcher extends LitElement {
   emitSearchResultIndexChangedEvent(): void {
     const event = new CustomEvent('searchResultIndexChanged', {
       detail: { searchResultIndex: this.currentResultIndex },
-
     });
     this.dispatchEvent(event);
   }
