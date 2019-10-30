@@ -1,4 +1,5 @@
-import ExpandableSearchBar from './lib/src/search-bar.js';
-import QuickSearch from './lib/src/quick-search.js';
+import ExpandableSearchBar from './lib/expandable-search-bar.js';
+import QuickSearch from './lib/quick-search.js';
+import QuickSearchEntry from './lib/models/quick-search-entry.js';
 
-export { ExpandableSearchBar, QuickSearch };
+export { ExpandableSearchBar, QuickSearch, QuickSearchEntry };

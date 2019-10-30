@@ -32,16 +32,19 @@ export default class QuickSearch extends LitElement {
 
   private doQuickSearch(e: Event): void {
     const { quickSearchIndex } = (e.target as HTMLElement).dataset;
-    if (quickSearchIndex) {
-      const index = parseInt(quickSearchIndex, 10);
-      const entry = this.quickSearches[index];
-      const event = new CustomEvent('searchTermSelected', {
-        detail: { searchEntry: entry },
-        bubbles: true,
-        composed: true,
-      });
-      this.dispatchEvent(event);
+    /* istanbul ignore if */
+    if (!quickSearchIndex) {
+      return;
     }
+
+    const index = parseInt(quickSearchIndex, 10);
+    const entry = this.quickSearches[index];
+    const event = new CustomEvent('searchTermSelected', {
+      detail: { searchEntry: entry },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
   }
 
   static get styles(): CSSResult {

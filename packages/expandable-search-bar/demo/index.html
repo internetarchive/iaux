@@ -54,13 +54,13 @@
     import '../lib/expandable-search-bar.js';
     import QuickSearchEntry from '../lib/models/quick-search-entry.js';
 
-    const quickSearch1 = new QuickSearchEntry('Gumballs');
-    const quickSearch2 = new QuickSearchEntry('Lolly Pops');
-    const quickSearch3 = new QuickSearchEntry('Gobstoppers');
-    const quickSearch4 = new QuickSearchEntry('Taffy');
-    const quickSearch5 = new QuickSearchEntry('Cotton Candy');
-    const quickSearch6 = new QuickSearchEntry('Chocolate Bar');
-    const quickSearch7 = new QuickSearchEntry('Peanut Brittle');
+    const quickSearch1 = new QuickSearchEntry('Gumballs', { identifier: 'gumballs' });
+    const quickSearch2 = new QuickSearchEntry('Lolly Pops', { identifier: 'lollipops' });
+    const quickSearch3 = new QuickSearchEntry('Gobstoppers', { identifier: 'gobstoppers' });
+    const quickSearch4 = new QuickSearchEntry('Taffy', { identifier: 'taffy' });
+    const quickSearch5 = new QuickSearchEntry('Cotton Candy', { identifier: 'cottoncandy' });
+    const quickSearch6 = new QuickSearchEntry('Chocolate Bar', { identifier: 'chocolatebar' });
+    const quickSearch7 = new QuickSearchEntry('Peanut Brittle', { identifier: 'peanutbrittle' });
 
     const quickSearches = [
       quickSearch1,
@@ -82,6 +82,7 @@
               <span id="font-size-value">1.0</span>em
             </li>
           </ul>
+          <strong>Note:</strong> Open the console to see the events.
         </div>
 
         <div class="container">

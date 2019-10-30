@@ -39,19 +39,19 @@ export default class ExpandableSearchBar extends LitElement {
             ${magnifyingGlassIcon}
           </div>
           <input
+            id="search-input"
             type="text"
-            class="search-input"
             placeholder="Search"
             value=${this.searchTerm}
             @keyup=${this.inputChanged}
           />
           <div class="clear-search-container endcap">
-            <button @click=${this.clearSearch}>
+            <button id="clear-search-button" @click=${this.clearSearch}>
               ${clearResultsIcon}
             </button>
           </div>
           <div class="disclosure-container endcap">
-            <button @click=${this.toggleDisclosure}>
+            <button id="disclosure-button" @click=${this.toggleDisclosure}>
               ${disclosureTriangleIcon}
             </button>
           </div>
@@ -69,6 +69,7 @@ export default class ExpandableSearchBar extends LitElement {
 
   private clearSearch(): void {
     this.searchTerm = '';
+    /* istanbul ignore else */
     if (this.searchInput) {
       this.searchInput.value = '';
       this.searchInput.focus();
@@ -77,6 +78,7 @@ export default class ExpandableSearchBar extends LitElement {
   }
 
   private inputChanged(e: KeyboardEvent): void {
+    /* istanbul ignore else */
     if (this.searchInput) {
       this.searchTerm = this.searchInput.value;
     }
@@ -118,7 +120,7 @@ export default class ExpandableSearchBar extends LitElement {
   }
 
   private get searchInput(): HTMLInputElement | null {
-    return this.shadowRoot && (this.shadowRoot.querySelector('.search-input') as HTMLInputElement);
+    return this.shadowRoot && (this.shadowRoot.getElementById('search-input') as HTMLInputElement);
   }
 
   static get styles(): CSSResult {
@@ -204,7 +206,7 @@ export default class ExpandableSearchBar extends LitElement {
         background: none;
       }
 
-      .search-input {
+      #search-input {
         border-top: ${expandableSearchBarBorderCss};
         border-bottom: ${expandableSearchBarBorderCss};
         border-left: 0;
@@ -218,7 +220,7 @@ export default class ExpandableSearchBar extends LitElement {
         min-width: ${expandableSearchMinWidthCss};
       }
 
-      .search-input:focus {
+      #search-input:focus {
         outline: none;
       }
 

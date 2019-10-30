@@ -1,7 +1,7 @@
 {
   "name": "@internetarchive/expandable-search-bar",
   "version": "0.0.0",
-  "description": "A Radio Player LitElement.",
+  "description": "An expandable Search Bar.",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
@@ -15,8 +15,10 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc -p tsconfig.build.json",
-    "start": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch --preserve-symlinks\"",
-    "start:compatibility": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch --compatibility all --preserve-symlinks\"",
+    "watch": "tsc --watch",
+    "es-dev-server": "es-dev-server --app-index demo/index.html --node-resolve --open --watch --preserve-symlinks",
+    "start": "concurrently \"npm run watch\" \"npm run es-dev-server\"",
+    "start:compatibility": "concurrently \"npm run watch\" \"es-dev-server --compatibility all\"",
     "lint:eslint": "eslint --ext .ts . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .ts . --fix --ignore-path .gitignore",
     "lint:prettier": "prettier \"**/*.ts\" --check --ignore-path .gitignore",
@@ -35,11 +37,6 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
-    "@internetarchive/audio-element": "0.0.1-alpha.422+18a94d7",
-    "@internetarchive/playback-controls": "0.0.1-alpha.444+cdd038f",
-    "@internetarchive/scrubber-bar": "0.0.1-alpha.445+38342c8",
-    "@internetarchive/transcript-view": "0.0.1-alpha.434+88a0e52",
-    "@internetarchive/waveform-progress": "0.0.1-alpha.447+9eae4b4",
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"
   },
