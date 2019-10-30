@@ -127,6 +127,10 @@ export default class ExpandableSearchBar extends LitElement {
     const expandableSearchBarFontSizeCss = css`var(--expandableSearchBarFontSize, 1em)`;
     const expandableSearchBarBorderCss = css`var(--expandableSearchBarBorderColor, 1px solid white)`;
 
+    const expandableSearchMinWidthCss = css`var(--expandableSearchBarMinWidth, 5em)`;
+
+    const expandableSearchBarMaxExpansionHeightCss = css`var(--expandableSearchBarMaxExpansionHeight, 150px)`;
+
     return css`
       .container {
         position: relative;
@@ -136,25 +140,29 @@ export default class ExpandableSearchBar extends LitElement {
         display: flex;
         justify-content: flex-start;
       }
+
       .endcap {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 2em;
+        height: calc(${expandableSearchBarFontSizeCss} * 2);
         border: ${expandableSearchBarBorderCss};
-        padding: 0 0.5em;
+        padding: 0 calc(${expandableSearchBarFontSizeCss} / 2);
       }
+
       .endcap svg {
-        height: 1.5em;
+        height: ${expandableSearchBarFontSizeCss};
+        width: ${expandableSearchBarFontSizeCss};
       }
 
       .clear-search-container {
         border-left: 0;
-        border-radius: 0 1em 1em 0;
+        border-radius: 0 calc(${expandableSearchBarFontSizeCss})
+          calc(${expandableSearchBarFontSizeCss}) 0;
       }
 
       .search-bar.is-searching .clear-search-container {
-        padding: 0 0.5em 0 0;
+        padding: 0 calc(${expandableSearchBarFontSizeCss} / 2) 0 0;
       }
 
       .search-bar.is-searching .clear-search-container button {
@@ -166,21 +174,30 @@ export default class ExpandableSearchBar extends LitElement {
       }
 
       .magnifier-container {
-        border-radius: 1em 0 0 1em;
+        border-radius: calc(${expandableSearchBarFontSizeCss}) 0 0
+          calc(${expandableSearchBarFontSizeCss});
         border-right: 0;
       }
-      .container.is-open.shows-disclosure .clear-search-container {
-        border-radius: 1em 0 0 0;
+      .container.is-open .magnifier-container {
+        border-radius: calc(${expandableSearchBarFontSizeCss}) 0 0 0;
+      }
+
+      .container.shows-disclosure .clear-search-container {
+        border-radius: 0 0 0 0;
+      }
+      .container.shows-disclosure .clear-search-container {
+        border-right: 0;
       }
       .disclosure-container {
-        border-radius: 0 1em 1em 0;
+        border-radius: 0 calc(${expandableSearchBarFontSizeCss})
+          calc(${expandableSearchBarFontSizeCss}) 0;
         display: none;
       }
       .container.shows-disclosure .disclosure-container {
         display: flex;
       }
       .container.is-open .disclosure-container {
-        border-radius: 0 1em 0 0;
+        border-radius: 0 calc(${expandableSearchBarFontSizeCss}) 0 0;
       }
       .disclosure-container button {
         border: 0;
@@ -188,7 +205,6 @@ export default class ExpandableSearchBar extends LitElement {
       }
 
       .search-input {
-        height: 2em;
         border-top: ${expandableSearchBarBorderCss};
         border-bottom: ${expandableSearchBarBorderCss};
         border-left: 0;
@@ -199,7 +215,7 @@ export default class ExpandableSearchBar extends LitElement {
         margin: 0;
         font-size: ${expandableSearchBarFontSizeCss};
         flex: 1 1 auto;
-        min-width: 5em;
+        min-width: ${expandableSearchMinWidthCss};
       }
 
       .search-input:focus {
@@ -207,18 +223,18 @@ export default class ExpandableSearchBar extends LitElement {
       }
 
       .quick-search {
-        color: white;
-        border-radius: 0 0 1em 1em;
+        border-radius: 0 0 calc(${expandableSearchBarFontSizeCss})
+          calc(${expandableSearchBarFontSizeCss});
         display: none;
         position: absolute;
         left: 0;
         right: 0;
         background-color: black;
         z-index: 1;
-        max-height: 150px;
+        max-height: ${expandableSearchBarMaxExpansionHeightCss};
         overflow-y: scroll;
         scrollbar-width: none;
-        padding: 0 0.5em;
+        padding: 0 calc(${expandableSearchBarFontSizeCss} / 2);
       }
 
       .quick-search::-webkit-scrollbar {
@@ -226,7 +242,7 @@ export default class ExpandableSearchBar extends LitElement {
       }
 
       .container.is-open.shows-disclosure .quick-search {
-        border: 1px solid white;
+        border: ${expandableSearchBarBorderCss};
         border-top: 0;
         display: block;
       }

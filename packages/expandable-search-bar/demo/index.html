@@ -6,19 +6,43 @@
 
   <style>
     body {
-      background: #000;
       font-family: sans-serif;
-      color: white;
+      background: black;
     }
 
     .container {
       width: 50%;
       margin: auto;
+      color: white;
+    }
+
+    .developer {
+      background-color: white;
+      color: black;
+    }
+
+    .developer ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
 
     expandable-search-bar {
       display: block;
       margin: 2em auto 2em auto;
+
+      --expandableSearchBarBackgroundColor: black;
+      --expandableSearchBarTextColor: white;
+      --expandableSearchBarFontSize: 1em;
+      --expandableSearchBarBorderColor: 1px solid white;
+
+      --expandableSearchBarMaxExpansionHeight: 150px;
+      --expandableSearchBarMinWidth: 5em;
+
+      --quickSearchListPadding: 0 0 0.5em 0;
+      --quickSearchListItemPadding: 0.5em 0 0 0;
+      --quickSearchLinkColor: rgb(68, 132, 202);
+      --quickSearchLinkDecoration: none;
     }
   </style>
 </head>
@@ -34,11 +58,32 @@
     const quickSearch2 = new QuickSearchEntry('Lolly Pops');
     const quickSearch3 = new QuickSearchEntry('Gobstoppers');
     const quickSearch4 = new QuickSearchEntry('Taffy');
+    const quickSearch5 = new QuickSearchEntry('Cotton Candy');
+    const quickSearch6 = new QuickSearchEntry('Chocolate Bar');
+    const quickSearch7 = new QuickSearchEntry('Peanut Brittle');
 
-    const quickSearches = [quickSearch1, quickSearch2, quickSearch3, quickSearch4];
+    const quickSearches = [
+      quickSearch1,
+      quickSearch2,
+      quickSearch3,
+      quickSearch4,
+      quickSearch5,
+      quickSearch6,
+      quickSearch7
+    ];
 
     render(
       html`
+        <div class="developer">
+          <ul>
+            <li>
+              Scale:
+              <input type="range" value="1" @input=${changeFontSize} min="0.5" max="3.0" step="0.1" />
+              <span id="font-size-value">1.0</span>em
+            </li>
+          </ul>
+        </div>
+
         <div class="container">
           <h1>Normal</h1>
           <expandable-search-bar
@@ -53,12 +98,24 @@
             id="expanding-search-bar"
             showsDisclosure='true'
             .quickSearches=${quickSearches}
-            @quickSearchSelected=${quickSearchSelected}>
+            @quickSearchSelected=${quickSearchSelected}
+            @inputchange=${inputchange}
+            @enterKeyPressed=${enterKeyPressed}
+            @searchCleared=${searchCleared}>
           </expandable-search-bar>
         </div>
       `,
       document.querySelector('#demo')
     );
+
+    function changeFontSize(e) {
+      document.getElementById('font-size-value').innerText = e.target.value;
+
+      document.querySelectorAll('expandable-search-bar').forEach((element) => {
+        element.style
+          .setProperty('--expandableSearchBarFontSize', `${e.target.value}em`);
+      })
+    }
 
     function inputchange(e) {
       console.log('inputchange', e.detail.value);

@@ -20,9 +20,9 @@ export default class QuickSearch extends LitElement {
         ${this.quickSearches.map(
           (quickSearch: QuickSearchEntry, index: number) => html`
             <li>
-              <a @click=${this.doQuickSearch} data-quick-search-index=${index}
-                >${quickSearch.displayText}</a
-              >
+              <a @click=${this.doQuickSearch} data-quick-search-index=${index}>
+                ${quickSearch.displayText}
+              </a>
             </li>
           `,
         )}
@@ -45,22 +45,28 @@ export default class QuickSearch extends LitElement {
   }
 
   static get styles(): CSSResult {
+    const quickSearchListPaddingCss = css`var(--quickSearchListPadding, 0 0 0.5em 0)`;
+    const quickSearchListItemPaddingCss = css`var(--quickSearchListItemPadding, 0.5em 0 0 0)`;
+
+    const quickSearchLinkColorCss = css`var(--quickSearchLinkColor, rgb(68, 132, 202))`;
+    const quickSearchLinkDecorationCss = css`var(--quickSearchLinkDecoration, none)`;
+
     return css`
       ul {
-        padding: 0;
+        padding: ${quickSearchListPaddingCss};
         margin: 0;
         list-style: none;
       }
 
       ul li {
-        padding: 0.25em 0 0 0;
+        padding: ${quickSearchListItemPaddingCss};
         margin: 0;
         display: block;
       }
 
       ul li a {
-        color: rgb(68, 132, 202);
-        text-decoration: none;
+        color: ${quickSearchLinkColorCss};
+        text-decoration: ${quickSearchLinkDecorationCss};
         cursor: pointer;
       }
     `;
