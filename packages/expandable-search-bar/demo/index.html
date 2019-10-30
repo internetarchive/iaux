@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      background: #000;
+      font-family: sans-serif;
+      color: white;
+    }
+
+    .container {
+      width: 50%;
+      margin: auto;
+    }
+
+    expandable-search-bar {
+      display: block;
+      margin: 2em auto 2em auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import '../lib/expandable-search-bar.js';
+    import QuickSearchEntry from '../lib/models/quick-search-entry.js';
+
+    const quickSearch1 = new QuickSearchEntry('Gumballs');
+    const quickSearch2 = new QuickSearchEntry('Lolly Pops');
+    const quickSearch3 = new QuickSearchEntry('Gobstoppers');
+    const quickSearch4 = new QuickSearchEntry('Taffy');
+
+    const quickSearches = [quickSearch1, quickSearch2, quickSearch3, quickSearch4];
+
+    render(
+      html`
+        <div class="container">
+          <h1>Normal</h1>
+          <expandable-search-bar
+            id="normal-search-bar"
+            @inputchange=${inputchange}
+            @enterKeyPressed=${enterKeyPressed}
+            @searchCleared=${searchCleared}>
+          </expandable-search-bar>
+
+          <h1>Expandable</h1>
+          <expandable-search-bar
+            id="expanding-search-bar"
+            showsDisclosure='true'
+            .quickSearches=${quickSearches}
+            @quickSearchSelected=${quickSearchSelected}>
+          </expandable-search-bar>
+        </div>
+      `,
+      document.querySelector('#demo')
+    );
+
+    function inputchange(e) {
+      console.log('inputchange', e.detail.value);
+    }
+
+    function enterKeyPressed(e) {
+      console.log('enterKeyPressed', e.detail.value);
+    }
+
+    function searchCleared() {
+      console.log('search cleared');
+    }
+
+    function quickSearchSelected(e) {
+      console.log('quickSearchSelected', e.detail.quickSearchEntry);
+      document.getElementById('expanding-search-bar').searchTerm = e.detail.quickSearchEntry.displayText;
+    }
+  </script>
+</body>
+</html>
