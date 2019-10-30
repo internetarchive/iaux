@@ -52,74 +52,6 @@ export default class RadioPlayerController extends LitElement {
     `;
   }
 
-  //       'https://ia803005.us.archive.org/30/items/BBC_Radio_2_20190502_180000/BBC_Radio_2_20190502_180000.mp3',
-  // 'https://www-jasonb.archive.org/download/KSTE_650_AM_20190804_200000/KSTE_650_AM_20190804_200000.mp3',
-
-  // private get radioPlayerConfig(): RadioPlayerConfig {
-  //   const audioSource = new AudioSource(
-  //     'https://ia803005.us.archive.org/30/items/KSTE_650_AM_20190804_200000/KSTE_650_AM_20190804_200000.mp3',
-  //     'audio/mpeg',
-  //   );
-
-  //   const quickSearchTerms = [
-  //     'International relations',
-  //     'International law',
-  //     'Birth control',
-  //     'Sports terminology',
-  //     'Training',
-  //     'Human rights',
-  //     'Economics',
-  //     'Law',
-  //     'Geography terminology',
-  //     'IOS software',
-  //     'American football terminology',
-  //     'Android (operating system) software',
-  //     "Women's National Basketball Association teams",
-  //     'Olympic medals',
-  //     'Gold',
-  //     'Orders, decorations, and medals',
-  //     'Connecticut',
-  //     'Abuse',
-  //     'Personhood',
-  //     'Culture',
-  //     'Google',
-  //     'BlackBerry software',
-  //     'Java platform software',
-  //     'Capitals in Asia',
-  //     'Cigarettes',
-  //     'Tobacco',
-  //   ];
-
-  //   const config = new RadioPlayerConfig(
-  //     'Voice of America',
-  //     '7:00pm',
-  //     './logo.jpg',
-  //     './waveform.png',
-  //     [audioSource],
-  //     quickSearchTerms,
-  //   );
-
-  //   return config;
-  // }
-
-  // private get baseTranscriptConfig(): TranscriptConfig {
-  //   const convertedTranscript: TranscriptEntryConfig[] = transcript.map(
-  //     (entry: any) =>
-  //       new TranscriptEntryConfig(
-  //         entry.id,
-  //         entry.start,
-  //         entry.end,
-  //         entry.text,
-  //         entry.is_music || false,
-  //         entry.search_match_index,
-  //       ),
-  //   );
-
-  //   const transcriptConfig = new TranscriptConfig(convertedTranscript);
-
-  //   return transcriptConfig;
-  // }
-
   async loadItemMetadata() {
     const url = `https://archive.org/metadata/${this.itemId}`;
     const response = await fetch(url);
@@ -145,9 +77,7 @@ export default class RadioPlayerController extends LitElement {
     );
 
     const audioSources = audioFiles.map((file: any) => {
-      // const url = `https://archive.org/download/${this.itemId}/${file.name}`;
-      // const url = `http://localhost/~jason/KSTE_650_AM_20190804_200000.mp3`;
-      const url = `http://localhost/~jason/WFMD_930_AM_20190803_170000_128.mp3`;
+      const url = `https://archive.org/download/${this.itemId}/${file.name}`;
       const mimetype = file.format.toLowerCase() === 'ogg vorbis' ? 'audio/ogg' : 'audio/mpeg';
       return new AudioSource(url, mimetype);
     });
@@ -228,25 +158,6 @@ export default class RadioPlayerController extends LitElement {
       this.startPlaybackAt = parseFloat(startTime);
     }
   }
-
-  // firstUpdated() {
-  //   this.loadItemMetadata();
-
-  //   const searchParams = new URLSearchParams(window.location.search);
-  //   const searchTerm = searchParams.get('q');
-  //   const startTime = searchParams.get('start');
-
-  //   if (searchTerm) {
-  //     this.doSearch(searchTerm);
-  //     if (this.radioPlayer) {
-  //       this.radioPlayer.searchTerm = searchTerm;
-  //     }
-  //   }
-
-  //   if (startTime) {
-  //     this.startPlaybackAt = parseFloat(startTime);
-  //   }
-  // }
 
   private canplay() {
     if (this.startPlaybackAt && this.radioPlayer) {

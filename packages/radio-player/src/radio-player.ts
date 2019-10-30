@@ -20,8 +20,12 @@ import '@internetarchive/waveform-progress';
 import '@internetarchive/playback-controls';
 import '@internetarchive/scrubber-bar';
 
-import './search-bar/search-bar';
-import './quick-search';
+
+import {
+  QuickSearchEntry,
+} from '@internetarchive/expandable-search-bar';
+import '@internetarchive/expandable-search-bar';
+
 import './search-results-switcher';
 
 import { ZoneOfSilence } from '@internetarchive/waveform-progress';
@@ -218,14 +222,14 @@ export default class RadioPlayer extends LitElement {
     // of it instead of one and just show and hide them based on the media query.
     return html`
       <div class="search-section">
-        <search-bar
+        <expandable-search-bar
           searchTerm=${this.searchTerm}
           .quickSearches=${this.quickSearches}
           @inputchange=${this.updateSearchTerm}
           @enterKeyPressed=${this.searchEnterKeyPressed}
           @searchCleared=${this.searchCleared}
         >
-        </search-bar>
+        </expandable-search-bar>
         <div class="search-results-info">
           ${this.searchResultsSwitcherTemplate} ${this.noSearchResultsTemplate}
         </div>
@@ -253,8 +257,14 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
-  private get quickSearches(): string[] {
-    return this.config ? this.config.quickSearches : [];
+  private get quickSearches(): QuickSearchEntry[] {
+    if (!this.config) { return []; }
+
+    const entries: QuickSearchEntry[] = this.config.quickSearches.map(entry => {
+      return new QuickSearchEntry(entry);
+    });
+
+    return entries;
   }
 
   private updateSearchTerm(e: CustomEvent): void {
@@ -574,7 +584,7 @@ export default class RadioPlayer extends LitElement {
           width: 75%;
           margin: auto;
         }
-        search-bar {
+        expandable-search-bar {
           width: 100%;
         }
       }
@@ -692,7 +702,7 @@ export default class RadioPlayer extends LitElement {
         display: none;
       }
 
-      search-bar {
+      expandable-search-bar {
         display: block;
         margin: auto;
       }
