@@ -74,11 +74,12 @@ describe('ExpandableSearchBar', () => {
     `);
 
     const input = el.shadowRoot.getElementById('search-input');
-    const event = new KeyboardEvent('keyup', { key: 'A' });
+    input.value = 'A';
+    const keyUpEvent = new KeyboardEvent('keyup');
 
-    setTimeout(() => { input.dispatchEvent(event); });
+    setTimeout(() => { input.dispatchEvent(keyUpEvent); });
     const response = await oneEvent(el, 'inputchange');
-    expect(response).to.exist;
+    expect(response.detail.value).to.equal('A');
   });
 
   it('emits a `enterKeyPressed` event when the enter key is pressed', async () => {
