@@ -8,6 +8,13 @@ import TheatreAudioPlayer from './audio-player-main';
  * Test for TheatreAudioPlayer
  */
 describe('TheatreAudioPlayer ', () => {
+  const externalProps = {
+    jwplayerInfo: {
+      jwplayerPlaylist: [],
+      identifier: 'boop'
+    },
+    name: 'testing-audio-player'
+  };
   const component = TestRenderer.create(
     <TheatreAudioPlayer
       source="spotify"
@@ -15,7 +22,9 @@ describe('TheatreAudioPlayer ', () => {
         urlPrefix: 'https://embed.spotify.com/?uri=',
         id: 'spotify:album:647o8vl4OD1sjvvhql3jFS'
       }}
-      customSourceLabel="Spotify"
+      customSourceLabels={{ player: 'Spotify' }}
+      playlist={[]}
+      {...externalProps}
     />
   );
   const tree = component.toJSON();
@@ -37,6 +46,7 @@ describe('TheatreAudioPlayer ', () => {
     expect(backgroundPhoto).toBeFalsy();
     const contentWindow = tree.children[0];
     const backgroundPhotoPlaceholder = contentWindow.children[0];
-    expect(backgroundPhotoPlaceholder.props.className).toContain('no-photo');
+    const image = backgroundPhotoPlaceholder.children[0];
+    expect(image.props.className).toContain('no-photo');
   });
 });
