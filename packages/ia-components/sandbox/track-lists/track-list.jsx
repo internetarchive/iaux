@@ -130,7 +130,7 @@ TheatreTrackList.defaultProps = {
 TheatreTrackList.propTypes = {
   onSelected: PropTypes.func.isRequired,
   selectedTrack: PropTypes.number.isRequired,
-  tracks: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
+  tracks: PropTypes.arrayOf(PropTypes.object),
   displayTrackNumbers: PropTypes.bool,
   creator: PropTypes.string,
   albumName: PropTypes.string,

@@ -27,6 +27,9 @@ const tracks = [
   }
 ];
 
+const externalProps = {
+  dataEventCategory: 'test-track-list'
+};
 /**
  * Test for TheatreTrackList
  */
@@ -36,7 +39,8 @@ describe('TheatreTrackList ', () => {
       const component = TestRenderer.create(
         <TheatreTrackList
           onSelected={() => {}}
-          tracks={[]}
+          selectedTrack={1}
+          {...externalProps}
         />
       );
       const tree = component.toJSON();
@@ -54,6 +58,8 @@ describe('TheatreTrackList ', () => {
           displayTrackNumbers={false}
           creator="Willie Nelson"
           tracks={tracks}
+          selectedTrack={1}
+          {...externalProps}
         />
       );
       const tree = component.toJSON();
@@ -73,6 +79,8 @@ describe('TheatreTrackList ', () => {
         displayTrackNumbers={false}
         creator="Willie Nelson"
         tracks={tracks}
+        selectedTrack={1}
+        {...externalProps}
       />
     );
     const tree = component.toJSON();
@@ -97,6 +105,8 @@ describe('TheatreTrackList ', () => {
         displayTrackNumbers={false}
         creator="Willie Nelson"
         tracks={tracks}
+        selectedTrack={1}
+        {...externalProps}
       />
     );
     const testInstance = component.getInstance();
