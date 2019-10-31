@@ -179,7 +179,7 @@ ArchiveAudioPlayer.propTypes = {
     index: PropTypes.number
   }),
   onRegistrationComplete: PropTypes.func,
-  style: PropTypes.string
+  style: PropTypes.object
 };
 
 export default ArchiveAudioPlayer;
