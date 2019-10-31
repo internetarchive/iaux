@@ -192,5 +192,254 @@ describe('Radio Player', () => {
     expect(response.detail.searchTerm).to.equal('foo');
   });
 
+  it('updates `playbackRate` when `changePlaybackRate` callback is triggered', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    const event = new CustomEvent('foo', { detail: { playbackRate: 1.5 }})
+    el.changePlaybackRate(event);
+    expect(el.playbackRate).to.equal(1.5);
+  });
+
+  it('updates `volume` when `volumeChanged` callback is triggered', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    const event = new CustomEvent('foo', { detail: { volume: 75 }})
+    el.volumeChanged(event);
+    expect(el.volume).to.equal(75);
+  });
+
+  it('updates the transcriptView result index and scrolls when `searchResultIndexChanged` callback is triggered', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    var scrollCalled = false;
+
+    const transcriptView = el.shadowRoot.querySelector('transcript-view');
+    transcriptView.scrollToSelectedSearchResult = () => { scrollCalled = true; }
+
+    const event = new CustomEvent('foo', { detail: { searchResultIndex: 3 }})
+    el.searchResultIndexChanged(event);
+    expect(transcriptView.selectedSearchResultIndex).to.equal(3);
+    expect(scrollCalled).to.equal(true);
+  });
+
+  it('updates the transcriptView result index and scrolls when `searchResultIndexChanged` callback is triggered', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    var scrollCalled = false;
+
+    const transcriptView = el.shadowRoot.querySelector('transcript-view');
+    transcriptView.scrollToSelectedSearchResult = () => { scrollCalled = true; }
+
+    const event = new CustomEvent('foo', { detail: { searchResultIndex: 3 }})
+    el.searchResultIndexChanged(event);
+    expect(transcriptView.selectedSearchResultIndex).to.equal(3);
+    expect(scrollCalled).to.equal(true);
+  });
+
+  it('does not update transcriptView when search result index changed if transcript view does not exist', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    var scrollCalled = false;
+
+    const transcriptView = el.shadowRoot.querySelector('transcript-view');
+    transcriptView.remove();
+
+    transcriptView.scrollToSelectedSearchResult = () => { scrollCalled = true; }
+
+    const event = new CustomEvent('foo', { detail: { searchResultIndex: 3 }})
+    el.searchResultIndexChanged(event);
+    expect(scrollCalled).to.equal(false);
+  });
+
+  it('seeks the audio element back by 10 seconds when the backButtonHandler is called', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    var seekTime = 0;
+    const audioElement = el.shadowRoot.querySelector('audio-element');
+    audioElement.seekBy = (time) => { seekTime = time; }
+    el.backButtonHandler();
+    expect(seekTime).to.equal(-10);
+  });
+
+  it('seeks the audio element forward by 10 seconds when the forwardButtonHandler is called', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    var seekTime = 0;
+    const audioElement = el.shadowRoot.querySelector('audio-element');
+    audioElement.seekBy = (time) => { seekTime = time; }
+    el.forwardButtonHandler();
+    expect(seekTime).to.equal(10);
+  });
+
+  it('seeks to the next section when the nextSectionButtonHandler is called', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
+    const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
+    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false);
+    const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false);
+    const entries = [entry1, entry2, entry3, entry4, entry5];
+
+    const transcriptConfig = new TranscriptConfig(entries);
+
+    const el = await fixture(html`
+      <radio-player .transcriptConfig=${transcriptConfig}></radio-player>
+    `);
+    const audioElement = el.shadowRoot.querySelector('audio-element');
+
+    var seekedTime = 0;
+
+    audioElement.seekTo = (time) => {
+      seekedTime = time;
+    }
+
+    el.duration = 100;
+    el.percentComplete = 35;
+
+    el.nextSectionButtonHandler();
+
+    expect(seekedTime).to.equal(37.1);
+  });
+
+  it('seeks to the beginning of the section when the previousSectionButtonHandler is called', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
+    const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
+    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false);
+    const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false);
+    const entries = [entry1, entry2, entry3, entry4, entry5];
+
+    const transcriptConfig = new TranscriptConfig(entries);
+
+    const el = await fixture(html`
+      <radio-player .transcriptConfig=${transcriptConfig}></radio-player>
+    `);
+    const audioElement = el.shadowRoot.querySelector('audio-element');
+
+    var seekedTime = 0;
+
+    audioElement.seekTo = (time) => {
+      seekedTime = time;
+    }
+
+    el.duration = 100;
+    el.percentComplete = 35;
+
+    el.prevSectionButtonHandler();
+
+    expect(seekedTime).to.equal(17.9);
+  });
+
+  it('handles play / pause button correctly', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    var playCalled = false;
+    var pauseCalled = false;
+
+    const audioElement = el.shadowRoot.querySelector('audio-element');
+    audioElement.play = () => { playCalled = true; }
+    audioElement.pause = () => { pauseCalled = true; }
+
+    expect(el.isPlaying).to.equal(false);
+    el.playPauseButtonHandler();
+
+    expect(el.isPlaying).to.equal(true);
+    expect(playCalled).to.equal(true);
+    expect(pauseCalled).to.equal(false);
+
+    el.playPauseButtonHandler();
+
+    expect(el.isPlaying).to.equal(false);
+    expect(pauseCalled).to.equal(true);
+  });
+
+  it('handles audio scrubbing correctly', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
+    const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
+    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false);
+    const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false);
+    const entries = [entry1, entry2, entry3, entry4, entry5];
+
+    const transcriptConfig = new TranscriptConfig(entries);
+
+    const el = await fixture(html`
+      <radio-player .transcriptConfig=${transcriptConfig}></radio-player>
+    `);
+    const audioElement = el.shadowRoot.querySelector('audio-element');
+
+    var seekedTime = 0;
+
+    audioElement.seekTo = (time) => {
+      seekedTime = time;
+    }
+
+    el.duration = 100;
+
+    const event = new CustomEvent('foo', { detail: { value: 73 }})
+
+    setTimeout(() => { el.valueChangedFromScrub(event); });
+    const response = await oneEvent(el, 'timeChangedFromScrub');
+
+    expect(response.detail.newTime).to.equal(73);
+    expect(seekedTime).to.equal(73);
+    expect(el.currentTime).to.equal(73);
+    expect(el.percentComplete).to.equal(73);
+  });
+
+  it('handles transcript entry selection correctly', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
+    const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
+    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false);
+    const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false);
+    const entries = [entry1, entry2, entry3, entry4, entry5];
+
+    const transcriptConfig = new TranscriptConfig(entries);
+
+    const el = await fixture(html`
+      <radio-player .transcriptConfig=${transcriptConfig}></radio-player>
+    `);
+    const audioElement = el.shadowRoot.querySelector('audio-element');
+
+    var seekedTime = 0;
+    var playCalled = false;
+
+    audioElement.seekTo = (time) => {
+      seekedTime = time;
+    }
+
+    audioElement.play = () => {
+      playCalled = true;
+    }
+
+    el.duration = 100;
+
+    const event = new CustomEvent('foo', { detail: { entry: entry3 }})
+
+    setTimeout(() => { el.transcriptEntrySelected(event); });
+    const response = await oneEvent(el, 'transcriptEntrySelected');
+
+    expect(response.detail.newTime).to.equal(37);
+    expect(seekedTime).to.equal(37);
+    expect(playCalled).to.equal(true);
+    expect(el.currentTime).to.equal(37);
+  });
+
 
 });

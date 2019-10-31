@@ -20,10 +20,7 @@ import '@internetarchive/waveform-progress';
 import '@internetarchive/playback-controls';
 import '@internetarchive/scrubber-bar';
 
-
-import {
-  QuickSearchEntry,
-} from '@internetarchive/expandable-search-bar';
+import { QuickSearchEntry } from '@internetarchive/expandable-search-bar';
 import '@internetarchive/expandable-search-bar';
 
 import './search-results-switcher';
@@ -262,11 +259,13 @@ export default class RadioPlayer extends LitElement {
   }
 
   private get quickSearches(): QuickSearchEntry[] {
-    if (!this.config) { return []; }
+    if (!this.config) {
+      return [];
+    }
 
-    const entries: QuickSearchEntry[] = this.config.quickSearches.map(entry => {
-      return new QuickSearchEntry(entry);
-    });
+    const entries: QuickSearchEntry[] = this.config.quickSearches.map(
+      entry => new QuickSearchEntry(entry),
+    );
 
     return entries;
   }
@@ -278,9 +277,11 @@ export default class RadioPlayer extends LitElement {
   private searchCleared(): void {
     this.searchTerm = '';
     this.emitSearchClearedEvent();
+    /* istanbul ignore else */
     if (this.transcriptView) {
       this.transcriptView.selectedSearchResultIndex = 0;
     }
+    /* istanbul ignore else */
     if (this.searchResultsSwitcher) {
       this.searchResultsSwitcher.currentResultIndex = 0;
     }
@@ -311,24 +312,28 @@ export default class RadioPlayer extends LitElement {
   }
 
   private get transcriptView(): TranscriptView | null {
+    /* istanbul ignore next */
     return this.shadowRoot
       ? (this.shadowRoot.querySelector('transcript-view') as TranscriptView)
       : null;
   }
 
   private get audioElement(): AudioElement | null {
+    /* istanbul ignore next */
     return this.shadowRoot
       ? (this.shadowRoot.querySelector('audio-element') as AudioElement)
       : null;
   }
 
   private get playbackControls(): PlaybackControls | null {
+    /* istanbul ignore next */
     return this.shadowRoot
       ? (this.shadowRoot.querySelector('playback-controls') as PlaybackControls)
       : null;
   }
 
   private get searchResultsSwitcher(): SearchResultsSwitcher | null {
+    /* istanbul ignore next */
     return this.shadowRoot
       ? (this.shadowRoot.querySelector('search-results-switcher') as SearchResultsSwitcher)
       : null;
@@ -343,6 +348,7 @@ export default class RadioPlayer extends LitElement {
   }
 
   private backButtonHandler(): void {
+    /* istanbul ignore else */
     if (this.audioElement) {
       this.audioElement.seekBy(-10);
     }
@@ -350,6 +356,7 @@ export default class RadioPlayer extends LitElement {
 
   private playPauseButtonHandler(): void {
     this.isPlaying = !this.isPlaying;
+    /* istanbul ignore if */
     if (!this.audioElement) {
       return;
     }
@@ -361,12 +368,14 @@ export default class RadioPlayer extends LitElement {
   }
 
   private forwardButtonHandler(): void {
+    /* istanbul ignore else */
     if (this.audioElement) {
       this.audioElement.seekBy(10);
     }
   }
 
   private nextSectionButtonHandler(): void {
+    /* istanbul ignore if */
     if (!this.audioElement) {
       return;
     }
@@ -379,6 +388,7 @@ export default class RadioPlayer extends LitElement {
   }
 
   private prevSectionButtonHandler(): void {
+    /* istanbul ignore if */
     if (!this.audioElement) {
       return;
     }
@@ -409,6 +419,7 @@ export default class RadioPlayer extends LitElement {
 
   private playbackPaused(): void {
     this.isPlaying = false;
+    /* istanbul ignore else */
     if (this.playbackControls) {
       this.playbackControls.playbackMode = PlaybackMode.paused;
     }
@@ -418,6 +429,7 @@ export default class RadioPlayer extends LitElement {
 
   private playbackStarted(): void {
     this.isPlaying = true;
+    /* istanbul ignore else */
     if (this.playbackControls) {
       this.playbackControls.playbackMode = PlaybackMode.playing;
     }
@@ -434,6 +446,7 @@ export default class RadioPlayer extends LitElement {
     const percentage = e.detail.value;
     const newTime = this.duration * (percentage / 100);
     this.currentTime = newTime;
+    /* istanbul ignore else */
     if (this.audioElement) {
       this.audioElement.seekTo(newTime);
     }
@@ -447,6 +460,7 @@ export default class RadioPlayer extends LitElement {
   private transcriptEntrySelected(e: CustomEvent): void {
     const newTime = e.detail.entry.start;
     this.currentTime = newTime;
+    /* istanbul ignore else */
     if (this.audioElement) {
       this.audioElement.seekTo(newTime);
       this.audioElement.play();
@@ -471,7 +485,7 @@ export default class RadioPlayer extends LitElement {
     this.musicZones = musicZones;
   }
 
-  private checkForMusicZone(): void {
+  private skipMusicZone(): void {
     // eslint-disable-next-line max-len
     const activeMusicZone: MusicZone | undefined = this.musicZones.find(
       (zone: MusicZone) => this.currentTime > zone.start && this.currentTime < zone.end,
@@ -514,7 +528,7 @@ export default class RadioPlayer extends LitElement {
     if (changedProperties.has('currentTime')) {
       this.emitCurrentTimeChangedEvent();
       if (this.skipMusicSections) {
-        this.checkForMusicZone();
+        this.skipMusicZone();
       }
     }
   }
