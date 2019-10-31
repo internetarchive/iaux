@@ -126,6 +126,7 @@ export default class TheatreAudioPlayer extends Component {
         onChange={this.toggleMediaSource}
         selectedValue={mediaSource}
         wrapperStyle="tab-bottom"
+        name="audio-theatre-tabs"
       />
     );
   }
@@ -146,7 +147,7 @@ export default class TheatreAudioPlayer extends Component {
     return (
       <div style={bookReaderStyle}>
         <BookReaderWrapper
-          options={{...linerNotes.data.brOptions, defaultStartLeaf:0, titleLeaf:0}}
+          options={{ ...linerNotes.data.brOptions, defaultStartLeaf: 0, titleLeaf: 0 }}
           style={{
             position: 'absolute',
             top: 0,

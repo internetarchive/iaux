@@ -26,7 +26,7 @@ describe('HorizontalRadioGroup', () => {
     expect(tree.children.length).toEqual(options.length);
   });
 
-  test('defaults to rounded styling', () => {
-    expect(tree.props.className).toContain('rounded');
+  test('defaults to no specified styling', () => {
+    expect(tree.props.className).toContain('selector__radio-group');
   });
 });
