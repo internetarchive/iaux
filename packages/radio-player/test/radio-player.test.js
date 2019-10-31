@@ -149,28 +149,48 @@ describe('Radio Player', () => {
     expect(searchResultsSwitcher.classList.contains('hidden')).to.equal(false);
   });
 
-  // it('updates the search term when updateSearchTerm event is emitted', async () => {
-  //   const el = await fixture(html`
-  //     <radio-player></radio-player>
-  //   `);
+  it('updates the search term when updateSearchTerm event is emitted', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
 
-  //   const searchBar = el.shadowRoot.querySelector('expandable-search-bar');
-  //   const inputField = searchBar.shadowRoot.querySelector('input[type=text]');
-  //   const keyUpEvent = new KeyboardEvent('keyup', { key: 'A' });
+    const searchBar = el.shadowRoot.querySelector('expandable-search-bar');
+    const inputField = searchBar.shadowRoot.querySelector('input[type=text]');
+    inputField.value = 'foo';
+    const keyUpEvent = new KeyboardEvent('keyup');
+    inputField.dispatchEvent(keyUpEvent);
+    expect(el.searchTerm).to.equal('foo');
+  });
 
-  //   // searchBar.value = 'foo';
+  it('can clear searches properly', async () => {
+    const el = await fixture(html`
+      <radio-player searchTerm='foo search'></radio-player>
+    `);
 
-  //   inputField.dispatchEvent(keyUpEvent);
+    const transcriptView = el.shadowRoot.querySelector('transcript-view');
+    const searchResultsSwitcher = el.shadowRoot.querySelector('search-results-switcher');
 
-  //   await promisedSleep(100);
+    expect(el.searchTerm).to.equal('foo search');
 
-  //   expect(el.searchTerm).to.equal('A');
+    setTimeout(() => { el.searchCleared(); });
+    const response = await oneEvent(el, 'searchCleared');
+    expect(response).to.exist;
+    expect(el.searchTerm).to.equal('');
+    expect(searchResultsSwitcher.currentResultIndex).to.equal(0);
+    expect(transcriptView.selectedSearchResultIndex).to.equal(0);
+  });
 
-  //   // we have to do this in a setTimeout so the event listener below has a chance to listen
-  //   // setTimeout(() => { searchBar.value = 'foo'; });
-  //   // const response = await oneEvent(el, 'playbackPaused');
-  //   // expect(response).to.exist;
-  // });
+  it('emits a `searchRequested` event when the `searchEnterKeyPressed` callback is triggered', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    const event = new CustomEvent('foo', { detail: { value: 'foo' }})
+
+    setTimeout(() => { el.searchEnterKeyPressed(event); });
+    const response = await oneEvent(el, 'searchRequested');
+    expect(response.detail.searchTerm).to.equal('foo');
+  });
 
 
 });
