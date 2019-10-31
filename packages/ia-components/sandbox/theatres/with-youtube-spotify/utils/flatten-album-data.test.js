@@ -38,7 +38,7 @@ describe('Music Player Util - Flatten Album Data', () => {
     });
     test('has identifier', () => {
       expect(dataFlattened).toHaveProperty('identifier');
-      expect(identifier).toBeInstanceOf(Array);
+      expect(identifier).toBeTruthy();
     });
     test('has itemPhoto', () => {
       expect(dataFlattened).toHaveProperty('itemPhoto');
@@ -47,7 +47,7 @@ describe('Music Player Util - Flatten Album Data', () => {
     });
     test('has title', () => {
       expect(dataFlattened).toHaveProperty('title');
-      expect(title).toBeInstanceOf(Array);
+      expect(itemPhoto).toBeTruthy();
     });
   });
 
