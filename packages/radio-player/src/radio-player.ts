@@ -509,6 +509,7 @@ export default class RadioPlayer extends LitElement {
       this.shouldShowNoSearchResultMessage = true;
     } else {
       this.shouldShowSearchResultSwitcher = true;
+      /* istanbul ignore else */
       if (this.searchResultsSwitcher) {
         this.searchResultsSwitcher.numberOfResults = resultCount;
       }

@@ -441,5 +441,190 @@ describe('Radio Player', () => {
     expect(el.currentTime).to.equal(37);
   });
 
+  it('skips music zone properly', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
+    const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
+    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false);
+    const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false);
+    const entries = [entry1, entry2, entry3, entry4, entry5];
+
+    const transcriptConfig = new TranscriptConfig(entries);
+
+    const el = await fixture(html`
+      <radio-player .transcriptConfig=${transcriptConfig}></radio-player>
+    `);
+    const audioElement = el.shadowRoot.querySelector('audio-element');
+
+    var seekedTime = 0;
+
+    audioElement.seekTo = (time) => {
+      seekedTime = time;
+    }
+
+    el.duration = 100;
+    el.currentTime = 59;
+    el.skipMusicZone();
+    expect(seekedTime).to.equal(74.1);
+  });
+
+  it('does not skip music zone if not currently in one', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
+    const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
+    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false);
+    const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false);
+    const entries = [entry1, entry2, entry3, entry4, entry5];
+
+    const transcriptConfig = new TranscriptConfig(entries);
+
+    const el = await fixture(html`
+      <radio-player .transcriptConfig=${transcriptConfig}></radio-player>
+    `);
+    const audioElement = el.shadowRoot.querySelector('audio-element');
+
+    var seekedTime = -1;
+
+    audioElement.seekTo = (time) => {
+      seekedTime = time;
+    }
+
+    el.duration = 100;
+    el.currentTime = 39;
+    el.skipMusicZone();
+
+    // seekTo is never called because we're not in a music zone
+    expect(seekedTime).to.equal(-1);
+    expect(el.currentTime).to.equal(39);
+  });
+
+  it('calls `skipMusicZone` if music skipping is enabled', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
+    const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
+    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false);
+    const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false);
+    const entries = [entry1, entry2, entry3, entry4, entry5];
+
+    const transcriptConfig = new TranscriptConfig(entries);
+
+    const el = await fixture(html`
+      <radio-player
+        .transcriptConfig=${transcriptConfig}
+        skipMusicSections="true">
+      </radio-player>
+    `);
+
+    var skipCalled = false;
+
+    el.skipMusicZone = () => {
+      skipCalled = true;
+    }
+
+    el.duration = 100;
+    el.currentTime = 39;
+
+    await promisedSleep(50);
+
+    expect(skipCalled).to.equal(true);
+  });
+
+  it('properly generates QuickSearchEntry objects from config', async () => {
+    const config = new RadioPlayerConfig('foo-title', 'bar-date', '', '', [], ['foo', 'bar', 'baz']);
+
+    const el = await fixture(html`
+      <radio-player
+        .config=${config}>
+      </radio-player>
+    `);
+
+    const quickSearches = el.quickSearches;
+
+    expect(quickSearches[0].displayText).to.equal('foo');
+    expect(quickSearches[1].displayText).to.equal('bar');
+    expect(quickSearches[2].displayText).to.equal('baz');
+  });
+
+  it('retrieves search results properly from the transcript config', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
+    const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
+    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false, 0);
+    const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false, 1);
+    const entries = [entry1, entry2, entry3, entry4, entry5];
+
+    const transcriptConfig = new TranscriptConfig(entries);
+
+    const el = await fixture(html`
+      <radio-player
+        .transcriptConfig=${transcriptConfig}>
+      </radio-player>
+    `);
+
+    const searchResults = el.searchResults;
+
+    expect(searchResults[0].text).to.equal('bar');
+    expect(searchResults[1].text).to.equal('baz');
+  });
+
+  it('retrieves no search results if there is no transcript config', async () => {
+    const el = await fixture(html`
+      <radio-player>
+      </radio-player>
+    `);
+
+    expect(el.searchResults.length).to.equal(0);
+  });
+
+  it('properly updates the search results switcher when there are search results', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
+    const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
+    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false, 0);
+    const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false, 1);
+    const entries = [entry1, entry2, entry3, entry4, entry5];
+
+    const transcriptConfig = new TranscriptConfig(entries);
+
+    const el = await fixture(html`
+      <radio-player
+        .transcriptConfig=${transcriptConfig}>
+      </radio-player>
+    `);
+
+    const searchResultsSwitcher = el.shadowRoot.querySelector('search-results-switcher');
+
+    el.searchTerm = 'foo';
+    el.updateSearchResultSwitcher();
+
+    expect(el.shouldShowSearchResultSwitcher).to.equal(true);
+    expect(searchResultsSwitcher.numberOfResults).to.equal(2);
+  });
+
+
+  it('properly updates the search results switcher when there are no search results', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
+    const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
+    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false);
+    const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false);
+    const entries = [entry1, entry2, entry3, entry4, entry5];
+
+    const transcriptConfig = new TranscriptConfig(entries);
+
+    const el = await fixture(html`
+      <radio-player
+        .transcriptConfig=${transcriptConfig}>
+      </radio-player>
+    `);
+
+    const searchResultsSwitcher = el.shadowRoot.querySelector('search-results-switcher');
+
+    el.searchTerm = 'foo';
+    el.updateSearchResultSwitcher();
+
+    expect(el.shouldShowNoSearchResultMessage).to.equal(true);
+    expect(el.shouldShowSearchResultSwitcher).to.equal(false);
+  });
 
 });
