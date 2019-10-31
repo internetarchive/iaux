@@ -36,10 +36,10 @@ describe('TheatreTrackList ', () => {
       const component = TestRenderer.create(
         <TheatreTrackList
           onSelected={() => {}}
+          tracks={[]}
         />
       );
       const tree = component.toJSON();
-      const testInstance = component.root;
 
       expect(tree).toMatchSnapshot();
       expect(tree.props.className).toEqual('no-tracks');
