@@ -49,7 +49,7 @@ export default class TranscriptView extends LitElement {
       <div class="container">
         ${this.showContextZones ? this.contextZoneDevTemplates : ''}
 
-        <div class="scroll-container" id="scroll-container" @wheel=${this.didScroll}>
+        <div class="scroll-container" id="scroll-container" @wheel=${this.didScroll} @touchmove=${this.didScroll}>
           <div class="col time">
             ${this.timeDisplayTemplate}
           </div>
