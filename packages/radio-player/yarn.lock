@@ -1056,10 +1056,10 @@
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/expandable-search-bar@0.0.1-alpha.445+0199172":
-  version "0.0.1-alpha.445"
-  resolved "https://registry.yarnpkg.com/@internetarchive/expandable-search-bar/-/expandable-search-bar-0.0.1-alpha.445.tgz#6f69fb14b32b8044773fc11060cd2d9da545bcc9"
-  integrity sha512-5gVxlrx2IRF72vXOO+Byk0MBD2/oSBA/sTeVc/wdgxKxFHfuBNHc81PrNK+1RbXb5W/sfR+76jZ3uWKxeKGfTA==
+"@internetarchive/expandable-search-bar@0.0.1-alpha.447+88813cc":
+  version "0.0.1-alpha.447"
+  resolved "https://registry.yarnpkg.com/@internetarchive/expandable-search-bar/-/expandable-search-bar-0.0.1-alpha.447.tgz#691f332fa73da249bf756920c2bb2c86c78a616d"
+  integrity sha512-dy0yUQdUZmtZyHjwAeZ0A6G8A8bhQwvGvIBx8kSpKdW4dVk7rg+VKu2fJI6eIbZQF1qSNJk4bXyOjDGOztpjrg==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
