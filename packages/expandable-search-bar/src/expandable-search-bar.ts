@@ -211,6 +211,7 @@ export default class ExpandableSearchBar extends LitElement {
         border-bottom: ${expandableSearchBarBorderCss};
         border-left: 0;
         border-right: 0;
+        border-radius: 0;
         background-color: ${expandableSearchBarBackgroundColorCss};
         color: ${expandableSearchBarTextColorCss};
         padding: 0;
