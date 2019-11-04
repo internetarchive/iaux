@@ -94,7 +94,10 @@ export default class WaveformProgress extends LitElement {
   }
 
   private updatePercentComplete(e: MouseEvent): void {
-    this._percentComplete = this.offsetXToPercent(e.offsetX);
+    if (!this.container) { return; }
+    const containerOffset: number = this.container.offsetLeft;
+    const offsetX: number = e.pageX - containerOffset;
+    this._percentComplete = this.offsetXToPercent(offsetX);
     this.dispatchValueChangeEvent();
   }
 
@@ -107,6 +110,10 @@ export default class WaveformProgress extends LitElement {
 
   private get dragcover(): HTMLElement | null {
     return this.shadowRoot && this.shadowRoot.getElementById('dragcover');
+  }
+
+  private get container(): HTMLElement | null {
+    return this.shadowRoot && this.shadowRoot.querySelector('.container');
   }
 
   private offsetXToPercent(offsetX: number): number {
