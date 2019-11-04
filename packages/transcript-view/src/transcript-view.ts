@@ -147,7 +147,8 @@ export default class TranscriptView extends LitElement {
 
     const autoScrollButtonFontColorCss = css`var(--autoScrollButtonFontColor, black)`;
     const autoScrollButtonBackgroundColorCss = css`var(--autoScrollButtonBackgroundColor, white)`;
-    const autoScrollButtonWidthCss = css`var(--autoScrollButtonWidth, 8rem)`;
+    const autoScrollButtonWidthCss = css`var(--autoScrollButtonWidth, 12rem)`;
+    const autoScrollButtonFontSizeCss = css`var(--autoScrollFontSize, 1em)`;
 
     const normalTextColor = css`var(--transcriptNormalTextColor, gray)`;
     const activeTextColor = css`var(--transcriptActiveTextColor, white)`;
@@ -185,6 +186,7 @@ export default class TranscriptView extends LitElement {
         display: inline-block;
         color: ${autoScrollButtonFontColorCss};
         background-color: ${autoScrollButtonBackgroundColorCss};
+        font-size: ${autoScrollButtonFontSizeCss};
         z-index: 10;
       }
 
