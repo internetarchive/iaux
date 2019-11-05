@@ -1072,10 +1072,10 @@
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/scrubber-bar@0.0.1-alpha.445+38342c8":
-  version "0.0.1-alpha.445"
-  resolved "https://registry.yarnpkg.com/@internetarchive/scrubber-bar/-/scrubber-bar-0.0.1-alpha.445.tgz#2056f01677b11a55e183b595041f6aeffffe75b2"
-  integrity sha512-ImRvq99KlD8iOkgLKh5NabCdcrCssHTjyAfjqXX13dAXEl1F9kUYvkzqmeUjAcWgvmrCsf9TnwRh8Yo+y1Zrng==
+"@internetarchive/scrubber-bar@0.0.1-alpha.385+0bf2a00":
+  version "0.0.1-alpha.385"
+  resolved "https://registry.yarnpkg.com/@internetarchive/scrubber-bar/-/scrubber-bar-0.0.1-alpha.385.tgz#9d7eec321534bbef8c5ca4e7d68d419ec9907c0c"
+  integrity sha512-UpfDOI+IFPf1y3EkZ1kPwxCA76u0QhdMyP2u2HUnFLzwG39PHWOZL0D1N3z5bVNGywRwNImWyUmERF3ziCgk+A==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
