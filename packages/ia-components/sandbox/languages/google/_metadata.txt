@@ -1,5 +1,6 @@
 access
 accession_number
+access_restricted_item
 addeddate
 adder
 album
@@ -203,6 +204,7 @@ noarchivetorrent
 noindex
 notes
 num_recent_reviews
+num_recording_errors
 num_reviews
 num_top_dl
 numeric_id
@@ -285,6 +287,7 @@ sk-magic
 sk-owner
 sk-owner-nick
 sk-type
+software_version
 sound
 source
 source_organization
