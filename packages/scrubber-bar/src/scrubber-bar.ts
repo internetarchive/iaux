@@ -237,7 +237,7 @@ export default class ScrubberBar extends LitElement {
       section-marker {
         position: absolute;
         width: 2rem;
-        height: 40px;
+        height: ${trackHeight};
         bottom: 7px;
         /*
           we set the left side of the marker to the spot where we want it, but the marker line is in
