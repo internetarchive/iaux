@@ -140,6 +140,7 @@ export default class WaveformProgress extends LitElement {
         width: 100%;
         height: 100%;
         position: absolute;
+        touch-action: none;
       }
 
       .container {
