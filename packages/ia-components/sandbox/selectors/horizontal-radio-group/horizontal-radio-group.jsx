@@ -75,7 +75,7 @@ HorizontalRadioGroup.defaultProps = {
 HorizontalRadioGroup.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.string,
-    label: PropTypes.oneOf([
+    label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.object /* object = React element */
     ]),
