@@ -21,12 +21,12 @@ export default class SearchResultsSwitcher extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="container">
-        <a @click=${this.goToPreviousResult} id="previous-button">${leftImage}</a>
+        <button @click=${this.goToPreviousResult} id="previous-button">${leftImage}</button>
         <span class="results-range">
           <span id="current-result">${this.currentResultIndex + 1}</span> /
           <span id="number-of-results">${this.numberOfResults}</span>
         </span>
-        <a @click=${this.goToNextResult} id="next-button">${rightImage}</a>
+        <button @click=${this.goToNextResult} id="next-button">${rightImage}</button>
       </div>
     `;
   }
@@ -37,13 +37,10 @@ export default class SearchResultsSwitcher extends LitElement {
         text-align: center;
       }
 
-      a {
+      button {
+        background: none;
+        border: 0;
         cursor: pointer;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
       }
     `;
   }
