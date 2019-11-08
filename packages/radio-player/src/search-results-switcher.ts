@@ -21,12 +21,16 @@ export default class SearchResultsSwitcher extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="container">
-        <button @click=${this.goToPreviousResult} id="previous-button">${leftImage}</button>
+        <button @click=${this.goToPreviousResult} id="previous-button">
+          ${leftImage}
+        </button>
         <span class="results-range">
           <span id="current-result">${this.currentResultIndex + 1}</span> /
           <span id="number-of-results">${this.numberOfResults}</span>
         </span>
-        <button @click=${this.goToNextResult} id="next-button">${rightImage}</button>
+        <button @click=${this.goToNextResult} id="next-button">
+          ${rightImage}
+        </button>
       </div>
     `;
   }
