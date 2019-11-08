@@ -162,6 +162,23 @@ describe('Radio Player', () => {
     expect(el.searchTerm).to.equal('foo');
   });
 
+  it('does not update the search term if updateSearchTerm event does not contain needed info', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    el.searchTerm = 'boop';
+
+    const event = new CustomEvent('foo', { })
+    el.updateSearchTerm(event);
+    expect(el.searchTerm).to.equal('boop');
+
+    const event2 = new CustomEvent('foo', { detail: { }})
+    el.updateSearchTerm(event2);
+    expect(el.searchTerm).to.equal('boop');
+  });
+
+
   it('can clear searches properly', async () => {
     const el = await fixture(html`
       <radio-player searchTerm='foo search'></radio-player>
@@ -202,6 +219,20 @@ describe('Radio Player', () => {
     expect(el.playbackRate).to.equal(1.5);
   });
 
+  it('does not update `playbackRate` when `changePlaybackRate` is not passed a proper event', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    const event = new CustomEvent('foo', { })
+    el.changePlaybackRate(event);
+    expect(el.playbackRate).to.equal(1);
+
+    const event2 = new CustomEvent('foo', { detail: { }})
+    el.changePlaybackRate(event2);
+    expect(el.playbackRate).to.equal(1);
+  });
+
   it('updates `volume` when `volumeChanged` callback is triggered', async () => {
     const el = await fixture(html`
       <radio-player></radio-player>
@@ -210,6 +241,133 @@ describe('Radio Player', () => {
     const event = new CustomEvent('foo', { detail: { volume: 75 }})
     el.volumeChanged(event);
     expect(el.volume).to.equal(75);
+  });
+
+  it('does not update `volume` if `volumeChanged` event is not properly structured', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    el.volume = 23;
+
+    const event = new CustomEvent('foo', { })
+    el.volumeChanged(event);
+    expect(el.volume).to.equal(23);
+
+    const event2 = new CustomEvent('foo', { detail: { }})
+    el.volumeChanged(event2);
+    expect(el.volume).to.equal(23);
+  });
+
+  it('updates `duration` when `handleDurationChange` callback is triggered', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    const event = new CustomEvent('foo', { detail: { duration: 75 }})
+    el.handleDurationChange(event);
+    expect(el.duration).to.equal(75);
+  });
+
+  it('does not update `duration` if `handleDurationChange` event is not properly structured', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    el.duration = 23;
+
+    const event = new CustomEvent('foo', { })
+    el.handleDurationChange(event);
+    expect(el.duration).to.equal(23);
+
+    const event2 = new CustomEvent('foo', { detail: { }})
+    el.handleDurationChange(event2);
+    expect(el.duration).to.equal(23);
+  });
+
+  it('updates `currentTime` when `handleTimeChange` callback is triggered', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    const event = new CustomEvent('foo', { detail: { currentTime: 75 }})
+    el.handleTimeChange(event);
+    expect(el.currentTime).to.equal(75);
+  });
+
+  it('does not update `currentTime` if `handleTimeChange` event is not properly structured', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    el.currentTime = 15;
+
+    const event = new CustomEvent('foo', { })
+    el.handleTimeChange(event);
+    expect(el.currentTime).to.equal(15);
+
+    const event2 = new CustomEvent('foo', { detail: { }})
+    el.handleTimeChange(event2);
+    expect(el.currentTime).to.equal(15);
+  });
+
+  it('updates `currentTime` when `valueChangedFromScrub` callback is triggered', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    el.duration = 100;
+
+    const event = new CustomEvent('foo', { detail: { value: 75 }})
+    el.valueChangedFromScrub(event);
+    expect(el.currentTime).to.equal(75);
+  });
+
+  it('does not update `currentTime` if `valueChangedFromScrub` event is not properly structured', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    el.duration = 100;
+    el.currentTime = 15;
+
+    const event = new CustomEvent('foo', { })
+    el.valueChangedFromScrub(event);
+    expect(el.currentTime).to.equal(15);
+
+    const event2 = new CustomEvent('foo', { detail: { }})
+    el.valueChangedFromScrub(event2);
+    expect(el.currentTime).to.equal(15);
+  });
+
+  it('updates `currentTime` when `transcriptEntrySelected` callback is triggered', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    const event = new CustomEvent('foo', { detail: { entry: { start: 75 }}})
+    el.transcriptEntrySelected(event);
+    expect(el.currentTime).to.equal(75);
+  });
+
+  it('does not update `currentTime` if `transcriptEntrySelected` event is not properly structured', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    el.currentTime = 15;
+
+    const event = new CustomEvent('foo', { })
+    el.transcriptEntrySelected(event);
+    expect(el.currentTime).to.equal(15);
+
+    const event2 = new CustomEvent('foo', { detail: { }})
+    el.transcriptEntrySelected(event2);
+    expect(el.currentTime).to.equal(15);
+
+    const event3 = new CustomEvent('foo', { detail: { entry: {}}})
+    el.transcriptEntrySelected(event3);
+    expect(el.currentTime).to.equal(15);
   });
 
   it('updates the transcriptView result index and scrolls when `searchResultIndexChanged` callback is triggered', async () => {
@@ -227,6 +385,23 @@ describe('Radio Player', () => {
     expect(transcriptView.selectedSearchResultIndex).to.equal(3);
     expect(scrollCalled).to.equal(true);
   });
+
+  it('does not update the searchResultIndexChanged if event does not contain needed info', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+    const transcriptView = el.shadowRoot.querySelector('transcript-view');
+    transcriptView.selectedSearchResultIndex = 13;
+
+    const event = new CustomEvent('foo', { })
+    el.searchResultIndexChanged(event);
+    expect(transcriptView.selectedSearchResultIndex).to.equal(13);
+
+    const event2 = new CustomEvent('foo', { detail: { }})
+    el.searchResultIndexChanged(event);
+    expect(transcriptView.selectedSearchResultIndex).to.equal(13);
+  });
+
 
   it('updates the transcriptView result index and scrolls when `searchResultIndexChanged` callback is triggered', async () => {
     const el = await fixture(html`

@@ -271,7 +271,11 @@ export default class RadioPlayer extends LitElement {
   }
 
   private updateSearchTerm(e: CustomEvent): void {
-    this.searchTerm = e.detail.value;
+    const detail = e.detail || {};
+    if (!detail.value) {
+      return;
+    }
+    this.searchTerm = detail.value;
   }
 
   private searchCleared(): void {
@@ -293,10 +297,11 @@ export default class RadioPlayer extends LitElement {
   }
 
   private searchResultIndexChanged(e: CustomEvent): void {
-    if (!this.transcriptView) {
+    const detail = e.detail || {};
+    if (!detail.searchResultIndex || !this.transcriptView) {
       return;
     }
-    this.transcriptView.selectedSearchResultIndex = e.detail.searchResultIndex;
+    this.transcriptView.selectedSearchResultIndex = detail.searchResultIndex;
     this.transcriptView.scrollToSelectedSearchResult();
   }
 
@@ -340,10 +345,18 @@ export default class RadioPlayer extends LitElement {
   }
 
   private changePlaybackRate(e: CustomEvent): void {
-    this.playbackRate = e.detail.playbackRate;
+    const detail = e.detail || {};
+    if (!detail.playbackRate) {
+      return;
+    }
+    this.playbackRate = detail.playbackRate;
   }
 
   private volumeChanged(e: CustomEvent): void {
+    const detail = e.detail || {};
+    if (!detail.volume) {
+      return;
+    }
     this.volume = e.detail.volume;
   }
 
@@ -401,11 +414,20 @@ export default class RadioPlayer extends LitElement {
   }
 
   private handleDurationChange(e: CustomEvent): void {
-    this.duration = e.detail.duration;
+    const detail = e.detail || {};
+    if (!detail.duration) {
+      return;
+    }
+    this.duration = detail.duration;
   }
 
   private handleTimeChange(e: CustomEvent): void {
-    this.currentTime = e.detail.currentTime;
+    const detail = e.detail || {};
+    if (!detail.currentTime) {
+      return;
+    }
+
+    this.currentTime = detail.currentTime;
     const percent = this.currentTime / this.duration;
     this.percentComplete = percent * 100;
   }
@@ -443,7 +465,12 @@ export default class RadioPlayer extends LitElement {
   }
 
   private valueChangedFromScrub(e: CustomEvent): void {
-    const percentage = e.detail.value;
+    const detail = e.detail || {};
+    if (!detail.value) {
+      return;
+    }
+
+    const percentage = detail.value;
     const newTime = this.duration * (percentage / 100);
     this.currentTime = newTime;
     /* istanbul ignore else */
@@ -458,7 +485,13 @@ export default class RadioPlayer extends LitElement {
   }
 
   private transcriptEntrySelected(e: CustomEvent): void {
-    const newTime = e.detail.entry.start;
+    const detail = e.detail || {};
+    const entry = detail.entry || {};
+    if (!entry.start) {
+      return;
+    }
+
+    const newTime = entry.start;
     this.currentTime = newTime;
     /* istanbul ignore else */
     if (this.audioElement) {
