@@ -1,16 +1,12 @@
+/* eslint-disable import/no-duplicates */
 import { LitElement, html, customElement, TemplateResult, property } from 'lit-element';
-
-/* eslint-disable */
 
 import { AudioSource } from '@internetarchive/audio-element';
 import {
   TranscriptConfig,
   TranscriptEntryConfig,
-  TranscriptView,
 } from '@internetarchive/transcript-view';
 
-import transcript from './transcript3.js';
-// prettier-ignore
 import '../src/radio-player';
 import RadioPlayer from '../src/radio-player';
 import RadioPlayerConfig from '../src/models/radio-player-config';
