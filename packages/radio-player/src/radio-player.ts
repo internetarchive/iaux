@@ -182,6 +182,15 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
+  /**
+   * Generate an array of start and end points for each of the music zones.
+   * This allows us to show the markers on the scrubber bar and optionally skip those sections.
+   *
+   * @readonly
+   * @private
+   * @type {number[]}
+   * @memberof RadioPlayer
+   */
   private get scrubberBarMarkerPercentages(): number[] {
     const percentages: number[] = [0];
     this.zonesOfSilence.forEach(zone => {
@@ -258,6 +267,15 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
+  /**
+   * Generate an array of `QuickSearchEntry` objects based on the quick search
+   * configuration passed in.
+   *
+   * @readonly
+   * @private
+   * @type {QuickSearchEntry[]}
+   * @memberof RadioPlayer
+   */
   private get quickSearches(): QuickSearchEntry[] {
     if (!this.config) {
       return [];
@@ -270,6 +288,14 @@ export default class RadioPlayer extends LitElement {
     return entries;
   }
 
+  /**
+   * Update the local search term when the SearchBar widget gets updated and emits the event
+   *
+   * @private
+   * @param {CustomEvent} e
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private updateSearchTerm(e: CustomEvent): void {
     const detail = e.detail || {};
     if (!detail.value) {
@@ -278,6 +304,13 @@ export default class RadioPlayer extends LitElement {
     this.searchTerm = detail.value;
   }
 
+  /**
+   * Triggered when the user clicks the clear search button in the search bar.
+   * Clean up all of the search info and reset to the base transcript.
+   *
+   * @private
+   * @memberof RadioPlayer
+   */
   private searchCleared(): void {
     this.searchTerm = '';
     this.emitSearchClearedEvent();
@@ -291,11 +324,26 @@ export default class RadioPlayer extends LitElement {
     }
   }
 
+  /**
+   * When the user clears the search, we want to bubble up the event to other consumers.
+   *
+   * @private
+   * @memberof RadioPlayer
+   */
   private emitSearchClearedEvent(): void {
     const event = new Event('searchCleared');
     this.dispatchEvent(event);
   }
 
+  /**
+   * Triggered when the user scrubs through search result indices so we can coordinate
+   * the UI updates like scrolling the transcript view
+   *
+   * @private
+   * @param {CustomEvent} e
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private searchResultIndexChanged(e: CustomEvent): void {
     const detail = e.detail || {};
     if (!detail.searchResultIndex || !this.transcriptView) {
@@ -305,9 +353,20 @@ export default class RadioPlayer extends LitElement {
     this.transcriptView.scrollToSelectedSearchResult();
   }
 
+  /**
+   * Triggered when the user presses enter in the search bar so we can trigger a search.
+   *
+   * @private
+   * @param {CustomEvent} e
+   * @memberof RadioPlayer
+   */
   private searchEnterKeyPressed(e: CustomEvent): void {
+    const detail = e.detail || {};
+    if (!detail.value) {
+      return;
+    }
     const event = new CustomEvent('searchRequested', {
-      detail: { searchTerm: e.detail.value },
+      detail: { searchTerm: detail.value },
     });
     this.dispatchEvent(event);
   }
@@ -344,6 +403,14 @@ export default class RadioPlayer extends LitElement {
       : null;
   }
 
+  /**
+   * Triggered when the user changes the playback rate so we can update the audio element
+   *
+   * @private
+   * @param {CustomEvent} e
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private changePlaybackRate(e: CustomEvent): void {
     const detail = e.detail || {};
     if (!detail.playbackRate) {
@@ -352,6 +419,14 @@ export default class RadioPlayer extends LitElement {
     this.playbackRate = detail.playbackRate;
   }
 
+  /**
+   * Triggered when the user changes the volume from the playback controls
+   *
+   * @private
+   * @param {CustomEvent} e
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private volumeChanged(e: CustomEvent): void {
     const detail = e.detail || {};
     if (!detail.volume) {
@@ -360,6 +435,12 @@ export default class RadioPlayer extends LitElement {
     this.volume = e.detail.volume;
   }
 
+  /**
+   * Triggered when the user presses the back button in the playback controls
+   *
+   * @private
+   * @memberof RadioPlayer
+   */
   private backButtonHandler(): void {
     /* istanbul ignore else */
     if (this.audioElement) {
@@ -367,6 +448,13 @@ export default class RadioPlayer extends LitElement {
     }
   }
 
+  /**
+   * Triggered when the user presses the play/pause button
+   *
+   * @private
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private playPauseButtonHandler(): void {
     this.isPlaying = !this.isPlaying;
     /* istanbul ignore if */
@@ -380,6 +468,12 @@ export default class RadioPlayer extends LitElement {
     }
   }
 
+  /**
+   * Triggered when the user presses the forward button in the playback controls
+   *
+   * @private
+   * @memberof RadioPlayer
+   */
   private forwardButtonHandler(): void {
     /* istanbul ignore else */
     if (this.audioElement) {
@@ -387,6 +481,13 @@ export default class RadioPlayer extends LitElement {
     }
   }
 
+  /**
+   * Handle the next section button
+   *
+   * @private
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private nextSectionButtonHandler(): void {
     /* istanbul ignore if */
     if (!this.audioElement) {
@@ -400,6 +501,13 @@ export default class RadioPlayer extends LitElement {
     this.audioElement.seekTo(seekTo);
   }
 
+  /**
+   * Handle the previous section button
+   *
+   * @private
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private prevSectionButtonHandler(): void {
     /* istanbul ignore if */
     if (!this.audioElement) {
@@ -413,6 +521,14 @@ export default class RadioPlayer extends LitElement {
     this.audioElement.seekTo(seekTo);
   }
 
+  /**
+   * Handle the duration change event like when the audio file first loads
+   *
+   * @private
+   * @param {CustomEvent} e
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private handleDurationChange(e: CustomEvent): void {
     const detail = e.detail || {};
     if (!detail.duration) {
@@ -421,6 +537,14 @@ export default class RadioPlayer extends LitElement {
     this.duration = detail.duration;
   }
 
+  /**
+   * Triggered as the playback progresses in the audio element
+   *
+   * @private
+   * @param {CustomEvent} e
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private handleTimeChange(e: CustomEvent): void {
     const detail = e.detail || {};
     if (!detail.currentTime) {
@@ -432,6 +556,12 @@ export default class RadioPlayer extends LitElement {
     this.percentComplete = percent * 100;
   }
 
+  /**
+   * Update any consumers that the current time has changed
+   *
+   * @private
+   * @memberof RadioPlayer
+   */
   private emitCurrentTimeChangedEvent(): void {
     const event = new CustomEvent('currentTimeChanged', {
       detail: { currentTime: this.currentTime },
@@ -439,6 +569,12 @@ export default class RadioPlayer extends LitElement {
     this.dispatchEvent(event);
   }
 
+  /**
+   * Handle the playback paused event
+   *
+   * @private
+   * @memberof RadioPlayer
+   */
   private playbackPaused(): void {
     this.isPlaying = false;
     /* istanbul ignore else */
@@ -449,6 +585,12 @@ export default class RadioPlayer extends LitElement {
     this.dispatchEvent(event);
   }
 
+  /**
+   * Handle the playback started event
+   *
+   * @private
+   * @memberof RadioPlayer
+   */
   private playbackStarted(): void {
     this.isPlaying = true;
     /* istanbul ignore else */
@@ -459,11 +601,25 @@ export default class RadioPlayer extends LitElement {
     this.dispatchEvent(event);
   }
 
+  /**
+   * Emits a `canplay` event when the media is ready to be played
+   *
+   * @private
+   * @memberof RadioPlayer
+   */
   private canplay(): void {
     const event: Event = new Event('canplay');
     this.dispatchEvent(event);
   }
 
+  /**
+   * Triggered when the user scrubs the scrubber bar or waveform progress bar
+   *
+   * @private
+   * @param {CustomEvent} e
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private valueChangedFromScrub(e: CustomEvent): void {
     const detail = e.detail || {};
     if (!detail.value) {
@@ -484,6 +640,15 @@ export default class RadioPlayer extends LitElement {
     this.dispatchEvent(event);
   }
 
+  /**
+   * Triggered when the user selects a transcript entry.
+   * Allows it to jump to that spot in the playback.
+   *
+   * @private
+   * @param {CustomEvent} e
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private transcriptEntrySelected(e: CustomEvent): void {
     const detail = e.detail || {};
     const entry = detail.entry || {};
@@ -504,6 +669,12 @@ export default class RadioPlayer extends LitElement {
     this.dispatchEvent(event);
   }
 
+  /**
+   * Creates the music zones based on the transcript so we know when to skip past sections
+   *
+   * @private
+   * @memberof RadioPlayer
+   */
   private updateMusicZones(): void {
     // eslint-disable-next-line max-len
     const musicEntries: TranscriptEntryConfig[] = this.transcriptEntries.filter(
@@ -518,6 +689,12 @@ export default class RadioPlayer extends LitElement {
     this.musicZones = musicZones;
   }
 
+  /**
+   * Skips a music zone if enabled
+   *
+   * @private
+   * @memberof RadioPlayer
+   */
   private skipMusicZone(): void {
     // eslint-disable-next-line max-len
     const activeMusicZone: MusicZone | undefined = this.musicZones.find(
@@ -529,6 +706,13 @@ export default class RadioPlayer extends LitElement {
     }
   }
 
+  /**
+   * Updates the search results switcher with proper numbers
+   *
+   * @private
+   * @returns {void}
+   * @memberof RadioPlayer
+   */
   private updateSearchResultSwitcher(): void {
     this.shouldShowNoSearchResultMessage = false;
     this.shouldShowSearchResultSwitcher = false;
