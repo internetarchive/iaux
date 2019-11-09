@@ -33,9 +33,9 @@ import RadioPlayerConfig from './models/radio-player-config';
 
 @customElement('radio-player')
 export default class RadioPlayer extends LitElement {
-  @property({ type: RadioPlayerConfig }) config: RadioPlayerConfig | undefined = undefined;
+  @property({ type: Object }) config: RadioPlayerConfig | undefined = undefined;
 
-  @property({ type: TranscriptConfig }) transcriptConfig: TranscriptConfig | undefined = undefined;
+  @property({ type: Object }) transcriptConfig: TranscriptConfig | undefined = undefined;
 
   @property({ type: Number }) currentTime = 0;
 
@@ -607,29 +607,41 @@ export default class RadioPlayer extends LitElement {
         playback-controls {
           width: 75%;
           margin: auto;
+          grid-row: 5;
+          grid-column: 1;
           -ms-grid-row: 5;
           -ms-grid-column: 1;
           -ms-grid-column-span: 3;
         }
         .title-date {
+          grid-row: 1;
+          grid-column: 3;
           -ms-grid-row: 1;
           -ms-grid-column: 3;
         }
         .transcript-container {
+          grid-row: 9;
+          grid-column: 1;
           -ms-grid-row: 9;
           -ms-grid-column: 1;
           -ms-grid-column-span: 3;
         }
         .collection-logo {
+          grid-row: 1;
+          grid-column: 1;
           -ms-grid-row: 1;
           -ms-grid-column: 1;
         }
         .waveform-scrubber-container {
+          grid-row: 3;
+          grid-column: 1;
           -ms-grid-row: 3;
           -ms-grid-column: 1;
           -ms-grid-column-span: 3;
         }
         .search-section {
+          grid-row: 7;
+          grid-column: 1;
           -ms-grid-row: 7;
           -ms-grid-column: 1;
           -ms-grid-column-span: 3;
@@ -656,6 +668,8 @@ export default class RadioPlayer extends LitElement {
           display: flex;
           justify-content: space-between;
           align-items: baseline;
+          grid-row: 1;
+          grid-column: 1;
           -ms-grid-row: 1;
           -ms-grid-column: 1;
           -ms-grid-column-span: 7;
@@ -664,25 +678,35 @@ export default class RadioPlayer extends LitElement {
           --timeDisplay: block;
         }
         playback-controls {
+          grid-row: 3;
+          grid-column: 5;
           -ms-grid-row: 3;
           -ms-grid-column: 5;
           -ms-grid-column-span: 1;
         }
         .transcript-container {
+          grid-row: 5;
+          grid-column: 3;
           -ms-grid-row: 5;
           -ms-grid-column: 3;
           -ms-grid-column-span: 5;
         }
         .collection-logo {
+          grid-row: 3;
+          grid-column: 1;
           -ms-grid-row: 3;
           -ms-grid-column: 1;
         }
         .waveform-scrubber-container {
+          grid-row: 3;
+          grid-column: 7;
           -ms-grid-row: 3;
           -ms-grid-column: 7;
           -ms-grid-column-span: 1;
         }
         .search-section {
+          grid-row: 5;
+          grid-column: 1;
           -ms-grid-row: 5;
           -ms-grid-column: 1;
           -ms-grid-column-span: 1;

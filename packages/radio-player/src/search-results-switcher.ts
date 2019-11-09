@@ -12,12 +12,21 @@ import {
 import leftImage from './assets/img/left';
 import rightImage from './assets/img/right';
 
+/**
+ * A widget to switch between search results that roughly looks like this:
+ * < 3 / 7 >
+ *
+ * @export
+ * @class SearchResultsSwitcher
+ * @extends {LitElement}
+ */
 @customElement('search-results-switcher')
 export default class SearchResultsSwitcher extends LitElement {
   @property({ type: Number }) numberOfResults = 0;
 
   @property({ type: Number }) currentResultIndex = 0;
 
+  // LitElement lifecycle start
   render(): TemplateResult {
     return html`
       <div class="container">
@@ -54,6 +63,7 @@ export default class SearchResultsSwitcher extends LitElement {
       this.currentResultIndex = 0;
     }
   }
+  // LitElement lifecycle end
 
   goToPreviousResult(): void {
     if (this.currentResultIndex < 1) {
