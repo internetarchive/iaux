@@ -338,13 +338,17 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       itemPhoto,
       externalSourcesDisplayValues,
       playSamples,
-      creator: origCreator = []
+      creator: oc = []
     } = albumData;
+    // Note origCreator is set from creator which is a repeatable field so in Dweb Metadata its always an array and could be for archive.org
+    // and TheatreTrackList probably erroneously presumes its a string
+    const origCreator = Array.isArray(oc) ? oc.join(', ') : oc;
     const {
       title,
       identifier,
-      creator
     } = albumMetadaToDisplay;
+    // Note creator is a repeatable field so in Dweb Metadata its always an array and could be for archive.org
+    const creator = Array.isArray(albumMetadaToDisplay.creator) ? albumMetadaToDisplay.creator.join('; ') : albumMetadaToDisplay.creator;
     let audioPlayerChannelLabel;
     const isArchiveChannel = channelToPlay === 'archive';
     if (isArchiveChannel) {

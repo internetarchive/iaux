@@ -138,7 +138,8 @@ export default class TheatreAudioPlayer extends Component {
     const { linerNotes } = this.props;
     const { mediaSource } = this.state;
 
-    if (!linerNotes) return null;
+    // may have linerNotes with just {metadata} if bookreader jsia call fails
+    if (!linerNotes || !linerNotes.data) return null;
 
     const bookReaderStyle = mediaSource === 'liner-notes'
       ? { visibility: 'visible' }

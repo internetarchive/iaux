@@ -125,14 +125,15 @@ TheatreTrackList.defaultProps = {
   displayTrackNumbers: true,
   creator: '',
   albumName: '',
+  selectedTrack: null,
 };
 
 TheatreTrackList.propTypes = {
   onSelected: PropTypes.func.isRequired,
-  selectedTrack: PropTypes.number.isRequired,
+  selectedTrack: PropTypes.number,
   tracks: PropTypes.arrayOf(PropTypes.object),
   displayTrackNumbers: PropTypes.bool,
-  creator: PropTypes.string,
+  creator: PropTypes.string,  // Note that creator is a repeatable metadata field so caller will have to coerce it into a string!
   albumName: PropTypes.string,
 };
 
