@@ -31,34 +31,134 @@ import SearchResultsSwitcher from './search-results-switcher';
 import MusicZone from './models/music-zone';
 import RadioPlayerConfig from './models/radio-player-config';
 
+/**
+ * A Radio Player element to play back transcribed audio.
+ *
+ * It is responsible for orchestrating all of the other components like:
+ * - Waveform Progress
+ * - Scrubber Bar
+ * - Playback Controls
+ * - Transcript View
+ * - Audio Element
+ * - Search Bar
+ *
+ * @export
+ * @class RadioPlayer
+ * @extends {LitElement}
+ */
 @customElement('radio-player')
 export default class RadioPlayer extends LitElement {
+  /**
+   * Radio player configuration
+   *
+   * @type {(RadioPlayerConfig | undefined)}
+   * @memberof RadioPlayer
+   */
   @property({ type: Object }) config: RadioPlayerConfig | undefined = undefined;
 
+  /**
+   * Transcript configuration
+   *
+   * @type {(TranscriptConfig | undefined)}
+   * @memberof RadioPlayer
+   */
   @property({ type: Object }) transcriptConfig: TranscriptConfig | undefined = undefined;
 
+  /**
+   * Current playback time
+   *
+   * @type {number}
+   * @memberof RadioPlayer
+   */
   @property({ type: Number }) currentTime = 0;
 
+  /**
+   * Current search term
+   *
+   * @type {string}
+   * @memberof RadioPlayer
+   */
   @property({ type: String }) searchTerm = '';
 
+  /**
+   * Flag to determine whether or not to skip the music sections
+   *
+   * @type {boolean}
+   * @memberof RadioPlayer
+   */
   @property({ type: Boolean }) skipMusicSections = false;
 
+  /**
+   * Percent of playback that is complete
+   *
+   * @private
+   * @type {number}
+   * @memberof RadioPlayer
+   */
   @property({ type: Number }) private percentComplete = 0;
 
+  /**
+   * Flag for whether or not the radio player is playing
+   *
+   * @private
+   * @type {boolean}
+   * @memberof RadioPlayer
+   */
   @property({ type: Boolean }) private isPlaying = false;
 
+  /**
+   * Duration of the audio file
+   *
+   * @private
+   * @type {number}
+   * @memberof RadioPlayer
+   */
   @property({ type: Number }) private duration = 0;
 
+  /**
+   * The playback rate where 1 is "normal", 0 is paused, 2 is twice as fase
+   *
+   * @private
+   * @type {number}
+   * @memberof RadioPlayer
+   */
   @property({ type: Number }) private playbackRate = 1;
 
+  /**
+   * Volume from 0 to 1
+   *
+   * @private
+   * @type {number}
+   * @memberof RadioPlayer
+   */
   @property({ type: Number }) private volume = 1;
 
+  /**
+   * Flag for whether we should show the search results switcher
+   *
+   * @private
+   * @type {boolean}
+   * @memberof RadioPlayer
+   */
   @property({ type: Boolean }) private shouldShowSearchResultSwitcher = false;
 
+  /**
+   * Flag for whether we should show the 'no results' message
+   *
+   * @private
+   * @type {boolean}
+   * @memberof RadioPlayer
+   */
   @property({ type: Boolean }) private shouldShowNoSearchResultMessage = false;
 
   private musicZones: MusicZone[] = [];
 
+  /**
+   * LitElement lifecycle main render method
+   *
+   * @returns {TemplateResult}
+   * @memberof RadioPlayer
+   */
   render(): TemplateResult {
     return html`
       ${this.audioElementTemplate}
