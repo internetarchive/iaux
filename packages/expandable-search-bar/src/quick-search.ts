@@ -10,10 +10,23 @@ import {
 
 import QuickSearchEntry from './models/quick-search-entry';
 
+/**
+ * An element used to render a list of QuickSearchEntry entries
+ *
+ * @export
+ * @class QuickSearch
+ * @extends {LitElement}
+ */
 @customElement('quick-search')
 export default class QuickSearch extends LitElement {
   @property({ type: Array }) quickSearches: QuickSearchEntry[] = [];
 
+  /**
+   * LitElement lifecycle render method
+   *
+   * @returns {TemplateResult}
+   * @memberof QuickSearch
+   */
   render(): TemplateResult {
     return html`
       <ul>
@@ -30,6 +43,15 @@ export default class QuickSearch extends LitElement {
     `;
   }
 
+  /**
+   * Triggered when the user selects one of the quick search entries.
+   * It emits a `searchTermSelected` event.
+   *
+   * @private
+   * @param {Event} e
+   * @returns {void}
+   * @memberof QuickSearch
+   */
   private doQuickSearch(e: Event): void {
     const { quickSearchIndex } = (e.target as HTMLElement).dataset;
     /* istanbul ignore if */
@@ -47,6 +69,14 @@ export default class QuickSearch extends LitElement {
     this.dispatchEvent(event);
   }
 
+  /**
+   * LitElement lifecycle styles method
+   *
+   * @readonly
+   * @static
+   * @type {CSSResult}
+   * @memberof QuickSearch
+   */
   static get styles(): CSSResult {
     const quickSearchListPaddingCss = css`var(--quickSearchListPadding, 0 0 0.5em 0)`;
     const quickSearchListItemPaddingCss = css`var(--quickSearchListItemPadding, 0.5em 0 0 0)`;

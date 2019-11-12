@@ -16,6 +16,13 @@ import QuickSearchEntry from './models/quick-search-entry';
 
 import './quick-search';
 
+/**
+ * An element to render a search bar with an expandable quick search area
+ *
+ * @export
+ * @class ExpandableSearchBar
+ * @extends {LitElement}
+ */
 @customElement('expandable-search-bar')
 export default class ExpandableSearchBar extends LitElement {
   @property({ type: Boolean }) isOpen = false;
@@ -26,6 +33,12 @@ export default class ExpandableSearchBar extends LitElement {
 
   @property({ type: Array }) quickSearches: QuickSearchEntry[] = [];
 
+  /**
+   * LitElement lifecycle main render method
+   *
+   * @returns {TemplateResult}
+   * @memberof ExpandableSearchBar
+   */
   render(): TemplateResult {
     return html`
       <div
@@ -67,6 +80,12 @@ export default class ExpandableSearchBar extends LitElement {
     `;
   }
 
+  /**
+   * Called when then user clicks the X button to clear the search
+   *
+   * @private
+   * @memberof ExpandableSearchBar
+   */
   private clearSearch(): void {
     this.searchTerm = '';
     /* istanbul ignore else */
@@ -77,6 +96,15 @@ export default class ExpandableSearchBar extends LitElement {
     this.emitSearchClearedEvent();
   }
 
+  /**
+   * Called when the user changes the input in the search bar.
+   * Emits an `inputchange` event and, if needed, an
+   * `enterKeyPressed` event.
+   *
+   * @private
+   * @param {KeyboardEvent} e
+   * @memberof ExpandableSearchBar
+   */
   private inputChanged(e: KeyboardEvent): void {
     /* istanbul ignore else */
     if (this.searchInput) {
@@ -88,6 +116,13 @@ export default class ExpandableSearchBar extends LitElement {
     }
   }
 
+  /**
+   * Emits an `inputchange` event.
+   * ie: `e.detail.value = 'current search string'`
+   *
+   * @private
+   * @memberof ExpandableSearchBar
+   */
   private emitInputChangeEvent(): void {
     const event = new CustomEvent('inputchange', {
       detail: { value: this.searchTerm },
@@ -95,6 +130,13 @@ export default class ExpandableSearchBar extends LitElement {
     this.dispatchEvent(event);
   }
 
+  /**
+   * Emits an `enterKeyPressed` event that contains the current value.
+   * ie: `e.detail.value = 'current search string'`
+   *
+   * @private
+   * @memberof ExpandableSearchBar
+   */
   private emitEnterKeyPressedEvent(): void {
     const event = new CustomEvent('enterKeyPressed', {
       detail: { value: this.searchTerm },
@@ -102,11 +144,26 @@ export default class ExpandableSearchBar extends LitElement {
     this.dispatchEvent(event);
   }
 
+  /**
+   * Emits a `searchCleared` event when the user clears the search
+   *
+   * @private
+   * @memberof ExpandableSearchBar
+   */
   private emitSearchClearedEvent(): void {
     const event = new Event('searchCleared');
     this.dispatchEvent(event);
   }
 
+  /**
+   * Triggered when the user selects a quick search entry.
+   * Emits a `quickSearchSelected` with the entry:
+   * ie. `e.detail.quickSearchEntry = <QuickSearchEntry object>`
+   *
+   * @private
+   * @param {CustomEvent} e
+   * @memberof ExpandableSearchBar
+   */
   private quickSearchSelected(e: CustomEvent): void {
     const event = new CustomEvent('quickSearchSelected', {
       detail: { quickSearchEntry: e.detail.searchEntry },
@@ -115,14 +172,36 @@ export default class ExpandableSearchBar extends LitElement {
     this.isOpen = false;
   }
 
+  /**
+   * Triggered when the user clicks on the disclosure triangle to toggle the quick search.
+   *
+   * @private
+   * @memberof ExpandableSearchBar
+   */
   private toggleDisclosure(): void {
     this.isOpen = !this.isOpen;
   }
 
+  /**
+   * Returns the search input form DOM element if it exists
+   *
+   * @readonly
+   * @private
+   * @type {(HTMLInputElement | null)}
+   * @memberof ExpandableSearchBar
+   */
   private get searchInput(): HTMLInputElement | null {
     return this.shadowRoot && (this.shadowRoot.getElementById('search-input') as HTMLInputElement);
   }
 
+  /**
+   * LitElement lifecycle styles
+   *
+   * @readonly
+   * @static
+   * @type {CSSResult}
+   * @memberof ExpandableSearchBar
+   */
   static get styles(): CSSResult {
     const expandableSearchBarBackgroundColorCss = css`var(--expandableSearchBarBackgroundColor, black)`;
     const expandableSearchBarTextColorCss = css`var(--expandableSearchBarTextColor, white)`;
