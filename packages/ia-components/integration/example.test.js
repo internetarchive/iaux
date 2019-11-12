@@ -50,17 +50,9 @@ describe('Example: Test search engine', () => {
     // NOTE: `elementIsVisible()` takes an element, not a locator.
     const button = await driver.wait(until.elementLocated(By.name('btnK')));
     await driver.wait(until.elementIsVisible(button)).click();
-
-
-    // const targetElement = await driver.findElement(By.tagName('html'));
-
-    // console.log('targetElement', targetElement);
-
-    const resultElement = await driver.findElement(By.css('div[data-async-context="query:browserstack"]'));
+    const resultElement = await driver.findElement(By.css('div[data-async-context="query:BrowserStack"]'));
     const urlElement = await resultElement.findElement(By.css('link[rel="prerender"]'));
-    console.log('urlElement', urlElement);
-
-    const elementText = await urlElement.getText();
-    return expect(elementText).toEqual('browserstack.com');
+    const elementHref = await urlElement.getAttribute('href');
+    return expect(elementHref).toEqual('https://www.browserstack.com/');
   });
 });
