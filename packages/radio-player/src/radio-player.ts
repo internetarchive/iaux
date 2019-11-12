@@ -72,21 +72,45 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
+  /**
+   * Start playback
+   *
+   * @memberof RadioPlayer
+   */
   play(): void {
     /* istanbul ignore else */
     if (this.audioElement) this.audioElement.play();
   }
 
+  /**
+   * Pause playback
+   *
+   * @memberof RadioPlayer
+   */
   pause(): void {
     /* istanbul ignore else */
     if (this.audioElement) this.audioElement.pause();
   }
 
+  /**
+   * Seek audio to given number of seconds
+   *
+   * @param {number} seconds
+   * @memberof RadioPlayer
+   */
   seekTo(seconds: number): void {
     /* istanbul ignore else */
     if (this.audioElement) this.audioElement.seekTo(seconds);
   }
 
+  /**
+   * Generate markup for the title and date view sections
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
   private get titleDateTemplate(): TemplateResult {
     return html`
       <div class="title-date">
@@ -101,16 +125,40 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
+  /**
+   * Generate markup for the logo element
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
   private get collectionLogoTemplate(): TemplateResult {
     return html`
       <img class="collection-logo" src=${this.logoUrl} />
     `;
   }
 
+  /**
+   * Return the logoUrl from the config if provided
+   *
+   * @readonly
+   * @private
+   * @type {string}
+   * @memberof RadioPlayer
+   */
   private get logoUrl(): string {
     return this.config ? this.config.logoUrl : '';
   }
 
+  /**
+   * Generate the markup for the waveform progress element
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
   private get waveFormProgressTemplate(): TemplateResult {
     return html`
       <waveform-progress
@@ -123,6 +171,17 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
+  /**
+   * Generate an array of `ZoneOfSilence` models for the waveform progress element
+   *
+   * It does this by parsing the transcript for music sections and converting
+   * those music sections to zones of silence.
+   *
+   * @readonly
+   * @private
+   * @type {ZoneOfSilence[]}
+   * @memberof RadioPlayer
+   */
   private get zonesOfSilence(): ZoneOfSilence[] {
     /* istanbul ignore else */
     if (this.duration === 0) {
@@ -143,10 +202,26 @@ export default class RadioPlayer extends LitElement {
     return zonesOfSilence;
   }
 
+  /**
+   * Return the waveform url from the configuration
+   *
+   * @readonly
+   * @private
+   * @type {string}
+   * @memberof RadioPlayer
+   */
   private get waveformUrl(): string {
     return this.config ? this.config.waveformUrl : '';
   }
 
+  /**
+   * Generate the audio element markup
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
   private get audioElementTemplate(): TemplateResult {
     return html`
       <audio-element
@@ -163,10 +238,26 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
+  /**
+   * Return the audio sources from the configuration
+   *
+   * @readonly
+   * @private
+   * @type {AudioSource[]}
+   * @memberof RadioPlayer
+   */
   private get audioSources(): AudioSource[] {
     return this.config ? this.config.audioSources : [];
   }
 
+  /**
+   * Generate markup for the playback controls
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
   private get playbackControlsTemplate(): TemplateResult {
     return html`
       <playback-controls
@@ -201,6 +292,14 @@ export default class RadioPlayer extends LitElement {
     return percentages;
   }
 
+  /**
+   * Generate markup for the scrubber bar
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
   private get scrubberBarTemplate(): TemplateResult {
     return html`
       <scrubber-bar
@@ -212,6 +311,14 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
+  /**
+   * Generate markup for the transcript view
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
   private get transcriptViewTemplate(): TemplateResult {
     return html`
       <div class="transcript-container">
@@ -225,11 +332,15 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
+  /**
+   * Generate markup for search section
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
   private get searchSectionTemplate(): TemplateResult {
-    // The mobile and desktop search sections work similarly, but the mobile version has
-    // a dropdown area on it and the desktop version does not.
-    // This is a case where the functionality is different enough to have two instances
-    // of it instead of one and just show and hide them based on the media query.
     return html`
       <div class="search-section">
         <expandable-search-bar
@@ -247,6 +358,14 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
+  /**
+   * Generate markup for the search results switcher
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
   private get searchResultsSwitcherTemplate(): TemplateResult {
     return html`
       <search-results-switcher
@@ -257,6 +376,14 @@ export default class RadioPlayer extends LitElement {
     `;
   }
 
+  /**
+   * Generate markup for the "No Search Results" message
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
   private get noSearchResultsTemplate(): TemplateResult {
     return html`
       <div
@@ -371,10 +498,26 @@ export default class RadioPlayer extends LitElement {
     this.dispatchEvent(event);
   }
 
+  /**
+   * Return transcript entries from the transcript configuration
+   *
+   * @readonly
+   * @private
+   * @type {TranscriptEntryConfig[]}
+   * @memberof RadioPlayer
+   */
   private get transcriptEntries(): TranscriptEntryConfig[] {
     return this.transcriptConfig ? this.transcriptConfig.entries : [];
   }
 
+  /**
+   * Return the transcript view DOM element
+   *
+   * @readonly
+   * @private
+   * @type {(TranscriptView | null)}
+   * @memberof RadioPlayer
+   */
   private get transcriptView(): TranscriptView | null {
     /* istanbul ignore next */
     return this.shadowRoot
@@ -382,6 +525,14 @@ export default class RadioPlayer extends LitElement {
       : null;
   }
 
+  /**
+   * Return the audio element DOM element
+   *
+   * @readonly
+   * @private
+   * @type {(AudioElement | null)}
+   * @memberof RadioPlayer
+   */
   private get audioElement(): AudioElement | null {
     /* istanbul ignore next */
     return this.shadowRoot
@@ -389,6 +540,14 @@ export default class RadioPlayer extends LitElement {
       : null;
   }
 
+  /**
+   * Return the playback controls DOM element
+   *
+   * @readonly
+   * @private
+   * @type {(PlaybackControls | null)}
+   * @memberof RadioPlayer
+   */
   private get playbackControls(): PlaybackControls | null {
     /* istanbul ignore next */
     return this.shadowRoot
@@ -396,6 +555,14 @@ export default class RadioPlayer extends LitElement {
       : null;
   }
 
+  /**
+   * Return the search results switcher DOM element
+   *
+   * @readonly
+   * @private
+   * @type {(SearchResultsSwitcher | null)}
+   * @memberof RadioPlayer
+   */
   private get searchResultsSwitcher(): SearchResultsSwitcher | null {
     /* istanbul ignore next */
     return this.shadowRoot
@@ -482,7 +649,7 @@ export default class RadioPlayer extends LitElement {
   }
 
   /**
-   * Handle the next section button
+   * Skip to the next section
    *
    * @private
    * @returns {void}
@@ -502,7 +669,7 @@ export default class RadioPlayer extends LitElement {
   }
 
   /**
-   * Handle the previous section button
+   * Jump to the previous section
    *
    * @private
    * @returns {void}
@@ -615,6 +782,9 @@ export default class RadioPlayer extends LitElement {
   /**
    * Triggered when the user scrubs the scrubber bar or waveform progress bar
    *
+   * Handles updating the audioElement to the new time and emitting an event
+   * that the time changed
+   *
    * @private
    * @param {CustomEvent} e
    * @returns {void}
@@ -707,7 +877,7 @@ export default class RadioPlayer extends LitElement {
   }
 
   /**
-   * Updates the search results switcher with proper numbers
+   * Updates the search results switcher numbers
    *
    * @private
    * @returns {void}
@@ -733,16 +903,32 @@ export default class RadioPlayer extends LitElement {
     }
   }
 
+  /**
+   * Returns the search result template entries from the transcript config
+   *
+   * @readonly
+   * @private
+   * @type {TranscriptEntryConfig[]}
+   * @memberof RadioPlayer
+   */
   private get searchResults(): TranscriptEntryConfig[] {
     return this.transcriptConfig ? this.transcriptConfig.searchResults : [];
   }
 
+  /**
+   * LitElement life cycle event when any reactive property gets updated
+   *
+   * @param {PropertyValues} changedProperties
+   * @memberof RadioPlayer
+   */
   updated(changedProperties: PropertyValues): void {
+    // when the transcriptConfig gets changed, reload the music zones and search results switcher
     if (changedProperties.has('transcriptConfig')) {
       this.updateMusicZones();
       this.updateSearchResultSwitcher();
     }
 
+    // as the currentTime gets updated, emit an event and skip the music zone if enabled
     if (changedProperties.has('currentTime')) {
       this.emitCurrentTimeChangedEvent();
       if (this.skipMusicSections) {
@@ -751,6 +937,14 @@ export default class RadioPlayer extends LitElement {
     }
   }
 
+  /**
+   * Component styles
+   *
+   * @readonly
+   * @static
+   * @type {CSSResult}
+   * @memberof RadioPlayer
+   */
   static get styles(): CSSResult {
     const collectionLogoMaxHeightCss = css`var(--collectionLogoMaxHeight, 8rem)`;
 
