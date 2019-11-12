@@ -2,6 +2,7 @@ import { html } from 'lit-html';
 
 const image = html`
   <svg height="12" viewBox="0 0 12 12" width="12" xmlns="http://www.w3.org/2000/svg">
+    <title>Clear Search Results</title>
     <g fill="none" fill-rule="evenodd">
       <circle cx="6" cy="6" fill="#fff" r="6" />
       <g stroke="#000" stroke-linecap="round">
