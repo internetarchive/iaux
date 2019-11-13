@@ -8,7 +8,7 @@
         "storybook:start": "start-storybook -p 9001 -c .storybook",
         "test:generate-output": "mkdir jest-test-utils && jest --json --outputFile=jest-test-utils/jest-test-results.json || true",
         "test:update-snapshots": "jest --updateSnapshot",
-        "test": "jest --coverage",
+        "test": "start-server-and-test storybook http-get://localhost:9001 'jest --coverage'",
         "test:watch": "yarn run test --watch",
         "test:integration": "node_modules/.bin/jest --config integration/jest.config.js"
     },
@@ -33,6 +33,7 @@
         "less-loader": "^4.1.0",
         "react-test-renderer": "^16.7.0",
         "selenium-webdriver": "^4.0.0-alpha.4",
+        "start-server-and-test": "^1.10.6",
         "storybook-addon-jsx": "^6.0.0",
         "style-loader": "^0.23.1"
     },
