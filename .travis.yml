@@ -3,4 +3,5 @@ node_js:
   - node
 
 script:
+  - lerna bootstrap
   - lerna run test
