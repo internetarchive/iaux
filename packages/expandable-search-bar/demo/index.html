@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: black;
+    }
+
+    .container {
+      width: 50%;
+      margin: auto;
+      color: white;
+    }
+
+    .developer {
+      background-color: white;
+      color: black;
+    }
+
+    .developer ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    expandable-search-bar {
+      display: block;
+      margin: 2em auto 2em auto;
+
+      --expandableSearchBarBackgroundColor: black;
+      --expandableSearchBarTextColor: white;
+      --expandableSearchBarFontSize: 1em;
+      --expandableSearchBarBorderColor: 1px solid white;
+
+      --expandableSearchBarMaxExpansionHeight: 150px;
+      --expandableSearchBarMinWidth: 5em;
+
+      --quickSearchListPadding: 0 0 0.5em 0;
+      --quickSearchListItemPadding: 0.5em 0 0 0;
+      --quickSearchLinkColor: rgb(68, 132, 202);
+      --quickSearchLinkDecoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import '../lib/expandable-search-bar.js';
+    import QuickSearchEntry from '../lib/models/quick-search-entry.js';
+
+    const quickSearch1 = new QuickSearchEntry('Gumballs', { identifier: 'gumballs' });
+    const quickSearch2 = new QuickSearchEntry('Lolly Pops', { identifier: 'lollipops' });
+    const quickSearch3 = new QuickSearchEntry('Gobstoppers', { identifier: 'gobstoppers' });
+    const quickSearch4 = new QuickSearchEntry('Taffy', { identifier: 'taffy' });
+    const quickSearch5 = new QuickSearchEntry('Cotton Candy', { identifier: 'cottoncandy' });
+    const quickSearch6 = new QuickSearchEntry('Chocolate Bar', { identifier: 'chocolatebar' });
+    const quickSearch7 = new QuickSearchEntry('Peanut Brittle', { identifier: 'peanutbrittle' });
+
+    const quickSearches = [
+      quickSearch1,
+      quickSearch2,
+      quickSearch3,
+      quickSearch4,
+      quickSearch5,
+      quickSearch6,
+      quickSearch7
+    ];
+
+    render(
+      html`
+        <div class="developer">
+          <ul>
+            <li>
+              Scale:
+              <input type="range" value="1" @input=${changeFontSize} min="0.5" max="3.0" step="0.1" />
+              <span id="font-size-value">1.0</span>em
+            </li>
+          </ul>
+          <strong>Note:</strong> Open the console to see the events.
+        </div>
+
+        <div class="container">
+          <h1>Normal</h1>
+          <expandable-search-bar
+            id="normal-search-bar"
+            @inputchange=${inputchange}
+            @enterKeyPressed=${enterKeyPressed}
+            @searchCleared=${searchCleared}>
+          </expandable-search-bar>
+
+          <h1>Expandable</h1>
+          <expandable-search-bar
+            id="expanding-search-bar"
+            showsDisclosure='true'
+            .quickSearches=${quickSearches}
+            @quickSearchSelected=${quickSearchSelected}
+            @inputchange=${inputchange}
+            @enterKeyPressed=${enterKeyPressed}
+            @searchCleared=${searchCleared}>
+          </expandable-search-bar>
+        </div>
+      `,
+      document.querySelector('#demo')
+    );
+
+    function changeFontSize(e) {
+      document.getElementById('font-size-value').innerText = e.target.value;
+
+      document.querySelectorAll('expandable-search-bar').forEach((element) => {
+        element.style
+          .setProperty('--expandableSearchBarFontSize', `${e.target.value}em`);
+      })
+    }
+
+    function inputchange(e) {
+      console.log('inputchange', e.detail.value);
+    }
+
+    function enterKeyPressed(e) {
+      console.log('enterKeyPressed', e.detail.value);
+    }
+
+    function searchCleared() {
+      console.log('search cleared');
+    }
+
+    function quickSearchSelected(e) {
+      console.log('quickSearchSelected', e.detail.quickSearchEntry);
+      document.getElementById('expanding-search-bar').searchTerm = e.detail.quickSearchEntry.displayText;
+    }
+  </script>
+</body>
+</html>

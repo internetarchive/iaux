@@ -701,6 +701,30 @@
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.3.tgz#f060bf6eaafae4d56a7dac618980838b0696e2ab"
   integrity sha512-FmuxfCuolpLl0AnQ2NHSzoUKWEJDFl63qXjzdoWBVyFCXzMGm1spBzk7LeHNoVCiWCF7mRVms9e6jEV9+MoPbg==
 
+"@internetarchive/audio-element@0.0.1-alpha.422+18a94d7":
+  version "0.0.1-alpha.422"
+  resolved "https://registry.yarnpkg.com/@internetarchive/audio-element/-/audio-element-0.0.1-alpha.422.tgz#c4519daf01ec47caed124acad5e656d4f302c757"
+  integrity sha512-RfK1eDN5X1UCcKZO1GzpQ4nuR04GeEQ4ZerD03PU+cD5hUe3WAzM2EOAspn6fvIuFR5i2eFRJkWy5o2so6DSIg==
+  dependencies:
+    lit-element "^2.2.1"
+    lit-html "^1.0.0"
+
+"@internetarchive/scrubber-bar@0.0.1-alpha.445+38342c8":
+  version "0.0.1-alpha.445"
+  resolved "https://registry.yarnpkg.com/@internetarchive/scrubber-bar/-/scrubber-bar-0.0.1-alpha.445.tgz#2056f01677b11a55e183b595041f6aeffffe75b2"
+  integrity sha512-ImRvq99KlD8iOkgLKh5NabCdcrCssHTjyAfjqXX13dAXEl1F9kUYvkzqmeUjAcWgvmrCsf9TnwRh8Yo+y1Zrng==
+  dependencies:
+    lit-element "^2.2.1"
+    lit-html "^1.0.0"
+
+"@internetarchive/waveform-progress@0.0.1-alpha.447+9eae4b4":
+  version "0.0.1-alpha.447"
+  resolved "https://registry.yarnpkg.com/@internetarchive/waveform-progress/-/waveform-progress-0.0.1-alpha.447.tgz#0255ee24b86bd654e8cde1ad940c22aa03defee2"
+  integrity sha512-4jr/ozYZpsCSBE3jN0xwxktJzInCzqHyWhKXp/Nd9s5AimVP3dCVTqtY7xi5NhsuXLEXKZKgmAXQKQdUyL8eAw==
+  dependencies:
+    lit-element "^2.2.1"
+    lit-html "^1.0.0"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -3587,6 +3611,18 @@ levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
+
+lit-element@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-2.2.1.tgz#79c94d8cfdc2d73b245656e37991bd1e4811d96f"
+  integrity sha512-ipDcgQ1EpW6Va2Z6dWm79jYdimVepO5GL0eYkZrFvdr0OD/1N260Q9DH+K5HXHFrRoC7dOg+ZpED2XE0TgGdXw==
+  dependencies:
+    lit-html "^1.0.0"
+
+lit-html@^1.0.0:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-1.1.2.tgz#2e3560a7075210243649c888ad738eaf0daa8374"
+  integrity sha512-FFlUMKHKi+qG1x1iHNZ1hrtc/zHmfYTyrSvs3/wBTvaNtpZjOZGWzU7efGYVpgp6KvWeKF6ql9/KsCq6Z/mEDA==
 
 lodash.clone@^4.5.0:
   version "4.5.0"
