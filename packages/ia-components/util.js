@@ -20,30 +20,30 @@ function gatewayServer(server=undefined) {
     // Return location for http calls to a gateway server that understands canonical addresses like /arc/archive.. or /ipfs/Q...
     // Has to be a function rather than constant because searchparams is defined after this library is loaded
     // Note that for example where Util.js is included from dweb-mirror that currently (this may change) DwebArchive is not defined
-    // If server is supplied will use that rather than dweb.me, this is (possibly temporary) for bookreader //TODO-BOOK
+    // If server is supplied will use that rather than dweb.archive.org, this is (possibly temporary) for bookreader //TODO-BOOK
     return ((typeof DwebArchive !== "undefined") && (DwebArchive.mirror !== null))  ? DwebArchive.mirror
         : server ? "https://"+server
-            : "https://dweb.me"
+            : "https://dweb.archive.org"
 }
 
 // Same code in dweb-archive/util.js and ia-components/util.js
 function canonicalUrl(url, opts={}) {
     /* Translate an URL as typically seen in a piece of IA code into something canonical that can be used in:
-        Dweb code - where typically it wants to go to https://dweb.me
+        Dweb code - where typically it wants to go to https://dweb.archive.org
         Dweb-Mirror client - where it should go to the mirror server
         AO - where it will usually not be changed
         Note this explicitly doesnt count the case of running in the Mirror as its only occurring in UI code
 
         The code here will get complicated as more cases are added
         By default URLs are returned unmodified
-
+        There is no assumption that the resulting URL will be passed to DwebTransports for resolution, even if DwebArchive is defined.
         Cases handled:
-        /xxx -> Dweb|Mirror: <server>/arc/archive.org/xxx AO:
+        /xxx -> Dweb|Mirror: <server>/xxx AO:
      */
     if (url.startsWith("/services")) {
         return (typeof DwebArchive === "undefined")
             ? url
-            : ( DwebArchive.mirror === null ? "https://dweb.me" : DwebArchive.mirror) + "/arc/archive.org" + url;
+            : ( DwebArchive.mirror === null ? "https://dweb.archive.org" : DwebArchive.mirror) + url;
     }
     return url;
 }
@@ -88,22 +88,22 @@ const _formatarr = [
     {format: '128Kbps MP3',  ext: undefined, type: "audio",    mimetype: "audio/mpeg3",          playable: false, downloadable: "128KBPS MP3" },
     {format: '64Kbps MP3',  ext: undefined, type: "audio",    mimetype: "audio/mpeg3",          playable: false, downloadable: "64KBPS MP3" },
     {format: 'LibriVox Apple Audiobook', type: "audio", mimetype: "application/octet-stream", playable: false, downloadable: "LIBRIVOX APPLE AUDIOBOOK" },
-    {format: 'JPEG',  ext: undefined, type: "image",    mimetype: "image/jpeg",           playable: true,  downloadable: "JPEG" },
-    {format: 'PNG',  ext: undefined, type: "image",    mimetype: "image/png",            playable: true,  downloadable: "PNG"},
-    {format: 'Animated GIF',  ext: '.gif', type: "image",    mimetype: "image/gif",            playable: true,  downloadable: "Animated GIF" },
+    {format: 'JPEG',  ext: ".jpeg", type: "image",    mimetype: "image/jpeg",           playable: true,  downloadable: "JPEG" },
+    {format: 'PNG',  ext: ".png", type: "image",    mimetype: "image/png",            playable: true,  downloadable: "PNG"},
+    {format: 'Animated GIF',  ext: '.gif', type: "image",    mimetype: "image/gif",            playable: true,  downloadable: undefined }, // ON ArtOfCommunitySecondEdition on a.o not downloadable
     {format: 'JPEG Thumb',  ext: undefined, type: "image",    mimetype: "image/jpeg",           playable: false, downloadable: undefined },
     {format: 'JPEG 250px Thumb',  ext: undefined, type: "image",    mimetype: "image/jpeg",           playable: false, downloadable: 'JPEG 250PX THUMB' },
     {format: 'JPEG 500px Thumb',  ext: undefined, type: "image",    mimetype: "image/jpeg",           playable: false, downloadable: 'JPEG 500PX THUMB' },
     {format: 'Spectrogram',  ext: undefined, type: "image",    mimetype: "image/png",            playable: false, downloadable: "SPECTROGRAM" },
     {format: 'Item Image',  ext: undefined, type: "image",    mimetype: "image/jpeg",           playable: true,  downloadable: "JPEG" }, // Note we might be lying about the type - at least some are JPG
     {format: 'Thumbnail',  ext: undefined, type: "image",    mimetype: "image/jpeg",           playable: true,  downloadable: "JPEG" }, // Note we might be lying about the type - at least some are JPG
-    {format: 'PDF',  ext: undefined, type: "text",     mimetype: "application/pdf",      playable: true,  downloadable: "PDF" },
+    {format: 'PDF',  ext: ".pdf", type: "text",     mimetype: "application/pdf",      playable: true,  downloadable: "PDF" },
     {format: 'HTML',  ext: '.html', type: "text",     mimetype: "text/html",            playable: false, downloadable: "HTML" },
     {format: 'HTML',  ext: '.htm', type: "text",     mimetype: "text/html",            playable: false, downloadable: "HTML" },
     {format: 'Hypertext',  ext: '.htm', type: "text",     mimetype: "text/html",            playable: false, downloadable: "HYPERTEXT" },
     {format: 'HTML',  ext: '.shtml', type: "text",     mimetype: "text/html",            playable: false, downloadable: "HTML" },
     {format: 'DjVuTXT',  ext: undefined, type: "text",     mimetype: "text/plain",           playable: false, downloadable: "FULL TEXT" },
-    {format: 'Text PDF',  ext: undefined, type: "text",     mimetype: "application/pdf",      playable: true,  downloadable: "PDF" },
+    {format: 'Text PDF',  ext: ".pdf", type: "text",     mimetype: "application/pdf",      playable: true,  downloadable: "PDF" },
     {format: 'h.264',  ext: undefined, type: "video",    mimetype: "video/mp4",            playable: true,  downloadable: "H.264" },
     {format: '512Kb MPEG4',  ext: undefined, type: "video",    mimetype: "video/mp4",            playable: true,  downloadable: "512KB MPEG" },
     {format: '256Kb MPEG4',  ext: undefined, type: "video",    mimetype: "video/mp4",            playable: true,  downloadable: "256KB MPEG" },
@@ -112,7 +112,7 @@ const _formatarr = [
     {format: 'MPEG2', ext: '.mpeg', type: 'video', mimetype: 'video/mpeg', playable: false, downloadable: "MPEG2" },
     {format: 'MPEG1',  ext: undefined, type: "video",    mimetype: "video/mpeg",           playable: false, downloadable: "MPEG1" },
     {format: 'Ogg Video',  ext: '.ogv', type: "video",    mimetype: "video/ogg",            playable: false,  downloadable: "OGG VIDEO" },
-    {format: 'Archive BitTorrent',  ext: undefined, type: "other",    mimetype: "application/x-bittorrent", playable: false, downloadable: 'TORRENT' },
+    {format: 'Archive BitTorrent',  ext: ".torrent", type: "other",    mimetype: "application/x-bittorrent", playable: false, downloadable: 'TORRENT' },
     {format: 'Unknown',  ext: undefined, type: "unknown",  mimetype: "unknown",              playable: false, downloadable:  undefined },
     {format: 'Abbyy GZ',  ext: undefined, type: "other",    mimetype: "application/octet-stream", playable: false, downloadable: "ABBYY GZ" },
     {format: 'Djvu XML',  ext: undefined, type: "other",    mimetype: "text/xml",             playable: false, downloadable: undefined },
@@ -142,11 +142,13 @@ const _formatarr = [
     {format: 'GIF', ext: '.gif', type: 'image', mimetype: 'image/gif', playable: true, downloadable: 'GIF' },
     {format: 'h.264/MPEG2-TS',  ext: '.mts', type: undefined, mimetype: undefined, playable: undefined, downloadable: undefined },
     {format: 'Information',  ext: '.nfo', type: undefined, mimetype: undefined, playable: undefined, downloadable: undefined },
+    {format: "Item Tile", ext: '.jpg', type: 'image', mimetype: 'image/jpeg', playable: undefined, downloadable: "ITEM TILE" },
     {format: "JSON",    ext: '.json', type: 'application', mimetype: 'application/json', playable: undefined, downloadable: undefined },
     {format: 'M3U',  ext: '.m3u8', type: undefined, mimetype: undefined, playable: undefined, downloadable: undefined },
     {format: 'Mac OS X Disk Image', ext:'.dmg', type: 'application', mimetype: 'application/x-apple-diskimage', playable: undefined, downloadable: undefined },
     {format: "Metadata", ext: '.xml', type: 'other', mimetype: 'text/xml', playable: false, downloadable: undefined }, // _reviews.xml is this format and is not downloadable
     {format: 'Microsoft Reader',  ext: '.lit', type: undefined, mimetype: undefined, playable: undefined, downloadable: undefined },
+    {format: 'OCLC xISBN JSON', ext:'_xisbn.json', type: 'application', mimetype: 'application/json', playable: undefined, downloadable: "OCLC XISBN JSON" },
     {format: 'OpenDocument Spreadsheet', ext:'.ods', type: 'application', mimetype: 'application/vnd.oasis.opendocument.spreadsheet', playable: undefined, downloadable: undefined },
     {format: 'OpenDocument Text Document', ext:'.odt', type: 'application', mimetype: 'application/vnd.oasis.opendocument.text', playable: undefined, downloadable: undefined },
     {format: 'Powerpoint', ext: '.ppt', type: 'application', mimetype: 'application/vnd.ms-powerpoint', playable: undefined, downloadable: undefined },
@@ -197,7 +199,6 @@ const _formatarr = [
     {format: undefined, ext: '.jardiff', type: 'application', mimetype: 'application/x-java-archive-diff', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.jng', type: 'image', mimetype: 'image/x-jng', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.jnlp', type: 'application', mimetype: 'application/x-java-jnlp-file', playable: undefined, downloadable: undefined },
-    {format: undefined, ext: '.jpeg', type: 'image', mimetype: 'image/jpeg', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.jpg', type: 'image', mimetype: 'image/jpeg', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.js', type: 'application', mimetype: 'application/javascript', playable: undefined, downloadable: undefined },
     {format: undefined, ext: '.kar', type: 'audio', mimetype: 'audio/midi', playable: undefined, downloadable: undefined },
@@ -587,7 +588,6 @@ const _formatarr = [
     {format: undefined, ext: '.tk', type: 'application', mimetype: 'application/x-tcl', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.tk', type: 'text', mimetype: 'text/x-tcl', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.tm', type: 'text', mimetype: 'text/texmacs', playable: undefined, downloadable: undefined },
-    {format: undefined, ext:'.torrent', type: 'application', mimetype: 'application/x-bittorrent', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.tr', type: 'application', mimetype: 'application/x-troff', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.ts', type: 'video', mimetype: 'video/MP2T', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.tsp', type: 'application', mimetype: 'application/dsptype', playable: undefined, downloadable: undefined },
@@ -658,6 +658,14 @@ function formats(k,v,{first=true}={}) {
     // Documentation is above _formatarr
     const ff = _formatarr.filter(f => f[k] === v);
     return first ? (ff.length ? ff[0] : undefined) : ff;
+}
+
+/**
+ * @param format    as in .format field of _formatarr
+ * @returns obj     Returns either undefined or first format that matches and is downloadable
+ */
+function downloadableFormat(format) {
+    return _formatarr.find(f => f["downloadable"] && (f["format"] === format));
 }
 // NOTE: copied _verbatim_ from  Details::$langList & Languages.inc until @hank and @ximm weigh in.. 8-)
 const languageMapping = {
@@ -1000,4 +1008,4 @@ const languageMapping = {
     'zxx': 'No linguistic content'
 };
 
-export {gatewayServer, canonicalUrl, languageMapping, ObjectFromEntries, ObjectFilter, formats}
+export {gatewayServer, canonicalUrl, languageMapping, ObjectFromEntries, ObjectFilter, formats, downloadableFormat}

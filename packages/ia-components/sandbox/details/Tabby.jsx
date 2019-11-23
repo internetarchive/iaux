@@ -38,7 +38,7 @@ export default class Tabby extends IAReactComponent {
 
     const urlParms = new URL(location).searchParams;
     urlParms.set('tab', this.props.id);
-    this.state.href = `${(typeof DwebArchive !== 'undefined') ? '/arc/archive.org' : ''}${this.props.href || (`/details/${this.props.identifier}`)}?${urlParms.toString()}`;
+    this.state.href = `${this.props.href || (`/details/${this.props.identifier}`)}?${urlParms.toString()}`;
   }
 
   clickCallable(ev) {

@@ -1,6 +1,5 @@
 import React from 'react';
-import IAReactComponent from '../IAReactComponent';
-import { formats } from '../../util.js';
+import { formats, downloadableFormat } from '../../util.js';
 import { AnchorDownload } from './AnchorDownload';
 import { I18nSpan, I18nStr, I18nIcon } from "../languages/Languages";
 
@@ -21,12 +20,11 @@ import { I18nSpan, I18nStr, I18nIcon } from "../languages/Languages";
  * />
  */
 
-export default class DetailsDownloadOptions extends IAReactComponent {
+export default class DetailsDownloadOptions extends React.Component {
   downloadableFilesDict() {
     return this.props.files.reduce((res, af) => {
       const format = af.metadata.format;
-      const formatInfo = formats("format", format);
-      if (formatInfo && !!formatInfo.downloadable) { // Note on image it EXCLUDED JPEG Thumb, but included JPEG*Thumb
+      if (downloadableFormat(format)) {
         if (!res[format]) { res[format] = []; }
         res[format].push(af);
       }
@@ -38,6 +36,7 @@ export default class DetailsDownloadOptions extends IAReactComponent {
   render() {
     // Build a dictionary of file formats
     //TODO Add the 'reachable' test in Anchor Download to this filter
+    //TODO See https://github.com/internetarchive/dweb-mirror/issues/246 for missing files issue
 
     const downloadableFilesDict = this.downloadableFilesDict();
     const filesCount = this.props.files_count;
@@ -98,3 +97,5 @@ export default class DetailsDownloadOptions extends IAReactComponent {
     );
   }
 }
+
+// Code review Mitra 2019-11-15 exc HTML comparison
