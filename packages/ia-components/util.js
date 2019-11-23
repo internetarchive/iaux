@@ -20,30 +20,30 @@ function gatewayServer(server=undefined) {
     // Return location for http calls to a gateway server that understands canonical addresses like /arc/archive.. or /ipfs/Q...
     // Has to be a function rather than constant because searchparams is defined after this library is loaded
     // Note that for example where Util.js is included from dweb-mirror that currently (this may change) DwebArchive is not defined
-    // If server is supplied will use that rather than dweb.me, this is (possibly temporary) for bookreader //TODO-BOOK
+    // If server is supplied will use that rather than dweb.archive.org, this is (possibly temporary) for bookreader //TODO-BOOK
     return ((typeof DwebArchive !== "undefined") && (DwebArchive.mirror !== null))  ? DwebArchive.mirror
         : server ? "https://"+server
-            : "https://dweb.me"
+            : "https://dweb.archive.org"
 }
 
 // Same code in dweb-archive/util.js and ia-components/util.js
 function canonicalUrl(url, opts={}) {
     /* Translate an URL as typically seen in a piece of IA code into something canonical that can be used in:
-        Dweb code - where typically it wants to go to https://dweb.me
+        Dweb code - where typically it wants to go to https://dweb.archive.org
         Dweb-Mirror client - where it should go to the mirror server
         AO - where it will usually not be changed
         Note this explicitly doesnt count the case of running in the Mirror as its only occurring in UI code
 
         The code here will get complicated as more cases are added
         By default URLs are returned unmodified
-
+        There is no assumption that the resulting URL will be passed to DwebTransports for resolution, even if DwebArchive is defined.
         Cases handled:
-        /xxx -> Dweb|Mirror: <server>/arc/archive.org/xxx AO:
+        /xxx -> Dweb|Mirror: <server>/xxx AO:
      */
     if (url.startsWith("/services")) {
         return (typeof DwebArchive === "undefined")
             ? url
-            : ( DwebArchive.mirror === null ? "https://dweb.me" : DwebArchive.mirror) + "/arc/archive.org" + url;
+            : ( DwebArchive.mirror === null ? "https://dweb.archive.org" : DwebArchive.mirror) + url;
     }
     return url;
 }

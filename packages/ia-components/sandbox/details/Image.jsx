@@ -30,13 +30,13 @@ class ImageDweb extends React.Component {
     this.state = {
       src: (!DwebArchive && this.props.src) || this.props.url, // If not Dweb then can load from src like <img>
     };
-    if (DwebArchive) {
-      this.setSrcFromProps();
-    }
   }
 
   componentDidMount() {
     // DwebArchive.page = this;
+    if (DwebArchive) {
+      this.setSrcFromProps();
+    }
     this.tilingAndSizing();
   }
 
