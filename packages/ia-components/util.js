@@ -659,6 +659,14 @@ function formats(k,v,{first=true}={}) {
     const ff = _formatarr.filter(f => f[k] === v);
     return first ? (ff.length ? ff[0] : undefined) : ff;
 }
+
+/**
+ * @param format    as in .format field of _formatarr
+ * @returns obj     Returns either undefined or first format that matches and is downloadable
+ */
+function downloadableFormat(format) {
+    return _formatarr.find(f => f["downloadable"] && (f["format"] === format));
+}
 // NOTE: copied _verbatim_ from  Details::$langList & Languages.inc until @hank and @ximm weigh in.. 8-)
 const languageMapping = {
     // short (marc) and long versions of language names
@@ -1000,4 +1008,4 @@ const languageMapping = {
     'zxx': 'No linguistic content'
 };
 
-export {gatewayServer, canonicalUrl, languageMapping, ObjectFromEntries, ObjectFilter, formats}
+export {gatewayServer, canonicalUrl, languageMapping, ObjectFromEntries, ObjectFilter, formats, downloadableFormat}
