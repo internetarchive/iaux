@@ -1,4 +1,8 @@
+/* eslint-disable object-curly-newline, max-len, prefer-destructuring, implicit-arrow-linebreak */
+/* eslint-disable react/destructuring-assignment, react/prefer-stateless-function, react/forbid-prop-types, react/no-multi-comp, react/prop-types, react/require-default-props, react/no-danger */
+/* eslint-disable react/jsx-first-prop-new-line, react/jsx-max-props-per-line, react/jsx-one-expression-per-line, react/jsx-wrap-multilines */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { AnchorSearch } from './AnchorSearch';
 import { DetailsActionButtons } from './DetailsActionButtons';
 import { DetailsReviews } from './DetailsReviews';
@@ -26,6 +30,7 @@ class AnchorSearches extends React.Component {
    *  />
    */
   // Props field, value: array or string mapping: object (optional)
+
   render() {
     return (Array.isArray(this.props.value)
       ? this.props.value.map(v => (
@@ -43,6 +48,13 @@ class AnchorSearches extends React.Component {
     );
   }
 }
+AnchorSearches.propTypes = {
+  value: PropTypes.any.isRequired, // Can be string or [string]
+  field: PropTypes.string.isRequired,
+  itemProp: PropTypes.string,
+  mapping: PropTypes.object, // mapping from value to string to display
+};
+
 class DetailsMetadataField extends React.Component {
   /**
    * Display a single field of metadata, allows for flexibility to handle a lot of the cases.
@@ -72,8 +84,14 @@ class DetailsMetadataField extends React.Component {
     return !(this.props.value && this.props.value.length) ? null : (
       <dl className="metadata-definition">
         <dt>{this.state.name}</dt>
-        <dd><AnchorSearches field={this.props.field} value={this.props.value} mapping={this.props.mapping}
-                            itemProp={this.props.itemProp} /></dd>
+        <dd>
+          <AnchorSearches
+            field={this.props.field}
+            value={this.props.value}
+            mapping={this.props.mapping}
+            itemProp={this.props.itemProp}
+          />
+        </dd>
       </dl>
     );
   }
@@ -89,7 +107,7 @@ const ccNames = { publicdomain: 'Public Domain', by: 'Attribution', sa: 'Share A
 class DetailsLicense extends React.Component {
   render() {
     const licenseurl = this.props.licenseurl;
-    // noinspection HtmlRequiredAltAttribute
+    // noinspection HtmlUnknownTarget
     return !licenseurl ? null : (
       <dl className="metadata-definition">
         <dt><I18nSpan en="Usage" /></dt>
@@ -101,21 +119,19 @@ class DetailsLicense extends React.Component {
             rel="license noopener noreferrer"
           >
             {licenseurl.startsWith('http://creativecommons.org/licenses/')
-              ?
-                <>
-                  <img className="cclic" src="/images/cc/cc.png" alt="Creative Commons" />
-                  &nbsp;
-                  {
-                    licenseurl.split('/')[4].split('-').map(abbrv =>
-                      <I18nSpan key={abbrv} en={ccNames[abbrv]}>
-                        <img className="cclic" src={`/images/cc/${abbrv}.png`} />
-                        &nbsp;
-                      </I18nSpan>
-                    )
-                  }
+              ? <>
+                <img className="cclic" src="/images/cc/cc.png" alt="Creative Commons" />
+                &nbsp;
+                {
+                  licenseurl.split('/')[4].split('-').map(abbrv =>
+                    <I18nSpan key={abbrv} en={ccNames[abbrv]}>
+                      <img className="cclic" src={`/images/cc/${abbrv}.png`} alt="" />
+                      &nbsp;
+                    </I18nSpan>
+                  )
+                }
                 </>
-              :
-                <span>{licenseurl}</span>
+              : <span>{licenseurl}</span>
             }
           </a>
         </dd>
@@ -253,14 +269,14 @@ class DetailsAbout extends React.Component {
           <div className="container container-ia">
             <div className="relative-row row">
               <div className="col-sm-8 thats-left item-details-metadata">
-                <div className="actions-ia"/>
-                <DetailsMetadata metadata={md}
-                                 description={this.props.description} />
+                <div className="actions-ia" />
+                <DetailsMetadata metadata={md} description={this.props.description} />
                 {/* TODO need an dweb way to submit a review */}
                 <DetailsReviews
                   reviews={this.props.reviews}
                   disconnected={this.props.disconnected}
-                  writeReviewsURL={`https://archive.org/write-review.php?identifier=${md.identifier}`} />
+                  writeReviewsURL={`https://archive.org/write-review.php?identifier=${md.identifier}`}
+                />
               </div>
               <div className="col-sm-4 thats-right item-details-archive-info">
                 {/* TODO need section className=boxy item-stats-summary- not obvious where data from, its not in metadata */}
@@ -277,4 +293,4 @@ class DetailsAbout extends React.Component {
 }
 export { DetailsMetadata, DetailsAbout };
 
-// Code review 2019-10-18 but not comparisom to archive.org HTML
+// Code review 2019-10-18 but not comparison to archive.org HTML
