@@ -76,9 +76,7 @@ export default class TileComponent extends React.Component {
         numReviews: member.num_reviews || (item && item.reviews && item.reviews.length) || 0,
         crawl: member.crawl || {},
         downloaded: member.downloaded,
-        parentimageurl: (member && member.collection0thumbnaillinks && (member.collection0thumbnaillinks.length > 0))
-          ? member.collection0thumbnaillinks
-          : ('/services/img/' + collection0)
+        parentimageurl: '/services/img/' + collection0
       };
     } catch (err) { // Catch error here as not generating debugging info at caller level for some reason
       debug('ERROR in TileComponent.constructor for %s: %s', identifier, err.message);
