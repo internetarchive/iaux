@@ -83,10 +83,11 @@ Git petabox/etc/nginx/mime.types has 2 mappings of ext to mimetype
 // Note copy of this in ia-components/util.js and dweb-archivecontroller/util.js
 
 const _formatarr = [
-    {format: 'VBR MP3',  ext: undefined, type: "audio",    mimetype: "audio/mpeg3",          playable: true,  downloadable: "VBR MP3"},
+    {format: 'VBR MP3',  ext: "_vbr.m3u", type: "audio",    mimetype: "audio/mpeg3",          playable: true,  downloadable: "VBR MP3"},
     {format: 'Ogg Vorbis',  ext: undefined, type: "audio",    mimetype: "audio/TODO",           playable: true,  downloadable: "OGG VORBIS"},
-    {format: '128Kbps MP3',  ext: undefined, type: "audio",    mimetype: "audio/mpeg3",          playable: false, downloadable: "128KBPS MP3" },
-    {format: '64Kbps MP3',  ext: undefined, type: "audio",    mimetype: "audio/mpeg3",          playable: false, downloadable: "64KBPS MP3" },
+    {format: '128Kbps MP3',  ext: "_128kb.m3u", type: "audio",    mimetype: "audio/mpeg3",          playable: false, downloadable: "128KBPS MP3" },
+    {format: '64Kbps MP3',  ext: "_64kb.m3u", type: "audio",    mimetype: "audio/mpeg3",          playable: false, downloadable: "64KBPS MP3" },
+    {format: undefined, ext:'.m3u', type: 'audio', mimetype: 'audio/x-mpegurl', playable: undefined, downloadable: undefined },
     {format: 'LibriVox Apple Audiobook', type: "audio", mimetype: "application/octet-stream", playable: false, downloadable: "LIBRIVOX APPLE AUDIOBOOK" },
     {format: 'JPEG',  ext: ".jpeg", type: "image",    mimetype: "image/jpeg",           playable: true,  downloadable: "JPEG" },
     {format: 'PNG',  ext: ".png", type: "image",    mimetype: "image/png",            playable: true,  downloadable: "PNG"},
@@ -402,7 +403,6 @@ const _formatarr = [
     {format: undefined, ext:'.lyx', type: 'application', mimetype: 'application/x-lyx', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.lzh', type: 'application', mimetype: 'application/x-lzh', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.lzx', type: 'application', mimetype: 'application/x-lzx', playable: undefined, downloadable: undefined },
-    {format: undefined, ext:'.m3u', type: 'audio', mimetype: 'audio/x-mpegurl', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.m4b', type: 'audio', mimetype: 'audio/mp4', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.m4p', type: 'audio', mimetype: 'audio/mp4', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.m4v', type: 'video', mimetype: 'video/x-m4v', playable: undefined, downloadable: undefined },
