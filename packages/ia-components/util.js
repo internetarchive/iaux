@@ -11,21 +11,6 @@ function ObjectFromEntries(arr) { return arr.reduce((res,kv)=>(res[kv[0]]=kv[1],
  */
 function ObjectFilter(obj, f) { return ObjectFromEntries( Object.entries(obj).filter(kv=>f(kv[0], kv[1]))); }
 
-/*
-Return a string suitable for prepending to root relative URLs choosing between normal, Dweb, and dweb-mirror scenarios
-
-Note copy of this in dweb-archivecontroller/Util.js and ia-components/util.js
- */
-function gatewayServer(server=undefined) {
-    // Return location for http calls to a gateway server that understands canonical addresses like /arc/archive.. or /ipfs/Q...
-    // Has to be a function rather than constant because searchparams is defined after this library is loaded
-    // Note that for example where Util.js is included from dweb-mirror that currently (this may change) DwebArchive is not defined
-    // If server is supplied will use that rather than dweb.archive.org, this is (possibly temporary) for bookreader //TODO-BOOK
-    return ((typeof DwebArchive !== "undefined") && (DwebArchive.mirror !== null))  ? DwebArchive.mirror
-        : server ? "https://"+server
-            : "https://dweb.archive.org"
-}
-
 // Same code in dweb-archive/util.js and ia-components/util.js
 function canonicalUrl(url, opts={}) {
     /* Translate an URL as typically seen in a piece of IA code into something canonical that can be used in:
@@ -1008,4 +993,4 @@ const languageMapping = {
     'zxx': 'No linguistic content'
 };
 
-export {gatewayServer, canonicalUrl, languageMapping, ObjectFromEntries, ObjectFilter, formats, downloadableFormat}
+export {canonicalUrl, languageMapping, ObjectFromEntries, ObjectFilter, formats, downloadableFormat}

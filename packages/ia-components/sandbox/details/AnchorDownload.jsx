@@ -1,7 +1,8 @@
 /* global DwebArchive, Nav */
+/* eslint-disable max-len, no-nested-ternary, object-curly-newline */
 import React from 'react';
-import IAReactComponent from '../IAReactComponent';
 import { ObjectFilter } from '../../util';
+
 const eachSeries = require('async/eachSeries');
 
 const debug = require('debug')('ia-components:AnchorDownload');
@@ -42,19 +43,19 @@ const debug = require('debug')('ia-components:AnchorDownload');
  */
 
 function downloadUrl(el, url, fileName, options) {
-  //Weird workaround for a browser problem, download data as a blob,
+  // Weird workaround for a browser problem, download data as a blob,
   // edit parameters of an anchor to open this file in a new window,
   // and click it to perform the opening.
-  //browser.downloads.download({filename: this.metadata.name, url: objectURL});   //Doesnt work
-  //Downloads.fetch(objectURL, this.metadata.name);   // Doesnt work
+  // browser.downloads.download({filename: this.metadata.name, url: objectURL});   //Doesnt work
+  // Downloads.fetch(objectURL, this.metadata.name);   // Doesnt work
   const a = document.createElement('a');
   a.href = url;
-  a.target = (options && options.target) || "_blank";                      // Open in new window by default
+  a.target = (options && options.target) || '_blank'; // Open in new window by default
   a.onclick = undefined;
   a.download = fileName;
   a.click();
   document.removeChild(a);
-  //URL.revokeObjectURL(url)    //TODO figure out when can do this - maybe last one, or maybe dont care?
+  // URL.revokeObjectURL(url)    //TODO figure out when can do this - maybe last one, or maybe dont care?
 }
 
 function downloadViaAnchor(el, source, options, cb) {
@@ -63,10 +64,10 @@ function downloadViaAnchor(el, source, options, cb) {
     eachSeries(source,
       (s, cb1) => { downloadViaAnchor(el, s, options, cb1); },
       (err) => { if (cb) cb(err) });
-  } else { //TODO could also handle source being a string
+  } else { // TODO could also handle source being a string
     source.blobUrl((err, url) => {
       if (err) {
-        debug("ERROR: failed to download %s", err.message);
+        debug('ERROR: failed to download %s', err.message);
         cb(null); // Ignore and move on to next one
       } else {
         downloadUrl(el, url, source.metadata.name, options);
@@ -76,28 +77,30 @@ function downloadViaAnchor(el, source, options, cb) {
   }
 }
 
-function reachable({disconnected, source, identifier, filename}) {
-  return ( !disconnected
-    || ( source
-        ? ( Array.isArray(source) ? ((source.length === 1) && source[0].downloaded) : source.downloaded )
-        : (identifier && !filename) // Just an identifier = want directory
-    ))
+function reachable({ disconnected, source, identifier, filename }) {
+  return (!disconnected
+    || (source
+      ? (Array.isArray(source) ? ((source.length === 1) && source[0].downloaded) : source.downloaded )
+      : (identifier && !filename) // Just an identifier = want directory
+    ));
 }
-class AnchorDownload extends IAReactComponent {
+class AnchorDownload extends React.Component {
   constructor(props) {
     super(props);
-    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
+    this.onClick = this.onClick.bind(this);
+    // TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
     // this.props passes identifier which is required for Dweb, but typically also passes tabIndex, class, title
-    this.state.url = new URL(((this.props.filename && typeof this.props.filename === 'string') // filename = foo.jpg
-      ? `https://archive.org/download/${this.props.identifier}/${this.props.filename}`
-      : (this.props.source && Array.isArray(this.props.source) && this.props.source.length === 1) // source = [ArchiveFile]
+    this.state = {
+      url: new URL((this.props.filename && typeof this.props.filename === 'string') // filename = foo.jpg
+        ? `https://archive.org/download/${this.props.identifier}/${this.props.filename}`
+        : (this.props.source && Array.isArray(this.props.source) && this.props.source.length === 1) // source = [ArchiveFile]
         ? `https://archive.org/download/${this.props.identifier}/${this.props.source[0].metadata.name}`
         : this.props.format // source = [ArchiveFile]
         // Note - this is a broken, illegal URL with an '&' in middle of the URL not the parameters but that is what IA requires
-          ? `https://archive.org/compress/${this.props.identifier}/formats=${this.props.format}&file=/${this.props.identifier}.zip`
-          : (typeof DwebArchive === 'undefined') // just identifier e.g. "ShowAll" on DetailsDownloadOptions"
-            ? `https://archive.org/download/${this.props.identifier}`   // identifier only, !Dweb
-            : `https://dweb.archive.org/download/${this.props.identifier}`)); // identifier only, dweb
+        ? `https://archive.org/compress/${this.props.identifier}/formats=${this.props.format}&file=/${this.props.identifier}.zip`
+        // just identifier e.g. "ShowAll" on DetailsDownloadOptions"
+        : `https://archive.org/download/${this.props.identifier}`)
+    }   // identifier only, !Dweb or Dweb as Dweb will handle through onClick anyway
     const usp = new URLSearchParams();
     // Copy any parameters in AnchorDownload.urlparms to usp for inclusion in the href=
     AnchorDownload.urlparms.forEach(k => usp.append(k, this.props[k]));
@@ -107,7 +110,7 @@ class AnchorDownload extends IAReactComponent {
       (k, unusedV) => (!AnchorDownload.urlparms.includes(k) && !["disconnected"].includes(k)));
   }
 
-  clickCallable(ev) {
+  onClick(ev) {
     // Note this is only called in dweb; !Dweb has a direct href and on Dweb source is (currently) always set.
     // TODO-DWEB its likely that this is not correct for those that should go to ".../compress/..."
     debug('Clicking on link to download: %s', this.props.identifier);
@@ -117,7 +120,7 @@ class AnchorDownload extends IAReactComponent {
     } else { // No source, must be plain identifier
       Nav.factory(this.props.identifier, {wanthistory: true, download: 1}); // ignore promise
     }
-    return false; // Stop event propagating
+    ev.preventDefault(); // Prevent it going to the anchor (equivalent to "return false" in non-React
   }
 
   render() {
