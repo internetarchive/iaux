@@ -1,5 +1,6 @@
 Access
 Accession number
+Access restricted item
 Added date
 Adder
 Album
@@ -203,6 +204,7 @@ Noarchivetorrent
 Noindex
 Notes
 Number recent reviews
+Number recording errors
 Number reviews
 Number top dl
 Number eric ID
@@ -285,6 +287,7 @@ SK magic
 SK owner
 SK owner nick
 SK type
+Software version
 Sound
 Source
 Source organization

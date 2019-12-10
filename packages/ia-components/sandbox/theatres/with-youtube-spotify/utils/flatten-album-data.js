@@ -56,7 +56,7 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
     files: allFiles
   } = metadata;
   const { collection, identifier: itemIdentifier } = albumMetadata;
-  const fileDirectoryPrefix = `https://${server}${directoryPath}/`;
+  const fileDirectoryPrefix = `${server.includes('://') ? '' : 'https://'}${server}${directoryPath}/`
 
   let countSampleMP3 = 0;
   let countFullMP3 = 0;
