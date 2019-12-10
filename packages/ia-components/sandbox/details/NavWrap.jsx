@@ -1,5 +1,6 @@
 /* eslint-disable object-curly-newline,  max-len, operator-linebreak, jsx-a11y/anchor-is-valid, prefer-template import/prefer-default-export */
 /* eslint-disable react/jsx-indent, react/jsx-first-prop-new-line, react/jsx-max-props-per-line, react/jsx-one-expression-per-line, react/prefer-stateless-function, react/destructuring-assignment,react/jsx-wrap-multilines,react/no-multi-comp,react/prop-types */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* global DwebArchive, DwebTransports, Nav */
 import React from 'react';
 import AnchorDetails from '../AnchorDetails';
@@ -381,10 +382,15 @@ class DwebStatusLI extends React.Component {
     this.onClick = this.onClick.bind(this);
   }
 
+  static getDerivedStateFromProps(props, unusedState) {
+    return { status: props.status };
+  }
+
   onClick(ev) {
     debug('Toggling transport for %s', this.props.name);
     // noinspection JSUnresolvedFunction
     DwebTransports.togglePaused(this.props.name, (err, s) => {
+      // State should also be passed down from top next time it refreshes, but need UI feedback so change here
       // TODO display err.message if hover
       this.setState({ error: err, status: err ? TRANSPORT_STATUS_FAILED : s });
     });
