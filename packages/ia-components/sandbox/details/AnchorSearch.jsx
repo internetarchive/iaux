@@ -46,7 +46,7 @@ function queryFrom(query) {
 }
 // End of DUPLICATEDCODE#0003
 
-class AnchorSearch extends IAReactComponent {
+class AnchorSearch extends React.Component {
   /**
    * Render an Anchor that navigates to a search
    *
@@ -63,15 +63,18 @@ class AnchorSearch extends IAReactComponent {
 
   constructor(props) {
     super(props); // { query || field & value, sort, reload }
-    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
-    this.setState({
-      query: this.props.query || ObjectFromEntries([[this.props.field, this.props.value]]),
-      urlProps: ObjectFilter(this.props, (k, unusedV) => AnchorSearch.urlparms.includes(k)),  //sort, reload, query
-      anchorProps: ObjectFilter(this.props, (k, unusedV) => (!AnchorSearch.urlparms.includes(k) && !['children'].includes(k)))
-    });
+    this.onClick = this.onClick.bind(this);
+    this.state = {};
   }
 
-  clickCallable(unusedEvent) {
+  static getDerivedStateFromProps(props, unusedState) {
+    return {
+      query: props.query || ObjectFromEntries([[props.field, props.value]]),
+      urlProps: ObjectFilter(props, (k, unusedV) => AnchorSearch.urlparms.includes(k)),  //sort, reload, query
+      anchorProps: ObjectFilter(props, (k, unusedV) => (!AnchorSearch.urlparms.includes(k) && !['children'].includes(k)))
+    };
+  }
+  onClick(unusedEvent) {
     // Note this is only called in dweb; !Dweb has a director href
     debug('Clicking on link to search: %s', this.state.query);
     DwebArchive.Nav.navSearch(

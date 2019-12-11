@@ -2,7 +2,6 @@
 // DwebTransports is not needed, its a global
 import React from 'react';
 import prettierBytes from 'prettier-bytes';
-import IAReactComponent from '../IAReactComponent';
 import { I18nSpan, I18nStr } from '../languages/Languages';
 
 const debug = require('debug')('dweb-archive:CrawlConfig');
@@ -44,17 +43,20 @@ const debug = require('debug')('dweb-archive:CrawlConfig');
  */
 
 
-export default class CrawlConfig extends IAReactComponent {
+export default class CrawlConfig extends React.Component {
   constructor(props) {
     super(props); // { identifier, level, search, downloaded, query }
-    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
-    this.setState({
-      level: props.level,
-      clickable:  !CrawlConfig.unclickable.includes(this.props.identifier)
-    })
+    this.onClick = this.onClick.bind(this);
     CrawlConfig.instance = this; // Allow finding it
+    this.state = {};
   }
 
+  static getDerivedStateFromProps(props, unusedState) {
+    return {
+      level: props.level,
+      clickable: !CrawlConfig.unclickable.includes(props.identifier)
+    };
+  }
   render() {
     // TODO-CONFIG make it editable
     // noinspection JSUnresolvedVariable
@@ -84,7 +86,7 @@ export default class CrawlConfig extends IAReactComponent {
     );
   }
 
-  clickCallable() {
+  onClick() {
     // Cycle through possible states on click
     debug('%s: Crawl clicked', this.props.identifier || this.props.query);
 

@@ -1,6 +1,5 @@
 /* global DwebArchive */
 import React from 'react';
-import IAReactComponent from './IAReactComponent';
 import { ObjectFilter } from '../util.js';
 
 const debug = require('debug')('ia-components:AnchorDetails');
@@ -27,23 +26,27 @@ const debug = require('debug')('ia-components:AnchorDetails');
  *
  */
 
-export default class AnchorDetails extends IAReactComponent {
+export default class AnchorDetails extends React.Component {
   // Component that encapsulates the difference between four options: Dweb||IAUX for links.
 
   /*
     React+!Dweb: no onClick unless want analytics
     React+Dweb:  onClick={this.click}
     */
+
   constructor(props) {
-    super(props); // { identifier, reload }
-    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
-    this.setState({
-      urlProps: ObjectFilter(this.props, (k, v) => AnchorDetails.urlparms.includes(k)),
-      anchorProps: ObjectFilter(this.props, (k, v) => (!AnchorDetails.urlparms.includes(k) && !['children'].includes(k)))
-    });
+    super(props);
+    this.onClick = this.onClick.bind(this);
+    this.state = {};
+  }
+  static getDerivedStateFromProps(props, unusedState) {
+    return {
+      urlProps: ObjectFilter(props, (k, v) => AnchorDetails.urlparms.includes(k)),
+      anchorProps: ObjectFilter(props, (k, v) => (!AnchorDetails.urlparms.includes(k) && !['children'].includes(k)))
+    };
   }
 
-  clickCallable(ev) {
+  onClick(ev) {
     // Note this is only called in dweb; !Dweb has a director href
     debug('Clicking on link to details: %s', this.props.identifier);
     DwebArchive.Nav.factory(this.props.identifier, { noCache: this.props.reload, wanthistory: !this.props.reload }); // Ignore promise returned

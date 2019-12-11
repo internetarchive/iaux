@@ -2,7 +2,6 @@
 import waterfall from 'async/waterfall';
 import React from "react";
 const debug = require('debug')('dweb-archive:languages');
-const parallel = require('async/parallel'); //https://caolan.github.io/async/docs.html#parallel
 
 
 /*
@@ -28,8 +27,16 @@ const languageConfig = { // Note the flags are dragged out of the Mac Emoji and 
 }
 if (!currentISO()) currentISO("en");
 
+/**
+ * Fetch a supported language
+ * @param lang
+ * @param cb(err)
+ */
 function getLanguage(lang, cb) {
-  if (!languageConfig[lang]) { cb(new Error('Do not support language: '+lang));
+  if (!languageConfig[lang]) {
+    cb(new Error('Do not support language: ' + lang));
+  } else if (languages[lang]) {
+    cb(null); // Already gotten
   } else {
     const url = ['/languages', languageConfig[lang].inEnglish.toLowerCase() + ".json"].join('/');
     DwebTransports.httptools.p_GET(url, {}, (err, languageObj) => {
@@ -38,6 +45,11 @@ function getLanguage(lang, cb) {
     });
   }
 }
+
+/**
+ * Set to a supported language, displaying messages on UI and fetching file if needed
+ * @param lang
+ */
 function setLanguage(lang) {
   const olditem = DwebArchive.page.state.item; // Should be an item, not a message
 
