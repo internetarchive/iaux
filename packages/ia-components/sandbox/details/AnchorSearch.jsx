@@ -74,13 +74,13 @@ class AnchorSearch extends React.Component {
       anchorProps: ObjectFilter(props, (k, unusedV) => (!AnchorSearch.urlparms.includes(k) && !['children'].includes(k)))
     };
   }
-  onClick(unusedEvent) {
+  onClick(ev) {
     // Note this is only called in dweb; !Dweb has a director href
     debug('Clicking on link to search: %s', this.state.query);
     DwebArchive.Nav.navSearch(
       this.state.query,
       { noCache: this.props.reload, wanthistory: !this.props.reload, sort: this.props.sort });
-    return false; // Dont propagate event
+    ev.preventDefault(); // Dont propogate event
   }
 
   render() {

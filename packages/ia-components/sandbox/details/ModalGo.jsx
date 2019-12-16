@@ -18,7 +18,8 @@ class _ModalGo extends React.Component {
   onClick(ev) {
     // ev.currentTarget is the HTML Element on which the onClick sits
     // noinspection JSUnresolvedFunction
-    return AJS.modal_go(ev.currentTarget, this.props.opts);
+    AJS.modal_go(ev.currentTarget, this.props.opts); // Unclear if return from this is what we want (false to run ev.preventDefault)
+    ev.preventDefault(); // Dont propogate event
   }
 }
 

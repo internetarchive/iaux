@@ -50,7 +50,7 @@ export default class AnchorDetails extends React.Component {
     // Note this is only called in dweb; !Dweb has a director href
     debug('Clicking on link to details: %s', this.props.identifier);
     DwebArchive.Nav.factory(this.props.identifier, { noCache: this.props.reload, wanthistory: !this.props.reload }); // Ignore promise returned
-    return false; // Dont propogate event
+    ev.preventDefault(); // Dont propogate event
   }
 
   render() {
