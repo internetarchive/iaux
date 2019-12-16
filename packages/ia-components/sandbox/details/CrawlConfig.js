@@ -86,7 +86,7 @@ export default class CrawlConfig extends React.Component {
     );
   }
 
-  onClick() {
+  onClick(ev) {
     // Cycle through possible states on click
     debug('%s: Crawl clicked', this.props.identifier || this.props.query);
 
@@ -115,6 +115,7 @@ export default class CrawlConfig extends React.Component {
         }
       });
     }
+    ev.preventDefault(); // Dont propogate event
   }
 }
 CrawlConfig.undisplayable = ['settings'];

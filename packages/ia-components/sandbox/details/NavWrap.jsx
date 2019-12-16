@@ -88,10 +88,10 @@ class NavSearchLI extends React.Component {
     this.setState({ value: event.target.value });
   }
 
-  onClick(unusedEvent) {
+  onClick(ev) {
     // this.formElement.submit(); // TODO Doesnt work - not sure why
     this.onSubmit(unusedEvent);
-    return false;
+    ev.preventDefault(); // Dont propogate event
   }
 
   render() {
