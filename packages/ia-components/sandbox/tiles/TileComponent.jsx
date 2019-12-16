@@ -45,9 +45,9 @@ export default class TileComponent extends React.Component {
       const item = this.props.item;
       const query = props.query || (item && item.query) || (member && member.query);
       const isCollection = (member.mediatype === 'collection');
-      const collection0 = member.collection0() || (item && item.metadata && item.metadata.collection[0]);
+      const collection0 = member.collection0() || (item && item.metadata && item.metadata.collection && item.metadata.collection[0]);
       const by = member.creator || member.creatorSorter || (item && item.metadata.creator); // Should be array
-      const collection = member.collection || (item && item.metadata.collection) || []; // Should be array (note fav-xxx dont have collection)
+      const collection = member.collection || (item && item.metadata && item.metadata.collection) || []; // Should be array (note fav-xxx dont have collection)
       const nFavorites = collection.filter(e => e.startsWith('fav-')).length; // Jira added since cant get this any more
       const collectionSize = member.item_count; // TODO really hard to get https://github.com/internetarchive/dweb-archive/issues/91
       const classes = ['item-ia'];
