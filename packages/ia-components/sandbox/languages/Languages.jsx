@@ -3,7 +3,6 @@ import waterfall from 'async/waterfall';
 import React from "react";
 const debug = require('debug')('dweb-archive:languages');
 const parallel = require('async/parallel'); //https://caolan.github.io/async/docs.html#parallel
-import {gatewayServer, ObjectFilter} from "../../util";
 
 
 /*
@@ -32,7 +31,7 @@ if (!currentISO()) currentISO("en");
 function getLanguage(lang, cb) {
   if (!languageConfig[lang]) { cb(new Error('Do not support language: '+lang));
   } else {
-    const url = [gatewayServer(), 'languages', languageConfig[lang].inEnglish.toLowerCase() + ".json"].join('/');
+    const url = ['/languages', languageConfig[lang].inEnglish.toLowerCase() + ".json"].join('/');
     DwebTransports.httptools.p_GET(url, {}, (err, languageObj) => {
       if (!err) languages[lang] = languageObj;
       cb(err);

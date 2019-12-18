@@ -11,39 +11,24 @@ function ObjectFromEntries(arr) { return arr.reduce((res,kv)=>(res[kv[0]]=kv[1],
  */
 function ObjectFilter(obj, f) { return ObjectFromEntries( Object.entries(obj).filter(kv=>f(kv[0], kv[1]))); }
 
-/*
-Return a string suitable for prepending to root relative URLs choosing between normal, Dweb, and dweb-mirror scenarios
-
-Note copy of this in dweb-archivecontroller/Util.js and ia-components/util.js
- */
-function gatewayServer(server=undefined) {
-    // Return location for http calls to a gateway server that understands canonical addresses like /arc/archive.. or /ipfs/Q...
-    // Has to be a function rather than constant because searchparams is defined after this library is loaded
-    // Note that for example where Util.js is included from dweb-mirror that currently (this may change) DwebArchive is not defined
-    // If server is supplied will use that rather than dweb.me, this is (possibly temporary) for bookreader //TODO-BOOK
-    return ((typeof DwebArchive !== "undefined") && (DwebArchive.mirror !== null))  ? DwebArchive.mirror
-        : server ? "https://"+server
-            : "https://dweb.me"
-}
-
 // Same code in dweb-archive/util.js and ia-components/util.js
 function canonicalUrl(url, opts={}) {
     /* Translate an URL as typically seen in a piece of IA code into something canonical that can be used in:
-        Dweb code - where typically it wants to go to https://dweb.me
+        Dweb code - where typically it wants to go to https://dweb.archive.org
         Dweb-Mirror client - where it should go to the mirror server
         AO - where it will usually not be changed
         Note this explicitly doesnt count the case of running in the Mirror as its only occurring in UI code
 
         The code here will get complicated as more cases are added
         By default URLs are returned unmodified
-
+        There is no assumption that the resulting URL will be passed to DwebTransports for resolution, even if DwebArchive is defined.
         Cases handled:
-        /xxx -> Dweb|Mirror: <server>/arc/archive.org/xxx AO:
+        /xxx -> Dweb|Mirror: <server>/xxx AO:
      */
     if (url.startsWith("/services")) {
         return (typeof DwebArchive === "undefined")
             ? url
-            : ( DwebArchive.mirror === null ? "https://dweb.me" : DwebArchive.mirror) + "/arc/archive.org" + url;
+            : ( DwebArchive.mirror === null ? "https://dweb.archive.org" : DwebArchive.mirror) + url;
     }
     return url;
 }
@@ -83,10 +68,11 @@ Git petabox/etc/nginx/mime.types has 2 mappings of ext to mimetype
 // Note copy of this in ia-components/util.js and dweb-archivecontroller/util.js
 
 const _formatarr = [
-    {format: 'VBR MP3',  ext: undefined, type: "audio",    mimetype: "audio/mpeg3",          playable: true,  downloadable: "VBR MP3"},
+    {format: 'VBR MP3',  ext: "_vbr.m3u", type: "audio",    mimetype: "audio/mpeg3",          playable: true,  downloadable: "VBR MP3"},
     {format: 'Ogg Vorbis',  ext: undefined, type: "audio",    mimetype: "audio/TODO",           playable: true,  downloadable: "OGG VORBIS"},
-    {format: '128Kbps MP3',  ext: undefined, type: "audio",    mimetype: "audio/mpeg3",          playable: false, downloadable: "128KBPS MP3" },
-    {format: '64Kbps MP3',  ext: undefined, type: "audio",    mimetype: "audio/mpeg3",          playable: false, downloadable: "64KBPS MP3" },
+    {format: '128Kbps MP3',  ext: "_128kb.m3u", type: "audio",    mimetype: "audio/mpeg3",          playable: false, downloadable: "128KBPS MP3" },
+    {format: '64Kbps MP3',  ext: "_64kb.m3u", type: "audio",    mimetype: "audio/mpeg3",          playable: false, downloadable: "64KBPS MP3" },
+    {format: undefined, ext:'.m3u', type: 'audio', mimetype: 'audio/x-mpegurl', playable: undefined, downloadable: undefined },
     {format: 'LibriVox Apple Audiobook', type: "audio", mimetype: "application/octet-stream", playable: false, downloadable: "LIBRIVOX APPLE AUDIOBOOK" },
     {format: 'JPEG',  ext: ".jpeg", type: "image",    mimetype: "image/jpeg",           playable: true,  downloadable: "JPEG" },
     {format: 'PNG',  ext: ".png", type: "image",    mimetype: "image/png",            playable: true,  downloadable: "PNG"},
@@ -402,7 +388,6 @@ const _formatarr = [
     {format: undefined, ext:'.lyx', type: 'application', mimetype: 'application/x-lyx', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.lzh', type: 'application', mimetype: 'application/x-lzh', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.lzx', type: 'application', mimetype: 'application/x-lzx', playable: undefined, downloadable: undefined },
-    {format: undefined, ext:'.m3u', type: 'audio', mimetype: 'audio/x-mpegurl', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.m4b', type: 'audio', mimetype: 'audio/mp4', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.m4p', type: 'audio', mimetype: 'audio/mp4', playable: undefined, downloadable: undefined },
     {format: undefined, ext:'.m4v', type: 'video', mimetype: 'video/x-m4v', playable: undefined, downloadable: undefined },
@@ -658,6 +643,14 @@ function formats(k,v,{first=true}={}) {
     // Documentation is above _formatarr
     const ff = _formatarr.filter(f => f[k] === v);
     return first ? (ff.length ? ff[0] : undefined) : ff;
+}
+
+/**
+ * @param format    as in .format field of _formatarr
+ * @returns obj     Returns either undefined or first format that matches and is downloadable
+ */
+function downloadableFormat(format) {
+    return _formatarr.find(f => f["downloadable"] && (f["format"] === format));
 }
 // NOTE: copied _verbatim_ from  Details::$langList & Languages.inc until @hank and @ximm weigh in.. 8-)
 const languageMapping = {
@@ -1000,4 +993,4 @@ const languageMapping = {
     'zxx': 'No linguistic content'
 };
 
-export {gatewayServer, canonicalUrl, languageMapping, ObjectFromEntries, ObjectFilter, formats}
+export {canonicalUrl, languageMapping, ObjectFromEntries, ObjectFilter, formats, downloadableFormat}

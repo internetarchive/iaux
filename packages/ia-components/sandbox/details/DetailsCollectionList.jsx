@@ -1,7 +1,7 @@
+/* global DwebTransports */
+/* eslint-disable prefer-template, max-len, react/prop-types, react/destructuring-assignment */
 import React from 'react';
-import IAReactComponent from '../IAReactComponent';
 import AnchorDetails from '../AnchorDetails';
-import { canonicalUrl } from '../../util';
 import { I18nSpan } from '../languages/Languages';
 
 /**
@@ -24,32 +24,39 @@ import { I18nSpan } from '../languages/Languages';
  */
 
 
-export default class DetailsCollectionList extends IAReactComponent {
+export default class DetailsCollectionList extends React.Component {
   render() {
     return (
       <div className="boxy collection-list">
         <section className="collection-list">
-          <h5 className="collection-title"><I18nSpan en="IN COLLECTIONS"/></h5>
-          {this.props.collections.map(collection => (
-            <div className="collection-item" key={collection}>
-              <AnchorDetails
-                identifier={collection}
-                data-event-click-tracking={`CollectionList|${collection}`}
-              >
-                {this.props.collectionTitles[collection] || collection}
-              </AnchorDetails>
-              <div className="item-img">
+          <h5 className="collection-title"><I18nSpan en="IN COLLECTIONS" /></h5>
+          {this.props.collections.map((collection) => {
+            const backgroundImageBaseUrl = 'https://archive.org/servives/img/' + collection;
+            const backgroundImage = DwebTransports
+              ? DwebTransports.httpFetchUrl(DwebTransports.resolveNames(backgroundImageBaseUrl))
+              : backgroundImageBaseUrl;
+            return (
+              <div className="collection-item" key={collection}>
                 <AnchorDetails
                   identifier={collection}
-                  style={{ backgroundImage: `url(${canonicalUrl(`/services/img/${collection}`)})` }}
-                  aria-hidden="true"
                   data-event-click-tracking={`CollectionList|${collection}`}
-                />
+                >
+                  {this.props.collectionTitles[collection] || collection}
+                </AnchorDetails>
+                <div className="item-img">
+                  <AnchorDetails
+                    identifier={collection}
+                    style={{ backgroundImage }}
+                    aria-hidden="true"
+                    data-event-click-tracking={`CollectionList|${collection}`}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </section>
       </div>
     );
   }
 }
+/* Code review Mitra 2019-12-08 exc HTML compare */

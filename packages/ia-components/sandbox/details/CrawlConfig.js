@@ -3,7 +3,6 @@
 import React from 'react';
 import prettierBytes from 'prettier-bytes';
 import IAReactComponent from '../IAReactComponent';
-import { gatewayServer } from '../../util';
 import { I18nSpan, I18nStr } from '../languages/Languages';
 
 const debug = require('debug')('dweb-archive:CrawlConfig');
@@ -105,7 +104,7 @@ export default class CrawlConfig extends IAReactComponent {
       this.setState({ level });
 
       // Tell server the desired new state.
-      let urlSetConfig = [gatewayServer(), 'admin/setconfig', this.props.identifier || "_", level || 'none'].join('/');
+      let urlSetConfig = [DwebArchive.mirror, 'admin/setconfig', this.props.identifier || "_", level || 'none'].join('/');
       if (this.props.query) { urlSetConfig += "?q=" + encodeURIComponent(this.props.query); }
       DwebTransports.httptools.p_GET(urlSetConfig, {}, (err, unusedInfo) => {
         // Gets back info, but not currently using

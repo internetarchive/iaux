@@ -1,5 +1,4 @@
 import React from 'react';
-import IAReactComponent from '../IAReactComponent';
 import TileComponent from './TileComponent';
 import { I18nSpan, I18nIcon, I18nStr } from "../languages/Languages";
 
@@ -16,7 +15,7 @@ const debug = require('debug')('ia-components:TileGrid');
 
  */
 
-class TileGrid extends IAReactComponent {
+class TileGrid extends React.Component {
   /**
    * <TileGrid members=[ArchiveMember*] disconnected=BOOL>
    **/
@@ -46,47 +45,57 @@ class TileGrid extends IAReactComponent {
   }
 }
 
-class ScrollableTileGrid extends IAReactComponent {
+class ScrollableTileGrid extends React.Component {
   /**
    * <ScrollableTileGrid item=ARCHIVEITEM disconnected=BOOL/>
    */
   constructor(props) {
     super(props); // item
-    console.assert(props.item.membersFav || props.item.membersSearch);
-    this.state.xxx = true; // Used as a toggle to force rerender
-    $(window).scroll(() => {
-      this.scrolled.call(this);
-    });
+    this.state = {xxx: true}; // Used as a toggle to force rerender
+    this.onClick = this.onClick.bind(this)
+    this.handleScroll = this.handleScroll.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   // Replaces AJS.scrolled which doesnt have a way to send a click to a react object
-  scrolled() {
-    // TODO shouldnt really depend on jquery
+  handleScroll(ev) {
+    //debug('scrolling caught for %s', this.props.item.itemid);
+    //TODO remove dependence below on jquery
     const newtop = $(window).scrollTop();
-    // log('scrolled to ', newtop)
-
     const selector = '.more_search:visible';
     const $e = $(selector);
     if (!$e.length) return;
 
     // make the edge detect for "hit bottom" 40 pixels from the bottom
     const check = (($e.offset().top + $e.outerHeight()) - $(window).height()) - 40;
-    // log('-v- check', check)
     if (newtop > check) {
-      debug('hit rock bottom > ', check);
-      if (!AJS.more_searching) this.clickCallable();
+      if (!AJS.more_searching) {
+        this.doMore();
+      } else {
+        debug('patience please');
+      }
     }
   }
 
-
-  clickCallable() { // More
+  doMore() {
+    debug('Getting more');
     AJS.more_searching = true;
     const el = document.getElementById('appendTiles'); // Get the el, before the search in case user clicks away we add to right place
     this.props.item.more({}, (err, newmembers) => { // Appends to this.members but returns just the new ones
-      debug('TODO should be getting state here');
-      this.setState({ xxx: !this.xxx }); // Force it to rerender since its state.members didnt change, but the contents of it did.
+      this.setState({ xxx: !this.state.xxx }); // Force it to rerender since its state.members didnt change, but the contents of it did.
       AJS.more_searching = false;
     });
+  }
+
+  onClick(ev) { // More
+    this.more();
+    ev.preventDefault();
   }
 
   render() {

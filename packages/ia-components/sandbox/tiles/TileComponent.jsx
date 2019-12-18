@@ -45,7 +45,7 @@ export default class TileComponent extends React.Component {
       const item = this.props.item;
       const query = props.query || (item && item.query) || (member && member.query);
       const isCollection = (member.mediatype === 'collection');
-      const collection0 = member.collection0() || (item && item.metadata.collection[0]);
+      const collection0 = member.collection0() || (item && item.metadata && item.metadata.collection[0]);
       const by = member.creator || member.creatorSorter || (item && item.metadata.creator); // Should be array
       const collection = member.collection || (item && item.metadata.collection) || []; // Should be array (note fav-xxx dont have collection)
       const nFavorites = collection.filter(e => e.startsWith('fav-')).length; // Jira added since cant get this any more
@@ -76,9 +76,7 @@ export default class TileComponent extends React.Component {
         numReviews: member.num_reviews || (item && item.reviews && item.reviews.length) || 0,
         crawl: member.crawl || {},
         downloaded: member.downloaded,
-        parentimageurl: (member && member.collection0thumbnaillinks && (member.collection0thumbnaillinks.length > 0))
-          ? member.collection0thumbnaillinks
-          : ('/services/img/' + collection0)
+        parentimageurl: '/services/img/' + collection0
       };
     } catch (err) { // Catch error here as not generating debugging info at caller level for some reason
       debug('ERROR in TileComponent.constructor for %s: %s', identifier, err.message);
