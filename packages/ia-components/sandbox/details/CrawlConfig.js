@@ -1,5 +1,4 @@
 /* global DwebArchive, DwebTransports */
-// DwebTransports is not needed, its a global
 import React from 'react';
 import prettierBytes from 'prettier-bytes';
 import { I18nSpan, I18nStr } from '../languages/Languages';

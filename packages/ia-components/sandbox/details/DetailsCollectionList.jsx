@@ -1,4 +1,4 @@
-/* global DwebTransports */
+/* global DwebArchiveContoller */
 /* eslint-disable prefer-template, max-len, react/prop-types, react/destructuring-assignment */
 import React from 'react';
 import AnchorDetails from '../AnchorDetails';
@@ -32,8 +32,8 @@ export default class DetailsCollectionList extends React.Component {
           <h5 className="collection-title"><I18nSpan en="IN COLLECTIONS" /></h5>
           {this.props.collections.map((collection) => {
             const backgroundImageBaseUrl = 'https://archive.org/servives/img/' + collection;
-            const backgroundImage = DwebTransports
-              ? DwebTransports.httpFetchUrl(DwebTransports.resolveNames(backgroundImageBaseUrl))
+            const backgroundImage = DwebArchiveController
+              ? DwebArchiveController.routed(backgroundImageBaseUrl, { wantOneHttp: true })
               : backgroundImageBaseUrl;
             return (
               <div className="collection-item" key={collection}>
