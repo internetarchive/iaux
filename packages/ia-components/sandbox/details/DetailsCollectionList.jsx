@@ -46,7 +46,7 @@ export default class DetailsCollectionList extends React.Component {
                 <div className="item-img">
                   <AnchorDetails
                     identifier={collection}
-                    style={{ backgroundImage }}
+                    style={{ backgroundImage: `url(${backgroundImage})` }}
                     aria-hidden="true"
                     data-event-click-tracking={`CollectionList|${collection}`}
                   />
