@@ -25,14 +25,16 @@ import { I18nSpan, I18nStr, I18nIcon } from '../languages/Languages';
 
 export default class DetailsDownloadOptions extends React.Component {
   downloadableFilesDict() {
-    return this.props.files.reduce((res, af) => {
-      const format = af.metadata.format;
-      if (downloadableFormat(format)) {
-        if (!res[format]) { res[format] = []; }
-        res[format].push(af);
-      }
-      return res;
-    }, {});
+    return this.props.files
+      .filter(af => ( !this.props.disconnected || af.downloaded))
+      .reduce((res, af) => {
+        const format = af.metadata.format;
+        if (downloadableFormat(format)) {
+          if (!res[format]) { res[format] = []; }
+          res[format].push(af);
+        }
+        return res;
+      }, {});
   }
 
 

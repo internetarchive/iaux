@@ -1,5 +1,5 @@
 /* global DwebArchive, Nav */
-/* eslint-disable max-len, no-nested-ternary, object-curly-newline */
+/* eslint-disable max-len, no-nested-ternary, object-curly-newline, react/destructuring-assignment, react/prop-types */
 import React from 'react';
 import { ObjectFilter } from '../../util';
 
@@ -78,36 +78,39 @@ function downloadViaAnchor(el, source, options, cb) {
 }
 
 function reachable({ disconnected, source, identifier, filename }) {
+  // Note that multi element arrays arent reachable if disconnected because they need "compress" which we dont currently support on dweb-mirror
   return (!disconnected
     || (source
-      ? (Array.isArray(source) ? ((source.length === 1) && source[0].downloaded) : source.downloaded )
+      ? (Array.isArray(source) ? source.every(s => s.downloaded) : source.downloaded )
       : (identifier && !filename) // Just an identifier = want directory
     ));
 }
 class AnchorDownload extends React.Component {
   constructor(props) {
+    // TODO-NAMING check that these urls get routed - if just anchors then have problems on dweb-mirror
     super(props);
     this.onClick = this.onClick.bind(this);
     // TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
     // this.props passes identifier which is required for Dweb, but typically also passes tabIndex, class, title
-    this.state = {
-      url: new URL((this.props.filename && typeof this.props.filename === 'string') // filename = foo.jpg
-        ? `https://archive.org/download/${this.props.identifier}/${this.props.filename}`
-        : (this.props.source && Array.isArray(this.props.source) && this.props.source.length === 1) // source = [ArchiveFile]
+    const url = new URL((this.props.filename && typeof this.props.filename === 'string') // filename = foo.jpg
+      ? `https://archive.org/download/${this.props.identifier}/${this.props.filename}`
+      : (this.props.source && Array.isArray(this.props.source) && this.props.source.length === 1) // source = [ArchiveFile]
         ? `https://archive.org/download/${this.props.identifier}/${this.props.source[0].metadata.name}`
         : this.props.format // source = [ArchiveFile]
-        // Note - this is a broken, illegal URL with an '&' in middle of the URL not the parameters but that is what IA requires
-        ? `https://archive.org/compress/${this.props.identifier}/formats=${this.props.format}&file=/${this.props.identifier}.zip`
-        // just identifier e.g. "ShowAll" on DetailsDownloadOptions"
-        : `https://archive.org/download/${this.props.identifier}`)
-    }   // identifier only, !Dweb or Dweb as Dweb will handle through onClick anyway
+          // Note - this is a broken, illegal URL with an '&' in middle of the URL not the parameters but that is what IA requires
+          ? `https://archive.org/compress/${this.props.identifier}/formats=${this.props.format}&file=/${this.props.identifier}.zip`
+          // just identifier e.g. "ShowAll" on DetailsDownloadOptions"
+          // identifier only, !Dweb or Dweb as Dweb will handle through onClick anyway
+          : `https://archive.org/download/${this.props.identifier}`);
+    // url is not routed() because only used by non-Dweb, Dweb uses onClick
+    this.state = { url }
     const usp = new URLSearchParams();
     // Copy any parameters in AnchorDownload.urlparms to usp for inclusion in the href=
     AnchorDownload.urlparms.forEach(k => usp.append(k, this.props[k]));
     this.state.url.search = usp; // Note this copies, not updatable
     // Copy any parameters not specified in AnchorDownload.urlparms to anchorProps for inclusion in the <a>
     this.state.anchorProps = ObjectFilter(this.props,
-      (k, unusedV) => (!AnchorDownload.urlparms.includes(k) && !["disconnected"].includes(k)));
+      (k, unusedV) => (!AnchorDownload.urlparms.includes(k) && !['disconnected'].includes(k)));
   }
 
   onClick(ev) {
@@ -128,10 +131,10 @@ class AnchorDownload extends React.Component {
     return ( // Note there is intentionally no spacing in case JSX adds a unwanted line break /
       // /TODO-GREY this could be CSS instead of removed
       typeof DwebArchive === 'undefined'
-      ? <a href={this.state.url.href} {...this.state.anchorProps} rel="noopener noreferrer" target="_blank">{this.props.children}</a>
-      : reachable(this.props) //Its Dweb, but is it reachable (uses props. disconnected, source, identifier, filename)
-      ? <a href={this.state.url.href} onClick={this.onClick} {...this.state.anchorProps}>{this.props.children}</a>
-      : null
+        ? <a href={this.state.url.href} {...this.state.anchorProps} rel="noopener noreferrer" target="_blank">{this.props.children}</a>
+        : reachable(this.props) // Its Dweb, but is it reachable (uses props. disconnected, source, identifier, filename)
+        ? <a href={this.state.url.href} onClick={this.onClick} {...this.state.anchorProps}>{this.props.children}</a>
+        : null
     );
   }
 }
