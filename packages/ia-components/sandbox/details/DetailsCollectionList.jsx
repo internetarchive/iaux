@@ -31,7 +31,7 @@ export default class DetailsCollectionList extends React.Component {
         <section className="collection-list">
           <h5 className="collection-title"><I18nSpan en="IN COLLECTIONS" /></h5>
           {this.props.collections.map((collection) => {
-            const backgroundImageBaseUrl = 'https://archive.org/servives/img/' + collection;
+            const backgroundImageBaseUrl = 'https://archive.org/services/img/' + collection;
             const backgroundImage = DwebArchiveController
               ? DwebArchiveController.routed(backgroundImageBaseUrl, { wantOneHttp: true })
               : backgroundImageBaseUrl;
