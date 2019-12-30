@@ -1,6 +1,6 @@
-/* global DwebArchive */
+/* global AJS */
+/* eslint-disable max-len, no-restricted-globals, prefer-template, react/destructuring-assignment, react/prop-types */
 import React from 'react';
-import IAReactComponent from '../IAReactComponent';
 import { I18nSpan } from '../languages/Languages';
 
 /**
@@ -25,23 +25,22 @@ import { I18nSpan } from '../languages/Languages';
 
 const debug = require('debug')('ia-components:Tabby');
 
-export default class Tabby extends IAReactComponent {
-  /*
-     */
+export default class Tabby extends React.Component {
   constructor(props) {
     super(props);
-    //TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch
-    this.onClick = ev => this.clickCallable.call(this, ev);
+    this.onClick = this.onClick.bind(this);
     // Can override href e.g. for "web-archive"
     // Note original tabby uses IA's weird, invalid urls like /details/IDENTIFIER&tab=xx which break URL(location)
-    // this code does not propogate that bad practice !
+    // this code does not propagate that bad practice !
 
     const urlParms = new URL(location).searchParams;
     urlParms.set('tab', this.props.id);
-    this.state.href = `${this.props.href || (`/details/${this.props.identifier}`)}?${urlParms.toString()}`;
+    this.state = {
+      href: (this.props.href || (`/details/${this.props.identifier}`)) + '?' + urlParms.toString()
+    };
   }
 
-  clickCallable(ev) {
+  onClick(ev) {
     debug('Clicking on link to tab: %s %s', this.props.identifier, this.props.id);
     // "this" is the React object
     // ev.currentTarget is the HTML Element on which the onClick sits
@@ -49,8 +48,7 @@ export default class Tabby extends IAReactComponent {
     // .replace is because id="web-archive" but call to AJS.tabby is "tabby-web archive"
     // noinspection JSUnresolvedFunction
     const shouldFollow = AJS.tabby(ev.currentTarget, `tabby-${this.props.id.replace('-', ' ')}`); // Returns true to follow link, false to skip
-    if (!shouldFollow) { ev.preventDefault(); } // Stop React event propogating
-    return false; // Stop propogation in non-react examples
+    if (!shouldFollow) { ev.preventDefault(); } // Stop React event propagating
   }
 
   render() {
@@ -60,18 +58,17 @@ export default class Tabby extends IAReactComponent {
           <a
             id={`tabby-${this.props.id}-finder`}
             className={`stealth${this.props.default ? ' tabby-default-finder' : ''}`}
-            identifier={this.itemid}
             href={this.state.href}
             onClick={this.onClick}
           >
             { this.props.abbreviatedText
               ? (
                 <>
-                  <I18nSpan className="tabby-text hidden-xs-span" en={this.props.text}/>
-                  <I18nSpan className="tabby-text visible-xs-span" en={this.props.abbreviatedText}/>
+                  <I18nSpan className="tabby-text hidden-xs-span" en={this.props.text} />
+                  <I18nSpan className="tabby-text visible-xs-span" en={this.props.abbreviatedText} />
                 </>
               )
-              : <I18nSpan className="tabby-text" en={this.props.text}/>
+              : <I18nSpan className="tabby-text" en={this.props.text} />
             }
           </a>
         </div>
@@ -79,3 +76,4 @@ export default class Tabby extends IAReactComponent {
     );
   }
 }
+// Code inspection by Mitra 2019-12-29 exc html compare
