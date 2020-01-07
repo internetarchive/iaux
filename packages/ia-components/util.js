@@ -11,27 +11,6 @@ function ObjectFromEntries(arr) { return arr.reduce((res,kv)=>(res[kv[0]]=kv[1],
  */
 function ObjectFilter(obj, f) { return ObjectFromEntries( Object.entries(obj).filter(kv=>f(kv[0], kv[1]))); }
 
-// Same code in dweb-archive/util.js and ia-components/util.js
-function canonicalUrl(url, opts={}) {
-    /* Translate an URL as typically seen in a piece of IA code into something canonical that can be used in:
-        Dweb code - where typically it wants to go to https://dweb.archive.org
-        Dweb-Mirror client - where it should go to the mirror server
-        AO - where it will usually not be changed
-        Note this explicitly doesnt count the case of running in the Mirror as its only occurring in UI code
-
-        The code here will get complicated as more cases are added
-        By default URLs are returned unmodified
-        There is no assumption that the resulting URL will be passed to DwebTransports for resolution, even if DwebArchive is defined.
-        Cases handled:
-        /xxx -> Dweb|Mirror: <server>/xxx AO:
-     */
-    if (url.startsWith("/services")) {
-        return (typeof DwebArchive === "undefined")
-            ? url
-            : ( DwebArchive.mirror === null ? "https://dweb.archive.org" : DwebArchive.mirror) + url;
-    }
-    return url;
-}
 /*
 A table, and a function to access it.
 
@@ -993,4 +972,4 @@ const languageMapping = {
     'zxx': 'No linguistic content'
 };
 
-export {canonicalUrl, languageMapping, ObjectFromEntries, ObjectFilter, formats, downloadableFormat}
+export {languageMapping, ObjectFromEntries, ObjectFilter, formats, downloadableFormat}
