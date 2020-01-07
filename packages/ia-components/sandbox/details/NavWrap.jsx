@@ -394,7 +394,8 @@ class DwebStatusLI extends React.Component {
       // TODO display err.message if hover
       this.setState({ error: err, status: err ? TRANSPORT_STATUS_FAILED : s });
     });
-    ev.preventDefault(); // Prevent click propagating (equivalent to "return false" in non-React
+    //Removed as no href on the "li"
+    // ev.preventDefault(); // Prevent click propagating (equivalent to "return false" in non-React
   }
 
   render() {

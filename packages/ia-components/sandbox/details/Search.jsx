@@ -25,12 +25,12 @@ class SearchSwitcher extends React.Component {
           </div>
           {/* --TODO-DETAILS this dropdown doesnt reorder, test other UI elements in vicinity as well see https://github.com/internetarchive/dweb-archive/issues/15--*/}
           <span className="big-label blue-pop">{/* TODO-ISSUE dweb-archive#57 remove relevance on Collections */}
-            {(!this.props.identifier) // Dont show on collections
-              ? <AnchorSearch className="ikind stealth in" data-id="relevance" query={this.props.query}><I18nSpan en="RELEVANCE" /></AnchorSearch>
-              : undefined}
-            {(!this.props.identifier) // Dont show on collections
-              ? <div className="iconochive-dot ikind-sep" />
-              : undefined}
+            { this.props.identifier ? null : // Dont show on collections
+              <AnchorSearch className="ikind stealth in" data-id="relevance" query={this.props.query}><I18nSpan en="RELEVANCE" /></AnchorSearch>
+            }
+            { this.props.identifier ? null : // Dont show on collections
+              <div className="iconochive-dot ikind-sep" />
+            }
             <AnchorSearch className="ikind stealth" data-id="views" query={this.props.query} sort="-downloads">VIEWS</AnchorSearch>
             <div className="iconochive-dot ikind-sep" />
             <AnchorSearch className="ikind stealth" data-id="title" query={this.props.query} sort="titleSorter">TITLE</AnchorSearch>
@@ -49,4 +49,4 @@ class SearchSwitcher extends React.Component {
   }
 }
 export { SearchSwitcher };
-/* Code review Mitra 2019-12-11 excluding HTML comparisom */
+/* Code review Mitra 2019-12-11 excluding HTML comparison */
