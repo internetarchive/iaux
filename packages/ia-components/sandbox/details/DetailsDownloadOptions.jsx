@@ -23,6 +23,10 @@ import { I18nSpan, I18nStr, I18nIcon } from '../languages/Languages';
  * />
  */
 
+function epubReaderUrl(identifier, file) {
+  return `/epubreader/index.html?bookPath=/download/${identifier}/${file.metadata.name}`;
+}
+
 export default class DetailsDownloadOptions extends React.Component {
   downloadableFilesDict() {
     return this.props.files
@@ -36,7 +40,6 @@ export default class DetailsDownloadOptions extends React.Component {
         return res;
       }, {});
   }
-
 
   render() {
     // Build a dictionary of file formats
@@ -80,7 +83,7 @@ export default class DetailsDownloadOptions extends React.Component {
               <I18nIcon className="iconochive-download" en="download" />
             </AnchorDownload>
             {(typeof DwebArchive === 'undefined' || !DwebArchive.mirror || (k !== 'Epub')) ? null : (
-              <a href={`/epubreader/index.html?bookPath=/download/${this.props.identifier}/${downloadableFilesDict[k][0].metadata.name}`} title="Read online">
+              <a href={epubReaderUrl(this.props.identifier, downloadableFilesDict[k][0])} title="Read online">
                 <I18nIcon className="iconochive-eye" en="Read online" />
               </a>
             )}
@@ -96,7 +99,7 @@ export default class DetailsDownloadOptions extends React.Component {
               <br />
               <a className="boxy-ttl hover-badge" href={compressAllURL}>
                 <I18nSpan className="iconochive-download" en="download" />
-                {originalFilesCount}{' '}{I18nStr('Original')}
+                {`${originalFilesCount} ${I18nStr('Original')`}
               </a>
               <br />
             </div>
