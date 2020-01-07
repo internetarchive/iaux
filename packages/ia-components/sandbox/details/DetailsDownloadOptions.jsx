@@ -99,7 +99,7 @@ export default class DetailsDownloadOptions extends React.Component {
               <br />
               <a className="boxy-ttl hover-badge" href={compressAllURL}>
                 <I18nSpan className="iconochive-download" en="download" />
-                {`${originalFilesCount} ${I18nStr('Original')`}
+                {`${originalFilesCount} ${I18nStr('Original')}`}
               </a>
               <br />
             </div>
