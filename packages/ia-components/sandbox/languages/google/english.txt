@@ -234,3 +234,7 @@ Non Commercial
 No Derivatives
 Offline Internet Archive
 Read online
+HTTP
+IPFS
+GUN
+WEBTORRENT
