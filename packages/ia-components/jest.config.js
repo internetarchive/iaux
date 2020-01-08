@@ -6,5 +6,8 @@ module.exports = {
   clearMocks: true,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: '<rootDir>/jest-test-utils/jest-test-coverage'
+  coverageDirectory: '<rootDir>/jest-test-utils/jest-test-coverage',
+
+  // ignore test files in these directories
+  modulePathIgnorePatterns: ['<rootDir>/integration/']
 };
