@@ -39,6 +39,14 @@ describe('TheatreAudioPlayer ', () => {
     const iframe = testInstance.findAllByType('iframe');
     expect(iframe.length).toEqual(1);
   });
+  test('content window has 2 children', () => {
+    const { props } = testInstance;
+    const { backgroundPhoto } = props;
+
+    expect(backgroundPhoto).toBeFalsy();
+    const contentWindow = tree.children[0];
+    expect(contentWindow.children.length).toEqual(2);
+  });
   test('shows media icon when there is no background photo', () => {
     const { props } = testInstance;
     const { backgroundPhoto } = props;
@@ -48,5 +56,14 @@ describe('TheatreAudioPlayer ', () => {
     const backgroundPhotoPlaceholder = contentWindow.children[0];
     const image = backgroundPhotoPlaceholder.children[0];
     expect(image.props.className).toContain('no-photo');
+  });
+  test('shows waveform via jwplayer when no background photo', () => {
+    const { props } = testInstance;
+    const { backgroundPhoto } = props;
+
+    expect(backgroundPhoto).toBeFalsy();
+    const contentWindow = tree.children[0];
+    const jwplayerContainer = contentWindow.children[1];
+    expect(jwplayerContainer.props.className).toContain('with-waveform');
   });
 });
