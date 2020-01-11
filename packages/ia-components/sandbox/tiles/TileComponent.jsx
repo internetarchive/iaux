@@ -1,3 +1,17 @@
+/* eslint-disable max-len, react/prop-types, prefer-destructuring, react/destructuring-assignment, no-nested-ternary */
+/* eslint-disable prefer-template, react/jsx-first-prop-new-line, react/jsx-max-props-per-line, class-methods-use-this */
+/* eslint-disable operator-linebreak, react/jsx-wrap-multilines, react/jsx-closing-bracket-location, react/jsx-indent */
+/* Reasoning behind eslint disables
+  react/prop-type: Haven't implemented prop-types on this code at all yet,
+  prefer-destructuring & react/destructuring-assignment: its an absurd requirement that leads to crappy code
+  no-nested-ternary: ternarys are used where it makes for the clearest code
+  prefer-template: concatenating strings is more efficient, and makes for more readable code.
+  jsx-first-prop-new-line, jsx-max-props-per-line: doesnt make code any more readable
+  operator-linebreak: breaks the jsx '? null :' pattern, which if reorganized break other eslint rules
+  react/jsx-closing-bracket-location, react/jsx-indent, react/jsx-wrap-multilines: make code less readable
+  class-methods-use-this: a method on an object shouldnt change from class to non-class based on structure of internal implementation.
+  max-len removed for obvious reasons that breaking this line to put one or two words on a new line is counter-productive
+*/
 import React from 'react';
 import AnchorDetails from '../AnchorDetails';
 import { ImageDweb } from '../details/Image';
@@ -15,8 +29,9 @@ In Dweb it is added to the metadata by the gateway
 Once other use's figure out how to handle this the interface might need tweaking, for example to pass in an optional prop "collection0title"
 */
 
-function numberFormat(nStr) { // this is just addCommas now
+function numberFormat(nnStr) { // this is just addCommas now
   // http://www.mredkj.com/javascript/numberFormat.html
+  let nStr = nnStr; // eslint hates parameter reassignment
   nStr += '';
   const x = nStr.split('.');
   let x1 = x[0];
@@ -39,8 +54,8 @@ export default class TileComponent extends React.Component {
   constructor(props) {
     super(props);
     // TODO-STATE this might have the issue of constructor not being re-run and needing componentDidMount catch, but it should be used with a unique key
+    const identifier = props.identifier || props.member.identifier;
     try {
-      const identifier = props.identifier || props.member.identifier;
       const member = this.props.member;
       const item = this.props.item;
       const query = props.query || (item && item.query) || (member && member.query);
@@ -55,7 +70,7 @@ export default class TileComponent extends React.Component {
       if (member.crawl) classes.push(`crawl-${member.crawl.level}`); // Whether crawled or not and at what level
       const useDate = (member.publicdate || member.updateddate || (item && item.metadata.publicdate));
       const date = useDate && useDate.substr(0, 10);
-      //Intentionally rooted URL so dweb, mirror and other should all handle it see dweb-archive/ReactSupport for docs
+      // Intentionally rooted URL so dweb, mirror and other should all handle it see dweb-archive/ReactSupport for docs
       const imageurl = identifier ? ('/services/img/' + identifier) : query ? '/images/search-saved.png' : '/images/notfound.png';
       this.state = {
         identifier,
@@ -84,46 +99,107 @@ export default class TileComponent extends React.Component {
   }
 
   iconnameClass(mediatype) {
-    // Get the class for the icon, has to handle some exceptions - there used to be many more obsolete mediatypes without iconochive's but these appear to have been cleaned up
+    // Get the class for the icon, has to handle some exceptions - there used to be many more obsolete mediatypes
+    // without iconochive's but these appear to have been cleaned up
     const exceptions = { account: 'person', video: 'movies' };
     return `iconochive-${exceptions[mediatype] || mediatype}`;
+  }
+
+  renderDivStatbar() { // <div class=statbar>
+    return (
+      <div className="statbar ">
+        <div className="mt-icon C C5">
+          <I18nIcon className={this.state.iconnameClass} en={this.state.mediatype} />
+        </div>
+        <h6 className="stat ">
+          <I18nIcon className="iconochive-eye" en="eye" />
+          <nobr>{numberFormat(this.state.downloads)}</nobr>
+        </h6>
+
+        { typeof this.state.nFavorites === 'undefined' ? undefined
+          : (
+            <h6 className="stat">
+              <I18nIcon className="iconochive-favorite" en="favorite" />
+              {' '}
+              {numberFormat(this.state.nFavorites)}
+              {' '}
+
+            </h6>
+          )
+        }
+        <h6 className="stat">
+          <I18nIcon className="iconochive-comment" en="comment" />
+          {' '}
+          {numberFormat(this.state.numReviews)}
+        </h6>
+      </div>
+    );
+  }
+
+  renderDivCollectionStats() {
+    return (
+      <div className="collection-stats">
+        <div className="iconochive-collection topinblock hidden-lists" aria-hidden="true" />
+        <I18nSpan className="sr-only" en="collection" />
+        {typeof this.state.collectionSize === 'undefined' ? null
+          : (
+            <div className="num-items topinblock">
+              {numberFormat(this.state.collectionSize)}
+              <div className="micro-label"><I18nSpan en="ITEMS" /></div>
+            </div>
+          )
+        }
+        <div className="num-items hidden-tiles">
+          {numberFormat(this.state.downloads)}
+          <div className="micro-label"><I18nSpan en="VIEWS" /></div>
+        </div>
+      </div>
+    );
   }
 
   render() {
     // Until DM issue#211 have to fake disconnected for item="local" as dont have downloaded
     return ((this.props.disconnected && !(this.state.downloaded && this.state.downloaded.details)) ? null :
-      <div className={this.state.classes.join(' ')} data-id={this.state.identifier} data-mediatype={this.state.mediatype} key={this.state.identifier}>
+      <div className={this.state.classes.join(' ')} data-id={this.state.identifier}
+        data-mediatype={this.state.mediatype} key={this.state.identifier}>
         {/* -- Add in experimental crawl notification for dweb-mirror, if member.crawl=undefined then ignored --*/}
         {(!(this.state.crawl.level || (this.state.downloaded && this.state.downloaded.details))) ? null // Only show this bug if crawling
           : (
             <div className="item-crawl">
               <div className="item-crawl-img">
-                { this.state.crawl.level === 'details'
-                  ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="green" /></svg>' alt={`crawl ${this.state.crawl.level}`} />
+                {this.state.crawl.level === 'details'
+                  ? <img
+                    src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="green" /></svg>'
+                    alt={`crawl ${this.state.crawl.level}`} />
                   : this.state.crawl.level === 'all'
-                    ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="blue" /></svg>' alt={`crawl ${this.state.crawl.level}`} />
+                    ? <img
+                      src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="blue" /></svg>'
+                      alt={`crawl ${this.state.crawl.level}`} />
                     : (this.state.downloaded && this.state.downloaded.details)
-                      ? <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="white" /></svg>' alt={`crawl ${this.state.crawl.level}`} />
+                      ? <img
+                        src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="20"><circle cx="10" cy="10" r="9" fill="white" /></svg>'
+                        alt={`crawl ${this.state.crawl.level}`} />
                       : null
-                            }
+                }
               </div>
             </div>
           )
-                }
-        { (this.state.collection0) // Believe, but not certain, that there is always going to be a collection0
+        }
+        {(this.state.collection0) // Believe, but not certain, that there is always going to be a collection0
           ? (
             <AnchorDetails className="stealth" tabIndex="-1" identifier={this.state.collection0}>
               <div className="item-parent">
                 {/* archive.org uses a background image on the div but that makes it hard to intercept */}
                 <div className="item-parent-img">
-                  <ImageDweb className="item-parent-img" src={this.state.parentimageurl} alt={this.state.collection0} imgname="__ia_thumb.jpg" />
+                  <ImageDweb className="item-parent-img" src={this.state.parentimageurl} alt={this.state.collection0}
+                    imgname="__ia_thumb.jpg" />
                 </div>
                 <div className="item-parent-ttl">{this.state.collection0title}</div>
               </div>
               {/* .item-parent */}
             </AnchorDetails>
           )
-          : undefined }
+          : undefined}
         <div className="hidden-tiles views C C1">
           <nobr className="hidden-xs">{numberFormat(this.state.downloads)}</nobr>
           <nobr className="hidden-sm hidden-md hidden-lg">{numberFormat(this.state.downloads)}</nobr>
@@ -160,63 +236,10 @@ export default class TileComponent extends React.Component {
                 <span className="byv" title={this.state.byTitle}>{this.state.byTitle}</span>
               </div>
             )
-            : undefined }
+            : undefined}
         </div>
         {/* .C234 */}
-        {this.state.isCollection ? this.renderDivCollectionStats() : this.renderDivStatbar() }
-      </div>
-    );
-  }
-
-
-  renderDivCollectionStats() {
-    return (
-      <div className="collection-stats">
-        <div className="iconochive-collection topinblock hidden-lists" aria-hidden="true" />
-        <I18nSpan className="sr-only" en="collection" />
-        {typeof this.state.collectionSize === 'undefined' ? null
-          : (
-            <div className="num-items topinblock">
-              {numberFormat(this.state.collectionSize)}
-              <div className="micro-label"><I18nSpan en="ITEMS" /></div>
-            </div>
-          )
-                }
-        <div className="num-items hidden-tiles">
-          {numberFormat(this.state.downloads)}
-          <div className="micro-label"><I18nSpan en="VIEWS" /></div>
-        </div>
-      </div>
-    );
-  }
-
-  renderDivStatbar() { // <div class=statbar>
-    return (
-      <div className="statbar ">
-        <div className="mt-icon C C5">
-          <I18nIcon className={this.state.iconnameClass} en={this.state.mediatype} />
-        </div>
-        <h6 className="stat ">
-          <I18nIcon className="iconochive-eye" en="eye" />
-          <nobr>{numberFormat(this.state.downloads)}</nobr>
-        </h6>
-
-        { typeof this.state.nFavorites === 'undefined' ? undefined
-          : (
-            <h6 className="stat">
-              <I18nIcon className="iconochive-favorite" en="favorite" />
-              {' '}
-              {numberFormat(this.state.nFavorites)}
-              {' '}
-
-            </h6>
-          )
-                }
-        <h6 className="stat">
-          <I18nIcon className="iconochive-comment" en="comment" />
-          {' '}
-          {numberFormat(this.state.numReviews)}
-        </h6>
+        {this.state.isCollection ? this.renderDivCollectionStats() : this.renderDivStatbar()}
       </div>
     );
   }
