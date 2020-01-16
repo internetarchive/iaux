@@ -244,4 +244,4 @@ export default class TileComponent extends React.Component {
     );
   }
 }
-// Regular code review Mitra 2019-10-16
+// Regular code review Mitra 2019-01-11

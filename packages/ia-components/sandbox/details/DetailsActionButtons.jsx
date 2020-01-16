@@ -126,7 +126,7 @@ class DetailsActionButtons extends IAReactComponent {
             data-placement="bottom"
             en="Share this item"
           >
-            <I18nSpan className="iconochive-share" en="share"/>
+            <I18nIcon className="iconochive-share" en="share"/>
           </ButtonModalGo>
         </div>
         <DetailsFlags disconnected={this.props.disconnected}/>
