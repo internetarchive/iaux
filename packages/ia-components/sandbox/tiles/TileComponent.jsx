@@ -1,7 +1,4 @@
-/* eslint-disable max-len, react/prop-types, prefer-destructuring, react/destructuring-assignment, no-nested-ternary */
-/* eslint-disable prefer-template, react/jsx-first-prop-new-line, react/jsx-max-props-per-line, class-methods-use-this */
-/* eslint-disable operator-linebreak, react/jsx-wrap-multilines, react/jsx-closing-bracket-location, react/jsx-indent */
-/* Reasoning behind eslint disables
+/* Reasoning behind eslint disables that impact this and similar files
   react/prop-type: Haven't implemented prop-types on this code at all yet,
   prefer-destructuring & react/destructuring-assignment: its an absurd requirement that leads to crappy code
   no-nested-ternary: ternarys are used where it makes for the clearest code
