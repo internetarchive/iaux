@@ -25,8 +25,14 @@
         "react/jsx-wrap-multilines": 1,
         "react/jsx-closing-bracket-location":  1,
         "react/jsx-indent": 1,
+        "react/no-multi-comp": 1,
+        "no-unused-vars": 1,
+        "react/no-unused-state": 1,
+        "camelcase": 1,
         "babel/semi": 2,
         "comma-dangle": 0,
+        "implicit-arrow-linebreak": 1,
+        "indent": 1,
         "import/no-extraneous-dependencies": [
             "error", {
                 "devDependencies": ["**/*.test.js", "**/*.stories.js"],
