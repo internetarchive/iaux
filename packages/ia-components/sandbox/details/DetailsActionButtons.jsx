@@ -1,8 +1,8 @@
 // const debug = require('debug')('dweb-archive:DetailsActionButtons');
 import React from 'react';
-import IAReactComponent from '../IAReactComponent';
 import { AnchorModalGo, ButtonModalGo } from './ModalGo';
-import { I18nSpan, I18nIcon, I18nStr } from "../languages/Languages";
+import { I18nSpan, I18nIcon, I18nStr } from '../languages/Languages';
+/* global AJS */
 
 /**
  * DetailsActionButtons are a group of buttons, usually shown on the right, that include bookmarking, sharing and flagging.
@@ -28,12 +28,12 @@ import { I18nSpan, I18nIcon, I18nStr } from "../languages/Languages";
  *      en=ENSTRING             text of flag
  * />
  */
-class DetailsFlagLI extends IAReactComponent {
+class DetailsFlagLI extends React.Component {
   render() {
     return (
       <li className="">
         <a href={this.props.href} role="menuitem">
-          <I18nSpan en={this.props.en}/>}
+          <I18nSpan en={this.props.en} />
         </a>
       </li>
     );
@@ -45,17 +45,17 @@ class DetailsFlagLI extends IAReactComponent {
  *    disconnected=BOOL If true then cant see upstream so not displayed
  *  />             Render just the flag icon leading to the popup.
  */
-class DetailsFlags extends IAReactComponent {
+class DetailsFlags extends React.Component {
   render() {
     const loginURL = 'https://archive.org/account/login.php'; // TODO - its a Direct link as dont support authentication in DWeb version, may be better URL for IAUX
-    return ( this.props.disconnected ? null :
+    return (this.props.disconnected ? null :
       <div
         id="flag-button-container"
         className="topinblock"
         data-toggle="tooltip"
         data-placement="bottom"
         data-container="body"
-        title={I18nStr("Flag this item")}
+        title={I18nStr('Flag this item')}
       >
         <div className="dropup">
           <button
@@ -66,15 +66,15 @@ class DetailsFlags extends IAReactComponent {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <I18nIcon className="iconochive-Flag" en="flag"/>
+            <I18nIcon className="iconochive-Flag" en="flag" />
           </button>
           <div id="flag-popover" className="dropdown-menu" aria-labelledby="flag-button">
-            <h3 className="dropdown-title"><I18nSpan en="Flag this item for"/></h3>
+            <h3 className="dropdown-title"><I18nSpan en="Flag this item for" /></h3>
             <ul role="menu">
-              <DetailsFlagLI href={loginURL} en="Graphic Violence"/>
-              <DetailsFlagLI href={loginURL} en="Graphic Sexual Content"/>
-              <DetailsFlagLI href={loginURL} en="Spam, Scam or Fraud"/>
-              <DetailsFlagLI href={loginURL} en="Broken or Empty Data"/>
+              <DetailsFlagLI href={loginURL} en="Graphic Violence" />
+              <DetailsFlagLI href={loginURL} en="Graphic Sexual Content" />
+              <DetailsFlagLI href={loginURL} en="Spam, Scam or Fraud" />
+              <DetailsFlagLI href={loginURL} en="Broken or Empty Data" />
             </ul>
           </div>
         </div>
@@ -90,7 +90,7 @@ class DetailsFlags extends IAReactComponent {
  *      disconnected=BOOL       If true, then cant see upstream, some buttons disabled
  *  />
  */
-class DetailsActionButtons extends IAReactComponent {
+class DetailsActionButtons extends React.Component {
   render() {
     const bookmarksAddURL = `https://archive.org/bookmarks.php?add_bookmark=1&amp;mediatype=image&amp;identifier=${this.props.identifier}&amp;title=${this.props.title}`; // TODO find way to submit distributed
     return (
@@ -98,8 +98,8 @@ class DetailsActionButtons extends IAReactComponent {
         {this.props.disconnected ? null :
           <div className="topinblock">
             <AnchorModalGo
-              className="button "
-              opts={{favorite: 1}}
+              className="button"
+              opts={{ favorite: 1 }}
               href={bookmarksAddURL}
               id="favorite-button"
               aria-haspopup="true"
@@ -109,7 +109,7 @@ class DetailsActionButtons extends IAReactComponent {
               data-placement="bottom"
               en="Favorite this item"
             >
-              <I18nIcon className="iconochive-favorite" en="favorite"/>
+              <I18nIcon className="iconochive-favorite" en="favorite" />
             </AnchorModalGo>
           </div>
         }
@@ -126,13 +126,14 @@ class DetailsActionButtons extends IAReactComponent {
             data-placement="bottom"
             en="Share this item"
           >
-            <I18nIcon className="iconochive-share" en="share"/>
+            <I18nIcon className="iconochive-share" en="share" />
           </ButtonModalGo>
         </div>
-        <DetailsFlags disconnected={this.props.disconnected}/>
+        <DetailsFlags disconnected={this.props.disconnected} />
       </div>
     );
   }
 }
 
 export { DetailsFlagLI, DetailsFlags, DetailsActionButtons };
+// Code review by Mitra 2019-01-18

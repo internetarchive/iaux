@@ -25,6 +25,7 @@
         "react/jsx-wrap-multilines": 1,
         "react/jsx-closing-bracket-location":  1,
         "react/jsx-indent": 1,
+        "react/no-multi-comp": 1,
         "babel/semi": 2,
         "comma-dangle": 0,
         "import/no-extraneous-dependencies": [

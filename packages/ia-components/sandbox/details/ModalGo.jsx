@@ -1,8 +1,8 @@
 // const debug = require('debug')('dweb-archive:ModalGo');
 import React from 'react';
-import { ObjectFilter } from '../../util.js';
+import { ObjectFilter } from '../../util';
 import { I18nStr } from '../languages/Languages';
-
+/* global AJS */
 /**
  *  AnchorModalGo and ButtonModalGo wrap the AJS.modal_go call in archive.js to allow it to work with react.
  */
@@ -35,6 +35,8 @@ class _ModalGo extends React.Component {
 class AnchorModalGo extends _ModalGo {
   render() {
     return (
+      /* disabling es-lint because this is copied straight from archive.org where it should be fixed first */
+      /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
       <a {...this.state.linkProps} onClick={this.onClick} title={this.props.en && I18nStr(this.props.en)}>{this.props.children}</a>
     );
   }
@@ -52,6 +54,8 @@ class AnchorModalGo extends _ModalGo {
 class ButtonModalGo extends _ModalGo {
   render() {
     return (
+      /* disabling es-lint because this is copied straight from archive.org where it should be fixed first */
+      /* eslint-disable react/button-has-type */
       <button {...this.state.linkProps} onClick={this.onClick} title={this.props.en && I18nStr(this.props.en)}>{this.props.children}</button>
     );
   }

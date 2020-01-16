@@ -101,7 +101,7 @@ class DetailsMetadataField extends React.Component {
 }
 
 const ccNames = { publicdomain: 'Public Domain', by: 'Attribution', sa: 'Share Alike', nc: 'Non Commercial', nd: 'No Derivatives' };
-const ccUrl2Name = { 'publicdomain/zero/1.0/': 'CC0 1.0 Universal'}
+const ccUrl2Name = { 'publicdomain/zero/1.0/': 'CC0 1.0 Universal' };
 /**
  * <DetailsLicense licenseurl=URL />
  *
@@ -123,12 +123,12 @@ class DetailsLicense extends React.Component {
           >
             {licenseurl.startsWith('http://creativecommons.org/licenses/')
               ? // "commute" http://creativecommons.org/licenses/by-nc-nd/2.0/ img=cc by nc nd
-              <>
+                <>
                   {licenseurl.split('/')[4].split('-').map(abbrv =>
-                      <I18nSpan key={abbrv} en={ccNames[abbrv]}>&nbsp;</I18nSpan> )}
+                      <I18nSpan key={abbrv} en={ccNames[abbrv]}>&nbsp;</I18nSpan>) }
                   <img className="cclic" src="/images/cc/cc.png" alt="Creative Commons" />
                   { licenseurl.split('/')[4].split('-').map(abbrv =>
-                      <img key={abbrv} className="cclic" src={`/images/cc/${abbrv}.png`} alt="" /> )}
+                      <img key={abbrv} className="cclic" src={`/images/cc/${abbrv}.png`} alt="" />) }
                 </>
               : (licenseurl.startsWith('http://creativecommons.org/') && ccUrl2Name[licenseurl.slice(27)])
               ? // "morebooks" http://creativecommons.org/publicdomain/zero/1.0/  img=cc, zero
@@ -136,7 +136,7 @@ class DetailsLicense extends React.Component {
                   <I18nSpan en={ccUrl2Name[licenseurl.slice(27)]}>&nbsp;</I18nSpan>
                   <img className="cclic" src="/images/cc/cc.png" alt="Creative Commons" />
                   { licenseurl.split('/')[4].split('-').map(abbrv =>
-                    <img key={abbrv} className="cclic" src={`/images/cc/${abbrv}.png`} alt="" /> )}
+                    <img key={abbrv} className="cclic" src={`/images/cc/${abbrv}.png`} alt="" />) }
                 </>
               : licenseurl.startsWith('http://creativecommons.org/')
               ? // "ThirdAve1950" http://creativecommons.org/licenses/publicdomain/  cc publicdomain
@@ -144,12 +144,12 @@ class DetailsLicense extends React.Component {
                 <>
                   <I18nSpan en={ccNames[licenseurl.split('/')[3]]}>&nbsp;</I18nSpan>
                   <I18nSpan en={upperCaseFirst(licenseurl.split('/')[4])}>&nbsp;</I18nSpan>
-                  <I18nSpan en={licenseurl.split('/').slice(5).join(' ')}/>
+                  <I18nSpan en={licenseurl.split('/').slice(5).join(' ')} />
                   <img className="cclic" src="/images/cc/cc.png" alt="Creative Commons" />
                   <img className="cclic" src="/images/cc/publicdomain.png" alt="" />
                 </>
-              : //gov.uscourts.txnb.467008 "https://www.usa.gov/government-works"
-                //ISS039-E-003344 http://eol.jsc.nasa.gov/Info/use.htm
+              : // gov.uscourts.txnb.467008 "https://www.usa.gov/government-works"
+                // ISS039-E-003344 http://eol.jsc.nasa.gov/Info/use.htm
                   <span>{licenseurl}</span>
             }
           </a>
