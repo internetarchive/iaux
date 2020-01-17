@@ -88,6 +88,7 @@ class DetailsFlags extends React.Component {
  *      identifier="xxx"        Identifier of item being bookmarked
  *      title=ENSTRING          String to use for the bookmark (from the item's title)
  *      disconnected=BOOL       If true, then cant see upstream, some buttons disabled
+ *      externallinks=[{href, title, src}] If passed, will create extra buttons (structure of this currently TB)
  *  />
  */
 class DetailsActionButtons extends React.Component {
@@ -95,6 +96,17 @@ class DetailsActionButtons extends React.Component {
     const bookmarksAddURL = `https://archive.org/bookmarks.php?add_bookmark=1&amp;mediatype=image&amp;identifier=${this.props.identifier}&amp;title=${this.props.title}`; // TODO find way to submit distributed
     return (
       <div className="action-buttons">
+        {!this.props.externallinks ? null : this.props.externallinks.map(el =>
+          <div className="topinblock" key={this.props.identifier + el.href}>
+            <a href={el.href}
+              className="button"
+              title={el.title}
+              data-toggle="tooltip"
+              data-container="body"
+              data-placement="bottom">
+              <img style={{ height: '18px' }} alt={el.title} src={el.src} />
+            </a>
+          </div>) }
         {this.props.disconnected ? null :
           <div className="topinblock">
             <AnchorModalGo

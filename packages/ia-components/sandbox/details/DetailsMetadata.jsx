@@ -258,6 +258,7 @@ class DetailsAbout extends React.Component {
   *   reviews=[ {}* ]    See DetailsReviews for structure
   *   files_count=INTEGER          Count of files
   *   collection_titles={COLLECTION: "COLLECTION TITLE"}    Mapping from collection to title of collection for any collection its a member of
+  *   externallinks=[{href, src, title}] or undefined
   *   disconnected=BOOL      True if browser cannot see archive.org directly
   * />
   */
@@ -275,7 +276,12 @@ class DetailsAbout extends React.Component {
           <div className="container container-ia">
             <div className="relative-row row">
               <div className="thats-right col-sm-4 col-sm-push-8">
-                <DetailsActionButtons identifier={md.identifier} title={md.title} disconnected={this.props.disconnected} />
+                <DetailsActionButtons
+                  identifier={md.identifier}
+                  title={md.title}
+                  disconnected={this.props.disconnected}
+                  externallinks={this.props.externallinks}
+                />
               </div>
               <div className="thats-left item-details-metadata col-sm-8 col-sm-pull-4">
                 <DetailsMetadataTitle metadata={md} />
