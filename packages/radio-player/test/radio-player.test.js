@@ -83,21 +83,6 @@ describe('Radio Player', () => {
     expect(response).to.exist;
   });
 
-  it('can seek audio', async () => {
-    const audioMp3 = new AudioSource('./assets/arrow.mp3', 'audio/mpeg');
-    const audioSources = [audioMp3];
-
-    const config = new RadioPlayerConfig('foo-title', 'bar-date', '', '', audioSources);
-
-    const el = await fixture(html`
-      <radio-player .config=${config}></radio-player>
-    `);
-
-    el.seekTo(0.7);
-    await promisedSleep(500);  // give it time to seek
-    expect(el.currentTime).to.equal(0.7);
-  });
-
   it('generates proper scrubber bar section markers', async () => {
     const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
     const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
