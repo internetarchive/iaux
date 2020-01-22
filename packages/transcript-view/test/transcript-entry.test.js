@@ -54,7 +54,6 @@ describe('TranscriptEntry', () => {
       <transcript-entry .entry=${entry}></transcript-entry>
     `);
 
-    // const clickableSpan = el.shadowRoot.querySelector('span');
     const clickEvent = new MouseEvent('click');
 
     setTimeout(() => { el.dispatchEvent(clickEvent); });
