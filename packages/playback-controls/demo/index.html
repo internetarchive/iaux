@@ -33,6 +33,8 @@
           @back-button-pressed=${backButtonPressed}
           @play-pause-button-pressed=${playPauseButtonPressed}
           @forward-button-pressed=${forwardButtonPressed}
+          @prev-section-button-pressed=${prevSectionButtonPressed}
+          @next-section-button-pressed=${nextSectionButtonPressed}
           >
         </playback-controls>
 
@@ -43,16 +45,28 @@
     );
 
     function backButtonPressed() {
-      document.getElementById('currentAction').innerText = "Back Button Pressed"
+      updateCurrentActionText("Back Button Pressed");
     }
 
     function playPauseButtonPressed() {
-      document.getElementById('currentAction').innerText = "Play/Pause Button Pressed";
+      updateCurrentActionText("Play/Pause Button Pressed");
     }
 
     function forwardButtonPressed() {
-      document.getElementById('currentAction').innerText = "Forward Button Pressed"
+      updateCurrentActionText("Forward Button Pressed");
     }
-  </script>
+
+    function prevSectionButtonPressed() {
+      updateCurrentActionText("Previous Section Button Pressed");
+    }
+
+    function nextSectionButtonPressed() {
+      updateCurrentActionText("Next Section Button Pressed");
+    }
+
+    function updateCurrentActionText(text) {
+      document.getElementById('currentAction').innerText = text
+    }
+</script>
 </body>
 </html>

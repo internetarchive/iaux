@@ -1,6 +1,9 @@
 import { LitElement, html, css, customElement, property, TemplateResult } from 'lit-element';
 import { PlaybackMode } from './playback-mode';
 
+import nextSectionImage from './assets/img/next-section';
+import prevSectionImage from './assets/img/previous-section';
+
 import replayImage from './assets/img/replay';
 import skipAheadImage from './assets/img/skip-ahead';
 import playImage from './assets/img/play';
@@ -24,7 +27,7 @@ export default class PlaybackControls extends LitElement {
       <div class="container">
         <div class="vertical-button-stack playback-speed">
           <div class="vertical-button-container">
-            <button class="unstyled-button" @click="${this.handlePlaybackRateChange}">
+            <button id="playback-rate-btn" class="unstyled-button" @click="${this.handlePlaybackRateChange}">
               ${playbackSpeedImage}
             </button>
           </div>
@@ -32,6 +35,9 @@ export default class PlaybackControls extends LitElement {
             ${this.playbackRate}x
           </div>
         </div>
+        <button id="prev-section-btn" class="jump-btn unstyled-button" @click="${this.handlePrevSectionButton}">
+          ${prevSectionImage}
+        </button>
         <button id="back-btn" class="jump-btn unstyled-button" @click="${this.handleBackButton}">
           ${replayImage}
         </button>
@@ -41,9 +47,12 @@ export default class PlaybackControls extends LitElement {
         <button id="forward-btn" class="jump-btn unstyled-button" @click="${this.handleForwardButton}">
           ${skipAheadImage}
         </button>
+        <button id="next-section-btn" class="jump-btn unstyled-button" @click="${this.handleNextSectionButton}">
+          ${nextSectionImage}
+        </button>
         <div class="vertical-button-stack volume">
           <div class="vertical-button-container">
-            <button class="unstyled-button" @click="${this.handleVolumeChange}">
+            <button id="volume-control-btn" class="unstyled-button" @click="${this.handleVolumeChange}">
               ${this.volumeButtonImage}
             </button>
           </div>
@@ -88,8 +97,6 @@ export default class PlaybackControls extends LitElement {
 
     const event = new CustomEvent('playbackRateChange', {
       detail: { playbackRate: this.playbackRate },
-      bubbles: true,
-      composed: true,
     });
     this.dispatchEvent(event);
   }
@@ -103,14 +110,22 @@ export default class PlaybackControls extends LitElement {
 
     const event = new CustomEvent('volumeChange', {
       detail: { volume: this.volume },
-      bubbles: true,
-      composed: true,
     });
     this.dispatchEvent(event);
   }
 
   handleBackButton() {
     const event = new Event('back-button-pressed');
+    this.dispatchEvent(event);
+  }
+
+  handlePrevSectionButton() {
+    const event = new Event('prev-section-button-pressed');
+    this.dispatchEvent(event);
+  }
+
+  handleNextSectionButton() {
+    const event = new Event('next-section-button-pressed');
     this.dispatchEvent(event);
   }
 
@@ -126,6 +141,8 @@ export default class PlaybackControls extends LitElement {
   }
 
   static get styles() {
+    const playPauseDiameterCss = css`var(--playPauseDiameter, 4rem)`;
+
     return css`
       :host {
         display: flex;
@@ -168,8 +185,8 @@ export default class PlaybackControls extends LitElement {
 
       #play-pause-btn {
         border-radius: 50%;
-        height: 3rem;
-        width: 3rem;
+        height: ${playPauseDiameterCss};
+        width: ${playPauseDiameterCss};
         border: none;
         background-color: white;
         vertical-align: middle;

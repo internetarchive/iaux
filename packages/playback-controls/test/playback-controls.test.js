@@ -76,4 +76,87 @@ describe('PlaybackControls', () => {
     const response = await oneEvent(el, 'forward-button-pressed');
     expect(response).to.exist;
   });
+
+  it('emits an event when playback rate button is pressed', async () => {
+    const el = await fixture(html`
+      <playback-controls></playback-controls>
+    `);
+
+    const forwardBtn = el.shadowRoot.getElementById('playback-rate-btn');
+    const clickEvent = new MouseEvent('click');
+
+    setTimeout(() => { forwardBtn.dispatchEvent(clickEvent); });
+
+    const response = await oneEvent(el, 'playbackRateChange');
+    expect(response).to.exist;
+  });
+
+  it('emits an event when volume control button is pressed', async () => {
+    const el = await fixture(html`
+      <playback-controls></playback-controls>
+    `);
+
+    const forwardBtn = el.shadowRoot.getElementById('volume-control-btn');
+    const clickEvent = new MouseEvent('click');
+
+    setTimeout(() => { forwardBtn.dispatchEvent(clickEvent); });
+
+    const response = await oneEvent(el, 'volumeChange');
+    expect(response).to.exist;
+  });
+
+  it('emits an event when previous section button is pressed', async () => {
+    const el = await fixture(html`
+      <playback-controls></playback-controls>
+    `);
+
+    const forwardBtn = el.shadowRoot.getElementById('prev-section-btn');
+    const clickEvent = new MouseEvent('click');
+
+    setTimeout(() => { forwardBtn.dispatchEvent(clickEvent); });
+
+    const response = await oneEvent(el, 'prev-section-button-pressed');
+    expect(response).to.exist;
+  });
+
+  it('emits an event when next section button is pressed', async () => {
+    const el = await fixture(html`
+      <playback-controls></playback-controls>
+    `);
+
+    const forwardBtn = el.shadowRoot.getElementById('next-section-btn');
+    const clickEvent = new MouseEvent('click');
+
+    setTimeout(() => { forwardBtn.dispatchEvent(clickEvent); });
+
+    const response = await oneEvent(el, 'next-section-button-pressed');
+    expect(response).to.exist;
+  });
+
+  it('changes playback rate to 0.5 after it has reached 2.0', async () => {
+    const el = await fixture(html`
+      <playback-controls
+        playbackRate='2.0'>
+      </playback-controls>
+    `);
+
+    const forwardBtn = el.shadowRoot.getElementById('playback-rate-btn');
+    const clickEvent = new MouseEvent('click');
+    forwardBtn.dispatchEvent(clickEvent);
+    expect(el.playbackRate).to.equal(0.5);
+  });
+
+  it('changes volume by 0.25 when less than 1.0', async () => {
+    const el = await fixture(html`
+      <playback-controls
+        volume='0.5'>
+      </playback-controls>
+    `);
+
+    const forwardBtn = el.shadowRoot.getElementById('volume-control-btn');
+    const clickEvent = new MouseEvent('click');
+    forwardBtn.dispatchEvent(clickEvent);
+    expect(el.volume).to.equal(0.75);
+  });
+
 });
