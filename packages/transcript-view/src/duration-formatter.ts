@@ -1,4 +1,6 @@
-import { LitElement, html, customElement, property, TemplateResult } from 'lit-element';
+import {
+  LitElement, html, customElement, property, TemplateResult
+} from 'lit-element';
 
 @customElement('duration-formatter')
 export default class DurationFormatter extends LitElement {
