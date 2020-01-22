@@ -1,4 +1,6 @@
-# Overview [![Build Status](https://travis-ci.com/internetarchive/iaux.svg?branch=master)](https://travis-ci.com/internetarchive/iaux)
+[![Build Status](https://travis-ci.com/internetarchive/iaux.svg?branch=master)](https://travis-ci.com/internetarchive/iaux)
+
+# Overview
 
 Monorepo for [Archive.org](https://archive.org) UX development and prototyping.
 
