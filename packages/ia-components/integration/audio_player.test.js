@@ -90,7 +90,7 @@ describe('Audio Player', () => {
 
     // This selector is much too brittle. Propose adding an ID to the input.
     const liner_notes_input = await asyncTo('[value="liner-notes"]');
-    const liner_notes_label = await liner_notes_input.findElement(By.xpath('./parent::label'));
+    const liner_notes_label = await liner_notes_input.findElement(By.xpath('./following-sibling::label'));
     await driver.wait(until.elementIsVisible(liner_notes_label)).click();
     const book_reader_exists = await to(selectors.liner_notes).isDisplayed();
 
