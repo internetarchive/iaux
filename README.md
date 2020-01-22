@@ -1,4 +1,4 @@
-# Overview
+# Overview [![Build Status](https://travis-ci.com/internetarchive/iaux.svg?branch=master)](https://travis-ci.com/internetarchive/iaux)
 
 Monorepo for [Archive.org](https://archive.org) UX development and prototyping.
 
@@ -110,9 +110,9 @@ cd packages/ia-components && yarn run test
 ```
 
 ## Debugging
-We are using the common [debug module](https://www.npmjs.com/package/debug). 
+We are using the common [debug module](https://www.npmjs.com/package/debug).
 
-To add to a module, add a line like 
+To add to a module, add a line like
 ```
 const debug = require('debug')('ia-components:COMPONENTNAME')
 ```
