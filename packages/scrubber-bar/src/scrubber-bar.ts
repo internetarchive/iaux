@@ -9,6 +9,9 @@ import {
   CSSResult,
 } from 'lit-element';
 
+import './section-marker';
+import { SectionMarker, SectionMarkerMode } from './section-marker';
+
 @customElement('scrubber-bar')
 export default class ScrubberBar extends LitElement {
   @property({ type: Number }) value = 0;
@@ -18,6 +21,10 @@ export default class ScrubberBar extends LitElement {
   @property({ type: Number }) max = 100;
 
   @property({ type: Number }) step = 0.1;
+
+  @property({ type: Array }) sectionMarkerPercentages: number[] = [];
+
+  @property({ type: Boolean }) expandSectionMarkers: boolean = false;
 
   get percentage(): number {
     const delta: number = this.max - this.min;
@@ -35,6 +42,20 @@ export default class ScrubberBar extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="container">
+        <div class="color-fill">
+        </div>
+
+        <div class="marker-container">
+        ${this.sectionMarkerPercentages.map((markerPercent: number) => {
+          return html`
+            <section-marker
+              data-location=${markerPercent}
+              style="left: ${markerPercent}%">
+            </section-marker>
+          `;
+        })}
+        </div>
+
         <input
           id="slider"
           type="range"
@@ -49,6 +70,7 @@ export default class ScrubberBar extends LitElement {
           @input=${this.handleSlide}
           @change=${this.handleSlide}
         />
+
         <div id="webkit-range-input-style"></div>
       </div>
     `;
@@ -57,20 +79,24 @@ export default class ScrubberBar extends LitElement {
   updated(changedProperties: PropertyValues): void {
     if (this._userInteracting || !changedProperties.has('value')) { return; }
     this._value = this.value;
+    /* istanbul ignore else */
     if (this.rangeSlider) {
       this.rangeSlider.value = `${this.value}`;
     }
-    this.updateSliderProgress();
+    this.updateWebkitSliderStyle();
+    this.updateMarkerFlags();
   }
 
   firstUpdated(): void {
-    this.updateSliderProgress();
+    this.updateWebkitSliderStyle();
+    this.updateMarkerFlags();
   }
 
   private handleSlide(e: Event): void {
     const newValue = (e.target as HTMLInputElement).value;
     this._value = parseFloat(newValue);
-    this.updateSliderProgress();
+    this.updateWebkitSliderStyle();
+    this.updateMarkerFlags();
     this.emitChangeEvent();
   }
 
@@ -92,15 +118,16 @@ export default class ScrubberBar extends LitElement {
     return this.shadowRoot && this.shadowRoot.getElementById('webkit-range-input-style');
   }
 
-  private updateSliderProgress(): void {
+  private updateWebkitSliderStyle(): void {
+    /* istanbul ignore if */
     if (!this.webkitStyle) { return; }
 
     this.webkitStyle.innerHTML = `
       <style>
-        input[type=range]::-webkit-slider-runnable-track {
+        .color-fill {
           background: linear-gradient(to right,
             var(--trackFillColor, #3272b6) 0%, var(--trackFillColor, #3272b6) ${this.percentage}%,
-            var(--trackColor, purple) ${this.percentage}%, var(--trackColor, purple) 100%);
+            var(--trackColor, rgba(0, 0, 0, 0.1)) ${this.percentage}%, var(--trackColor, rgba(0, 0, 0, 0.1)) 100%);
         }
       </style>
     `;
@@ -109,13 +136,48 @@ export default class ScrubberBar extends LitElement {
   private emitChangeEvent(): void {
     const event = new CustomEvent('valuechange', {
       detail: { value: this._value },
-      bubbles: true,
-      composed: true,
     });
     this.dispatchEvent(event);
   }
 
+  private get sortedMarkers(): number[] {
+    return this.sectionMarkerPercentages.sort();
+  }
+
+  private updateMarkerFlags(): void {
+    if (!this.expandSectionMarkers) { return; }
+
+    const currentValue: number = this._value;
+
+    const percentsGreaterThanValue: number[] = this.sortedMarkers.filter(value => value > currentValue);
+    const closestUpper = Math.min(...percentsGreaterThanValue);
+
+    const percentsLessThanValue: number[] = this.sortedMarkers.filter(value => value <= currentValue);
+    const closestLower = Math.max(...percentsLessThanValue);
+
+    this.sectionMarkerPercentages.forEach(value => {
+      /* istanbul ignore if */
+      if (!this.shadowRoot) { return; }
+      const marker: SectionMarker | null = this.shadowRoot.querySelector(`section-marker[data-location="${value}"]`)
+      /* istanbul ignore if */
+      if (!marker) { return; }
+
+      switch (value) {
+        case closestUpper:
+          marker.markerMode = SectionMarkerMode.left;
+          break;
+        case closestLower:
+          marker.markerMode = SectionMarkerMode.right;
+          break;
+        default:
+          marker.markerMode = SectionMarkerMode.neither;
+      }
+    });
+  }
+
   static get styles(): CSSResult {
+    const markerInset = css`var(--markerInset, 10px)`;
+
     const scrubberBarHeight = css`var(--scrubberBarHeight, 20px)`;
 
     const thumbDiameter = css`var(--thumbDiameter, 20px)`;
@@ -127,7 +189,7 @@ export default class ScrubberBar extends LitElement {
     const trackBorderRadius = css`var(--trackBorderRadius, 5px)`;
     const trackBorder = css`var(--trackBorder, 1px solid white)`;
     const trackFillColor = css`var(--trackFillColor, #3272b6)`;
-    const trackColor = css`var(--trackColor, black)`;
+    const trackColor = css`var(--trackColor, rgba(0, 0, 0, 0.1))`;
 
     const webkitThumbTopMargin = css`var(--webkitThumbTopMargin, -6px)`;
 
@@ -146,12 +208,45 @@ export default class ScrubberBar extends LitElement {
     `;
 
     const commonTrackDefinitions = css`
-      background-color: ${trackColor};
       border: ${trackBorder};
       ${trackSizeDefinitions};
     `;
 
     return css`
+      .container {
+        position: relative;
+        height: 20px;
+      }
+
+      .color-fill {
+        height: 10px;
+        border-radius: 1em;
+        position: absolute;
+        bottom: 7px;
+        left: 2px;
+        right: -2px;
+      }
+
+      .marker-container {
+        position: absolute;
+        left: ${markerInset};
+        right: ${markerInset};
+        height: 100%;
+      }
+
+      section-marker {
+        position: absolute;
+        width: 2rem;
+        height: ${trackHeight};
+        bottom: 7px;
+        /*
+          we set the left side of the marker to the spot where we want it, but the marker line is in
+          the center of the marker so we need to shift it to the left by half its width so this transform
+          is doing that
+         */
+        transform: translateX(-50%);
+      }
+
       input[type='range'] {
         -webkit-appearance: none;
         height: ${scrubberBarHeight};
@@ -159,6 +254,8 @@ export default class ScrubberBar extends LitElement {
         width: 100%;
         background: none;
         outline: none;
+        position: absolute;
+        bottom: 0;
       }
 
       input[type='range']::-webkit-slider-thumb {
@@ -187,7 +284,6 @@ export default class ScrubberBar extends LitElement {
       }
 
       input[type='range']::-moz-range-progress {
-        background-color: ${trackFillColor};
         ${trackSizeDefinitions};
       }
 
