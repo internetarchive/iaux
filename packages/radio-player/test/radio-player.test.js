@@ -94,7 +94,7 @@ describe('Radio Player', () => {
     `);
 
     el.seekTo(0.7);
-    await promisedSleep(250);  // give it time to seek
+    await promisedSleep(500);  // give it time to seek
     expect(el.currentTime).to.equal(0.7);
   });
 
