@@ -36,11 +36,11 @@
   },
   "dependencies": {
     "@internetarchive/audio-element": "0.0.1-alpha.422+18a94d7",
+    "@internetarchive/expandable-search-bar": "0.0.1-alpha.447+88813cc",
     "@internetarchive/playback-controls": "0.0.1-alpha.444+cdd038f",
     "@internetarchive/scrubber-bar": "0.0.1-alpha.385+0bf2a00",
     "@internetarchive/transcript-view": "0.0.1-alpha.387+be3716b",
     "@internetarchive/waveform-progress": "0.0.1-alpha.386+ece5b53",
-    "@internetarchive/expandable-search-bar": "0.0.1-alpha.447+88813cc",
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"
   },
@@ -61,6 +61,7 @@
     "eslint": "^6.1.0",
     "gulp": "^4.0.2",
     "husky": "^1.0.0",
+    "karma-coverage": "^2.0.1",
     "lint-staged": "^8.0.0",
     "polymer-cli": "^1.9.11",
     "typescript": "^3.6.2",

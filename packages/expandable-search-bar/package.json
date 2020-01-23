@@ -57,6 +57,7 @@
     "eslint": "^6.1.0",
     "gulp": "^4.0.2",
     "husky": "^1.0.0",
+    "karma-coverage": "^2.0.1",
     "lint-staged": "^8.0.0",
     "polymer-cli": "^1.9.11",
     "typescript": "^3.6.2",
