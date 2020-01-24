@@ -14,6 +14,7 @@ There are multiple npm packages in this repo, and [Lerna](https://lerna.js.org/)
 Install dependencies on all packages.
 
 ```
+sudo apt remove cmdtest
 yarn install
 yarn run lerna bootstrap
 yarn run lerna link
