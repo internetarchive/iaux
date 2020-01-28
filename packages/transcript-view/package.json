@@ -14,7 +14,9 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc -p tsconfig.build.json",
-    "start": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch\"",
+    "watch": "tsc --watch",
+    "start": "concurrently \"npm run watch\" \"npm run devserver\"",
+    "devserver": "es-dev-server --app-index demo/index.html --node-resolve --open --watch",
     "start:compatibility": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch --compatibility all\"",
     "lint:eslint": "eslint --ext .ts . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .ts . --fix --ignore-path .gitignore",
@@ -54,6 +56,7 @@
     "eslint": "^6.1.0",
     "gulp": "^4.0.2",
     "husky": "^1.0.0",
+    "karma-coverage": "^2.0.1",
     "lint-staged": "^8.0.0",
     "polymer-cli": "^1.9.11",
     "typescript": "^3.6.2",

@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - node
+
+install:
+  - npm install -g codecov
+
+script:
+  - lerna bootstrap
+  - lerna run test
+
+after_success:
+  - codecov

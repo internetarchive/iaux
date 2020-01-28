@@ -112,8 +112,6 @@ export default class AudioElement extends LitElement {
     const target = e.target as HTMLAudioElement;
     const event = new CustomEvent('durationchange', {
       detail: { duration: target.duration },
-      bubbles: true,
-      composed: true,
     });
     this.dispatchEvent(event);
   }
@@ -122,8 +120,6 @@ export default class AudioElement extends LitElement {
     const target = e.target as HTMLAudioElement;
     const event = new CustomEvent('timeupdate', {
       detail: { currentTime: target.currentTime },
-      bubbles: true,
-      composed: true,
     });
     this.dispatchEvent(event);
   }
