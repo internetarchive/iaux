@@ -21,13 +21,13 @@ const flags = {
  *
  * @param object props
  *   @param string name language display name
- *   @param string value language value
+ *   @param string flag flag emoji
  *
  * @returns component stateless
  */
-const LanguageNode = ({ name, value }) => (
+const LanguageNode = ({ name, flag }) => (
   <>
-    <span className='flag'>{flags[value]}</span>
+    <span className='flag'>{flag}</span>
     {name}
   </>
 );
@@ -36,17 +36,17 @@ const LanguageNode = ({ name, value }) => (
  * Renders a selectable language option in the languages dropdown
  *
  * @param object props
- *   @param string name language display name
+ *   @param object language language object
  *   @param string value language value
  *   @param string selectedLanguage selected language value
  *   @param function onClick click handler from LanguageSelect instance
  *
  * @returns component stateless
  */
-const LanguageOption = ({ name, value, selectedLanguage, onClick }) => (
+const LanguageOption = ({ language, value, selectedLanguage, onClick }) => (
   <li className={selectedLanguage === value ? 'selected' : null}>
     <a onClick={onClick} data-language={value}>
-      <LanguageNode name={name} value={value} />
+      <LanguageNode name={language.inLocal} flag={language.flag} />
     </a>
   </li>
 );
@@ -58,9 +58,9 @@ const LanguageOption = ({ name, value, selectedLanguage, onClick }) => (
  * opens a dropdown list of languages that render flag icons and the language
  * name written in its native language.
  *
- * @param array options - array of objects to select from
+ * @param object languages - object map of language values
  * input object example:
- * { value: 'en', label: 'English' }
+ * { 'en': { inEnglish: 'English', inLocal: 'English', flag: '🇬🇧' } }
  * @param function onSelect - event handler
  * @param string selectedLanguage - language that is selected
  *
@@ -68,9 +68,9 @@ const LanguageOption = ({ name, value, selectedLanguage, onClick }) => (
  */
 class LanguageSelect extends React.Component {
   constructor(props) {
-    const { options, selectedLanguage, onSelect } = props;
+    const { languages, selectedLanguage, onSelect } = props;
     super(props);
-    this.options = options;
+    this.languages = languages;
     this.state = {
       selectedLanguage,
       dropdownOpen: false,
@@ -91,31 +91,30 @@ class LanguageSelect extends React.Component {
 
   selectLanguage(e) {
     e.preventDefault();
-    const languageValue = e.target.dataset.language;
+    const selectedLanguage = e.target.dataset.language;
 
     this.setState({
       dropdownOpen: false,
-      selectedLanguage: this.options.find((o) => o.value === languageValue).value,
+      selectedLanguage,
     });
-    this.onSelect(languageValue);
+    this.onSelect(selectedLanguage);
   }
 
   render() {
     const { selectedLanguage, dropdownOpen } = this.state;
-    const selectedOption = this.options.find((o) => o.value === selectedLanguage);
-    const selectedLabel = selectedOption ? selectedOption.name : this.options[0].name;
+    const selectedOption = this.languages[selectedLanguage] || this.languages[Object.keys(this.languages)[0]];
 
     return (
       <div className='language_select'>
         <a onClick={this.toggleDropdown}>
-          <LanguageNode name={selectedLabel} value={selectedLanguage} />
+          <LanguageNode name={selectedOption.inLocal} flag={selectedOption.flag} />
         </a>
         <ul className={dropdownOpen ? 'visible' : null}>
-          {this.options.map((o) => (
+          {Object.keys(this.languages).map((language) => (
             <LanguageOption
-               key={`language_${o.value}`}
-               name={o.name}
-               value={o.value}
+               key={`language_${language}`}
+               language={this.languages[language]}
+               value={language}
                selectedLanguage={selectedLanguage}
                onClick={this.selectLanguage} />))}
         </ul>
@@ -129,9 +128,10 @@ LanguageSelect.defaultProps = {
 };
 
 LanguageSelect.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string,
-    label: PropTypes.string,
+  languages: PropTypes.objectOf(PropTypes.shape({
+    inEnglish: PropTypes.string,
+    inLocal: PropTypes.string,
+    flag: PropTypes.string,
   })).isRequired,
   selectedLanguage: PropTypes.string,
   onSelect: PropTypes.func,

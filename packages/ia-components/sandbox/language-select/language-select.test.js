@@ -1,50 +1,16 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import LanguageSelect from './language-select';
+import { languageConfig } from '../languages/Languages';
 
 describe('LanguageSelect', () => {
-  const options = [{
-    name: 'English',
-    value: 'en',
-  }, {
-    name: 'Française',
-    value: 'fr',
-  }, {
-    name: 'Deutsche',
-    value: 'de',
-  }, {
-    name: 'Española',
-    value: 'es',
-  }, {
-    name: 'हिंदी',
-    value: 'hi',
-  }, {
-    name: 'Bahasa',
-    value: 'id',
-  }, {
-    name: 'Italiana',
-    value: 'it',
-  }, {
-    name: '日本語',
-    value: 'ja',
-  }, {
-    name: 'मराठी',
-    value: 'mr',
-  }, {
-    name: 'မြန်မာ',
-    value: 'my',
-  }, {
-    name: 'Portuguesa',
-    value: 'pt',
-  }];
-
   const onSelect = (value) => {
-    const language = options.find((o) => o.value === value);
-    console.log(`Selected language: ${language.name} (${language.value})`);
+    const language = languageConfig[value];
+    console.log(`Selected language: ${language.inLocal} (${value})`);
   };
 
   const component = TestRenderer.create(
-    <LanguageSelect selectedLanguage={options[0].value} options={options} onSelect={onSelect} />
+    <LanguageSelect selectedLanguage='en' languages={languageConfig} onSelect={onSelect} />
   );
 
   test('displays all options', () => {
