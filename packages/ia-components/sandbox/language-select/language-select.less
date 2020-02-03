@@ -1,0 +1,71 @@
+@dropdown_background_color: #222222;
+@text_color: #848484;
+@text_highlight_color: dropdown_background_color;
+@text_active_color: #ffffff;
+@dropdown_border_color: #333333;
+@selected_check_color: #34a077;
+@rem: 10px;
+
+.language_select {
+  position: relative;
+  font: normal (1.2 * @rem) Helvetica Neue, Helvetica, Arial, sans-serif;
+  color: @text_color;
+  a {
+    text-decoration: none;
+    color: @text_color;
+    cursor: pointer;
+  }
+  > a {
+    display: inline-block;
+    padding: (.3 * @rem) @rem;
+    border: 1px solid @text_color;
+    border-radius: 2px;
+    background: @dropdown_background_color;
+    &:hover {
+      color: @text_active_color;
+    }
+  }
+  ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    transform: translateX(-50%);
+    border: 1px solid @dropdown_border_color;
+    border-radius: 2px;
+    background: @dropdown_background_color;
+    &.visible {
+      display: block;
+    }
+  }
+  li {
+    display: block;
+    position: relative;
+    &.selected:before {
+      position: absolute;
+      top: 50%;
+      left: (.5 * @rem);
+      transform: translateY(-50%);
+      font-size: (1.6 * @rem);
+      color: @selected_check_color;
+      content: '✓';
+    }
+    a {
+      display: block;
+      padding: (.2 * @rem) (2.5 * @rem);
+      white-space: nowrap;
+      &:hover {
+        color: @@text_highlight_color;
+        background: @text_active_color;
+      }
+    }
+  }
+  .flag {
+    font-size: (1.6 * @rem);
+    vertical-align: middle;
+  }
+}
