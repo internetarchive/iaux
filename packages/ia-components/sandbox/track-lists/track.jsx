@@ -1,6 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+import trackUtils from './track-utils';
+
+const { showTrackArtist } = trackUtils;
 /**
  * Creates the track title to display based on track object
  *
@@ -10,7 +13,7 @@ import PropTypes from 'prop-types';
  * @param { string } creator
  * @param { boolean } isAlbum
  *
- * @return { string or react fragment } trackTitle
+ * @return { react fragment } trackTitle
  */
 const parseTrackTitle = ({
   name = '',
@@ -21,22 +24,20 @@ const parseTrackTitle = ({
   artist = '',
   isAlbum = false
 }) => {
-  if (isAlbum) { return 'Full album'; }
-  const albumArtist = Array.isArray(albumCreator) ? albumCreator.join('; ') : albumCreator;
+  if (isAlbum) {
+    return 'Full album';
+  }
   const trackArtist = creator || artist;
-
-  /* this considers "Best of" albums */
-  const titleHasTrackArtist = albumName.includes(trackArtist);
-  const isMainAlbumArtist = titleHasTrackArtist || (trackArtist === albumArtist);
-  const artistName = isMainAlbumArtist ? '' : trackArtist;
-  const titleArtistDelimiter = artistName ? ' - ' : '';
+  const displayTrackArtist = showTrackArtist(trackArtist, albumCreator, albumName);
+  const titleArtistDelimiter = displayTrackArtist ? ' - ' : null;
+  const artistName = displayTrackArtist ? <i>{trackArtist}</i> : null;
 
   if (title) {
     return (
       <Fragment>
         {title}
         {titleArtistDelimiter}
-        <i>{artistName}</i>
+        {artistName}
       </Fragment>
     );
   }
