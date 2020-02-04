@@ -39,39 +39,41 @@ describe('ACDC item track name display', () => {
   // an artist's name in the title signals that they are the album artist
   describe('When to show artist name[s]', () => {
     test('Do not show artist name if their name is in the title', () => {
+      const { album, title } = bestOfCompilation;
       const noArtist1 = TestRenderer.create(
         oneTrack({
           onSelected: () => {},
           displayTrackNumber: false,
           selected: false,
           thisTrack: bestOfCompilation,
-          albumName: bestOfCompilation.album
+          albumName: album
         })
       ).toJSON();
       const [trackName, trackTitle, trackLength] = noArtist1.children;
       const [actualTrackTitle, delimiter, artistElement] = trackTitle.children;
-      const { children: artistValue } = artistElement;
 
-      expect(delimiter).toBeFalsy();
-      expect(artistValue[0]).toBeFalsy();
+      expect(actualTrackTitle).toEqual(title);
+      expect(delimiter).toEqual(undefined);
+      expect(artistElement).toEqual(undefined);
     });
 
     test('Do not show artist if they exactly match the album artist', () => {
+      const { album, title, creator } = bestOfCompilation;
       const noArtist2 = TestRenderer.create(
         oneTrack({
           onSelected: () => {},
           displayTrackNumber: false,
           selected: true,
           thisTrack: bestOfCompilation,
-          albumCreator: bestOfCompilation.creator
+          albumCreator: creator
         })
       ).toJSON();
       const [trackNumber, trackTitle, trackLength] = noArtist2.children;
       const [actualTrackTitle, delimiter, artistElement] = trackTitle.children;
-      const { children: artistValue } = artistElement;
 
-      expect(delimiter).toBeFalsy();
-      expect(artistValue[0]).toBeFalsy();
+      expect(actualTrackTitle).toEqual(title);
+      expect(delimiter).toEqual(undefined);
+      expect(artistElement).toEqual(undefined);
     });
   });
 });
