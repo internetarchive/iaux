@@ -26,6 +26,15 @@ describe('track utils', () => {
 
       expect(displayTrackArtist).toBeTruthy();
     });
+    test('Artist string is formatted - delimited with `;\s`', () => {
+      const albumArtist = ['Various Artists', 'Scrapy Doo', 'Scooby Doo', 'Meddling Kids'];
+      const trackArtist = 'Scrappy Doo;Meddling Kids';
+      const albumTitle = 'Cherche la ghost';
+      const displayTrackArtist = formatTrackArtist(trackArtist, albumArtist, albumTitle);
+
+      expect(displayTrackArtist).toBeTruthy();
+      expect(displayTrackArtist).toEqual(trackArtist.split(';').join('; '));
+    });
     test('defaults to showing track artists', () => {
       const albumArtist = ['Gem', 'Holograms', 'Misfits'];
       const trackArtist = 'Misfits';
