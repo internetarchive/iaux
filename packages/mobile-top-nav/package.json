@@ -43,7 +43,6 @@
     "eslint": "^6.1.0",
     "eslint-plugin-lit": "^0.5.0",
     "gulp": "^4.0.2",
-    "husky": "^1.0.0",
     "lint-staged": "^8.0.0",
     "polymer-cli": "^1.9.11",
     "webpack-merge": "^4.1.5"
@@ -54,17 +53,5 @@
       "eslint-config-prettier"
     ]
   },
-  "prettier": "@open-wc/prettier-config",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ]
-  }
+  "prettier": "@open-wc/prettier-config"
 }
