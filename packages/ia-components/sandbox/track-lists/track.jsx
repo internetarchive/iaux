@@ -14,14 +14,13 @@ import { formatTrackArtist } from './track-utils';
  *
  * @return { react fragment } trackTitle
  */
-const parseTrackTitle = ({
-  name = '',
-  title = '',
+const TrackTitle = ({
+  title,
   albumCreator,
   albumName,
-  creator = '',
-  artist = '',
-  isAlbum = false
+  creator,
+  artist,
+  isAlbum
 }) => {
   if (isAlbum) {
     return 'Full album';
@@ -38,6 +37,15 @@ const parseTrackTitle = ({
       {artistName}
     </Fragment>
   );
+};
+
+TrackTitle.defaultProps = {
+  title: '',
+  albumCreator: '',
+  albumName: '',
+  creator: '',
+  artist: '',
+  isAlbum: false
 };
 
 TrackTitle.propTypes = {
@@ -61,15 +69,14 @@ TrackTitle.propTypes = {
  *
  * @return component
  */
-const OneTrack = (props) => {
-  const {
-    selected = false,
-    onSelected,
-    thisTrack,
-    displayTrackNumbers = false,
-    albumCreator = '',
-    albumName = ''
-  } = props;
+const OneTrack = ({
+  selected,
+  onSelected,
+  thisTrack,
+  displayTrackNumbers,
+  albumCreator,
+  albumName
+}) => {
   const { trackNumber, length, formattedLength } = thisTrack;
   const trackProps = { ...thisTrack, albumCreator, albumName };
   const track = parseInt(trackNumber, 10);
