@@ -6,6 +6,7 @@ import './media-menu';
 import './assets/img/hamburger';
 import './assets/img/search';
 import './assets/img/user';
+import topnavCss from './css/topnav-element';
 
 export default class TopnavElement extends LitElement {
   static get properties() {
@@ -67,21 +68,21 @@ export default class TopnavElement extends LitElement {
     const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
     const baseColor = '#999';
     const activeColor = '#fff';
-    const hamburgerColour = this.mediaMenuOpen ? activeColor : baseColor;
-    const searchGlassColour = this.searchMenuOpen ? '#222' : baseColor;
-    const userColour = this.userMenuOpen ? activeColor : baseColor;
+    const hamburgerColor = this.mediaMenuOpen ? activeColor : baseColor;
+    const searchGlassColor = this.searchMenuOpen ? '#222' : baseColor;
+    const userColor = this.userMenuOpen ? activeColor : baseColor;
 
     return html`
       <nav class="navbar flex align-center">
         <div class="left flex align-center">
           <button @click="${this.mediaMenu}" tabindex="1">
-            <ham-burger colour="${hamburgerColour}"></ham-burger>
+            <ham-burger color="${hamburgerColor}"></ham-burger>
           </button>
         </div>
         <div class="center flex align-center ${searchFade} ${searchMenuToggleState}">
-          <a class="link-home" href="#"><img src="assets/img/ia-logo.svg" alt="Home"/></a>
+          <a class="link-home" href="#"><img src="src/assets/img/ia-logo.svg" alt="Home"/></a>
           <button class="search" @click="${this.searchMenu}">
-            <search-image colour="${searchGlassColour}"></search-image>
+            <search-image color="${searchGlassColor}"></search-image>
           </button>
         </div>
         <!--New div created to replace above one when search is activated-->
@@ -94,14 +95,14 @@ export default class TopnavElement extends LitElement {
               required
             />
             <button class="search" @click="${this.searchMenu}">
-              <search-image colour="${searchGlassColour}"></search-image>
+              <search-image color="${searchGlassColor}"></search-image>
             </button>
           </div>
         </div>
         <!--End of replacement div-->
         <div class="right flex align-center">
           <button class="user-menu ${userMenuToggle}" @click="${this.userMenu}">
-            <user-image colour="${userColour}"></user-image>
+            <user-image color="${userColor}"></user-image>
           </button>
         </div>
       </nav>
@@ -124,114 +125,7 @@ export default class TopnavElement extends LitElement {
   }
 
   static get styles() {
-    return css`
-      :host {
-        --white: #fff;
-        --grey20: #333;
-        --grey999: #999;
-        --black: #000;
-        --link-color: #428bca;
-        --primary-text-color: var(--white);
-        color: var(--primary-text-color);
-        --theme-font-family: 'Helvetica Neue';
-        font-size: 1.25rem;
-        font-family: var(--theme-font-family);
-      }
-      button:focus,
-      a:focus,
-      input:focus {
-        outline-color: var(--link-color);
-        outline-width: 0.1rem;
-        outline-style: auto;
-      }
-      .flex {
-        display: flex;
-      }
-      .search-inactive {
-        display: none;
-      }
-      .align-center {
-        align-items: center;
-      }
-      .navbar {
-        position: relative;
-        flex-direction: row;
-        padding: 0 1%;
-        background: var(--black);
-      }
-      .navbar button {
-        background: none;
-        color: inherit;
-        border: none;
-        font: inherit;
-        cursor: pointer;
-      }
-      .left {
-        justify-content: flex-start;
-      }
-      .right {
-        justify-content: flex-end;
-      }
-      .center {
-        margin: auto 3% auto 1%;
-        flex: 1;
-        justify-content: space-between;
-        min-height: 3.75rem;
-        max-height: 3.75rem;
-      }
-      .center .search {
-        padding-top: 0;
-        margin-right: 1.5%;
-      }
-      .center .link-home {
-        display: block;
-        margin: auto;
-      }
-      .center.search-activated {
-        justify-content: center;
-        border-radius: 0.6rem 0.6rem 0 0;
-        background: var(--grey20);
-      }
-      .search-activated .highlight,
-      .search-activated .search {
-        background: var(--white);
-        border-radius: 0.6rem;
-      }
-      .search-activated .highlight {
-        display: flex;
-        width: 100%;
-        margin: 0 1.5%;
-      }
-      .search-activated .search {
-        margin-right: 0;
-      }
-      .search-activated .search-field {
-        width: 100%;
-        height: 3rem;
-        border-radius: 0.6rem;
-        border: none;
-        text-align: center;
-        font-size: 1.125rem;
-      }
-      .user-menu {
-        padding: 18% 30%;
-      }
-      .user-menu.active {
-        border-radius: 0.6rem 0.6rem 0 0;
-        background: var(--grey20);
-      }
-      @keyframes fade-in {
-        0% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 1;
-        }
-      }
-      .fade-in {
-        animation: fade-in 1s forwards;
-      }
-    `;
+    return topnavCss();
   }
 }
 
