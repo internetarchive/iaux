@@ -91,7 +91,7 @@ export default () => {
       font-size: 1.125rem;
     }
     .user-menu {
-      padding: 18% 30%;
+      padding: .45rem;
     }
     .user-menu.active {
       border-radius: 0.6rem 0.6rem 0 0;
