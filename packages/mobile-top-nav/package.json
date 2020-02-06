@@ -6,7 +6,7 @@
   "main": "index.js",
   "module": "index.js",
   "scripts": {
-    "start": "owc-dev-server --open ./demo/index.html",
+    "start": "owc-dev-server --open ./index.html",
     "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
     "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
