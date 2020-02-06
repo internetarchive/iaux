@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 import searchMenuCss from './css/search-menu';
 
 class SearchMenu extends LitElement {

@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 import userMenuCss from './css/user-menu';
 
 class UserMenu extends LitElement {
