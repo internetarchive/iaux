@@ -1,6 +1,20 @@
-import { formatTrackArtist } from './track-utils';
+import { formatTrackArtist, formatTrackTitle } from './track-utils';
 
 describe('track utils', () => {
+  describe('knows how to format a track title', () => {
+    test('will return track title if available', () => {
+      const trackTitle = 'Such a good name for a track';
+      const fileName = 'such_a_good_name_for_a_track.mp3';
+      const displayTrack = formatTrackTitle(trackTitle, fileName);
+      expect(displayTrack).toEqual(trackTitle);
+    });
+    test('will return file name without extension if track title is not available', () => {
+      const trackTitle = '';
+      const fileName = 'such_a_good_name_for_a_track.mp3';
+      const displayTrack = formatTrackTitle(trackTitle, fileName);
+      expect(fileName).toContain(displayTrack);
+    });
+  });
   describe('knows when to display a track artist', () => {
     test('Do not show when track artist when it matches album artist', () => {
       const albumArtist = 'foo';

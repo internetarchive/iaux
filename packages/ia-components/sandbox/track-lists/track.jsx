@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { formatTrackArtist } from './track-utils';
+import { formatTrackArtist, formatTrackTitle } from './track-utils';
 
 /**
  * Creates the track title to display based on track object
@@ -15,6 +15,7 @@ import { formatTrackArtist } from './track-utils';
  * @return { react fragment } trackTitle
  */
 const TrackTitle = ({
+  name: fileName,
   title,
   albumCreator,
   albumName,
@@ -28,11 +29,11 @@ const TrackTitle = ({
   const trackArtist = creator || artist;
   const displayArtist = formatTrackArtist(trackArtist, albumCreator, albumName);
   const titleArtistDelimiter = displayArtist ? ' - ' : null;
-  const artistName = displayArtist ? <i className="track-artist">{trackArtist}</i> : null;
+  const artistName = displayArtist ? <i className="track-artist">{displayArtist}</i> : null;
 
   return (
     <Fragment>
-      {title}
+      {formatTrackTitle(title, fileName)}
       {titleArtistDelimiter}
       {artistName}
     </Fragment>
@@ -40,6 +41,7 @@ const TrackTitle = ({
 };
 
 TrackTitle.defaultProps = {
+  name: '',
   title: '',
   albumCreator: '',
   albumName: '',
@@ -49,6 +51,7 @@ TrackTitle.defaultProps = {
 };
 
 TrackTitle.propTypes = {
+  name: PropTypes.string,
   title: PropTypes.string,
   albumCreator: PropTypes.oneOfType([
     PropTypes.string,
