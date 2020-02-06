@@ -1,32 +1,34 @@
 /**
- * For a given track in an album, it tells you whether or not one should show the track artist
+ * For a given track in an album, it formats the track artist value
  * This follows the structured metadata for collections in: `acdc`, `album_recordings`, & `78rpm`
  *
  * @param { string } trackArtist - delimited by `;\s|;`;
  * @param { array|string } albumCreator
  * @param { string } albumTitle
  *
- * @returns { bool }
+ * @returns { string }
  */
-const showTrackArtist = (trackArtist = '', albumCreator = '', albumTitle = '') => {
+const formatTrackArtist = (trackArtist = '', albumCreator = '', albumTitle = '') => {
   const titleHasTrackArtist = albumTitle.includes(trackArtist);
+
   // if album title has artist name => no
   // we are assuming that this is a "Best of <artist>" album
   if (titleHasTrackArtist) {
-    return false;
+    return '';
   }
 
   if (trackArtist === albumCreator) {
-    return false;
+    return '';
   }
 
   // Track Artists come in a delimited string
   // `;\s` => acdc, album_recordings
   // `;` => 78rpm
-  const artistDelimiter = new RegExp(/;\s|;/g);
+  const parseArtistDelimiter = new RegExp(/;\s|;/g);
+  const joinArtistDelimiter = '; ';
 
-  const listAlbumArtists = !Array.isArray(albumCreator) ? albumCreator.split(artistDelimiter) : albumCreator;
-  const listTrackArtists = trackArtist.split(artistDelimiter);
+  const listAlbumArtists = !Array.isArray(albumCreator) ? albumCreator.split(parseArtistDelimiter) : albumCreator;
+  const listTrackArtists = trackArtist.split(parseArtistDelimiter);
 
   /* Compliation Check */
   // check for most general flag for a compilation album
@@ -37,15 +39,16 @@ const showTrackArtist = (trackArtist = '', albumCreator = '', albumTitle = '') =
     // pop `Various Artists` placeholder to give way to album artists
     listAlbumArtists.shift();
   }
-  const trackIsByAlbumArtist = listAlbumArtists.join('') === listTrackArtists.join('');
+  const formattedTrackArtists = listTrackArtists.join(joinArtistDelimiter);
+  const trackIsByAlbumArtist = listAlbumArtists.join(joinArtistDelimiter) === formattedTrackArtists;
   // we want to always display when it is a compilation
   if (trackIsByAlbumArtist && !isCompilation) {
-    return false;
+    return '';
   }
   /* End Compliation Check */
 
   // all else, => yes
-  return true;
+  return formattedTrackArtists;
 };
 
-export default { showTrackArtist };
+export { formatTrackArtist };

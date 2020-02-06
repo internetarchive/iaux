@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import trackUtils from './track-utils';
+import { formatTrackArtist } from './track-utils';
 
-const { showTrackArtist } = trackUtils;
 /**
  * Creates the track title to display based on track object
  *
@@ -28,21 +27,29 @@ const parseTrackTitle = ({
     return 'Full album';
   }
   const trackArtist = creator || artist;
-  const displayTrackArtist = showTrackArtist(trackArtist, albumCreator, albumName);
-  const titleArtistDelimiter = displayTrackArtist ? ' - ' : null;
-  const artistName = displayTrackArtist ? <i>{trackArtist}</i> : null;
+  const displayArtist = formatTrackArtist(trackArtist, albumCreator, albumName);
+  const titleArtistDelimiter = displayArtist ? ' - ' : null;
+  const artistName = displayArtist ? <i className="track-artist">{trackArtist}</i> : null;
 
-  if (title) {
-    return (
-      <Fragment>
-        {title}
-        {titleArtistDelimiter}
-        {artistName}
-      </Fragment>
-    );
-  }
+  return (
+    <Fragment>
+      {title}
+      {titleArtistDelimiter}
+      {artistName}
+    </Fragment>
+  );
+};
 
-  return name.split('.')[0].replace(/[-_]/g, ' ') || '';
+TrackTitle.propTypes = {
+  title: PropTypes.string,
+  albumCreator: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape([])
+  ]),
+  albumName: PropTypes.string,
+  creator: PropTypes.string,
+  artist: PropTypes.string,
+  isAlbum: PropTypes.bool
 };
 
 /**
@@ -54,19 +61,17 @@ const parseTrackTitle = ({
  *
  * @return component
  */
-const oneTrack = (props) => {
+const OneTrack = (props) => {
   const {
-    selected,
+    selected = false,
     onSelected,
     thisTrack,
-    displayTrackNumbers,
-    albumCreator = [],
+    displayTrackNumbers = false,
+    albumCreator = '',
     albumName = ''
   } = props;
   const { trackNumber, length, formattedLength } = thisTrack;
-
-  const key = `individual-track-${trackNumber}`;
-  const trackTitle = parseTrackTitle({ ...thisTrack, albumCreator, albumName });
+  const trackProps = { ...thisTrack, albumCreator, albumName };
   const track = parseInt(trackNumber, 10);
   const displayNumber = track > 0 ? track : '-';
   const displayLength = formattedLength || length || '-- : --';
@@ -83,33 +88,32 @@ const oneTrack = (props) => {
       data-track-number={trackNumber}
       className={trackButtonClass}
       onClick={onSelected}
-      key={key}
       data-event-click-tracking="TrackList|Item"
     >
       <span className="track-number">{displayNumber}</span>
-      <span className="track-title">{trackTitle}</span>
+      <span className="track-title"><TrackTitle {...trackProps} /></span>
       <span className="track-length">{displayLength}</span>
     </button>
   );
 };
 
-oneTrack.defaultProps = {
+OneTrack.defaultProps = {
   selected: false,
   displayTrackNumbers: false,
   albumCreator: '',
   albumName: ''
 };
 
-oneTrack.propTypes = {
+OneTrack.propTypes = {
   selected: PropTypes.bool,
   onSelected: PropTypes.func.isRequired,
   thisTrack: PropTypes.shape({}).isRequired,
-  displayTrackNumbers: PropTypes.string,
+  displayTrackNumbers: PropTypes.bool,
   albumCreator: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.shape([])
+    PropTypes.array
   ]),
   albumName: PropTypes.string
 };
 
-export default oneTrack;
+export default OneTrack;

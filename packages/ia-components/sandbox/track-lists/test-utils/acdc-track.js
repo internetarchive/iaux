@@ -23,6 +23,4 @@ export default {
     fullFilePath: 'https://ia600103.us.archive.org/16/items/cd_the-essential-willie-nelson_willie-nelson-aerosmith-emmylou-harris-jul/disc1%2F01.01.%20Willie%20Nelson%20-%20Night%20Life_sample.mp3',
     trackNumber: 1
   },
-
-
 };
