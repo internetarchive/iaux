@@ -7,7 +7,9 @@ import {
 import archiveDefaultAlbumParser from './archive-default-album-parser';
 import archiveDerivedAlbumParser from './archive-derived-album-parser';
 import gatherYoutubeAndSpotifyInfo from './youtube-spotify-parser';
-import { isValidAudioFile, isValidImageFile, isValidSegmentFile } from './utils';
+import {
+  isValidAudioFile, isValidImageFile, isValidSegmentFile, isOlderDerivedMP3
+} from './utils';
 
 /**
  * Stringify Album details
@@ -72,9 +74,9 @@ const flattenAlbumData = (metadata, playFullIAAudio) => {
     const isValidImage = isValidImageFile(fileName);
     const isNeededFile = isValidAudio || isValidImage;
     const fileIsDerived = source === 'derivative';
-    const isSampleMP3 = fileName.match('_sample.mp3');
-    const isMP3 = fileName.match('.mp3');
-    const isVBRMP3 = fileName.match('_vbr.mp3');
+    const isSampleMP3 = fileName.match(/_sample\.mp3$/);
+    const isMP3 = fileName.match(/\.mp3$/);
+    const isVBRMP3 = isOlderDerivedMP3(fileName);
     const isFullMP3 = isMP3 && !isSampleMP3 && !isVBRMP3;
     const isFullLengthTrack = isFullMP3 && fileIsDerived && !isVBRMP3;
 
