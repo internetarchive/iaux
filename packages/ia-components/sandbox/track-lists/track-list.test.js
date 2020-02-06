@@ -72,7 +72,7 @@ describe('TheatreTrackList ', () => {
     });
   });
 
-  describe('Track title does not display album creator', () => {
+  test('Track title does not display album creator', () => {
     const component = TestRenderer.create(
       <TheatreTrackList
         onSelected={() => {}}
@@ -94,7 +94,7 @@ describe('TheatreTrackList ', () => {
     expect(trackTitleSection.children).toContain('Night Life');
   });
 
-  describe('sends onSelected callback', () => {
+  test('sends onSelected callback', () => {
     let callbackCalled = false;
     const callback = () => {
       callbackCalled = true;
@@ -109,8 +109,7 @@ describe('TheatreTrackList ', () => {
         {...externalProps}
       />
     );
-    const testInstance = component.getInstance();
-    testInstance.props.onSelected();
+    component.toTree().props.onSelected();
     expect(callbackCalled).toEqual(true);
   });
 });

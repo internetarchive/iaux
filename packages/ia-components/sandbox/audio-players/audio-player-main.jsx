@@ -168,11 +168,8 @@ export default class TheatreAudioPlayer extends Component {
     // while the other players overtake the whole content-window
     // We will have to accomodate the window's fixed height here.
     const { backgroundPhoto, playlist } = this.props;
-    let mediaPlayerClass = '';
     const hasTracks = !!playlist.length;
-    if (hasTracks) {
-      mediaPlayerClass = backgroundPhoto ? 'no-waveform' : 'with-waveform';
-    }
+    const mediaPlayerClass = hasTracks && backgroundPhoto ? 'no-waveform' : 'with-waveform';
 
     return (
       <section className="theatre__audio-player">
