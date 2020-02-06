@@ -2,12 +2,12 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
 
-import lpTrack from './test-utils/album_recordings-track';
+import trackFor78s from './test-utils/78rpm-track';
 import OneTrack from './track';
 
-const { regularTrack, noTrackName } = lpTrack;
+const { regularTrack, noTrackName } = trackFor78s;
 
-describe('ALBUM_RECORDINGS item track name display', () => {
+describe('78rpm item track name display', () => {
   const component = TestRenderer.create(
     <OneTrack
       onSelected={() => {}}
