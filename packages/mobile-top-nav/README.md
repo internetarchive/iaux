@@ -1,14 +1,15 @@
-# \<scrubber-bar>
+# \<topnav-element>
 
-A customizable scrubber bar useful for scrubbing through media.
-
+The mobile navigation menu for archive.org
 
 ## Installation
+
 ```bash
 yarn add @internetarchive/mobile-top-nav
 ```
 
 ## Usage
+
 ```js
 // ia-mobile-top-nav.js
 import IAMobileTopNav from '@internetarchive/mobile-top-nav';
@@ -22,65 +23,55 @@ export default IAMobileTopNav;
 </script>
 
 <style>
-  scrubber-bar {
-    --thumbColor: white;
-    --thumbBorder: 1px solid black;
-    --trackFillColor: blue;
-    --trackColor: purple;
-    --trackBorder: 1px solid black;
-    --trackBorderRadius: 5px;
-    --trackHeight: 10px;
-    --thumbDiameter: 20px;
-    --scrubberBarHeight: 20px;
-    --thumbBorderRadius: 10px;
-    --webkitThumbTopMargin: -6px;
+  /* Defaults */
+  topnav-element {
+    --white: #fff;
+    --grey20: #333;
+    --grey999: #999;
+    --black: #000;
+    --link-color: #428bca;
+    --primary-text-color: var(--white);
+    --theme-font-family: 'Helvetica Neue';
   }
 </style>
 
-<scrubber-bar id="scrubberbar"></scrubber-bar>
-
-<script>
-  const scrubberBar = document.getElementById('scrubberbar');
-
-  // listen for value changes
-  scrubberBar.addEventListener('valuechange', e => {
-    console.log('Value has changed, new value:', e.detail.value);
-  });
-
-  // set a different value
-  scrubberBar.value = 23;
-</script>
-
+<topnav-element></topnav-element>
 ```
 
 # Development
 
 ## Prerequisite
+
 ```bash
 yarn install
 ```
 
 ## Start Development Server
+
 ```bash
 yarn start  // start development server and typescript compiler
 ```
 
 ## Testing
+
 ```bash
 yarn test
 ```
 
 ## Testing via browserstack
+
 ```bash
 yarn test:bs
 ```
 
 ## Demoing using storybook
+
 ```bash
 yarn storybook
 ```
 
 ## Linting
+
 ```bash
 yarn lint
 ```
