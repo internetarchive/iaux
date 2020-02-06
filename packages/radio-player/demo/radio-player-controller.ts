@@ -1,16 +1,12 @@
 /* eslint-disable import/no-duplicates */
 import { LitElement, html, customElement, TemplateResult, property } from 'lit-element';
 
-import parseSRT from 'parse-srt';
 import { AudioSource } from '@internetarchive/audio-element';
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 
 import '../src/radio-player';
 import RadioPlayer from '../src/radio-player';
 import RadioPlayerConfig from '../src/models/radio-player-config';
-
-// having permission issues retrieving the transcripts so hardcoding for now
-import SAMPLE_TRANSCRIPT from './MSNBCW_20160906_000000_Enter_Barack_Obama';
 
 @customElement('radio-player-controller')
 export default class RadioPlayerController extends LitElement {
@@ -20,8 +16,8 @@ export default class RadioPlayerController extends LitElement {
 
   @property({ type: TranscriptConfig }) transcriptConfig: TranscriptConfig | undefined = undefined;
 
-  @property({ type: String }) itemId: string | undefined =
-    'MSNBCW_20160906_000000_Enter_Barack_Obama'; // 'WFMD_930_AM_20190803_170000'; // 'KSTE_650_AM_20190804_200000';
+  @property({ type: String }) itemId: string | undefined = 'WFMD_930_AM_20190803_170000';
+    // 'MSNBCW_20160906_000000_Enter_Barack_Obama'; // 'WFMD_930_AM_20190803_170000'; // 'KSTE_650_AM_20190804_200000';
 
   private startPlaybackAt: number | undefined = undefined;
 
@@ -58,60 +54,22 @@ export default class RadioPlayerController extends LitElement {
     this.handleMetadataResponse(data);
   }
 
-  handleMetadataResponse(response: any) {
-    const { metadata, files } = response;
-    const { collection, ccnum } = metadata;
-    const collectionIdentifier = collection[0];
-    const srtFile = files.find(
-      (file: any) => file.format === 'SubRip' && file.name.endsWith(`${ccnum}.srt`),
-    );
-    this.fileName = srtFile.name;
-
-    // const originalAudioFile = files.find(
-    //   (file: any) =>
-    //     file.source === 'original' &&
-    //     ['vbr mp3', 'ogg vorbis', 'advanced audio coding'].includes(file.format.toLowerCase()),
-    // );
-
-    const audioFiles = files.filter((file: any) =>
-      ['vbr mp3', 'ogg vorbis'].includes(file.format.toLowerCase()),
-    );
-
-    const audioSources = audioFiles.map((file: any) => {
-      const url = `https://archive.org/download/${this.itemId}/${file.name}`;
-      const mimetype = file.format.toLowerCase() === 'ogg vorbis' ? 'audio/ogg' : 'audio/mpeg';
-      return new AudioSource(url, mimetype);
-    });
-
-    // const waveFormImageFile = files.find(
-    //   (file: any) =>
-    //     file.format.toLowerCase() === 'png' && file.original === originalAudioFile.name,
-    // );
-
-    // const waveFormImageUrl = `https://archive.org/download/${this.itemId}/${waveFormImageFile.name}`;
-
-    this.radioPlayerConfig = new RadioPlayerConfig(
-      metadata.contributor,
-      metadata.start_localtime || metadata.start_time,
-      `https://archive.org/services/img/${collectionIdentifier}`,
-      undefined,
-      audioSources,
-    );
-  }
-
   // handleMetadataResponse(response: any) {
-  //   const metadata = response;
-  //   const collectionIdentifier = metadata.metadata.collection[0];
-  //   const srtFile = metadata.files.find((file: any) => file.format === 'JSON SRT');
+  //   const { metadata, files } = response;
+  //   const { collection, ccnum } = metadata;
+  //   const collectionIdentifier = collection[0];
+  //   const srtFile = files.find(
+  //     (file: any) => file.format === 'SubRip' && file.name.endsWith(`${ccnum}.srt`),
+  //   );
   //   this.fileName = srtFile.name;
 
-  //   const originalAudioFile = metadata.files.find(
-  //     (file: any) =>
-  //       file.source === 'original' &&
-  //       ['vbr mp3', 'ogg vorbis', 'advanced audio coding'].includes(file.format.toLowerCase()),
-  //   );
+  //   // const originalAudioFile = files.find(
+  //   //   (file: any) =>
+  //   //     file.source === 'original' &&
+  //   //     ['vbr mp3', 'ogg vorbis', 'advanced audio coding'].includes(file.format.toLowerCase()),
+  //   // );
 
-  //   const audioFiles = metadata.files.filter((file: any) =>
+  //   const audioFiles = files.filter((file: any) =>
   //     ['vbr mp3', 'ogg vorbis'].includes(file.format.toLowerCase()),
   //   );
 
@@ -121,42 +79,80 @@ export default class RadioPlayerController extends LitElement {
   //     return new AudioSource(url, mimetype);
   //   });
 
-  //   const waveFormImageFile = metadata.files.find(
-  //     (file: any) =>
-  //       file.format.toLowerCase() === 'png' && file.original === originalAudioFile.name,
-  //   );
+  //   // const waveFormImageFile = files.find(
+  //   //   (file: any) =>
+  //   //     file.format.toLowerCase() === 'png' && file.original === originalAudioFile.name,
+  //   // );
 
-  //   const waveFormImageUrl = `https://archive.org/download/${this.itemId}/${waveFormImageFile.name}`;
+  //   // const waveFormImageUrl = `https://archive.org/download/${this.itemId}/${waveFormImageFile.name}`;
 
   //   this.radioPlayerConfig = new RadioPlayerConfig(
-  //     metadata.metadata.contributor,
-  //     metadata.metadata.start_localtime || metadata.metadata.start_time,
+  //     metadata.contributor,
+  //     metadata.start_localtime || metadata.start_time,
   //     `https://archive.org/services/img/${collectionIdentifier}`,
-  //     waveFormImageUrl,
+  //     undefined,
   //     audioSources,
   //   );
   // }
 
-  async fetchTranscript(setAsActive: boolean) {
-    // const srtUrl = `https://archive.org/cors/${this.itemId}/${this.fileName}`;
+  handleMetadataResponse(response: any) {
+    const metadata = response;
+    const collectionIdentifier = metadata.metadata.collection[0];
+    const srtFile = metadata.files.find((file: any) => file.format === 'JSON SRT');
+    this.fileName = srtFile.name;
 
-    // const response = await fetch(srtUrl);
-    // const json = await response.json();
+    const originalAudioFile = metadata.files.find(
+      (file: any) =>
+        file.source === 'original' &&
+        ['vbr mp3', 'ogg vorbis', 'advanced audio coding'].includes(file.format.toLowerCase()),
+    );
+
+    const audioFiles = metadata.files.filter((file: any) =>
+      ['vbr mp3', 'ogg vorbis'].includes(file.format.toLowerCase()),
+    );
+
+    const audioSources = audioFiles.map((file: any) => {
+      const url = `https://archive.org/download/${this.itemId}/${file.name}`;
+      const mimetype = file.format.toLowerCase() === 'ogg vorbis' ? 'audio/ogg' : 'audio/mpeg';
+      return new AudioSource(url, mimetype);
+    });
+
+    const waveFormImageFile = metadata.files.find(
+      (file: any) =>
+        file.format.toLowerCase() === 'png' && file.original === originalAudioFile.name,
+    );
+
+    const waveFormImageUrl = `https://archive.org/download/${this.itemId}/${waveFormImageFile.name}`;
+
+    this.radioPlayerConfig = new RadioPlayerConfig(
+      metadata.metadata.contributor,
+      metadata.metadata.start_localtime || metadata.metadata.start_time,
+      `https://archive.org/services/img/${collectionIdentifier}`,
+      waveFormImageUrl,
+      audioSources,
+    );
+  }
+
+  async fetchTranscript(setAsActive: boolean) {
+    const srtUrl = `https://archive.org/cors/${this.itemId}/${this.fileName}`;
+
+    const response = await fetch(srtUrl);
+    const json = await response.json();
     // const text = await response.text();
 
-    console.log(SAMPLE_TRANSCRIPT);
-    const parsed = parseSRT(SAMPLE_TRANSCRIPT);
+    // console.log(SAMPLE_TRANSCRIPT);
+    // const parsed = parseSRT(SAMPLE_TRANSCRIPT);
 
-    console.log(parsed);
+    // console.log(parsed);
 
-    const transcriptEntries = parsed.map((entry: any) => {
-      const fixedText = entry.text.replace('<br />', ' ').toLowerCase();
+    const transcriptEntries = json.map((entry: any) => {
+      // const fixedText = entry.text.replace('<br />', ' ').toLowerCase();
 
       return new TranscriptEntryConfig(
         entry.id,
         entry.start,
         entry.end,
-        fixedText,
+        entry.text,
         entry.is_music,
         entry.search_match_index,
       );
