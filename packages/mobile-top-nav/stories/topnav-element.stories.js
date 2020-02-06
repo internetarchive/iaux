@@ -4,4 +4,4 @@ import IAMobileTopNav from '../index';
 
 storiesOf('IAMobileTopNav', module)
   .addDecorator(withKnobs)
-  .add('Scrubber Bar Options', () => withClassPropertiesKnobs(IAMobileTopNav));
+  .add('Mobile top nav options', () => withClassPropertiesKnobs(IAMobileTopNav));
