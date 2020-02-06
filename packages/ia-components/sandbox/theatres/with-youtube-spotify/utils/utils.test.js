@@ -68,6 +68,9 @@ describe('Music Player Util - General', () => {
     test('older mp3', () => {
       expect(isOlderDerivedMP3('track-title_vbr.mp3')).toBe(true);
     });
+    test('nested older mp3 reference in file name', () => {
+      expect(isOlderDerivedMP3('track-title_vbr.mp3-boop-beep.mp3')).toBe(false);
+    });
     test('not an mp3', () => {
       expect(isOlderDerivedMP3('track-title.ogg')).toBe(false);
     });

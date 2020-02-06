@@ -37,10 +37,12 @@ const formatTrackArtist = (trackArtist = '', albumCreator = '', albumTitle = '')
   // Track Artists come in a delimited string
   // `;\s` => acdc, album_recordings
   // `;` => 78rpm
-  const parseArtistDelimiter = new RegExp(/;\s|;/g);
+  const parseArtistDelimiter = new RegExp(/;\s?/g);
   const joinArtistDelimiter = '; ';
 
-  const listAlbumArtists = !Array.isArray(albumCreator) ? albumCreator.split(parseArtistDelimiter) : albumCreator;
+  const listAlbumArtists = !Array.isArray(albumCreator)
+    ? albumCreator.split(parseArtistDelimiter)
+    : albumCreator;
   const listTrackArtists = trackArtist.split(parseArtistDelimiter);
 
   /* Compliation Check */
