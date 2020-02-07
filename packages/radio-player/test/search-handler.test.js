@@ -12,28 +12,28 @@ describe('Search Handler', () => {
     expect(searchHandler).to.exist;
   });
 
-  it('correctly calculates startIndex offsets', async () => {
+  it('correctly calculates entry start and end index offsets', async () => {
     const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
     const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
     const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bang boing', false);
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const startIndicies = searchHandler.transcriptStartIndices;
+    const entryStartEndIndices = searchHandler.transcriptEntryIndices;
 
     // note a space is added between each transcript entry so it increases each
     // subsequent index by 1
-    expect(startIndicies[0].entryId).to.equal(1);
-    expect(startIndicies[0].startIndex).to.equal(0);
-    expect(startIndicies[0].endIndex).to.equal(11);
+    expect(entryStartEndIndices[0].entryId).to.equal(1);
+    expect(entryStartEndIndices[0].startIndex).to.equal(0);
+    expect(entryStartEndIndices[0].endIndex).to.equal(11);
 
-    expect(startIndicies[1].entryId).to.equal(2);
-    expect(startIndicies[1].startIndex).to.equal(12);
-    expect(startIndicies[1].endIndex).to.equal(21);
+    expect(entryStartEndIndices[1].entryId).to.equal(2);
+    expect(entryStartEndIndices[1].startIndex).to.equal(12);
+    expect(entryStartEndIndices[1].endIndex).to.equal(21);
 
-    expect(startIndicies[2].entryId).to.equal(3);
-    expect(startIndicies[2].startIndex).to.equal(22);
-    expect(startIndicies[2].endIndex).to.equal(32);
+    expect(entryStartEndIndices[2].entryId).to.equal(3);
+    expect(entryStartEndIndices[2].startIndex).to.equal(22);
+    expect(entryStartEndIndices[2].endIndex).to.equal(32);
   });
 
   it('correctly builds the full text blob', async () => {
@@ -65,10 +65,10 @@ describe('Search Handler', () => {
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const newTranscript = searchHandler.search('baz');
+    const newTranscript = searchHandler.search('ba');
 
     console.log(newTranscript);
 
-    expect(newTranscript.entris.length).to.equal(7);
+    expect(newTranscript.entries.length).to.equal(7);
   });
 });

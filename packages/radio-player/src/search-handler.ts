@@ -32,15 +32,28 @@ export default class SearchHandler {
     this.transcriptEntryIndices.forEach((entryIndexMap: TranscriptIndexMap, index: number) => {
       const transcriptEntry = this.transcriptConfig.entries[index];
 
+      // from all the search results, find which ones start inside this transcript entry
       const searchIndicesInEntry = searchIndices.filter((index) => {
-        index >= entryIndexMap.startIndex && index <= entryIndexMap.endIndex
+        const inRange = index >= entryIndexMap.startIndex && index <= entryIndexMap.endIndex;
+        console.log('inRange', index, inRange, entryIndexMap);
+        return inRange;
       });
+
+      console.log('searchIndicesInEntry', searchIndices, entryIndexMap, searchIndicesInEntry);
 
       // if there are no hits in here, just append it as-is
       if (searchIndicesInEntry.length === 0) {
+        console.log('no hit', index);
         newTranscriptEntries.push(transcriptEntry);
         return;
       }
+
+      var startStops = [];
+      var startIndex = 0;
+      searchIndicesInEntry.forEach((searchStartIndex) => {
+
+      });
+
 
       searchIndicesInEntry.forEach((searchStartIndex: number, index: number) => {
         const entryText = transcriptEntry.displayText;
@@ -48,7 +61,7 @@ export default class SearchHandler {
         const endIndex = startIndex + term.length;
         const goesOver = endIndex > (entryText.length - startIndex); // does it continue into the next entry?
 
-        const beforeText = entryText.substring(0, startIndex);
+        const beforeText = entryText.substring(resultStartIndex, startIndex);
         const resultText = entryText.substring(startIndex, endIndex);
         const afterText = entryText.substring(endIndex, entryText.length);
 
