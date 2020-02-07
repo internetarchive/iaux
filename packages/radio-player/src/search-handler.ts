@@ -1,9 +1,12 @@
-import { TranscriptConfig, TranscriptEntryConfig } from "@internetarchive/transcript-view";
+import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 
 class TranscriptIndexMap {
   entryId: number;
+
   startIndex: number;
+
   endIndex: number;
+
   constructor(entryId: number, startIndex: number, endIndex: number) {
     this.entryId = entryId;
     this.startIndex = startIndex;
@@ -12,12 +15,11 @@ class TranscriptIndexMap {
 }
 
 export default class SearchHandler {
-
   private transcriptConfig: TranscriptConfig;
 
   private transcriptEntryIndices: TranscriptIndexMap[] = [];
 
-  private mergedTranscript: string = '';
+  private mergedTranscript = '';
 
   constructor(transcriptConfig: TranscriptConfig) {
     this.transcriptConfig = transcriptConfig;
@@ -26,16 +28,16 @@ export default class SearchHandler {
 
   search(term: string): TranscriptConfig {
     const searchIndices = this.getSearchIndices(term);
-    var newTranscriptEntries: TranscriptEntryConfig[] = [];
-    var matchIndex = 0;
+    const newTranscriptEntries: TranscriptEntryConfig[] = [];
+    const matchIndex = 0;
 
     this.transcriptEntryIndices.forEach((entryIndexMap: TranscriptIndexMap, index: number) => {
       const transcriptEntry = this.transcriptConfig.entries[index];
 
       // from all the search results, find which ones start inside this transcript entry
-      const searchIndicesInEntry = searchIndices.filter((index) => {
-        const inRange = index >= entryIndexMap.startIndex && index <= entryIndexMap.endIndex;
-        console.log('inRange', index, inRange, entryIndexMap);
+      const searchIndicesInEntry = searchIndices.filter((matchIndex) => {
+        const inRange = matchIndex >= entryIndexMap.startIndex && matchIndex <= entryIndexMap.endIndex;
+        console.log('inRange', matchIndex, inRange, entryIndexMap);
         return inRange;
       });
 
@@ -48,8 +50,8 @@ export default class SearchHandler {
         return;
       }
 
-      var startStops = [];
-      var startIndex = 0;
+      const startStops = [];
+      const startIndex = 0;
       searchIndicesInEntry.forEach((searchStartIndex) => {
 
       });
@@ -82,7 +84,7 @@ export default class SearchHandler {
           resultText,
           transcriptEntry.isMusic,
           matchIndex
-        )
+        );
 
         const afterEntry = new TranscriptEntryConfig(
           transcriptEntry.id,
@@ -90,7 +92,7 @@ export default class SearchHandler {
           transcriptEntry.end,
           afterText,
           transcriptEntry.isMusic,
-        )
+        );
 
         newTranscriptEntries.push(beforeEntry);
         newTranscriptEntries.push(resultEntry);
@@ -106,9 +108,9 @@ export default class SearchHandler {
   private getSearchIndices(term: string): number[] {
     const regex = new RegExp(term, 'gi');
 
-    var startIndices: number[] = [];
-    var result;
-    while ( (result = regex.exec(this.mergedTranscript)) ) {
+    const startIndices: number[] = [];
+    let result;
+    while ((result = regex.exec(this.mergedTranscript))) {
       startIndices.push(result.index);
     }
 
@@ -116,9 +118,9 @@ export default class SearchHandler {
   }
 
   private buildIndex() {
-    var startIndex = 0;
+    let startIndex = 0;
     this.transcriptConfig.entries.forEach((entry: TranscriptEntryConfig) => {
-      const displayText = entry.displayText;
+      const { displayText } = entry;
 
       const indexMap: TranscriptIndexMap = new TranscriptIndexMap(
         entry.id,
@@ -127,7 +129,7 @@ export default class SearchHandler {
       );
       this.transcriptEntryIndices.push(indexMap);
       this.mergedTranscript += `${entry.displayText} `;
-      startIndex = this.mergedTranscript.length
+      startIndex = this.mergedTranscript.length;
     });
     this.mergedTranscript = this.mergedTranscript.trim();
   }
