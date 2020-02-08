@@ -58,17 +58,58 @@ describe('Search Handler', () => {
     expect(searchIndices).to.deep.equal([8, 27]);
   });
 
-  it('correctly generates a new transcript', async () => {
+  it('correctly splits up transcript search results', async () => {
     const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
     const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
     const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const newTranscript = searchHandler.search('ba');
+    const transcriptSearchResults = searchHandler.getSearchSeparatedTranscript('ba');
 
-    console.log(newTranscript);
+    expect(transcriptSearchResults.length).to.equal(7);
 
-    expect(newTranscript.entries.length).to.equal(7);
+    const firstEntry = transcriptSearchResults[0];
+    const secondEntry = transcriptSearchResults[1];
+    const thirdEntry = transcriptSearchResults[2];
+    const fourthEntry = transcriptSearchResults[3];
+    const fifthEntry = transcriptSearchResults[4];
+    const sixthEntry = transcriptSearchResults[5];
+    const seventhEntry = transcriptSearchResults[6];
+
+    expect(firstEntry.startIndex).to.equal(0);
+    expect(firstEntry.endIndex).to.equal(3);
+    expect(firstEntry.text).to.equal('foo ');
+    expect(firstEntry.isSearchMatch).to.equal(false);
+
+    expect(secondEntry.startIndex).to.equal(4);
+    expect(secondEntry.endIndex).to.equal(5);
+    expect(secondEntry.text).to.equal('ba');
+    expect(secondEntry.isSearchMatch).to.equal(true);
+
+    expect(thirdEntry.startIndex).to.equal(6);
+    expect(thirdEntry.endIndex).to.equal(7);
+    expect(thirdEntry.text).to.equal('r ');
+    expect(thirdEntry.isSearchMatch).to.equal(false);
+
+    expect(fourthEntry.startIndex).to.equal(8);
+    expect(fourthEntry.endIndex).to.equal(9);
+    expect(fourthEntry.text).to.equal('ba');
+    expect(fourthEntry.isSearchMatch).to.equal(true);
+
+    expect(fifthEntry.startIndex).to.equal(10);
+    expect(fifthEntry.endIndex).to.equal(26);
+    expect(fifthEntry.text).to.equal('z boop blop bump ');
+    expect(fifthEntry.isSearchMatch).to.equal(false);
+
+    expect(sixthEntry.startIndex).to.equal(27);
+    expect(sixthEntry.endIndex).to.equal(28);
+    expect(sixthEntry.text).to.equal('ba');
+    expect(sixthEntry.isSearchMatch).to.equal(true);
+
+    expect(seventhEntry.startIndex).to.equal(29);
+    expect(seventhEntry.endIndex).to.equal(36);
+    expect(seventhEntry.text).to.equal('z boing');
+    expect(seventhEntry.isSearchMatch).to.equal(false);
   });
 });

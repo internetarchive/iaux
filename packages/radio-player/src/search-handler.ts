@@ -1,5 +1,12 @@
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 
+/**
+ * This class augments the transcript entry with the start and end indices.
+ * This is useful for more rapidly splitting up and restoring the transcript
+ * entries from the transforms that happen during the search.
+ *
+ * @class TranscriptIndexMap
+ */
 class TranscriptIndexMap {
   entryId: number;
 
@@ -11,6 +18,35 @@ class TranscriptIndexMap {
     this.entryId = entryId;
     this.startIndex = startIndex;
     this.endIndex = endIndex;
+  }
+}
+
+/**
+ * The first step in converting the search results back to a usable transcript
+ * is to break up the overall merged transcript into search results and non-search-results
+ * sections. This will allow us to more easily break it up into its original transcript
+ * chunks in a subsequent process.
+ *
+ * This class is a container to hold those chunks. They each have a start and end index
+ * from their spot in the merged transcript, the text from that chunk, and whether that
+ * chunk was a search match or just regular text.
+ *
+ * @class SearchSeparatedTranscriptEntry
+ */
+class SearchSeparatedTranscriptEntry {
+  startIndex: number;
+
+  endIndex: number;
+
+  text: string;
+
+  isSearchMatch: boolean;
+
+  constructor(startIndex: number, endIndex: number, text: string, isSearchMatch: boolean) {
+    this.startIndex = startIndex;
+    this.endIndex = endIndex;
+    this.text = text;
+    this.isSearchMatch = isSearchMatch;
   }
 }
 
@@ -115,6 +151,33 @@ export default class SearchHandler {
     }
 
     return startIndices;
+  }
+
+  private getSearchSeparatedTranscript(term: string): SearchSeparatedTranscriptEntry[] {
+    const searchIndices = this.getSearchIndices(term);
+    if (searchIndices.length === 0) {
+      return [new SearchSeparatedTranscriptEntry(0, this.mergedTranscript.length, this.mergedTranscript, false)];
+    }
+
+    const transcriptEntries: SearchSeparatedTranscriptEntry[] = [];
+    let startIndex = 0;
+    searchIndices.forEach((index) => {
+      const nextStart = index + term.length;
+      const nonResultText = this.mergedTranscript.substring(startIndex, index);
+      const resultText = this.mergedTranscript.substring(index, nextStart);
+      const nonResultEntry = new SearchSeparatedTranscriptEntry(startIndex, index - 1, nonResultText, false);
+      const searchResultEntry = new SearchSeparatedTranscriptEntry(index, nextStart - 1, resultText, true);
+      transcriptEntries.push(nonResultEntry);
+      transcriptEntries.push(searchResultEntry);
+      startIndex = nextStart;
+    });
+    const finalResultText = this.mergedTranscript.substring(startIndex, this.mergedTranscript.length);
+    const finalResultEntry = new SearchSeparatedTranscriptEntry(
+      startIndex, this.mergedTranscript.length, finalResultText, false
+    );
+    transcriptEntries.push(finalResultEntry);
+
+    return transcriptEntries;
   }
 
   private buildIndex() {
