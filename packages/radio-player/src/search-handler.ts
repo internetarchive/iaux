@@ -63,96 +63,63 @@ export default class SearchHandler {
   }
 
   search(term: string): TranscriptConfig {
-    const searchIndices = this.getSearchIndices(term);
+    const searchSeparatedTranscript = this.getSearchSeparatedTranscript(term);
     const newTranscriptEntries: TranscriptEntryConfig[] = [];
-    const matchIndex = 0;
 
-    this.transcriptEntryIndices.forEach((entryIndexMap: TranscriptIndexMap, index: number) => {
-      const transcriptEntry = this.transcriptConfig.entries[index];
+    searchSeparatedTranscript.forEach((entry) => {
 
-      // from all the search results, find which ones start inside this transcript entry
-      const searchIndicesInEntry = searchIndices.filter((matchIndex) => {
-        const inRange = matchIndex >= entryIndexMap.startIndex && matchIndex <= entryIndexMap.endIndex;
-        console.log('inRange', matchIndex, inRange, entryIndexMap);
-        return inRange;
-      });
-
-      console.log('searchIndicesInEntry', searchIndices, entryIndexMap, searchIndicesInEntry);
-
-      // if there are no hits in here, just append it as-is
-      if (searchIndicesInEntry.length === 0) {
-        console.log('no hit', index);
-        newTranscriptEntries.push(transcriptEntry);
-        return;
-      }
-
-      const startStops = [];
-      const startIndex = 0;
-      searchIndicesInEntry.forEach((searchStartIndex) => {
-
-      });
-
-
-      searchIndicesInEntry.forEach((searchStartIndex: number, index: number) => {
-        const entryText = transcriptEntry.displayText;
-        const startIndex = searchStartIndex - entryIndexMap.startIndex;
-        const endIndex = startIndex + term.length;
-        const goesOver = endIndex > (entryText.length - startIndex); // does it continue into the next entry?
-
-        const beforeText = entryText.substring(resultStartIndex, startIndex);
-        const resultText = entryText.substring(startIndex, endIndex);
-        const afterText = entryText.substring(endIndex, entryText.length);
-
-        console.log('entryText', entryText, term, startIndex, endIndex, goesOver, beforeText, resultText, afterText);
-
-        const beforeEntry = new TranscriptEntryConfig(
-          transcriptEntry.id,
-          transcriptEntry.start,
-          transcriptEntry.end,
-          beforeText,
-          transcriptEntry.isMusic
-        );
-
-        const resultEntry = new TranscriptEntryConfig(
-          transcriptEntry.id,
-          transcriptEntry.start,
-          transcriptEntry.end,
-          resultText,
-          transcriptEntry.isMusic,
-          matchIndex
-        );
-
-        const afterEntry = new TranscriptEntryConfig(
-          transcriptEntry.id,
-          transcriptEntry.start,
-          transcriptEntry.end,
-          afterText,
-          transcriptEntry.isMusic,
-        );
-
-        newTranscriptEntries.push(beforeEntry);
-        newTranscriptEntries.push(resultEntry);
-        newTranscriptEntries.push(afterEntry);
-      });
     });
+
 
     const newTranscript = new TranscriptConfig(newTranscriptEntries);
 
     return newTranscript;
   }
 
-  private getSearchIndices(term: string): number[] {
-    const regex = new RegExp(term, 'gi');
+  /**
+   * Split up the non-search-result entries to match the breakpoints from
+   * the original transcript. This makes re-building the original transcript
+   * much easer.
+   *
+   * @private
+   * @param {string} term
+   * @returns {SearchSeparatedTranscriptEntry[]}
+   * @memberof SearchHandler
+   */
+  private getTranscriptSeparatedSearchResults(term: string): SearchSeparatedTranscriptEntry[] {
+    const searchSeparatedTranscript = this.getSearchSeparatedTranscript(term);
+    var newEntries: SearchSeparatedTranscriptEntry[] = [];
+    searchSeparatedTranscript.forEach((entry) => {
+      if (entry.isSearchMatch) {
+        newEntries.push(entry);
+        return;
+      }
 
-    const startIndices: number[] = [];
-    let result;
-    while ((result = regex.exec(this.mergedTranscript))) {
-      startIndices.push(result.index);
-    }
+      const originalEntriesInEntry = this.transcriptEntryIndices.filter((entryIndices) => {
+        console.log(entryIndices, entry);
+        entryIndices.startIndex >= entry.startIndex && entryIndices.endIndex <= entry.endIndex
+      });
 
-    return startIndices;
+      console.log('originalEntriesInEntry', this.transcriptEntryIndices, originalEntriesInEntry);
+
+      originalEntriesInEntry.forEach((originalEntry) => {
+        const newEntryText = entry.text.substring(originalEntry.startIndex, originalEntry.endIndex);
+        const newEntry = new SearchSeparatedTranscriptEntry(
+          originalEntry.startIndex, originalEntry.endIndex, newEntryText, false);
+        newEntries.push(newEntry);
+      });
+    });
+    return newEntries;
   }
 
+  /**
+   * Search the full transcript and split up by search results and non-results
+   *
+   * @private
+   * @param {string} term
+   * @returns {SearchSeparatedTranscriptEntry[]}
+   * @memberof SearchHandler
+   */
   private getSearchSeparatedTranscript(term: string): SearchSeparatedTranscriptEntry[] {
     const searchIndices = this.getSearchIndices(term);
     if (searchIndices.length === 0) {
@@ -178,6 +145,18 @@ export default class SearchHandler {
     transcriptEntries.push(finalResultEntry);
 
     return transcriptEntries;
+  }
+
+  private getSearchIndices(term: string): number[] {
+    const regex = new RegExp(term, 'gi');
+
+    const startIndices: number[] = [];
+    let result;
+    while ((result = regex.exec(this.mergedTranscript))) {
+      startIndices.push(result.index);
+    }
+
+    return startIndices;
   }
 
   private buildIndex() {

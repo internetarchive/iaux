@@ -112,4 +112,20 @@ describe('Search Handler', () => {
     expect(seventhEntry.text).to.equal('z boing');
     expect(seventhEntry.isSearchMatch).to.equal(false);
   });
+
+  it('correctly splits up transcript search results to original transcript', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
+    const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
+    const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);
+    const entry4 = new TranscriptEntryConfig(3, 10, 13, 'fizz buzz', false);
+    const entry5 = new TranscriptEntryConfig(3, 10, 13, 'blammer blommer', false);
+    const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
+    const searchHandler = new SearchHandler(transcriptConfig);
+
+    const transcriptSearchResults = searchHandler.getTranscriptSeparatedSearchResults('bump');
+
+    console.log(transcriptSearchResults);
+
+    expect(transcriptSearchResults.length).to.equal(6);
+  });
 });
