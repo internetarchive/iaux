@@ -9,20 +9,20 @@ export default class TranscriptEntryConfig {
 
   searchMatchIndex?: number;
 
-  private text: string;
+  rawText: string;
 
   constructor(
     id: number,
     start: number,
     end: number,
-    text: string,
+    rawText: string,
     isMusic: boolean,
     searchMatchIndex?: number,
   ) {
     this.id = id;
     this.start = start;
     this.end = end;
-    this.text = text;
+    this.rawText = rawText;
     this.isMusic = isMusic;
     this.searchMatchIndex = searchMatchIndex;
   }
@@ -32,6 +32,6 @@ export default class TranscriptEntryConfig {
       return '[Transcript unavailable]';
     }
 
-    return this.text;
+    return this.rawText;
   }
 }
