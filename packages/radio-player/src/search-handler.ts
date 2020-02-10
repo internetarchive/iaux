@@ -8,14 +8,14 @@ import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transc
  * @class TranscriptIndexMap
  */
 class TranscriptIndexMap {
-  entryId: number;
+  entry: TranscriptEntryConfig;
 
   startIndex: number;
 
   endIndex: number;
 
-  constructor(entryId: number, startIndex: number, endIndex: number) {
-    this.entryId = entryId;
+  constructor(entry: TranscriptEntryConfig, startIndex: number, endIndex: number) {
+    this.entry = entry;
     this.startIndex = startIndex;
     this.endIndex = endIndex;
   }
@@ -53,8 +53,29 @@ class SearchSeparatedTranscriptEntry {
 export default class SearchHandler {
   private transcriptConfig: TranscriptConfig;
 
+  /**
+   * This gets populated as part of the search index build. It maps the start and end indicies
+   * of all of the transcript entries so we can quickly look up where an entry is in the
+   * overall transcript.
+   *
+   * @private
+   * @type {TranscriptIndexMap[]}
+   * @memberof SearchHandler
+   */
   private transcriptEntryIndices: TranscriptIndexMap[] = [];
 
+  /**
+   * This gets populated as part of the search index build. It merges all of the transcript
+   * entries together so we can search it as a single document instead of a bunch of
+   * individual entries. This allows searches to cross over transcript entries.
+   *
+   * NOTE: When the mergedTranscript gets created, spaces are put between each transcript
+   * entry, otherwise the words would run into each other. We account for this in the
+   * indices above.
+   *
+   * @private
+   * @memberof SearchHandler
+   */
   private mergedTranscript = '';
 
   constructor(transcriptConfig: TranscriptConfig) {
@@ -66,14 +87,90 @@ export default class SearchHandler {
     const searchSeparatedTranscript = this.getSearchSeparatedTranscript(term);
     const newTranscriptEntries: TranscriptEntryConfig[] = [];
 
-    searchSeparatedTranscript.forEach((entry) => {
+    let currentSearchResultIndex = 0;
+    let currentSourceTranscriptEntryMap: TranscriptIndexMap|undefined;
+    let newTranscriptEntry: TranscriptEntryConfig;
 
+    searchSeparatedTranscript.forEach((entry) => {
+      const entryCharArray = Array.from(entry.text);
+
+      // console.log('create newTranscriptEntry1, previous: ', newTranscriptEntry.displayText);
+      // newTranscriptEntry = this.createBlankTranscriptEntryConfig(
+      //   currentSourceTranscriptEntryMap.entry
+      // );
+      // newTranscriptEntries.push(newTranscriptEntry);
+
+      console.log('searchEntry', entry.text, entry.startIndex, entry.endIndex);
+
+      if (entry.isSearchMatch) {
+        console.log('isMatch', entry.text);
+        newTranscriptEntry.searchMatchIndex = currentSearchResultIndex;
+        currentSearchResultIndex += 1;
+      }
+
+      entryCharArray.forEach((character, index) => {
+        const overallCharIndex = entry.startIndex + index;
+        const resultIndexMap = this.getTranscriptEntryIndexMap(overallCharIndex);
+
+        if (!resultIndexMap) {
+          console.log('no result indexfound', overallCharIndex, entry.startIndex, entry.endIndex);
+          return;
+        }
+
+        console.log('character', character, overallCharIndex, entry.endIndex);
+
+        // step 1: make sure we have a valid source index
+        if (
+          overallCharIndex >= resultIndexMap.startIndex
+          && overallCharIndex < resultIndexMap.endIndex
+        ) {
+          console.log('addChar', character);
+          newTranscriptEntry.rawText += character;
+          return;
+        }
+
+        console.log('continuing', character, overallCharIndex, entry.endIndex);
+
+        if (overallCharIndex > entry.endIndex) {
+          console.log('end1');
+          return;
+        }
+
+        newTranscriptEntry.rawText = newTranscriptEntry.rawText.trim();
+
+        // we've reached the last indexMap
+        // if (currentSourceEntryIndex + 1 > this.transcriptEntryIndices.length) {
+        //   console.log('end2');
+        //   return;
+        // }
+        // currentSourceEntryIndex += 1;
+        // currentSourceTranscriptEntryMap = this.transcriptEntryIndices[currentSourceEntryIndex];
+
+        // console.log('create newTranscriptEntry2, previous:', newTranscriptEntry.displayText);
+      });
     });
 
+    console.log(newTranscriptEntries.map(entry => entry.displayText));
 
     const newTranscript = new TranscriptConfig(newTranscriptEntries);
 
     return newTranscript;
+  }
+
+  private getTranscriptEntryIndexMap(overallCharIndex: number): TranscriptIndexMap|undefined {
+    return this.transcriptEntryIndices.find(entry => (
+      entry.endIndex > overallCharIndex && entry.startIndex <= overallCharIndex
+    ));
+  }
+
+  private createBlankTranscriptEntryConfig(sourceTranscriptConfig: TranscriptEntryConfig): TranscriptEntryConfig {
+    return new TranscriptEntryConfig(
+      sourceTranscriptConfig.id,
+      sourceTranscriptConfig.start,
+      sourceTranscriptConfig.end,
+      '',
+      sourceTranscriptConfig.isMusic,
+    );
   }
 
   /**
@@ -88,7 +185,7 @@ export default class SearchHandler {
    */
   private getTranscriptSeparatedSearchResults(term: string): SearchSeparatedTranscriptEntry[] {
     const searchSeparatedTranscript = this.getSearchSeparatedTranscript(term);
-    var newEntries: SearchSeparatedTranscriptEntry[] = [];
+    const newEntries: SearchSeparatedTranscriptEntry[] = [];
     searchSeparatedTranscript.forEach((entry) => {
       if (entry.isSearchMatch) {
         newEntries.push(entry);
@@ -96,16 +193,17 @@ export default class SearchHandler {
       }
 
       const originalEntriesInEntry = this.transcriptEntryIndices.filter((entryIndices) => {
-        console.log(entryIndices, entry);
-        entryIndices.startIndex >= entry.startIndex && entryIndices.endIndex <= entry.endIndex
+        // console.log(entryIndices, entry);
+        entryIndices.startIndex >= entry.startIndex && entryIndices.endIndex <= entry.endIndex;
       });
 
-      console.log('originalEntriesInEntry', this.transcriptEntryIndices, originalEntriesInEntry);
+      // console.log('originalEntriesInEntry', this.transcriptEntryIndices, originalEntriesInEntry);
 
       originalEntriesInEntry.forEach((originalEntry) => {
         const newEntryText = entry.text.substring(originalEntry.startIndex, originalEntry.endIndex);
         const newEntry = new SearchSeparatedTranscriptEntry(
-          originalEntry.startIndex, originalEntry.endIndex, newEntryText, false);
+          originalEntry.startIndex, originalEntry.endIndex, newEntryText, false
+        );
         newEntries.push(newEntry);
       });
     });
@@ -165,7 +263,7 @@ export default class SearchHandler {
       const { displayText } = entry;
 
       const indexMap: TranscriptIndexMap = new TranscriptIndexMap(
-        entry.id,
+        entry,
         startIndex,
         startIndex + displayText.length
       );

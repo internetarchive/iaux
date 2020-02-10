@@ -23,15 +23,15 @@ describe('Search Handler', () => {
 
     // note a space is added between each transcript entry so it increases each
     // subsequent index by 1
-    expect(entryStartEndIndices[0].entryId).to.equal(1);
+    expect(entryStartEndIndices[0].entry).to.equal(entry1);
     expect(entryStartEndIndices[0].startIndex).to.equal(0);
     expect(entryStartEndIndices[0].endIndex).to.equal(11);
 
-    expect(entryStartEndIndices[1].entryId).to.equal(2);
+    expect(entryStartEndIndices[1].entry).to.equal(entry2);
     expect(entryStartEndIndices[1].startIndex).to.equal(12);
     expect(entryStartEndIndices[1].endIndex).to.equal(21);
 
-    expect(entryStartEndIndices[2].entryId).to.equal(3);
+    expect(entryStartEndIndices[2].entry).to.equal(entry3);
     expect(entryStartEndIndices[2].startIndex).to.equal(22);
     expect(entryStartEndIndices[2].endIndex).to.equal(32);
   });
@@ -122,10 +122,8 @@ describe('Search Handler', () => {
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const transcriptSearchResults = searchHandler.getTranscriptSeparatedSearchResults('bump');
+    const newTranscript = searchHandler.search('bump');
 
-    console.log(transcriptSearchResults);
-
-    expect(transcriptSearchResults.length).to.equal(6);
+    expect(newTranscript.entries.length).to.equal(6);
   });
 });

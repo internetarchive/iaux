@@ -723,8 +723,8 @@ describe('Radio Player', () => {
 
     const searchResults = el.searchResults;
 
-    expect(searchResults[0].text).to.equal('bar');
-    expect(searchResults[1].text).to.equal('baz');
+    expect(searchResults[0].displayText).to.equal('bar');
+    expect(searchResults[1].displayText).to.equal('baz');
   });
 
   it('retrieves no search results if there is no transcript config', async () => {
