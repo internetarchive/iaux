@@ -11,14 +11,14 @@ export default () => {
       --primary-text-color: var(--white);
       color: var(--primary-text-color);
       --theme-font-family: 'Helvetica Neue';
-      font-size: 1.25rem;
+      font-size: 2rem;
       font-family: var(--theme-font-family);
     }
     button:focus,
     a:focus,
     input:focus {
       outline-color: var(--link-color);
-      outline-width: 0.1rem;
+      outline-width: .16rem;
       outline-style: auto;
     }
     .flex {
@@ -53,8 +53,8 @@ export default () => {
       margin: auto 3% auto 1%;
       flex: 1;
       justify-content: space-between;
-      min-height: 3.75rem;
-      max-height: 3.75rem;
+      min-height: 6rem;
+      max-height: 6rem;
     }
     .center .search {
       padding-top: 0;
@@ -66,13 +66,13 @@ export default () => {
     }
     .center.search-activated {
       justify-content: center;
-      border-radius: 0.6rem 0.6rem 0 0;
+      border-radius: 0.96rem 0.96rem 0 0;
       background: var(--grey20);
     }
     .search-activated .highlight,
     .search-activated .search {
       background: var(--white);
-      border-radius: 0.6rem;
+      border-radius: 0.96rem;
     }
     .search-activated .highlight {
       display: flex;
@@ -84,17 +84,17 @@ export default () => {
     }
     .search-activated .search-field {
       width: 100%;
-      height: 3rem;
-      border-radius: 0.6rem;
+      height: 4.8rem;
+      border-radius: 0.96rem;
       border: none;
       text-align: center;
-      font-size: 1.125rem;
+      font-size: 1.8rem;
     }
     .user-menu {
-      padding: .45rem;
+      padding: .72rem;
     }
     .user-menu.active {
-      border-radius: 0.6rem 0.6rem 0 0;
+      border-radius: 0.96rem 0.96rem 0 0;
       background: var(--grey20);
     }
     @keyframes fade-in {

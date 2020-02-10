@@ -5,7 +5,7 @@ export default () => {
     button:focus,
     input:focus {
       outline-color: var(--link-color);
-      outline-width: 0.1rem;
+      outline-width: 0.16rem;
       outline-style: auto;
     }
     .search-menu {

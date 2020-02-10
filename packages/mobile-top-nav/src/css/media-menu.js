@@ -4,7 +4,7 @@ export default () => {
   return css`
     button:focus {
       outline-color: var(--link-color);
-      outline-width: 0.1rem;
+      outline-width: 0.16rem;
       outline-style: auto;
     }
     .media-menu {
