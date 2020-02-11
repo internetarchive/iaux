@@ -30,6 +30,7 @@ import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-contro
 import SearchResultsSwitcher from './search-results-switcher';
 import MusicZone from './models/music-zone';
 import RadioPlayerConfig from './models/radio-player-config';
+import SearchHandler from './search-handler';
 
 /**
  * A Radio Player element to play back transcribed audio.
@@ -63,6 +64,14 @@ export default class RadioPlayer extends LitElement {
    * @memberof RadioPlayer
    */
   @property({ type: Object }) transcriptConfig: TranscriptConfig | undefined = undefined;
+
+  /**
+   * Transcript configuration
+   *
+   * @type {(TranscriptConfig | undefined)}
+   * @memberof RadioPlayer
+   */
+  @property({ type: Object }) searchResultsTranscript: TranscriptConfig | undefined = undefined;
 
   /**
    * Current playback time
@@ -152,6 +161,8 @@ export default class RadioPlayer extends LitElement {
   @property({ type: Boolean }) private shouldShowNoSearchResultMessage = false;
 
   private musicZones: MusicZone[] = [];
+
+  private searchHandler: SearchHandler | undefined;
 
   /**
    * LitElement lifecycle main render method
@@ -423,13 +434,17 @@ export default class RadioPlayer extends LitElement {
     return html`
       <div class="transcript-container">
         <transcript-view
-          .config=${this.transcriptConfig}
+          .config=${this.currentTranscript}
           .currentTime=${this.currentTime}
           @transcriptEntrySelected=${this.transcriptEntrySelected}
         >
         </transcript-view>
       </div>
     `;
+  }
+
+  private get currentTranscript(): TranscriptConfig | undefined {
+    return this.searchResultsTranscript || this.transcriptConfig;
   }
 
   /**
@@ -540,7 +555,7 @@ export default class RadioPlayer extends LitElement {
    */
   private searchCleared(): void {
     this.searchTerm = '';
-    this.emitSearchClearedEvent();
+    this.searchResultsTranscript = undefined;
     /* istanbul ignore else */
     if (this.transcriptView) {
       this.transcriptView.selectedSearchResultIndex = 0;
@@ -549,17 +564,6 @@ export default class RadioPlayer extends LitElement {
     if (this.searchResultsSwitcher) {
       this.searchResultsSwitcher.currentResultIndex = 0;
     }
-  }
-
-  /**
-   * When the user clears the search, we want to bubble up the event to other consumers.
-   *
-   * @private
-   * @memberof RadioPlayer
-   */
-  private emitSearchClearedEvent(): void {
-    const event = new Event('searchCleared');
-    this.dispatchEvent(event);
   }
 
   /**
@@ -589,13 +593,11 @@ export default class RadioPlayer extends LitElement {
    */
   private searchEnterKeyPressed(e: CustomEvent): void {
     const detail = e.detail || {};
-    if (!detail.value) {
+    if (!detail.value || !this.searchHandler) {
       return;
     }
-    const event = new CustomEvent('searchRequested', {
-      detail: { searchTerm: detail.value },
-    });
-    this.dispatchEvent(event);
+    const searchResults = this.searchHandler.search(detail.value);
+    this.searchResultsTranscript = searchResults;
   }
 
   /**
@@ -1012,7 +1014,7 @@ export default class RadioPlayer extends LitElement {
    * @memberof RadioPlayer
    */
   private get searchResults(): TranscriptEntryConfig[] {
-    return this.transcriptConfig ? this.transcriptConfig.searchResults : [];
+    return this.searchResultsTranscript ? this.searchResultsTranscript.searchResults : [];
   }
 
   /**
@@ -1025,6 +1027,10 @@ export default class RadioPlayer extends LitElement {
     // when the transcriptConfig gets changed, reload the music zones and search results switcher
     if (changedProperties.has('transcriptConfig')) {
       this.updateMusicZones();
+      this.setupSearchHandler();
+    }
+
+    if (changedProperties.has('searchResultsTranscript')) {
       this.updateSearchResultSwitcher();
     }
 
@@ -1034,6 +1040,12 @@ export default class RadioPlayer extends LitElement {
       if (this.skipMusicSections) {
         this.skipMusicZone();
       }
+    }
+  }
+
+  private setupSearchHandler(): void {
+    if (this.transcriptConfig) {
+      this.searchHandler = new SearchHandler(this.transcriptConfig);
     }
   }
 

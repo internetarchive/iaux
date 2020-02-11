@@ -306,4 +306,52 @@ describe('Search Handler', () => {
     expect(secondSearchMatch.rawText).to.equal('bu');
     expect(secondSearchMatch.searchMatchIndex).to.equal(1);
   });
+
+  it('correctly generates a new transcript with multiple matches inside single entry', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 1.031, 6.002, 'He was pressed by reporters but Maryland Congressman Elijah Cummings declined to', false);
+    const entry2 = new TranscriptEntryConfig(2, 6.003, 11.012, 'add fuel to the ongoing feud between himself and President Trump erupted last', false);
+    const entry3 = new TranscriptEntryConfig(3, 11.013, 15.044, 'weekend after the president harshly criticized the Democratic lawmaker and his', false);
+    const entry4 = new TranscriptEntryConfig(4, 15.045, 20.033, 'Baltimore area district which the president called Rat and road and infested', false);
+    const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
+    const searchHandler = new SearchHandler(transcriptConfig);
+
+    const newTranscript = searchHandler.search('the');
+
+    expect(newTranscript.entries.length).to.equal(12);
+
+    const firstSearchMatch = newTranscript.entries[2];
+    expect(firstSearchMatch.id).to.equal(2);
+    expect(firstSearchMatch.start).to.equal(6.003);
+    expect(firstSearchMatch.end).to.equal(11.012);
+    expect(firstSearchMatch.rawText).to.equal('the');
+    expect(firstSearchMatch.searchMatchIndex).to.equal(0);
+
+    const secondSearchMatch = newTranscript.entries[5];
+    expect(secondSearchMatch.id).to.equal(3);
+    expect(secondSearchMatch.start).to.equal(11.013);
+    expect(secondSearchMatch.end).to.equal(15.044);
+    expect(secondSearchMatch.rawText).to.equal('the');
+    expect(secondSearchMatch.searchMatchIndex).to.equal(1);
+
+    const afterSecondMatch = newTranscript.entries[6];
+    expect(afterSecondMatch.id).to.equal(3);
+    expect(afterSecondMatch.start).to.equal(11.013);
+    expect(afterSecondMatch.end).to.equal(15.044);
+    expect(afterSecondMatch.rawText).to.equal('president harshly criticized');
+    expect(afterSecondMatch.searchMatchIndex).to.equal(undefined);
+
+    const thirdSearchMatch = newTranscript.entries[7];
+    expect(thirdSearchMatch.id).to.equal(3);
+    expect(thirdSearchMatch.start).to.equal(11.013);
+    expect(thirdSearchMatch.end).to.equal(15.044);
+    expect(thirdSearchMatch.rawText).to.equal('the');
+    expect(thirdSearchMatch.searchMatchIndex).to.equal(2);
+
+    const afterThirdSearchMatch = newTranscript.entries[8];
+    expect(afterThirdSearchMatch.id).to.equal(3);
+    expect(afterThirdSearchMatch.start).to.equal(11.013);
+    expect(afterThirdSearchMatch.end).to.equal(15.044);
+    expect(afterThirdSearchMatch.rawText).to.equal('Democratic lawmaker and his');
+    expect(afterThirdSearchMatch.searchMatchIndex).to.equal(undefined);
+  });
 });

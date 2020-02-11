@@ -114,18 +114,12 @@ export default class SearchHandler {
         return;
       }
 
-      // find the entries from the original transcript that are contained in the search result entry
+      // find the entries from the original transcript that intersect with the search result entry
       // this allows us to know which entries we need to work with below
       const sourceEntriesInSearchResults = this.transcriptEntryIndices.filter(
         (indexMap: TranscriptIndexMap) => {
-          const entryRange = entry.range;
-          const indexMapRange = indexMap.range;
-          return (
-            (indexMapRange.startIndex >= entryRange.startIndex &&
-              indexMapRange.startIndex <= entryRange.endIndex) ||
-            (indexMapRange.endIndex >= entryRange.startIndex &&
-              indexMapRange.endIndex <= entryRange.endIndex)
-          );
+          const intersection = this.getIntersection(entry.range, indexMap.range);
+          return intersection && intersection.length > 0;
         },
       );
 
@@ -272,6 +266,14 @@ export default class SearchHandler {
     return transcriptEntries;
   }
 
+  /**
+   * Finds all of the start indices of all the search results across the entire transcript.
+   *
+   * @private
+   * @param {string} term
+   * @returns {number[]}
+   * @memberof SearchHandler
+   */
   private getSearchIndices(term: string): number[] {
     const regex = new RegExp(term, 'gi');
 

@@ -174,24 +174,12 @@ describe('Radio Player', () => {
 
     expect(el.searchTerm).to.equal('foo search');
 
-    setTimeout(() => { el.searchCleared(); });
-    const response = await oneEvent(el, 'searchCleared');
-    expect(response).to.exist;
+    // setTimeout(() => { el.searchCleared(); });
+    el.searchCleared();
     expect(el.searchTerm).to.equal('');
+    expect(el.searchResultsTranscript).to.equal(undefined);
     expect(searchResultsSwitcher.currentResultIndex).to.equal(0);
     expect(transcriptView.selectedSearchResultIndex).to.equal(0);
-  });
-
-  it('emits a `searchRequested` event when the `searchEnterKeyPressed` callback is triggered', async () => {
-    const el = await fixture(html`
-      <radio-player></radio-player>
-    `);
-
-    const event = new CustomEvent('foo', { detail: { value: 'foo' }})
-
-    setTimeout(() => { el.searchEnterKeyPressed(event); });
-    const response = await oneEvent(el, 'searchRequested');
-    expect(response.detail.searchTerm).to.equal('foo');
   });
 
   it('updates `playbackRate` when `changePlaybackRate` callback is triggered', async () => {
@@ -717,7 +705,7 @@ describe('Radio Player', () => {
 
     const el = await fixture(html`
       <radio-player
-        .transcriptConfig=${transcriptConfig}>
+        .searchResultsTranscript=${transcriptConfig}>
       </radio-player>
     `);
 
@@ -748,7 +736,7 @@ describe('Radio Player', () => {
 
     const el = await fixture(html`
       <radio-player
-        .transcriptConfig=${transcriptConfig}>
+        .searchResultsTranscript=${transcriptConfig}>
       </radio-player>
     `);
 
