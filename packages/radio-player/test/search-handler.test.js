@@ -12,7 +12,7 @@ describe('Search Handler', () => {
     expect(searchHandler).to.exist;
   });
 
-  it('correctly calculates entry start and end index offsets', async () => {
+  it('correctly calculates entry start and end index offsets of the source transcript', async () => {
     const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
     const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
     const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bang boing', false);
@@ -24,16 +24,16 @@ describe('Search Handler', () => {
     // note a space is added between each transcript entry so it increases each
     // subsequent index by 1
     expect(entryStartEndIndices[0].entry).to.equal(entry1);
-    expect(entryStartEndIndices[0].startIndex).to.equal(0);
-    expect(entryStartEndIndices[0].endIndex).to.equal(11);
+    expect(entryStartEndIndices[0].range.startIndex).to.equal(0);
+    expect(entryStartEndIndices[0].range.endIndex).to.equal(11);
 
     expect(entryStartEndIndices[1].entry).to.equal(entry2);
-    expect(entryStartEndIndices[1].startIndex).to.equal(12);
-    expect(entryStartEndIndices[1].endIndex).to.equal(21);
+    expect(entryStartEndIndices[1].range.startIndex).to.equal(12);
+    expect(entryStartEndIndices[1].range.endIndex).to.equal(21);
 
     expect(entryStartEndIndices[2].entry).to.equal(entry3);
-    expect(entryStartEndIndices[2].startIndex).to.equal(22);
-    expect(entryStartEndIndices[2].endIndex).to.equal(32);
+    expect(entryStartEndIndices[2].range.startIndex).to.equal(22);
+    expect(entryStartEndIndices[2].range.endIndex).to.equal(32);
   });
 
   it('correctly builds the full text blob', async () => {
@@ -77,53 +77,233 @@ describe('Search Handler', () => {
     const sixthEntry = transcriptSearchResults[5];
     const seventhEntry = transcriptSearchResults[6];
 
-    expect(firstEntry.startIndex).to.equal(0);
-    expect(firstEntry.endIndex).to.equal(3);
+    expect(firstEntry.range.startIndex).to.equal(0);
+    expect(firstEntry.range.endIndex).to.equal(3);
     expect(firstEntry.text).to.equal('foo ');
     expect(firstEntry.isSearchMatch).to.equal(false);
 
-    expect(secondEntry.startIndex).to.equal(4);
-    expect(secondEntry.endIndex).to.equal(5);
+    expect(secondEntry.range.startIndex).to.equal(4);
+    expect(secondEntry.range.endIndex).to.equal(5);
     expect(secondEntry.text).to.equal('ba');
     expect(secondEntry.isSearchMatch).to.equal(true);
 
-    expect(thirdEntry.startIndex).to.equal(6);
-    expect(thirdEntry.endIndex).to.equal(7);
+    expect(thirdEntry.range.startIndex).to.equal(6);
+    expect(thirdEntry.range.endIndex).to.equal(7);
     expect(thirdEntry.text).to.equal('r ');
     expect(thirdEntry.isSearchMatch).to.equal(false);
 
-    expect(fourthEntry.startIndex).to.equal(8);
-    expect(fourthEntry.endIndex).to.equal(9);
+    expect(fourthEntry.range.startIndex).to.equal(8);
+    expect(fourthEntry.range.endIndex).to.equal(9);
     expect(fourthEntry.text).to.equal('ba');
     expect(fourthEntry.isSearchMatch).to.equal(true);
 
-    expect(fifthEntry.startIndex).to.equal(10);
-    expect(fifthEntry.endIndex).to.equal(26);
+    expect(fifthEntry.range.startIndex).to.equal(10);
+    expect(fifthEntry.range.endIndex).to.equal(26);
     expect(fifthEntry.text).to.equal('z boop blop bump ');
     expect(fifthEntry.isSearchMatch).to.equal(false);
 
-    expect(sixthEntry.startIndex).to.equal(27);
-    expect(sixthEntry.endIndex).to.equal(28);
+    expect(sixthEntry.range.startIndex).to.equal(27);
+    expect(sixthEntry.range.endIndex).to.equal(28);
     expect(sixthEntry.text).to.equal('ba');
     expect(sixthEntry.isSearchMatch).to.equal(true);
 
-    expect(seventhEntry.startIndex).to.equal(29);
-    expect(seventhEntry.endIndex).to.equal(36);
+    expect(seventhEntry.range.startIndex).to.equal(29);
+    expect(seventhEntry.range.endIndex).to.equal(36);
     expect(seventhEntry.text).to.equal('z boing');
     expect(seventhEntry.isSearchMatch).to.equal(false);
   });
 
-  it('correctly splits up transcript search results to original transcript', async () => {
+  it('correctly generates a new transcript with search results at beginning of transcript entry', async () => {
     const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
     const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
     const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);
-    const entry4 = new TranscriptEntryConfig(3, 10, 13, 'fizz buzz', false);
-    const entry5 = new TranscriptEntryConfig(3, 10, 13, 'blammer blommer', false);
+    const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
+    const searchHandler = new SearchHandler(transcriptConfig);
+
+    const newTranscript = searchHandler.search('boop');
+
+    expect(newTranscript.entries.length).to.equal(4);
+
+    const firstEntry = newTranscript.entries[0];
+    expect(firstEntry.id).to.equal(1);
+    expect(firstEntry.start).to.equal(0);
+    expect(firstEntry.end).to.equal(4);
+    expect(firstEntry.rawText).to.equal('foo bar baz');
+    expect(firstEntry.searchMatchIndex).to.equal(undefined);
+
+    const secondEntry = newTranscript.entries[1];
+    expect(secondEntry.id).to.equal(2);
+    expect(secondEntry.start).to.equal(5);
+    expect(secondEntry.end).to.equal(9);
+    expect(secondEntry.rawText).to.equal('boop');
+    expect(secondEntry.searchMatchIndex).to.equal(0);
+
+    const thirdEntry = newTranscript.entries[2];
+    expect(thirdEntry.id).to.equal(2);
+    expect(thirdEntry.start).to.equal(5);
+    expect(thirdEntry.end).to.equal(9);
+    expect(thirdEntry.rawText).to.equal('blop');
+    expect(thirdEntry.searchMatchIndex).to.equal(undefined);
+
+    const fourthEntry = newTranscript.entries[3];
+    expect(fourthEntry.id).to.equal(3);
+    expect(fourthEntry.start).to.equal(10);
+    expect(fourthEntry.end).to.equal(13);
+    expect(fourthEntry.rawText).to.equal('bump boing');
+    expect(fourthEntry.searchMatchIndex).to.equal(undefined);
+  });
+
+  it('correctly generates a new transcript with search results at end of transcript entry', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
+    const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
+    const entry3 = new TranscriptEntryConfig(3, 10, 13, 'boing bump', false);
+    const entry4 = new TranscriptEntryConfig(4, 14, 18, 'snip snap', false);
+    const entry5 = new TranscriptEntryConfig(5, 19, 23, 'grip grap', false);
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
     const newTranscript = searchHandler.search('bump');
 
     expect(newTranscript.entries.length).to.equal(6);
+
+    const entryPriorToSearchMatch = newTranscript.entries[2];
+    expect(entryPriorToSearchMatch.id).to.equal(3);
+    expect(entryPriorToSearchMatch.start).to.equal(10);
+    expect(entryPriorToSearchMatch.end).to.equal(13);
+    expect(entryPriorToSearchMatch.rawText).to.equal('boing');
+    expect(entryPriorToSearchMatch.searchMatchIndex).to.equal(undefined);
+
+    const searchMatchEntry = newTranscript.entries[3];
+    expect(searchMatchEntry.id).to.equal(3);
+    expect(searchMatchEntry.start).to.equal(10);
+    expect(searchMatchEntry.end).to.equal(13);
+    expect(searchMatchEntry.rawText).to.equal('bump');
+    expect(searchMatchEntry.searchMatchIndex).to.equal(0);
+
+    const entryAfterSearchMatch = newTranscript.entries[4];
+    expect(entryAfterSearchMatch.id).to.equal(4);
+    expect(entryAfterSearchMatch.start).to.equal(14);
+    expect(entryAfterSearchMatch.end).to.equal(18);
+    expect(entryAfterSearchMatch.rawText).to.equal('snip snap');
+    expect(entryAfterSearchMatch.searchMatchIndex).to.equal(undefined);
+  });
+
+  it('correctly generates a new transcript with multiple search result matches', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
+    const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
+    const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);
+    const entry4 = new TranscriptEntryConfig(4, 14, 17, 'fizz buzz', false);
+    const entry5 = new TranscriptEntryConfig(5, 18, 23, 'blammer blommer', false);
+    const entry6 = new TranscriptEntryConfig(6, 24, 28, 'slop bump snap', false);
+    const entry7 = new TranscriptEntryConfig(7, 29, 34, 'ooga booga', false);
+    const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5, entry6, entry7]);
+    const searchHandler = new SearchHandler(transcriptConfig);
+
+    const newTranscript = searchHandler.search('bump');
+
+    expect(newTranscript.entries.length).to.equal(10);
+
+    const firstSearchMatch = newTranscript.entries[2];
+    expect(firstSearchMatch.id).to.equal(3);
+    expect(firstSearchMatch.start).to.equal(10);
+    expect(firstSearchMatch.end).to.equal(13);
+    expect(firstSearchMatch.rawText).to.equal('bump');
+    expect(firstSearchMatch.searchMatchIndex).to.equal(0);
+
+    const secondSearchMatch = newTranscript.entries[7];
+    expect(secondSearchMatch.id).to.equal(6);
+    expect(secondSearchMatch.start).to.equal(24);
+    expect(secondSearchMatch.end).to.equal(28);
+    expect(secondSearchMatch.rawText).to.equal('bump');
+    expect(secondSearchMatch.searchMatchIndex).to.equal(1);
+  });
+
+  it('correctly generates a new transcript with search results that cross over transcript entries', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
+    const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
+    const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);
+    const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
+    const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
+    const searchHandler = new SearchHandler(transcriptConfig);
+
+    const newTranscript = searchHandler.search('blop bump');
+
+    expect(newTranscript.entries.length).to.equal(5);
+  });
+
+  it('correctly generates a new transcript with search results that completely cross a transcript entry', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
+    const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
+    const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);  // will completely skip over this entry
+    const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
+    const entry5 = new TranscriptEntryConfig(5, 19, 23, 'snip snap', false);
+    const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
+    const searchHandler = new SearchHandler(transcriptConfig);
+
+    const newTranscript = searchHandler.search('blop bump boing fizz');
+
+    expect(newTranscript.entries.length).to.equal(5);
+
+    const firstEntry = newTranscript.entries[0];
+    expect(firstEntry.id).to.equal(1);
+    expect(firstEntry.start).to.equal(0);
+    expect(firstEntry.end).to.equal(4);
+    expect(firstEntry.rawText).to.equal('foo bar baz');
+    expect(firstEntry.searchMatchIndex).to.equal(undefined);
+
+    const secondEntry = newTranscript.entries[1];
+    expect(secondEntry.id).to.equal(2);
+    expect(secondEntry.start).to.equal(5);
+    expect(secondEntry.end).to.equal(9);
+    expect(secondEntry.rawText).to.equal('boop');
+    expect(secondEntry.searchMatchIndex).to.equal(undefined);
+
+    const thirdEntry = newTranscript.entries[2];
+    expect(thirdEntry.id).to.equal(2);
+    expect(thirdEntry.start).to.equal(5);
+    expect(thirdEntry.end).to.equal(9);
+    expect(thirdEntry.rawText).to.equal('blop bump boing fizz');
+    expect(thirdEntry.searchMatchIndex).to.equal(0);
+
+    const fourthEntry = newTranscript.entries[3];
+    expect(fourthEntry.id).to.equal(4);
+    expect(fourthEntry.start).to.equal(14);
+    expect(fourthEntry.end).to.equal(18);
+    expect(fourthEntry.rawText).to.equal('buzz');
+    expect(fourthEntry.searchMatchIndex).to.equal(undefined);
+
+    const fifthEntry = newTranscript.entries[4];
+    expect(fifthEntry.id).to.equal(5);
+    expect(fifthEntry.start).to.equal(19);
+    expect(fifthEntry.end).to.equal(23);
+    expect(fifthEntry.rawText).to.equal('snip snap');
+    expect(fifthEntry.searchMatchIndex).to.equal(undefined);
+  });
+
+  it('correctly generates a new transcript with partial word match', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
+    const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
+    const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);
+    const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
+    const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
+    const searchHandler = new SearchHandler(transcriptConfig);
+
+    const newTranscript = searchHandler.search('bu');
+
+    expect(newTranscript.entries.length).to.equal(7);
+
+    const firstSearchMatch = newTranscript.entries[2];
+    expect(firstSearchMatch.id).to.equal(3);
+    expect(firstSearchMatch.start).to.equal(10);
+    expect(firstSearchMatch.end).to.equal(13);
+    expect(firstSearchMatch.rawText).to.equal('bu');
+    expect(firstSearchMatch.searchMatchIndex).to.equal(0);
+
+    const secondSearchMatch = newTranscript.entries[5];
+    expect(secondSearchMatch.id).to.equal(4);
+    expect(secondSearchMatch.start).to.equal(14);
+    expect(secondSearchMatch.end).to.equal(18);
+    expect(secondSearchMatch.rawText).to.equal('bu');
+    expect(secondSearchMatch.searchMatchIndex).to.equal(1);
   });
 });
