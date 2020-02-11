@@ -66,23 +66,18 @@ export default class TopnavElement extends LitElement {
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
     const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
-    const baseColor = '#999';
-    const activeColor = '#fff';
-    const hamburgerColor = this.mediaMenuOpen ? activeColor : baseColor;
-    const searchGlassColor = this.searchMenuOpen ? '#222' : baseColor;
-    const userColor = this.userMenuOpen ? activeColor : baseColor;
 
     return html`
       <nav class="navbar flex align-center">
         <div class="left flex align-center">
           <button @click="${this.mediaMenu}" tabindex="1">
-            <ham-burger color="${hamburgerColor}"></ham-burger>
+            <ham-burger ?active=${this.mediaMenuOpen}></ham-burger>
           </button>
         </div>
         <div class="center flex align-center ${searchFade} ${searchMenuToggleState}">
           <a class="link-home" href="#"><img src="src/assets/img/ia-logo.svg" alt="Home"/></a>
           <button class="search" @click="${this.searchMenu}">
-            <search-image color="${searchGlassColor}"></search-image>
+            <search-image ?active=${this.searchMenuOpen}></search-image>
           </button>
         </div>
         <!--New div created to replace above one when search is activated-->
@@ -95,14 +90,14 @@ export default class TopnavElement extends LitElement {
               required
             />
             <button class="search" @click="${this.searchMenu}">
-              <search-image color="${searchGlassColor}"></search-image>
+              <search-image ?active=${this.searchMenuOpen}></search-image>
             </button>
           </div>
         </div>
         <!--End of replacement div-->
         <div class="right flex align-center">
           <button class="user-menu ${userMenuToggle}" @click="${this.userMenu}">
-            <user-image color="${userColor}"></user-image>
+            <user-image ?active=${this.userMenuOpen}></user-image>
           </button>
         </div>
       </nav>
