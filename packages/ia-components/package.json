@@ -8,7 +8,7 @@
         "storybook:start": "start-storybook -p 9001 -c .storybook",
         "test:generate-output": "mkdir jest-test-utils && jest --json --outputFile=jest-test-utils/jest-test-results.json || true",
         "test:update-snapshots": "jest --updateSnapshot",
-        "test": "yarn run test:update-snapshots start-server-and-test storybook http-get://localhost:9001 'jest --updateSnapshot --coverage'",
+        "test": "yarn run test:update-snapshots && start-server-and-test storybook http-get://localhost:9001 'jest --updateSnapshot --coverage'",
         "test:watch": "yarn run test --watch",
         "test:integration": "node_modules/.bin/jest --config integration/jest.config.js"
     },
