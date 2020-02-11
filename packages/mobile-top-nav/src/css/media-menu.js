@@ -28,10 +28,10 @@ export default () => {
     .media-menu.tx-slide.closed {
       transition-duration: 0.1s;
     }
-    .media-menu .menu-group {
+    .menu-group {
       height: 80vh;
     }
-    .media-menu .menu-item {
+    .menu-item {
       width: 100%;
       background: transparent;
       font-size: inherit;
@@ -41,12 +41,15 @@ export default () => {
       text-align: left;
       padding: 0;
     }
-    .media-menu .menu-item > .label {
+    .menu-item:focus {
+      outline: none;
+    }
+    .menu-item > .label {
       color: var(--grey999);
       text-align: left;
       display: inline;
     }
-    .media-menu .menu-item > .icon {
+    .menu-item > .icon {
       display: inline-flex;
       align-items: center;
       justify-content: center;

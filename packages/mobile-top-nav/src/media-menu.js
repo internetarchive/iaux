@@ -130,6 +130,7 @@ class MediaMenu extends LitElement {
         <div class="menu-group">
           ${this.mediaMenuOptionsTemplate}
           <media-slider
+            selectedMenuOption=${this.selectedMenuOption}
             ?mediaSliderOpen="${this.mediaSliderOpen}"
             ?mediaSliderAnimate="${this.mediaSliderAnimate}"
           ></media-slider>

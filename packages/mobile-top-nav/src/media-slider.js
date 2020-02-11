@@ -1,13 +1,38 @@
 import { LitElement, html } from 'lit-element';
 import mediaSliderCss from './css/media-slider';
+import menus from './data/menus';
 
 class MediaSlider extends LitElement {
+  constructor() {
+    super();
+    this.mediaSliderOpen = false;
+    this.mediaSliderAnimate = false;
+    this.selectedMenuOption = 'texts';
+    this.links = menus[this.selectedMenuOption];
+  }
+
   static get properties() {
     return {
       mediaSliderOpen: { type: Boolean },
       mediaSliderAnimate: { type: Boolean },
-      links: { type: Array },
+      selectedMenuOption: { type: String },
     };
+  }
+
+  shouldUpdate() {
+    const defaults = { iconLinks: [], featuredLinks: [], links: [] };
+    this.links = menus[this.selectedMenuOption] || defaults;
+    return true;
+  }
+
+  renderIconLinks() {
+    return this.links.iconLinks.map((link) => (
+      html`<a href="${link.url}"><img src="${link.icon}" />${link.title}</a>`
+    ));
+  }
+
+  renderLinks(category) {
+    return this.links[category].map((link) => html`<li><a href="${link.url}">${link.title}</a></li>`);
   }
 
   render() {
@@ -24,9 +49,18 @@ class MediaSlider extends LitElement {
     return html`
       <div class="information-menu ${sliderDetailsClass}">
         <div class="info-box">
-          <div class="info-box-1">
-            <p>Internet archive audio</p>
+          <h3>${this.links.heading}</h3>
+          <div class="icon-links">
+            ${this.renderIconLinks()}
           </div>
+          <h4>Featured</h4>
+          <ul>
+            ${this.renderLinks('featuredLinks')}
+          </ul>
+          <h4>Top</h4>
+          <ul>
+            ${this.renderLinks('links')}
+          </ul>
         </div>
       </div>
     `;
