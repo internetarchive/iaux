@@ -1,7 +1,7 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import LanguageSelect from './language-select';
-import { languageConfig } from '../languages/Languages';
+import languageConfig from './languageConfig';
 
 describe('LanguageSelect', () => {
   const onSelect = (value) => {
@@ -10,7 +10,7 @@ describe('LanguageSelect', () => {
   };
 
   const component = TestRenderer.create(
-    <LanguageSelect selectedLanguage='en' languages={languageConfig} onSelect={onSelect} />
+    <LanguageSelect selectedLanguage="en" languages={languageConfig} onSelect={onSelect} />
   );
 
   test('displays all options', () => {
