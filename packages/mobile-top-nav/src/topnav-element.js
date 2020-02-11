@@ -32,15 +32,15 @@ export default class TopnavElement extends LitElement {
   }
 
   mediaMenu() {
-    this.userMenuOpen = this.userMenuOpen ? !this.userMenuOpen : this.userMenuOpen;
-    this.searchMenuOpen = this.searchMenuOpen ? !this.searchMenuOpen : this.searchMenuOpen;
+    this.userMenuOpen = false;
+    this.searchMenuOpen = false;
     this.mediaMenuAnimate = true;
     this.mediaMenuOpen = !this.mediaMenuOpen;
   }
 
   searchMenu() {
-    this.userMenuOpen = this.userMenuOpen ? !this.userMenuOpen : this.userMenuOpen;
-    this.mediaMenuOpen = this.mediaMenuOpen ? !this.mediaMenuOpen : this.mediaMenuOpen;
+    this.userMenuOpen = false;
+    this.mediaMenuOpen = false;
     this.searchMenuAnimate = true;
     this.searchMenuFade = true;
     this.searchMenuOpen = !this.searchMenuOpen;
@@ -52,8 +52,8 @@ export default class TopnavElement extends LitElement {
   }
 
   userMenu() {
-    this.searchMenuOpen = this.searchMenuOpen ? !this.searchMenuOpen : this.searchMenuOpen;
-    this.mediaMenuOpen = this.mediaMenuOpen ? !this.mediaMenuOpen : this.mediaMenuOpen;
+    this.searchMenuOpen = false;
+    this.mediaMenuOpen = false;
     this.userMenuAnimate = true;
     this.userMenuOpen = !this.userMenuOpen;
   }
