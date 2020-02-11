@@ -1,0 +1,398 @@
+Accesso
+Numero di accesso
+Data aggiunta
+vipera
+Album
+Consenti JPG
+Altitudine
+Appello di
+ID account Archiveit
+Nome dell'organizzazione dell'account Archiveit
+ID raccolta Archiveit
+Nome della raccolta di Archiveit
+Tipo di lavoro Archiveit
+Ricorrenza di Archiveit
+Tipo di articolo
+Artista
+Proporzioni
+Assegnato a
+Numero allegato
+Codec audio
+Frequenza di campionamento audio
+Tipo di audio
+Autore
+ID autore
+Voto medio
+Posizione di backup
+Codice a barre
+PDF migliore
+ID BIB
+Livello BIB
+Nome del file Bitsavers
+Foglia del bookplate
+ID casella
+ID casella 2
+BTIH
+Chiama il numero
+Chiama il numero
+telecamera
+Caso di causa
+Nome del caso
+Informazioni sul tipo di caso
+Categoria
+Numero CC
+capitoli
+Personaggi
+Città
+Classe
+Sottotitoli
+Collezione
+Libreria di raccolta
+ID raccolta
+Colore
+Contatto
+ID contenitore
+ID contenitore 2
+Tipo di contenuto
+Collaboratore
+Diritto d'autore
+Prova del copyright
+Data di prova del copyright
+Operatore di prova del copyright
+Regione del copyright
+Titolare del copyright
+Dichiarazione sul copyright
+Titolare del copyright
+Anno del copyright
+Tribunale
+Copertura
+crawler
+Lavoro di scansione
+Crea data
+Data di Creazione
+Creatore
+Creatore alt script
+Creator Sorter
+Creator Sorter Raw
+Crediti
+Cultura
+Nota Curata
+Stato curato
+curation
+Data
+Caso data archiviato
+Caso data risolto
+Data dell'ultimo deposito
+Data non elaborata
+Data di creazione
+Giorno
+Descrizione
+Oggetto digitale
+Data di pubblicazione digitale
+Dimensioni
+Direttore
+dischi
+Numero del documento
+Numero del socket
+ID documento
+Donatore
+download
+Categoria DRG
+Rotazione DRG
+Settore DRG
+Traduzione DRG
+DRG UTM in direzione est
+DRG UTM northe NIN g
+Scala DRG X.
+Scala DRG Y.
+Durata
+Edizione
+Emulatore
+Emulatore ext
+Avvio dell'emulatore
+Nome dell'esaminatore
+Identificatore esterno
+Extra MARC
+Motivi falliti
+Preferiti
+Stato della commissione
+Nome del file
+File XML
+Data di deposito
+Primo Creatore
+Primo titolo
+Pubblicato per la prima volta
+Prima data del file
+Primo file seriale
+Primo inventore
+Operatore pieghevole
+Secondi pieghevoli
+Conteggio pieghevole
+segue
+Fotogrammi al secondo
+ID galleria
+Genere
+ID Google
+Unità artistica di gruppo
+Ha mp3
+Nascosto
+Titolare
+ID
+Identifier
+Accesso identificativo
+Identificatore ARK
+Identificatore BIB
+Identificatore BIB
+Conteggio delle immagini
+Impronta
+Versione iniziale
+ID Insightu
+Città dell'inventore
+Paese dell'inventore
+Provincia dello stato di Inventor
+Fattura
+È clip
+ISBN
+ISSN
+Problema
+Data di rilascio
+rivista
+Titolo del diario
+Abbreviazione del diario
+Titolo del diario
+Giurisdizione
+Richiesta della giuria
+parole
+Punto di riferimento
+linguaggio
+Selezionatore di lingue
+Data dell'ultimo aggiornamento
+Ultimo appuntamento
+Data dell'ultimo file
+Ultimo file seriale
+Latitudine
+ID LCAM
+LCCN
+Data ultima modifica
+Licenza
+URL della licenza
+Lignaggio
+Link al catalogo
+Posizione
+Data posizione
+Longitudine
+Contenuto per adulti
+MD5S
+Tipo di supporto
+medio
+Monocromatico
+Mese
+Programma MPEG
+Numero di chiamata NAL
+Natura del seme
+Il prossimo
+Articolo successivo
+File NIN
+ID mix NIN
+Classificazioni numeriche NIN
+Foto NIN
+Media delle valutazioni NIN
+NIN totale ascolta
+ID utente NIN
+Noarchivetorrent
+noindex
+Appunti
+Numero recensioni recenti
+Numero di recensioni
+Numero superiore dl
+Numero identificativo
+Numero WARC
+OCLC
+ID OCLC
+OCR
+Olsearch
+OpenLibrary
+Operatore
+URL originale
+Altri detentori del copyright
+Numero custodia Pacer
+Progressione della pagina
+Layout di pagina
+Intervallo di pagine
+pagine
+Tracciamento della nave partner
+Parte di
+URL di Perma
+Descrizione fisica
+Oggetto fisico
+scegliere
+Stile pezzo
+Possibile stato del copyright
+Pubblicato da
+PPI
+Precedente
+Articolo precedente
+Provenienza
+Data di caricamento Ptp
+Data del pub
+Pubblico
+Tipo di pubblicazione
+Data pubblica
+Pubblicato
+Editore
+Valutazione
+ID RCAM
+Riferito a
+ID esterno correlato
+Data di rilascio
+Tipo di rilascio
+Ripubblica secondi
+Ripubblicare lo stato
+di ripubblicazione
+Data del ripubblicatore
+Operatore di ripubblicazione
+Tempo di ripubblicazione
+Risorsa
+ID recensione
+Revisionare il corpo
+Data della recensione
+recensore
+Recensioni
+Titolo della recensione
+Diritti
+Dichiarazione dei diritti
+Tempo di esecuzione
+salients
+Salients crudo
+Data di scansione
+Fattori di scansione
+Commissione di scansione
+Scanner
+Centro di scansione
+Seccion
+Titolo secondario
+Sezione
+URL seriale
+Serie
+Collocazione
+Container
+Tracciamento della nave
+Shndiscs
+Posto
+Suggerimento sulle dimensioni
+SLITTATA
+SK magic
+Proprietario SK
+Nick proprietario SK
+Tipo SK
+Suono
+fonte
+Organizzazione della fonte
+Altezza pixel sorgente
+Larghezza pixel sorgente
+Progetto di origine
+Pianificazione della fonte
+URL di origine
+Sponsor
+Data dello sponsor
+Stelle
+Inizia ora locale
+Ora di inizio
+Stato
+Nome stazione
+Stato
+Tempo di stop
+Tag spogliati
+sottoclasse
+sottoraccolta
+Soggetto
+Selezionatore soggetto
+URL inviato
+Sommario
+rastremazione
+Fuso orario
+Titolo
+Titolo alt script
+Titolo Sorter
+Titolo Sorter Raw
+ID titolo
+Transcludes
+transferer
+Traduttore
+Traccia il conteggio
+Traccia coerente
+Traccia il conteggio del disco
+Formato traccia
+Lunghezza del binario 01
+Lunghezza del binario 02
+Lunghezza della pista 03
+Lunghezza del binario 04
+Lunghezza della pista 05
+Lunghezza del binario 06
+Lunghezza del brano 07
+Lunghezza del binario 08
+Lunghezza della pista 09
+Lunghezza del brano 10
+Lunghezza del brano 11
+Lunghezza del binario 12
+Lunghezza del binario 13
+Lunghezza del binario 14
+Lunghezza del binario 15
+Lunghezza del binario 16
+Lunghezza del binario 17
+Lunghezza della pista 18
+Lunghezza della pista 19
+Lunghezza del binario 20
+Lunghezza della pista 21
+Lunghezza del binario 22
+Lunghezza del binario 23
+Lunghezza del binario 24
+Lunghezza del binario 25
+Lunghezza del binario 26
+Lunghezza del binario 27
+Lunghezza del binario 28
+Lunghezza del binario 29
+Somma della lunghezza della traccia
+Traccia il formato src
+Sintonizzatore
+genere
+ID univoco
+aggiornato
+Data di aggiornamento
+Updater
+Uploader
+URI
+URL
+Offset UTC
+Sede
+Video codec
+Tipo di video
+Altezza Vimeo
+ID Vimeo
+Vimeo n voci
+Playlist Vimeo
+Indice delle playlist Vimeo
+Uploader di Vimeo
+ID uploader Vimeo
+Conteggio visualizzazioni Vimeo
+URL della pagina Web di Vimeo
+Larghezza Vimeo
+Volume
+avvertimento
+Data di caricamento WCD
+Settimana
+Che cosa
+Dove
+Risorsa WMA
+Parole
+Anno
+Anno creato
+Anno modificato
+Altezza di Youtube
+ID Youtube
+Youtube n voci
+Playlist di Youtube
+Indice delle playlist di Youtube
+Uploader di Youtube
+ID uploader di Youtube
+Youtube

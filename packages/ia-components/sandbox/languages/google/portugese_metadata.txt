@@ -1,0 +1,398 @@
+Acesso
+Número de acesso
+Data adicionada
+Adicionador
+Álbum
+Permitir JPGs
+Altitude
+Recurso de
+ID da conta do Archiveit
+Nome da organização da conta Archiveit
+ID da coleção Archiveit
+Nome da coleção Archiveit
+Tipo de trabalho Archiveit
+Archiveit recorrência
+Tipo de artigo
+Artista
+Proporção da tela
+Atribuído a
+Número do anexo
+Codec de áudio
+Taxa de amostragem de áudio
+Tipo de áudio
+Autor
+ID do autor
+Classificação média
+Local de backup
+Código de barras
+PDF melhor
+ID BIB
+Nível BIB
+Nome do arquivo Bitsavers
+Folha de bookplate
+ID da caixa
+Caixa 2
+BTIH
+Numero de telefone
+Numero de telefone
+Câmera
+Causa do caso
+Nome do caso
+Informações sobre o tipo de caso
+Categoria
+Número CC
+Capítulos
+Personagens
+Cidade
+Classe
+Legendas ocultas
+Coleção
+Biblioteca de coleções
+ID da coleção
+Cor
+Contato
+ID do contêiner
+ID do contêiner 2
+Tipo de conteúdo
+Contribuinte
+direito autoral
+Evidência de direitos autorais
+Data da evidência de direitos autorais
+Operador de evidência de direitos autorais
+Região de direitos autorais
+Detentor dos direitos autorais
+Declaração de direitos autorais
+Detentor dos direitos autorais
+Ano dos direitos autorais
+Tribunal
+Cobertura
+rastejante
+Trabalho de rastreamento
+Criar Data
+Data criada
+O Criador
+Script alternativo do criador
+Classificador do criador
+Classificador do criador em bruto
+Créditos
+Cultura
+Nota final
+Estado atual
+Curadoria
+Encontro
+Data do caso arquivado
+Data em que o caso foi encerrado
+Data da última apresentação
+Data bruta
+Data Criada
+Dia
+Descrição
+Item digital
+Data de publicação digital
+Dimensões
+Diretor
+Discos
+Número do documento
+Número do boleto
+ID do documento
+Doador
+Transferências
+Categoria DRG
+Rotação DRG
+Setor DRG
+Tradução DRG
+DRG UTM eastening
+DRG UTM ao norte NIN g
+Escala DRG X
+Escala Y DRG
+Duração
+Edição
+Emulador
+Emulador ext
+Início do emulador
+Nome do examinador
+Identificador externo
+Extra MARC
+Motivos de falha
+Favoritos
+Status da taxa
+Nome do arquivo
+Arquivos XML
+Data para arquivamento
+Primeiro Criador
+Primeiro título
+Publicado pela primeira vez
+Data do primeiro arquivo
+Primeiro arquivo serial
+Primeiro inventor nomeado
+Operador desdobrável
+Segundos desdobráveis
+Contagem de dobras
+Segue
+Quadros por segundo
+ID da galeria
+Gênero
+ID do Google
+Unidade de arte em grupo
+Tem mp3
+Escondido
+Suporte
+EU IRIA
+Identificador
+Acesso do identificador
+Identificador ARK
+BIB do identificador
+BIB do identificador
+Contagem de imagens
+Imprimir
+lançamento inicial
+Insightu ID
+Cidade do inventor
+País inventor
+Província do estado do inventor
+Fatura
+É clipe
+ISBN
+ISSN
+Questão
+Data de emissão
+Diário
+Título do periódico
+Abreviação de diário
+Título do periódico
+Jurisdição
+Demanda do júri
+Palavras-chave
+Ponto de referência
+Língua
+Classificador de idiomas
+Data da última atualização
+Última data
+Data do último arquivo
+Último arquivo serial
+Latitude
+ID LCAM
+LCCN
+Data da última modificação da LG
+Licença
+URL da licença
+Linhagem
+Link para o catálogo
+Localização
+Data da localização
+Longitude
+Conteúdo adulto
+MD5S
+Tipo de mídia
+Médio
+Monocromático
+Mês
+Programa MPEG
+Número de chamada NAL
+Natureza do terno
+Próximo
+Próximo item
+Arquivo NIN
+ID da mistura NIN
+Classificações de número NIN
+Foto NIN
+Média das classificações de NIN
+NIN total escuta
+ID do usuário NIN
+Noarchivetorrent
+Noindex
+Notas
+Número de avaliações recentes
+Número de comentários
+Número top dl
+Número eric ID
+Número WARCs
+OCLC
+ID da OCLC
+OCR
+Olsearch
+Openlibrary
+Operador
+URL original
+Outros detentores de direitos autorais
+Número do caso do marcapasso
+Progressão da página
+Layout da página
+Intervalo de páginas
+Páginas
+Rastreamento de navios parceiros
+Parte de
+URL permanente
+Descrição física
+Item físico
+Escolher
+Estilo da peça
+Possível status de direitos autorais
+postado por
+PPI
+Anterior
+Item anterior
+Proveniência
+Data de upload do Ptp
+Data do pub
+Público
+Tipo de publicação
+Data pública
+Publicados
+Editor
+Avaliação
+ID RCAM
+Referente à
+ID externo relacionado
+Data de lançamento
+Tipo de lançamento
+Republicar segundos
+Republicar estado
+Republisher
+Data do republicador
+Operador de republicador
+Hora do republicador
+Recurso
+ID da revisão
+Corpo de revisão
+Data de revisão
+Revisor
+Rever
+Título da revisão
+Direitos
+Declaração de direitos
+Tempo de execução
+Salientes
+Salgados brutos
+Data da digitalização
+Fatores de verificação
+Taxa de digitalização
+Scanner
+Centro de digitalização
+Seccion
+Título Secundário
+Seção
+URL de série
+Series
+Marca de prateleira
+Contentor de expedição
+Rastreamento de navios
+Shndiscs
+Local
+Dica de tamanho
+SK ID
+SK magic
+Proprietário SK
+Nick do proprietário da SK
+Tipo SK
+Som
+Fonte
+Organização de origem
+Altura do pixel de origem
+Largura do pixel de origem
+Projeto de origem
+Agenda de origem
+URL da fonte
+Patrocinador
+Data do patrocinador
+Estrelas
+Iniciar hora local
+Hora de início
+Estado
+Nome da estação
+Status
+Pare o tempo
+Tags removidas
+Subclasse
+Subcoleção
+Sujeito
+Classificador de assuntos
+URL enviado
+Sumário
+Taper
+Fuso horário
+Título
+Script alt do título
+Classificador de títulos
+Classificador de título Raw
+ID do título
+Transcludes
+Transferidor
+Tradutor
+Contagem de faixas
+Trilha coerente
+Contar faixa de disco
+Formato da faixa
+Comprimento 01
+Comprimento da trilha 02
+Comprimento da trilha 03
+Comprimento da pista 04
+Comprimento da trilha 05
+Comprimento da pista 06
+Comprimento da pista 07
+Comprimento da trilha 08
+Comprimento da trilha 09
+Comprimento da trilha 10
+Comprimento da pista 11
+Comprimento da pista 12
+Comprimento da pista 13
+Comprimento da pista 14
+Comprimento da trilha 15
+Comprimento da trilha 16
+Comprimento da trilha 17
+Comprimento da pista 18
+Comprimento da trilha 19
+Comprimento da trilha 20
+Comprimento da trilha 21
+Comprimento da trilha 22
+Comprimento da trilha 23
+Comprimento da trilha 24
+Comprimento da trilha 25
+Comprimento da trilha 26
+Comprimento da trilha 27
+Comprimento da pista 28
+Comprimento da trilha 29
+Soma do comprimento da trilha
+Rastrear formato src
+Sintonizador
+Tipo
+ID único
+Atualizada
+Data de atualização
+Atualizador
+Uploader
+URI
+URL
+Deslocamento UTC
+Local
+Codec de vídeo
+Tipo de vídeo
+Altura do Vimeo
+ID do Vimeo
+Entradas do Vimeo n
+Lista de reprodução do Vimeo
+Índice da playlist do Vimeo
+Uploader do Vimeo
+ID do uploader do Vimeo
+Contagem de visualizações do Vimeo
+URL da página da web do Vimeo
+Largura do Vimeo
+Volume
+Aviso
+Data de upload do WCD
+Semana
+o que
+Onde
+Recurso WMA
+Palavras
+Ano
+Ano de criação
+Ano de modificação
+Altura do YouTube
+ID do YouTube
+Entradas do YouTube n
+Lista de reprodução do YouTube
+Índice da lista de reprodução do YouTube
+Uploader do YouTube
+ID do remetente do YouTube
+Youtube
