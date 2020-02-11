@@ -21,7 +21,4 @@ storiesOf('Sandbox', module)
       <h3 style={{ color: '#fff' }}>Language dropdown</h3>
       <LanguageSelect selectedLanguage="en" languages={languageConfig} onSelect={onSelect} />
     </div>
-  ))(<div style={containerStyle}>
-    <h3 style={{ color: '#fff' }}>Language dropdown</h3>
-    <LanguageSelect selectedLanguage="en" languages={languageConfig} onSelect={onSelect} />
-     </div>);
+  ));
