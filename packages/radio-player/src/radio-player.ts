@@ -584,10 +584,11 @@ export default class RadioPlayer extends LitElement {
    */
   private searchResultIndexChanged(e: CustomEvent): void {
     const detail = e.detail || {};
-    if (!detail.searchResultIndex === undefined || !this.transcriptView) {
+    const { searchResultIndex } = detail;
+    if (searchResultIndex === undefined || !this.transcriptView) {
       return;
     }
-    this.transcriptView.selectedSearchResultIndex = detail.searchResultIndex;
+    this.transcriptView.selectedSearchResultIndex = searchResultIndex;
     this.transcriptView.scrollToSelectedSearchResult();
   }
 
