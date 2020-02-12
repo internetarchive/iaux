@@ -174,7 +174,6 @@ describe('Radio Player', () => {
 
     expect(el.searchTerm).to.equal('foo search');
 
-    // setTimeout(() => { el.searchCleared(); });
     el.searchCleared();
     expect(el.searchTerm).to.equal('');
     expect(el.searchResultsTranscript).to.equal(undefined);
