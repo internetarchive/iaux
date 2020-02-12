@@ -23,8 +23,8 @@ module.exports = (config) => {
             // needed to test playback via javascript since the browser
             // doesn't allow automated playback without user interaction
             '--autoplay-policy=no-user-gesture-required',
-            '--no-sandbox',
-            '--disable-setuid-sandbox'
+            '--no-live',
+            '--disable-setuid-live'
           ],
         },
       },

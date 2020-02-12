@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom';
 
 // v2 mocks
 // import MockHeader from 'ia-components/v2mocks/header'
-import MockDetailsPageContainer from 'ia-components/sandbox/v2mocks/details-page-container'
-import MockTheatreAudio from 'ia-components/sandbox/v2mocks/theatre-audio'
-import MockReviews from 'ia-components/sandbox/v2mocks/reviews-empty'
-import MockDescMeta from 'ia-components/sandbox/v2mocks/desc-meta'
-import MockNav from 'ia-components/sandbox/v2mocks/nav'
+import MockDetailsPageContainer from 'ia-components/live/v2mocks/details-page-container'
+import MockTheatreAudio from 'ia-components/live/v2mocks/theatre-audio'
+import MockReviews from 'ia-components/live/v2mocks/reviews-empty'
+import MockDescMeta from 'ia-components/live/v2mocks/desc-meta'
+import MockNav from 'ia-components/live/v2mocks/nav'
 
 // prototypes
-import TheatreSwitcher from 'ia-components/sandbox/theatres/theatre-switcher'
+import TheatreSwitcher from 'ia-components/live/theatres/theatre-switcher'
 
-import RelatedAsList from 'ia-components/sandbox/related-as-list'
-import SimpleDescMeta from 'ia-components/sandbox/simple-desc-meta'
+import RelatedAsList from 'ia-components/live/related-as-list'
+import SimpleDescMeta from 'ia-components/live/simple-desc-meta'
 
 // other
 import { getUrlParameter } from '../../lib/helpers/url'

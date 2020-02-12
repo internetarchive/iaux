@@ -11,7 +11,7 @@ import styles from './theatre-styling.less'
 /**
  * pick all *.stories.js files within the ia-components directory
  */
-const allStories = require.context('../', true, /(\.\/)(live|sandbox)([\w\d\/\-\_]+)(\.stories\.js)/)
+const allStories = require.context('../', true, /(\.\/)(live)([\w\d\/\-\_]+)(\.stories\.js)/)
 
 /**
  * Set all globally used add-ons here

@@ -39,7 +39,7 @@ It's easy to test these components using the "prototypes" package. The final int
 
 As a convention, the preferred framework is React, but vanilla JS components are also possible.
 
-Within `ia-components` there are two subdirectories: `sandbox` and `live`. The idea is that code in the `live` directory is used in production. But in `sandbox`, components might still be works-in-progress, new designs, etc, and only used in prototypes.
+Within `ia-components` there are two subdirectories: `live` and `live`. The idea is that code in the `live` directory is used in production. But in `live`, components might still be works-in-progress, new designs, etc, and only used in prototypes.
 
 ### ia-design-system
 

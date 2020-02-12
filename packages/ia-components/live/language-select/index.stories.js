@@ -14,7 +14,7 @@ const onSelect = (value) => {
   console.log(`Selected language: ${language.inLocal} (${value})`);
 };
 
-storiesOf('Sandbox', module)
+storiesOf('live', module)
   .addParameters({ jest: ['language-select.test.js'] })
   .addWithJSX('Language Select', () => {
     return (<div style={containerStyle}>

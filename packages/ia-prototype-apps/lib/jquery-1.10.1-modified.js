@@ -29,7 +29,7 @@ var
 	// For `typeof xmlNode.method` instead of `xmlNode.method !== undefined`
 	core_strundefined = typeof undefined,
 
-	// Use the correct document accordingly with window argument (sandbox)
+	// Use the correct document accordingly with window argument (live)
 	location = window.location,
 	document = window.document,
 	docElem = document.documentElement,
