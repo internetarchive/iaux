@@ -8,6 +8,8 @@ export default () => {
       list-style: none;
     }
     a {
+      display: block;
+      padding: 1rem;
       text-decoration: none;
       color: var(--activeColor);
     }
