@@ -2,6 +2,8 @@ import { LitElement, html } from 'lit-element';
 import mediaSliderCss from './css/media-slider';
 import menus from './data/menus';
 import './wayback-search';
+import './more-slider';
+import './media-slider';
 
 class MediaSlider extends LitElement {
   constructor() {
@@ -13,7 +15,8 @@ class MediaSlider extends LitElement {
     // Begin properties not monitored by LitElement
     this.links = menus[this.selectedMenuOption];
     this.templates = {
-      web: () => html`<wayback-search></wayback-search>`
+      web: () => html`<wayback-search></wayback-search>`,
+      more: () => html`<more-slider></more-slider>`,
     };
   }
 
