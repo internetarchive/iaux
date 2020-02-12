@@ -60,12 +60,24 @@ export default () => {
       padding-top: 0;
       margin-right: 1.5%;
     }
-    .center .link-home {
-      display: block;
-      margin: auto;
+    .link-home {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      transform: translate(-50%, -50%);
     }
-    .center.search-activated {
-      justify-content: center;
+    .search-trigger,
+    .search-activated {
+      position: relative;
+      z-index: 2;
+    }
+    .search-trigger {
+      width: 100%;
+      text-align: right;
+    }
+    .search-activated {
+      width: 100%;
       border-radius: 0.96rem 0.96rem 0 0;
       background: var(--grey20);
     }

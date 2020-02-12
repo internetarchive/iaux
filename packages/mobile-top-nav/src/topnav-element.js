@@ -69,19 +69,19 @@ export default class TopnavElement extends LitElement {
 
     return html`
       <nav class="navbar flex align-center">
+        <a class="link-home" href="#"><img src="src/assets/img/ia-logo.svg" alt="Home"/></a>
         <div class="left flex align-center">
           <button @click="${this.mediaMenu}" tabindex="1">
             <ham-burger ?active=${this.mediaMenuOpen}></ham-burger>
           </button>
         </div>
-        <div class="center flex align-center ${searchFade} ${searchMenuToggleState}">
-          <a class="link-home" href="#"><img src="src/assets/img/ia-logo.svg" alt="Home"/></a>
+        <div class="search-trigger ${searchFade} ${searchMenuToggleState}">
           <button class="search" @click="${this.searchMenu}">
             <search-image ?active=${this.searchMenuOpen}></search-image>
           </button>
         </div>
         <!--New div created to replace above one when search is activated-->
-        <div class="center search-activated align-center fade-in ${searchMenuOpen}">
+        <div class="search-activated fade-in ${searchMenuOpen}">
           <div class="highlight">
             <input
               type="text"
