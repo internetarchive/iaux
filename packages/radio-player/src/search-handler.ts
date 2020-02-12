@@ -1,5 +1,12 @@
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 
+/**
+ * A model to store the start and end indices for a given context.
+ * This is used for augmenting the source transcript entries (`TranscriptIndexMap`)
+ * as well as the search result entries (`SearchSeparatedTranscriptEntry`) below.
+ *
+ * @class Range
+ */
 class Range {
   startIndex: number;
 
