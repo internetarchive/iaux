@@ -10,7 +10,7 @@ export default () => {
       --link-color: #428bca;
       --primary-text-color: var(--white);
       color: var(--primary-text-color);
-      --theme-font-family: 'Helvetica Neue';
+      --theme-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: 2rem;
       font-family: var(--theme-font-family);
     }

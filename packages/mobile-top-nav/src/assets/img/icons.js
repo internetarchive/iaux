@@ -4,7 +4,7 @@ import video from './icon_video';
 import audio from './icon_audio';
 import software from './icon_software';
 import images from './icon_images';
-const more = () => '...';
+import more from './icon_ellipses';
 
 export {
   web,
