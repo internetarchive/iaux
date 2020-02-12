@@ -1,7 +1,7 @@
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
-import { Range, TranscriptEntryRange, SearchResult } from './search-models';
+import { Range, TranscriptEntryRange } from './search-models';
 
-export class SearchIndex {
+class SearchIndexCache {
   /**
    * This gets populated as part of the search index build. It merges all of the transcript
    * entries together so we can search it as a single document instead of a bunch of
@@ -11,8 +11,8 @@ export class SearchIndex {
    * entry, otherwise the words would run into each other. We account for this in the
    * indices above.
    *
-   * @private
-   * @memberof SearchIndex
+   * @type {string}
+   * @memberof SearchIndexCache
    */
   mergedTranscript = '';
 
@@ -21,21 +21,56 @@ export class SearchIndex {
    * of all of the transcript entries so we can quickly look up where an entry is in the
    * overall transcript.
    *
-   * @private
    * @type {TranscriptEntryRange[]}
-   * @memberof SearchIndex
+   * @memberof SearchIndexCache
    */
   transcriptEntryRanges: TranscriptEntryRange[] = [];
 
-  private transcriptConfig: TranscriptConfig;
+  constructor(
+    mergedTranscript: string = '',
+    transcriptEntryRanges: TranscriptEntryRange[] = []
+  ) {
+    this.mergedTranscript = mergedTranscript;
+    this.transcriptEntryRanges = transcriptEntryRanges;
+  }
+}
+
+export class SearchIndex {
+  /**
+   * Make these properties readonly. We don't want outside classes touching the private storage.
+   *
+   * @readonly
+   * @type {string}
+   * @memberof SearchIndex
+   */
+  get mergedTranscript(): string {
+    return this.searchIndexCache.mergedTranscript;
+  }
+
+  get transcriptEntryRanges(): TranscriptEntryRange[] {
+    return this.searchIndexCache.transcriptEntryRanges;
+  }
 
   /**
-   * Find the closes TranscriptIndexMap to the given overallCharIndex
+   * This gets populated as part of the search index build. It merges all of the transcript
+   * entries together so we can search it as a single document instead of a bunch of
+   * individual entries. This allows searches to cross over transcript entries.
+   *
+   * It also indexes the entries so we can quickly look them up later.
+   *
+   * @private
+   * @memberof SearchIndex
+   */
+  private searchIndexCache: SearchIndexCache = new SearchIndexCache();
+
+  /**
+   * Find the closes TranscriptEntryRange to the given overallCharIndex
    *
    * @param overallCharIndex
+   * @returns {TranscriptEntryRange | undefined}
    */
-  getTranscriptEntryIndexMap(overallCharIndex: number): TranscriptEntryRange | undefined {
-    return this.transcriptEntryRanges.find(
+  getTranscriptEntryAt(overallCharIndex: number): TranscriptEntryRange | undefined {
+    return this.searchIndexCache.transcriptEntryRanges.find(
       entry =>
         entry.range.endIndex > overallCharIndex && entry.range.startIndex <= overallCharIndex,
     );
@@ -55,7 +90,7 @@ export class SearchIndex {
     let result;
 
     /* eslint-disable-next-line no-cond-assign */
-    while ((result = regex.exec(this.mergedTranscript))) {
+    while ((result = regex.exec(this.searchIndexCache.mergedTranscript))) {
       startIndices.push(result.index);
     }
 
@@ -63,8 +98,7 @@ export class SearchIndex {
   }
 
   constructor(transcriptConfig: TranscriptConfig) {
-    this.transcriptConfig = transcriptConfig;
-    this.buildIndex();
+    this.buildIndex(transcriptConfig);
   }
 
   /**
@@ -78,12 +112,12 @@ export class SearchIndex {
    * @private
    * @memberof SearchHandler
    */
-  private buildIndex(): void {
+  private buildIndex(transcriptConfig: TranscriptConfig): void {
     let startIndex = 0;
     let transcriptEntryRanges: TranscriptEntryRange[] = [];
     let mergedTranscript = '';
 
-    this.transcriptConfig.entries.forEach((entry: TranscriptEntryConfig) => {
+    transcriptConfig.entries.forEach((entry: TranscriptEntryConfig) => {
       const { displayText } = entry;
       const indexMapRange: Range = new Range(startIndex, startIndex + displayText.length);
       const indexMap: TranscriptEntryRange = new TranscriptEntryRange(entry, indexMapRange);
@@ -93,7 +127,7 @@ export class SearchIndex {
     });
     mergedTranscript = mergedTranscript.trim();
 
-    this.mergedTranscript = mergedTranscript;
-    this.transcriptEntryRanges = transcriptEntryRanges
+    this.searchIndexCache.mergedTranscript = mergedTranscript;
+    this.searchIndexCache.transcriptEntryRanges = transcriptEntryRanges
   }
 }

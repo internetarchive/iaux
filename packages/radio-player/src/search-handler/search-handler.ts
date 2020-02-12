@@ -3,6 +3,17 @@ import { Range, TranscriptEntryRange, SearchResult } from './search-models';
 import { SearchHelper } from './search-helper';
 import { SearchIndex } from './search-index';
 
+/**
+ * This is the main entrypoint into transcript searching. It has a single
+ * public method, `search(term: string)`, that returns a `TranscriptConfig`
+ * with a search-modified transcript. This means the original transcript
+ * entries get merged with search results since search results can span
+ * across transcript entries.
+ *
+ * It offloads some of the searching work to the `SearchIndex` object that
+ * is responsible for indexing the transcript with information that makes
+ * it easier to rebuild the transcript later.
+ */
 export default class SearchHandler {
   private searchIndex: SearchIndex;
 
@@ -22,7 +33,7 @@ export default class SearchHandler {
       // not multiple broken up by transcript entry.
       if (entry.isSearchMatch) {
         // find the closest source transcript to this entry
-        const resultIndexMap = this.searchIndex.getTranscriptEntryIndexMap(entry.range.startIndex);
+        const resultIndexMap = this.searchIndex.getTranscriptEntryAt(entry.range.startIndex);
         if (!resultIndexMap) {
           return;
         }
