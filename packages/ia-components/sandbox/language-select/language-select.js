@@ -109,7 +109,7 @@ class LanguageSelect extends React.Component {
         <a onClick={this.toggleDropdown}>
           <LanguageNode name={selectedOption.inLocal} flag={selectedOption.flag} />
         </a>
-        <ul className={dropdownOpen ? 'visible' : 'notvisible'}>
+        <ul className={dropdownOpen ? 'visible' : null}>
           {Object.keys(this.languages).map((language) => (
             <LanguageOption
                key={`language_${language}`}
