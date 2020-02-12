@@ -30,7 +30,7 @@ import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-contro
 import SearchResultsSwitcher from './search-results-switcher';
 import MusicZone from './models/music-zone';
 import RadioPlayerConfig from './models/radio-player-config';
-import SearchHandler from './search-handler';
+import SearchHandler from './search-handler/search-handler';
 
 /**
  * A Radio Player element to play back transcribed audio.
@@ -66,7 +66,10 @@ export default class RadioPlayer extends LitElement {
   @property({ type: Object }) transcriptConfig: TranscriptConfig | undefined = undefined;
 
   /**
-   * Transcript configuration
+   * Search result transcript. It's also a `TranscriptConfig` object, but is broken up by
+   * transcript entries as well as search results.
+   *
+   * If this is set, the transcript view, uses this, otherwise it uses `transcriptConfig`
    *
    * @type {(TranscriptConfig | undefined)}
    * @memberof RadioPlayer
