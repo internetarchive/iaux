@@ -596,11 +596,17 @@ export default class RadioPlayer extends LitElement {
    */
   private searchEnterKeyPressed(e: CustomEvent): void {
     const detail = e.detail || {};
-    if (!detail.value || !this.searchHandler) {
+    if (!detail.value) {
       return;
     }
-    const searchResults = this.searchHandler.search(detail.value);
-    this.searchResultsTranscript = searchResults;
+    this.executeSearch(detail.value);
+  }
+
+  private executeSearch(term: string): void {
+    if (!this.searchHandler || term.length < 2) {
+      return;
+    }
+    this.searchResultsTranscript = this.searchHandler.search(term);
   }
 
   /**
@@ -612,7 +618,7 @@ export default class RadioPlayer extends LitElement {
    * @memberof RadioPlayer
    */
   private get transcriptEntries(): TranscriptEntryConfig[] {
-    return this.transcriptConfig ? this.transcriptConfig.entries : [];
+    return this.currentTranscript ? this.currentTranscript.entries : [];
   }
 
   /**
@@ -1037,6 +1043,10 @@ export default class RadioPlayer extends LitElement {
       this.updateSearchResultSwitcher();
     }
 
+    if (changedProperties.has('searchTerm')) {
+      this.executeSearch(this.searchTerm);
+    }
+
     // as the currentTime gets updated, emit an event and skip the music zone if enabled
     if (changedProperties.has('currentTime')) {
       this.emitCurrentTimeChangedEvent();
@@ -1049,6 +1059,9 @@ export default class RadioPlayer extends LitElement {
   private setupSearchHandler(): void {
     if (this.transcriptConfig) {
       this.searchHandler = new SearchHandler(this.transcriptConfig);
+    }
+    if (this.searchTerm) {
+      this.executeSearch(this.searchTerm);
     }
   }
 

@@ -90,7 +90,7 @@ export default class RadioPlayerController extends LitElement {
     );
   }
 
-  async fetchTranscript(setAsActive: boolean) {
+  async fetchTranscript() {
     const srtUrl = `https://archive.org/cors/${this.itemId}/${this.fileName}`;
 
     const response = await fetch(srtUrl);
@@ -110,9 +110,7 @@ export default class RadioPlayerController extends LitElement {
 
     this.baseTranscriptConfig = new TranscriptConfig(transcriptEntries);
 
-    if (setAsActive) {
-      this.transcriptConfig = this.baseTranscriptConfig;
-    }
+    this.transcriptConfig = this.baseTranscriptConfig;
   }
 
   private get radioPlayer(): RadioPlayer | null {
@@ -125,6 +123,7 @@ export default class RadioPlayerController extends LitElement {
 
   async setup() {
     await this.loadItemMetadata();
+    await this.fetchTranscript();
 
     const searchParams = new URLSearchParams(window.location.search);
     const searchTerm = searchParams.get('q');
@@ -136,9 +135,6 @@ export default class RadioPlayerController extends LitElement {
         this.radioPlayer.searchTerm = searchTerm;
       }
     }
-
-    const showDefaultTranscript = !searchTerm;
-    this.fetchTranscript(showDefaultTranscript);
 
     if (startTime) {
       this.startPlaybackAt = parseFloat(startTime);
