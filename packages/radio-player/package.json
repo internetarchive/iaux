@@ -42,8 +42,7 @@
     "@internetarchive/transcript-view": "0.0.1-alpha.506+e8cafab",
     "@internetarchive/waveform-progress": "0.0.1-alpha.386+ece5b53",
     "lit-element": "^2.2.1",
-    "lit-html": "^1.0.0",
-    "parse-srt": "^1.0.0-alpha"
+    "lit-html": "^1.0.0"
   },
   "devDependencies": {
     "@open-wc/demoing-storybook": "^0.3.0",
