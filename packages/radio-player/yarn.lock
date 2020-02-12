@@ -1048,39 +1048,39 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@internetarchive/audio-element@0.0.1-alpha.422+18a94d7":
-  version "0.0.1-alpha.422"
-  resolved "https://registry.yarnpkg.com/@internetarchive/audio-element/-/audio-element-0.0.1-alpha.422.tgz#c4519daf01ec47caed124acad5e656d4f302c757"
-  integrity sha512-RfK1eDN5X1UCcKZO1GzpQ4nuR04GeEQ4ZerD03PU+cD5hUe3WAzM2EOAspn6fvIuFR5i2eFRJkWy5o2so6DSIg==
+"@internetarchive/audio-element@0.0.1-alpha.497":
+  version "0.0.1-alpha.497"
+  resolved "https://registry.yarnpkg.com/@internetarchive/audio-element/-/audio-element-0.0.1-alpha.497.tgz#3aff0a599be457b244ff98677582e7828496691b"
+  integrity sha512-eJa+XQ8+KjOdbR3YsFHyEPGfgMcPoYTvTgms77jLzPstGJnCqmgZnq5LvDJSE7735JEuwCS82rrfioVNccFncw==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/expandable-search-bar@0.0.1-alpha.447+88813cc":
-  version "0.0.1-alpha.447"
-  resolved "https://registry.yarnpkg.com/@internetarchive/expandable-search-bar/-/expandable-search-bar-0.0.1-alpha.447.tgz#691f332fa73da249bf756920c2bb2c86c78a616d"
-  integrity sha512-dy0yUQdUZmtZyHjwAeZ0A6G8A8bhQwvGvIBx8kSpKdW4dVk7rg+VKu2fJI6eIbZQF1qSNJk4bXyOjDGOztpjrg==
+"@internetarchive/expandable-search-bar@0.0.1-alpha.497":
+  version "0.0.1-alpha.497"
+  resolved "https://registry.yarnpkg.com/@internetarchive/expandable-search-bar/-/expandable-search-bar-0.0.1-alpha.497.tgz#4b48c7f2d4558aea0af83d0874225c543e467620"
+  integrity sha512-x7RFeZICNrzAfvQR/keB5nEK0lEGuZRwoSa2y1pPdITmkPP0PIjaiLk4bWA14QrFtjyejnNR+jOdcylfsdxKxA==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/playback-controls@0.0.1-alpha.444+cdd038f":
-  version "0.0.1-alpha.444"
-  resolved "https://registry.yarnpkg.com/@internetarchive/playback-controls/-/playback-controls-0.0.1-alpha.444.tgz#8884726f91f9136fdec8326520fad4a3603caa28"
-  integrity sha512-fXISh+F4uBtlnDKvsh481fQ3Mh49Qs9C/ca+2QEaleNFcQyeLiKzbyII4d64jpahjGFUkfXkzywzY3i9SnP1Zw==
+"@internetarchive/playback-controls@0.0.1-alpha.497":
+  version "0.0.1-alpha.497"
+  resolved "https://registry.yarnpkg.com/@internetarchive/playback-controls/-/playback-controls-0.0.1-alpha.497.tgz#cdfdfd94fe6cc6b698a37334568a4e7eb7b26dd8"
+  integrity sha512-rTiVTL26RbT9oh+lq7bigp69RRje7XZuybyGmPXXIgZqwzpuNVf7hUZdrNb1t8NBqtam5NlePEK0ILzNlxg4rQ==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/scrubber-bar@0.0.1-alpha.385+0bf2a00":
-  version "0.0.1-alpha.385"
-  resolved "https://registry.yarnpkg.com/@internetarchive/scrubber-bar/-/scrubber-bar-0.0.1-alpha.385.tgz#9d7eec321534bbef8c5ca4e7d68d419ec9907c0c"
-  integrity sha512-UpfDOI+IFPf1y3EkZ1kPwxCA76u0QhdMyP2u2HUnFLzwG39PHWOZL0D1N3z5bVNGywRwNImWyUmERF3ziCgk+A==
+"@internetarchive/scrubber-bar@0.0.1-alpha.497":
+  version "0.0.1-alpha.497"
+  resolved "https://registry.yarnpkg.com/@internetarchive/scrubber-bar/-/scrubber-bar-0.0.1-alpha.497.tgz#787ae5e0e1df0a8fe824ca0d958fde33a713f687"
+  integrity sha512-K9ve2N6QANCUPdzBZ0Kh67odYT63GcGwYekWbhE+SthgJ7QKZL0A+a8LJTPHlH+hTQxmBuHfwsP6P/ySbTCBXg==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/transcript-view@0.0.1-alpha.506+e8cafab":
+"@internetarchive/transcript-view@0.0.1-alpha.506":
   version "0.0.1-alpha.506"
   resolved "https://registry.yarnpkg.com/@internetarchive/transcript-view/-/transcript-view-0.0.1-alpha.506.tgz#e2126d9d3cc92a244b4c6e6de1afc3505f9dc502"
   integrity sha512-2GRm8w3oWDjzM9EdBmzSo8ckNqtOYEuJP00JOZgXQ9D/2finXxTSxgfXb1vFcko2r3A6nda4dWUFckvowh8+yA==
@@ -1088,10 +1088,10 @@
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/waveform-progress@0.0.1-alpha.386+ece5b53":
-  version "0.0.1-alpha.386"
-  resolved "https://registry.yarnpkg.com/@internetarchive/waveform-progress/-/waveform-progress-0.0.1-alpha.386.tgz#65c50b6f76b5522346fdd60792b6b7099ae05f5e"
-  integrity sha512-w1ifYavHiqzxW4OXbjznjWyj02RRzzx+bqaOOts1AHjHa9uSF6P+15fgzVkj0ejaLenjKxfaYkikJCnU0g9EIg==
+"@internetarchive/waveform-progress@0.0.1-alpha.497":
+  version "0.0.1-alpha.497"
+  resolved "https://registry.yarnpkg.com/@internetarchive/waveform-progress/-/waveform-progress-0.0.1-alpha.497.tgz#69697ebfe952153ccfe1007bffbaa5c0e881f9e3"
+  integrity sha512-qPQaU+ewBpCtDI5fA4xZ6rmJ/c6Xm4fuVH25YyzzcVS8lPggzMLSIZXsq20Sxj2ttVBMLyibqDi5Pdl4ipCpGQ==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
