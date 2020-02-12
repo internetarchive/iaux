@@ -21,6 +21,14 @@ export default class SearchHandler {
     this.searchIndex = new SearchIndex(transcriptConfig);
   }
 
+  /**
+   * This is the main method in here. It takes a search term and returns a TranscriptConfig
+   * that has been modified to insert the search results.
+   *
+   * @param {string} term
+   * @returns {TranscriptConfig}
+   * @memberof SearchHandler
+   */
   search(term: string): TranscriptConfig {
     const searchSeparatedTranscript = this.getSearchSeparatedTranscript(term);
     const newTranscriptEntries: TranscriptEntryConfig[] = [];

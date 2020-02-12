@@ -14,7 +14,7 @@ class SearchIndexCache {
    * @type {string}
    * @memberof SearchIndexCache
    */
-  mergedTranscript = '';
+  readonly mergedTranscript: string = '';
 
   /**
    * This gets populated as part of the search index build. It maps the start and end indicies
@@ -24,7 +24,7 @@ class SearchIndexCache {
    * @type {TranscriptEntryRange[]}
    * @memberof SearchIndexCache
    */
-  transcriptEntryRanges: TranscriptEntryRange[] = [];
+  readonly transcriptEntryRanges: TranscriptEntryRange[] = [];
 
   constructor(
     mergedTranscript: string = '',
@@ -127,7 +127,6 @@ export class SearchIndex {
     });
     mergedTranscript = mergedTranscript.trim();
 
-    this.searchIndexCache.mergedTranscript = mergedTranscript;
-    this.searchIndexCache.transcriptEntryRanges = transcriptEntryRanges
+    this.searchIndexCache = new SearchIndexCache(mergedTranscript, transcriptEntryRanges);
   }
 }
