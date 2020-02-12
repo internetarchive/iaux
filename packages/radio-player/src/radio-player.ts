@@ -546,7 +546,9 @@ export default class RadioPlayer extends LitElement {
     if (!detail.value) {
       return;
     }
-    this.searchTerm = detail.value;
+    const searchTerm = detail.value;
+    this.searchTerm = searchTerm;
+    this.emitSearchTermChangedEvent(searchTerm);
   }
 
   /**
@@ -559,6 +561,8 @@ export default class RadioPlayer extends LitElement {
   private searchCleared(): void {
     this.searchTerm = '';
     this.searchResultsTranscript = undefined;
+    this.emitSearchClearedEvent();
+    this.emitSearchTermChangedEvent('');
     /* istanbul ignore else */
     if (this.transcriptView) {
       this.transcriptView.selectedSearchResultIndex = 0;
@@ -843,6 +847,24 @@ export default class RadioPlayer extends LitElement {
   private emitCurrentTimeChangedEvent(): void {
     const event = new CustomEvent('currentTimeChanged', {
       detail: { currentTime: this.currentTime },
+    });
+    this.dispatchEvent(event);
+  }
+
+  /**
+   * When the user clears the search, we want to bubble up the event to other consumers.
+   *
+   * @private
+   * @memberof RadioPlayer
+   */
+  private emitSearchClearedEvent(): void {
+    const event = new Event('searchCleared');
+    this.dispatchEvent(event);
+  }
+
+  private emitSearchTermChangedEvent(term: string): void {
+    const event = new CustomEvent('searchTermChanged', {
+      detail: { searchTerm: term },
     });
     this.dispatchEvent(event);
   }

@@ -22,18 +22,14 @@ export default class RadioPlayerController extends LitElement {
 
   private currentTime = 0;
 
-  private searchTerm = '';
-
-  private baseTranscriptConfig: TranscriptConfig = new TranscriptConfig([]);
-
   private fileName = '';
 
   render(): TemplateResult {
     return html`
       <radio-player
         .config=${this.radioPlayerConfig}
-        .transcriptConfig=${this.baseTranscriptConfig}
-        @searchCleared=${this.searchCleared}
+        .transcriptConfig=${this.transcriptConfig}
+        @searchTermChanged=${this.searchTermChanged}
         @playbackPaused=${this.playbackPaused}
         @currentTimeChanged=${this.currentTimeChanged}
         @timeChangedFromScrub=${this.timeChangedFromScrub}
@@ -44,7 +40,8 @@ export default class RadioPlayerController extends LitElement {
     `;
   }
 
-  async loadItemMetadata() {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  async loadItemMetadata(): Promise<any> {
     const url = `https://archive.org/metadata/${this.itemId}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -52,7 +49,45 @@ export default class RadioPlayerController extends LitElement {
     this.handleMetadataResponse(data);
   }
 
-  handleMetadataResponse(response: any) {
+  async fetchTranscript(): Promise<any> {
+    const srtUrl = `https://archive.org/cors/${this.itemId}/${this.fileName}`;
+
+    const response = await fetch(srtUrl);
+    const json = await response.json();
+
+    const transcriptEntries = json.map(
+      (entry: any) =>
+        new TranscriptEntryConfig(
+          entry.id,
+          entry.start,
+          entry.end,
+          entry.text,
+          entry.is_music,
+          entry.search_match_index,
+        ),
+    );
+
+    this.transcriptConfig = new TranscriptConfig(transcriptEntries);
+  }
+
+  async setup(): Promise<any> {
+    await this.loadItemMetadata();
+    await this.fetchTranscript();
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const searchTerm = searchParams.get('q');
+    const startTime = searchParams.get('start');
+
+    if (searchTerm && this.radioPlayer) {
+      this.radioPlayer.searchTerm = searchTerm;
+    }
+
+    if (startTime) {
+      this.startPlaybackAt = parseFloat(startTime);
+    }
+  }
+
+  handleMetadataResponse(response: any): void {
     const metadata = response;
     const collectionIdentifier = metadata.metadata.collection[0];
     const srtFile = metadata.files.find((file: any) => file.format === 'JSON SRT');
@@ -89,69 +124,26 @@ export default class RadioPlayerController extends LitElement {
       audioSources,
     );
   }
-
-  async fetchTranscript() {
-    const srtUrl = `https://archive.org/cors/${this.itemId}/${this.fileName}`;
-
-    const response = await fetch(srtUrl);
-    const json = await response.json();
-
-    const transcriptEntries = json.map(
-      (entry: any) =>
-        new TranscriptEntryConfig(
-          entry.id,
-          entry.start,
-          entry.end,
-          entry.text,
-          entry.is_music,
-          entry.search_match_index,
-        ),
-    );
-
-    this.baseTranscriptConfig = new TranscriptConfig(transcriptEntries);
-
-    this.transcriptConfig = this.baseTranscriptConfig;
-  }
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   private get radioPlayer(): RadioPlayer | null {
     return this.shadowRoot ? (this.shadowRoot.querySelector('radio-player') as RadioPlayer) : null;
   }
 
-  firstUpdated() {
+  firstUpdated(): void {
     this.setup();
   }
 
-  async setup() {
-    await this.loadItemMetadata();
-    await this.fetchTranscript();
-
-    const searchParams = new URLSearchParams(window.location.search);
-    const searchTerm = searchParams.get('q');
-    const startTime = searchParams.get('start');
-
-    if (searchTerm) {
-      this.searchTerm = searchTerm;
-      if (this.radioPlayer) {
-        this.radioPlayer.searchTerm = searchTerm;
-      }
-    }
-
-    if (startTime) {
-      this.startPlaybackAt = parseFloat(startTime);
-    }
-  }
-
-  private canplay() {
+  private canplay(): void {
     if (this.startPlaybackAt && this.radioPlayer) {
       this.radioPlayer.seekTo(this.startPlaybackAt);
       this.startPlaybackAt = undefined;
     }
   }
 
-  private searchCleared() {
-    this.searchTerm = '';
-    this.resetTranscript();
-    this.updateSearchQueryParam();
+  private searchTermChanged(e: CustomEvent): void {
+    const { searchTerm } = e.detail;
+    this.updateSearchQueryParam(searchTerm);
   }
 
   private currentTimeChanged(e: CustomEvent): void {
@@ -178,21 +170,14 @@ export default class RadioPlayerController extends LitElement {
     window.history.replaceState({}, '', `?${searchParams.toString()}`);
   }
 
-  private updateSearchQueryParam(): void {
+  /* eslint-disable-next-line class-methods-use-this */
+  private updateSearchQueryParam(searchTerm: string): void {
     const searchParams = new URLSearchParams(window.location.search);
-    if (this.searchTerm === '') {
+    if (searchTerm === '') {
       searchParams.delete('q');
     } else {
-      searchParams.set('q', `${this.searchTerm}`);
+      searchParams.set('q', `${searchTerm}`);
     }
     window.history.replaceState({}, '', `?${searchParams.toString()}`);
-  }
-
-  private resetTranscript() {
-    const transcriptConfig = this.baseTranscriptConfig;
-
-    if (this.radioPlayer) {
-      this.radioPlayer.transcriptConfig = transcriptConfig;
-    }
   }
 }
