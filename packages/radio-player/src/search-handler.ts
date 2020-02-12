@@ -106,8 +106,11 @@ export default class SearchHandler {
     let searchResultIndex = 0;
 
     searchSeparatedTranscript.forEach(entry => {
-      // if we encounter a match, just create a new transcript entry from it and append it
+      // If we encounter a match, just create a new transcript entry from it and append it.
+      // We don't care if it crosses over multiple transcript entries since we want one match,
+      // not multiple broken up by transcript entry.
       if (entry.isSearchMatch) {
+        // find the closest source transcript to this entry
         const resultIndexMap = this.getTranscriptEntryIndexMap(entry.range.startIndex);
         if (!resultIndexMap) {
           return;
@@ -121,42 +124,16 @@ export default class SearchHandler {
         return;
       }
 
-      // find the entries from the original transcript that intersect with the search result entry
-      // this allows us to know which entries we need to work with below
-      const sourceEntriesInSearchResults = this.transcriptEntryIndices.filter(
-        (indexMap: TranscriptIndexMap) => {
-          const intersection = this.getIntersection(entry.range, indexMap.range);
-          return intersection && intersection.length > 0;
-        },
-      );
-
-      sourceEntriesInSearchResults.forEach((indexMap: TranscriptIndexMap) => {
-        // we've encounted a source entry fully within this range so just copy it
-        if (
-          indexMap.range.startIndex >= entry.range.startIndex &&
-          indexMap.range.endIndex <= entry.range.endIndex
-        ) {
-          newTranscriptEntries.push(indexMap.entry);
-          return;
-        }
-
-        // we've encountered a partial match because the next entry is a search entry
-        const newTranscriptEntry = this.createBlankTranscriptEntryConfig(indexMap.entry);
-
-        // get the intersection of the search result and the original source
-        // this allows us to pull in the proper text from the merged transcript to generate this
-        // new transcript
+      // Next loop through all of the source transcript entries to find the ones that intersect with this
+      // search result. If it intersects, we take the intersected characters from the merged transcript
+      // and make a new entry from that.
+      this.transcriptEntryIndices.forEach((indexMap: TranscriptIndexMap) => {
         const intersection = this.getIntersection(entry.range, indexMap.range);
-
-        // if there is no intersection or the the length of the the intersection is 0, just return
-        // we have likely reached the end of the search result and we don't want to add an empty
-        // transcript
         if (!intersection || intersection.length === 0) {
           return;
         }
 
-        // Take the start and end index from the intersection and pull out that range from the full
-        // transcript. This constitutes the text for this new entry.
+        const newTranscriptEntry = this.createBlankTranscriptEntryConfig(indexMap.entry);
         const text = this.mergedTranscript.substring(
           intersection.startIndex,
           intersection.endIndex,
