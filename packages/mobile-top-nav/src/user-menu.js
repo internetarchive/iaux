@@ -27,17 +27,17 @@ class UserMenu extends LitElement {
         aria-hidden="${userMenuHidden}"
         aria-expanded="${userMenuExpanded}"
       >
-        <div class="menu-group">
-          <a href="#"><b>USERNAME</b></a>
-          <a href="#">Upload</a>
-          <a href="#">My library</a>
-          <a href="#">My loans</a>
-          <a href="#">My favorites</a>
-          <a href="#">My web archive</a>
-          <a href="#">Edit settings</a>
-          <a href="#">Get help</a>
-          <a href="#">Log out</a>
-        </div>
+        <h3>USERNAME</h3>
+        <ul>
+          <li><a href="#">Upload</a></li>
+          <li><a href="#">My library</a></li>
+          <li><a href="#">My loans</a></li>
+          <li><a href="#">My favorites</a></li>
+          <li><a href="#">My web archive</a></li>
+          <li><a href="#">Edit settings</a></li>
+          <li><a href="#">Get help</a></li>
+          <li><a href="#">Log out</a></li>
+        </ul>
       </nav>
     `;
   }
