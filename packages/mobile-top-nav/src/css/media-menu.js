@@ -29,6 +29,7 @@ export default () => {
       transition-duration: 0.1s;
     }
     .menu-group {
+      position: relative;
       height: 80vh;
     }
     .menu-item {
