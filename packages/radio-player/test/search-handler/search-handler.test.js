@@ -32,32 +32,32 @@ describe('Search Handler', () => {
     const seventhEntry = transcriptSearchResults[6];
 
     expect(firstEntry.range.startIndex).to.equal(0);
-    expect(firstEntry.range.endIndex).to.equal(3);
+    expect(firstEntry.range.endIndex).to.equal(4);
     expect(firstEntry.text).to.equal('foo ');
     expect(firstEntry.isSearchMatch).to.equal(false);
 
     expect(secondEntry.range.startIndex).to.equal(4);
-    expect(secondEntry.range.endIndex).to.equal(5);
+    expect(secondEntry.range.endIndex).to.equal(6);
     expect(secondEntry.text).to.equal('ba');
     expect(secondEntry.isSearchMatch).to.equal(true);
 
     expect(thirdEntry.range.startIndex).to.equal(6);
-    expect(thirdEntry.range.endIndex).to.equal(7);
+    expect(thirdEntry.range.endIndex).to.equal(8);
     expect(thirdEntry.text).to.equal('r ');
     expect(thirdEntry.isSearchMatch).to.equal(false);
 
     expect(fourthEntry.range.startIndex).to.equal(8);
-    expect(fourthEntry.range.endIndex).to.equal(9);
+    expect(fourthEntry.range.endIndex).to.equal(10);
     expect(fourthEntry.text).to.equal('ba');
     expect(fourthEntry.isSearchMatch).to.equal(true);
 
     expect(fifthEntry.range.startIndex).to.equal(10);
-    expect(fifthEntry.range.endIndex).to.equal(26);
+    expect(fifthEntry.range.endIndex).to.equal(27);
     expect(fifthEntry.text).to.equal('z boop blop bump ');
     expect(fifthEntry.isSearchMatch).to.equal(false);
 
     expect(sixthEntry.range.startIndex).to.equal(27);
-    expect(sixthEntry.range.endIndex).to.equal(28);
+    expect(sixthEntry.range.endIndex).to.equal(29);
     expect(sixthEntry.text).to.equal('ba');
     expect(sixthEntry.isSearchMatch).to.equal(true);
 

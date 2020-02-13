@@ -118,6 +118,8 @@ export default class SearchHandler {
     const searchRanges: Range[] = this.searchIndex.getSearchRanges(term);
     const { mergedTranscript } = this.searchIndex;
 
+    // if there's no search results, just return a single SearchResult that is the full
+    // transcript marked as not a match.
     if (searchRanges.length === 0) {
       const range = new Range(0, mergedTranscript.length);
       return [new SearchResult(range, mergedTranscript, false)];
@@ -125,23 +127,53 @@ export default class SearchHandler {
 
     const transcriptEntries: SearchResult[] = [];
     let startIndex = 0;
-    searchRanges.forEach(range => {
-      const nextStart = range.endIndex;
-      const nonResultText = mergedTranscript.substring(startIndex, range.startIndex);
-      const resultText = mergedTranscript.substring(range.startIndex, nextStart);
-      const nonResultRange = new Range(startIndex, range.startIndex - 1);
-      const nonResultEntry = new SearchResult(nonResultRange, nonResultText, false);
-      const searchResultRange = new Range(range.startIndex, nextStart - 1);
-      const searchResultEntry = new SearchResult(searchResultRange, resultText, true);
+
+    // Loop through all of the search result ranges and construct an array
+    // of SearchResult entries.
+    // For instance, if the full transcript is `foo bar baz boop bump snip snap`
+    // and you search for `baz`, we'll only have a single search range: Range(8, 11).
+    // We then take the text leading up to that range and store it as the "non result"
+    // so we now have Range(0, 7) and Range(8, 11).
+    // If there were more search results, we would continue from index 12 to build
+    // the next range to the next match.
+    // Finally once all the matches are finished, tack on the remaining text to the end.
+    searchRanges.forEach(searchRange => {
+      // first find the "non-result" range, which is the current `startIndex` up to
+      // `range.startIndex` (the start of the search result)
+      const nonResultRange = new Range(startIndex, searchRange.startIndex);
+      const nonResultEntry = this.getSearchResult(nonResultRange, false);
       transcriptEntries.push(nonResultEntry);
+
+      // get the search result match from the merged transcript
+      // using the current search range
+      const searchResultEntry = this.getSearchResult(searchRange, true);
       transcriptEntries.push(searchResultEntry);
-      startIndex = nextStart;
+
+      startIndex = searchRange.endIndex;
     });
-    const finalResultText = mergedTranscript.substring(startIndex, mergedTranscript.length);
+
+    // add any remaining characters as the last final entry in the results
     const finalResultRange = new Range(startIndex, mergedTranscript.length);
-    const finalResultEntry = new SearchResult(finalResultRange, finalResultText, false);
+    const finalResultEntry = this.getSearchResult(finalResultRange, false);
     transcriptEntries.push(finalResultEntry);
 
     return transcriptEntries;
+  }
+
+  /**
+   * Generate a SearchResult entry from a given Range and annotate it
+   * with whether or not it is a search result match
+   *
+   * @private
+   * @param {Range} range
+   * @param {boolean} isSearchResult
+   * @returns {SearchResult}
+   * @memberof SearchHandler
+   */
+  private getSearchResult(range: Range, isSearchResult: boolean): SearchResult {
+    const { mergedTranscript } = this.searchIndex;
+    const text = mergedTranscript.substring(range.startIndex, range.endIndex);
+    const searchResult = new SearchResult(range, text, isSearchResult);
+    return searchResult;
   }
 }

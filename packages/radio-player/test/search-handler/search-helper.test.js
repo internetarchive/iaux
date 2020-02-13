@@ -31,5 +31,15 @@ describe('Search Helper', () => {
       const intersection = SearchHelper.getIntersection(range1, range2);
       expect(intersection).to.equal(undefined);
     });
+
+    it('returns the expected intersection for a given text block', async () => {
+      const range1 = new Range(0, 11);
+      const range2 = new Range(8, 15);
+      const intersection = SearchHelper.getIntersection(range1, range2);
+      const text = 'foo bar baz boop blop bump snip snap';
+      const intersected = text.substring(intersection.startIndex, intersection.endIndex);
+
+      expect(intersected).to.equal('baz');
+    });
   });
 });
