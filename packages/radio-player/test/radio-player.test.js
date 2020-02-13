@@ -692,31 +692,6 @@ describe('Radio Player', () => {
     expect(quickSearches[2].displayText).to.equal('baz');
   });
 
-  it('retrieves search results properly from the transcript config', async () => {
-    const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
-    const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
-    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false, 0);
-    const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
-    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false, 1);
-    const entries = [entry1, entry2, entry3, entry4, entry5];
-
-    const transcriptConfig = new TranscriptConfig(entries);
-
-    const el = await fixture(html`
-      <radio-player
-        .transcriptConfig=${transcriptConfig}
-        .searchResultsTranscript=${transcriptConfig}>
-      </radio-player>
-    `);
-
-    const searchResults = el.searchResults;
-
-    console.log('searchResults', searchResults);
-
-    expect(searchResults[0].displayText).to.equal('bar');
-    expect(searchResults[1].displayText).to.equal('baz');
-  });
-
   it('retrieves no search results if there is no transcript config', async () => {
     const el = await fixture(html`
       <radio-player>
@@ -731,7 +706,7 @@ describe('Radio Player', () => {
     const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
     const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false);
     const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
-    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'foo', false);
     const entries = [entry1, entry2, entry3, entry4, entry5];
 
     const transcriptConfig = new TranscriptConfig(entries);
@@ -744,11 +719,8 @@ describe('Radio Player', () => {
 
     const searchResultsSwitcher = el.shadowRoot.querySelector('search-results-switcher');
 
-    console.log('setting searchterm');
-
     el.searchTerm = 'foo';
-    // await promisedSleep(1000);
-    el.updateSearchResultSwitcher();
+    await promisedSleep(100);
 
     expect(el.shouldShowSearchResultSwitcher).to.equal(true);
     expect(searchResultsSwitcher.numberOfResults).to.equal(2);

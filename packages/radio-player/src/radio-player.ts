@@ -608,13 +608,11 @@ export default class RadioPlayer extends LitElement {
   }
 
   private executeSearch(term: string): void {
-    console.log('executeSearch', term);
     if (!this.searchHandler || term.length < 2) {
       this.searchResultsTranscript = undefined;
       return;
     }
     this.searchResultsTranscript = this.searchHandler.search(term);
-    console.log('this.searchResultsTranscript', this.searchResultsTranscript);
   }
 
   /**
@@ -1024,15 +1022,12 @@ export default class RadioPlayer extends LitElement {
     this.shouldShowNoSearchResultMessage = false;
     this.shouldShowSearchResultSwitcher = false;
 
-    console.log('updateSearchResultSwitcher1', this.searchTerm, this.transcriptConfig);
-
     if (this.searchTerm.length === 0) {
       return;
     }
 
     const resultCount: number = this.searchResults.length;
 
-    console.log('updateSearchResultSwitcher2', this.searchResults);
     if (resultCount === 0) {
       this.shouldShowNoSearchResultMessage = true;
     } else {
@@ -1053,7 +1048,6 @@ export default class RadioPlayer extends LitElement {
    * @memberof RadioPlayer
    */
   private get searchResults(): TranscriptEntryConfig[] {
-    console.log('searchResults', this.searchResultsTranscript);
     return this.searchResultsTranscript ? this.searchResultsTranscript.searchResults : [];
   }
 
@@ -1075,7 +1069,6 @@ export default class RadioPlayer extends LitElement {
     }
 
     if (changedProperties.has('searchTerm')) {
-      console.log('searchTerm updated', this.searchTerm);
       this.executeSearch(this.searchTerm);
     }
 
