@@ -35,7 +35,6 @@ class SearchIndexCache {
   }
 }
 
-/* eslint-disable import/prefer-default-export */
 export class SearchIndex {
   /**
    * Make these properties readonly. We don't want outside classes touching the private storage.
