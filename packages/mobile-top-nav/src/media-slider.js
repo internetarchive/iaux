@@ -3,7 +3,6 @@ import mediaSliderCss from './css/media-slider';
 import menus from './data/menus';
 import './wayback-search';
 import './more-slider';
-import './media-slider';
 
 class MediaSlider extends LitElement {
   constructor() {
@@ -56,7 +55,6 @@ class MediaSlider extends LitElement {
       <div class="icon-links">
         ${this.renderIconLinks()}
       </div>
-      <h4>Featured</h4>
       <ul>
         ${this.renderLinks('featuredLinks')}
       </ul>
