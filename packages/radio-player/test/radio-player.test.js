@@ -704,11 +704,14 @@ describe('Radio Player', () => {
 
     const el = await fixture(html`
       <radio-player
+        .transcriptConfig=${transcriptConfig}
         .searchResultsTranscript=${transcriptConfig}>
       </radio-player>
     `);
 
     const searchResults = el.searchResults;
+
+    console.log('searchResults', searchResults);
 
     expect(searchResults[0].displayText).to.equal('bar');
     expect(searchResults[1].displayText).to.equal('baz');
@@ -726,22 +729,25 @@ describe('Radio Player', () => {
   it('properly updates the search results switcher when there are search results', async () => {
     const entry1 = new TranscriptEntryConfig(1, 1, 17, 'foo', false);
     const entry2 = new TranscriptEntryConfig(1, 18, 37, '', true);
-    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false, 0);
+    const entry3 = new TranscriptEntryConfig(1, 37, 56, 'bar', false);
     const entry4 = new TranscriptEntryConfig(1, 57, 74, 'baz', true);
-    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false, 1);
+    const entry5 = new TranscriptEntryConfig(1, 75, 100, 'baz', false);
     const entries = [entry1, entry2, entry3, entry4, entry5];
 
     const transcriptConfig = new TranscriptConfig(entries);
 
     const el = await fixture(html`
       <radio-player
-        .searchResultsTranscript=${transcriptConfig}>
+        .transcriptConfig=${transcriptConfig}>
       </radio-player>
     `);
 
     const searchResultsSwitcher = el.shadowRoot.querySelector('search-results-switcher');
 
+    console.log('setting searchterm');
+
     el.searchTerm = 'foo';
+    // await promisedSleep(1000);
     el.updateSearchResultSwitcher();
 
     expect(el.shouldShowSearchResultSwitcher).to.equal(true);

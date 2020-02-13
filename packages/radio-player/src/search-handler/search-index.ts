@@ -16,6 +16,8 @@ class SearchIndexCache {
    */
   readonly mergedTranscript: string = '';
 
+  readonly mergedTranscriptLowercased: string = '';
+
   /**
    * This gets populated as part of the search index build. It maps the start and end indicies
    * of all of the transcript entries so we can quickly look up where an entry is in the
@@ -26,15 +28,14 @@ class SearchIndexCache {
    */
   readonly transcriptEntryRanges: TranscriptEntryRange[] = [];
 
-  constructor(
-    mergedTranscript: string = '',
-    transcriptEntryRanges: TranscriptEntryRange[] = []
-  ) {
+  constructor(mergedTranscript = '', transcriptEntryRanges: TranscriptEntryRange[] = []) {
     this.mergedTranscript = mergedTranscript;
     this.transcriptEntryRanges = transcriptEntryRanges;
+    this.mergedTranscriptLowercased = mergedTranscript.toLowerCase();
   }
 }
 
+/* eslint-disable import/prefer-default-export */
 export class SearchIndex {
   /**
    * Make these properties readonly. We don't want outside classes touching the private storage.
@@ -70,31 +71,37 @@ export class SearchIndex {
    * @returns {TranscriptEntryRange | undefined}
    */
   getTranscriptEntryAt(overallCharIndex: number): TranscriptEntryRange | undefined {
-    return this.searchIndexCache.transcriptEntryRanges.find(
-      entry =>
-        entry.range.endIndex > overallCharIndex && entry.range.startIndex <= overallCharIndex,
-    );
+    return this.searchIndexCache.transcriptEntryRanges.find(entry => {
+      const { range } = entry;
+      return range.endIndex > overallCharIndex && range.startIndex <= overallCharIndex;
+    });
   }
 
   /**
-   * Finds all of the start indices of all the search results across the entire transcript.
+   * Finds all of the ranges of all the search results across the entire transcript.
    *
    * @private
    * @param {string} term
-   * @returns {number[]}
+   * @returns {Range[]}
    * @memberof SearchIndex
    */
-  getSearchIndices(term: string): number[] {
-    const regex = new RegExp(term, 'gi');
-    const startIndices: number[] = [];
-    let result;
+  getSearchRanges(term: string): Range[] {
+    const ranges: Range[] = [];
+    const termLowerCased: string = term.toLowerCase();
 
+    let index = -1;
     /* eslint-disable-next-line no-cond-assign */
-    while ((result = regex.exec(this.searchIndexCache.mergedTranscript))) {
-      startIndices.push(result.index);
+    while (
+      (index = this.searchIndexCache.mergedTranscriptLowercased.indexOf(
+        termLowerCased,
+        index + 1,
+      )) !== -1
+    ) {
+      const newRange: Range = new Range(index, index + termLowerCased.length);
+      ranges.push(newRange);
     }
 
-    return startIndices;
+    return ranges;
   }
 
   constructor(transcriptConfig: TranscriptConfig) {
@@ -114,7 +121,7 @@ export class SearchIndex {
    */
   private buildIndex(transcriptConfig: TranscriptConfig): void {
     let startIndex = 0;
-    let transcriptEntryRanges: TranscriptEntryRange[] = [];
+    const transcriptEntryRanges: TranscriptEntryRange[] = [];
     let mergedTranscript = '';
 
     transcriptConfig.entries.forEach((entry: TranscriptEntryConfig) => {

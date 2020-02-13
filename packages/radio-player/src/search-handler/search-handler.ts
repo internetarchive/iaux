@@ -54,9 +54,9 @@ export default class SearchHandler {
         return;
       }
 
-      // Next loop through all of the source transcript entries to find the ones that intersect with this
-      // search result. If it intersects, we take the intersected characters from the merged transcript
-      // and make a new entry from that.
+      // Next loop through all of the source transcript entries to find the ones that intersect
+      // with this search result. If it intersects, we take the intersected characters from the
+      // merged transcript and make a new entry from that.
       this.searchIndex.transcriptEntryRanges.forEach((indexMap: TranscriptEntryRange) => {
         const intersection = SearchHelper.getIntersection(entry.range, indexMap.range);
         if (!intersection || intersection.length === 0) {
@@ -115,46 +115,31 @@ export default class SearchHandler {
    * @memberof SearchHandler
    */
   private getSearchSeparatedTranscript(term: string): SearchResult[] {
-    const searchIndices = this.searchIndex.getSearchIndices(term);
-    const mergedTranscript = this.searchIndex.mergedTranscript;
+    const searchRanges: Range[] = this.searchIndex.getSearchRanges(term);
+    const { mergedTranscript } = this.searchIndex;
 
-    if (searchIndices.length === 0) {
+    if (searchRanges.length === 0) {
       const range = new Range(0, mergedTranscript.length);
       return [new SearchResult(range, mergedTranscript, false)];
     }
 
     const transcriptEntries: SearchResult[] = [];
     let startIndex = 0;
-    searchIndices.forEach(index => {
-      const nextStart = index + term.length;
-      const nonResultText = mergedTranscript.substring(startIndex, index);
-      const resultText = mergedTranscript.substring(index, nextStart);
-      const nonResultRange = new Range(startIndex, index - 1);
-      const nonResultEntry = new SearchResult(
-        nonResultRange,
-        nonResultText,
-        false,
-      );
-      const searchResultRange = new Range(index, nextStart - 1);
-      const searchResultEntry = new SearchResult(
-        searchResultRange,
-        resultText,
-        true,
-      );
+    searchRanges.forEach(range => {
+      const nextStart = range.endIndex;
+      const nonResultText = mergedTranscript.substring(startIndex, range.startIndex);
+      const resultText = mergedTranscript.substring(range.startIndex, nextStart);
+      const nonResultRange = new Range(startIndex, range.startIndex - 1);
+      const nonResultEntry = new SearchResult(nonResultRange, nonResultText, false);
+      const searchResultRange = new Range(range.startIndex, nextStart - 1);
+      const searchResultEntry = new SearchResult(searchResultRange, resultText, true);
       transcriptEntries.push(nonResultEntry);
       transcriptEntries.push(searchResultEntry);
       startIndex = nextStart;
     });
-    const finalResultText = mergedTranscript.substring(
-      startIndex,
-      mergedTranscript.length,
-    );
+    const finalResultText = mergedTranscript.substring(startIndex, mergedTranscript.length);
     const finalResultRange = new Range(startIndex, mergedTranscript.length);
-    const finalResultEntry = new SearchResult(
-      finalResultRange,
-      finalResultText,
-      false,
-    );
+    const finalResultEntry = new SearchResult(finalResultRange, finalResultText, false);
     transcriptEntries.push(finalResultEntry);
 
     return transcriptEntries;
