@@ -9,12 +9,8 @@ export default () => {
       outline-style: auto;
     }
     .search-menu {
-      position: relative;
-      margin: 0;
-      width: 100%;
+      font-size: 1.6rem;
       background-color: var(--grey20);
-      display: flex;
-      flex-direction: column;
     }
     .search-menu.tx-slide {
       overflow: hidden;
@@ -33,13 +29,11 @@ export default () => {
       max-height: 100vh;
     }
     .search-options {
-      align-self: center;
-      min-width: 38%;
-      margin-bottom: 1%;
+      padding: 0 4.5rem;
     }
 
     .search-options > * {
-      padding: 3%;
+      padding: 1rem;
       display: block;
     }
 

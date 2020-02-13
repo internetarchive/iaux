@@ -34,27 +34,31 @@ export default () => {
     .menu-item {
       width: 100%;
       background: transparent;
-      font-size: inherit;
+      font-size: 1.6rem;
       cursor: pointer;
-      height: 12%;
       border: none;
       text-align: left;
-      padding: 0;
+      padding: .1rem 0;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
     }
     .menu-item:focus {
       outline: none;
     }
     .menu-item > .label {
-      color: var(--grey999);
+      display: inline-block;
+      color: var(--white);
       text-align: left;
-      display: inline;
+      vertical-align: middle;
     }
     .menu-item > .icon {
       display: inline-flex;
+      width: 42px;
+      height: 42px;
+      vertical-align: middle;
       align-items: center;
       justify-content: center;
-      height: 100%;
-      width: 8%;
     }
     .menu-item.selected .icon {
       background-color: var(--grey20);
