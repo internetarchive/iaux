@@ -34,9 +34,11 @@ export default () => {
     }
 
     .information-menu {
-      position: relative;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
       width: 100%;
-      height: 100%;
       padding: 0;
       overflow-x: hidden;
       font-size: 1.4rem;
@@ -50,18 +52,18 @@ export default () => {
     /* Secondary menu */
     @keyframes menu-enter {
       0% {
-        transform: translate(100%, -84%);
+        transform: translate(100%, 0);
       }
       100% {
-        transform: translate(8%, -84%);
+        transform: translate(4rem, 0);
       }
     }
     @keyframes menu-exit {
       0% {
-        transform: translate(8%, -84%);
+        transform: translate(4rem, 0);
       }
       100% {
-        transform: translate(100%, -84%);
+        transform: translate(100%, 0);
       }
     }
     .menu-enter {
