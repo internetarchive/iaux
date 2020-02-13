@@ -9,7 +9,7 @@ export default () => {
     }
     .media-menu {
       width: 100%;
-      background-color: var(--black);
+      background-color: var(--grey13);
       margin: 0;
       overflow: hidden;
     }
