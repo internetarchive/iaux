@@ -4,10 +4,10 @@ import Icon from './icon';
 class User extends Icon {
   static get styles() {
     return css`
-      #icon {
+      path {
         fill: var(--baseColor);
       }
-      #icon.active {
+      .active {
         fill: var(--activeColor);
       }
     `;
@@ -15,16 +15,7 @@ class User extends Icon {
 
   render() {
     return html`
-      <svg alt="User menu" width="40px" height="40px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <g id="icon" transform="translate(-45.000000, -173.000000)" class="${this.active ? 'active' : ''}">
-                  <g transform="translate(45.000000, 173.000000)">
-                      <circle cx="14" cy="7.89090909" r="7.89090909"></circle>
-                      <path d="M14,27.9305935 C14.1458333,27.9305935 18.9142795,28.0867581 28,27.9305935 C28,22.0644996 21.7319865,17.3090909 14,17.3090909 C6.2680135,17.3090909 2.84217094e-14,22.0644996 2.84217094e-14,27.9305935 C9.95084635,27.9305935 13.8541667,27.9305935 14,27.9305935 Z"></path>
-                  </g>
-              </g>
-          </g>
-      </svg>
+      <svg alt="User" width="27px" height="30px" viewBox="0 0 27 30" xmlns="http://www.w3.org/2000/svg"><path class="${this.active ? 'active' : ''}" d="M14.7130435,13.0434783 C11.147205,13.0434783 8.25652174,10.1235962 8.25652174,6.52173913 C8.25652174,2.91988207 11.147205,0 14.7130435,0 C18.278882,0 21.1695652,2.91988207 21.1695652,6.52173913 C21.1695652,10.1235962 18.278882,13.0434783 14.7130435,13.0434783 Z M1.8,30 C1.8,22.0759145 7.58136649,15.6521739 14.7130435,15.6521739 C21.8447205,15.6521739 27.626087,22.0759145 27.626087,30 L1.8,30 Z"></path></svg>
     `;
   }
 }

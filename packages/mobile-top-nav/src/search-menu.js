@@ -15,25 +15,23 @@ class SearchMenu extends LitElement {
     this.selectedSearchType = '';
   }
 
-  selectedSearchType() {
-    const { selectedSearchType } = this;
-    // placeholder for click handler
-    return selectedSearchType;
+  selectSearchType(e) {
+    this.selectedSearchType = e.target.value;
   }
 
   get searchTypesTemplate() {
     const searchTypes = [
-      { option: 'metadata', label: 'Metadata' },
+      { option: 'metadata', label: 'Metadata', isDefault: true },
       { option: 'text', label: 'text contents' },
       { option: 'tv', label: 'TV news captions' },
       { option: 'web', label: 'archived websites' },
-    ].map(({ option, label }) => {
-      const checked = option === 'metadata' ? 'checked' : '';
+    ].map(({ option, label, isDefault }) => {
+      const checked = isDefault ? 'checked' : '';
 
       return html`
-        <label class="search-type" @click="${this.selectedSearchType}">
-          <input type="radio" name="search" value="${option}" checked="${checked}" />
-          <span>Search ${label}</span>
+        <label @click="${this.selectSearchType}">
+          <input type="radio" name="search" value="${option}" ?checked=${isDefault} />
+          Search ${label}
         </label>
       `;
     });

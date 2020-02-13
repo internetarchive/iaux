@@ -69,6 +69,9 @@ export default () => {
       z-index: 1;
       transform: translate(-50%, -50%);
     }
+    .link-home img {
+      height: 32px;
+    }
     .search-trigger,
     .search-activated {
       position: relative;
@@ -80,8 +83,12 @@ export default () => {
     }
     .search-activated {
       width: 100%;
+      padding: .5rem .2rem;
       border-radius: 0.96rem 0.96rem 0 0;
       background: var(--grey20);
+    }
+    .search-trigger .search {
+      height: 2.8rem;
     }
     .search-activated .highlight,
     .search-activated .search {
@@ -94,18 +101,24 @@ export default () => {
       margin: 0 1.5%;
     }
     .search-activated .search {
+      height: 2.8rem;
+      padding: .2rem;
       margin-right: 0;
     }
     .search-activated .search-field {
       width: 100%;
-      height: 4.8rem;
+      height: 3rem;
+      padding-left: 1rem;
       border-radius: 0.96rem;
       border: none;
+      font-size: 1.2rem;
       text-align: center;
-      font-size: 1.8rem;
+    }
+    .search-activated .search-field:focus {
+      outline: none;
     }
     .user-menu {
-      padding: .72rem;
+      padding: .4rem;
     }
     .user-menu.active {
       border-radius: 0.96rem 0.96rem 0 0;
