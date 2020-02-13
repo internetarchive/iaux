@@ -15,6 +15,14 @@ export default () => {
       border-radius: 45px;
     }
 
+    h3 {
+      font-size: 1.8rem;
+    }
+
+    h4 {
+      font-size: 1.6rem;
+    }
+
     ul {
       padding: 0;
       margin: 0;
@@ -27,13 +35,12 @@ export default () => {
 
     .information-menu {
       position: relative;
-      padding: 0;
-      background: var(--grey20);
       width: 100%;
       height: 100%;
+      padding: 0;
       overflow-x: hidden;
-      position: relative;
-      font-size: inherit;
+      font-size: 1.4rem;
+      background: var(--grey20);
     }
 
     .menu-slider-offscreen {
@@ -65,7 +72,7 @@ export default () => {
     }
 
     .info-box {
-      padding: 0 1%;
+      padding: 0 1rem;
     }
 
     .icon-links {
@@ -75,11 +82,14 @@ export default () => {
 
     .icon-links a {
       display: block;
-      max-width: 130px;
-      margin-right: 1rem;
+      max-width: 120px;
+      margin-bottom: 1.5rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+    }
+    .icon-links a + a {
+      margin-left: 2rem;
     }
   `;
 }
