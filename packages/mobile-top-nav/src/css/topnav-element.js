@@ -4,6 +4,7 @@ export default () => {
   return css`
     :host {
       --white: #fff;
+      --grey13: #222;
       --grey20: #333;
       --grey999: #999;
       --black: #000;
@@ -34,7 +35,8 @@ export default () => {
       position: relative;
       flex-direction: row;
       padding: 0 1%;
-      background: var(--black);
+      background: var(--grey13);
+      border-bottom: 1px solid var(--grey20);
     }
     .navbar button {
       background: none;
