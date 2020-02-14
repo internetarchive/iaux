@@ -4,6 +4,7 @@ export default () => {
   return css`
     nav {
       float: right;
+      font-size: 1.6rem;
       background-color: var(--grey20);
     }
     nav.tx-slide {

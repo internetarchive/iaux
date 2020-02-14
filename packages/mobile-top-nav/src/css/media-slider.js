@@ -67,10 +67,10 @@ export default () => {
       }
     }
     .menu-enter {
-      animation: menu-enter 0.5s forwards;
+      animation: menu-enter 0.2s forwards;
     }
     .menu-exit {
-      animation: menu-exit 0.5s forwards;
+      animation: menu-exit 0.2s forwards;
     }
 
     .info-box {

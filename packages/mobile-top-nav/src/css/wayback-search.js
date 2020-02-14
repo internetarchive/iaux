@@ -34,6 +34,7 @@ export default () => {
     img {
       width: 215px;
       height: 60px;
+      margin-bottom: 1.3rem;
       max-width: 100%;
       vertical-align: middle;
     }
@@ -43,11 +44,32 @@ export default () => {
       width: 100%;
       height: 3rem;
       padding: .5rem 1rem .5rem 2.5rem;
-      font-size: 1.2rem;
-      line-height: 1.5;
+      font: normal 1.2rem/1.5 var(--theme-font-family);
+      color: #858585;
       box-sizing: border-box;
+      border: 1px solid var(--grey80);
       border-radius: 2rem;
       background: #eee;
+    }
+
+    input:focus {
+      border-color: #66afe9;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+      outline: none;
+    }
+
+    .search-field {
+      position: relative;
+    }
+
+    .search-field search-image {
+      position: absolute;
+      top: 2px;
+      left: 3px;
+    }
+
+    input:focus + search-image {
+      display: none;
     }
   `;
 };

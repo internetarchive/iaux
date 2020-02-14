@@ -15,7 +15,7 @@ export default () => {
     .search-menu.tx-slide {
       overflow: hidden;
       transition-property: max-height;
-      transition-duration: 1.5s;
+      transition-duration: .2s;
       transition-timing-function: ease;
     }
     .search-menu.tx-slide.initial,
@@ -23,7 +23,7 @@ export default () => {
       max-height: 0;
     }
     .search-menu.tx-slide.closed {
-      transition-duration: 0.1s;
+      transition-duration: 0.2s;
     }
     .search-menu.tx-slide.open {
       max-height: 100vh;
