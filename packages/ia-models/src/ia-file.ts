@@ -1,3 +1,3 @@
 export default class IAFile {
-  name?: String
+  name?: string
 }

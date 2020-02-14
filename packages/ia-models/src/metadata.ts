@@ -8,11 +8,12 @@ export default class Metadata {
   duration?: MetadataField<Duration, IADurationParser>
   indexdate?: MetadataField<Date, IADateParser>;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(json: any) {
-    let stringParser: IAStringParser = new IAStringParser();
-    let numberParser: IANumberParser = new IANumberParser();
-    let dateParser: IADateParser = new IADateParser();
-    let durationParser: IADurationParser = new IADurationParser();
+    const stringParser: IAStringParser = new IAStringParser();
+    const numberParser: IANumberParser = new IANumberParser();
+    const dateParser: IADateParser = new IADateParser();
+    const durationParser: IADurationParser = new IADurationParser();
 
     this.collection = new MetadataField(json.collection, stringParser);
     this.track = new MetadataField(json.track, numberParser);

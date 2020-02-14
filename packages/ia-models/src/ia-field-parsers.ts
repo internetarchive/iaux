@@ -25,12 +25,12 @@ export class IADateParser implements IAFieldParser<Date> {
 export class IADurationParser implements IAFieldParser<Duration> {
   parseValue(rawValue: string): Duration {
 
-    let componentArray: string[] = rawValue.split(':')
-    let componentCount: number = componentArray.length
-    let seconds: number = componentArray.map((element: string, index: number) => {
-      let componentValue: number = parseFloat(element)
-      let exponent: number = (componentCount - 1) - index
-      let multiplier: number = Math.pow(60, exponent)
+    const componentArray: string[] = rawValue.split(':')
+    const componentCount: number = componentArray.length
+    const seconds: number = componentArray.map((element: string, index: number) => {
+      const componentValue: number = parseFloat(element)
+      const exponent: number = (componentCount - 1) - index
+      const multiplier: number = Math.pow(60, exponent)
       return componentValue * Math.floor(multiplier)
     }).reduce((a, b) => a + b, 0);
 
