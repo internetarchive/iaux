@@ -1,28 +1,28 @@
-export type Duration = number;
+type Duration = number;
 
-export interface IAFieldParser<T> {
+interface IAFieldParser<T> {
   parseValue(rawValue: string): T;
 }
 
-export class IANumberParser implements IAFieldParser<number> {
+class IANumberParser implements IAFieldParser<number> {
   parseValue(rawValue: string): number {
     return parseFloat(rawValue);
   }
 }
 
-export class IAStringParser implements IAFieldParser<string> {
+class IAStringParser implements IAFieldParser<string> {
   parseValue(rawValue: string): string {
     return rawValue;
   }
 }
 
-export class IADateParser implements IAFieldParser<Date> {
+class IADateParser implements IAFieldParser<Date> {
   parseValue(rawValue: string): Date {
     return new Date(rawValue);
   }
 }
 
-export class IADurationParser implements IAFieldParser<Duration> {
+class IADurationParser implements IAFieldParser<Duration> {
   parseValue(rawValue: string): Duration {
 
     const componentArray: string[] = rawValue.split(':')
@@ -36,4 +36,13 @@ export class IADurationParser implements IAFieldParser<Duration> {
 
     return seconds;
   }
+}
+
+export {
+  Duration,
+  IAFieldParser,
+  IANumberParser,
+  IAStringParser,
+  IADateParser,
+  IADurationParser,
 }
