@@ -4,19 +4,23 @@ import Icon from './icon';
 class HamBurger extends Icon {
   static get styles() {
     return css`
-      path {
-        fill: var(--baseColor);
+      line {
+        stroke: var(--baseColor);
       }
-      .active {
-        fill: var(--activeColor);
+      .active line {
+        stroke: var(--activeColor);
       }
     `;
   }
 
   render() {
     return html`
-      <svg alt="Main menu" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-        <path class="${this.active ? 'active' : ''}" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/>
+      <svg alt="Main menu" width="24px" height="19px" viewBox="0 0 24 19" xmlns="http://www.w3.org/2000/svg">
+        <g stroke-width="3" class="${this.active ? 'active' : ''}">
+          <line x1="0" y1="1.5" x2="20" y2="1.5"></line>
+          <line x1="0" y1="9.5" x2="20" y2="9.5"></line>
+          <line x1="0" y1="17.5" x2="20" y2="17.5"></line>
+        </g>
       </svg>
     `;
   }

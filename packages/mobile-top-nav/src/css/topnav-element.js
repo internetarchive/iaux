@@ -7,6 +7,7 @@ export default () => {
       --grey13: #222;
       --grey20: #333;
       --grey999: #999;
+      --grey80: #ccc;
       --black: #000;
       --link-color: #428bca;
       --primary-text-color: var(--white);
@@ -18,9 +19,7 @@ export default () => {
     button:focus,
     a:focus,
     input:focus {
-      outline-color: var(--link-color);
-      outline-width: .16rem;
-      outline-style: auto;
+      outline: none;
     }
     .flex {
       display: flex;
@@ -72,6 +71,9 @@ export default () => {
     .link-home img {
       height: 32px;
     }
+    .hamburger {
+      margin-top: .6rem;
+    }
     .search-trigger,
     .search-activated {
       position: relative;
@@ -84,16 +86,17 @@ export default () => {
     .search-activated {
       width: 100%;
       padding: .5rem .2rem;
-      border-radius: 0.96rem 0.96rem 0 0;
+      border-radius: 1rem 1rem 0 0;
       background: var(--grey20);
     }
     .search-trigger .search {
+      margin: .4rem .1rem 0 0;
       height: 2.8rem;
     }
     .search-activated .highlight,
     .search-activated .search {
       background: var(--white);
-      border-radius: 0.96rem;
+      border-radius: 0.5rem;
     }
     .search-activated .highlight {
       display: flex;
@@ -109,7 +112,7 @@ export default () => {
       width: 100%;
       height: 3rem;
       padding-left: 1rem;
-      border-radius: 0.96rem;
+      border-radius: 0.5rem;
       border: none;
       font-size: 1.2rem;
       text-align: center;
@@ -121,7 +124,7 @@ export default () => {
       padding: .4rem;
     }
     .user-menu.active {
-      border-radius: 0.96rem 0.96rem 0 0;
+      border-radius: 1rem 1rem 0 0;
       background: var(--grey20);
     }
     @keyframes fade-in {

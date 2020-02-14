@@ -15,7 +15,7 @@ export default () => {
     }
     .media-menu.tx-slide {
       transition-property: max-height;
-      transition-duration: 1s;
+      transition-duration: .2s;
       transition-timing-function: ease;
     }
     .media-menu.tx-slide.open {
@@ -26,7 +26,7 @@ export default () => {
       max-height: 0;
     }
     .media-menu.tx-slide.closed {
-      transition-duration: 0.1s;
+      transition-duration: 0.2s;
     }
     .menu-group {
       position: relative;

@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit-element';
 import waybackCss from './css/wayback-search';
+import './assets/img/search';
 
 class WaybackSearch extends LitElement {
   static get styles() {
@@ -19,7 +20,10 @@ class WaybackSearch extends LitElement {
         <fieldset>
           <a data-event-click-tracking="TopNav|WaybackMachineLogoLink" href="https://archive.org/web/"><img src="https://archive.org/images/WaybackLogoSmall.png" alt="Wayback Machine"></a>
           <label for="url">Search the Wayback Machine</label>
-          <input type="text" name="url" id="url" placeholder="enter URL or keywords" />
+          <div class="search-field">
+            <input type="text" name="url" id="url" placeholder="enter URL or keywords" />
+            <search-image width="16"></search-image>
+          </div>
         </fieldset>
       </form>
     `;

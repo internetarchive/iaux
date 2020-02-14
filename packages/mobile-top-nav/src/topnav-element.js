@@ -71,7 +71,7 @@ export default class TopnavElement extends LitElement {
       <nav class="navbar flex align-center">
         <a class="link-home" href="#"><img src="src/assets/img/ia-logo.svg" alt="Home"/></a>
         <div class="left flex align-center">
-          <button @click="${this.mediaMenu}" tabindex="1">
+          <button class="hamburger" @click="${this.mediaMenu}" tabindex="1">
             <ham-burger ?active=${this.mediaMenuOpen}></ham-burger>
           </button>
         </div>
