@@ -1,12 +1,19 @@
 import { MetadataField } from './metadata-field';
-import { Duration, IAStringParser, IANumberParser, IADateParser, IADurationParser } from './ia-field-parsers';
+import {
+  Duration, IAStringParser, IANumberParser, IADateParser, IADurationParser
+} from './ia-field-parsers';
 
 class Metadata {
   identifier: string;
+
   collection: MetadataField<string, IAStringParser>;
+
   track?: MetadataField<number, IANumberParser>;
+
   date?: MetadataField<Date, IADateParser>;
-  duration?: MetadataField<Duration, IADurationParser>
+
+  duration?: MetadataField<Duration, IADurationParser>;
+
   indexdate?: MetadataField<Date, IADateParser>;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,11 +24,21 @@ class Metadata {
     const durationParser: IADurationParser = new IADurationParser();
 
     this.identifier = json.identifier;
+
     this.collection = new MetadataField(json.collection, stringParser);
-    this.track = new MetadataField(json.track, numberParser);
-    this.date = new MetadataField(json.date, dateParser);
-    this.duration = new MetadataField(json.duration, durationParser);
+
+    if (json.track) {
+      this.track = new MetadataField(json.track, numberParser);
+    }
+
+    if (json.date) {
+      this.date = new MetadataField(json.date, dateParser);
+    }
+
+    if (json.duration) {
+      this.duration = new MetadataField(json.duration, durationParser);
+    }
   }
 }
 
-export { Metadata }
+export { Metadata };

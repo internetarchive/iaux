@@ -1,2 +1,11 @@
-lib
-coverage
+## testing
+/coverage/
+
+## temp folders
+/.tmp/
+
+# build
+/_site/
+/lib/
+
+*.log

@@ -1,3 +1,3 @@
-import Metadata from './lib/metadata.js';
+import { Metadata } from './lib/metadata.js';
 
 export { Metadata };

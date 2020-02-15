@@ -1,3 +1,3 @@
-import Metadata from './lib/metadata.d';
+import { Metadata } from './lib/metadata.d';
 
 export { Metadata };
