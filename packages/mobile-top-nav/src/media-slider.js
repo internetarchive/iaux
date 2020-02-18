@@ -7,12 +7,14 @@ import './more-slider';
 class MediaSlider extends LitElement {
   constructor() {
     super();
+    const defaultLinks = { iconLinks: [], featuredLinks: [], links: [] };
+
     this.mediaSliderOpen = false;
     this.mediaSliderAnimate = false;
     this.selectedMenuOption = 'texts';
 
     // Begin properties not monitored by LitElement
-    this.links = menus[this.selectedMenuOption];
+    this.links = menus[this.selectedMenuOption] || defaultLinks;
     this.templates = {
       web: () => html`<wayback-search></wayback-search>`,
       more: () => html`<more-slider></more-slider>`,
@@ -28,8 +30,9 @@ class MediaSlider extends LitElement {
   }
 
   shouldUpdate() {
-    const defaults = { iconLinks: [], featuredLinks: [], links: [] };
-    this.links = menus[this.selectedMenuOption] || defaults;
+    if (menus[this.selectedMenuOption]) {
+      this.links = menus[this.selectedMenuOption];
+    }
     return true;
   }
 
