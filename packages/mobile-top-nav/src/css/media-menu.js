@@ -63,7 +63,7 @@ export default () => {
     }
     .menu-item.selected .icon {
       background-color: var(--grey20);
-      border-radius: 17% 0 0 17%;
+      border-radius: 1rem 0 0 1rem;
     }
   `;
 };
