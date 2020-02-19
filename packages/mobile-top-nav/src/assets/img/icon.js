@@ -3,12 +3,12 @@ import { LitElement } from 'lit-element';
 class Icon extends LitElement {
   constructor() {
     super();
-    this.active = false;
+    this.fill = 'fff';
   }
 
   static get properties() {
     return {
-      active: { type: Boolean }
+      fill: { type: String }
     };
   }
 }

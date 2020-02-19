@@ -7,30 +7,37 @@ import mediaMenuCss from './css/media-menu';
 const menuSelection = [
   {
     icon: 'web',
+    menu: 'web',
     label: 'Wayback Machine',
   },
   {
     icon: 'texts',
+    menu: 'texts',
     label: 'Texts',
   },
   {
     icon: 'video',
+    menu: 'video',
     label: 'Video',
   },
   {
     icon: 'audio',
+    menu: 'audio',
     label: 'Audio',
   },
   {
     icon: 'software',
+    menu: 'software',
     label: 'Software',
   },
   {
     icon: 'images',
+    menu: 'images',
     label: 'Images',
   },
   {
-    icon: 'more',
+    icon: 'ellipses',
+    menu: 'more',
     label: 'More',
   },
 ];
@@ -93,14 +100,14 @@ class MediaMenu extends LitElement {
   }
 
   get mediaMenuOptionsTemplate() {
-    const buttons = menuSelection.map(({ icon: mediatype, label }) => {
-      const selected = this.selectedMenuOption === mediatype ? 'selected' : '';
+    const buttons = menuSelection.map(({ icon, menu, label }) => {
+      const selected = this.selectedMenuOption === menu ? 'selected' : '';
       return html`
-        <button class="menu-item ${selected}" @click="${this.select.bind(this, mediatype)}">
+        <button class="menu-item ${selected}" @click="${this.select.bind(this, menu)}">
           <span class="icon"
             ><mediamenu-image
-              type="${mediatype}"
-              fill="${selected ? 'white' : ''}"
+              .type="${icon}"
+              .fill="${selected ? 'white' : ''}"
             ></mediamenu-image
           ></span>
           <span class="label">${label}</span>
@@ -130,7 +137,7 @@ class MediaMenu extends LitElement {
         <div class="menu-group">
           ${this.mediaMenuOptionsTemplate}
           <media-slider
-            selectedMenuOption=${this.selectedMenuOption}
+            .selectedMenuOption=${this.selectedMenuOption}
             ?mediaSliderOpen="${this.mediaSliderOpen}"
             ?mediaSliderAnimate="${this.mediaSliderAnimate}"
           ></media-slider>

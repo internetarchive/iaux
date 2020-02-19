@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { LitElement, html } from 'lit-element';
-import * as icons from './icons.js';
+import './ia-icon';
 
 class mediaMenuImage extends LitElement {
   static get properties() {
@@ -25,8 +25,7 @@ class mediaMenuImage extends LitElement {
   }
 
   render() {
-    const fillColor = this.getFill(this.fill);
-    return icons[this.type] ? icons[this.type](fillColor) : '';
+    return html`<ia-icon .icon=${this.type} .fill=${this.getFill()}></ia-icon>`
   }
 }
 
