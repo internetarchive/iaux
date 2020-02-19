@@ -93,14 +93,14 @@ describe('Search Handler', () => {
     expect(secondEntry.searchMatchIndex).to.equal(0);
 
     const thirdEntry = newTranscript.entries[2];
-    expect(thirdEntry.id).to.equal(2);
+    expect(thirdEntry.id).to.equal(3);
     expect(thirdEntry.start).to.equal(5);
     expect(thirdEntry.end).to.equal(9);
     expect(thirdEntry.rawText).to.equal('blop');
     expect(thirdEntry.searchMatchIndex).to.equal(undefined);
 
     const fourthEntry = newTranscript.entries[3];
-    expect(fourthEntry.id).to.equal(3);
+    expect(fourthEntry.id).to.equal(4);
     expect(fourthEntry.start).to.equal(10);
     expect(fourthEntry.end).to.equal(13);
     expect(fourthEntry.rawText).to.equal('bump boing');
@@ -128,14 +128,14 @@ describe('Search Handler', () => {
     expect(entryPriorToSearchMatch.searchMatchIndex).to.equal(undefined);
 
     const searchMatchEntry = newTranscript.entries[3];
-    expect(searchMatchEntry.id).to.equal(3);
+    expect(searchMatchEntry.id).to.equal(4);
     expect(searchMatchEntry.start).to.equal(10);
     expect(searchMatchEntry.end).to.equal(13);
     expect(searchMatchEntry.rawText).to.equal('bump');
     expect(searchMatchEntry.searchMatchIndex).to.equal(0);
 
     const entryAfterSearchMatch = newTranscript.entries[4];
-    expect(entryAfterSearchMatch.id).to.equal(4);
+    expect(entryAfterSearchMatch.id).to.equal(5);
     expect(entryAfterSearchMatch.start).to.equal(14);
     expect(entryAfterSearchMatch.end).to.equal(18);
     expect(entryAfterSearchMatch.rawText).to.equal('snip snap');
@@ -165,7 +165,7 @@ describe('Search Handler', () => {
     expect(firstSearchMatch.searchMatchIndex).to.equal(0);
 
     const secondSearchMatch = newTranscript.entries[7];
-    expect(secondSearchMatch.id).to.equal(6);
+    expect(secondSearchMatch.id).to.equal(8);
     expect(secondSearchMatch.start).to.equal(24);
     expect(secondSearchMatch.end).to.equal(28);
     expect(secondSearchMatch.rawText).to.equal('bump');
@@ -213,7 +213,7 @@ describe('Search Handler', () => {
     expect(secondEntry.searchMatchIndex).to.equal(undefined);
 
     const thirdEntry = newTranscript.entries[2];
-    expect(thirdEntry.id).to.equal(2);
+    expect(thirdEntry.id).to.equal(3);
     expect(thirdEntry.start).to.equal(5);
     expect(thirdEntry.end).to.equal(18);
     expect(thirdEntry.rawText).to.equal('blop bump boing fizz');
@@ -254,7 +254,7 @@ describe('Search Handler', () => {
     expect(firstSearchMatch.searchMatchIndex).to.equal(0);
 
     const secondSearchMatch = newTranscript.entries[5];
-    expect(secondSearchMatch.id).to.equal(4);
+    expect(secondSearchMatch.id).to.equal(6);
     expect(secondSearchMatch.start).to.equal(14);
     expect(secondSearchMatch.end).to.equal(18);
     expect(secondSearchMatch.rawText).to.equal('bu');
@@ -274,35 +274,35 @@ describe('Search Handler', () => {
     expect(newTranscript.entries.length).to.equal(12);
 
     const firstSearchMatch = newTranscript.entries[2];
-    expect(firstSearchMatch.id).to.equal(2);
+    expect(firstSearchMatch.id).to.equal(3);
     expect(firstSearchMatch.start).to.equal(6.003);
     expect(firstSearchMatch.end).to.equal(11.012);
     expect(firstSearchMatch.rawText).to.equal('the');
     expect(firstSearchMatch.searchMatchIndex).to.equal(0);
 
     const secondSearchMatch = newTranscript.entries[5];
-    expect(secondSearchMatch.id).to.equal(3);
+    expect(secondSearchMatch.id).to.equal(6);
     expect(secondSearchMatch.start).to.equal(11.013);
     expect(secondSearchMatch.end).to.equal(15.044);
     expect(secondSearchMatch.rawText).to.equal('the');
     expect(secondSearchMatch.searchMatchIndex).to.equal(1);
 
     const afterSecondMatch = newTranscript.entries[6];
-    expect(afterSecondMatch.id).to.equal(3);
+    expect(afterSecondMatch.id).to.equal(7);
     expect(afterSecondMatch.start).to.equal(11.013);
     expect(afterSecondMatch.end).to.equal(15.044);
     expect(afterSecondMatch.rawText).to.equal('president harshly criticized');
     expect(afterSecondMatch.searchMatchIndex).to.equal(undefined);
 
     const thirdSearchMatch = newTranscript.entries[7];
-    expect(thirdSearchMatch.id).to.equal(3);
+    expect(thirdSearchMatch.id).to.equal(8);
     expect(thirdSearchMatch.start).to.equal(11.013);
     expect(thirdSearchMatch.end).to.equal(15.044);
     expect(thirdSearchMatch.rawText).to.equal('the');
     expect(thirdSearchMatch.searchMatchIndex).to.equal(2);
 
     const afterThirdSearchMatch = newTranscript.entries[8];
-    expect(afterThirdSearchMatch.id).to.equal(3);
+    expect(afterThirdSearchMatch.id).to.equal(9);
     expect(afterThirdSearchMatch.start).to.equal(11.013);
     expect(afterThirdSearchMatch.end).to.equal(15.044);
     expect(afterThirdSearchMatch.rawText).to.equal('Democratic lawmaker and his');
@@ -320,7 +320,7 @@ describe('Search Handler', () => {
     const newTranscript = searchHandler.search('blop bump');
 
     const thirdSearchMatch = newTranscript.entries[2];
-    expect(thirdSearchMatch.id).to.equal(2);
+    expect(thirdSearchMatch.id).to.equal(3);
     expect(thirdSearchMatch.start).to.equal(5);
     expect(thirdSearchMatch.end).to.equal(13);
     expect(thirdSearchMatch.rawText).to.equal('blop bump');
