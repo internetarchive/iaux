@@ -12,6 +12,8 @@ class SearchMenu extends LitElement {
 
   constructor() {
     super();
+    this.searchMenuOpen = false;
+    this.searchMenuAnimate = false;
     this.selectedSearchType = '';
   }
 

@@ -9,6 +9,12 @@ class UserMenu extends LitElement {
     };
   }
 
+  constructor() {
+    super();
+    this.userMenuOpen = false;
+    this.userMenuAnimate = false;
+  }
+
   render() {
     let userMenuClass = 'initial';
     if (this.userMenuOpen) {
