@@ -9,6 +9,7 @@
   "files": [
     "lib/**/*",
     "!lib/demo",
+    "src/**/*",
     "index.d.ts",
     "index.js"
   ],
