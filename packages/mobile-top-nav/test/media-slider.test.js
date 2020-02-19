@@ -18,13 +18,4 @@ describe('<media-slider>', () => {
     expect(mediaSlider.mediaSliderAnimate).to.be.false;
     expect(mediaSlider.selectedMenuOption).to.equal('');
   });
-
-  it('changes link lists when selected menu option changed', async () => {
-    const mediaSlider = await fixture(component(false, false, ''));
-    const option = 'texts';
-
-    mediaSlider.selectedMenuOption = option;
-
-    expect(mediaSlider.links.heading).to.equal(menus[option].heading);
-  });
 });

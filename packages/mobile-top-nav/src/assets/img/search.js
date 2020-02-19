@@ -5,13 +5,12 @@ class Search extends Icon {
   constructor() {
     super();
     this.width = "27";
-    this.height = Math.ceil((+this.width) * 1.11);
+    this.height = Math.ceil(this.width * 1.11);
   }
 
   static get properties() {
-    const superclassProps = super.properties;
     return Object.assign({
-      width: { type: String },
+      width: { type: Number },
       height: { type: Number },
     });
   }
