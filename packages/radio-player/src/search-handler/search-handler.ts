@@ -34,6 +34,7 @@ export default class SearchHandler {
     const newTranscriptEntries: TranscriptEntryConfig[] = [];
 
     let searchResultIndex = 0;
+    let entryIdentifier = 1;
 
     searchSeparatedTranscript.forEach(entry => {
       // If we encounter a match, just create a new transcript entry from it and append it.
@@ -41,15 +42,19 @@ export default class SearchHandler {
       // not multiple broken up by transcript entry.
       if (entry.isSearchMatch) {
         // find the closest source transcript to this entry
-        const resultIndexMap = this.searchIndex.getTranscriptEntryAt(entry.range.startIndex);
-        if (!resultIndexMap) {
+        const startEntry = this.searchIndex.getTranscriptEntryAt(entry.range.startIndex);
+        if (!startEntry) {
           return;
         }
 
-        const newTranscriptEntry = this.createBlankTranscriptEntryConfig(resultIndexMap.entry);
+        const endEntry = this.searchIndex.getTranscriptEntryAt(entry.range.endIndex) || startEntry;
+        const newTranscriptEntry = this.createBlankTranscriptEntryConfig(startEntry.entry);
         newTranscriptEntry.searchMatchIndex = searchResultIndex;
         searchResultIndex += 1;
         newTranscriptEntry.rawText = entry.text;
+        newTranscriptEntry.id = entryIdentifier;
+        entryIdentifier += 1;
+        newTranscriptEntry.end = endEntry.entry.end;
         newTranscriptEntries.push(newTranscriptEntry);
         return;
       }
@@ -69,6 +74,8 @@ export default class SearchHandler {
           intersection.endIndex,
         );
         newTranscriptEntry.rawText = text.trim();
+        newTranscriptEntry.id = entryIdentifier;
+        entryIdentifier += 1;
         newTranscriptEntries.push(newTranscriptEntry);
       });
     });

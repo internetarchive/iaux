@@ -215,7 +215,7 @@ describe('Search Handler', () => {
     const thirdEntry = newTranscript.entries[2];
     expect(thirdEntry.id).to.equal(2);
     expect(thirdEntry.start).to.equal(5);
-    expect(thirdEntry.end).to.equal(9);
+    expect(thirdEntry.end).to.equal(18);
     expect(thirdEntry.rawText).to.equal('blop bump boing fizz');
     expect(thirdEntry.searchMatchIndex).to.equal(0);
 
@@ -307,5 +307,23 @@ describe('Search Handler', () => {
     expect(afterThirdSearchMatch.end).to.equal(15.044);
     expect(afterThirdSearchMatch.rawText).to.equal('Democratic lawmaker and his');
     expect(afterThirdSearchMatch.searchMatchIndex).to.equal(undefined);
+  });
+
+  it('sets the start and end of search matches correctly', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
+    const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
+    const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);
+    const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
+    const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
+    const searchHandler = new SearchHandler(transcriptConfig);
+
+    const newTranscript = searchHandler.search('blop bump');
+
+    const thirdSearchMatch = newTranscript.entries[2];
+    expect(thirdSearchMatch.id).to.equal(2);
+    expect(thirdSearchMatch.start).to.equal(5);
+    expect(thirdSearchMatch.end).to.equal(13);
+    expect(thirdSearchMatch.rawText).to.equal('blop bump');
+    expect(thirdSearchMatch.searchMatchIndex).to.equal(0);
   });
 });
