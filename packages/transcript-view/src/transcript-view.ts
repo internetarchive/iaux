@@ -36,9 +36,7 @@ export default class TranscriptView extends LitElement {
 
   @property({ type: Number }) private timeScrollTop = 0;
 
-  @property({ type: TranscriptEntryConfig }) private currentEntry:
-    | TranscriptEntryConfig
-    | undefined;
+  @property({ type: Array }) private currentEntries: TranscriptEntryConfig[] = [];
 
   private scrollTimerDelay = 15000;
 
@@ -92,8 +90,8 @@ export default class TranscriptView extends LitElement {
   }
 
   private transcriptEntryTemplate(entry: TranscriptEntryConfig): TemplateResult {
-    const currentEntryId = this.currentEntry ? this.currentEntry.id : -1;
-    const active = entry.id === currentEntryId;
+    const active = this.currentEntries.find((currentEntry) => currentEntry.id === entry.id)
+      !== undefined;
     const selected = entry.searchMatchIndex === this.selectedSearchResultIndex;
     const isSearchResult = entry.searchMatchIndex !== undefined;
     const isMusicEntry = entry.isMusic;
@@ -308,24 +306,19 @@ export default class TranscriptView extends LitElement {
       return;
     }
 
-    const activeEntry = entries.find(
+    const activeEntries = entries.filter(
       // eslint-disable-next-line max-len
       (entry: TranscriptEntryConfig) => this.currentTime >= entry.start && this.currentTime <= entry.end,
     );
 
-    if (!activeEntry) {
-      this.currentEntry = undefined;
-      return;
-    }
-
     // this method gets called for every time update, which happens several times per second, but
     // we only want to update the UI if the `currentEntry` has actually changed
     // (ie, their ids don't match)
-    if (this.currentEntry && this.currentEntry.id === activeEntry.id) {
+    if (this.currentEntries === activeEntries) {
       return;
     }
 
-    this.currentEntry = activeEntry;
+    this.currentEntries = activeEntries;
   }
 
   // This finds the transcript entry that is closest to a given time.
@@ -398,7 +391,7 @@ export default class TranscriptView extends LitElement {
     if (changedProperties.has('selectedSearchResultIndex')) {
       this.scrollToSelectedSearchResult();
     }
-    if (changedProperties.has('currentEntry')) {
+    if (changedProperties.has('currentEntries')) {
       this.scrollToClosestEntry();
       this.updateTimePosition();
     }
