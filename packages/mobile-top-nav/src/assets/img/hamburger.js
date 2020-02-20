@@ -30,4 +30,4 @@ class HamBurger extends Icon {
   }
 }
 
-customElements.define('ham-burger', HamBurger);
+customElements.define('icon-hamburger', HamBurger);

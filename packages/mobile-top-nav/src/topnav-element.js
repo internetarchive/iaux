@@ -72,7 +72,7 @@ export default class TopnavElement extends LitElement {
         <a class="link-home" href="#"><img src="src/assets/img/ia-logo.svg" alt="Home"/></a>
         <div class="left flex align-center">
           <button class="hamburger" @click="${this.mediaMenu}" tabindex="1">
-            <ham-burger ?active=${this.mediaMenuOpen}></ham-burger>
+            <icon-hamburger ?active=${this.mediaMenuOpen}></icon-hamburger>
           </button>
         </div>
         <div class="search-trigger ${searchFade} ${searchMenuToggleState}">
