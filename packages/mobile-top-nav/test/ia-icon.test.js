@@ -1,4 +1,4 @@
-import { html, fixture, expect, oneEvent } from '@open-wc/testing';
+import { html, fixture, expect } from '@open-wc/testing';
 import '../src/assets/img/ia-icon';
 
 describe('<ia-icon>', () => {
