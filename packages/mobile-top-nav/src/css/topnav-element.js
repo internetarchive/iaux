@@ -33,7 +33,6 @@ export default () => {
     .navbar {
       position: relative;
       flex-direction: row;
-      padding: 0 1%;
       background: var(--grey13);
       border-bottom: 1px solid var(--grey20);
     }
@@ -105,8 +104,12 @@ export default () => {
     }
     .search-activated .search {
       height: 2.8rem;
-      padding: .2rem;
+      padding: 0;
       margin-right: 0;
+    }
+    .search-activated search-image {
+      position: relative;
+      top: -5px;
     }
     .search-activated .search-field {
       width: 100%;
