@@ -7,15 +7,18 @@ class WaybackSearch extends LitElement {
     return waybackCss();
   }
 
-  redirectToWayback(e) {
+  handleSubmit(e) {
     e.preventDefault();
-    const url = e.target.querySelector('#url').value;
+    this.redirectToWayback(e.target.querySelector('#url').value);
+  }
+
+  redirectToWayback(url) {
     window.location = `https://web.archive.org/web/*/${url}`;
   }
 
   render() {
     return html`
-      <form action="" method="post" @submit=${this.redirectToWayback}>
+      <form action="" method="post" @submit=${this.handleSubmit}>
         <p>Search the history of over 411 billion <a data-event-click-tracking="TopNav|WaybackMachineStatsLink" href="https://blog.archive.org/2016/10/23/defining-web-pages-web-sites-and-web-captures/">web pages</a> on the Internet.</p>
         <fieldset>
           <a data-event-click-tracking="TopNav|WaybackMachineLogoLink" href="https://archive.org/web/"><img src="https://archive.org/images/WaybackLogoSmall.png" alt="Wayback Machine"></a>

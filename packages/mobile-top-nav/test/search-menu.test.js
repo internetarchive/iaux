@@ -25,4 +25,13 @@ describe('<search-menu>', () => {
 
     expect(searchMenu.selectedSearchType).to.equal(value);
   });
+
+  it('renders with closed class if done animating', async () => {
+    const searchMenu = await fixture(component);
+
+    searchMenu.searchMenuAnimate = true;
+    await searchMenu.updateComplete;
+
+    expect(searchMenu.shadowRoot.querySelector('.search-menu').classList.contains('closed')).to.be.true;
+  });
 });

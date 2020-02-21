@@ -11,4 +11,13 @@ describe('<user-menu>', () => {
     expect(userMenu.userMenuOpen).to.be.false;
     expect(userMenu.userMenuAnimate).to.be.false;
   });
+
+  it('renders with closed class if done animating', async () => {
+    const userMenu = await fixture(component);
+
+    userMenu.userMenuAnimate = true;
+    await userMenu.updateComplete;
+
+    expect(userMenu.shadowRoot.querySelector('nav').classList.contains('closed')).to.be.true;
+  });
 });

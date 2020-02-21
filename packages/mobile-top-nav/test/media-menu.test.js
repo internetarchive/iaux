@@ -2,6 +2,8 @@ import { html, fixture, expect } from '@open-wc/testing';
 
 import '../src/media-menu';
 
+const component = html`<media-menu></media-menu>`;
+
 const verifyClosed = (instance) => {
   expect(instance.mediaSliderAnimate).to.be.true;
   expect(instance.mediaSliderOpen).to.be.false;
@@ -16,7 +18,7 @@ const verifyOpened = (instance, mediatype) => {
 
 describe('<media-menu>', () => {
   it('sets default properties', async () => {
-    const mediaMenu = await fixture(html`<media-menu></media-menu>`);
+    const mediaMenu = await fixture(component);
 
     expect(mediaMenu.mediaSliderOpen).to.be.false;
     expect(mediaMenu.mediaSliderAnimate).to.be.false;
@@ -24,7 +26,7 @@ describe('<media-menu>', () => {
   });
 
   it('sets media slider to closed', async () => {
-    const mediaMenu = await fixture(html`<media-menu></media-menu>`);
+    const mediaMenu = await fixture(component);
 
     mediaMenu.mediaSliderOpen = true;
     mediaMenu.selectedMenuOption = 'foo';
@@ -34,7 +36,7 @@ describe('<media-menu>', () => {
   });
 
   it('toggles media slider visibility and starts animation', async () => {
-    const mediaMenu = await fixture(html`<media-menu></media-menu>`);
+    const mediaMenu = await fixture(component);
     const mediatype = 'foo';
 
     mediaMenu.selectedMenuOption = mediatype;
@@ -44,7 +46,7 @@ describe('<media-menu>', () => {
   });
 
   it('closes media slider if selected menu type is the open menu type', async () => {
-    const mediaMenu = await fixture(html`<media-menu></media-menu>`);
+    const mediaMenu = await fixture(component);
     const mediatype = 'foo';
 
     mediaMenu.selectedMenuOption = mediatype;
@@ -54,11 +56,46 @@ describe('<media-menu>', () => {
   });
 
   it('opens media slider menu and starts animation', async () => {
-    const mediaMenu = await fixture(html`<media-menu></media-menu>`);
+    const mediaMenu = await fixture(component);
     const mediatype = 'foo';
 
     mediaMenu.select(mediatype);
 
     verifyOpened(mediaMenu, mediatype);
+  });
+
+  it('closes slider when menu closed', async () => {
+    const mediaMenu = await fixture(component);
+
+    mediaMenu.selectedMenuOption = 'foo';
+    mediaMenu.mediaMenuOpen = true;
+    await mediaMenu.updateComplete;
+    mediaMenu.mediaSliderOpen = true;
+    await mediaMenu.updateComplete;
+    mediaMenu.mediaMenuOpen = false;
+    await mediaMenu.updateComplete;
+
+    expect(mediaMenu.selectedMenuOption).to.equal('');
+  });
+
+  it('renders menu icon as selected when selectedMenuOption matches', async () => {
+    const mediaMenu = await fixture(component);
+    const mediaType = 'texts';
+
+    mediaMenu.selectedMenuOption = mediaType;
+    await mediaMenu.updateComplete;
+
+    const textsButton = mediaMenu.shadowRoot.querySelector('.selected');
+
+    expect(textsButton).to.not.be.null;
+  });
+
+  it('renders with closed class if done animating', async () => {
+    const mediaMenu = await fixture(component);
+
+    mediaMenu.mediaMenuAnimate = true;
+    await mediaMenu.updateComplete;
+
+    expect(mediaMenu.shadowRoot.querySelector('nav').classList.contains('closed')).to.be.true;
   });
 });
