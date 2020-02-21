@@ -9,6 +9,7 @@
   "files": [
     "lib/**/*",
     "!lib/demo",
+    "src/**/*",
     "index.d.ts",
     "index.js"
   ],
@@ -35,12 +36,12 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
-    "@internetarchive/audio-element": "0.0.1-alpha.422+18a94d7",
-    "@internetarchive/expandable-search-bar": "0.0.1-alpha.447+88813cc",
-    "@internetarchive/playback-controls": "0.0.1-alpha.444+cdd038f",
-    "@internetarchive/scrubber-bar": "0.0.1-alpha.385+0bf2a00",
-    "@internetarchive/transcript-view": "0.0.1-alpha.387+be3716b",
-    "@internetarchive/waveform-progress": "0.0.1-alpha.386+ece5b53",
+    "@internetarchive/audio-element": "0.0.1-alpha.530",
+    "@internetarchive/expandable-search-bar": "0.0.1-alpha.530",
+    "@internetarchive/playback-controls": "0.0.1-alpha.530",
+    "@internetarchive/scrubber-bar": "0.0.1-alpha.530",
+    "@internetarchive/transcript-view": "0.0.1-alpha.533",
+    "@internetarchive/waveform-progress": "0.0.1-alpha.530",
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"
   },
