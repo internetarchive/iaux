@@ -11,7 +11,7 @@ import styles from './theatre-styling.less'
 /**
  * pick all *.stories.js files within the ia-components directory
  */
-const allStories = require.context('../', true, /(\.\/)(live|sandbox)([\w\d\/\-\_]+)(\.stories\.js)/)
+const allStories = require.context('../', true, /(\.\/)(live|components)([\w\d\/\-\_]+)(\.stories\.js)/)
 
 /**
  * Set all globally used add-ons here
@@ -26,7 +26,7 @@ addDecorator(withTests({ results }))
  * A story file must have the following suffix: *.stories.js
  */
 const loadStories = () => {
-  allStories.keys().forEach(storyToRead => allStories(storyToRead));
+    allStories.keys().forEach(storyToRead => allStories(storyToRead));
 }
 
 configure(loadStories, module)

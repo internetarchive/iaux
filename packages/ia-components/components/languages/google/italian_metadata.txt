@@ -27,7 +27,7 @@ Posizione di backup
 Codice a barre
 PDF migliore
 ID BIB
-Livello BIB
+livello BIB
 Nome del file Bitsavers
 Foglia del bookplate
 ID casella
