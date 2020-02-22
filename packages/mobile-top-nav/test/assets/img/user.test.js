@@ -8,7 +8,7 @@ describe('<user-image>', () => {
     icon.active = true;
     await icon.updateComplete;
 
-    const styleElement = icon.shadowRoot.querySelector('svg > path');
+    const styleElement = icon.shadowRoot.querySelector('svg > g');
 
     expect(styleElement.classList.contains('active')).to.be.true;
   });

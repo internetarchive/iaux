@@ -15,7 +15,15 @@ class HamBurger extends Icon {
 
   render() {
     return html`
-      <svg class="${this.active ? 'active' : ''}" height="40" viewBox="0 0 40 40" width="40" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-width="3"><path d="m10 12.5h20"/><path d="m10 20.5h20"/><path d="m10 28.5h20"/></g></svg>
+      <svg class="${this.active ? 'active' : ''}" height="40" viewBox="0 0 40 40" width="40" xmlns="http://www.w3.org/2000/svg" aria-labelledby="hamburgerTitleID hamburgerDescID">
+        <title id="hamburgerTitleID">Hamburger icon</title>
+        <desc id="hamburgerDescID">An icon used to represent a menu that can be toggled by interacting with this icon.</desc>
+        <g fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-width="3">
+          <path d="m10 12.5h20"/>
+          <path d="m10 20.5h20"/>
+          <path d="m10 28.5h20"/>
+        </g>
+      </svg>
     `;
   }
 }

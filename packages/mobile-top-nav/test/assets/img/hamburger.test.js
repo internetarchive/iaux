@@ -8,7 +8,8 @@ describe('<icon-hamburger>', () => {
     icon.active = true;
     await icon.updateComplete;
 
-    const styleElement = icon.shadowRoot.querySelector('svg > g');
+    const styleElement = icon.shadowRoot.querySelector('svg');
+    console.log(icon.shadowRoot);
 
     expect(styleElement.classList.contains('active')).to.be.true;
   });
