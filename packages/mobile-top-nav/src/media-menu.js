@@ -103,12 +103,9 @@ class MediaMenu extends LitElement {
       const selected = this.selectedMenuOption === menu ? 'selected' : '';
       return html`
         <button class="menu-item ${selected}" @click="${this.select.bind(this, menu)}">
-          <span class="icon"
-            ><mediamenu-image
-              .type="${icon}"
-              .fill="${selected ? 'white' : ''}"
-            ></mediamenu-image
-          ></span>
+          <span class="icon">
+            <mediamenu-image .type="${icon}" .fill="${selected ? 'white' : ''}"></mediamenu-image>
+          </span>
           <span class="label">${label}</span>
         </button>
       `;
