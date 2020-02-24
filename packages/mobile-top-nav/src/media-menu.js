@@ -1,7 +1,7 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 
 import './media-slider';
-import './assets/img/media-menu-images';
+import icons from './assets/img/static_icons';
 import mediaMenuCss from './css/media-menu';
 
 const menuSelection = [
@@ -62,9 +62,10 @@ class MediaMenu extends LitElement {
 
   updated(changedProperties) {
     const { mediaMenuOpen, mediaSliderOpen } = this;
-    const menuClosed = changedProperties.has('mediaMenuOpen')
-      && changedProperties.get('mediaMenuOpen')
-      && !mediaMenuOpen;
+    const menuClosed =
+      changedProperties.has('mediaMenuOpen') &&
+      changedProperties.get('mediaMenuOpen') &&
+      !mediaMenuOpen;
 
     if (menuClosed && mediaSliderOpen) {
       this.mediaSliderOpen = false;
@@ -98,13 +99,17 @@ class MediaMenu extends LitElement {
     this.toggleMediaSlider();
   }
 
+  static get icons() {
+    return icons;
+  }
+
   get mediaMenuOptionsTemplate() {
     const buttons = menuSelection.map(({ icon, menu, label }) => {
       const selected = this.selectedMenuOption === menu ? 'selected' : '';
       return html`
         <button class="menu-item ${selected}" @click="${this.select.bind(this, menu)}">
-          <span class="icon">
-            <mediamenu-image .type="${icon}" .fill="${selected ? 'white' : ''}"></mediamenu-image>
+          <span class="icon${selected ? ' active' : ''}">
+            ${MediaMenu.icons[icon]}
           </span>
           <span class="label">${label}</span>
         </button>
@@ -143,7 +148,17 @@ class MediaMenu extends LitElement {
   }
 
   static get styles() {
-    return mediaMenuCss();
+    return [
+      mediaMenuCss(),
+      css`
+        .icon .fill-color {
+          fill: #999;
+        }
+        .icon.active .fill-color {
+          fill: #fff;
+        }
+      `,
+    ];
   }
 }
 
