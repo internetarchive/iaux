@@ -302,6 +302,7 @@ export default class TranscriptView extends LitElement {
 
   private handleCurrentTimeChange(): void {
     const entries = this.transcriptEntries;
+
     if (entries.length === 0) {
       return;
     }
@@ -312,13 +313,55 @@ export default class TranscriptView extends LitElement {
     );
 
     // this method gets called for every time update, which happens several times per second, but
-    // we only want to update the UI if the `currentEntry` has actually changed
+    // we only want to update the UI if the `currentEntries` have actually changed
     // (ie, their ids don't match)
-    if (this.currentEntries === activeEntries) {
+    const entriesMatch = this.entryArraysMatch(activeEntries, this.currentEntries);
+    if (entriesMatch) {
       return;
     }
 
+    this.dispatchEvent(new Event('currentEntriesUpdated'));
+
     this.currentEntries = activeEntries;
+  }
+
+  /**
+   * Compare two arrays of TranscriptEntryConfigs.
+   *
+   * This is useful for minimizing the amount of UI updates needed above in the
+   * `handleCurrentTimeChange` method above so it only updates when the entries
+   * have actually changed.
+   *
+   * @private
+   * @param {TranscriptEntryConfig[]} entryArrayA
+   * @param {TranscriptEntryConfig[]} entryArrayB
+   * @returns {boolean}
+   * @memberof TranscriptView
+   */
+  private entryArraysMatch(
+    entryArrayA: TranscriptEntryConfig[],
+    entryArrayB: TranscriptEntryConfig[]
+  ): boolean {
+
+    if (entryArrayA.length !== entryArrayB.length) {
+      return false;
+    }
+
+    const entryArrayAIds = entryArrayA.map(entry => entry.id).sort();
+    const entryArrayBIds = entryArrayB.map(entry => entry.id).sort();
+
+    let arraysMatch = true;
+    entryArrayAIds.forEach((value: number, index: number) => {
+      if (entryArrayBIds[index] !== value) {
+        arraysMatch = false;
+      }
+    });
+
+    if (arraysMatch) {
+      return true;
+    }
+
+    return false;
   }
 
   // This finds the transcript entry that is closest to a given time.

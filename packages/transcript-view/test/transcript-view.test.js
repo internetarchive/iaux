@@ -135,35 +135,11 @@ describe('TranscriptView', () => {
     expect(el.currentEntries.length).to.equal(1);
     expect(el.currentEntries[0]).to.equal(entry1);
 
-    el.currentTime = 69;
-
-    await promisedSleep(1);
-
+    setTimeout(() => { el.currentTime = 69; });
+    const response = await oneEvent(el, 'currentEntriesUpdated');
+    expect(response).to.exist;
     expect(el.currentEntries.length).to.equal(1);
     expect(el.currentEntries[0]).to.equal(entry2);
-  });
-
-  it('does not change the current entry if the id has not changed', async () => {
-    const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', undefined);
-    const entry2 = new TranscriptEntryConfig(2, 68, 73, 'bar', undefined);
-    const entry3 = new TranscriptEntryConfig(3, 74, 78, 'baz', undefined);
-
-    const config = new TranscriptConfig([entry1, entry2, entry3])
-
-    const el = await fixture(html`
-      <transcript-view
-        .config=${config}
-        currentTime='65'>
-      </transcript-view>
-    `);
-
-    expect(el.currentEntries[0]).to.equal(entry1);
-
-    el.currentTime = 66;
-
-    await promisedSleep(1);
-
-    expect(el.currentEntries[0]).to.equal(entry1);
   });
 
   it('finds multiple current entries if they are active', async () => {
