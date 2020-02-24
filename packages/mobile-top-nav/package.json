@@ -44,7 +44,6 @@
     "gulp": "^4.0.2",
     "lint-staged": "^8.0.0",
     "owc-dev-server": "^0.1.2",
-    "polymer-cli": "^1.9.11",
     "sinon": "^9.0.0",
     "webpack-merge": "^4.1.5"
   },
