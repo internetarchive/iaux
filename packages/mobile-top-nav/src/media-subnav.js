@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit-element';
 import menus from './data/menus';
+import locationHandler from './lib/location-handler';
 import './wayback-search';
 import './more-slider';
 import subnavCss from './css/media-subnav';
@@ -12,7 +13,7 @@ class MediaSubnav extends LitElement {
     // Begin properties not monitored by LitElement
     this.links = menus[this.menu] || defaultLinks;
     this.templates = {
-      web: () => html`<wayback-search></wayback-search>`,
+      web: () => html`<wayback-search .locationHandler=${locationHandler}></wayback-search>`,
       more: () => html`<more-slider></more-slider>`,
     };
   }

@@ -3,17 +3,25 @@ import waybackCss from './css/wayback-search';
 import './assets/img/search';
 
 class WaybackSearch extends LitElement {
+  constructor() {
+    super();
+    this.locationHandler = () => {};
+  }
+
+  static get properties() {
+    return {
+      locationHandler: { type: Function }
+    }
+  }
+
   static get styles() {
     return waybackCss();
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.redirectToWayback(e.target.querySelector('#url').value);
-  }
-
-  redirectToWayback(url) {
-    window.location = `https://web.archive.org/web/*/${url}`;
+    const query = e.target.querySelector('#url').value;
+    this.locationHandler(`https://web.archive.org/web/*/${query}`);
   }
 
   render() {
