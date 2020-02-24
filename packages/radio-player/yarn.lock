@@ -1080,10 +1080,10 @@
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/transcript-view@0.0.1-alpha.533":
-  version "0.0.1-alpha.533"
-  resolved "https://registry.yarnpkg.com/@internetarchive/transcript-view/-/transcript-view-0.0.1-alpha.533.tgz#ad270d8b6d6a99ebeb37edfac58db8e6090b131f"
-  integrity sha512-UmcdVC9EKLebPzWeon2H5cwnOGPZyDtAjPQhh5blXkmdV2mE9eyoozDDpPf1daSJMStc2oVbv5teG+T1mbjGVw==
+"@internetarchive/transcript-view@0.0.1-alpha.504":
+  version "0.0.1-alpha.504"
+  resolved "https://registry.yarnpkg.com/@internetarchive/transcript-view/-/transcript-view-0.0.1-alpha.504.tgz#3f8e46f09a0faefc46b15b7a3f7fff1f65ef0d6b"
+  integrity sha512-nucAmfBzOsPpnH9Fk9srpTzb6Ok8bWnuK/DfbL3h77H9EqLMtgVQrcTEHCcAS/StgMh1kZr91a4HxtADVtY1yA==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
