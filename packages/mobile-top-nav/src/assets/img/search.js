@@ -4,8 +4,8 @@ import Icon from './icon';
 class Search extends Icon {
   constructor() {
     super();
-    this.width = "40";
-    this.height = Math.ceil(this.width * 1.11);
+    this.width = 40;
+    this.height = 40;
   }
 
   static get properties() {

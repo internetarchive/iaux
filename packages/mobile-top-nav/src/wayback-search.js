@@ -25,7 +25,7 @@ class WaybackSearch extends LitElement {
           <label for="url">Search the Wayback Machine</label>
           <div class="search-field">
             <input type="text" name="url" id="url" placeholder="enter URL or keywords" />
-            <search-image width="16"></search-image>
+            <search-image width="24" height="24"></search-image>
           </div>
         </fieldset>
       </form>
