@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
 import Icon from './icon';
 
 class Search extends Icon {

@@ -1,7 +1,7 @@
 import { html, fixture, expect } from '@open-wc/testing';
 
 import '../src/media-slider';
-import menus from'../src/data/menus';
+import { texts } from '../src/data/menus';
 
 const component = (mediaSliderOpen, mediaSliderAnimate, selectedMenuOption) => (
   html`<media-slider
@@ -23,7 +23,7 @@ describe('<media-slider>', () => {
     const mediaSlider = await fixture(component(false, false, 'texts'));
     const menuHeading = mediaSlider.shadowRoot.querySelector('media-subnav').shadowRoot.querySelector('h3');
 
-    expect(menuHeading.innerText).to.equal(menus.texts.heading);
+    expect(menuHeading.innerText).to.equal(texts.heading);
   });
 
   it('renders the Wayback component when web menu selected', async () => {

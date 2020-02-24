@@ -1,7 +1,7 @@
 import { css } from 'lit-element';
 
-export default () => {
-  return css`
+export default () => (
+  css`
     button:focus,
     input:focus {
       outline-color: var(--link-color);
@@ -41,5 +41,5 @@ export default () => {
       text-decoration: none;
       color: var(--link-color);
     }
-  `;
-};
+  `
+);

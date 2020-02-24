@@ -11,7 +11,7 @@ class WaybackSearch extends LitElement {
   static get properties() {
     return {
       locationHandler: { type: Function }
-    }
+    };
   }
 
   static get styles() {

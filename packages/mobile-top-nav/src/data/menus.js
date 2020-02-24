@@ -328,10 +328,37 @@ const images = {
   }]
 };
 
-export default {
+const user = [{
+  href: '#',
+  title: 'Upload',
+}, {
+  href: '#',
+  title: 'My library',
+}, {
+  href: '#',
+  title: 'My loans',
+}, {
+  href: '#',
+  title: 'My favorites',
+}, {
+  href: '#',
+  title: 'My web archive',
+}, {
+  href: '#',
+  title: 'Edit settings',
+}, {
+  href: '#',
+  title: 'Get help',
+}, {
+  href: '#',
+  title: 'Log out',
+}];
+
+export {
   texts,
   video,
   audio,
   software,
   images,
+  user,
 };

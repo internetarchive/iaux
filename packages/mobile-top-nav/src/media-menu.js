@@ -62,10 +62,9 @@ class MediaMenu extends LitElement {
 
   updated(changedProperties) {
     const { mediaMenuOpen, mediaSliderOpen } = this;
-    const menuClosed =
-      changedProperties.has('mediaMenuOpen') &&
-      changedProperties.get('mediaMenuOpen') &&
-      !mediaMenuOpen;
+    const menuClosed = changedProperties.has('mediaMenuOpen')
+      && changedProperties.get('mediaMenuOpen')
+      && !mediaMenuOpen;
 
     if (menuClosed && mediaSliderOpen) {
       this.mediaSliderOpen = false;

@@ -1,7 +1,7 @@
 import { css } from 'lit-element';
 
-export default () => {
-  return css`
+export default () => (
+  css`
     form {
       padding: 0 5rem 0 2rem;
     }
@@ -71,5 +71,5 @@ export default () => {
     input:focus + search-image {
       display: none;
     }
-  `;
-};
+  `
+);

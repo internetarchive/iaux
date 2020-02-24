@@ -1,7 +1,7 @@
 import { css } from 'lit-element';
 
-export default () => {
-  return css`
+export default () => (
+  css`
     nav {
       float: right;
       font-size: 1.6rem;
@@ -39,5 +39,5 @@ export default () => {
       text-decoration: none;
       padding: 1rem 2rem;
     }
-  `;
-};
+  `
+);

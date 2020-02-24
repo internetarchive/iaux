@@ -7,6 +7,7 @@ import './assets/img/hamburger';
 import './assets/img/search';
 import './assets/img/user';
 import topnavCss from './css/topnav-element';
+import { user as userMenu } from './data/menus';
 
 export default class TopnavElement extends LitElement {
   static get properties() {
@@ -115,6 +116,8 @@ export default class TopnavElement extends LitElement {
         ?userMenuOpen="${this.userMenuOpen}"
         ?userMenuAnimate="${this.userMenuAnimate}"
         tabindex="${userMenuTabIndex}"
+        username="shaneriley"
+        .menuItems=${userMenu}
       ></user-menu>
     `;
   }

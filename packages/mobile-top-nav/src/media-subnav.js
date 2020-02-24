@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit-element';
-import menus from './data/menus';
+import * as menus from './data/menus';
 import locationHandler from './lib/location-handler';
 import './wayback-search';
 import './more-slider';
@@ -32,13 +32,15 @@ class MediaSubnav extends LitElement {
   }
 
   get iconLinks() {
-    return this.links.iconLinks.map((link) => (
+    return this.links.iconLinks.map(link => (
       html`<a href="${link.url}"><img src="${link.icon}" />${link.title}</a>`
     ));
   }
 
   renderLinks(category) {
-    return this.links[category].map((link) => html`<li><a href="${link.url}">${link.title}</a></li>`);
+    return this.links[category].map(link => (
+      html`<li><a href="${link.url}">${link.title}</a></li>`
+    ));
   }
 
   static get styles() {

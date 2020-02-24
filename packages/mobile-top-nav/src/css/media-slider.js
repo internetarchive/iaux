@@ -1,7 +1,7 @@
 import { css } from 'lit-element';
 
-export default () => {
-  return css`
+export default () => (
+  css`
     .information-menu {
       position: absolute;
       top: 0;
@@ -45,5 +45,5 @@ export default () => {
     .info-box {
       padding: 0 1rem;
     }
-  `;
-};
+  `
+);

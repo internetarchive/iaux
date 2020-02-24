@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit-element';
+import { html } from 'lit-element';
 import Icon from './icon';
 
 class IconAudio extends Icon {
@@ -22,7 +22,7 @@ class IconAudio extends Icon {
           </g>
         </g>
       </svg>
-    `
+    `;
   }
 }
 

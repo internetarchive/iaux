@@ -6,7 +6,7 @@ class MoreSlider extends LitElement {
     return moreCss();
   }
 
-  get menuItems() {
+  static get menuItems() {
     return [
       { label: 'Donate', url: '/donate/' },
       { label: 'About', url: '/about/' },
@@ -23,7 +23,7 @@ class MoreSlider extends LitElement {
   render() {
     return html`
       <ul>
-        ${this.menuItems.map((item) => html`<li><a href="${item.url}">${item.label}</a></li>`)}
+        ${this.menuItems.map(item => html`<li><a href="${item.url}">${item.label}</a></li>`)}
       </ul>
     `;
   }

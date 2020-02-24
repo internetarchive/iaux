@@ -1,7 +1,7 @@
 import { css } from 'lit-element';
 
-export default () => {
-  return css`
+export default () => (
+  css`
     a {
       text-decoration: none;
       color: var(--activeColor);
@@ -49,5 +49,5 @@ export default () => {
     .icon-links a + a {
       margin-left: 2rem;
     }
-  `;
-};
+  `
+);

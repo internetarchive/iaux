@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit-element';
+import { html } from 'lit-element';
 import Icon from './icon';
 
 class IconVideo extends Icon {

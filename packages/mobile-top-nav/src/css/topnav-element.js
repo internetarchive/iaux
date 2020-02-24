@@ -1,7 +1,7 @@
 import { css } from 'lit-element';
 
-export default () => {
-  return css`
+export default () => (
+  css`
     :host {
       --white: #fff;
       --grey13: #222;
@@ -141,5 +141,5 @@ export default () => {
     .fade-in {
       animation: fade-in 1s forwards;
     }
-  `;
-};
+  `
+);

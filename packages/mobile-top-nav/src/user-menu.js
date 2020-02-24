@@ -4,6 +4,8 @@ import userMenuCss from './css/user-menu';
 class UserMenu extends LitElement {
   static get properties() {
     return {
+      menuItems: { type: Array },
+      username: { type: String },
       userMenuOpen: { type: Boolean },
       userMenuAnimate: { type: Boolean },
     };
@@ -11,8 +13,14 @@ class UserMenu extends LitElement {
 
   constructor() {
     super();
+    this.menuItems = [];
+    this.username = 'USERNAME';
     this.userMenuOpen = false;
     this.userMenuAnimate = false;
+  }
+
+  get dropdownItems() {
+    return this.menuItems.map(link => html`<li><a href="${link.href}">${link.title}</a></li>`);
   }
 
   render() {
@@ -33,16 +41,9 @@ class UserMenu extends LitElement {
         aria-hidden="${userMenuHidden}"
         aria-expanded="${userMenuExpanded}"
       >
-        <h3>USERNAME</h3>
+        <h3>${this.username}</h3>
         <ul>
-          <li><a href="#">Upload</a></li>
-          <li><a href="#">My library</a></li>
-          <li><a href="#">My loans</a></li>
-          <li><a href="#">My favorites</a></li>
-          <li><a href="#">My web archive</a></li>
-          <li><a href="#">Edit settings</a></li>
-          <li><a href="#">Get help</a></li>
-          <li><a href="#">Log out</a></li>
+          ${this.dropdownItems}
         </ul>
       </nav>
     `;
