@@ -13,7 +13,7 @@ export default class RadioPlayerConfig {
 
   logoUrl: string;
 
-  waveformUrl: string;
+  waveformUrl: string | undefined;
 
   audioSources: AudioSource[];
 
@@ -33,7 +33,7 @@ export default class RadioPlayerConfig {
     title: string,
     date: string,
     logoUrl: string,
-    waveformUrl: string,
+    waveformUrl: string | undefined,
     audioSources: AudioSource[],
     quickSearches: string[] = [],
   ) {
