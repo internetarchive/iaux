@@ -61,12 +61,11 @@ class UserMenu extends LitElement {
   }
 
   get dropdownItems() {
-    return this.menuItems.map(
-      link =>
-        html`
-          <li><a href="${link.href}">${link.title}</a></li>
-        `,
-    );
+    return this.menuItems.map(link => (
+      html`
+        <li><a href="${link.href}">${link.title}</a></li>
+      `
+    ));
   }
 
   render() {

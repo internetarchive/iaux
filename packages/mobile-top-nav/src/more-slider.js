@@ -34,12 +34,7 @@ class MoreSlider extends LitElement {
   render() {
     return html`
       <ul>
-        ${MoreSlider.menuItems.map(
-          item =>
-            html`
-              <li><a href="${item.url}">${item.label}</a></li>
-            `,
-        )}
+        ${MoreSlider.menuItems.map(item => html`<li><a href="${item.url}">${item.label}</a></li>`)}
       </ul>
     `;
   }

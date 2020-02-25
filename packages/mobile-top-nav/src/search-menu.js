@@ -83,15 +83,14 @@ class SearchMenu extends LitElement {
         option: 'web',
         label: 'archived websites',
       },
-    ].map(
-      ({ option, label, isDefault }) =>
-        html`
-          <label @click="${this.selectSearchType}">
-            <input type="radio" name="search" value="${option}" ?checked=${isDefault} />
-            Search ${label}
-          </label>
-        `,
-    );
+    ].map(({ option, label, isDefault }) => (
+      html`
+        <label @click="${this.selectSearchType}">
+          <input type="radio" name="search" value="${option}" ?checked=${isDefault} />
+          Search ${label}
+        </label>
+      `
+    ));
 
     return searchTypes;
   }

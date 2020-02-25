@@ -70,14 +70,8 @@ class MediaSubnav extends LitElement {
     // Begin properties not monitored by LitElement
     this.links = menus[this.menu] || defaultLinks;
     this.templates = {
-      web: () =>
-        html`
-          <wayback-search .locationHandler=${locationHandler}></wayback-search>
-        `,
-      more: () =>
-        html`
-          <more-slider></more-slider>
-        `,
+      web: () => html`<wayback-search .locationHandler=${locationHandler}></wayback-search>`,
+      more: () => html`<more-slider></more-slider>`,
     };
   }
 
@@ -89,21 +83,19 @@ class MediaSubnav extends LitElement {
   }
 
   get iconLinks() {
-    return this.links.iconLinks.map(
-      link =>
-        html`
-          <a href="${link.url}"><img src="${link.icon}" />${link.title}</a>
-        `,
-    );
+    return this.links.iconLinks.map(link => (
+      html`
+        <a href="${link.url}"><img src="${link.icon}" />${link.title}</a>
+      `
+    ));
   }
 
   renderLinks(category) {
-    return this.links[category].map(
-      link =>
-        html`
-          <li><a href="${link.url}">${link.title}</a></li>
-        `,
-    );
+    return this.links[category].map(link => (
+      html`
+        <li><a href="${link.url}">${link.title}</a></li>
+      `
+    ));
   }
 
   render() {
