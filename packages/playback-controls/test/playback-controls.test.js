@@ -159,7 +159,7 @@ describe('PlaybackControls', () => {
     expect(el.volume).to.equal(0.75);
   });
 
-  it('changes volume to 0.000001 after 1.0', async () => {
+  it('changes volume to the minimum volume after 1.0', async () => {
     const el = await fixture(html`
       <playback-controls
         volume='1.0'>
