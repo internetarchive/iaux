@@ -57,7 +57,7 @@ export default class PlaybackControls extends LitElement {
             </button>
           </div>
           <div class="vertical-button-value">
-            ${this.volume * 100}%
+            ${Math.round(this.volume * 100)}%
           </div>
         </div>
       </div>
@@ -102,11 +102,20 @@ export default class PlaybackControls extends LitElement {
   }
 
   handleVolumeChange() {
-    if (this.volume === 1) {
-      this.volume = 0;
+    let newVolume = this.volume;
+
+    if (newVolume === 1) {
+      // we cannot use a volume of 0 since it becomes "falsey" and causes it to not be set
+      newVolume = 0.000001;
     } else {
-      this.volume += 0.25;
+      newVolume += 0.25;
     }
+
+    // max volume of 1
+    newVolume = Math.min(newVolume, 1);
+
+    // round the volume to 2 decimal places
+    this.volume = (newVolume * 100) / 100
 
     const event = new CustomEvent('volumeChange', {
       detail: { volume: this.volume },
