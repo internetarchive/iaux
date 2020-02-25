@@ -59,6 +59,7 @@ class MediaSubnav extends LitElement {
 
   static get properties() {
     return {
+      config: { type: Object },
       menu: { type: String },
     };
   }
@@ -67,17 +68,22 @@ class MediaSubnav extends LitElement {
     super();
     const defaultLinks = { iconLinks: [], featuredLinks: [], links: [] };
 
+    this.menu = '';
+    this.config = {};
+
     // Begin properties not monitored by LitElement
-    this.links = menus[this.menu] || defaultLinks;
+    this.links = defaultLinks;
     this.templates = {
-      web: () => html`<wayback-search .locationHandler=${locationHandler}></wayback-search>`,
-      more: () => html`<more-slider></more-slider>`,
+      web: () => (
+        html`<wayback-search .config=${this.config} .locationHandler=${locationHandler}></wayback-search>`
+      ),
+      more: () => html`<more-slider .config=${this.config}></more-slider>`,
     };
   }
 
   shouldUpdate() {
     if (menus[this.menu]) {
-      this.links = menus[this.menu];
+      this.links = menus[this.menu](this.config.baseUrl);
     }
     return true;
   }

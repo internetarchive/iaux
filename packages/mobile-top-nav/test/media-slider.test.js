@@ -23,7 +23,7 @@ describe('<media-slider>', () => {
     const mediaSlider = await fixture(component(false, false, 'texts'));
     const menuHeading = mediaSlider.shadowRoot.querySelector('media-subnav').shadowRoot.querySelector('h3');
 
-    expect(menuHeading.innerText).to.equal(texts.heading);
+    expect(menuHeading.innerText).to.equal(texts().heading);
   });
 
   it('renders the Wayback component when web menu selected', async () => {

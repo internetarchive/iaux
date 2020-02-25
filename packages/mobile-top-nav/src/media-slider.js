@@ -52,6 +52,7 @@ class MediaSlider extends LitElement {
 
   static get properties() {
     return {
+      config: { type: Object },
       mediaSliderOpen: { type: Boolean },
       mediaSliderAnimate: { type: Boolean },
       selectedMenuOption: { type: String },
@@ -61,6 +62,7 @@ class MediaSlider extends LitElement {
   constructor() {
     super();
 
+    this.config = {};
     this.mediaSliderOpen = false;
     this.mediaSliderAnimate = false;
     this.selectedMenuOption = 'texts';
@@ -80,7 +82,7 @@ class MediaSlider extends LitElement {
     return html`
       <div class="information-menu ${sliderDetailsClass}">
         <div class="info-box">
-          <media-subnav .menu=${this.selectedMenuOption}></media-subnav>
+          <media-subnav .config=${this.config} .menu=${this.selectedMenuOption}></media-subnav>
         </div>
       </div>
     `;

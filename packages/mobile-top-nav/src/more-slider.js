@@ -1,18 +1,15 @@
 import { LitElement, html, css } from 'lit-element';
+import { more as moreMenu } from './data/menus';
 
 class MoreSlider extends LitElement {
-  static get menuItems() {
-    return [
-      { label: 'Donate', url: '/donate/' },
-      { label: 'About', url: '/about/' },
-      { label: 'Contact', url: '/about/contact.php' },
-      { label: 'Blog', url: 'https://blog.archive.org/' },
-      { label: 'Projects', url: '/projects/' },
-      { label: 'Help', url: '/about/faqs.php' },
-      { label: 'Jobs', url: '/about/jobs.php' },
-      { label: 'Volunteer', url: '/about/volunteerpositions.php' },
-      { label: 'People', url: '/about/bios.php' },
-    ];
+  static get properties() {
+    return {
+      config: { type: Object }
+    };
+  }
+
+  get menuItems() {
+    return moreMenu(this.config.baseUrl);
   }
 
   static get styles() {
@@ -31,10 +28,14 @@ class MoreSlider extends LitElement {
     `;
   }
 
+  get baseUrl() {
+    return `https://${this.config.baseUrl}`;
+  }
+
   render() {
     return html`
       <ul>
-        ${MoreSlider.menuItems.map(item => html`<li><a href="${item.url}">${item.label}</a></li>`)}
+        ${this.menuItems.map(item => html`<li><a href="${item.url}">${item.label}</a></li>`)}
       </ul>
     `;
   }

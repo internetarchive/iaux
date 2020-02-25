@@ -118,6 +118,7 @@ class MediaMenu extends LitElement {
 
   static get properties() {
     return {
+      config: { type: Object },
       mediaMenuOpen: { type: Boolean },
       mediaMenuAnimate: { type: Boolean },
       mediaSliderOpen: { type: Boolean },
@@ -132,6 +133,7 @@ class MediaMenu extends LitElement {
 
   constructor() {
     super();
+    this.config = {};
     this.mediaSliderOpen = false;
     this.mediaSliderAnimate = false;
     this.selectedMenuOption = '';
@@ -210,6 +212,7 @@ class MediaMenu extends LitElement {
         <div class="menu-group">
           ${this.mediaMenuOptionsTemplate}
           <media-slider
+            .config=${this.config}
             .selectedMenuOption=${this.selectedMenuOption}
             ?mediaSliderOpen="${this.mediaSliderOpen}"
             ?mediaSliderAnimate="${this.mediaSliderAnimate}"

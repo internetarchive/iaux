@@ -78,19 +78,21 @@ class WaybackSearch extends LitElement {
 
   static get properties() {
     return {
+      config: { type: Object },
       locationHandler: { type: Function },
     };
   }
 
   constructor() {
     super();
+    this.config = {};
     this.locationHandler = () => {};
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const query = e.target.querySelector('#url').value;
-    this.locationHandler(`https://web.archive.org/web/*/${query}`);
+    this.locationHandler(`https://${this.config.waybackUrl}/web/*/${query}`);
   }
 
   render() {

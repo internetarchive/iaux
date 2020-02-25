@@ -31,6 +31,7 @@ export default class TopnavElement extends LitElement {
 
   static get properties() {
     return {
+      config: { type: Object },
       userMenuOpen: { type: Boolean },
       userMenuAnimate: { type: Boolean },
       searchMenuOpen: { type: Boolean },
@@ -42,6 +43,7 @@ export default class TopnavElement extends LitElement {
 
   constructor() {
     super();
+    this.config = {};
     this.userMenuOpen = false;
     this.userMenuAnimate = false;
     this.searchMenuOpen = false;
@@ -98,6 +100,7 @@ export default class TopnavElement extends LitElement {
         @userMenu=${this.userMenu}
       ></mobile-nav>
       <media-menu
+        .config=${this.config}
         ?mediaMenuOpen="${this.mediaMenuOpen}"
         ?mediaMenuAnimate="${this.mediaMenuAnimate}"
         tabindex="${mediaMenuTabIndex}"
@@ -111,8 +114,8 @@ export default class TopnavElement extends LitElement {
         ?userMenuOpen="${this.userMenuOpen}"
         ?userMenuAnimate="${this.userMenuAnimate}"
         tabindex="${userMenuTabIndex}"
-        username="shaneriley"
-        .menuItems=${userMenu}
+        username=${this.config.username}
+        .menuItems=${userMenu(this.config.baseUrl, this.config.username)}
       ></user-menu>
     `;
   }
