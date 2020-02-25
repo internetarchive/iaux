@@ -153,10 +153,32 @@ describe('PlaybackControls', () => {
       </playback-controls>
     `);
 
-    const forwardBtn = el.shadowRoot.getElementById('volume-control-btn');
+    const volumeControlBtn = el.shadowRoot.getElementById('volume-control-btn');
     const clickEvent = new MouseEvent('click');
-    forwardBtn.dispatchEvent(clickEvent);
+    volumeControlBtn.dispatchEvent(clickEvent);
     expect(el.volume).to.equal(0.75);
   });
 
+  it('changes volume to 0.000001 after 1.0', async () => {
+    const el = await fixture(html`
+      <playback-controls
+        volume='1.0'>
+      </playback-controls>
+    `);
+
+    const volumeControlBtn = el.shadowRoot.getElementById('volume-control-btn');
+    const clickEvent = new MouseEvent('click');
+    volumeControlBtn.dispatchEvent(clickEvent);
+    expect(el.volume).to.equal(0.000001);
+  });
+
+  it('rounds the volume display', async () => {
+    const el = await fixture(html`
+      <playback-controls
+        volume='0.2346'>
+      </playback-controls>
+    `);
+
+    expect(el.volumeDisplay).to.equal(23);
+  });
 });

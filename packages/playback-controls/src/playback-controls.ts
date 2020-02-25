@@ -57,11 +57,15 @@ export default class PlaybackControls extends LitElement {
             </button>
           </div>
           <div class="vertical-button-value">
-            ${Math.round(this.volume * 100)}%
+            ${this.volumeDisplay}%
           </div>
         </div>
       </div>
     `;
+  }
+
+  get volumeDisplay(): number {
+    return Math.round(this.volume * 100);
   }
 
   get playPauseButtonImage() {
