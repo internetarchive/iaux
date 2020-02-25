@@ -169,7 +169,7 @@ describe('PlaybackControls', () => {
     const volumeControlBtn = el.shadowRoot.getElementById('volume-control-btn');
     const clickEvent = new MouseEvent('click');
     volumeControlBtn.dispatchEvent(clickEvent);
-    expect(el.volume).to.equal(0.000001);
+    expect(el.volume).to.equal(0.00001);
   });
 
   it('rounds the volume display', async () => {
