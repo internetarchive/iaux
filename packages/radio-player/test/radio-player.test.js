@@ -48,6 +48,16 @@ describe('Radio Player', () => {
     expect(dateDisplay.innerText).to.equal('bar-date');
   });
 
+  it('does renders the waveform if one is passed in', async () => {
+    const config = new RadioPlayerConfig('foo-title', 'bar-date', '', 'waveform.png', []);
+
+    const el = await fixture(html`
+      <radio-player .config=${config}></radio-player>
+    `);
+
+    expect(el.shadowRoot.querySelectorAll('waveform-progress').length).to.equal(1);
+  });
+
   it('does not render the waveform if one is not passed in', async () => {
     const config = new RadioPlayerConfig('foo-title', 'bar-date', '', undefined, []);
 
