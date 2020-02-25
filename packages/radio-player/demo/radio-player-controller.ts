@@ -114,7 +114,11 @@ export default class RadioPlayerController extends LitElement {
         file.format.toLowerCase() === 'png' && file.original === originalAudioFile.name,
     );
 
-    const waveFormImageUrl = `https://archive.org/download/${this.itemId}/${waveFormImageFile.name}`;
+    let waveFormImageUrl;
+
+    if (waveFormImageFile) {
+      waveFormImageUrl = `https://archive.org/download/${this.itemId}/${waveFormImageFile.name}`;
+    }
 
     this.radioPlayerConfig = new RadioPlayerConfig(
       metadata.metadata.contributor,
