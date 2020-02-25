@@ -1,11 +1,6 @@
-import { LitElement, html } from 'lit-element';
-import moreCss from './css/more-slider';
+import { LitElement, html, css } from 'lit-element';
 
 class MoreSlider extends LitElement {
-  static get styles() {
-    return moreCss();
-  }
-
   static get menuItems() {
     return [
       { label: 'Donate', url: '/donate/' },
@@ -20,10 +15,31 @@ class MoreSlider extends LitElement {
     ];
   }
 
+  static get styles() {
+    return css`
+      ul {
+        padding: 1rem 0;
+        margin: 0;
+        list-style: none;
+      }
+      a {
+        display: block;
+        padding: 1rem 0;
+        text-decoration: none;
+        color: var(--activeColor);
+      }
+    `;
+  }
+
   render() {
     return html`
       <ul>
-        ${MoreSlider.menuItems.map(item => html`<li><a href="${item.url}">${item.label}</a></li>`)}
+        ${MoreSlider.menuItems.map(
+          item =>
+            html`
+              <li><a href="${item.url}">${item.label}</a></li>
+            `,
+        )}
       </ul>
     `;
   }

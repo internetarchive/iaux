@@ -1,7 +1,48 @@
-import { LitElement, html } from 'lit-element';
-import userMenuCss from './css/user-menu';
+import { LitElement, html, css } from 'lit-element';
 
 class UserMenu extends LitElement {
+  static get styles() {
+    return css`
+      nav {
+        float: right;
+        font-size: 1.6rem;
+        background-color: var(--grey20);
+      }
+      nav.tx-slide {
+        overflow: hidden;
+        transition-property: max-height;
+        transition-duration: 0.5s;
+        transition-timing-function: ease;
+      }
+      nav.tx-slide.initial,
+      nav.tx-slide.closed {
+        max-height: 0;
+      }
+      nav.tx-slide.closed {
+        transition-duration: 0.1s;
+      }
+      nav.tx-slide.open {
+        max-height: 100vh;
+        max-width: 100vw;
+      }
+      h3 {
+        padding: 0.6rem 2rem;
+        margin: 0;
+        font-size: inherit;
+      }
+      ul {
+        padding: 0.4rem 0 0.7rem 0;
+        margin: 0;
+      }
+      a {
+        display: block;
+        color: var(--primary-text-color);
+        text-decoration: none;
+        padding: 1rem 2rem;
+      }
+    `;
+  }
+
   static get properties() {
     return {
       menuItems: { type: Array },
@@ -20,7 +61,12 @@ class UserMenu extends LitElement {
   }
 
   get dropdownItems() {
-    return this.menuItems.map(link => html`<li><a href="${link.href}">${link.title}</a></li>`);
+    return this.menuItems.map(
+      link =>
+        html`
+          <li><a href="${link.href}">${link.title}</a></li>
+        `,
+    );
   }
 
   render() {
@@ -47,10 +93,6 @@ class UserMenu extends LitElement {
         </ul>
       </nav>
     `;
-  }
-
-  static get styles() {
-    return userMenuCss();
   }
 }
 

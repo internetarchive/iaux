@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 
 import './user-menu';
 import './search-menu';
@@ -6,10 +6,153 @@ import './media-menu';
 import './assets/img/hamburger';
 import './assets/img/search';
 import './assets/img/user';
-import topnavCss from './css/topnav-element';
 import { user as userMenu } from './data/menus';
 
 export default class TopnavElement extends LitElement {
+  static get styles() {
+    return css`
+      :host {
+        --white: #fff;
+        --grey13: #222;
+        --grey20: #333;
+        --grey999: #999;
+        --grey80: #ccc;
+        --black: #000;
+        --link-color: #428bca;
+        --primary-text-color: var(--white);
+        color: var(--primary-text-color);
+        --theme-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 2rem;
+        font-family: var(--theme-font-family);
+      }
+      button:focus,
+      a:focus,
+      input:focus {
+        outline: none;
+      }
+      .flex {
+        display: flex;
+      }
+      .search-inactive {
+        display: none;
+      }
+      .align-center {
+        align-items: center;
+      }
+      .navbar {
+        position: relative;
+        flex-direction: row;
+        background: var(--grey13);
+        border-bottom: 1px solid var(--grey20);
+      }
+      .navbar button {
+        background: none;
+        color: inherit;
+        border: none;
+        font: inherit;
+        cursor: pointer;
+      }
+      .left {
+        justify-content: flex-start;
+      }
+      .right {
+        justify-content: flex-end;
+      }
+      .center {
+        margin: auto 3% auto 1%;
+        flex: 1;
+        justify-content: space-between;
+        min-height: 6rem;
+        max-height: 6rem;
+      }
+      .center .search {
+        padding-top: 0;
+        margin-right: 1.5%;
+      }
+      .link-home {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+      }
+      .link-home img {
+        height: 32px;
+      }
+      .hamburger {
+        margin-top: 0.6rem;
+      }
+      .search-trigger,
+      .search-activated {
+        position: relative;
+        z-index: 2;
+      }
+      .search-trigger {
+        width: 100%;
+        text-align: right;
+      }
+      .search-activated {
+        width: 100%;
+        padding: 0.5rem 0.2rem;
+        border-radius: 1rem 1rem 0 0;
+        background: var(--grey20);
+      }
+      .search-trigger .search {
+        margin: 0.4rem 0.1rem 0 0;
+        height: 2.8rem;
+      }
+      .search-activated .highlight,
+      .search-activated .search {
+        background: var(--white);
+        border-radius: 0.5rem;
+      }
+      .search-activated .highlight {
+        display: flex;
+        width: 100%;
+        margin: 0 1.5%;
+      }
+      .search-activated .search {
+        height: 2.8rem;
+        padding: 0;
+        margin-right: 0;
+      }
+      .search-activated search-image {
+        position: relative;
+        top: -5px;
+      }
+      .search-activated .search-field {
+        width: 100%;
+        height: 3rem;
+        padding-left: 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        font-size: 1.2rem;
+        text-align: center;
+      }
+      .search-activated .search-field:focus {
+        outline: none;
+      }
+      .user-menu {
+        padding: 0.4rem;
+      }
+      .user-menu.active {
+        border-radius: 1rem 1rem 0 0;
+        background: var(--grey20);
+      }
+      @keyframes fade-in {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      .fade-in {
+        animation: fade-in 1s forwards;
+      }
+    `;
+  }
+
   static get properties() {
     return {
       userMenuOpen: { type: Boolean },
@@ -120,10 +263,6 @@ export default class TopnavElement extends LitElement {
         .menuItems=${userMenu}
       ></user-menu>
     `;
-  }
-
-  static get styles() {
-    return topnavCss();
   }
 }
 

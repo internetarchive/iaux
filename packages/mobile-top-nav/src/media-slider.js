@@ -1,14 +1,53 @@
-import { LitElement, html } from 'lit-element';
-import mediaSliderCss from './css/media-slider';
+import { LitElement, html, css } from 'lit-element';
 import './media-subnav';
 
 class MediaSlider extends LitElement {
-  constructor() {
-    super();
+  static get styles() {
+    return css`
+      .information-menu {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 0;
+        overflow-x: hidden;
+        font-size: 1.4rem;
+        background: var(--grey20);
+      }
 
-    this.mediaSliderOpen = false;
-    this.mediaSliderAnimate = false;
-    this.selectedMenuOption = 'texts';
+      .menu-slider-offscreen {
+        transform: translate(-100%, -100%);
+      }
+
+      /* Secondary menu */
+      @keyframes menu-enter {
+        0% {
+          transform: translate(100%, 0);
+        }
+        100% {
+          transform: translate(4rem, 0);
+        }
+      }
+      @keyframes menu-exit {
+        0% {
+          transform: translate(4rem, 0);
+        }
+        100% {
+          transform: translate(100%, 0);
+        }
+      }
+      .menu-enter {
+        animation: menu-enter 0.2s forwards;
+      }
+      .menu-exit {
+        animation: menu-exit 0.2s forwards;
+      }
+
+      .info-box {
+        padding: 0 1rem;
+      }
+    `;
   }
 
   static get properties() {
@@ -17,6 +56,14 @@ class MediaSlider extends LitElement {
       mediaSliderAnimate: { type: Boolean },
       selectedMenuOption: { type: String },
     };
+  }
+
+  constructor() {
+    super();
+
+    this.mediaSliderOpen = false;
+    this.mediaSliderAnimate = false;
+    this.selectedMenuOption = 'texts';
   }
 
   render() {
@@ -37,10 +84,6 @@ class MediaSlider extends LitElement {
         </div>
       </div>
     `;
-  }
-
-  static get styles() {
-    return mediaSliderCss();
   }
 }
 
