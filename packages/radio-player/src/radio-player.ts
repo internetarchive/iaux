@@ -274,7 +274,7 @@ export default class RadioPlayer extends LitElement {
    * @memberof RadioPlayer
    */
   private get waveFormProgressTemplate(): TemplateResult {
-    return html`
+    return this.waveformUrl ? html`
       <waveform-progress
         interactive="true"
         .waveformUrl=${this.waveformUrl}
@@ -282,7 +282,7 @@ export default class RadioPlayer extends LitElement {
         @valuechange=${this.valueChangedFromScrub}
       >
       </waveform-progress>
-    `;
+    ` : html``;
   }
 
   /**

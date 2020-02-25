@@ -26,7 +26,6 @@ describe('Radio Player', () => {
 
     const shadowRoot = el.shadowRoot;
 
-    expect(shadowRoot.querySelectorAll('waveform-progress').length).to.equal(1);
     expect(shadowRoot.querySelectorAll('transcript-view').length).to.equal(1);
     expect(shadowRoot.querySelectorAll('.collection-logo').length).to.equal(1);
     expect(shadowRoot.querySelectorAll('.title-date').length).to.equal(1);
@@ -36,7 +35,7 @@ describe('Radio Player', () => {
   });
 
   it('can be configured with a title and date', async () => {
-    const config = new RadioPlayerConfig('foo-title', 'bar-date', '', '', []);
+    const config = new RadioPlayerConfig('foo-title', 'bar-date', '', undefined, []);
 
     const el = await fixture(html`
       <radio-player .config=${config}></radio-player>
@@ -47,6 +46,16 @@ describe('Radio Player', () => {
 
     expect(titleDisplay.innerText).to.equal('foo-title');
     expect(dateDisplay.innerText).to.equal('bar-date');
+  });
+
+  it('does not render the waveform if one is not passed in', async () => {
+    const config = new RadioPlayerConfig('foo-title', 'bar-date', '', undefined, []);
+
+    const el = await fixture(html`
+      <radio-player .config=${config}></radio-player>
+    `);
+
+    expect(el.shadowRoot.querySelectorAll('waveform-progress').length).to.equal(0);
   });
 
   it('can play audio', async () => {
