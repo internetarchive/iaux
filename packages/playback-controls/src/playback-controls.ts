@@ -16,11 +16,13 @@ import volumeMuteImage from './assets/img/volume/volume-mute';
 
 @customElement('playback-controls')
 export default class PlaybackControls extends LitElement {
-  @property({ type: PlaybackMode }) playbackMode = PlaybackMode.paused;
+  @property({ type: Number }) playbackMode = PlaybackMode.paused;
 
   @property({ type: Number }) playbackRate = 1;
 
   @property({ type: Number }) volume = 1;
+
+  private readonly minimumVolume = 0.00001;
 
   render(): TemplateResult {
     return html`
@@ -83,7 +85,7 @@ export default class PlaybackControls extends LitElement {
 
   get volumeButtonImage(): TemplateResult {
     var image = volumeMediumImage;
-    if (this.volume === 0) {
+    if (this.volume <= this.minimumVolume) {
       image = volumeMuteImage;
     }
     if (this.volume === 1) {
@@ -110,7 +112,7 @@ export default class PlaybackControls extends LitElement {
 
     if (newVolume === 1) {
       // we cannot use a volume of 0 since it becomes "falsey" and causes it to not be set
-      newVolume = 0.000001;
+      newVolume = this.minimumVolume;
     } else {
       newVolume += 0.25;
     }
