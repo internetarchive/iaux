@@ -2,6 +2,9 @@ language: node_js
 node_js:
   - node
 
+notifications:
+  slack: internetarchive:Wq0elRZXXILGs3aXM4yXozvV
+
 install:
   - npm install -g codecov
 
