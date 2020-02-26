@@ -713,7 +713,7 @@ export default class RadioPlayer extends LitElement {
    */
   private volumeChanged(e: CustomEvent): void {
     const detail = e.detail || {};
-    if (!detail.volume) {
+    if (detail.volume === undefined) {
       return;
     }
     this.volume = e.detail.volume;
