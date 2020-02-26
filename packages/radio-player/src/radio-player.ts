@@ -716,7 +716,7 @@ export default class RadioPlayer extends LitElement {
     if (detail.volume === undefined) {
       return;
     }
-    this.volume = e.detail.volume;
+    this.volume = e.detail.volume
   }
 
   /**
