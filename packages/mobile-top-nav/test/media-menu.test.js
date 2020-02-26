@@ -50,7 +50,11 @@ describe('<media-menu>', () => {
     const mediatype = 'foo';
 
     mediaMenu.selectedMenuOption = mediatype;
-    mediaMenu.select(mediatype);
+    mediaMenu.select({
+      detail: {
+        mediatype
+      }
+    });
 
     verifyClosed(mediaMenu);
   });
@@ -59,7 +63,11 @@ describe('<media-menu>', () => {
     const mediaMenu = await fixture(component);
     const mediatype = 'foo';
 
-    mediaMenu.select(mediatype);
+    mediaMenu.select({
+      detail: {
+        mediatype
+      }
+    });
 
     verifyOpened(mediaMenu, mediatype);
   });
@@ -85,7 +93,11 @@ describe('<media-menu>', () => {
     mediaMenu.selectedMenuOption = mediaType;
     await mediaMenu.updateComplete;
 
-    const textsButton = mediaMenu.shadowRoot.querySelector('.selected');
+    const textsButton = mediaMenu
+      .shadowRoot
+      .querySelector(`[mediatype=${mediaType}`)
+      .shadowRoot
+      .querySelector('.selected');
 
     expect(textsButton).to.not.be.null;
   });

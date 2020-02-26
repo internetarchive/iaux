@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 
 import './media-slider';
-import icons from './assets/img/static_icons';
+import './media-button';
 
 const menuSelection = [
   {
@@ -44,11 +44,6 @@ const menuSelection = [
 class MediaMenu extends LitElement {
   static get styles() {
     return css`
-      button:focus {
-        outline-color: var(--link-color);
-        outline-width: 0.16rem;
-        outline-style: auto;
-      }
       .media-menu {
         width: 100%;
         background-color: var(--grey13);
@@ -74,45 +69,6 @@ class MediaMenu extends LitElement {
         position: relative;
         height: 80vh;
       }
-      .menu-item {
-        width: 100%;
-        background: transparent;
-        font-size: 1.6rem;
-        cursor: pointer;
-        border: none;
-        text-align: left;
-        padding: 0.1rem 0;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-      }
-      .menu-item:focus {
-        outline: none;
-      }
-      .menu-item > .label {
-        display: inline-block;
-        color: var(--white);
-        text-align: left;
-        vertical-align: middle;
-      }
-      .menu-item > .icon {
-        display: inline-flex;
-        width: 42px;
-        height: 42px;
-        vertical-align: middle;
-        align-items: center;
-        justify-content: center;
-      }
-      .menu-item.selected .icon {
-        background-color: var(--grey20);
-        border-radius: 1rem 0 0 1rem;
-      }
-      .icon .fill-color {
-        fill: #999;
-      }
-      .icon.active .fill-color {
-        fill: #fff;
-      }
     `;
   }
 
@@ -125,10 +81,6 @@ class MediaMenu extends LitElement {
       mediaSliderAnimate: { type: Boolean },
       selectedMenuOption: { type: String },
     };
-  }
-
-  static get icons() {
-    return icons;
   }
 
   constructor() {
@@ -165,7 +117,8 @@ class MediaMenu extends LitElement {
     }
   }
 
-  select(mediatype) {
+  select(e) {
+    const { mediatype } = e.detail;
     const currentSelection = this.selectedMenuOption;
 
     if (currentSelection === mediatype) {
@@ -179,14 +132,15 @@ class MediaMenu extends LitElement {
 
   get mediaMenuOptionsTemplate() {
     const buttons = menuSelection.map(({ icon, menu, label }) => {
-      const selected = this.selectedMenuOption === menu ? 'selected' : '';
+      const selected = this.selectedMenuOption === menu;
       return html`
-        <button class="menu-item ${selected}" @click="${this.select.bind(this, menu)}">
-          <span class="icon${selected ? ' active' : ''}">
-            ${MediaMenu.icons[icon]}
-          </span>
-          <span class="label">${label}</span>
-        </button>
+        <media-button
+          .icon=${icon}
+          .label=${label}
+          mediatype=${menu}
+          .selected=${selected}
+          @selected=${this.select}
+        ></media-button>
       `;
     });
     return buttons;
