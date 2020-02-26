@@ -91,6 +91,7 @@ export default class TopnavElement extends LitElement {
 
     return html`
       <mobile-nav
+        .config=${this.config}
         ?mediaMenuOpen="${this.mediaMenuOpen}"
         ?searchMenuFade="${this.searchMenuFade}"
         ?searchMenuOpen="${this.searchMenuOpen}"

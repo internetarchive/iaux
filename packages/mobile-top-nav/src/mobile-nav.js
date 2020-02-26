@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
+import icons from './assets/img/static_icons';
 
 class MobileNav extends LitElement {
   static get styles() {
@@ -51,7 +52,7 @@ class MobileNav extends LitElement {
         position: absolute;
         top: 50%;
         left: 50%;
-        z-index: 1;
+        z-index: 2;
         transform: translate(-50%, -50%);
       }
       .link-home img {
@@ -60,10 +61,13 @@ class MobileNav extends LitElement {
       .hamburger {
         margin-top: 0.6rem;
       }
-      .search-trigger,
+      .search-trigger {
+        position: relative;
+        z-index: 1;
+      }
       .search-activated {
         position: relative;
-        z-index: 2;
+        z-index: 3;
       }
       .search-trigger {
         width: 100%;
@@ -133,6 +137,7 @@ class MobileNav extends LitElement {
 
   static get properties() {
     return {
+      config: { type: Object },
       mediaMenuOpen: { type: Boolean },
       searchMenuFade: { type: Boolean },
       searchMenuOpen: { type: Boolean },
@@ -142,6 +147,7 @@ class MobileNav extends LitElement {
 
   constructor() {
     super();
+    this.config = {};
     this.userMenuOpen = false;
     this.searchMenuOpen = false;
     this.searchMenuFade = false;
@@ -177,7 +183,7 @@ class MobileNav extends LitElement {
 
     return html`
       <nav class="navbar flex align-center">
-        <a class="link-home" href="#"><img src="src/assets/img/ia-logo.svg" alt="Home"/></a>
+        <a class="link-home" href="https://${this.config.baseUrl}">${icons.iaLogo}</a>
         <div class="left flex align-center">
           <button class="hamburger" @click="${this.mediaMenu}" tabindex="1">
             <icon-hamburger ?active=${this.mediaMenuOpen}></icon-hamburger>
