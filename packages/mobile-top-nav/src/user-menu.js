@@ -4,24 +4,28 @@ class UserMenu extends LitElement {
   static get styles() {
     return css`
       nav {
-        float: right;
+        position: absolute;
+        top: -50vh;
+        right: 0;
+        z-index: -1;
         font-size: 1.6rem;
         background-color: var(--grey20);
       }
       nav.tx-slide {
         overflow: hidden;
-        transition-property: max-height;
+        transition-property: top;
         transition-duration: 0.5s;
         transition-timing-function: ease;
       }
       nav.tx-slide.initial,
       nav.tx-slide.closed {
-        max-height: 0;
+        top: -50vh;
       }
       nav.tx-slide.closed {
         transition-duration: 0.1s;
       }
       nav.tx-slide.open {
+        top: 100%;
         max-height: 100vh;
         max-width: 100vw;
       }

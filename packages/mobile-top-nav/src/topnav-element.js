@@ -25,6 +25,10 @@ export default class TopnavElement extends LitElement {
         font-size: 2rem;
         font-family: var(--theme-font-family);
       }
+      .topnav {
+        position: relative;
+        z-index: 1;
+      }
     `;
   }
 
@@ -89,34 +93,36 @@ export default class TopnavElement extends LitElement {
     const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
 
     return html`
-      <mobile-nav
-        .config=${this.config}
-        ?mediaMenuOpen="${this.mediaMenuOpen}"
-        ?searchMenuFade="${this.searchMenuFade}"
-        ?searchMenuOpen="${this.searchMenuOpen}"
-        ?userMenuOpen="${this.userMenuOpen}"
-        @mediaMenu=${this.mediaMenu}
-        @searchMenu=${this.searchMenu}
-        @userMenu=${this.userMenu}
-      ></mobile-nav>
-      <media-menu
-        .config=${this.config}
-        ?mediaMenuOpen="${this.mediaMenuOpen}"
-        ?mediaMenuAnimate="${this.mediaMenuAnimate}"
-        tabindex="${mediaMenuTabIndex}"
-      ></media-menu>
-      <search-menu
-        ?searchMenuOpen="${this.searchMenuOpen}"
-        ?searchMenuAnimate="${this.searchMenuAnimate}"
-        tabindex="${searchMenuTabIndex}"
-      ></search-menu>
-      <user-menu
-        ?userMenuOpen="${this.userMenuOpen}"
-        ?userMenuAnimate="${this.userMenuAnimate}"
-        tabindex="${userMenuTabIndex}"
-        username=${this.config.username}
-        .menuItems=${userMenu(this.config.baseUrl, this.config.username)}
-      ></user-menu>
+      <div class='topnav'>
+        <mobile-nav
+          .config=${this.config}
+          ?mediaMenuOpen="${this.mediaMenuOpen}"
+          ?searchMenuFade="${this.searchMenuFade}"
+          ?searchMenuOpen="${this.searchMenuOpen}"
+          ?userMenuOpen="${this.userMenuOpen}"
+          @mediaMenu=${this.mediaMenu}
+          @searchMenu=${this.searchMenu}
+          @userMenu=${this.userMenu}
+        ></mobile-nav>
+        <media-menu
+          .config=${this.config}
+          ?mediaMenuOpen="${this.mediaMenuOpen}"
+          ?mediaMenuAnimate="${this.mediaMenuAnimate}"
+          tabindex="${mediaMenuTabIndex}"
+        ></media-menu>
+        <search-menu
+          ?searchMenuOpen="${this.searchMenuOpen}"
+          ?searchMenuAnimate="${this.searchMenuAnimate}"
+          tabindex="${searchMenuTabIndex}"
+        ></search-menu>
+        <user-menu
+          ?userMenuOpen="${this.userMenuOpen}"
+          ?userMenuAnimate="${this.userMenuAnimate}"
+          tabindex="${userMenuTabIndex}"
+          username=${this.config.username}
+          .menuItems=${userMenu(this.config.baseUrl, this.config.username)}
+        ></user-menu>
+      </div>
     `;
   }
 }
