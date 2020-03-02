@@ -45,10 +45,11 @@ class UserMenu extends LitElement {
 
   static get properties() {
     return {
+      config: { type: Object },
       menuItems: { type: Array },
-      username: { type: String },
-      userMenuOpen: { type: Boolean },
       userMenuAnimate: { type: Boolean },
+      userMenuOpen: { type: Boolean },
+      username: { type: String },
     };
   }
 
@@ -70,6 +71,7 @@ class UserMenu extends LitElement {
 
   render() {
     let userMenuClass = 'initial';
+
     if (this.userMenuOpen) {
       userMenuClass = 'open';
     }

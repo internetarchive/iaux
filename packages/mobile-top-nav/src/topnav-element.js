@@ -6,7 +6,6 @@ import './search-menu';
 import './media-menu';
 import './assets/img/hamburger';
 import './assets/img/search';
-import './assets/img/user';
 import { user as userMenu } from './data/menus';
 
 export default class TopnavElement extends LitElement {

@@ -4,6 +4,9 @@ import Icon from './icon';
 class User extends Icon {
   static get styles() {
     return css`
+      svg {
+        vertical-align: middle;
+      }
       g {
         fill: var(--baseColor);
       }

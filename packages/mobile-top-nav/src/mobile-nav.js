@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 import icons from './assets/img/static_icons';
+import './login-button';
 
 class MobileNav extends LitElement {
   static get styles() {
@@ -121,6 +122,10 @@ class MobileNav extends LitElement {
         border-radius: 1rem 1rem 0 0;
         background: var(--grey20);
       }
+      .user-menu img {
+        display: block;
+        width: 40px;
+      }
       @keyframes fade-in {
         0% {
           opacity: 0;
@@ -175,11 +180,22 @@ class MobileNav extends LitElement {
     }));
   }
 
+  get userIcon() {
+    const userMenuClass = this.userMenuOpen ? 'active' : '';
+
+    return html`<button class="user-menu ${userMenuClass}" @click="${this.userMenu}">
+      <img src="https://archive.org/services/img/user/profile?${+(new Date())}" alt="${this.config.username}" />
+    </button>`;
+  }
+
+  get loginIcon() {
+    return html`<login-button .config=${this.config}></login-button>`;
+  }
+
   render() {
     const searchFade = this.searchMenuFade ? 'fade-in' : '';
     const searchMenuClass = this.searchMenuOpen ? 'flex' : 'search-inactive';
     const searchMenuToggleState = this.searchMenuOpen ? 'search-inactive' : '';
-    const userMenuClass = this.userMenuOpen ? 'active' : '';
 
     return html`
       <nav class="navbar flex align-center">
@@ -210,9 +226,7 @@ class MobileNav extends LitElement {
         </div>
         <!--End of replacement div-->
         <div class="right flex align-center">
-          <button class="user-menu ${userMenuClass}" @click="${this.userMenu}">
-            <user-image ?active=${this.userMenuOpen}></user-image>
-          </button>
+          ${this.config.username ? this.userIcon : this.loginIcon}
         </div>
       </nav>
     `;
