@@ -22,7 +22,6 @@ describe('<mobile-nav>', () => {
 
     [
       'userMenuOpen',
-      'searchMenuFade',
       'searchMenuOpen',
       'mediaMenuOpen',
     ].forEach((prop) => {
@@ -44,7 +43,7 @@ describe('<mobile-nav>', () => {
     const el = await fixture(component());
     const clickEvent = new MouseEvent('click');
 
-    setTimeout(() => el.shadowRoot.querySelector('.search-trigger button').dispatchEvent(clickEvent));
+    setTimeout(() => el.shadowRoot.querySelector('.search-trigger').dispatchEvent(clickEvent));
     const response = await oneEvent(el, 'searchMenu');
 
     expect(response).to.exist;

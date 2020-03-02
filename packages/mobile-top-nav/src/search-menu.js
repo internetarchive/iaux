@@ -10,6 +10,7 @@ class SearchMenu extends LitElement {
         outline-style: auto;
       }
       .search-menu {
+        padding: 0 4.5rem;
         font-size: 1.6rem;
         background-color: var(--grey20);
       }
@@ -29,16 +30,13 @@ class SearchMenu extends LitElement {
       .search-menu.tx-slide.open {
         max-height: 100vh;
       }
-      .search-options {
-        padding: 0 4.5rem;
-      }
 
-      .search-options > * {
+      .search-menu > * {
         padding: 1rem;
         display: block;
       }
 
-      .search-options .advanced-search {
+      .advanced-search {
         text-decoration: none;
         color: var(--link-color);
       }
@@ -113,10 +111,8 @@ class SearchMenu extends LitElement {
         aria-hidden="${searchMenuHidden}"
         aria-expanded="${searchMenuExpanded}"
       >
-        <div class="search-options">
-          ${this.searchTypesTemplate}
-          <a class="advanced-search" href="#">Advanced Search</a>
-        </div>
+        ${this.searchTypesTemplate}
+        <a class="advanced-search" href="#">Advanced Search</a>
       </div>
     `;
   }
