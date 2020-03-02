@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/mobile-top-nav",
-  "version": "0.1.1-alpha.607+3b222bb",
+  "version": "0.1.1-alpha.609+9f501bf",
   "description": "Top Nav for Internet Archive that is optimized for the mobile experience",
   "license": "AGPL-3.0-only",
   "main": "index.js",
