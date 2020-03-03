@@ -42,6 +42,7 @@ class MobileNav extends LitElement {
       }
       .hamburger {
         grid-area: hamburger;
+        padding: 0;
         margin-top: 0.6rem;
       }
       .search-trigger {
@@ -61,9 +62,10 @@ class MobileNav extends LitElement {
       }
       .user-info {
         grid-area: user;
-        align-self: center;
+        align-self: stretch;
       }
       .user-menu {
+        height: 100%;
         padding: 1rem;
       }
       .user-menu.active {

@@ -3,9 +3,12 @@ import { LitElement, html, css } from 'lit-element';
 class UserMenu extends LitElement {
   static get styles() {
     return css`
+      :host {
+        --topOffset: -70vh;
+      }
       nav {
         position: absolute;
-        top: -50vh;
+        top: var(--topOffset);
         right: 0;
         z-index: -1;
         font-size: 1.6rem;
@@ -19,7 +22,7 @@ class UserMenu extends LitElement {
       }
       nav.tx-slide.initial,
       nav.tx-slide.closed {
-        top: -50vh;
+        top: var(--topOffset);
       }
       nav.tx-slide.closed {
         transition-duration: 0.1s;
