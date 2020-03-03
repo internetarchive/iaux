@@ -47,7 +47,9 @@ class MobileNav extends LitElement {
       .search-trigger {
         grid-area: search;
         position: relative;
+        padding: 0;
         z-index: 1;
+        align-items: center;
       }
       .search-activated {
         position: relative;

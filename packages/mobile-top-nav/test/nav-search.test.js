@@ -25,4 +25,14 @@ describe('<nav-search>', () => {
 
     expect(response).to.exist;
   });
+
+  it('emits an event when form submitted', async () => {
+    const el = await fixture(component);
+    const submitEvent = new Event('submit');
+
+    setTimeout(() => el.shadowRoot.querySelector('form').dispatchEvent(submitEvent));
+    const response = await oneEvent(el, 'navSearch');
+
+    expect(response).to.exist;
+  });
 });

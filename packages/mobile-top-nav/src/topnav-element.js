@@ -35,25 +35,27 @@ export default class TopnavElement extends LitElement {
   static get properties() {
     return {
       config: { type: Object },
-      userMenuOpen: { type: Boolean },
-      userMenuAnimate: { type: Boolean },
-      searchMenuOpen: { type: Boolean },
-      searchMenuAnimate: { type: Boolean },
-      mediaMenuOpen: { type: Boolean },
       mediaMenuAnimate: { type: Boolean },
+      mediaMenuOpen: { type: Boolean },
+      searchMenuAnimate: { type: Boolean },
+      searchMenuOpen: { type: Boolean },
+      searchSubmitted: { type: Boolean },
+      userMenuAnimate: { type: Boolean },
+      userMenuOpen: { type: Boolean },
     };
   }
 
   constructor() {
     super();
     this.config = {};
-    this.userMenuOpen = false;
-    this.userMenuAnimate = false;
-    this.searchMenuOpen = false;
+    this.mediaMenuAnimate = false;
+    this.mediaMenuOpen = false;
     this.searchMenuAnimate = false;
     this.searchMenuFade = false;
-    this.mediaMenuOpen = false;
-    this.mediaMenuAnimate = false;
+    this.searchMenuOpen = false;
+    this.searchSubmitted = false;
+    this.userMenuAnimate = false;
+    this.userMenuOpen = false;
   }
 
   mediaMenu() {
@@ -75,6 +77,8 @@ export default class TopnavElement extends LitElement {
           .shadowRoot
           .querySelector('mobile-nav')
           .shadowRoot
+          .querySelector('nav-search')
+          .shadowRoot
           .querySelector('.search-field').focus();
       }, 0);
     }
@@ -85,6 +89,26 @@ export default class TopnavElement extends LitElement {
     this.mediaMenuOpen = false;
     this.userMenuAnimate = true;
     this.userMenuOpen = !this.userMenuOpen;
+  }
+
+  navSearch(e) {
+    this.searchSubmitted = true;
+    const { originalEvent, formEl } = e.detail;
+    const searchIn = document
+      .querySelector('topnav-element')
+      .shadowRoot
+      .querySelector('search-menu')
+      .shadowRoot
+      .querySelector('[name=sin]:checked')
+      .value;
+    const query = formEl.querySelector('[name=query]').value;
+    if (!query) {
+      originalEvent.preventDefault();
+      this.searchSubmitted = false;
+      return false;
+    }
+    formEl.querySelector('[name=sin]').value = searchIn;
+    return true;
   }
 
   render() {
@@ -103,6 +127,7 @@ export default class TopnavElement extends LitElement {
           @mediaMenu=${this.mediaMenu}
           @searchMenu=${this.searchMenu}
           @userMenu=${this.userMenu}
+          @navSearch=${this.navSearch}
         ></mobile-nav>
         <media-menu
           .config=${this.config}
@@ -111,6 +136,7 @@ export default class TopnavElement extends LitElement {
           tabindex="${mediaMenuTabIndex}"
         ></media-menu>
         <search-menu
+          .config=${this.config}
           ?searchMenuOpen="${this.searchMenuOpen}"
           ?searchMenuAnimate="${this.searchMenuAnimate}"
           tabindex="${searchMenuTabIndex}"

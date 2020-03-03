@@ -50,6 +50,7 @@ class SearchMenu extends LitElement {
 
   static get properties() {
     return {
+      config: { type: Object },
       searchMenuOpen: { type: Boolean },
       searchMenuAnimate: { type: Boolean },
       selectedSearchType: { type: String },
@@ -58,6 +59,7 @@ class SearchMenu extends LitElement {
 
   constructor() {
     super();
+    this.config = {};
     this.searchMenuOpen = false;
     this.searchMenuAnimate = false;
     this.selectedSearchType = '';
@@ -70,26 +72,26 @@ class SearchMenu extends LitElement {
   get searchTypesTemplate() {
     const searchTypes = [
       {
-        option: 'metadata',
         label: 'Metadata',
+        value: '',
         isDefault: true,
       },
       {
-        option: 'text',
         label: 'text contents',
+        value: 'TXT',
       },
       {
-        option: 'tv',
         label: 'TV news captions',
+        value: 'TV',
       },
       {
-        option: 'web',
         label: 'archived websites',
+        value: 'WEB',
       },
-    ].map(({ option, label, isDefault }) => (
+    ].map(({ value, label, isDefault }) => (
       html`
         <label @click="${this.selectSearchType}">
-          <input type="radio" name="search" value="${option}" ?checked=${isDefault} />
+          <input form="nav-search" type="radio" name="sin" value="${value}" ?checked=${isDefault} />
           Search ${label}
         </label>
       `
@@ -117,7 +119,7 @@ class SearchMenu extends LitElement {
         aria-expanded="${searchMenuExpanded}"
       >
         ${this.searchTypesTemplate}
-        <a class="advanced-search" href="#">Advanced Search</a>
+        <a class="advanced-search" href="https://${this.config.baseUrl}/advancedsearch.php">Advanced Search</a>
       </div>
     `;
   }

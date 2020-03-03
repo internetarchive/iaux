@@ -99,21 +99,34 @@ class NavSearch extends LitElement {
     }));
   }
 
+  search(e) {
+    this.dispatchEvent(new CustomEvent('navSearch', {
+      detail: {
+        originalEvent: e,
+        formEl: this.shadowRoot.querySelector('form'),
+      },
+      bubbles: true,
+      composed: true,
+    }));
+  }
+
   render() {
     const searchMenuClass = this.open ? 'flex' : 'search-inactive';
 
     return html`<div class="search-activated fade-in ${searchMenuClass}">
-      <div class="highlight">
+      <form id="nav-search" class="highlight" action="https://${this.config.baseUrl}/search.php" method="get" @submit=${this.search}>
         <input
           type="text"
+          name="query"
           class="search-field"
           placeholder="Search Internet Archive"
           required
         />
+        <input type='hidden' name='sin' value='' />
         <button class="search" @click="${this.searchMenu}">
           <search-image ?active=${this.open}></search-image>
         </button>
-      </div>
+      </form>
     </div>`;
   }
 }
