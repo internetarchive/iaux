@@ -15,7 +15,12 @@ class NavSearch extends LitElement {
       }
       .search {
         padding-top: 0;
-        margin-right: 1.5%;
+        margin-right: .5rem;
+      }
+      .search search-image {
+        position: relative;
+        top: -5px;
+        right: -3px;
       }
       .search-activated {
         display: flex;
@@ -32,10 +37,6 @@ class NavSearch extends LitElement {
       .search-inactive {
         display: none;
       }
-      .search-trigger .search {
-        margin: 0.4rem 0.1rem 0 0;
-        height: 2.8rem;
-      }
       .search-activated .highlight,
       .search-activated .search {
         background: var(--white);
@@ -44,7 +45,7 @@ class NavSearch extends LitElement {
       .search-activated .highlight {
         display: flex;
         width: 100%;
-        margin: 0 1.5%;
+        margin: 0 .5rem;
       }
       .search-activated .search {
         height: 100%;
@@ -74,7 +75,7 @@ class NavSearch extends LitElement {
         }
       }
       .fade-in {
-        animation: fade-in 1s forwards;
+        animation: fade-in .2s forwards;
       }
     `;
   }

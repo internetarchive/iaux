@@ -4,6 +4,9 @@ import Icon from './icon';
 class HamBurger extends Icon {
   static get styles() {
     return css`
+      svg {
+        display: block;
+      }
       path {
         stroke: var(--baseColor);
       }

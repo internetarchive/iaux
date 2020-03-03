@@ -16,7 +16,7 @@ class MediaButton extends LitElement {
         cursor: pointer;
         border: none;
         text-align: left;
-        padding: 0.1rem 0;
+        padding: 0;
         appearance: none;
         -webkit-appearance: none;
         -moz-appearance: none;

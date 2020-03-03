@@ -15,7 +15,7 @@ class MobileNav extends LitElement {
         position: relative;
         display: grid;
         grid-template-areas: "hamburger empty search user";
-        grid-template-columns: 4rem auto 4rem 6rem;
+        grid-template-columns: 4rem auto 4.3rem 5rem;
         background: var(--grey13);
         border-bottom: 1px solid var(--grey20);
       }
@@ -25,10 +25,6 @@ class MobileNav extends LitElement {
         border: none;
         font: inherit;
         cursor: pointer;
-      }
-      .search {
-        padding-top: 0;
-        margin-right: 1.5%;
       }
       .link-home {
         position: absolute;
@@ -43,7 +39,6 @@ class MobileNav extends LitElement {
       .hamburger {
         grid-area: hamburger;
         padding: 0;
-        margin-top: 0.6rem;
       }
       .search-trigger {
         grid-area: search;
@@ -63,10 +58,11 @@ class MobileNav extends LitElement {
       .user-info {
         grid-area: user;
         align-self: stretch;
+        justify-self: end;
       }
       .user-menu {
         height: 100%;
-        padding: 1rem;
+        padding: .5rem 1rem;
       }
       .user-menu.active {
         border-radius: 1rem 1rem 0 0;
@@ -74,7 +70,8 @@ class MobileNav extends LitElement {
       }
       .user-menu img {
         display: block;
-        width: 40px;
+        width: 30px;
+        height: 30px;
       }
     `;
   }

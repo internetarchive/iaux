@@ -15,8 +15,8 @@ class MoreSlider extends LitElement {
   static get styles() {
     return css`
       ul {
-        padding: 1rem 0;
-        margin: 0;
+        padding: 0;
+        margin: -1rem 0 0 0;
         list-style: none;
       }
       a {

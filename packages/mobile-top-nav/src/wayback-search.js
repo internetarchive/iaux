@@ -9,6 +9,7 @@ class WaybackSearch extends LitElement {
       }
 
       p {
+        margin-top: 0;
         font-weight: 200;
       }
 

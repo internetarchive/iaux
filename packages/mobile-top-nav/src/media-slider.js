@@ -45,7 +45,7 @@ class MediaSlider extends LitElement {
       }
 
       .info-box {
-        padding: 0 1rem;
+        padding: 1rem;
       }
     `;
   }

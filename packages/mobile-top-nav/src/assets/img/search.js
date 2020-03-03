@@ -17,6 +17,9 @@ class Search extends Icon {
 
   static get styles() {
     return css`
+      svg {
+        display: block;
+      }
       path {
         fill: var(--baseColor);
       }
