@@ -6,8 +6,6 @@ class LoginButton extends LitElement {
     return css`
       a {
         display: block;
-        min-width: 11rem;
-        padding: .4rem;
         font-size: 1.6rem;
         text-transform: uppercase;
         text-decoration: none;
@@ -35,7 +33,6 @@ class LoginButton extends LitElement {
     return html`
       <a href="${this.href}" data-event-click-tracking="TopNav|LoginIcon">
         <user-image ?active=${this.userMenuOpen}></user-image>
-        Sign in
       </a>
     `;
   }

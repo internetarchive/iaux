@@ -33,8 +33,8 @@ class MobileNav extends LitElement {
         z-index: 2;
         transform: translate(-50%, -50%);
       }
-      .link-home img {
-        height: 32px;
+      .link-home svg {
+        display: block;
       }
       .hamburger {
         grid-area: hamburger;

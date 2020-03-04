@@ -67,13 +67,12 @@ class MediaSubnav extends LitElement {
 
   constructor() {
     super();
-    const defaultLinks = { iconLinks: [], featuredLinks: [], links: [] };
 
     this.menu = '';
     this.config = {};
 
     // Begin properties not monitored by LitElement
-    this.links = defaultLinks;
+    this.links = MediaSubnav.defaultLinks;
     this.templates = {
       web: () => (
         html`<wayback-search .config=${this.config} .locationHandler=${locationHandler}></wayback-search>`
@@ -87,6 +86,10 @@ class MediaSubnav extends LitElement {
       this.links = menus[this.menu](this.config.baseUrl);
     }
     return true;
+  }
+
+  static get defaultLinks() {
+    return { iconLinks: [], featuredLinks: [], links: [] };
   }
 
   get iconLinks() {

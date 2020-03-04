@@ -4,6 +4,9 @@ import icons from './assets/img/icons';
 class MediaButton extends LitElement {
   static get styles() {
     return css`
+      a {
+        display: inline-block;
+      }
       button:focus {
         outline-color: var(--link-color);
         outline-width: 0.16rem;
@@ -48,12 +51,17 @@ class MediaButton extends LitElement {
       .icon.active .fill-color {
         fill: #fff;
       }
+      .donate .fill-color {
+        fill: #f00;
+      }
     `;
   }
 
   static get properties() {
     return {
+      config: { type: Object },
       icon: { type: String },
+      href: { type: String },
       label: { type: String },
       mediatype: { type: String },
       selected: { type: Boolean },
@@ -66,7 +74,9 @@ class MediaButton extends LitElement {
 
   constructor() {
     super();
+    this.config = {};
     this.icon = '';
+    this.href = '';
     this.label = '';
     this.mediatype = '';
     this.selected = false;
@@ -88,15 +98,30 @@ class MediaButton extends LitElement {
     return this.selected ? 'active' : '';
   }
 
-  render() {
+  get anchor() {
     return html`
-      <button class="menu-item ${this.buttonClass}" @click="${this.onClick}">
+      <a class="menu-item ${this.mediatype} ${this.buttonClass}" href="https://${this.config.baseUrl}${this.href}">
+        <span class="icon ${this.iconClass}">
+          ${MediaButton.icons[this.icon]}
+        </span>
+        <span class="label">${this.label}</span>
+      </a>
+    `;
+  }
+
+  get button() {
+    return html`
+      <button class="menu-item ${this.mediatype} ${this.buttonClass}" @click="${this.onClick}">
         <span class="icon ${this.iconClass}">
           ${MediaButton.icons[this.icon]}
         </span>
         <span class="label">${this.label}</span>
       </button>
     `;
+  }
+
+  render() {
+    return this.href ? this.anchor : this.button;
   }
 }
 

@@ -7,7 +7,7 @@ class User extends Icon {
       svg {
         vertical-align: middle;
       }
-      g {
+      path {
         fill: var(--baseColor);
       }
       .active {
@@ -18,21 +18,16 @@ class User extends Icon {
 
   render() {
     return html`
-      <svg height="40" viewBox="0 0 40 40" width="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="userTitleID userDescID">
+      <svg
+        width="40"
+        height="40"
+        viewBox="0 0 40 40"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-labelledby="userTitleID userDescID"
+      >
         <title id="userTitleID">User icon</title>
         <desc id="userDescID">An illustration of a person's head and chest.</desc>
-        <defs>
-          <path id="a" d="m13.7130435 13.0434783c-3.5658385 0-6.45652176-2.9198821-6.45652176-6.52173917 0-3.60185706 2.89068326-6.52173913 6.45652176-6.52173913s6.4565217 2.91988207 6.4565217 6.52173913c0 3.60185707-2.8906832 6.52173917-6.4565217 6.52173917zm-12.9130435 16.9565217c0-7.9240855 5.78136649-14.3478261 12.9130435-14.3478261 7.131677 0 12.9130435 6.4237406 12.9130435 14.3478261z"/>
-          <mask id="b">
-            <use fill-rule="evenodd" xlink:href="#a"/>
-          </mask>
-        </defs>
-        <g class="${this.active ? 'active' : ''}" fill-rule="evenodd" transform="translate(7 5)">
-          <use xlink:href="#a"/>
-          <g mask="url(#b)">
-            <path d="m0 0h30v30h-30z" transform="translate(-1)"/>
-          </g>
-        </g>
+        <path class="${this.active ? 'active' : ''}" d="m20.7130435 18.0434783c-3.5658385 0-6.4565218-2.9198821-6.4565218-6.5217392 0-3.60185703 2.8906833-6.5217391 6.4565218-6.5217391s6.4565217 2.91988207 6.4565217 6.5217391c0 3.6018571-2.8906832 6.5217392-6.4565217 6.5217392zm-12.9130435 16.9565217c0-7.9240855 5.7813665-14.3478261 12.9130435-14.3478261s12.9130435 6.4237406 12.9130435 14.3478261z" fill-rule="evenodd"/>
       </svg>
     `;
   }

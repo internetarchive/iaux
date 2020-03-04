@@ -8,10 +8,10 @@ class HamBurger extends Icon {
         display: block;
       }
       path {
-        stroke: var(--baseColor);
+        fill: var(--baseColor);
       }
       .active path {
-        stroke: var(--activeColor);
+        fill: var(--activeColor);
       }
     `;
   }
@@ -21,11 +21,7 @@ class HamBurger extends Icon {
       <svg class="${this.active ? 'active' : ''}" height="40" viewBox="0 0 40 40" width="40" xmlns="http://www.w3.org/2000/svg" aria-labelledby="hamburgerTitleID hamburgerDescID">
         <title id="hamburgerTitleID">Hamburger icon</title>
         <desc id="hamburgerDescID">An icon used to represent a menu that can be toggled by interacting with this icon.</desc>
-        <g fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-width="3">
-          <path d="m10 12.5h20"/>
-          <path d="m10 20.5h20"/>
-          <path d="m10 28.5h20"/>
-        </g>
+        <path d="m30.5 26.5c.8284271 0 1.5.6715729 1.5 1.5s-.6715729 1.5-1.5 1.5h-21c-.82842712 0-1.5-.6715729-1.5-1.5s.67157288-1.5 1.5-1.5zm0-8c.8284271 0 1.5.6715729 1.5 1.5s-.6715729 1.5-1.5 1.5h-21c-.82842712 0-1.5-.6715729-1.5-1.5s.67157288-1.5 1.5-1.5zm0-8c.8284271 0 1.5.6715729 1.5 1.5s-.6715729 1.5-1.5 1.5h-21c-.82842712 0-1.5-.6715729-1.5-1.5s.67157288-1.5 1.5-1.5z" fill="#999" fill-rule="evenodd"/>
       </svg>
     `;
   }

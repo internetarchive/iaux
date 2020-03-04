@@ -35,6 +35,18 @@ const menuSelection = [
     label: 'Images',
   },
   {
+    icon: 'donate',
+    menu: 'donate',
+    href: '/donate/',
+    label: 'Donate',
+  },
+  {
+    icon: 'upload',
+    menu: 'upload',
+    href: '/create/',
+    label: 'Upload',
+  },
+  {
     icon: 'ellipses',
     menu: 'more',
     label: 'More',
@@ -134,11 +146,18 @@ class MediaMenu extends LitElement {
   }
 
   get mediaMenuOptionsTemplate() {
-    const buttons = menuSelection.map(({ icon, menu, label }) => {
+    const buttons = menuSelection.map(({
+      icon,
+      menu,
+      label,
+      href,
+    }) => {
       const selected = this.selectedMenuOption === menu;
       return html`
         <media-button
+          .config=${this.config}
           .icon=${icon}
+          .href=${href}
           .label=${label}
           mediatype=${menu}
           .selected=${selected}

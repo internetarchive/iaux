@@ -10,10 +10,6 @@ export default html`
   >
     <title id="ellipsesTitleID">Ellipses icon</title>
     <desc id="ellipsesDescID">An illustration of text ellipses.</desc>
-    <g fill-rule="evenodd" class="fill-color">
-      <circle cx="10.769231" cy="19.769231" r="2.769231" />
-      <circle cx="20" cy="19.769231" r="2.769231" />
-      <circle cx="29.230769" cy="19.769231" r="2.769231" />
-    </g>
+    <path class="fill-color" d="m10.5 17.5c1.3807119 0 2.5 1.1192881 2.5 2.5s-1.1192881 2.5-2.5 2.5c-1.38071187 0-2.5-1.1192881-2.5-2.5s1.11928813-2.5 2.5-2.5zm9.5 0c1.3807119 0 2.5 1.1192881 2.5 2.5s-1.1192881 2.5-2.5 2.5-2.5-1.1192881-2.5-2.5 1.1192881-2.5 2.5-2.5zm9.5 0c1.3807119 0 2.5 1.1192881 2.5 2.5s-1.1192881 2.5-2.5 2.5-2.5-1.1192881-2.5-2.5 1.1192881-2.5 2.5-2.5z" fill-rule="evenodd"/>
   </svg>
 `;
