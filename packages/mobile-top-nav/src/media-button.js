@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import icons from './assets/img/static_icons';
+import icons from './assets/img/icons';
 
 class MediaButton extends LitElement {
   static get styles() {
