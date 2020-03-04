@@ -22,7 +22,7 @@ class WaybackSearch extends LitElement {
       fieldset {
         max-width: 600px;
         padding: 0.7rem 2rem;
-        margin: 1.5rem auto;
+        margin: 1.5rem 0;
         text-align: center;
         border: none;
         border-radius: 7px;
