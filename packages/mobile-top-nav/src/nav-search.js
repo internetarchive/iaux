@@ -1,6 +1,7 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import TrackedElement from './tracked-element';
 
-class NavSearch extends LitElement {
+class NavSearch extends TrackedElement {
   static get styles() {
     return css`
       input:focus {
@@ -93,7 +94,8 @@ class NavSearch extends LitElement {
     this.open = false;
   }
 
-  searchMenu() {
+  searchMenu(e) {
+    this.trackClick(e);
     this.dispatchEvent(new CustomEvent('searchMenu', {
       bubbles: true,
       composed: true,
@@ -101,6 +103,7 @@ class NavSearch extends LitElement {
   }
 
   search(e) {
+    this.trackSubmit(e);
     this.dispatchEvent(new CustomEvent('navSearch', {
       detail: {
         originalEvent: e,
@@ -115,7 +118,7 @@ class NavSearch extends LitElement {
     const searchMenuClass = this.open ? 'flex' : 'search-inactive';
 
     return html`<div class="search-activated fade-in ${searchMenuClass}">
-      <form id="nav-search" class="highlight" action="https://${this.config.baseUrl}/search.php" method="get" @submit=${this.search}>
+      <form id="nav-search" class="highlight" action="https://${this.config.baseUrl}/search.php" method="get" @submit=${this.search} data-event-submit-tracking="${this.config.eventCategory}|NavSearchSubmit">
         <input
           type="text"
           name="query"

@@ -1,11 +1,12 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import './assets/img/hamburger';
 import './assets/img/search';
 import './login-button';
 import './nav-search';
 
-class MobileNav extends LitElement {
+class MobileNav extends TrackedElement {
   static get styles() {
     return css`
       button:focus,
@@ -96,21 +97,24 @@ class MobileNav extends LitElement {
     this.mediaMenuOpen = false;
   }
 
-  mediaMenu() {
+  mediaMenu(e) {
+    this.trackClick(e);
     this.dispatchEvent(new CustomEvent('mediaMenu', {
       bubbles: true,
       composed: true,
     }));
   }
 
-  searchMenu() {
+  searchMenu(e) {
+    this.trackClick(e);
     this.dispatchEvent(new CustomEvent('searchMenu', {
       bubbles: true,
       composed: true,
     }));
   }
 
-  userMenu() {
+  userMenu(e) {
+    this.trackClick(e);
     this.dispatchEvent(new CustomEvent('userMenu', {
       bubbles: true,
       composed: true,
@@ -132,7 +136,7 @@ class MobileNav extends LitElement {
   render() {
     return html`
       <nav>
-        <a class="link-home" href="https://${this.config.baseUrl}" data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}</a>
+        <a class="link-home" href="https://${this.config.baseUrl}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}</a>
         <button class="hamburger" @click="${this.mediaMenu}" tabindex="1" data-event-click-tracking="${this.config.eventCategory}|NavHamburger">
           <icon-hamburger ?active=${this.mediaMenuOpen}></icon-hamburger>
         </button>

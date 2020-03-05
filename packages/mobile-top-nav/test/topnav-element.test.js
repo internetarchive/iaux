@@ -1,4 +1,9 @@
-import { html, fixture, expect } from '@open-wc/testing';
+import {
+  html,
+  fixture,
+  expect,
+  oneEvent,
+} from '@open-wc/testing';
 import { LitElement } from 'lit-element';
 
 import '../src/topnav-element';
@@ -76,5 +81,22 @@ describe('<topnav-element>', () => {
 
     expect(result).to.be.true;
     expect(formEl.querySelector('[name=sin]').value).to.equal('');
+  });
+
+  it('dispatches an analyticsClick event when trackSubmit event fired', async () => {
+    const el = await fixture(html`<topnav-element></topnav-element>`);
+    const clickEvent = new MouseEvent('click');
+
+    setTimeout(() => (
+      el
+        .shadowRoot
+        .querySelector('mobile-nav')
+        .shadowRoot
+        .querySelector('.hamburger')
+        .dispatchEvent(clickEvent)
+    ));
+    const response = await oneEvent(el, 'trackClick');
+
+    expect(response).to.exist;
   });
 });

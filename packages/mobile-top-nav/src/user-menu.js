@@ -1,6 +1,7 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import TrackedElement from './tracked-element';
 
-class UserMenu extends LitElement {
+class UserMenu extends TrackedElement {
   static get styles() {
     return css`
       :host {
@@ -72,7 +73,7 @@ class UserMenu extends LitElement {
   get dropdownItems() {
     return this.menuItems.map(link => (
       html`
-        <li><a href="${link.href}" data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a></li>
+        <li><a href="${link.href}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a></li>
       `
     ));
   }

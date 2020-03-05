@@ -1,17 +1,12 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import TrackedElement from './tracked-element';
 import * as menus from './data/menus';
 import locationHandler from './lib/location-handler';
 import './wayback-search';
 import './more-slider';
+import toSnakeCase from './lib/toSnakeCase';
 
-const toSnakeCase = (phrase) => {
-  const words = phrase.split(' ');
-  const lastWord = words.pop();
-  const capitalizedWord = `${lastWord.substr(0, 1).toUpperCase()}${lastWord.substr(1)}`;
-  return words.length ? toSnakeCase(`${words.join(' ')}${capitalizedWord}`) : capitalizedWord;
-};
-
-class MediaSubnav extends LitElement {
+class MediaSubnav extends TrackedElement {
   static get styles() {
     return css`
       a {
@@ -106,7 +101,7 @@ class MediaSubnav extends LitElement {
   get iconLinks() {
     return this.links.iconLinks.map(link => (
       html`
-        <a href="${link.url}" data-event-click-tracking="${this.analyticsEvent(link.title)}"><img src="${link.icon}" />${link.title}</a>
+        <a href="${link.url}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(link.title)}"><img src="${link.icon}" />${link.title}</a>
       `
     ));
   }
@@ -114,7 +109,7 @@ class MediaSubnav extends LitElement {
   renderLinks(category) {
     return this.links[category].map(link => (
       html`
-        <li><a href="${link.url}" data-event-click-tracking="${this.analyticsEvent(link.title)}">${link.title}</a></li>
+        <li><a href="${link.url}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(link.title)}">${link.title}</a></li>
       `
     ));
   }

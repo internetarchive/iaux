@@ -1,6 +1,7 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import TrackedElement from './tracked-element';
 
-class SearchMenu extends LitElement {
+class SearchMenu extends TrackedElement {
   static get styles() {
     return css`
       button:focus,
@@ -119,7 +120,7 @@ class SearchMenu extends LitElement {
         aria-expanded="${searchMenuExpanded}"
       >
         ${this.searchTypesTemplate}
-        <a class="advanced-search" href="https://${this.config.baseUrl}/advancedsearch.php" data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch">Advanced Search</a>
+        <a class="advanced-search" href="https://${this.config.baseUrl}/advancedsearch.php" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch">Advanced Search</a>
       </div>
     `;
   }

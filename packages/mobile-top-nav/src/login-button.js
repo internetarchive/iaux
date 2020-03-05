@@ -1,7 +1,8 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import TrackedElement from './tracked-element';
 import './assets/img/user';
 
-class LoginButton extends LitElement {
+class LoginButton extends TrackedElement {
   static get styles() {
     return css`
       a {
@@ -35,7 +36,7 @@ class LoginButton extends LitElement {
 
   render() {
     return html`
-      <a href="${this.href}" data-event-click-tracking="${this.analyticsEvent}">
+      <a href="${this.href}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent}">
         <user-image ?active=${this.userMenuOpen}></user-image>
       </a>
     `;

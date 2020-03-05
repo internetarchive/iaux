@@ -109,6 +109,22 @@ export default class TopnavElement extends LitElement {
     return true;
   }
 
+  trackClick({ detail }) {
+    this.dispatchEvent(new CustomEvent('analyticsClick', {
+      bubbles: true,
+      composed: true,
+      detail,
+    }));
+  }
+
+  trackSubmit({ detail }) {
+    this.dispatchEvent(new CustomEvent('analyticsSubmit', {
+      bubbles: true,
+      composed: true,
+      detail,
+    }));
+  }
+
   render() {
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
@@ -126,18 +142,22 @@ export default class TopnavElement extends LitElement {
           @searchMenu=${this.searchMenu}
           @userMenu=${this.userMenu}
           @navSearch=${this.navSearch}
+          @trackClick=${this.trackClick}
         ></mobile-nav>
         <media-menu
           .config=${this.config}
           ?mediaMenuOpen="${this.mediaMenuOpen}"
           ?mediaMenuAnimate="${this.mediaMenuAnimate}"
           tabindex="${mediaMenuTabIndex}"
+          @trackClick=${this.trackClick}
         ></media-menu>
         <search-menu
           .config=${this.config}
           ?searchMenuOpen="${this.searchMenuOpen}"
           ?searchMenuAnimate="${this.searchMenuAnimate}"
           tabindex="${searchMenuTabIndex}"
+          @trackClick=${this.trackClick}
+          @trackSubmit=${this.trackSubmit}
         ></search-menu>
         <user-menu
           .config=${this.config}
@@ -146,6 +166,7 @@ export default class TopnavElement extends LitElement {
           tabindex="${userMenuTabIndex}"
           username=${this.config.username}
           .menuItems=${userMenu(this.config.baseUrl, this.config.username)}
+          @trackClick=${this.trackClick}
         ></user-menu>
       </div>
     `;

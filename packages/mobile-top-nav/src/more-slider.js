@@ -1,7 +1,9 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import TrackedElement from './tracked-element';
 import { more as moreMenu } from './data/menus';
+import toSnakeCase from './lib/toSnakeCase';
 
-class MoreSlider extends LitElement {
+class MoreSlider extends TrackedElement {
   static get properties() {
     return {
       config: { type: Object }
@@ -32,10 +34,14 @@ class MoreSlider extends LitElement {
     return `https://${this.config.baseUrl}`;
   }
 
+  analyticsEvent(label) {
+    return `${this.config.eventCategory}|NavMore${toSnakeCase(label)}`;
+  }
+
   render() {
     return html`
       <ul>
-        ${this.menuItems.map(item => html`<li><a href="${item.url}">${item.label}</a></li>`)}
+        ${this.menuItems.map(item => html`<li><a @click=${this.trackClick} href="${item.url}" data-event-click-tracking="${this.analyticsEvent(item.label)}">${item.label}</a></li>`)}
       </ul>
     `;
   }

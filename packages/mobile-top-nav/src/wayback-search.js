@@ -1,7 +1,8 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import TrackedElement from './tracked-element';
 import './assets/img/search';
 
-class WaybackSearch extends LitElement {
+class WaybackSearch extends TrackedElement {
   static get styles() {
     return css`
       form {
@@ -102,6 +103,7 @@ class WaybackSearch extends LitElement {
         <p>
           Search the history of over 411 billion
           <a
+            @click=${this.trackClick}
             data-event-click-tracking="TopNav|WaybackMachineStatsLink"
             href="https://blog.archive.org/2016/10/23/defining-web-pages-web-sites-and-web-captures/"
             >web pages</a
@@ -110,6 +112,7 @@ class WaybackSearch extends LitElement {
         </p>
         <fieldset>
           <a
+            @click=${this.trackClick}
             data-event-click-tracking="TopNav|WaybackMachineLogoLink"
             href="https://archive.org/web/"
             ><img src="https://archive.org/images/WaybackLogoSmall.png" alt="Wayback Machine"

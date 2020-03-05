@@ -1,14 +1,9 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
+import toSnakeCase from './lib/toSnakeCase';
 
-const toSnakeCase = (phrase) => {
-  const words = phrase.split(' ');
-  const lastWord = words.pop();
-  const capitalizedWord = `${lastWord.substr(0, 1).toUpperCase()}${lastWord.substr(1)}`;
-  return words.length ? toSnakeCase(`${words.join(' ')}${capitalizedWord}`) : capitalizedWord;
-};
-
-class MediaButton extends LitElement {
+class MediaButton extends TrackedElement {
   static get styles() {
     return css`
       a {
@@ -90,7 +85,8 @@ class MediaButton extends LitElement {
     this.selected = false;
   }
 
-  onClick() {
+  onClick(e) {
+    this.trackClick(e);
     this.dispatchEvent(new CustomEvent('selected', {
       detail: {
         mediatype: this.mediatype
@@ -124,6 +120,7 @@ class MediaButton extends LitElement {
       <a
         class="menu-item ${this.mediatype} ${this.buttonClass}"
         href="https://${this.config.baseUrl}${this.href}"
+        @click=${this.trackClick}
         data-event-click-tracking="${this.analyticsEvent}"
       >
         ${this.htmlContent}
