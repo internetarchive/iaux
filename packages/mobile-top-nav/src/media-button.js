@@ -6,6 +6,7 @@ class MediaButton extends LitElement {
     return css`
       a {
         display: inline-block;
+        text-decoration: none;
       }
       button:focus {
         outline-color: var(--link-color);

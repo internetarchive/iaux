@@ -14,6 +14,7 @@ class MobileNav extends LitElement {
       nav {
         position: relative;
         display: grid;
+        height: 4rem;
         grid-template-areas: "hamburger empty search user";
         grid-template-columns: 4rem auto 4.3rem 5rem;
         background: var(--grey13);
