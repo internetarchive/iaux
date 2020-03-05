@@ -1,5 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 import icons from './assets/img/icons';
+import './assets/img/hamburger';
+import './assets/img/search';
 import './login-button';
 import './nav-search';
 
@@ -118,7 +120,7 @@ class MobileNav extends LitElement {
   get userIcon() {
     const userMenuClass = this.userMenuOpen ? 'active' : '';
 
-    return html`<button class="user-menu ${userMenuClass}" @click="${this.userMenu}">
+    return html`<button class="user-menu ${userMenuClass}" @click="${this.userMenu}" data-event-click-tracking="${this.config.eventCategory}|NavUserMenu">
       <img src="https://archive.org/services/img/user/profile?${+(new Date())}" alt="${this.config.username}" />
     </button>`;
   }
@@ -130,11 +132,11 @@ class MobileNav extends LitElement {
   render() {
     return html`
       <nav>
-        <a class="link-home" href="https://${this.config.baseUrl}">${icons.iaLogo}</a>
-        <button class="hamburger" @click="${this.mediaMenu}" tabindex="1">
+        <a class="link-home" href="https://${this.config.baseUrl}" data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}</a>
+        <button class="hamburger" @click="${this.mediaMenu}" tabindex="1" data-event-click-tracking="${this.config.eventCategory}|NavHamburger">
           <icon-hamburger ?active=${this.mediaMenuOpen}></icon-hamburger>
         </button>
-        <button class="search-trigger" @click="${this.searchMenu}">
+        <button class="search-trigger" @click="${this.searchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen">
           <search-image ?active=${this.searchMenuOpen}></search-image>
         </button>
         <nav-search .config=${this.config} .open=${this.searchMenuOpen}></nav-search>

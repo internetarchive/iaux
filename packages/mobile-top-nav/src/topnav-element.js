@@ -4,8 +4,6 @@ import './mobile-nav';
 import './user-menu';
 import './search-menu';
 import './media-menu';
-import './assets/img/hamburger';
-import './assets/img/search';
 import { user as userMenu } from './data/menus';
 
 export default class TopnavElement extends LitElement {
@@ -142,6 +140,7 @@ export default class TopnavElement extends LitElement {
           tabindex="${searchMenuTabIndex}"
         ></search-menu>
         <user-menu
+          .config=${this.config}
           ?userMenuOpen="${this.userMenuOpen}"
           ?userMenuAnimate="${this.userMenuAnimate}"
           tabindex="${userMenuTabIndex}"

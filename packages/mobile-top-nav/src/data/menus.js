@@ -331,27 +331,35 @@ const images = baseUrl => ({
 const user = (baseUrl, account) => ([{
   href: `https://${baseUrl}/create`,
   title: 'Upload',
+  analyticsEvent: 'UserUpload',
 }, {
   href: `https://${baseUrl}/details/@${account}`,
   title: 'My library',
+  analyticsEvent: 'UserLibrary',
 }, {
   href: `https://${baseUrl}/details/@${account}?tab=loans`,
   title: 'My loans',
+  analyticsEvent: 'UserLoans',
 }, {
   href: `https://${baseUrl}/details/fav-${account}`,
   title: 'My favorites',
+  analyticsEvent: 'UserFavorites',
 }, {
   href: `https://${baseUrl}/details/@${account}/web-archive`,
   title: 'My web archive',
+  analyticsEvent: 'UserWebArchive',
 }, {
   href: `https://${baseUrl}/account/index.php?settings=1`,
   title: 'Edit settings',
+  analyticsEvent: 'UserSettings',
 }, {
   href: 'https://help.archive.org',
   title: 'Get help',
+  analyticsEvent: 'UserHelp',
 }, {
   href: `https://${baseUrl}/account/logout`,
   title: 'Log out',
+  analyticsEvent: 'UserLogOut',
 }]);
 
 const more = baseUrl => ([

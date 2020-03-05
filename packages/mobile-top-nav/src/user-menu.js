@@ -62,6 +62,7 @@ class UserMenu extends LitElement {
 
   constructor() {
     super();
+    this.config = {};
     this.menuItems = [];
     this.username = 'USERNAME';
     this.userMenuOpen = false;
@@ -71,7 +72,7 @@ class UserMenu extends LitElement {
   get dropdownItems() {
     return this.menuItems.map(link => (
       html`
-        <li><a href="${link.href}">${link.title}</a></li>
+        <li><a href="${link.href}" data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a></li>
       `
     ));
   }

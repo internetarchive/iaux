@@ -124,7 +124,7 @@ class NavSearch extends LitElement {
           required
         />
         <input type='hidden' name='sin' value='' />
-        <button class="search" @click="${this.searchMenu}">
+        <button class="search" @click="${this.searchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">
           <search-image ?active=${this.open}></search-image>
         </button>
       </form>

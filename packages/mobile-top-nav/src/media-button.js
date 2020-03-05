@@ -1,6 +1,13 @@
 import { LitElement, html, css } from 'lit-element';
 import icons from './assets/img/icons';
 
+const toSnakeCase = (phrase) => {
+  const words = phrase.split(' ');
+  const lastWord = words.pop();
+  const capitalizedWord = `${lastWord.substr(0, 1).toUpperCase()}${lastWord.substr(1)}`;
+  return words.length ? toSnakeCase(`${words.join(' ')}${capitalizedWord}`) : capitalizedWord;
+};
+
 class MediaButton extends LitElement {
   static get styles() {
     return css`
@@ -99,24 +106,39 @@ class MediaButton extends LitElement {
     return this.selected ? 'active' : '';
   }
 
+  get analyticsEvent() {
+    return `${this.config.eventCategory}|NavMenu${toSnakeCase(this.mediatype)}`;
+  }
+
+  get htmlContent() {
+    return html`
+      <span class="icon ${this.iconClass}">
+        ${MediaButton.icons[this.icon]}
+      </span>
+      <span class="label">${this.label}</span>
+    `;
+  }
+
   get anchor() {
     return html`
-      <a class="menu-item ${this.mediatype} ${this.buttonClass}" href="https://${this.config.baseUrl}${this.href}">
-        <span class="icon ${this.iconClass}">
-          ${MediaButton.icons[this.icon]}
-        </span>
-        <span class="label">${this.label}</span>
+      <a
+        class="menu-item ${this.mediatype} ${this.buttonClass}"
+        href="https://${this.config.baseUrl}${this.href}"
+        data-event-click-tracking="${this.analyticsEvent}"
+      >
+        ${this.htmlContent}
       </a>
     `;
   }
 
   get button() {
     return html`
-      <button class="menu-item ${this.mediatype} ${this.buttonClass}" @click="${this.onClick}">
-        <span class="icon ${this.iconClass}">
-          ${MediaButton.icons[this.icon]}
-        </span>
-        <span class="label">${this.label}</span>
+      <button
+        class="menu-item ${this.mediatype} ${this.buttonClass}"
+        @click="${this.onClick}"
+        data-event-click-tracking="${this.analyticsEvent}"
+      >
+        ${this.htmlContent}
       </button>
     `;
   }

@@ -4,6 +4,13 @@ import locationHandler from './lib/location-handler';
 import './wayback-search';
 import './more-slider';
 
+const toSnakeCase = (phrase) => {
+  const words = phrase.split(' ');
+  const lastWord = words.pop();
+  const capitalizedWord = `${lastWord.substr(0, 1).toUpperCase()}${lastWord.substr(1)}`;
+  return words.length ? toSnakeCase(`${words.join(' ')}${capitalizedWord}`) : capitalizedWord;
+};
+
 class MediaSubnav extends LitElement {
   static get styles() {
     return css`
@@ -92,10 +99,14 @@ class MediaSubnav extends LitElement {
     return { iconLinks: [], featuredLinks: [], links: [] };
   }
 
+  analyticsEvent(title) {
+    return `${this.config.eventCategory}|${toSnakeCase(title)}`;
+  }
+
   get iconLinks() {
     return this.links.iconLinks.map(link => (
       html`
-        <a href="${link.url}"><img src="${link.icon}" />${link.title}</a>
+        <a href="${link.url}" data-event-click-tracking="${this.analyticsEvent(link.title)}"><img src="${link.icon}" />${link.title}</a>
       `
     ));
   }
@@ -103,7 +114,7 @@ class MediaSubnav extends LitElement {
   renderLinks(category) {
     return this.links[category].map(link => (
       html`
-        <li><a href="${link.url}">${link.title}</a></li>
+        <li><a href="${link.url}" data-event-click-tracking="${this.analyticsEvent(link.title)}">${link.title}</a></li>
       `
     ));
   }

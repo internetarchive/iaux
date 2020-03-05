@@ -29,9 +29,13 @@ class LoginButton extends LitElement {
     return `https://${this.config.baseUrl}/account/login`;
   }
 
+  get analyticsEvent() {
+    return `${this.config.eventCategory}|NavLoginIcon`;
+  }
+
   render() {
     return html`
-      <a href="${this.href}" data-event-click-tracking="TopNav|LoginIcon">
+      <a href="${this.href}" data-event-click-tracking="${this.analyticsEvent}">
         <user-image ?active=${this.userMenuOpen}></user-image>
       </a>
     `;

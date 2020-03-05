@@ -119,7 +119,7 @@ class SearchMenu extends LitElement {
         aria-expanded="${searchMenuExpanded}"
       >
         ${this.searchTypesTemplate}
-        <a class="advanced-search" href="https://${this.config.baseUrl}/advancedsearch.php">Advanced Search</a>
+        <a class="advanced-search" href="https://${this.config.baseUrl}/advancedsearch.php" data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch">Advanced Search</a>
       </div>
     `;
   }
