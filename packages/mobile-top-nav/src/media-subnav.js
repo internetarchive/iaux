@@ -48,7 +48,7 @@ class MediaSubnav extends TrackedElement {
 
       .icon-links a {
         display: block;
-        max-width: 120px;
+        width: 120px;
         margin-bottom: 1.5rem;
         overflow: hidden;
         white-space: nowrap;
