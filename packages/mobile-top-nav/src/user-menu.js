@@ -37,6 +37,8 @@ class UserMenu extends TrackedElement {
         padding: 0.6rem 2rem;
         margin: 0;
         font-size: inherit;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       ul {
         padding: 0.4rem 0 0.7rem 0;
@@ -97,7 +99,7 @@ class UserMenu extends TrackedElement {
         aria-hidden="${userMenuHidden}"
         aria-expanded="${userMenuExpanded}"
       >
-        <h3>${this.username}</h3>
+        <h3>${this.config.screenName}</h3>
         <ul>
           ${this.dropdownItems}
         </ul>
