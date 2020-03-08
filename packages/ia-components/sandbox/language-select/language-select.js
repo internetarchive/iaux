@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
+import React from "react";
+import PropTypes from "prop-types";
+import CloseMenu from "./CloseMenu";
 // Add new flag emoji here
 const flags = {
-  en: '🇬🇧',
-  fr: '🇫🇷',
-  de: '🇩🇪',
-  es: '🇪🇸',
-  hi: '🇮🇳',
-  id: '🇮🇩',
-  it: '🇮🇹',
-  ja: '🇯🇵',
-  mr: '🇮🇳',
-  my: '🇲🇲',
-  pt: '🇵🇹',
+  en: "🇬🇧",
+  fr: "🇫🇷",
+  de: "🇩🇪",
+  es: "🇪🇸",
+  hi: "🇮🇳",
+  id: "🇮🇩",
+  it: "🇮🇹",
+  ja: "🇯🇵",
+  mr: "🇮🇳",
+  my: "🇲🇲",
+  pt: "🇵🇹",
 };
 
 /**
@@ -27,7 +27,7 @@ const flags = {
  */
 const LanguageNode = ({ name, flag }) => (
   <>
-    <span className='flag'>{flag}</span>
+    <span className="flag">{flag}</span>
     {name}
   </>
 );
@@ -44,13 +44,12 @@ const LanguageNode = ({ name, flag }) => (
  * @returns component stateless
  */
 const LanguageOption = ({ language, value, selectedLanguage, onClick }) => (
-  <li className={selectedLanguage === value ? 'selected' : null}>
+  <li className={selectedLanguage === value ? "selected" : null}>
     <a onClick={onClick} data-language={value}>
       <LanguageNode name={language.inLocal} flag={language.flag} />
     </a>
   </li>
 );
-
 
 /**
  * Presentational component
@@ -77,13 +76,13 @@ class LanguageSelect extends React.Component {
     };
     this.onSelect = onSelect;
 
-    ['toggleDropdown', 'selectLanguage'].forEach((method) => {
+    ["toggleDropdown", "selectLanguage"].forEach(method => {
       this[method] = this[method].bind(this);
     });
   }
 
   toggleDropdown(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
     const isOpened = !this.state.dropdownOpen;
 
     this.setState({ dropdownOpen: isOpened });
@@ -102,37 +101,50 @@ class LanguageSelect extends React.Component {
 
   render() {
     const { selectedLanguage, dropdownOpen } = this.state;
-    const selectedOption = this.languages[selectedLanguage] || this.languages[Object.keys(this.languages)[0]];
+    const selectedOption =
+      this.languages[selectedLanguage] ||
+      this.languages[Object.keys(this.languages)[0]];
 
     return (
-      <div className='language_select'>
+      <div className="language_select">
         <a onClick={this.toggleDropdown}>
-          <LanguageNode name={selectedOption.inLocal} flag={selectedOption.flag} />
+          <LanguageNode
+            name={selectedOption.inLocal}
+            flag={selectedOption.flag}
+          />
         </a>
-        <ul className={dropdownOpen ? 'visible' : null}>
-          {Object.keys(this.languages).map((language) => (
-            <LanguageOption
-               key={`language_${language}`}
-               language={this.languages[language]}
-               value={language}
-               selectedLanguage={selectedLanguage}
-               onClick={this.selectLanguage} />))}
-        </ul>
+        {dropdownOpen && (
+          <ul className={dropdownOpen ? "visible" : null}>
+            <CloseMenu handleOutside={this.toggleDropdown}>
+              {Object.keys(this.languages).map(language => (
+                <LanguageOption
+                  key={`language_${language}`}
+                  language={this.languages[language]}
+                  value={language}
+                  selectedLanguage={selectedLanguage}
+                  onClick={this.selectLanguage}
+                />
+              ))}
+            </CloseMenu>
+          </ul>
+        )}
       </div>
     );
   }
 }
 
 LanguageSelect.defaultProps = {
-  selectedLanguage: '',
+  selectedLanguage: "",
 };
 
 LanguageSelect.propTypes = {
-  languages: PropTypes.objectOf(PropTypes.shape({
-    inEnglish: PropTypes.string,
-    inLocal: PropTypes.string,
-    flag: PropTypes.string,
-  })).isRequired,
+  languages: PropTypes.objectOf(
+    PropTypes.shape({
+      inEnglish: PropTypes.string,
+      inLocal: PropTypes.string,
+      flag: PropTypes.string,
+    }),
+  ).isRequired,
   selectedLanguage: PropTypes.string,
   onSelect: PropTypes.func,
 };
