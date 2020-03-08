@@ -104,13 +104,15 @@ class DataHydrator extends Component {
           <form className="form-group">
             <label>
               <span className="form-text">Identifier: </span>
-              <input
-                type="text"
-                ref={this.input}
-                className="form-control"
-              />
+              <div className="flex">
+                <input
+                  type="text"
+                  ref={this.input}
+                  className="form-control"
+                />
+                <button className="btn btn-primary" onClick={this.updateItem}>Update Player</button>
+              </div>
             </label>
-            <button className="btn btn-primary" onClick={this.updateItem}>Update Player</button>
           </form>
         </section>
         <section className="container">
@@ -196,7 +198,7 @@ class DataHydrator extends Component {
                     data-identifier="wcd_various-artiststhe-best-of-country-music_flac_lossless_29887623"
                     onClick={this.getItem}
                   >
-                  wcd_various-artiststhe-best-of-country-music_flac_lossless_29887623
+                    wcd_various-artiststhe-best-of-country-music_flac_lossless_29887623
                   </button>
                 </td>
               </tr>
@@ -209,7 +211,7 @@ class DataHydrator extends Component {
                     data-identifier="lp_emperor-concerto_ludwig-van-beethoven-arthur-rubinstein-bos"
                     onClick={this.getItem}
                   >
-                  lp_emperor-concerto_ludwig-van-beethoven-arthur-rubinstein-bos
+                    lp_emperor-concerto_ludwig-van-beethoven-arthur-rubinstein-bos
                   </button>
                 </td>
               </tr>
@@ -222,7 +224,7 @@ class DataHydrator extends Component {
                     data-identifier="illegal-art"
                     onClick={this.getItem}
                   >
-                  illegal-art
+                    illegal-art
                   </button>
                 </td>
               </tr>
@@ -235,7 +237,7 @@ class DataHydrator extends Component {
                     data-identifier="wcd_borghild_die-warzau_mp3_320_1648819"
                     onClick={this.getItem}
                   >
-                  wcd_borghild_die-warzau_mp3_320_1648819
+                    wcd_borghild_die-warzau_mp3_320_1648819
                   </button>
                 </td>
               </tr>
@@ -248,7 +250,7 @@ class DataHydrator extends Component {
                     data-identifier="cd_aaliyah_aaliyah-static-from-playa-timbaland"
                     onClick={this.getItem}
                   >
-                  cd_aaliyah_aaliyah-static-from-playa-timbaland
+                    cd_aaliyah_aaliyah-static-from-playa-timbaland
                   </button>
                 </td>
               </tr>
