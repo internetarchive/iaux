@@ -32,17 +32,18 @@ export default class extends Component {
   fetchMetadata(identifier) {
     let metadataService = new MetadataService()
     // TODO-ERRORS Note this has an unhandled error if MetadataService.get fails
-    metadataService.get({identifier: identifier}).then(metadata => {
-      this.setState({metadata: metadata.data})
+    metadataService.get({ identifier: identifier }).then(metadata => {
+      this.setState({ metadata: metadata.data })
     })
   }
 
-  render () {
+  render() {
     return (
       <div className="iajs-test-component">
         <h5>My identifier is {this.props.identifier}</h5>
         <img
-          style={{maxWidth: '300px', height: 'auto'}}
+          aria-label="iajs-test-component"
+          style={{ maxWidth: '300px', height: 'auto' }}
           src={`https://archive.org/services/img/${this.props.identifier}`}
         />
         <p>My server is {this.state.metadata.d1}</p>
