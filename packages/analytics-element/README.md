@@ -1,11 +1,11 @@
-# TrackedElement LitElement decorator
+# TrackedElement mixin
 
 ## Usage
 
 Please see src/example-component.js for an example of attributes added to
 elements and event handlers.
 
-When extending `TrackedElement`, any element that you would like to track
+When adding the `TrackedElement` mixin, any element that you would like to track
 a click or submit event from needs both a corresponding event listener and
 a data attribute that corresponds to the type of event, whether click or submit.
 For click events, add the attribute `data-event-click-tracking`, and for submit

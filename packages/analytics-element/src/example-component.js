@@ -1,7 +1,7 @@
-import { html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 import TrackedElement from './tracked-element';
 
-customElements.define('example-component', class extends TrackedElement {
+class ExampleComponent extends LitElement {
   static get styles() {
     return css`
       fieldset {
@@ -40,4 +40,8 @@ customElements.define('example-component', class extends TrackedElement {
       </form>
     `;
   }
-});
+}
+
+Object.assign(ExampleComponent.prototype, TrackedElement);
+
+customElements.define('example-component', ExampleComponent);

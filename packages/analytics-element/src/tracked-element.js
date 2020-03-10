@@ -1,6 +1,4 @@
-import { LitElement } from 'lit-element';
-
-class TrackedElement extends LitElement {
+export default {
   trackClick(e) {
     const event = e.currentTarget.dataset.eventClickTracking;
     this.dispatchEvent(new CustomEvent('trackClick', {
@@ -10,7 +8,7 @@ class TrackedElement extends LitElement {
         event
       },
     }));
-  }
+  },
 
   trackSubmit(e) {
     const event = e.currentTarget.dataset.eventSubmitTracking;
@@ -22,6 +20,4 @@ class TrackedElement extends LitElement {
       },
     }));
   }
-}
-
-export default TrackedElement;
+};
