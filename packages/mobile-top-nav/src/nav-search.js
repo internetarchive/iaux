@@ -124,10 +124,9 @@ class NavSearch extends TrackedElement {
           name="query"
           class="search-field"
           placeholder="Search Internet Archive"
-          required
         />
         <input type='hidden' name='sin' value='' />
-        <button class="search" @click="${this.searchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">
+        <button type="button" class="search" @click="${this.searchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">
           <search-image ?active=${this.open}></search-image>
         </button>
       </form>
