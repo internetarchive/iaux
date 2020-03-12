@@ -1,4 +1,5 @@
 import audio from './icon-audio';
+import close from './icon-close';
 import donate from './icon-donate';
 import ellipses from './icon-ellipses';
 import iaLogo from './icon-ia-logo';
@@ -11,6 +12,7 @@ import web from './icon-web';
 
 export default {
   audio,
+  close,
   donate,
   ellipses,
   iaLogo,

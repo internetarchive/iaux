@@ -2,14 +2,14 @@ import { html, fixture, expect } from '@open-wc/testing';
 import '../../../src/assets/img/hamburger';
 
 describe('<icon-hamburger>', () => {
-  it('toggles active class when property toggled', async () => {
+  it('toggles close icon when property toggled', async () => {
     const icon = await fixture(html`<icon-hamburger></icon-hamburger>`);
 
     icon.active = true;
     await icon.updateComplete;
 
-    const styleElement = icon.shadowRoot.querySelector('svg');
+    const titleElement = icon.shadowRoot.querySelector('svg title');
 
-    expect(styleElement.classList.contains('active')).to.be.true;
+    expect(titleElement.getAttribute('id')).to.match(/close/);
   });
 });

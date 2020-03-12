@@ -43,15 +43,17 @@ class MediaSubnav extends TrackedElement {
 
       .icon-links {
         display: flex;
-        align-items: flex-start;
+        justify-content: space-evenly;
+        text-align: center;
       }
 
       .icon-links a {
-        display: block;
+        display: inline-block;
         width: 120px;
         margin-bottom: 1.5rem;
         overflow: hidden;
         white-space: nowrap;
+        text-align: center;
         text-overflow: ellipsis;
       }
       .icon-links a + a {

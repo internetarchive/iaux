@@ -61,7 +61,7 @@ class NavSearch extends TrackedElement {
         padding-left: 1rem;
         border-radius: 0.5rem;
         border: none;
-        font-size: 1.2rem;
+        font-size: 1.6rem;
         text-align: center;
       }
       .search-activated .search-field:focus {
@@ -94,14 +94,6 @@ class NavSearch extends TrackedElement {
     this.open = false;
   }
 
-  searchMenu(e) {
-    this.trackClick(e);
-    this.dispatchEvent(new CustomEvent('searchMenu', {
-      bubbles: true,
-      composed: true,
-    }));
-  }
-
   search(e) {
     this.trackSubmit(e);
     this.dispatchEvent(new CustomEvent('navSearch', {
@@ -126,7 +118,7 @@ class NavSearch extends TrackedElement {
           placeholder="Search Internet Archive"
         />
         <input type='hidden' name='sin' value='' />
-        <button type="button" class="search" @click="${this.searchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">
+        <button type="submit" class="search" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">
           <search-image ?active=${this.open}></search-image>
         </button>
       </form>

@@ -9,7 +9,7 @@ class MediaSlider extends LitElement {
         top: 0;
         right: 0;
         bottom: 0;
-        width: 100%;
+        left: 4rem;
         padding: 0;
         overflow-x: hidden;
         font-size: 1.4rem;
@@ -26,7 +26,7 @@ class MediaSlider extends LitElement {
           transform: translate(100%, 0);
         }
         100% {
-          transform: translate(4rem, 0);
+          transform: translate(0, 0);
         }
       }
       @keyframes menu-exit {
@@ -66,6 +66,14 @@ class MediaSlider extends LitElement {
     this.mediaSliderOpen = false;
     this.mediaSliderAnimate = false;
     this.selectedMenuOption = 'texts';
+  }
+
+  shouldUpdate() {
+    const scrollPane = this.shadowRoot.querySelector('.information-menu');
+
+    if (!scrollPane) { return true; }
+    scrollPane.scroll(0, 0);
+    return true;
   }
 
   render() {

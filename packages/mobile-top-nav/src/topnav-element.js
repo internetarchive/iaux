@@ -23,6 +23,20 @@ export default class TopnavElement extends LitElement {
         font-size: 2rem;
         font-family: var(--theme-font-family);
       }
+
+      #close-layer {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 0;
+      }
+      #close-layer.visible {
+        display: block;
+      }
+
       .topnav {
         position: relative;
         z-index: 1;
@@ -89,6 +103,12 @@ export default class TopnavElement extends LitElement {
     this.userMenuOpen = !this.userMenuOpen;
   }
 
+  closeMenus() {
+    this.mediaMenuOpen = false;
+    this.searchMenuOpen = false;
+    this.userMenuOpen = false;
+  }
+
   navSearch(e) {
     this.searchSubmitted = true;
     const { originalEvent, formEl } = e.detail;
@@ -129,6 +149,7 @@ export default class TopnavElement extends LitElement {
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
     const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
+    const closeLayerVisible = this.mediaMenuOpen || this.searchMenuOpen || this.userMenuOpen;
 
     return html`
       <div class='topnav'>
@@ -143,6 +164,7 @@ export default class TopnavElement extends LitElement {
           @userMenu=${this.userMenu}
           @navSearch=${this.navSearch}
           @trackClick=${this.trackClick}
+          @trackSubmit=${this.trackSubmit}
         ></mobile-nav>
         <media-menu
           .config=${this.config}
@@ -169,6 +191,7 @@ export default class TopnavElement extends LitElement {
           @trackClick=${this.trackClick}
         ></user-menu>
       </div>
+      <div id="close-layer" class="${closeLayerVisible ? 'visible' : ''}" @click=${this.closeMenus}></div>
     `;
   }
 }

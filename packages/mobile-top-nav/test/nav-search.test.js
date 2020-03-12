@@ -16,16 +16,6 @@ describe('<nav-search>', () => {
     expect(el.open).to.be.false;
   });
 
-  it('emits an event when search button is pressed', async () => {
-    const el = await fixture(component);
-    const clickEvent = new MouseEvent('click');
-
-    setTimeout(() => el.shadowRoot.querySelector('.search').dispatchEvent(clickEvent));
-    const response = await oneEvent(el, 'searchMenu');
-
-    expect(response).to.exist;
-  });
-
   it('emits an event when form submitted', async () => {
     const el = await fixture(component);
     const submitEvent = new Event('submit');

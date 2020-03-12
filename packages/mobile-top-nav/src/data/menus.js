@@ -363,12 +363,11 @@ const user = (baseUrl, account) => ([{
 }]);
 
 const more = baseUrl => ([
-  { label: 'Donate', url: `https://${baseUrl}/donate/` },
   { label: 'About', url: `https://${baseUrl}/about/` },
-  { label: 'Contact', url: `https://${baseUrl}/about/contact.php` },
   { label: 'Blog', url: 'https://blog.archive.org/' },
   { label: 'Projects', url: `https://${baseUrl}/projects/` },
   { label: 'Help', url: `https://${baseUrl}/about/faqs.php` },
+  { label: 'Contact', url: `https://${baseUrl}/about/contact.php` },
   { label: 'Jobs', url: `https://${baseUrl}/about/jobs.php` },
   { label: 'Volunteer', url: `https://${baseUrl}/about/volunteerpositions.php` },
   { label: 'People', url: `https://${baseUrl}/about/bios.php` },

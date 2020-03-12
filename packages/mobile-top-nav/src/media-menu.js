@@ -41,12 +41,6 @@ const menuSelection = [
     label: 'Donate',
   },
   {
-    icon: 'upload',
-    menu: 'upload',
-    href: '/create/',
-    label: 'Upload',
-  },
-  {
     icon: 'ellipses',
     menu: 'more',
     label: 'More',
@@ -82,7 +76,6 @@ class MediaMenu extends LitElement {
       }
       .menu-group {
         position: relative;
-        height: 80vh;
       }
     `;
   }
