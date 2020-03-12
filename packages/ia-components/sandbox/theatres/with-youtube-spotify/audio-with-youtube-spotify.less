@@ -74,16 +74,26 @@
   }
 
   @media (min-width: @audio-player-desktop-min-width) {
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: (1fr)[12];
     grid-template-columns: repeat(12, 1fr);
     grid-auto-rows: minmax(100px, auto);
     grid-template-areas: "md md md md md md hd hd hd hd hd hd" "md md md md md md hd hd hd hd hd hd" "md md md md md md hd hd hd hd hd hd";
 
     .media-section {
+      -ms-grid-row: 1;
+      -ms-grid-row-span: 3;
+      -ms-grid-column: 1;
+      -ms-grid-column-span: 6;
       grid-area: md;
     }
 
     .grid-right {
+      -ms-grid-row: 1;
+      -ms-grid-row-span: 3;
+      -ms-grid-column: 7;
+      -ms-grid-column-span: 6;
       grid-area: hd;
     }
 
@@ -143,6 +153,18 @@
   @media(min-width: @audio-player-widescreen-min-width) {
     grid-template-areas: "md md md md hd hd hd hd hd hd hd hd" "md md md md hd hd hd hd hd hd hd hd" "md md md md hd hd hd hd hd hd hd hd";
 
+    .media-section {
+      -ms-grid-row: 1;
+      -ms-grid-row-span: 3;
+      -ms-grid-column: 1;
+      -ms-grid-column-span: 4;
+    }
+    .grid-right {
+      -ms-grid-row: 1;
+      -ms-grid-row-span: 3;
+      -ms-grid-column: 5;
+      -ms-grid-column-span: 8;
+    }
     .playlist-section {
       .flexbox-pagination {
         height: 35rem;
@@ -159,6 +181,20 @@
 
   @media (min-width: @audio-player-extra-widescreen-min-width) {
     grid-template-areas: "md md md hd hd hd hd hd hd hd hd hd" "md md md hd hd hd hd hd hd hd hd hd" "md md md hd hd hd hd hd hd hd hd hd";
+
+    .media-section {
+      -ms-grid-row: 1;
+      -ms-grid-row-span: 3;
+      -ms-grid-column: 1;
+      -ms-grid-column-span: 3;
+    }
+
+    .grid-right {
+      -ms-grid-row: 1;
+      -ms-grid-row-span: 3;
+      -ms-grid-column: 4;
+      -ms-grid-column-span: 9;
+    }
 
     .playlist-section {
       .flexbox-pagination {
