@@ -61,7 +61,7 @@ class NavSearch extends TrackedElement {
         padding-left: 1rem;
         border-radius: 0.5rem;
         border: none;
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         text-align: center;
       }
       .search-activated .search-field:focus {
