@@ -16,3 +16,7 @@ script:
 
 after_success:
   - codecov
+group:
+  - stable
+dist:
+  - xenial
