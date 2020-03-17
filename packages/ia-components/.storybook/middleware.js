@@ -1,4 +1,4 @@
-const proxy = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const base_url = "https://archive.org";
 
@@ -16,10 +16,10 @@ const constructOptions = (route) => {
 
 module.exports = function expressMiddleware (router) {
   ['details', 'download', 'embed', 'images', 'metadata', 'serve'].forEach((route) => {
-    router.use(`/${route}`, proxy(constructOptions(route)))
+    router.use(`/${route}`, createProxyMiddleware(constructOptions(route)))
   });
 
-  router.use('/BookReader', proxy({
+  router.use('/BookReader', createProxyMiddleware({
     target: `${base_url}/bookreader/BookReader`,
     logLevel: 'debug',
     changeOrigin: true,
@@ -28,7 +28,7 @@ module.exports = function expressMiddleware (router) {
     }
   }));
 
-  router.use('/api', proxy({
+  router.use('/api', createProxyMiddleware({
     target: base_url,
     logLevel: 'debug',
     changeOrigin: true,
