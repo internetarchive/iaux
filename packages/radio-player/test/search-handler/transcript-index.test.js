@@ -3,7 +3,6 @@ import {
 } from '@open-wc/testing';
 
 import { TranscriptConfig, TranscriptEntryConfig } from "@internetarchive/transcript-view";
-import { LocalSearchIndex } from '../../lib/src/search-handler/search-indices/local-search-index';
 import { TranscriptIndex } from '../../lib/src/search-handler/transcript-index';
 
 describe('Transcript Index', () => {
