@@ -19,7 +19,7 @@ describe('Search Handler', () => {
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const transcriptSearchResults = searchHandler.getSearchSeparatedTranscript('ba');
+    const transcriptSearchResults = await searchHandler.getSearchSeparatedTranscript('ba');
 
     expect(transcriptSearchResults.length).to.equal(7);
 
@@ -74,7 +74,7 @@ describe('Search Handler', () => {
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const newTranscript = searchHandler.search('boop');
+    const newTranscript = await searchHandler.search('boop');
 
     expect(newTranscript.entries.length).to.equal(4);
 
@@ -116,7 +116,7 @@ describe('Search Handler', () => {
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const newTranscript = searchHandler.search('bump');
+    const newTranscript = await searchHandler.search('bump');
 
     expect(newTranscript.entries.length).to.equal(6);
 
@@ -153,7 +153,7 @@ describe('Search Handler', () => {
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5, entry6, entry7]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const newTranscript = searchHandler.search('bump');
+    const newTranscript = await searchHandler.search('bump');
 
     expect(newTranscript.entries.length).to.equal(10);
 
@@ -180,7 +180,7 @@ describe('Search Handler', () => {
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const newTranscript = searchHandler.search('blop bump');
+    const newTranscript = await searchHandler.search('blop bump');
 
     expect(newTranscript.entries.length).to.equal(5);
   });
@@ -194,7 +194,7 @@ describe('Search Handler', () => {
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const newTranscript = searchHandler.search('blop bump boing fizz');
+    const newTranscript = await searchHandler.search('blop bump boing fizz');
 
     expect(newTranscript.entries.length).to.equal(5);
 
@@ -242,7 +242,7 @@ describe('Search Handler', () => {
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const newTranscript = searchHandler.search('bu');
+    const newTranscript = await searchHandler.search('bu');
 
     expect(newTranscript.entries.length).to.equal(7);
 
@@ -269,7 +269,7 @@ describe('Search Handler', () => {
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const newTranscript = searchHandler.search('the');
+    const newTranscript = await searchHandler.search('the');
 
     expect(newTranscript.entries.length).to.equal(12);
 
@@ -317,7 +317,7 @@ describe('Search Handler', () => {
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
     const searchHandler = new SearchHandler(transcriptConfig);
 
-    const newTranscript = searchHandler.search('blop bump');
+    const newTranscript = await searchHandler.search('blop bump');
 
     const thirdSearchMatch = newTranscript.entries[2];
     expect(thirdSearchMatch.id).to.equal(3);

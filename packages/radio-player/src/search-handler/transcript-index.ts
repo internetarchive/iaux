@@ -67,7 +67,7 @@ export class TranscriptIndex implements TranscriptIndexInterface {
    *    and the search results.
    *
    * @private
-   * @memberof SearchHandler
+   * @memberof TranscriptIndex
    */
   private buildIndex(transcriptConfig: TranscriptConfig): void {
     let startIndex = 0;

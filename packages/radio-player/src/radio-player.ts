@@ -607,12 +607,12 @@ export default class RadioPlayer extends LitElement {
     this.executeSearch(detail.value);
   }
 
-  private executeSearch(term: string): void {
+  private async executeSearch(term: string) {
     if (!this.searchHandler || term.length < 2) {
       this.searchResultsTranscript = undefined;
       return;
     }
-    this.searchResultsTranscript = this.searchHandler.search(term);
+    this.searchResultsTranscript = await this.searchHandler.search(term);
   }
 
   /**

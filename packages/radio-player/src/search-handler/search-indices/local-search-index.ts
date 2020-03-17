@@ -16,10 +16,10 @@ export class LocalSearchIndex implements SearchIndexInterface {
    *
    * @private
    * @param {string} term
-   * @returns {Range[]}
-   * @memberof SearchIndex
+   * @returns {Promise<Range[]>}
+   * @memberof SearchIndexInterface
    */
-  getSearchRanges(term: string): Range[] {
+  async getSearchRanges(term: string): Promise<Range[]> {
     const ranges: Range[] = [];
     const termLowerCased: string = term.toLowerCase();
 
@@ -35,7 +35,9 @@ export class LocalSearchIndex implements SearchIndexInterface {
       ranges.push(newRange);
     }
 
-    return ranges;
+    return new Promise((resolve) => {
+      resolve(ranges);
+    });
   }
 
   constructor(transcriptIndex: TranscriptIndexInterface) {

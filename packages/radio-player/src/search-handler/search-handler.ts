@@ -35,8 +35,8 @@ export default class SearchHandler {
    * @returns {TranscriptConfig}
    * @memberof SearchHandler
    */
-  search(term: string): TranscriptConfig {
-    const searchSeparatedTranscript = this.getSearchSeparatedTranscript(term);
+  async search(term: string): Promise<TranscriptConfig> {
+    const searchSeparatedTranscript = await this.getSearchSeparatedTranscript(term);
     const newTranscriptEntries: TranscriptEntryConfig[] = [];
 
     let searchResultIndex = 0;
@@ -88,7 +88,9 @@ export default class SearchHandler {
 
     const newTranscript = new TranscriptConfig(newTranscriptEntries);
 
-    return newTranscript;
+    return new Promise((resolve) => {
+      resolve(newTranscript);
+    });
   }
 
   /**
@@ -127,15 +129,17 @@ export default class SearchHandler {
    * @returns {SearchResult[]}
    * @memberof SearchHandler
    */
-  private getSearchSeparatedTranscript(term: string): SearchResult[] {
-    const searchRanges: Range[] = this.searchIndex.getSearchRanges(term);
+  private async getSearchSeparatedTranscript(term: string): Promise<SearchResult[]> {
+    const searchRanges: Range[] = await this.searchIndex.getSearchRanges(term);
     const { mergedTranscript } = this.transcriptIndex;
 
     // if there's no search results, just return a single SearchResult that is the full
     // transcript marked as not a match.
     if (searchRanges.length === 0) {
       const range = new Range(0, mergedTranscript.length);
-      return [new SearchResult(range, mergedTranscript, false)];
+      return new Promise((resolve) => {
+        resolve([new SearchResult(range, mergedTranscript, false)]);
+      });
     }
 
     const transcriptEntries: SearchResult[] = [];
@@ -170,7 +174,9 @@ export default class SearchHandler {
     const finalResultEntry = this.getSearchResult(finalResultRange, false);
     transcriptEntries.push(finalResultEntry);
 
-    return transcriptEntries;
+    return new Promise((resolve) => {
+      resolve(transcriptEntries);
+    });
   }
 
   /**

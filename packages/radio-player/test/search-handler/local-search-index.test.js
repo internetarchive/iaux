@@ -15,7 +15,7 @@ describe('Local Search Index', () => {
     const transcriptIndex = new TranscriptIndex(transcriptConfig);
     const searchIndex = new LocalSearchIndex(transcriptIndex);
 
-    const searchIndices = searchIndex.getSearchRanges('baz');
+    const searchIndices = await searchIndex.getSearchRanges('baz');
 
     expect(searchIndices.length).to.equal(2);
     expect(searchIndices[0].startIndex).to.equal(8);
@@ -32,7 +32,7 @@ describe('Local Search Index', () => {
     const transcriptIndex = new TranscriptIndex(transcriptConfig);
     const searchIndex = new LocalSearchIndex(transcriptIndex);
 
-    const searchIndices = searchIndex.getSearchRanges('baz|-.*');
+    const searchIndices = await searchIndex.getSearchRanges('baz|-.*');
 
     expect(searchIndices.length).to.equal(0);
   });
