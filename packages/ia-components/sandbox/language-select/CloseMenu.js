@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 /**
  * Component that alerts if you click outside of it
@@ -7,17 +7,17 @@ export default class CloseMenu extends Component {
   constructor(props) {
     super(props);
 
-    ["setWrapperRef", "handleClickOutside"].forEach(method => {
+    ['setWrapperRef', 'handleClickOutside'].forEach(method => {
       this[method] = this[method].bind(this);
     });
   }
 
   componentDidMount() {
-    document.addEventListener("mousedown", this.handleClickOutside);
+    document.addEventListener('mousedown', this.handleClickOutside);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside);
+    document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
   /**

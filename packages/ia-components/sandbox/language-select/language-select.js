@@ -1,19 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
-import CloseMenu from "./CloseMenu";
+import React from 'react';
+import PropTypes from 'prop-types';
+import CloseMenu from './CloseMenu';
 // Add new flag emoji here
 const flags = {
-  en: "🇬🇧",
-  fr: "🇫🇷",
-  de: "🇩🇪",
-  es: "🇪🇸",
-  hi: "🇮🇳",
-  id: "🇮🇩",
-  it: "🇮🇹",
-  ja: "🇯🇵",
-  mr: "🇮🇳",
-  my: "🇲🇲",
-  pt: "🇵🇹",
+  en: '🇬🇧',
+  fr: '🇫🇷',
+  de: '🇩🇪',
+  es: '🇪🇸',
+  hi: '🇮🇳',
+  id: '🇮🇩',
+  it: '🇮🇹',
+  ja: '🇯🇵',
+  mr: '🇮🇳',
+  my: '🇲🇲',
+  pt: '🇵🇹'
 };
 
 /**
@@ -44,7 +44,7 @@ const LanguageNode = ({ name, flag }) => (
  * @returns component stateless
  */
 const LanguageOption = ({ language, value, selectedLanguage, onClick }) => (
-  <li className={selectedLanguage === value ? "selected" : null}>
+  <li className={selectedLanguage === value ? 'selected' : null}>
     <a onClick={onClick} data-language={value}>
       <LanguageNode name={language.inLocal} flag={language.flag} />
     </a>
@@ -72,11 +72,11 @@ class LanguageSelect extends React.Component {
     this.languages = languages;
     this.state = {
       selectedLanguage,
-      dropdownOpen: false,
+      dropdownOpen: false
     };
     this.onSelect = onSelect;
 
-    ["toggleDropdown", "selectLanguage"].forEach(method => {
+    ['toggleDropdown', 'selectLanguage'].forEach(method => {
       this[method] = this[method].bind(this);
     });
   }
@@ -94,7 +94,7 @@ class LanguageSelect extends React.Component {
 
     this.setState({
       dropdownOpen: false,
-      selectedLanguage,
+      selectedLanguage
     });
     this.onSelect(selectedLanguage);
   }
@@ -134,7 +134,7 @@ class LanguageSelect extends React.Component {
 }
 
 LanguageSelect.defaultProps = {
-  selectedLanguage: "",
+  selectedLanguage: ''
 };
 
 LanguageSelect.propTypes = {
@@ -142,11 +142,11 @@ LanguageSelect.propTypes = {
     PropTypes.shape({
       inEnglish: PropTypes.string,
       inLocal: PropTypes.string,
-      flag: PropTypes.string,
-    }),
+      flag: PropTypes.string
+    })
   ).isRequired,
   selectedLanguage: PropTypes.string,
-  onSelect: PropTypes.func,
+  onSelect: PropTypes.func
 };
 
 export default LanguageSelect;
