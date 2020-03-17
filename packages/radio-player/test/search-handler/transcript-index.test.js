@@ -3,17 +3,18 @@ import {
 } from '@open-wc/testing';
 
 import { TranscriptConfig, TranscriptEntryConfig } from "@internetarchive/transcript-view";
-import { SearchIndex } from '../../lib/src/search-handler/search-index';
+import { LocalSearchIndex } from '../../lib/src/search-handler/search-indices/local-search-index';
+import { TranscriptIndex } from '../../lib/src/search-handler/transcript-index';
 
-describe('Search Index', () => {
+describe('Transcript Index', () => {
   it('correctly calculates entry start and end index offsets of the source transcript', async () => {
     const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
     const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
     const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bang boing', false);
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
-    const searchIndex = new SearchIndex(transcriptConfig);
+    const transcriptIndex = new TranscriptIndex(transcriptConfig);
 
-    const entryStartEndIndices = searchIndex.transcriptEntryRanges;
+    const entryStartEndIndices = transcriptIndex.transcriptEntryRanges;
 
     // note a space is added between each transcript entry so it increases each
     // subsequent index by 1
@@ -35,37 +36,9 @@ describe('Search Index', () => {
     const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
     const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bang boing', false);
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
-    const searchIndex = new SearchIndex(transcriptConfig);
+    const transcriptIndex = new TranscriptIndex(transcriptConfig);
 
-    expect(searchIndex.mergedTranscript).to.equal('foo bar baz boop blop bang boing');
-  });
-
-  it('correctly finds search indices', async () => {
-    const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
-    const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
-    const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
-    const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
-    const searchIndex = new SearchIndex(transcriptConfig);
-
-    const searchIndices = searchIndex.getSearchRanges('baz');
-
-    expect(searchIndices.length).to.equal(2);
-    expect(searchIndices[0].startIndex).to.equal(8);
-    expect(searchIndices[0].endIndex).to.equal(11);
-    expect(searchIndices[1].startIndex).to.equal(27);
-    expect(searchIndices[1].endIndex).to.equal(30);
-  });
-
-  it('correctly handles special characters', async () => {
-    const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
-    const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
-    const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
-    const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
-    const searchIndex = new SearchIndex(transcriptConfig);
-
-    const searchIndices = searchIndex.getSearchRanges('baz|-.*');
-
-    expect(searchIndices.length).to.equal(0);
+    expect(transcriptIndex.mergedTranscript).to.equal('foo bar baz boop blop bang boing');
   });
 
   it('correctly finds the correct entry range for a given index', async () => {
@@ -73,22 +46,22 @@ describe('Search Index', () => {
     const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
     const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
-    const searchIndex = new SearchIndex(transcriptConfig);
+    const transcriptIndex = new TranscriptIndex(transcriptConfig);
 
     // in second entry
-    const transcriptEntryRange = searchIndex.getTranscriptEntryAt(14);
+    const transcriptEntryRange = transcriptIndex.getTranscriptEntryAt(14);
     expect(transcriptEntryRange.entry).to.equal(entry2);
 
     // in third entry
-    const transcriptEntryRange2 = searchIndex.getTranscriptEntryAt(23);
+    const transcriptEntryRange2 = transcriptIndex.getTranscriptEntryAt(23);
     expect(transcriptEntryRange2.entry).to.equal(entry3);
 
     // in-between the first and second entry
-    const transcriptEntryRange3 = searchIndex.getTranscriptEntryAt(11);
+    const transcriptEntryRange3 = transcriptIndex.getTranscriptEntryAt(11);
     expect(transcriptEntryRange3).to.equal(undefined);
 
     // outside of range
-    const transcriptEntryRange4 = searchIndex.getTranscriptEntryAt(45);
+    const transcriptEntryRange4 = transcriptIndex.getTranscriptEntryAt(45);
     expect(transcriptEntryRange4).to.equal(undefined);
   });
 });

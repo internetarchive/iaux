@@ -1,7 +1,10 @@
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 import { Range, TranscriptEntryRange, SearchResult } from './search-models';
 import { SearchHelper } from './search-helper';
-import { SearchIndex } from './search-index';
+import { LocalSearchIndex } from './search-indices/local-search-index';
+import { SearchIndexInterface } from './search-indices/search-index-interface';
+import { TranscriptIndexInterface } from './transcript-index-interface';
+import { TranscriptIndex } from './transcript-index';
 
 /**
  * This is the main entrypoint into transcript searching. It has a single
@@ -15,10 +18,13 @@ import { SearchIndex } from './search-index';
  * it easier to rebuild the transcript later.
  */
 export default class SearchHandler {
-  private searchIndex: SearchIndex;
+  private searchIndex: SearchIndexInterface;
+
+  private transcriptIndex: TranscriptIndexInterface;
 
   constructor(transcriptConfig: TranscriptConfig) {
-    this.searchIndex = new SearchIndex(transcriptConfig);
+    this.transcriptIndex = new TranscriptIndex(transcriptConfig)
+    this.searchIndex = new LocalSearchIndex(this.transcriptIndex);
   }
 
   /**
@@ -42,12 +48,12 @@ export default class SearchHandler {
       // not multiple broken up by transcript entry.
       if (entry.isSearchMatch) {
         // find the closest source transcript to this entry
-        const startEntry = this.searchIndex.getTranscriptEntryAt(entry.range.startIndex);
+        const startEntry = this.transcriptIndex.getTranscriptEntryAt(entry.range.startIndex);
         if (!startEntry) {
           return;
         }
 
-        const endEntry = this.searchIndex.getTranscriptEntryAt(entry.range.endIndex) || startEntry;
+        const endEntry = this.transcriptIndex.getTranscriptEntryAt(entry.range.endIndex) || startEntry;
         const newTranscriptEntry = this.createBlankTranscriptEntryConfig(startEntry.entry);
         newTranscriptEntry.searchMatchIndex = searchResultIndex;
         searchResultIndex += 1;
@@ -62,14 +68,14 @@ export default class SearchHandler {
       // Next loop through all of the source transcript entries to find the ones that intersect
       // with this search result. If it intersects, we take the intersected characters from the
       // merged transcript and make a new entry from that.
-      this.searchIndex.transcriptEntryRanges.forEach((indexMap: TranscriptEntryRange) => {
+      this.transcriptIndex.transcriptEntryRanges.forEach((indexMap: TranscriptEntryRange) => {
         const intersection = SearchHelper.getIntersection(entry.range, indexMap.range);
         if (!intersection || intersection.length === 0) {
           return;
         }
 
         const newTranscriptEntry = this.createBlankTranscriptEntryConfig(indexMap.entry);
-        const text = this.searchIndex.mergedTranscript.substring(
+        const text = this.transcriptIndex.mergedTranscript.substring(
           intersection.startIndex,
           intersection.endIndex,
         );
@@ -123,7 +129,7 @@ export default class SearchHandler {
    */
   private getSearchSeparatedTranscript(term: string): SearchResult[] {
     const searchRanges: Range[] = this.searchIndex.getSearchRanges(term);
-    const { mergedTranscript } = this.searchIndex;
+    const { mergedTranscript } = this.transcriptIndex;
 
     // if there's no search results, just return a single SearchResult that is the full
     // transcript marked as not a match.
@@ -178,7 +184,7 @@ export default class SearchHandler {
    * @memberof SearchHandler
    */
   private getSearchResult(range: Range, isSearchResult: boolean): SearchResult {
-    const { mergedTranscript } = this.searchIndex;
+    const { mergedTranscript } = this.transcriptIndex;
     const text = mergedTranscript.substring(range.startIndex, range.endIndex);
     const searchResult = new SearchResult(range, text, isSearchResult);
     return searchResult;
