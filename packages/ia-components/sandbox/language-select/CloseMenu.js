@@ -7,8 +7,9 @@ export default class CloseMenu extends Component {
   constructor(props) {
     super(props);
 
-    this.setWrapperRef = this.setWrapperRef.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
+    ["setWrapperRef", "handleClickOutside"].forEach(method => {
+      this[method] = this[method].bind(this);
+    });
   }
 
   componentDidMount() {

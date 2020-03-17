@@ -114,7 +114,7 @@ class LanguageSelect extends React.Component {
           />
         </a>
         {dropdownOpen && (
-          <ul className={dropdownOpen ? "visible" : null}>
+          <ul className="visible">
             <CloseMenu handleOutside={this.toggleDropdown}>
               {Object.keys(this.languages).map(language => (
                 <LanguageOption
