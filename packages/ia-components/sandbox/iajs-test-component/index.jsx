@@ -42,7 +42,7 @@ export default class extends Component {
       <div className="iajs-test-component">
         <h5>My identifier is {this.props.identifier}</h5>
         <img
-          aria-label="iajs-test-component"
+          alt="iajs-test-component"
           style={{ maxWidth: '300px', height: 'auto' }}
           src={`https://archive.org/services/img/${this.props.identifier}`}
         />
