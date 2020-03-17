@@ -25,7 +25,7 @@
     "lint": "yarn run lint:eslint && yarn run lint:prettier",
     "format": "yarn run format:eslint && yarn run format:prettier",
     "test": "yarn run build && karma start --coverage",
-    "test:watch": "karma start --auto-watch=true --single-run=false",
+    "test:watch": "concurrently \"tsc --watch\" \"karma start --auto-watch=true --single-run=false\"",
     "test:update-snapshots": "karma start --update-snapshots",
     "test:prune-snapshots": "karma start --prune-snapshots",
     "test:compatibility": "karma start --compatibility all --coverage",
