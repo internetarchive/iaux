@@ -13,7 +13,7 @@ describe('Search Handler', () => {
   });
 
   describe('getSearchSeparatedTranscript(term: string)', () => {
-    it('returns a promise', async () => {
+    it('returns a promise if there are search results', async () => {
       const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
       const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
@@ -23,6 +23,36 @@ describe('Search Handler', () => {
       const response = searchHandler.getSearchSeparatedTranscript('ba');
 
       expect(response instanceof Promise).to.be.true;
+    });
+
+    it('returns a promise if there are no search results', async () => {
+      const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
+      const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
+      const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
+      const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
+      const searchHandler = new SearchHandler(transcriptConfig);
+
+      const response = searchHandler.getSearchSeparatedTranscript('zip');
+
+      expect(response instanceof Promise).to.be.true;
+    });
+
+    it('returns a single result, the entire transcript, if there are no search results', async () => {
+      const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
+      const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
+      const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
+      const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
+      const searchHandler = new SearchHandler(transcriptConfig);
+
+      const results = await searchHandler.getSearchSeparatedTranscript('zip');
+
+      expect(results.length).to.equal(1);
+
+      const entry = results[0];
+      expect(entry.range.startIndex).to.equal(0);
+      expect(entry.range.endIndex).to.equal(36);
+      expect(entry.text).to.equal('foo bar baz boop blop bump baz boing');
+      expect(entry.isSearchMatch).to.equal(false);
     });
 
     it('correctly splits up transcript search results', async () => {
