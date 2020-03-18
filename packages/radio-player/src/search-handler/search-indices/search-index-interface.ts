@@ -1,5 +1,5 @@
 import { Range } from '../search-models';
 
 export interface SearchIndexInterface {
-  getSearchRanges(term: string): Promise<Range[]>;
+  getSearchRanges(query: string): Promise<Range[]>;
 }

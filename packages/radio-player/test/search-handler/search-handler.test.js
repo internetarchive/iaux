@@ -3,12 +3,32 @@ import {
 } from '@open-wc/testing';
 
 import { TranscriptConfig, TranscriptEntryConfig } from "@internetarchive/transcript-view";
-import SearchHandler from '../../lib/src/search-handler/search-handler';
+import { SearchHandler } from '../../lib/src/search-handler/search-handler';
+import { LocalSearchIndex } from '../../lib/src/search-handler/search-indices/local-search-index';
+import { TranscriptIndex } from '../../lib/src/search-handler/transcript-index';
+
+class MockSearchIndex {
+  async getSearchRanges(query) {
+    return new Promise((resolve) => {
+      resolve([]);
+    });
+  }
+}
+
+class MockTranscriptIndex {
+  mergedTranscript = 'Foo';
+  mergedTranscriptLowercased = 'foo';
+  transcriptEntryRanges = [];
+  getTranscriptEntryAt(overallCharIndex) {
+    return undefined;
+  };
+}
 
 describe('Search Handler', () => {
   it('can be instantiated', async () => {
-    const transcriptConfig = new TranscriptConfig([]);
-    const searchHandler = new SearchHandler(transcriptConfig);
+    const searchIndex = new MockSearchIndex();
+    const transcriptIndex = new MockTranscriptIndex()
+    const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
     expect(searchHandler).to.exist;
   });
 
@@ -18,7 +38,9 @@ describe('Search Handler', () => {
       const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const response = searchHandler.getSearchSeparatedTranscript('ba');
 
@@ -30,7 +52,9 @@ describe('Search Handler', () => {
       const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const response = searchHandler.getSearchSeparatedTranscript('zip');
 
@@ -42,7 +66,9 @@ describe('Search Handler', () => {
       const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const results = await searchHandler.getSearchSeparatedTranscript('zip');
 
@@ -60,7 +86,9 @@ describe('Search Handler', () => {
       const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const transcriptSearchResults = await searchHandler.getSearchSeparatedTranscript('ba');
 
@@ -117,7 +145,9 @@ describe('Search Handler', () => {
       const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const newTranscript = await searchHandler.search('boop');
 
@@ -159,7 +189,9 @@ describe('Search Handler', () => {
       const entry4 = new TranscriptEntryConfig(4, 14, 18, 'snip snap', false);
       const entry5 = new TranscriptEntryConfig(5, 19, 23, 'grip grap', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const newTranscript = await searchHandler.search('bump');
 
@@ -196,7 +228,9 @@ describe('Search Handler', () => {
       const entry6 = new TranscriptEntryConfig(6, 24, 28, 'slop bump snap', false);
       const entry7 = new TranscriptEntryConfig(7, 29, 34, 'ooga booga', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5, entry6, entry7]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const newTranscript = await searchHandler.search('bump');
 
@@ -223,7 +257,9 @@ describe('Search Handler', () => {
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);
       const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const newTranscript = await searchHandler.search('blop bump');
 
@@ -237,7 +273,9 @@ describe('Search Handler', () => {
       const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
       const entry5 = new TranscriptEntryConfig(5, 19, 23, 'snip snap', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const newTranscript = await searchHandler.search('blop bump boing fizz');
 
@@ -285,7 +323,9 @@ describe('Search Handler', () => {
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);
       const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const newTranscript = await searchHandler.search('bu');
 
@@ -312,7 +352,9 @@ describe('Search Handler', () => {
       const entry3 = new TranscriptEntryConfig(3, 11.013, 15.044, 'weekend after the president harshly criticized the Democratic lawmaker and his', false);
       const entry4 = new TranscriptEntryConfig(4, 15.045, 20.033, 'Baltimore area district which the president called Rat and road and infested', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const newTranscript = await searchHandler.search('the');
 
@@ -360,7 +402,9 @@ describe('Search Handler', () => {
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);
       const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
-      const searchHandler = new SearchHandler(transcriptConfig);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchIndex = new LocalSearchIndex(transcriptIndex);
+      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
       const newTranscript = await searchHandler.search('blop bump');
 

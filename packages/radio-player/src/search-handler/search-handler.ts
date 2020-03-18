@@ -1,10 +1,9 @@
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 import { Range, TranscriptEntryRange, SearchResult } from './search-models';
 import { SearchHelper } from './search-helper';
-import { LocalSearchIndex } from './search-indices/local-search-index';
 import { SearchIndexInterface } from './search-indices/search-index-interface';
 import { TranscriptIndexInterface } from './transcript-index-interface';
-import { TranscriptIndex } from './transcript-index';
+import { SearchHandlerInterface } from './search-handler-interface';
 
 /**
  * This is the main entrypoint into transcript searching. It has a single
@@ -17,26 +16,26 @@ import { TranscriptIndex } from './transcript-index';
  * is responsible for indexing the transcript with information that makes
  * it easier to rebuild the transcript later.
  */
-export default class SearchHandler {
+export class SearchHandler implements SearchHandlerInterface {
   private searchIndex: SearchIndexInterface;
 
   private transcriptIndex: TranscriptIndexInterface;
 
-  constructor(transcriptConfig: TranscriptConfig) {
-    this.transcriptIndex = new TranscriptIndex(transcriptConfig)
-    this.searchIndex = new LocalSearchIndex(this.transcriptIndex);
+  constructor(searchIndex: SearchIndexInterface, transcriptIndex: TranscriptIndexInterface) {
+    this.searchIndex = searchIndex;
+    this.transcriptIndex = transcriptIndex;
   }
 
   /**
    * This is the main method in here. It takes a search term and returns a TranscriptConfig
    * that has been modified to insert the search results.
    *
-   * @param {string} term
+   * @param {string} query
    * @returns {TranscriptConfig}
    * @memberof SearchHandler
    */
-  async search(term: string): Promise<TranscriptConfig> {
-    const searchSeparatedTranscript = await this.getSearchSeparatedTranscript(term);
+  async search(query: string): Promise<TranscriptConfig> {
+    const searchSeparatedTranscript = await this.getSearchSeparatedTranscript(query);
     const newTranscriptEntries: TranscriptEntryConfig[] = [];
 
     let searchResultIndex = 0;
@@ -53,7 +52,8 @@ export default class SearchHandler {
           return;
         }
 
-        const endEntry = this.transcriptIndex.getTranscriptEntryAt(entry.range.endIndex) || startEntry;
+        const endEntry =
+          this.transcriptIndex.getTranscriptEntryAt(entry.range.endIndex) || startEntry;
         const newTranscriptEntry = this.createBlankTranscriptEntryConfig(startEntry.entry);
         newTranscriptEntry.searchMatchIndex = searchResultIndex;
         searchResultIndex += 1;
@@ -88,7 +88,7 @@ export default class SearchHandler {
 
     const newTranscript = new TranscriptConfig(newTranscriptEntries);
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve(newTranscript);
     });
   }
@@ -125,19 +125,19 @@ export default class SearchHandler {
    * This is helpful when rebuilding the transcript later to be able to identify search results.
    *
    * @private
-   * @param {string} term
+   * @param {string} query
    * @returns {SearchResult[]}
    * @memberof SearchHandler
    */
-  private async getSearchSeparatedTranscript(term: string): Promise<SearchResult[]> {
-    const searchRanges: Range[] = await this.searchIndex.getSearchRanges(term);
+  async getSearchSeparatedTranscript(query: string): Promise<SearchResult[]> {
+    const searchRanges: Range[] = await this.searchIndex.getSearchRanges(query);
     const { mergedTranscript } = this.transcriptIndex;
 
     // if there's no search results, just return a single SearchResult that is the full
     // transcript marked as not a match.
     if (searchRanges.length === 0) {
       const range = new Range(0, mergedTranscript.length);
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         resolve([new SearchResult(range, mergedTranscript, false)]);
       });
     }
@@ -174,7 +174,7 @@ export default class SearchHandler {
     const finalResultEntry = this.getSearchResult(finalResultRange, false);
     transcriptEntries.push(finalResultEntry);
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve(transcriptEntries);
     });
   }

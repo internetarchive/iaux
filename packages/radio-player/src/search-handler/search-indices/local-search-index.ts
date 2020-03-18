@@ -15,27 +15,27 @@ export class LocalSearchIndex implements SearchIndexInterface {
    * Finds all of the ranges of all the search results across the entire transcript.
    *
    * @private
-   * @param {string} term
+   * @param {string} query
    * @returns {Promise<Range[]>}
    * @memberof SearchIndexInterface
    */
-  async getSearchRanges(term: string): Promise<Range[]> {
+  async getSearchRanges(query: string): Promise<Range[]> {
     const ranges: Range[] = [];
-    const termLowerCased: string = term.toLowerCase();
+    const queryLowerCased: string = query.toLowerCase();
 
     let index = -1;
     /* eslint-disable-next-line no-cond-assign */
     while (
       (index = this.transcriptIndex.mergedTranscriptLowercased.indexOf(
-        termLowerCased,
+        queryLowerCased,
         index + 1,
       )) !== -1
     ) {
-      const newRange: Range = new Range(index, index + termLowerCased.length);
+      const newRange: Range = new Range(index, index + queryLowerCased.length);
       ranges.push(newRange);
     }
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve(ranges);
     });
   }

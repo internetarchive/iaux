@@ -30,7 +30,7 @@ import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-contro
 import SearchResultsSwitcher from './search-results-switcher';
 import MusicZone from './models/music-zone';
 import RadioPlayerConfig from './models/radio-player-config';
-import SearchHandler from './search-handler/search-handler';
+import { SearchHandlerInterface } from './search-handler/search-handler-interface';
 
 /**
  * A Radio Player element to play back transcribed audio.
@@ -56,6 +56,14 @@ export default class RadioPlayer extends LitElement {
    * @memberof RadioPlayer
    */
   @property({ type: Object }) config: RadioPlayerConfig | undefined = undefined;
+
+  /**
+   * The Search Handler
+   *
+   * @type {(SearchHandlerInterface | undefined)}
+   * @memberof RadioPlayer
+   */
+  @property({ type: Object }) searchHandler: SearchHandlerInterface | undefined = undefined;
 
   /**
    * Transcript configuration
@@ -165,8 +173,6 @@ export default class RadioPlayer extends LitElement {
 
   private musicZones: MusicZone[] = [];
 
-  private searchHandler: SearchHandler | undefined;
-
   /**
    * LitElement lifecycle main render method
    *
@@ -274,15 +280,17 @@ export default class RadioPlayer extends LitElement {
    * @memberof RadioPlayer
    */
   private get waveFormProgressTemplate(): TemplateResult | undefined {
-    return this.waveformUrl ? html`
-      <waveform-progress
-        interactive="true"
-        .waveformUrl=${this.waveformUrl}
-        .percentComplete=${this.percentComplete}
-        @valuechange=${this.valueChangedFromScrub}
-      >
-      </waveform-progress>
-    ` : undefined;
+    return this.waveformUrl
+      ? html`
+          <waveform-progress
+            interactive="true"
+            .waveformUrl=${this.waveformUrl}
+            .percentComplete=${this.percentComplete}
+            @valuechange=${this.valueChangedFromScrub}
+          >
+          </waveform-progress>
+        `
+      : undefined;
   }
 
   /**
@@ -607,7 +615,7 @@ export default class RadioPlayer extends LitElement {
     this.executeSearch(detail.value);
   }
 
-  private async executeSearch(term: string) {
+  private async executeSearch(term: string): Promise<any> {
     if (!this.searchHandler || term.length < 2) {
       this.searchResultsTranscript = undefined;
       return;
@@ -1061,7 +1069,6 @@ export default class RadioPlayer extends LitElement {
     // when the transcriptConfig gets changed, reload the music zones and search results switcher
     if (changedProperties.has('transcriptConfig')) {
       this.updateMusicZones();
-      this.setupSearchHandler();
     }
 
     if (changedProperties.has('searchResultsTranscript')) {
@@ -1072,21 +1079,16 @@ export default class RadioPlayer extends LitElement {
       this.executeSearch(this.searchTerm);
     }
 
+    if (changedProperties.has('searchHandler') && this.searchTerm) {
+      this.executeSearch(this.searchTerm);
+    }
+
     // as the currentTime gets updated, emit an event and skip the music zone if enabled
     if (changedProperties.has('currentTime')) {
       this.emitCurrentTimeChangedEvent();
       if (this.skipMusicSections) {
         this.skipMusicZone();
       }
-    }
-  }
-
-  private setupSearchHandler(): void {
-    if (this.transcriptConfig) {
-      this.searchHandler = new SearchHandler(this.transcriptConfig);
-    }
-    if (this.searchTerm) {
-      this.executeSearch(this.searchTerm);
     }
   }
 
