@@ -615,7 +615,7 @@ export default class RadioPlayer extends LitElement {
     this.executeSearch(detail.value);
   }
 
-  private async executeSearch(term: string): Promise<any> {
+  private async executeSearch(term: string): Promise<void> {
     if (!this.searchHandler || term.length < 2) {
       this.searchResultsTranscript = undefined;
       return;

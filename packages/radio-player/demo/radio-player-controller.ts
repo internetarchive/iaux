@@ -1,5 +1,12 @@
 /* eslint-disable import/no-duplicates */
-import { LitElement, html, customElement, TemplateResult, property } from 'lit-element';
+import {
+  LitElement,
+  html,
+  customElement,
+  TemplateResult,
+  property,
+  PropertyValues,
+} from 'lit-element';
 
 import { AudioSource } from '@internetarchive/audio-element';
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
@@ -7,16 +14,27 @@ import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transc
 import '../src/radio-player';
 import RadioPlayer from '../src/radio-player';
 import RadioPlayerConfig from '../src/models/radio-player-config';
+import { SearchHandler } from '../src/search-handler/search-handler';
+import { SearchHandlerInterface } from '../src/search-handler/search-handler-interface';
+// import { LocalSearchIndex } from '../src/search-handler/search-indices/local-search-index';
+import { TranscriptIndex } from '../src/search-handler/transcript-index';
+import { RadioArchiveSearchIndex } from '../src/search-handler/search-indices/radio-archive-search-index';
 
 @customElement('radio-player-controller')
 export default class RadioPlayerController extends LitElement {
-  @property({ type: RadioPlayerConfig }) radioPlayerConfig:
-    | RadioPlayerConfig
-    | undefined = undefined;
+  @property({ type: Object }) radioPlayerConfig: RadioPlayerConfig | undefined = undefined;
 
-  @property({ type: TranscriptConfig }) transcriptConfig: TranscriptConfig | undefined = undefined;
+  @property({ type: Object }) transcriptConfig: TranscriptConfig | undefined = undefined;
 
   @property({ type: String }) itemId: string | undefined = 'WFMD_930_AM_20190803_170000';
+
+  /**
+   * The Search Handler
+   *
+   * @type {(SearchHandlerInterface | undefined)}
+   * @memberof RadioPlayer
+   */
+  @property({ type: Object }) searchHandler: SearchHandlerInterface | undefined = undefined;
 
   private startPlaybackAt: number | undefined = undefined;
 
@@ -29,6 +47,7 @@ export default class RadioPlayerController extends LitElement {
       <radio-player
         .config=${this.radioPlayerConfig}
         .transcriptConfig=${this.transcriptConfig}
+        .searchHandler=${this.searchHandler}
         @searchTermChanged=${this.searchTermChanged}
         @playbackPaused=${this.playbackPaused}
         @currentTimeChanged=${this.currentTimeChanged}
@@ -136,6 +155,22 @@ export default class RadioPlayerController extends LitElement {
 
   firstUpdated(): void {
     this.setup();
+  }
+
+  updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has('transcriptConfig')) {
+      this.setupSearchHandler();
+    }
+  }
+
+  private setupSearchHandler(): void {
+    if (!this.transcriptConfig) {
+      return;
+    }
+    const transcriptIndex = new TranscriptIndex(this.transcriptConfig);
+    const searchIndex = new RadioArchiveSearchIndex('foo');
+    const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+    this.searchHandler = searchHandler;
   }
 
   private canplay(): void {

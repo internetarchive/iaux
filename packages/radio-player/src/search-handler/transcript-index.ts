@@ -1,18 +1,18 @@
-import { Range, TranscriptEntryRange } from './search-models';
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
+import { Range, TranscriptEntryRange } from './search-models';
 import { TranscriptIndexInterface } from './transcript-index-interface';
 
 export class TranscriptIndex implements TranscriptIndexInterface {
   get mergedTranscript(): string {
-    return this._mergedTranscript;
+    return this.mergedTranscriptCache;
   }
 
   get mergedTranscriptLowercased(): string {
-    return this._mergedTranscriptLowercased;
+    return this.mergedTranscriptLowercasedCache;
   }
 
   get transcriptEntryRanges(): TranscriptEntryRange[] {
-    return this._transcriptEntryRanges;
+    return this.transcriptEntryRangesCache;
   }
 
   /**
@@ -27,9 +27,9 @@ export class TranscriptIndex implements TranscriptIndexInterface {
    * @type {string}
    * @memberof TranscriptIndex
    */
-  private _mergedTranscript: string = '';
+  private mergedTranscriptCache = '';
 
-  private _mergedTranscriptLowercased: string = '';
+  private mergedTranscriptLowercasedCache = '';
 
   /**
    * This gets populated as part of the search index build. It maps the start and end indicies
@@ -39,7 +39,7 @@ export class TranscriptIndex implements TranscriptIndexInterface {
    * @type {TranscriptEntryRange[]}
    * @memberof TranscriptIndex
    */
-  private _transcriptEntryRanges: TranscriptEntryRange[] = [];
+  private transcriptEntryRangesCache: TranscriptEntryRange[] = [];
 
   constructor(transcriptConfig: TranscriptConfig) {
     this.buildIndex(transcriptConfig);
@@ -84,8 +84,8 @@ export class TranscriptIndex implements TranscriptIndexInterface {
     });
     mergedTranscript = mergedTranscript.trim();
 
-    this._mergedTranscript = mergedTranscript;
-    this._mergedTranscriptLowercased = mergedTranscript.toLowerCase();
-    this._transcriptEntryRanges = transcriptEntryRanges;
+    this.mergedTranscriptCache = mergedTranscript;
+    this.mergedTranscriptLowercasedCache = mergedTranscript.toLowerCase();
+    this.transcriptEntryRangesCache = transcriptEntryRanges;
   }
 }
