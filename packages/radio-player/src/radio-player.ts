@@ -472,7 +472,6 @@ export default class RadioPlayer extends LitElement {
         <expandable-search-bar
           searchTerm=${this.searchTerm}
           .quickSearches=${this.quickSearches}
-          @inputchange=${this.updateSearchTerm}
           @enterKeyPressed=${this.searchEnterKeyPressed}
           @searchCleared=${this.searchCleared}
         >

@@ -26,7 +26,7 @@ export default class RadioPlayerController extends LitElement {
 
   @property({ type: Object }) transcriptConfig: TranscriptConfig | undefined = undefined;
 
-  @property({ type: String }) itemId: string | undefined = 'WFMD_930_AM_20190803_170000';
+  @property({ type: String }) itemId: string | undefined = 'KCMJ_93_9_FM_20180928_140000';
 
   /**
    * The Search Handler
@@ -164,11 +164,11 @@ export default class RadioPlayerController extends LitElement {
   }
 
   private setupSearchHandler(): void {
-    if (!this.transcriptConfig) {
+    if (!this.transcriptConfig || !this.itemId) {
       return;
     }
     const transcriptIndex = new TranscriptIndex(this.transcriptConfig);
-    const searchIndex = new RadioArchiveSearchIndex('foo');
+    const searchIndex = new RadioArchiveSearchIndex(this.itemId);
     const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
     this.searchHandler = searchHandler;
   }
