@@ -6,14 +6,11 @@ import { FullTextSearchResponseDoc } from './full-text-search-response';
 export class FullTextSearchBackend implements SearchBackendInterface {
   delegate: FullTextSearchDelegate | undefined;
 
-  searchServiceUrl: string;
-
   private startTag: string;
 
   private endTag: string;
 
-  constructor(searchServiceUrl: string, startTag = '{{{', endTag = '}}}') {
-    this.searchServiceUrl = searchServiceUrl;
+  constructor(startTag = '{{{', endTag = '}}}') {
     this.startTag = startTag;
     this.endTag = endTag;
   }

@@ -177,7 +177,7 @@ export default class RadioPlayerController extends LitElement implements FullTex
       return;
     }
     const transcriptIndex = new TranscriptIndex(this.transcriptConfig);
-    const searchBackend = new FullTextSearchBackend(this.itemId);
+    const searchBackend = new FullTextSearchBackend();
     searchBackend.delegate = this;
     this.searchBackend = searchBackend;
     const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
