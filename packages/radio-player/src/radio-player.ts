@@ -620,6 +620,7 @@ export default class RadioPlayer extends LitElement {
       this.searchResultsTranscript = undefined;
       return;
     }
+    this.searchTerm = term;
     this.searchResultsTranscript = await this.searchHandler.search(term);
   }
 
