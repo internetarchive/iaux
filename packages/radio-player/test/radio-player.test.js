@@ -770,8 +770,6 @@ describe('Radio Player', () => {
       </radio-player>
     `);
 
-    const searchResultsSwitcher = el.shadowRoot.querySelector('search-results-switcher');
-
     el.searchTerm = 'foo';
     el.updateSearchResultSwitcher();
 
