@@ -79,7 +79,7 @@ export class TranscriptIndex implements TranscriptIndexInterface {
       const indexMapRange: Range = new Range(startIndex, startIndex + displayText.length);
       const indexMap: TranscriptEntryRange = new TranscriptEntryRange(entry, indexMapRange);
       transcriptEntryRanges.push(indexMap);
-      mergedTranscript += `${entry.displayText} `;
+      mergedTranscript += `${entry.rawText} `;
       startIndex = mergedTranscript.length;
     });
     mergedTranscript = mergedTranscript.trim();
