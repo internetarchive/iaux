@@ -61,7 +61,7 @@ class NavSearch extends TrackedElement {
         padding-left: 1rem;
         border-radius: 0.5rem;
         border: none;
-        font-size: 1.4rem;
+        font-size: 1.6rem;
         text-align: center;
       }
       .search-activated .search-field:focus {
@@ -115,7 +115,7 @@ class NavSearch extends TrackedElement {
           type="text"
           name="query"
           class="search-field"
-          placeholder="Search Internet Archive"
+          placeholder="Enter search…"
         />
         <input type='hidden' name='sin' value='' />
         <button type="submit" class="search" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">
