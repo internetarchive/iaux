@@ -733,8 +733,8 @@ describe('Radio Player', () => {
 
     const transcriptConfig = new TranscriptConfig(entries);
     const transcriptIndex = new TranscriptIndex(transcriptConfig);
-    const searchIndex = new LocalSearchBackend(transcriptIndex);
-    const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+    const searchBackend = new LocalSearchBackend(transcriptIndex);
+    const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
     const el = await fixture(html`
       <radio-player

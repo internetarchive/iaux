@@ -17,12 +17,12 @@ import { SearchHandlerInterface } from './search-handler-interface';
  * it easier to rebuild the transcript later.
  */
 export class SearchHandler implements SearchHandlerInterface {
-  private searchIndex: SearchBackendInterface;
+  private searchBackend: SearchBackendInterface;
 
   private transcriptIndex: TranscriptIndexInterface;
 
-  constructor(searchIndex: SearchBackendInterface, transcriptIndex: TranscriptIndexInterface) {
-    this.searchIndex = searchIndex;
+  constructor(searchBackend: SearchBackendInterface, transcriptIndex: TranscriptIndexInterface) {
+    this.searchBackend = searchBackend;
     this.transcriptIndex = transcriptIndex;
   }
 
@@ -131,7 +131,7 @@ export class SearchHandler implements SearchHandlerInterface {
    * @memberof SearchHandler
    */
   async getSearchSeparatedTranscript(query: string): Promise<SearchResult[]> {
-    const searchRanges: Range[] = await this.searchIndex.getSearchRanges(query);
+    const searchRanges: Range[] = await this.searchBackend.getSearchRanges(query);
     const { mergedTranscript } = this.transcriptIndex;
 
     // if there's no search results, just return a single SearchResult that is the full

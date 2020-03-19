@@ -26,9 +26,9 @@ class MockTranscriptIndex {
 
 describe('Search Handler', () => {
   it('can be instantiated', async () => {
-    const searchIndex = new MockSearchIndex();
+    const searchBackend = new MockSearchIndex();
     const transcriptIndex = new MockTranscriptIndex()
-    const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+    const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
     expect(searchHandler).to.exist;
   });
 
@@ -39,8 +39,8 @@ describe('Search Handler', () => {
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const response = searchHandler.getSearchSeparatedTranscript('ba');
 
@@ -53,8 +53,8 @@ describe('Search Handler', () => {
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const response = searchHandler.getSearchSeparatedTranscript('zip');
 
@@ -67,8 +67,8 @@ describe('Search Handler', () => {
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const results = await searchHandler.getSearchSeparatedTranscript('zip');
 
@@ -87,8 +87,8 @@ describe('Search Handler', () => {
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const transcriptSearchResults = await searchHandler.getSearchSeparatedTranscript('ba');
 
@@ -146,8 +146,8 @@ describe('Search Handler', () => {
       const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const newTranscript = await searchHandler.search('boop');
 
@@ -190,8 +190,8 @@ describe('Search Handler', () => {
       const entry5 = new TranscriptEntryConfig(5, 19, 23, 'grip grap', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const newTranscript = await searchHandler.search('bump');
 
@@ -229,8 +229,8 @@ describe('Search Handler', () => {
       const entry7 = new TranscriptEntryConfig(7, 29, 34, 'ooga booga', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5, entry6, entry7]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const newTranscript = await searchHandler.search('bump');
 
@@ -258,8 +258,8 @@ describe('Search Handler', () => {
       const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const newTranscript = await searchHandler.search('blop bump');
 
@@ -274,8 +274,8 @@ describe('Search Handler', () => {
       const entry5 = new TranscriptEntryConfig(5, 19, 23, 'snip snap', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const newTranscript = await searchHandler.search('blop bump boing fizz');
 
@@ -324,8 +324,8 @@ describe('Search Handler', () => {
       const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const newTranscript = await searchHandler.search('bu');
 
@@ -353,8 +353,8 @@ describe('Search Handler', () => {
       const entry4 = new TranscriptEntryConfig(4, 15.045, 20.033, 'Baltimore area district which the president called Rat and road and infested', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const newTranscript = await searchHandler.search('the');
 
@@ -403,8 +403,8 @@ describe('Search Handler', () => {
       const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4]);
       const transcriptIndex = new TranscriptIndex(transcriptConfig);
-      const searchIndex = new LocalSearchBackend(transcriptIndex);
-      const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+      const searchBackend = new LocalSearchBackend(transcriptIndex);
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
 
       const newTranscript = await searchHandler.search('blop bump');
 

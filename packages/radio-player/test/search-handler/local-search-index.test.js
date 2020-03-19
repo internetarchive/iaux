@@ -13,9 +13,9 @@ describe('Local Search Index', () => {
     const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
     const transcriptIndex = new TranscriptIndex(transcriptConfig);
-    const searchIndex = new LocalSearchBackend(transcriptIndex);
+    const searchBackend = new LocalSearchBackend(transcriptIndex);
 
-    const searchIndices = await searchIndex.getSearchRanges('baz');
+    const searchIndices = await searchBackend.getSearchRanges('baz');
 
     expect(searchIndices.length).to.equal(2);
     expect(searchIndices[0].startIndex).to.equal(8);
@@ -30,9 +30,9 @@ describe('Local Search Index', () => {
     const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
     const transcriptIndex = new TranscriptIndex(transcriptConfig);
-    const searchIndex = new LocalSearchBackend(transcriptIndex);
+    const searchBackend = new LocalSearchBackend(transcriptIndex);
 
-    const searchIndices = await searchIndex.getSearchRanges('baz|-.*');
+    const searchIndices = await searchBackend.getSearchRanges('baz|-.*');
 
     expect(searchIndices.length).to.equal(0);
   });
