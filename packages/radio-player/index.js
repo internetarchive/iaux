@@ -1,14 +1,15 @@
-import RadioPlayer from './lib/src/radio-player.js';
-import RadioPlayerConfig from './lib/src/models/radio-player-config.js';
-import { SearchHandler } from './lib/src/search-handler/search-handler.js';
-import { LocalSearchIndex } from './lib/src/search-handler/search-indices/local-search-index.js';
-import { RadioArchiveSearchIndex } from './lib/src/search-handler/search-indices/radio-archive-search-index.js';
-
 import {
   TranscriptConfig,
   TranscriptEntryConfig
 } from '@internetarchive/transcript-view';
 import { AudioSource } from '@internetarchive/audio-element';
+
+import RadioPlayer from './lib/src/radio-player';
+import RadioPlayerConfig from './lib/src/models/radio-player-config';
+import { SearchHandler } from './lib/src/search-handler/search-handler';
+import { LocalSearchIndex } from './lib/src/search-handler/search-indices/local-search-index';
+import { RadioArchiveSearchIndex } from './lib/src/search-handler/search-indices/radio-archive-search-index';
+import { TranscriptIndex } from './lib/src/search-handler/transcript-index';
 
 export {
   RadioPlayer,
@@ -18,5 +19,6 @@ export {
   AudioSource,
   SearchHandler,
   LocalSearchIndex,
-  RadioArchiveSearchIndex
+  RadioArchiveSearchIndex,
+  TranscriptIndex
 };
