@@ -1,7 +1,10 @@
 import { Range } from '../../search-models';
 import { SearchBackendInterface } from '../search-backend-interface';
+import { FullTextSearchDelegate } from './full-text-search-delegate';
 
 export class FullTextSearchBackend implements SearchBackendInterface {
+  delegate: FullTextSearchDelegate | undefined;
+
   searchServiceUrl: string;
 
   private startTag: string;
@@ -25,10 +28,10 @@ export class FullTextSearchBackend implements SearchBackendInterface {
   async getSearchRanges(query: string): Promise<Range[]> {
     let ranges: Range[] = [];
 
-    const results = await this.fetchResults(query);
+    const results = await this.delegate?.searchRequested(query);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    results.value.docs.forEach((result: any) => {
+    results?.value.docs.forEach((result: any) => {
       const transcript = result.text;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       result.highlight.cc.forEach((highlight: any) => {
