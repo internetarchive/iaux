@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="src/example-component.js"></script>
+    <script type="module" src="src/example-component-controller.js"></script>
     <title>Analytics Element</title>
     <style>
       html {
@@ -17,17 +18,6 @@
   </head>
 
   <body>
-    <example-component></example-component>
-    <script>
-      const el = document.querySelector('example-component');
-
-      el.addEventListener('trackClick', (e) => {
-        console.log(`Click event data: ${e.detail.event}`);
-      });
-
-      el.addEventListener('trackSubmit', (e) => {
-        console.log(`Submit event data: ${e.detail.event}`);
-      });
-    </script>
+    <example-component-controller></example-component-controller>
   </body>
 </html>

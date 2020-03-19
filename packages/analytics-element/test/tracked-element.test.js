@@ -3,11 +3,23 @@ import '../src/example-component';
 
 describe('TrackedElement', () => {
   it('fires click and submit events when button clicked', async () => {
-    const el = await fixture(html`<example-component></example-component>`);
+    const actions = ['foo'];
     let clickFired = false;
     let submitFired = false;
+    const buttonClicked = () => {
+      clickFired = true;
+    };
+    const formSubmitted = () => {
+      submitFired = true;
+    };
+    const el = await fixture(html`
+      <example-component
+        .eventCategory='Events'
+        .eventActions=${actions}
+        @buttonClicked=${buttonClicked}
+        @formSubmitted=${formSubmitted}></example-component>`);
 
-    el.addEventListener('trackClick', () => {
+    el.addEventListener('trackEvent', () => {
       clickFired = true;
     });
 
