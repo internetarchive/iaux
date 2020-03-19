@@ -472,6 +472,7 @@ export default class RadioPlayer extends LitElement {
         <expandable-search-bar
           searchTerm=${this.searchTerm}
           .quickSearches=${this.quickSearches}
+          @inputchange=${this.updateSearchTerm}
           @enterKeyPressed=${this.searchEnterKeyPressed}
           @searchCleared=${this.searchCleared}
         >
@@ -1072,10 +1073,6 @@ export default class RadioPlayer extends LitElement {
 
     if (changedProperties.has('searchResultsTranscript')) {
       this.updateSearchResultSwitcher();
-    }
-
-    if (changedProperties.has('searchTerm')) {
-      this.executeSearch(this.searchTerm);
     }
 
     if (changedProperties.has('searchHandler') && this.searchTerm) {
