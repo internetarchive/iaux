@@ -1,7 +1,7 @@
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 import { Range, TranscriptEntryRange, SearchResult } from './search-models';
 import { SearchHelper } from './search-helper';
-import { SearchIndexInterface } from './search-indices/search-index-interface';
+import { SearchBackendInterface } from './search-backends/search-backend-interface';
 import { TranscriptIndexInterface } from './transcript-index-interface';
 import { SearchHandlerInterface } from './search-handler-interface';
 
@@ -17,11 +17,11 @@ import { SearchHandlerInterface } from './search-handler-interface';
  * it easier to rebuild the transcript later.
  */
 export class SearchHandler implements SearchHandlerInterface {
-  private searchIndex: SearchIndexInterface;
+  private searchIndex: SearchBackendInterface;
 
   private transcriptIndex: TranscriptIndexInterface;
 
-  constructor(searchIndex: SearchIndexInterface, transcriptIndex: TranscriptIndexInterface) {
+  constructor(searchIndex: SearchBackendInterface, transcriptIndex: TranscriptIndexInterface) {
     this.searchIndex = searchIndex;
     this.transcriptIndex = transcriptIndex;
   }
@@ -52,8 +52,9 @@ export class SearchHandler implements SearchHandlerInterface {
           return;
         }
 
-        const endEntry =
-          this.transcriptIndex.getTranscriptEntryAt(entry.range.endIndex) || startEntry;
+        const { range } = entry;
+        const { endIndex } = range;
+        const endEntry = this.transcriptIndex.getTranscriptEntryAt(endIndex) || startEntry;
         const newTranscriptEntry = this.createBlankTranscriptEntryConfig(startEntry.entry);
         newTranscriptEntry.searchMatchIndex = searchResultIndex;
         searchResultIndex += 1;

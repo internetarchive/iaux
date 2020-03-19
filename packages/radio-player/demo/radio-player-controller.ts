@@ -16,9 +16,9 @@ import RadioPlayer from '../src/radio-player';
 import RadioPlayerConfig from '../src/models/radio-player-config';
 import { SearchHandler } from '../src/search-handler/search-handler';
 import { SearchHandlerInterface } from '../src/search-handler/search-handler-interface';
-// import { LocalSearchIndex } from '../src/search-handler/search-indices/local-search-index';
+// import { LocalSearchBackend } from '../src/search-handler/search-indices/local-search-index';
 import { TranscriptIndex } from '../src/search-handler/transcript-index';
-import { RadioArchiveSearchIndex } from '../src/search-handler/search-indices/radio-archive-search-index';
+import { FullTextSearchBackend } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-backend';
 
 @customElement('radio-player-controller')
 export default class RadioPlayerController extends LitElement {
@@ -26,7 +26,7 @@ export default class RadioPlayerController extends LitElement {
 
   @property({ type: Object }) transcriptConfig: TranscriptConfig | undefined = undefined;
 
-  @property({ type: String }) itemId: string | undefined = 'KCMJ_93_9_FM_20180928_140000';
+  @property({ type: String }) itemId: string | undefined = 'Euronews_Radio_English_20171029_030000';
 
   /**
    * The Search Handler
@@ -168,7 +168,7 @@ export default class RadioPlayerController extends LitElement {
       return;
     }
     const transcriptIndex = new TranscriptIndex(this.transcriptConfig);
-    const searchIndex = new RadioArchiveSearchIndex(this.itemId);
+    const searchIndex = new FullTextSearchBackend(this.itemId);
     const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
     this.searchHandler = searchHandler;
   }

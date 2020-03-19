@@ -3,7 +3,7 @@ import {
 } from '@open-wc/testing';
 
 import { TranscriptConfig, TranscriptEntryConfig } from "@internetarchive/transcript-view";
-import { LocalSearchIndex } from '../../lib/src/search-handler/search-indices/local-search-index';
+import { LocalSearchBackend } from '../../lib/src/search-handler/search-backends/local-search-backend/local-search-backend';
 import { TranscriptIndex } from '../../lib/src/search-handler/transcript-index';
 
 describe('Local Search Index', () => {
@@ -13,7 +13,7 @@ describe('Local Search Index', () => {
     const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
     const transcriptIndex = new TranscriptIndex(transcriptConfig);
-    const searchIndex = new LocalSearchIndex(transcriptIndex);
+    const searchIndex = new LocalSearchBackend(transcriptIndex);
 
     const searchIndices = await searchIndex.getSearchRanges('baz');
 
@@ -30,7 +30,7 @@ describe('Local Search Index', () => {
     const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
     const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3]);
     const transcriptIndex = new TranscriptIndex(transcriptConfig);
-    const searchIndex = new LocalSearchIndex(transcriptIndex);
+    const searchIndex = new LocalSearchBackend(transcriptIndex);
 
     const searchIndices = await searchIndex.getSearchRanges('baz|-.*');
 

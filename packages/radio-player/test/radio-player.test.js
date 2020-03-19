@@ -10,7 +10,7 @@ import RadioPlayerConfig from '../lib/src/models/radio-player-config';
 import sampleTranscript from './sample_transcript';
 import { TranscriptConfig } from '@internetarchive/transcript-view';
 import { SearchHandler } from '../lib/src/search-handler/search-handler';
-import { LocalSearchIndex } from '../lib/src/search-handler/search-indices/local-search-index';
+import { LocalSearchBackend } from '../lib/src/search-handler/search-backends/local-search-backend/local-search-backend';
 import { TranscriptIndex } from '../lib/src/search-handler/transcript-index';
 
 describe('Radio Player', () => {
@@ -733,7 +733,7 @@ describe('Radio Player', () => {
 
     const transcriptConfig = new TranscriptConfig(entries);
     const transcriptIndex = new TranscriptIndex(transcriptConfig);
-    const searchIndex = new LocalSearchIndex(transcriptIndex);
+    const searchIndex = new LocalSearchBackend(transcriptIndex);
     const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
 
     const el = await fixture(html`
@@ -745,9 +745,9 @@ describe('Radio Player', () => {
 
     const searchResultsSwitcher = el.shadowRoot.querySelector('search-results-switcher');
 
-    el.searchTerm = 'foo';
+    el.executeSearch('foo');
 
-    await promisedSleep(200);
+    await promisedSleep(100);
 
     expect(el.shouldShowSearchResultSwitcher).to.equal(true);
     expect(searchResultsSwitcher.numberOfResults).to.equal(2);

@@ -1,13 +1,13 @@
-import { Range } from '../search-models';
-import { TranscriptIndexInterface } from '../transcript-index-interface';
-import { SearchIndexInterface } from './search-index-interface';
+import { Range } from '../../search-models';
+import { TranscriptIndexInterface } from '../../transcript-index-interface';
+import { SearchBackendInterface } from '../search-backend-interface';
 
-export class LocalSearchIndex implements SearchIndexInterface {
+export class LocalSearchBackend implements SearchBackendInterface {
   /**
    * The TranscriptIndex allows quick lookup
    *
    * @private
-   * @memberof LocalSearchIndex
+   * @memberof LocalSearchBackend
    */
   private transcriptIndex: TranscriptIndexInterface;
 
@@ -17,7 +17,7 @@ export class LocalSearchIndex implements SearchIndexInterface {
    * @private
    * @param {string} query
    * @returns {Promise<Range[]>}
-   * @memberof SearchIndexInterface
+   * @memberof SearchBackendInterface
    */
   async getSearchRanges(query: string): Promise<Range[]> {
     const ranges: Range[] = [];

@@ -1,15 +1,15 @@
-import { Range } from '../search-models';
-import { SearchIndexInterface } from './search-index-interface';
+import { Range } from '../../search-models';
+import { SearchBackendInterface } from '../search-backend-interface';
 
-export class RadioArchiveSearchIndex implements SearchIndexInterface {
-  private identifier: string;
+export class FullTextSearchBackend implements SearchBackendInterface {
+  searchServiceUrl: string;
 
   private startTag: string;
 
   private endTag: string;
 
-  constructor(identifier: string, startTag = '{{{', endTag = '}}}') {
-    this.identifier = identifier;
+  constructor(searchServiceUrl: string, startTag = '{{{', endTag = '}}}') {
+    this.searchServiceUrl = searchServiceUrl;
     this.startTag = startTag;
     this.endTag = endTag;
   }
@@ -20,15 +20,17 @@ export class RadioArchiveSearchIndex implements SearchIndexInterface {
    * @private
    * @param {string} query
    * @returns {Promise<Range[]>}
-   * @memberof SearchIndexInterface
+   * @memberof SearchBackendInterface
    */
   async getSearchRanges(query: string): Promise<Range[]> {
     let ranges: Range[] = [];
 
     const results = await this.fetchResults(query);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     results.value.docs.forEach((result: any) => {
       const transcript = result.text;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       result.highlight.cc.forEach((highlight: any) => {
         const newRanges: Range[] = this.rangesOfResultInTranscript(highlight, transcript);
         ranges = ranges.concat(newRanges);
@@ -90,8 +92,9 @@ export class RadioArchiveSearchIndex implements SearchIndexInterface {
     return startIndexOfHighlight;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async fetchResults(query: string): Promise<any> {
-    const url = `https://58-review-radio-arch-bsdafk.archive.org/services/radio-archive/search/service.php?q=${query}&identifier=${this.identifier}&number_of_fragments=1000&scope=all`;
+    const url = `https://58-review-radio-arch-bsdafk.archive.org/services/radio-archive/search/service.php?q=${query}&identifier=${this.searchServiceUrl}&number_of_fragments=1000&scope=all`;
     const response = await fetch(url);
     return response.json();
   }
