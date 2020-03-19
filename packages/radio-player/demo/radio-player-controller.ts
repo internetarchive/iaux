@@ -19,9 +19,12 @@ import { SearchHandlerInterface } from '../src/search-handler/search-handler-int
 // import { LocalSearchBackend } from '../src/search-handler/search-indices/local-search-index';
 import { TranscriptIndex } from '../src/search-handler/transcript-index';
 import { FullTextSearchBackend } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-backend';
+import { FullTextSearchDelegate } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-delegate';
+import { FullTextSearchResponse } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-response';
+import { SearchBackendInterface } from '../src/search-handler/search-backends/search-backend-interface';
 
 @customElement('radio-player-controller')
-export default class RadioPlayerController extends LitElement {
+export default class RadioPlayerController extends LitElement implements FullTextSearchDelegate {
   @property({ type: Object }) radioPlayerConfig: RadioPlayerConfig | undefined = undefined;
 
   @property({ type: Object }) transcriptConfig: TranscriptConfig | undefined = undefined;
@@ -41,6 +44,12 @@ export default class RadioPlayerController extends LitElement {
   private currentTime = 0;
 
   private fileName = '';
+
+  private baseUrl = 'https://58-review-radio-arch-bsdafk.archive.org';
+
+  private searchServicePath = '/services/radio-archive/search/service.php';
+
+  private searchBackend: SearchBackendInterface | undefined;
 
   render(): TemplateResult {
     return html`
@@ -168,8 +177,10 @@ export default class RadioPlayerController extends LitElement {
       return;
     }
     const transcriptIndex = new TranscriptIndex(this.transcriptConfig);
-    const searchIndex = new FullTextSearchBackend(this.itemId);
-    const searchHandler = new SearchHandler(searchIndex, transcriptIndex);
+    const searchBackend = new FullTextSearchBackend(this.itemId);
+    searchBackend.delegate = this;
+    this.searchBackend = searchBackend;
+    const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
     this.searchHandler = searchHandler;
   }
 
@@ -218,5 +229,18 @@ export default class RadioPlayerController extends LitElement {
       searchParams.set('q', `${searchTerm}`);
     }
     window.history.replaceState({}, '', `?${searchParams.toString()}`);
+  }
+
+  async searchRequested(query: string): Promise<FullTextSearchResponse> {
+    const searchUrl = `${this.baseUrl}${this.searchServicePath}`;
+    const queryParams = `?q=${query}&identifier=${this.itemId}&number_of_fragments=1000&scope=all`;
+    const url = `${searchUrl}${queryParams}`;
+    const rawResponse = await fetch(url);
+    const jsonResponse = await rawResponse.json();
+    const modeledResponse = new FullTextSearchResponse(jsonResponse);
+
+    return new Promise(resolve => {
+      resolve(modeledResponse);
+    });
   }
 }

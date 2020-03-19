@@ -1,6 +1,7 @@
 import { Range } from '../../search-models';
 import { SearchBackendInterface } from '../search-backend-interface';
 import { FullTextSearchDelegate } from './full-text-search-delegate';
+import { FullTextSearchResponseDoc } from './full-text-search-response';
 
 export class FullTextSearchBackend implements SearchBackendInterface {
   delegate: FullTextSearchDelegate | undefined;
@@ -31,10 +32,10 @@ export class FullTextSearchBackend implements SearchBackendInterface {
     const results = await this.delegate?.searchRequested(query);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    results?.value.docs.forEach((result: any) => {
+    results?.value.docs.forEach((result: FullTextSearchResponseDoc) => {
       const transcript = result.text;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      result.highlight.cc.forEach((highlight: any) => {
+      result.highlight.cc.forEach((highlight: string) => {
         const newRanges: Range[] = this.rangesOfResultInTranscript(highlight, transcript);
         ranges = ranges.concat(newRanges);
       });
@@ -93,12 +94,5 @@ export class FullTextSearchBackend implements SearchBackendInterface {
     const untokenizedHighlight = highlight.replace(startTagRegex, '').replace(endTagRegex, '');
     const startIndexOfHighlight = transcript.indexOf(untokenizedHighlight);
     return startIndexOfHighlight;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private async fetchResults(query: string): Promise<any> {
-    const url = `https://58-review-radio-arch-bsdafk.archive.org/services/radio-archive/search/service.php?q=${query}&identifier=${this.searchServiceUrl}&number_of_fragments=1000&scope=all`;
-    const response = await fetch(url);
-    return response.json();
   }
 }
