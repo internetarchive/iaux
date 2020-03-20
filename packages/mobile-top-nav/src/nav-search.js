@@ -14,6 +14,9 @@ class NavSearch extends TrackedElement {
         font: inherit;
         cursor: pointer;
       }
+      button:focus {
+        outline: none;
+      }
       .search {
         padding-top: 0;
         margin-right: .5rem;
@@ -115,7 +118,7 @@ class NavSearch extends TrackedElement {
           type="text"
           name="query"
           class="search-field"
-          placeholder="Enter search…"
+          placeholder="Search"
         />
         <input type='hidden' name='sin' value='' />
         <button type="submit" class="search" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">
