@@ -34,12 +34,6 @@ class IAActivityIndicator extends LitElement {
         fill: ${loadingDotColorCss};
       }
 
-      .processing-image svg {
-        margin: auto;
-        width: 75px;
-        height: 75px;
-      }
-
       .progress-indicator {
         opacity: 0;
         transition: opacity 0.25s ease-out;
