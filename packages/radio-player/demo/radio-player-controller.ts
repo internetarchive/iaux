@@ -16,12 +16,12 @@ import RadioPlayer from '../src/radio-player';
 import RadioPlayerConfig from '../src/models/radio-player-config';
 import { SearchHandler } from '../src/search-handler/search-handler';
 import { SearchHandlerInterface } from '../src/search-handler/search-handler-interface';
-// import { LocalSearchBackend } from '../src/search-handler/search-indices/local-search-index';
 import { TranscriptIndex } from '../src/search-handler/transcript-index';
 import { FullTextSearchBackend } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-backend';
 import { FullTextSearchDelegate } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-delegate';
 import { FullTextSearchResponse } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-response';
 import { SearchBackendInterface } from '../src/search-handler/search-backends/search-backend-interface';
+// import { LocalSearchBackend } from '../src/search-handler/search-indices/local-search-index';
 
 @customElement('radio-player-controller')
 export default class RadioPlayerController extends LitElement implements FullTextSearchDelegate {
@@ -177,6 +177,7 @@ export default class RadioPlayerController extends LitElement implements FullTex
       return;
     }
     const transcriptIndex = new TranscriptIndex(this.transcriptConfig);
+    // const searchBackend = new LocalSearchBackend();
     const searchBackend = new FullTextSearchBackend();
     searchBackend.delegate = this;
     this.searchBackend = searchBackend;

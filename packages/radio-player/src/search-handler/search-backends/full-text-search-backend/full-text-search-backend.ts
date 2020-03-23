@@ -3,6 +3,14 @@ import { SearchBackendInterface } from '../search-backend-interface';
 import { FullTextSearchDelegate } from './full-text-search-delegate';
 import { FullTextSearchResponseDoc } from './full-text-search-response';
 
+
+/**
+ * This class is responsible for taking the response from the full text search backend
+ * and converting the results into start and end indices for each of the matches.
+ *
+ * The start and end indices are then used by the SearchHandler to re-build the
+ * transcript, separated by search results in their original time codes.
+ */
 export class FullTextSearchBackend implements SearchBackendInterface {
   delegate: FullTextSearchDelegate | undefined;
 
@@ -28,10 +36,8 @@ export class FullTextSearchBackend implements SearchBackendInterface {
 
     const results = await this.delegate?.searchRequested(query);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     results?.value.docs.forEach((result: FullTextSearchResponseDoc) => {
       const transcript = result.text;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       result.highlight.cc.forEach((highlight: string) => {
         const newRanges: Range[] = this.rangesOfResultInTranscript(highlight, transcript);
         ranges = ranges.concat(newRanges);
@@ -44,10 +50,11 @@ export class FullTextSearchBackend implements SearchBackendInterface {
   }
 
   /**
-   * Find the ranges of the results from the search engine response.
+   * Find the range of the results in the `highlight` amongst the `transcript`.
    *
-   * @param highlight
-   * @param transcript
+   * @param {string} highlight
+   * @param {string} transcript
+   * @returns {Range[]}
    */
   private rangesOfResultInTranscript(highlight: string, transcript: string): Range[] {
     const regex = new RegExp(`${this.startTag}(.*?)${this.endTag}`, 'gm');
@@ -82,8 +89,9 @@ export class FullTextSearchBackend implements SearchBackendInterface {
    *
    * To do this, it strips out the start and end tags to treat it as a raw string.
    *
-   * @param highlight string The highlighted string to find
-   * @param transcript string The transcript in which to find the highlight
+   * @param {string} highlight The highlighted string to find
+   * @param {string} transcript The transcript in which to find the highlight
+   * @returns {number}
    */
   private getStartIndexOfHighlight(highlight: string, transcript: string): number {
     const startTagRegex = new RegExp(this.startTag, 'gm');

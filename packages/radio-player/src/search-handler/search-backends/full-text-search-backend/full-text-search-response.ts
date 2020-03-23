@@ -1,4 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+/**
+ * This file contains the response models for the full text search backend.
+ *
+ * On receiving the response, we deserialize the raw JSON into `FullTextSearchResponse`,
+ * which cascades down into all of the child models.
+ */
+
+export class FullTextSearchResponse {
+  success: boolean;
+
+  value: FullTextSearchResponseValue;
+
+  constructor(payload: any) {
+    this.success = payload.success;
+    this.value = new FullTextSearchResponseValue(payload.value);
+  }
+}
+
 export class FullTextSearchResponseDocHighlight {
   cc: string[];
 
@@ -87,16 +106,5 @@ export class FullTextSearchResponseValue {
     });
 
     this.facetCounts = new FullTextSearchResponseValueFacetCounts(payload.facet_counts);
-  }
-}
-
-export class FullTextSearchResponse {
-  success: boolean;
-
-  value: FullTextSearchResponseValue;
-
-  constructor(payload: any) {
-    this.success = payload.success;
-    this.value = new FullTextSearchResponseValue(payload.value);
   }
 }

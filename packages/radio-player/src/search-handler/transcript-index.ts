@@ -2,6 +2,10 @@ import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transc
 import { Range, TranscriptEntryRange } from './search-models';
 import { TranscriptIndexInterface } from './transcript-index-interface';
 
+/**
+ * The TranscriptIndex takes the original transcript and indexes it to make
+ * transcript entry lookups more efficient.
+ */
 export class TranscriptIndex implements TranscriptIndexInterface {
   get mergedTranscript(): string {
     return this.mergedTranscriptCache;

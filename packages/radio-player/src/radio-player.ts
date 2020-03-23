@@ -489,7 +489,8 @@ export default class RadioPlayer extends LitElement {
         </expandable-search-bar>
         <div class="search-results-info">
           ${this.searchActivityIndicator}
-          ${this.searchResultsSwitcherTemplate} ${this.noSearchResultsTemplate}
+          ${this.searchResultsSwitcherTemplate}
+          ${this.noSearchResultsTemplate}
         </div>
       </div>
     `;
@@ -514,7 +515,7 @@ export default class RadioPlayer extends LitElement {
   }
 
   /**
-   * Generate markup for the search results switcher
+   * Search activity indicator template
    *
    * @readonly
    * @private

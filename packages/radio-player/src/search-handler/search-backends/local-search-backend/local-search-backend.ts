@@ -2,6 +2,11 @@ import { Range } from '../../search-models';
 import { TranscriptIndexInterface } from '../../transcript-index-interface';
 import { SearchBackendInterface } from '../search-backend-interface';
 
+/**
+ * The LocalSearchBackend is a simple browser-side search backend that
+ * can be substituted for the FullTextSearchBackend. It implements
+ * the `SearchBackendInterface` so you can inject it into the `SearchHandler`.
+ */
 export class LocalSearchBackend implements SearchBackendInterface {
   /**
    * The TranscriptIndex allows quick lookup
