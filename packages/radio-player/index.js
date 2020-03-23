@@ -11,6 +11,7 @@ import { LocalSearchBackend } from './lib/src/search-handler/search-backends/loc
 import { FullTextSearchBackend } from './lib/src/search-handler/search-backends/full-text-search-backend/full-text-search-backend';
 import { TranscriptIndex } from './lib/src/search-handler/transcript-index';
 import { FullTextSearchResponse } from './lib/src/search-handler/search-backends/full-text-search-backend/full-text-search-response';
+import { FullTextSearchResponseDoc } from './lib/src/search-handler/search-backends/full-text-search-backend/full-text-search-response';
 
 export {
   RadioPlayer,
@@ -22,5 +23,6 @@ export {
   LocalSearchBackend,
   FullTextSearchBackend,
   TranscriptIndex,
-  FullTextSearchResponse
+  FullTextSearchResponse,
+  FullTextSearchResponseDoc
 };

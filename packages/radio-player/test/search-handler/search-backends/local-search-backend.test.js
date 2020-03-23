@@ -3,10 +3,10 @@ import {
 } from '@open-wc/testing';
 
 import { TranscriptConfig, TranscriptEntryConfig } from "@internetarchive/transcript-view";
-import { LocalSearchBackend } from '../../lib/src/search-handler/search-backends/local-search-backend/local-search-backend';
-import { TranscriptIndex } from '../../lib/src/search-handler/transcript-index';
+import { LocalSearchBackend } from '../../../lib/src/search-handler/search-backends/local-search-backend/local-search-backend';
+import { TranscriptIndex } from '../../../lib/src/search-handler/transcript-index';
 
-describe('Local Search Index', () => {
+describe('Local Search Backend', () => {
   it('correctly finds search indices', async () => {
     const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
     const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
