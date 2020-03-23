@@ -169,6 +169,78 @@ describe('Radio Player', () => {
     expect(el.searchTerm).to.equal('foo');
   });
 
+  class MockSearchHandler {
+    search(query) {
+      this.searchCalled = true;
+      return new Promise(resolve => resolve());
+    }
+
+    constructor() {
+      this.searchCalled = false;
+    }
+  }
+
+  it('executes the search when the enter key is pressed', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    const searchHandler = new MockSearchHandler();
+
+    el.searchHandler = searchHandler;
+
+    const searchBar = el.shadowRoot.querySelector('expandable-search-bar');
+    const inputField = searchBar.shadowRoot.querySelector('input[type=text]');
+    inputField.value = 'foo';
+
+    const event = new KeyboardEvent('keyup', { key: 'Enter' });
+    inputField.dispatchEvent(event);
+
+    expect(searchHandler.searchCalled).to.be.true;
+  });
+
+  it('does not execute search when enter pressed if there is no value in the return', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+
+    const searchHandler = new MockSearchHandler();
+
+    el.searchHandler = searchHandler;
+
+    const searchBar = el.shadowRoot.querySelector('expandable-search-bar');
+    const inputField = searchBar.shadowRoot.querySelector('input[type=text]');
+    inputField.value = '';
+
+    const event = new KeyboardEvent('keyup', { key: 'Enter' });
+    inputField.dispatchEvent(event);
+
+    expect(searchHandler.searchCalled).to.be.false;
+  });
+
+  it('sets the search transcript to undefined if there is no search handler', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+    const mockSearchResultsTranscript = new TranscriptConfig([]);
+    el.searchResultsTranscript = mockSearchResultsTranscript;
+    expect(el.searchResultsTranscript).to.not.be.undefined;
+    el.executeSearch('foo bar');
+    expect(el.searchResultsTranscript).to.be.undefined;
+  });
+
+  it('sets the search transcript to undefined if the search term is less than 2 characters', async () => {
+    const el = await fixture(html`
+      <radio-player></radio-player>
+    `);
+    const searchHandler = new MockSearchHandler();
+    el.searchHandler = searchHandler;
+    const mockSearchResultsTranscript = new TranscriptConfig([]);
+    el.searchResultsTranscript = mockSearchResultsTranscript;
+    el.executeSearch('f');
+    expect(el.searchResultsTranscript).to.be.undefined;
+  });
+
   it('does not update the search term if updateSearchTerm event does not contain needed info', async () => {
     const el = await fixture(html`
       <radio-player></radio-player>
