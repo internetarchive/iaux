@@ -22,6 +22,7 @@ import '@internetarchive/scrubber-bar';
 
 import { QuickSearchEntry } from '@internetarchive/expandable-search-bar';
 import '@internetarchive/expandable-search-bar';
+import '@internetarchive/ia-activity-indicator';
 
 import './search-results-switcher';
 
@@ -170,6 +171,15 @@ export default class RadioPlayer extends LitElement {
    * @memberof RadioPlayer
    */
   @property({ type: Boolean }) private shouldShowNoSearchResultMessage = false;
+
+  /**
+   * Are we searching or not?
+   *
+   * @private
+   * @type {boolean}
+   * @memberof RadioPlayer
+   */
+  @property({ type: Boolean }) private isSearching = false;
 
   private musicZones: MusicZone[] = [];
 
@@ -478,6 +488,7 @@ export default class RadioPlayer extends LitElement {
         >
         </expandable-search-bar>
         <div class="search-results-info">
+          ${this.searchActivityIndicator}
           ${this.searchResultsSwitcherTemplate} ${this.noSearchResultsTemplate}
         </div>
       </div>
@@ -499,6 +510,22 @@ export default class RadioPlayer extends LitElement {
         @searchResultIndexChanged=${this.searchResultIndexChanged}
       >
       </search-results-switcher>
+    `;
+  }
+
+  /**
+   * Generate markup for the search results switcher
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
+  private get searchActivityIndicator(): TemplateResult {
+    return html`
+      <ia-activity-indicator
+        class="${this.isSearching ? '' : 'hidden'}">
+      </ia-activity-indicator>
     `;
   }
 
@@ -621,7 +648,9 @@ export default class RadioPlayer extends LitElement {
       return;
     }
     this.searchTerm = term;
+    this.isSearching = true;
     this.searchResultsTranscript = await this.searchHandler.search(term);
+    this.isSearching = false;
   }
 
   /**

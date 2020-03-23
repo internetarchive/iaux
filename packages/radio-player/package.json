@@ -42,6 +42,7 @@
     "@internetarchive/scrubber-bar": "0.0.1-alpha.530",
     "@internetarchive/transcript-view": "0.0.1-alpha.504",
     "@internetarchive/waveform-progress": "0.0.1-alpha.530",
+    "@internetarchive/ia-activity-indicator": "0.0.1-alpha.516",
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"
   },

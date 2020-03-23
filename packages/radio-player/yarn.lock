@@ -1064,6 +1064,14 @@
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
+"@internetarchive/ia-activity-indicator@0.0.1-alpha.516":
+  version "0.0.1-alpha.516"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-activity-indicator/-/ia-activity-indicator-0.0.1-alpha.516.tgz#e1c8d9f4310c3744673a58709592ef5183806786"
+  integrity sha512-G1OZpSqDVk165/CijKu2AL2wQ2d+aMpTGtVq34gQ04f3abQGggoE75J1zzYo5fRC3Zlc1mWwwqJRi3UErf/E5w==
+  dependencies:
+    lit-element "^2.2.1"
+    lit-html "^1.0.0"
+
 "@internetarchive/playback-controls@0.0.1-alpha.530":
   version "0.0.1-alpha.530"
   resolved "https://registry.yarnpkg.com/@internetarchive/playback-controls/-/playback-controls-0.0.1-alpha.530.tgz#c82bfa122c1e401f3bed2dc2efd87463d8c70968"
