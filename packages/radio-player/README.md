@@ -13,7 +13,7 @@ yarn add @internetarchive/radio-player
 ```js
 // radio-player.js
 import RadioPlayer from '@internetarchive/radio-player';
-export default RadioPlayer
+export default RadioPlayer;
 ```
 
 ```html
