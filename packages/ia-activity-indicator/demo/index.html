@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+    ia-activity-indicator {
+      --activityIndicatorLoadingDotColor: green;
+      --activityIndicatorCheckmarkColor: green;
+      --activityIndicatorCompletedRingColor: purple;
+      --activityIndicatorLoadingRingColor: purple;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo">
+  </div>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import '../lib/ia-activity-indicator.js';
+    import { IAActivityIndicatorMode } from '../lib/ia-activity-indicator.js';
+
+    render(
+      html`
+        <ia-activity-indicator>
+        </ia-activity-indicator>
+
+        <input type="button" value="Toggle" @click=${toggleMode} />
+      `,
+      document.querySelector('#demo')
+    );
+
+    var mode = IAActivityIndicatorMode.loading
+
+    function toggleMode() {
+      mode = mode === IAActivityIndicatorMode.loading ? IAActivityIndicatorMode.complete : IAActivityIndicatorMode.loading;
+      document.querySelector('ia-activity-indicator').mode = mode;
+    }
+  </script>
+</body>
+</html>

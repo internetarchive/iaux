@@ -1,7 +1,7 @@
 {
-  "name": "@internetarchive/ia-loading-indicator",
+  "name": "@internetarchive/ia-activity-indicator",
   "version": "0.0.0",
-  "description": "A customizable loading indicator.",
+  "description": "A customizable activity indicator.",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",

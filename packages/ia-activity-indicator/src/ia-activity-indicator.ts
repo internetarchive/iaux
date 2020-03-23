@@ -1,29 +1,21 @@
 import { LitElement, html, css, property, CSSResult, TemplateResult } from 'lit-element';
 
-enum IALoadingIndicatorImageMode {
+enum IAActivityIndicatorMode {
   loading,
   complete,
 }
 
 // eslint-disable-next-line import/prefer-default-export
-class IALoadingIndicator extends LitElement {
+class IAActivityIndicator extends LitElement {
   // eslint-disable-next-line max-len
-  @property({ type: Number }) mode: IALoadingIndicatorImageMode =
-    IALoadingIndicatorImageMode.loading;
-
-  @property({ type: String }) checkmarkColor = '#31A481';
-
-  @property({ type: String }) completedRingColor = '#31A481';
-
-  @property({ type: String }) loadingRingColor = '#333333';
-
-  @property({ type: String }) loadingDotColor = '#333333';
+  @property({ type: Number }) mode: IAActivityIndicatorMode =
+    IAActivityIndicatorMode.loading;
 
   static get styles(): CSSResult {
-    const checkmarkColorCss = css`var(--checkmarkColor, #31A481)`;
-    const completedRingColorCss = css`var(--completedRingColor, #31A481)`;
-    const loadingRingColorCss = css`var(--loadingRingColor, #333333)`;
-    const loadingDotColorCss = css`var(--loadingDotColor, #333333)`;
+    const checkmarkColorCss = css`var(--activityIndicatorCheckmarkColor, #31A481)`;
+    const completedRingColorCss = css`var(--activityIndicatorCompletedRingColor, #31A481)`;
+    const loadingRingColorCss = css`var(--activityIndicatorLoadingRingColor, #333333)`;
+    const loadingDotColorCss = css`var(--activityIndicatorLoadingDotColor, #333333)`;
 
     return css`
       #completed-ring {
@@ -119,7 +111,7 @@ class IALoadingIndicator extends LitElement {
     /* eslint-disable */
     return html`
       <div
-        class="processing-image ${this.mode === IALoadingIndicatorImageMode.loading
+        class="processing-image ${this.mode === IAActivityIndicatorMode.loading
           ? 'loading'
           : ''}"
       >
@@ -170,6 +162,6 @@ class IALoadingIndicator extends LitElement {
   }
 }
 
-customElements.define('ia-loading-indicator', IALoadingIndicator);
+customElements.define('ia-activity-indicator', IAActivityIndicator);
 
-export { IALoadingIndicator, IALoadingIndicatorImageMode };
+export { IAActivityIndicator, IAActivityIndicatorMode };
