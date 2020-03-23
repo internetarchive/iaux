@@ -506,7 +506,7 @@ export default class RadioPlayer extends LitElement {
   private get searchResultsSwitcherTemplate(): TemplateResult {
     return html`
       <search-results-switcher
-        class="${this.shouldShowSearchResultSwitcher ? '' : 'hidden'}"
+        class="${this.shouldShowSearchResultSwitcher && !this.isSearching ? '' : 'hidden'}"
         @searchResultIndexChanged=${this.searchResultIndexChanged}
       >
       </search-results-switcher>
@@ -540,7 +540,9 @@ export default class RadioPlayer extends LitElement {
   private get noSearchResultsTemplate(): TemplateResult {
     return html`
       <div
-        class="no-search-results-message ${this.shouldShowNoSearchResultMessage ? '' : 'hidden'}"
+        class="
+          no-search-results-message
+          ${this.shouldShowNoSearchResultMessage && !this.isSearching ? '' : 'hidden'}"
       >
         No search results.
       </div>
@@ -1142,6 +1144,15 @@ export default class RadioPlayer extends LitElement {
         display: -ms-grid;
         display: grid;
         grid-gap: 0.5rem;
+      }
+
+      ia-activity-indicator {
+        width: 1.5em;
+        height: 1.5em;
+        display: block;
+        margin: auto;
+        --activityIndicatorLoadingRingColor: #999;
+        --activityIndicatorLoadingDotColor: #999;
       }
 
       /* mobile view */
