@@ -3,7 +3,6 @@ import { SearchBackendInterface } from '../search-backend-interface';
 import { FullTextSearchDelegate } from './full-text-search-delegate';
 import { FullTextSearchResponseDoc } from './full-text-search-response';
 
-
 /**
  * This class is responsible for taking the response from the full text search backend
  * and converting the results into start and end indices for each of the matches.

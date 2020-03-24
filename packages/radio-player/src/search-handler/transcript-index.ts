@@ -7,16 +7,27 @@ import { TranscriptIndexInterface } from './transcript-index-interface';
  * transcript entry lookups more efficient.
  */
 export class TranscriptIndex implements TranscriptIndexInterface {
+  /** @inheritdoc */
   get mergedTranscript(): string {
     return this.mergedTranscriptCache;
   }
 
+  /** @inheritdoc */
   get mergedTranscriptLowercased(): string {
     return this.mergedTranscriptLowercasedCache;
   }
 
+  /** @inheritdoc */
   get transcriptEntryRanges(): TranscriptEntryRange[] {
     return this.transcriptEntryRangesCache;
+  }
+
+  /** @inheritdoc */
+  getTranscriptEntryAt(overallCharIndex: number): TranscriptEntryRange | undefined {
+    return this.transcriptEntryRanges.find(entry => {
+      const { range } = entry;
+      return range.endIndex > overallCharIndex && range.startIndex <= overallCharIndex;
+    });
   }
 
   /**
@@ -47,19 +58,6 @@ export class TranscriptIndex implements TranscriptIndexInterface {
 
   constructor(transcriptConfig: TranscriptConfig) {
     this.buildIndex(transcriptConfig);
-  }
-
-  /**
-   * Find the closes TranscriptEntryRange to the given overallCharIndex
-   *
-   * @param overallCharIndex
-   * @returns {TranscriptEntryRange | undefined}
-   */
-  getTranscriptEntryAt(overallCharIndex: number): TranscriptEntryRange | undefined {
-    return this.transcriptEntryRanges.find(entry => {
-      const { range } = entry;
-      return range.endIndex > overallCharIndex && range.startIndex <= overallCharIndex;
-    });
   }
 
   /**
