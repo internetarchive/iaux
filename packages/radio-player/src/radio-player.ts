@@ -22,7 +22,7 @@ import '@internetarchive/scrubber-bar';
 
 import { QuickSearchEntry } from '@internetarchive/expandable-search-bar';
 import '@internetarchive/expandable-search-bar';
-import '@internetarchive/ia-activity-indicator';
+import '@internetarchive/ia-activity-indicator/ia-activity-indicator';
 
 import './search-results-switcher';
 

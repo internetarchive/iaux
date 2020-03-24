@@ -1064,13 +1064,13 @@
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/ia-activity-indicator@0.0.1-alpha.517":
-  version "0.0.1-alpha.517"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-activity-indicator/-/ia-activity-indicator-0.0.1-alpha.517.tgz#5241681a255ddb4b8b6f110e96fdc0bd812054c7"
-  integrity sha512-V567AWbOZKt8QwFHn8ekKewIlAQIh8Y1Ay+TWVWGzsVtraXfvHmvmnTlgj5//LFkntI9EQP+z5st6lXXWXCEFg==
+"@internetarchive/ia-activity-indicator@0.0.1-alpha.521":
+  version "0.0.1-alpha.521"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-activity-indicator/-/ia-activity-indicator-0.0.1-alpha.521.tgz#cc1519e5a06470da7ae601e8a747b07ae65b2559"
+  integrity sha512-jhkh3G0JglSA7F+OtUgEhC555aI4vtRP28R+OcHCgxP0TIq5mEj7feAZjkwsS4Hnn1REehO8W99t05BRiO94UQ==
   dependencies:
     lit-element "^2.2.1"
-    lit-html "^1.0.0"
+    lit-html "^1.1.2"
 
 "@internetarchive/playback-controls@0.0.1-alpha.530":
   version "0.0.1-alpha.530"
@@ -10355,6 +10355,11 @@ lit-html@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-1.1.2.tgz#2e3560a7075210243649c888ad738eaf0daa8374"
   integrity sha512-FFlUMKHKi+qG1x1iHNZ1hrtc/zHmfYTyrSvs3/wBTvaNtpZjOZGWzU7efGYVpgp6KvWeKF6ql9/KsCq6Z/mEDA==
+
+lit-html@^1.1.2:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-1.2.1.tgz#1fb933dc1e2ddc095f60b8086277d4fcd9d62cc8"
+  integrity sha512-GSJHHXMGLZDzTRq59IUfL9FCdAlGfqNp/dEa7k7aBaaWD+JKaCjsAk9KYm2V12ItonVaYx2dprN66Zdm1AuBTQ==
 
 load-json-file@^1.0.0:
   version "1.1.0"
