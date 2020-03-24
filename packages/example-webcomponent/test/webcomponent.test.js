@@ -1,6 +1,6 @@
 import { html, fixture, expect } from '@open-wc/testing';
 
-import '../src/webcomponent';
+import '../src/example-webcomponent';
 
 const component = html`<hello-component>`;
 
