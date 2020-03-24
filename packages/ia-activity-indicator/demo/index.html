@@ -14,7 +14,7 @@
       display: block;
       --activityIndicatorLoadingDotColor: #999;
       --activityIndicatorLoadingRingColor: #999;
-      --activityIndicatorCheckmarkColor: #999;
+      --activityIndicatorCheckmarkColor: purple;
       --activityIndicatorCompletedRingColor: purple;
     }
   </style>
@@ -52,22 +52,22 @@
 
     function changeActivityRingColor(e) {
       var el = document.querySelector('ia-activity-indicator');
-      el.style.cssText = `--activityIndicatorLoadingRingColor: ${e.target.value}`;
+      el.style.cssText += `--activityIndicatorLoadingRingColor: ${e.target.value}`;
     }
 
     function changeActivityDotsColor(e) {
       var el = document.querySelector('ia-activity-indicator');
-      el.style.cssText = `--activityIndicatorLoadingDotColor: ${e.target.value}`;
+      el.style.cssText += `--activityIndicatorLoadingDotColor: ${e.target.value}`;
     }
 
     function changeCompletedRingColor(e) {
       var el = document.querySelector('ia-activity-indicator');
-      el.style.cssText = `--activityIndicatorCompletedRingColor: ${e.target.value}`;
+      el.style.cssText += `--activityIndicatorCompletedRingColor: ${e.target.value}`;
     }
 
     function changeCompletedCheckColor(e) {
       var el = document.querySelector('ia-activity-indicator');
-      el.style.cssText = `--activityIndicatorCheckmarkColor: ${e.target.value}`;
+      el.style.cssText += `--activityIndicatorCheckmarkColor: ${e.target.value}`;
     }
 </script>
 </body>

@@ -2,7 +2,7 @@
 
 A customizable activity indicator.
 
-![Preview](./assets/preview-animation.gif "Preview")
+![Preview](./assets/preview-customize.gif "Preview")
 
 ## Installation
 ```bash
@@ -27,7 +27,8 @@ ia-activity-indicator {
 }
 </style>
 
-<ia-activity-indicator></ia-activity-indicator>
+<ia-activity-indicator mode="processing"> <!-- or "complete" -->
+</ia-activity-indicator>
 ```
 
 ## Linting with ESLint, Prettier, and Types
