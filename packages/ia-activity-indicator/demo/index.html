@@ -9,13 +9,13 @@
       font-family: sans-serif;
     }
     ia-activity-indicator {
-      width: 50px;
-      height: 50px;
-      display: inline-block;
-      --activityIndicatorLoadingDotColor: green;
-      --activityIndicatorCheckmarkColor: green;
+      width: 100px;
+      height: 100px;
+      display: block;
+      --activityIndicatorLoadingDotColor: #999;
+      --activityIndicatorLoadingRingColor: #999;
+      --activityIndicatorCheckmarkColor: #999;
       --activityIndicatorCompletedRingColor: purple;
-      --activityIndicatorLoadingRingColor: purple;
     }
   </style>
 </head>
@@ -25,25 +25,50 @@
 
   <script type="module">
     import { html, render } from 'lit-html';
-    import '../lib/ia-activity-indicator.js';
-    import { IAActivityIndicatorMode } from '../lib/ia-activity-indicator.js';
+    import '../ia-activity-indicator.js';
+    import { IAActivityIndicatorMode } from '../index.js';
 
     render(
       html`
         <ia-activity-indicator>
         </ia-activity-indicator>
 
-        <input type="button" value="Toggle" @click=${toggleMode} />
-      `,
+        <p><input type="button" value="Toggle" @click=${toggleMode} /></p>
+
+        <p>Activity Ring Color: <input type="text" value="#999" @change=${changeActivityRingColor} /></p>
+        <p>Activity Dots Color: <input type="text" value="#999" @change=${changeActivityDotsColor} /></p>
+        <p>Complete Ring Color: <input type="text" value="purple" @change=${changeCompletedRingColor} /></p>
+        <p>Complete Check Color: <input type="text" value="purple" @change=${changeCompletedCheckColor} /></p>
+        `,
       document.querySelector('#demo')
     );
 
-    var mode = IAActivityIndicatorMode.loading
+    var mode = IAActivityIndicatorMode.processing
 
     function toggleMode() {
-      mode = mode === IAActivityIndicatorMode.loading ? IAActivityIndicatorMode.complete : IAActivityIndicatorMode.loading;
+      mode = mode === IAActivityIndicatorMode.processing ? IAActivityIndicatorMode.complete : IAActivityIndicatorMode.processing;
       document.querySelector('ia-activity-indicator').mode = mode;
     }
-  </script>
+
+    function changeActivityRingColor(e) {
+      var el = document.querySelector('ia-activity-indicator');
+      el.style.cssText = `--activityIndicatorLoadingRingColor: ${e.target.value}`;
+    }
+
+    function changeActivityDotsColor(e) {
+      var el = document.querySelector('ia-activity-indicator');
+      el.style.cssText = `--activityIndicatorLoadingDotColor: ${e.target.value}`;
+    }
+
+    function changeCompletedRingColor(e) {
+      var el = document.querySelector('ia-activity-indicator');
+      el.style.cssText = `--activityIndicatorCompletedRingColor: ${e.target.value}`;
+    }
+
+    function changeCompletedCheckColor(e) {
+      var el = document.querySelector('ia-activity-indicator');
+      el.style.cssText = `--activityIndicatorCheckmarkColor: ${e.target.value}`;
+    }
+</script>
 </body>
 </html>

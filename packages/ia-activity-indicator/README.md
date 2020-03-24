@@ -1,142 +1,94 @@
-# \<radio-player>
+# IA Activity Indicator
 
-A Radio Player that displays closed captioning and allows searching.
+A customizable activity indicator.
 
-![Radio Player](./assets/img/radio-player.png "Radio Player Demo")
+![Preview](./assets/preview-animation.gif "Preview")
 
 ## Installation
 ```bash
-yarn add @internetarchive/radio-player
+yarn add @internetarchive/ia-activity-indicator
 ```
 
 ## Usage
-```js
-// radio-player.js
-import RadioPlayer from '@internetarchive/radio-player';
-export default RadioPlayer;
-```
-
 ```html
-<!-- index.html -->
 <script type="module">
-  import './radio-player.js';
+  import '@internetarchive/ia-activity-indicator';
 </script>
 
 <style>
-  radio-player {
-    line-height: 1.5rem;
-    color: white;
-
-    --timeColor: white;
-    --timeColumnWidth: 3rem;
-    --transcriptHeight: 200px;
-
-    --autoScrollButtonFontColor: black;
-    --autoScrollButtonBackgroundColor: white;
-
-    --normalTextColor: gray;
-    --activeTextColor: white;
-    --searchResultInactiveBorderColor: gray;
-    --searchResultActiveBorderColor: green;
-
-    --trackColor: black;
-    --trackBorder: 1px solid white;
-  }
+ia-activity-indicator {
+  width: 100px;
+  height: 100px;
+  display: block;
+  --activityIndicatorLoadingDotColor: purple;
+  --activityIndicatorLoadingRingColor: green;
+  --activityIndicatorCheckmarkColor: green;
+  --activityIndicatorCompletedRingColor: purple;
+}
 </style>
 
-<radio-player></radio-player>
-
-<script>
-  // Configure the radio player
-
-  const radioPlayer = document.querySelector('radio-player');
-
-  radioPlayer.addEventListener('searchRequested', e => {
-    console.log('Search requested', e.detail.searchTerm);
-  });
-
-  radioPlayer.addEventListener('searchCleared', e => {
-    console.log('Search cleared');
-  });
-
-  radioPlayer.addEventListener('playbackPaused', e => {
-    console.log('Playback paused');
-  });
-
-  radioPlayer.addEventListener('playbackStarted', e => {
-    console.log('Playback started');
-  });
-
-  radioPlayer.addEventListener('currentTimeChanged', e => {
-    console.log('Current time changed', e.detail.currentTime);
-  });
-
-  radioPlayer.addEventListener('timeChangedFromScrub', e => {
-    console.log('New time', e.detail.newTime);
-  });
-
-  radioPlayer.addEventListener('transcriptEntrySelected', e => {
-    console.log('New time', e.detail.newTime);
-  });
-
-  radioPlayer.addEventListener('canplay', e => {
-    console.log('Media can play');
-  });
-
-  const quickSearchTerms = [];
-
-  const audioSource = new AudioSource(
-    'https://ia803005.us.archive.org/30/items/BBC_Radio_2_20190502_180000/BBC_Radio_2_20190502_180000.mp3',
-    'audio/mpeg',
-  );
-
-  const radioConfig = new RadioPlayerConfig(
-    'Voice of America',
-    '7:00pm',
-    './logo.jpg',
-    './waveform.png',
-    [audioSource],
-    quickSearchTerms,
-  );
-
-  const transcriptEntries: TranscriptEntryConfig[] = [...];
-
-  const transcriptConfig = new TranscriptConfig(transcriptEntries);
-
-  radioPlayer.config = radioConfig;
-  radioPlayer.transcriptConfig = transcriptConfig
-</script>
-
+<ia-activity-indicator></ia-activity-indicator>
 ```
 
-# Development
-
-## Prerequisite
+## Linting with ESLint, Prettier, and Types
+To scan the project for linting errors, run
 ```bash
-yarn install
+yarn run lint
 ```
 
-## Start Development Server
+You can lint with ESLint and Prettier individually as well
 ```bash
-yarn start  // start development server and typescript compiler
+yarn run lint:eslint
+```
+```bash
+yarn run lint:prettier
 ```
 
-## Testing
+To automatically fix many linting errors, run
 ```bash
-yarn test
+yarn run format
 ```
 
-## Testing via browserstack
+You can format using ESLint and Prettier individually as well
 ```bash
-yarn test:bs
+yarn run format:eslint
+```
+```bash
+yarn run format:prettier
 ```
 
-## Demoing using storybook
+## Testing with Karma
+To run the suite of karma tests, run
 ```bash
-yarn storybook
+yarn run test
 ```
 
-## Linting
+To run the tests in watch mode (for <abbr title="test driven development">TDD</abbr>, for example), run
+
 ```bash
-yarn lint
+yarn run test:watch
 ```
+
+## Demoing with Storybook
+To run a local instance of Storybook for your component, run
+```bash
+yarn run storybook
+```
+
+To build a production version of Storybook, run
+```bash
+yarn run storybook:build
+```
+
+
+## Tooling configs
+
+For most of the tools, the configuration is in the `package.json` to reduce the amount of files in your project.
+
+If you customize the configuration a lot, you can consider moving them to individual files.
+
+## Local Demo with `es-dev-server`
+```bash
+yarn start
+```
+To run a local development server that serves the basic demo located in `demo/index.html`

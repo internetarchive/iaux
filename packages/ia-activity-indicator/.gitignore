@@ -1,3 +1,14 @@
+## editors
+/.idea
+/.vscode
+
+## system files
+.DS_Store
+
+## npm
+/node_modules/
+/npm-debug.log
+
 ## testing
 /coverage/
 
@@ -6,6 +17,4 @@
 
 # build
 /_site/
-/lib/
-
-*.log
+/dist/

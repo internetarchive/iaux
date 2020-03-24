@@ -1,0 +1,40 @@
+import { Story, Preview, Meta, Props, html, withKnobs, withWebComponentsKnobs } from '@open-wc/demoing-storybook';
+
+import '../ia-activity-indicator.js';
+
+<Meta
+  title="IAActivityIndicator"
+  decorators={[withKnobs, withWebComponentsKnobs]}
+  parameters={{
+    component: "ia-activity-indicator",
+    options: { selectedPanel: "storybookjs/knobs/panel" }
+  }}
+/>
+
+# IAActivityIndicator
+
+A component for displaying activity.
+
+## How to use
+
+### Installation
+
+```bash
+yarn add ia-activity-indicator
+```
+
+```js
+import 'ia-activity-indicator/ia-activity-indicator.js';
+```
+
+<Preview withToolbar>
+  <Story name="Simple" height="100px" width="100px" display="block">
+    {html`
+      <ia-activity-indicator></ia-activity-indicator>
+    `}
+  </Story>
+</Preview>
+
+## API
+
+<Props of="ia-activity-indicator" />

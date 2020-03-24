@@ -1,3 +1,1 @@
-import { IAActivityIndicator, IAActivityIndicatorMode } from './lib/ia-activity-indicator.js';
-
-export { IAActivityIndicator, IAActivityIndicatorMode };
+export { IAActivityIndicator, IAActivityIndicatorMode } from './src/ia-activity-indicator.js';
