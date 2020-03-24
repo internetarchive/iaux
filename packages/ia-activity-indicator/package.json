@@ -6,6 +6,11 @@
   "license": "MIT",
   "main": "index.js",
   "module": "index.js",
+  "files": [
+    "src/**/*",
+    "index.js",
+    "ia-activity-indicator.js"
+  ],
   "scripts": {
     "start": "es-dev-server --app-index demo/index.html --node-resolve --open --watch",
     "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
