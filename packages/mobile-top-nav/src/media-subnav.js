@@ -120,7 +120,7 @@ class MediaSubnav extends TrackedElement {
     const template = this.templates[this.menu];
 
     if (!this.menu) {
-      return undefined;
+      return html``;
     }
 
     if (template) {
