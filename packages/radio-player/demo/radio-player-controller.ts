@@ -16,7 +16,7 @@ export default class RadioPlayerController extends LitElement {
 
   @property({ type: TranscriptConfig }) transcriptConfig: TranscriptConfig | undefined = undefined;
 
-  @property({ type: String }) itemId: string | undefined = 'WFMD_930_AM_20190803_170000';
+  @property({ type: String }) itemId: string | undefined = 'VOA_Global_English_20200228_090000';
 
   private startPlaybackAt: number | undefined = undefined;
 

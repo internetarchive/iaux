@@ -216,6 +216,7 @@ export default class TranscriptView extends LitElement {
       .time-display {
         position: absolute;
         top: 0;
+        right: 5px;
         font-size: ${timeFontSizeCss};
         line-height: ${timeLineHeightCss};
         transition: top 1s;
