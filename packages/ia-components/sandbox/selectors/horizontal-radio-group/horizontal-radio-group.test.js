@@ -16,7 +16,7 @@ describe('HorizontalRadioGroup', () => {
       options={options}
       name="test-selectors"
       selectedValue="value 2"
-      onChange={() => {}}
+      onChange={() => { }}
     />
   );
   const tree = component.toJSON();
@@ -25,6 +25,10 @@ describe('HorizontalRadioGroup', () => {
     expect(tree).toMatchSnapshot();
     expect(tree.children.length).toEqual(options.length);
   });
+
+  test('option 1 is not checked', () => {
+    expect(tree.children[0].children[0].props.checked).toBe('');
+  })
 
   test('defaults to no specified styling', () => {
     expect(tree.props.className).toContain('selector__radio-group');
