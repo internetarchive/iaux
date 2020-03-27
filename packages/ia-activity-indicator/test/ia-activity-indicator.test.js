@@ -17,7 +17,7 @@ describe('IA Activity Indicator', () => {
       <ia-activity-indicator></ia-activity-indicator>
     `);
     const container = el.shadowRoot.querySelector('div');
-    expect(container.classList.contains('processing')).to.be.true;
+    expect(container.classList.contains(IAActivityIndicatorMode.processing)).to.be.true;
   });
 
   it('container element class changes when mode changes', async () => {
@@ -25,10 +25,10 @@ describe('IA Activity Indicator', () => {
       <ia-activity-indicator></ia-activity-indicator>
     `);
     const container = el.shadowRoot.querySelector('div');
-    expect(container.classList.contains('processing')).to.be.true;
+    expect(container.classList.contains(IAActivityIndicatorMode.processing)).to.be.true;
     el.mode = IAActivityIndicatorMode.complete;
     await el.updateComplete;
-    expect(container.classList.contains('processing')).to.be.false;
-    expect(container.classList.contains('complete')).to.be.true;
+    expect(container.classList.contains(IAActivityIndicatorMode.processing)).to.be.false;
+    expect(container.classList.contains(IAActivityIndicatorMode.complete)).to.be.true;
   });
 });
