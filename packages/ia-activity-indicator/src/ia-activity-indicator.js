@@ -26,7 +26,12 @@ class IAActivityIndicator extends LitElement {
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
+          aria-labelledby="indicatorTitle indicatorDescription"
         >
+          <title id="indicatorTitle">Activity Indicator</title>
+          <desc id="indicatorDescription">
+            A rotating activity indicator with three dots in the middle.
+          </desc>
           <g
             id="icons/check-ring---squared"
             stroke="none"
