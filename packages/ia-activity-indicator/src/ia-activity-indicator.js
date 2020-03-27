@@ -5,7 +5,6 @@ const IAActivityIndicatorMode = Object.freeze({
   complete: 'complete',
 });
 
-// eslint-disable-next-line import/prefer-default-export
 class IAActivityIndicator extends LitElement {
   static get properties() {
     return {
@@ -19,7 +18,6 @@ class IAActivityIndicator extends LitElement {
   }
 
   render() {
-    /* eslint-disable */
     return html`
       <div class="${this.mode}">
         <svg
@@ -65,7 +63,6 @@ class IAActivityIndicator extends LitElement {
         </svg>
       </div>
     `;
-    /* eslint-enable */
   }
 
   static get styles() {
