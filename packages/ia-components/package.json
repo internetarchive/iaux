@@ -4,13 +4,15 @@
     "source": true,
     "license": "AGPL-3.0-only",
     "scripts": {
+        "postversion": "node scripts/postversion.js",
         "storybook": "yarn run test:generate-output && yarn run storybook:start",
         "storybook:start": "start-storybook -p 9001 -c .storybook",
         "test:generate-output": "mkdir jest-test-utils && jest --json --outputFile=jest-test-utils/jest-test-results.json || true",
         "test:update-snapshots": "jest --updateSnapshot",
         "test": "start-server-and-test storybook http-get://localhost:9001 'jest --updateSnapshot --coverage'",
         "test:watch": "yarn run test --watch",
-        "test:integration": "node_modules/.bin/jest --config integration/jest.config.js"
+        "test:integration": "node_modules/.bin/jest --config integration/jest.config.js",
+        "version": "node scripts/version.js"
     },
     "devDependencies": {
         "@babel/core": "^7.2.2",
