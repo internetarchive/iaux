@@ -18,13 +18,13 @@ import { SearchHandler } from '../src/search-handler/search-handler';
 import { SearchHandlerInterface } from '../src/search-handler/search-handler-interface';
 import { TranscriptIndex } from '../src/search-handler/transcript-index';
 import { FullTextSearchBackend } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-backend';
-import { FullTextSearchDelegate } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-delegate';
-import { FullTextSearchResponse } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-response';
 import { SearchBackendInterface } from '../src/search-handler/search-backends/search-backend-interface';
+import { FullTextSearchService } from './full-text-search-service';
+import { FullTextSearchServiceInterface } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-service-interface';
 // import { LocalSearchBackend } from '../src/search-handler/search-indices/local-search-index';
 
 @customElement('radio-player-controller')
-export default class RadioPlayerController extends LitElement implements FullTextSearchDelegate {
+export default class RadioPlayerController extends LitElement {
   @property({ type: Object }) radioPlayerConfig: RadioPlayerConfig | undefined = undefined;
 
   @property({ type: Object }) transcriptConfig: TranscriptConfig | undefined = undefined;
@@ -50,6 +50,8 @@ export default class RadioPlayerController extends LitElement implements FullTex
   private searchServicePath = '/services/radio-archive/search/service.php';
 
   private searchBackend: SearchBackendInterface | undefined;
+
+  private searchService: FullTextSearchServiceInterface | undefined;
 
   render(): TemplateResult {
     return html`
@@ -178,8 +180,8 @@ export default class RadioPlayerController extends LitElement implements FullTex
     }
     const transcriptIndex = new TranscriptIndex(this.transcriptConfig);
     // const searchBackend = new LocalSearchBackend();
-    const searchBackend = new FullTextSearchBackend();
-    searchBackend.delegate = this;
+    this.searchService = new FullTextSearchService(this.itemId, this.baseUrl, this.searchServicePath);
+    const searchBackend = new FullTextSearchBackend(this.searchService);
     this.searchBackend = searchBackend;
     const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
     this.searchHandler = searchHandler;
@@ -232,16 +234,4 @@ export default class RadioPlayerController extends LitElement implements FullTex
     window.history.replaceState({}, '', `?${searchParams.toString()}`);
   }
 
-  async searchRequested(query: string): Promise<FullTextSearchResponse> {
-    const searchUrl = `${this.baseUrl}${this.searchServicePath}`;
-    const queryParams = `?q=${query}&identifier=${this.itemId}&number_of_fragments=1000&scope=all`;
-    const url = `${searchUrl}${queryParams}`;
-    const rawResponse = await fetch(url);
-    const jsonResponse = await rawResponse.json();
-    const modeledResponse = new FullTextSearchResponse(jsonResponse);
-
-    return new Promise(resolve => {
-      resolve(modeledResponse);
-    });
-  }
 }

@@ -5,29 +5,22 @@ import { FullTextSearchBackend } from '../../../lib/src/search-handler/search-ba
 import sampleResponseBrackets from './full-text-sample-response-brackets';
 import sampleResponseEms from './full-text-sample-response-em';
 
-class MockFullTextSearchBracketsDelegate {
+class MockFullTextSearchServiceBrackets {
   searchRequested(query) {
     return new Promise(resolve => resolve(sampleResponseBrackets));
   }
 }
 
-class MockFullTextSearchEmssDelegate {
+class MockFullTextSearchServiceEmss {
   searchRequested(query) {
     return new Promise(resolve => resolve(sampleResponseEms));
   }
 }
 
 describe('Full Text Search Backend', () => {
-  it('returns empty array if no delegate assigned', async () => {
-    const searchBackend = new FullTextSearchBackend();
-    const searchIndices = await searchBackend.getSearchRanges('government');
-    expect(searchIndices.length).to.equal(0);
-  });
-
   it('correctly finds search indices with default triple curly brackets', async () => {
-    const searchDelegate = new MockFullTextSearchBracketsDelegate();
-    const searchBackend = new FullTextSearchBackend();
-    searchBackend.delegate = searchDelegate;
+    const searchService = new MockFullTextSearchServiceBrackets();
+    const searchBackend = new FullTextSearchBackend(searchService);
 
     const searchIndices = await searchBackend.getSearchRanges('government');
 
@@ -53,9 +46,8 @@ describe('Full Text Search Backend', () => {
   });
 
   it('correctly finds search indices with em tags', async () => {
-    const searchDelegate = new MockFullTextSearchEmssDelegate();
-    const searchBackend = new FullTextSearchBackend('<em>', '</em>');
-    searchBackend.delegate = searchDelegate;
+    const searchService = new MockFullTextSearchServiceEmss();
+    const searchBackend = new FullTextSearchBackend(searchService, '<em>', '</em>');
 
     const searchIndices = await searchBackend.getSearchRanges('government');
 

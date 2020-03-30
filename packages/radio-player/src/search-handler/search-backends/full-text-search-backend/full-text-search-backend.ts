@@ -1,7 +1,7 @@
 import { Range } from '../../search-models';
 import { SearchBackendInterface } from '../search-backend-interface';
-import { FullTextSearchDelegate } from './full-text-search-delegate';
 import { FullTextSearchResponseDoc } from './full-text-search-response';
+import { FullTextSearchServiceInterface } from './full-text-search-service-interface';
 
 /**
  * This class is responsible for taking the response from the full text search backend
@@ -11,13 +11,14 @@ import { FullTextSearchResponseDoc } from './full-text-search-response';
  * transcript, separated by search results in their original time codes.
  */
 export class FullTextSearchBackend implements SearchBackendInterface {
-  delegate: FullTextSearchDelegate | undefined;
+  private service: FullTextSearchServiceInterface;
 
   private startTag: string;
 
   private endTag: string;
 
-  constructor(startTag = '{{{', endTag = '}}}') {
+  constructor(service: FullTextSearchServiceInterface, startTag = '{{{', endTag = '}}}') {
+    this.service = service;
     this.startTag = startTag;
     this.endTag = endTag;
   }
@@ -33,9 +34,9 @@ export class FullTextSearchBackend implements SearchBackendInterface {
   async getSearchRanges(query: string): Promise<Range[]> {
     let ranges: Range[] = [];
 
-    const results = await this.delegate?.searchRequested(query);
+    const results = await this.service.searchRequested(query);
 
-    results?.value.docs.forEach((result: FullTextSearchResponseDoc) => {
+    results.value.docs.forEach((result: FullTextSearchResponseDoc) => {
       const transcript = result.text;
       result.highlight.cc.forEach((highlight: string) => {
         const newRanges: Range[] = this.rangesOfResultInTranscript(highlight, transcript);
