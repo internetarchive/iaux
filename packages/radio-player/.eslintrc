@@ -7,7 +7,9 @@
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
-    },
+    }
+  },
+  "rules": {
     "import/extensions": [
       "error",
       "ignorePackages",
