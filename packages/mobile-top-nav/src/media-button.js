@@ -106,7 +106,7 @@ class MediaButton extends TrackedElement {
     return `${this.config.eventCategory}|NavMenu${toSnakeCase(this.mediatype)}`;
   }
 
-  get htmlContent() {
+  get menuItem() {
     return html`
       <span class="icon ${this.iconClass}">
         ${MediaButton.icons[this.icon]}
@@ -135,7 +135,7 @@ class MediaButton extends TrackedElement {
         @click="${this.onClick}"
         data-event-click-tracking="${this.analyticsEvent}"
       >
-        ${this.htmlContent}
+        ${this.menuItem}
       </button>
     `;
   }
