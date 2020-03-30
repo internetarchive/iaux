@@ -5,30 +5,28 @@ class IAIcon extends LitElement {
   constructor() {
     super();
     this.icon = '';
-    this.fill = 'fff';
   }
 
   static get properties() {
     return {
       icon: { type: String },
-      fill: { type: String },
     };
   }
 
-  get icons() {
+  static get icons() {
     return {
-      audio: html`<icon-audio .fill=${this.fill}></icon>`,
-      ellipses: html`<icon-ellipses .fill=${this.fill}></icon>`,
-      images: html`<icon-images .fill=${this.fill}></icon>`,
-      software: html`<icon-software .fill=${this.fill}></icon>`,
-      texts: html`<icon-texts .fill=${this.fill}></icon>`,
-      video: html`<icon-video .fill=${this.fill}></icon>`,
-      web: html`<icon-web .fill=${this.fill}></icon>`,
+      audio: html`<icon-audio></icon-audio>`,
+      ellipses: html`<icon-ellipses></icon-ellipses>`,
+      images: html`<icon-images></icon-images>`,
+      software: html`<icon-software></icon-software>`,
+      texts: html`<icon-texts></icon-texts>`,
+      video: html`<icon-video></icon-video>`,
+      web: html`<icon-web></icon-web>`,
     };
   }
 
   render() {
-    return this.icons[this.icon];
+    return IAIcon.icons[this.icon];
   }
 }
 
