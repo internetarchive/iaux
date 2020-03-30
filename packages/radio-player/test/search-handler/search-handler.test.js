@@ -9,9 +9,7 @@ import { TranscriptIndex } from '../../lib/src/search-handler/transcript-index';
 
 class MockSearchIndex {
   async getSearchRanges(query) {
-    return new Promise((resolve) => {
-      resolve([]);
-    });
+    return new Promise(resolve => resolve([]));
   }
 }
 

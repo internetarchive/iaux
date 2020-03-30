@@ -6,7 +6,7 @@ import promisedSleep from './promised-sleep';
 
 import '../lib/src/radio-player';
 
-describe('Radio Player', () => {
+describe('Search Results Switcher', () => {
   it('defaults to 0 results', async () => {
     const el = await fixture(html`
       <search-results-switcher></search-results-switcher>
