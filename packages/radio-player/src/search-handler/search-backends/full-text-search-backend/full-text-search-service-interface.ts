@@ -6,5 +6,12 @@ import { FullTextSearchResponse } from './full-text-search-response';
  * for other consumers like the DWeb project.
  */
 export interface FullTextSearchServiceInterface {
+  /**
+   * Execute the search and return a Promise with a FullTextSearchResponse.
+   *
+   * @param {string} query
+   * @returns {Promise<FullTextSearchResponse>}
+   * @memberof FullTextSearchServiceInterface
+   */
   searchRequested(query: string): Promise<FullTextSearchResponse>;
 }

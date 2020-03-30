@@ -11,10 +11,33 @@ import { FullTextSearchServiceInterface } from './full-text-search-service-inter
  * transcript, separated by search results in their original time codes.
  */
 export class FullTextSearchBackend implements SearchBackendInterface {
+  /**
+   * A FullTextSearchService that provides the fetching layer for results. This
+   * object can make AJAX requests or any other backend call needed to return
+   * a response.
+   *
+   * @private
+   * @type {FullTextSearchServiceInterface}
+   * @memberof FullTextSearchBackend
+   */
   private service: FullTextSearchServiceInterface;
 
+  /**
+   * The start tag to match a search result, like `{{{` or `<em>`
+   *
+   * @private
+   * @type {string}
+   * @memberof FullTextSearchBackend
+   */
   private startTag: string;
 
+  /**
+   * The end tag to match a search result, like `}}}` or `</em>`
+   *
+   * @private
+   * @type {string}
+   * @memberof FullTextSearchBackend
+   */
   private endTag: string;
 
   constructor(service: FullTextSearchServiceInterface, startTag = '{{{', endTag = '}}}') {

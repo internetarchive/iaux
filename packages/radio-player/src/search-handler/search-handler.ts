@@ -7,18 +7,35 @@ import { SearchHandlerInterface } from './search-handler-interface';
 
 /**
  * This is the main entrypoint into transcript searching. It has a single
- * public method, `search(term: string)`, that returns a `TranscriptConfig`
- * with a search-modified transcript. This means the original transcript
- * entries get merged with search results since search results can span
- * across transcript entries.
+ * public method as defined by `SearchHandlerInterface`: `search(term: string)`,
+ * that returns a `Promise<TranscriptConfig>` with a search-modified transcript.
+ * This means the original transcript entries get merged with search results since
+ * search results can span across transcript entries.
  *
- * It offloads some of the searching work to the `SearchIndex` object that
- * is responsible for indexing the transcript with information that makes
- * it easier to rebuild the transcript later.
+ * It offloads the searching work to a `SearchBackendInterface` object that
+ * is responsible for returning the search result `Range` objects based on some
+ * backend search like the `LocalSearchBackend` or `FullTextSearchBackend`.
+ *
+ * It also uses a `TranscriptIndexInterface` object that is responsible for indexing
+ * the transcipt to make reassembly much more efficient.
  */
 export class SearchHandler implements SearchHandlerInterface {
+  /**
+   * The SearchBackend used to executes searches.
+   *
+   * @private
+   * @type {SearchBackendInterface}
+   * @memberof SearchHandler
+   */
   private searchBackend: SearchBackendInterface;
 
+  /**
+   * The TranscriptIndex to help with reassembly of the transcript.
+   *
+   * @private
+   * @type {TranscriptIndexInterface}
+   * @memberof SearchHandler
+   */
   private transcriptIndex: TranscriptIndexInterface;
 
   constructor(searchBackend: SearchBackendInterface, transcriptIndex: TranscriptIndexInterface) {
