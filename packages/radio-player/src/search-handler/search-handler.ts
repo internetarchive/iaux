@@ -58,7 +58,7 @@ export class SearchHandler implements SearchHandlerInterface {
     let searchResultIndex = 0;
     let entryIdentifier = 1;
 
-    searchSeparatedTranscript.forEach(entry => {
+    searchSeparatedTranscript.forEach((entry) => {
       // If we encounter a match, just create a new transcript entry from it and append it.
       // We don't care if it crosses over multiple transcript entries since we want one match,
       // not multiple broken up by transcript entry.
@@ -106,9 +106,7 @@ export class SearchHandler implements SearchHandlerInterface {
 
     const newTranscript = new TranscriptConfig(newTranscriptEntries);
 
-    return new Promise(resolve => {
-      resolve(newTranscript);
-    });
+    return new Promise(resolve => resolve(newTranscript));
   }
 
   /**
@@ -155,9 +153,7 @@ export class SearchHandler implements SearchHandlerInterface {
     // transcript marked as not a match.
     if (searchRanges.length === 0) {
       const range = new Range(0, mergedTranscript.length);
-      return new Promise(resolve => {
-        resolve([new SearchResult(range, mergedTranscript, false)]);
-      });
+      return new Promise(resolve => resolve([new SearchResult(range, mergedTranscript, false)]));
     }
 
     const transcriptEntries: SearchResult[] = [];
@@ -172,7 +168,7 @@ export class SearchHandler implements SearchHandlerInterface {
     // If there were more search results, we would continue from index 12 to build
     // the next range to the next match.
     // Finally once all the matches are finished, tack on the remaining text to the end.
-    searchRanges.forEach(searchRange => {
+    searchRanges.forEach((searchRange) => {
       // first find the "non-result" range, which is the current `startIndex` up to
       // `range.startIndex` (the start of the search result)
       const nonResultRange = new Range(startIndex, searchRange.startIndex);
@@ -192,9 +188,7 @@ export class SearchHandler implements SearchHandlerInterface {
     const finalResultEntry = this.getSearchResult(finalResultRange, false);
     transcriptEntries.push(finalResultEntry);
 
-    return new Promise(resolve => {
-      resolve(transcriptEntries);
-    });
+    return new Promise(resolve => resolve(transcriptEntries));
   }
 
   /**

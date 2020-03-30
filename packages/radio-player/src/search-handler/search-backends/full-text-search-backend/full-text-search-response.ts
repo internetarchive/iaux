@@ -7,39 +7,30 @@
  * which cascades down into all of the child models.
  */
 
-export class FullTextSearchResponse {
-  success: boolean;
-
-  value: FullTextSearchResponseValue;
+export class FullTextSearchResponseValueHighlighting {
+  text: string[];
 
   constructor(payload: any) {
-    this.success = payload.success;
-    this.value = new FullTextSearchResponseValue(payload.value);
+    this.text = payload.text;
   }
 }
 
-export class FullTextSearchResponseValue {
-  numFound: number;
+export class FullTextSearchResponseValueFacetCounts {
+  facetFields: object;
 
-  start: number;
-
-  docs: FullTextSearchResponseDoc[];
-
-  highlighting: { [key: string]: FullTextSearchResponseValueHighlighting } = {};
-
-  facetCounts: FullTextSearchResponseValueFacetCounts;
+  facetDates: object;
 
   constructor(payload: any) {
-    this.numFound = payload.numFound;
-    this.start = payload.start;
-    this.docs = payload.docs.map((doc: any) => new FullTextSearchResponseDoc(doc));
+    this.facetDates = payload.facet_dates;
+    this.facetFields = payload.facet_fields;
+  }
+}
 
-    Object.keys(payload.highlighting).forEach(key => {
-      const highlighting = payload.highlighting[key];
-      this.highlighting[key] = new FullTextSearchResponseValueHighlighting(highlighting);
-    });
+export class FullTextSearchResponseDocHighlight {
+  cc: string[];
 
-    this.facetCounts = new FullTextSearchResponseValueFacetCounts(payload.facet_counts);
+  constructor(payload: any) {
+    this.cc = payload.cc;
   }
 }
 
@@ -82,29 +73,38 @@ export class FullTextSearchResponseDoc {
   }
 }
 
-export class FullTextSearchResponseValueHighlighting {
-  text: string[];
+export class FullTextSearchResponseValue {
+  numFound: number;
+
+  start: number;
+
+  docs: FullTextSearchResponseDoc[];
+
+  highlighting: { [key: string]: FullTextSearchResponseValueHighlighting } = {};
+
+  facetCounts: FullTextSearchResponseValueFacetCounts;
 
   constructor(payload: any) {
-    this.text = payload.text;
+    this.numFound = payload.numFound;
+    this.start = payload.start;
+    this.docs = payload.docs.map((doc: any) => new FullTextSearchResponseDoc(doc));
+
+    Object.keys(payload.highlighting).forEach((key) => {
+      const highlighting = payload.highlighting[key];
+      this.highlighting[key] = new FullTextSearchResponseValueHighlighting(highlighting);
+    });
+
+    this.facetCounts = new FullTextSearchResponseValueFacetCounts(payload.facet_counts);
   }
 }
 
-export class FullTextSearchResponseValueFacetCounts {
-  facetFields: object;
+export class FullTextSearchResponse {
+  success: boolean;
 
-  facetDates: object;
-
-  constructor(payload: any) {
-    this.facetDates = payload.facet_dates;
-    this.facetFields = payload.facet_fields;
-  }
-}
-
-export class FullTextSearchResponseDocHighlight {
-  cc: string[];
+  value: FullTextSearchResponseValue;
 
   constructor(payload: any) {
-    this.cc = payload.cc;
+    this.success = payload.success;
+    this.value = new FullTextSearchResponseValue(payload.value);
   }
 }

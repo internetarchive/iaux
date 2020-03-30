@@ -27,7 +27,7 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    const shadowRoot = el.shadowRoot;
+    const { shadowRoot } = el;
 
     expect(shadowRoot.querySelectorAll('transcript-view').length).to.equal(1);
     expect(shadowRoot.querySelectorAll('.collection-logo').length).to.equal(1);
@@ -119,7 +119,7 @@ describe('Radio Player', () => {
       <radio-player .transcriptConfig=${transcriptConfig}></radio-player>
     `);
 
-    el.duration = 100
+    el.duration = 100;
 
     const expected = [0, 18, 37, 57, 74, 100];
 
@@ -248,11 +248,11 @@ describe('Radio Player', () => {
 
     el.searchTerm = 'boop';
 
-    const event = new CustomEvent('foo', { })
+    const event = new CustomEvent('foo', { });
     el.updateSearchTerm(event);
     expect(el.searchTerm).to.equal('boop');
 
-    const event2 = new CustomEvent('foo', { detail: { }})
+    const event2 = new CustomEvent('foo', { detail: { } });
     el.updateSearchTerm(event2);
     expect(el.searchTerm).to.equal('boop');
   });
@@ -280,7 +280,7 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    const event = new CustomEvent('foo', { detail: { playbackRate: 1.5 }})
+    const event = new CustomEvent('foo', { detail: { playbackRate: 1.5 } });
     el.changePlaybackRate(event);
     expect(el.playbackRate).to.equal(1.5);
   });
@@ -290,11 +290,11 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    const event = new CustomEvent('foo', { })
+    const event = new CustomEvent('foo', { });
     el.changePlaybackRate(event);
     expect(el.playbackRate).to.equal(1);
 
-    const event2 = new CustomEvent('foo', { detail: { }})
+    const event2 = new CustomEvent('foo', { detail: { } });
     el.changePlaybackRate(event2);
     expect(el.playbackRate).to.equal(1);
   });
@@ -304,7 +304,7 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    const event = new CustomEvent('foo', { detail: { volume: 75 }})
+    const event = new CustomEvent('foo', { detail: { volume: 75 } });
     el.volumeChanged(event);
     expect(el.volume).to.equal(75);
   });
@@ -316,11 +316,11 @@ describe('Radio Player', () => {
 
     el.volume = 23;
 
-    const event = new CustomEvent('foo', { })
+    const event = new CustomEvent('foo', { });
     el.volumeChanged(event);
     expect(el.volume).to.equal(23);
 
-    const event2 = new CustomEvent('foo', { detail: { }})
+    const event2 = new CustomEvent('foo', { detail: { } });
     el.volumeChanged(event2);
     expect(el.volume).to.equal(23);
   });
@@ -330,7 +330,7 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    const event = new CustomEvent('foo', { detail: { duration: 75 }})
+    const event = new CustomEvent('foo', { detail: { duration: 75 } });
     el.handleDurationChange(event);
     expect(el.duration).to.equal(75);
   });
@@ -342,11 +342,11 @@ describe('Radio Player', () => {
 
     el.duration = 23;
 
-    const event = new CustomEvent('foo', { })
+    const event = new CustomEvent('foo', { });
     el.handleDurationChange(event);
     expect(el.duration).to.equal(23);
 
-    const event2 = new CustomEvent('foo', { detail: { }})
+    const event2 = new CustomEvent('foo', { detail: { } });
     el.handleDurationChange(event2);
     expect(el.duration).to.equal(23);
   });
@@ -356,7 +356,7 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    const event = new CustomEvent('foo', { detail: { currentTime: 75 }})
+    const event = new CustomEvent('foo', { detail: { currentTime: 75 } });
     el.handleTimeChange(event);
     expect(el.currentTime).to.equal(75);
   });
@@ -368,11 +368,11 @@ describe('Radio Player', () => {
 
     el.currentTime = 15;
 
-    const event = new CustomEvent('foo', { })
+    const event = new CustomEvent('foo', { });
     el.handleTimeChange(event);
     expect(el.currentTime).to.equal(15);
 
-    const event2 = new CustomEvent('foo', { detail: { }})
+    const event2 = new CustomEvent('foo', { detail: { } });
     el.handleTimeChange(event2);
     expect(el.currentTime).to.equal(15);
   });
@@ -384,7 +384,7 @@ describe('Radio Player', () => {
 
     el.duration = 100;
 
-    const event = new CustomEvent('foo', { detail: { value: 75 }})
+    const event = new CustomEvent('foo', { detail: { value: 75 } });
     el.valueChangedFromScrub(event);
     expect(el.currentTime).to.equal(75);
   });
@@ -397,11 +397,11 @@ describe('Radio Player', () => {
     el.duration = 100;
     el.currentTime = 15;
 
-    const event = new CustomEvent('foo', { })
+    const event = new CustomEvent('foo', { });
     el.valueChangedFromScrub(event);
     expect(el.currentTime).to.equal(15);
 
-    const event2 = new CustomEvent('foo', { detail: { }})
+    const event2 = new CustomEvent('foo', { detail: { } });
     el.valueChangedFromScrub(event2);
     expect(el.currentTime).to.equal(15);
   });
@@ -411,7 +411,7 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    const event = new CustomEvent('foo', { detail: { entry: { start: 75 }}})
+    const event = new CustomEvent('foo', { detail: { entry: { start: 75 } } });
     el.transcriptEntrySelected(event);
     expect(el.currentTime).to.equal(75);
   });
@@ -423,15 +423,15 @@ describe('Radio Player', () => {
 
     el.currentTime = 15;
 
-    const event = new CustomEvent('foo', { })
+    const event = new CustomEvent('foo', { });
     el.transcriptEntrySelected(event);
     expect(el.currentTime).to.equal(15);
 
-    const event2 = new CustomEvent('foo', { detail: { }})
+    const event2 = new CustomEvent('foo', { detail: { } });
     el.transcriptEntrySelected(event2);
     expect(el.currentTime).to.equal(15);
 
-    const event3 = new CustomEvent('foo', { detail: { entry: {}}})
+    const event3 = new CustomEvent('foo', { detail: { entry: {} } });
     el.transcriptEntrySelected(event3);
     expect(el.currentTime).to.equal(15);
   });
@@ -441,12 +441,12 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    var scrollCalled = false;
+    let scrollCalled = false;
 
     const transcriptView = el.shadowRoot.querySelector('transcript-view');
-    transcriptView.scrollToSelectedSearchResult = () => { scrollCalled = true; }
+    transcriptView.scrollToSelectedSearchResult = () => { scrollCalled = true; };
 
-    const event = new CustomEvent('foo', { detail: { searchResultIndex: 3 }})
+    const event = new CustomEvent('foo', { detail: { searchResultIndex: 3 } });
     el.searchResultIndexChanged(event);
     expect(transcriptView.selectedSearchResultIndex).to.equal(3);
     expect(scrollCalled).to.equal(true);
@@ -459,11 +459,11 @@ describe('Radio Player', () => {
     const transcriptView = el.shadowRoot.querySelector('transcript-view');
     transcriptView.selectedSearchResultIndex = 13;
 
-    const event = new CustomEvent('foo', { })
+    const event = new CustomEvent('foo', { });
     el.searchResultIndexChanged(event);
     expect(transcriptView.selectedSearchResultIndex).to.equal(13);
 
-    const event2 = new CustomEvent('foo', { detail: { }})
+    const event2 = new CustomEvent('foo', { detail: { } });
     el.searchResultIndexChanged(event);
     expect(transcriptView.selectedSearchResultIndex).to.equal(13);
   });
@@ -474,12 +474,12 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    var scrollCalled = false;
+    let scrollCalled = false;
 
     const transcriptView = el.shadowRoot.querySelector('transcript-view');
-    transcriptView.scrollToSelectedSearchResult = () => { scrollCalled = true; }
+    transcriptView.scrollToSelectedSearchResult = () => { scrollCalled = true; };
 
-    const event = new CustomEvent('foo', { detail: { searchResultIndex: 3 }})
+    const event = new CustomEvent('foo', { detail: { searchResultIndex: 3 } });
     el.searchResultIndexChanged(event);
     expect(transcriptView.selectedSearchResultIndex).to.equal(3);
     expect(scrollCalled).to.equal(true);
@@ -490,14 +490,14 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    var scrollCalled = false;
+    let scrollCalled = false;
 
     const transcriptView = el.shadowRoot.querySelector('transcript-view');
     transcriptView.remove();
 
-    transcriptView.scrollToSelectedSearchResult = () => { scrollCalled = true; }
+    transcriptView.scrollToSelectedSearchResult = () => { scrollCalled = true; };
 
-    const event = new CustomEvent('foo', { detail: { searchResultIndex: 3 }})
+    const event = new CustomEvent('foo', { detail: { searchResultIndex: 3 } });
     el.searchResultIndexChanged(event);
     expect(scrollCalled).to.equal(false);
   });
@@ -507,9 +507,9 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    var seekTime = 0;
+    let seekTime = 0;
     const audioElement = el.shadowRoot.querySelector('audio-element');
-    audioElement.seekBy = (time) => { seekTime = time; }
+    audioElement.seekBy = (time) => { seekTime = time; };
     el.backButtonHandler();
     expect(seekTime).to.equal(-10);
   });
@@ -519,9 +519,9 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    var seekTime = 0;
+    let seekTime = 0;
     const audioElement = el.shadowRoot.querySelector('audio-element');
-    audioElement.seekBy = (time) => { seekTime = time; }
+    audioElement.seekBy = (time) => { seekTime = time; };
     el.forwardButtonHandler();
     expect(seekTime).to.equal(10);
   });
@@ -541,11 +541,11 @@ describe('Radio Player', () => {
     `);
     const audioElement = el.shadowRoot.querySelector('audio-element');
 
-    var seekedTime = 0;
+    let seekedTime = 0;
 
     audioElement.seekTo = (time) => {
       seekedTime = time;
-    }
+    };
 
     el.duration = 100;
     el.percentComplete = 35;
@@ -570,11 +570,11 @@ describe('Radio Player', () => {
     `);
     const audioElement = el.shadowRoot.querySelector('audio-element');
 
-    var seekedTime = 0;
+    let seekedTime = 0;
 
     audioElement.seekTo = (time) => {
       seekedTime = time;
-    }
+    };
 
     el.duration = 100;
     el.percentComplete = 35;
@@ -589,12 +589,12 @@ describe('Radio Player', () => {
       <radio-player></radio-player>
     `);
 
-    var playCalled = false;
-    var pauseCalled = false;
+    let playCalled = false;
+    let pauseCalled = false;
 
     const audioElement = el.shadowRoot.querySelector('audio-element');
-    audioElement.play = () => { playCalled = true; }
-    audioElement.pause = () => { pauseCalled = true; }
+    audioElement.play = () => { playCalled = true; };
+    audioElement.pause = () => { pauseCalled = true; };
 
     expect(el.isPlaying).to.equal(false);
     el.playPauseButtonHandler();
@@ -624,15 +624,15 @@ describe('Radio Player', () => {
     `);
     const audioElement = el.shadowRoot.querySelector('audio-element');
 
-    var seekedTime = 0;
+    let seekedTime = 0;
 
     audioElement.seekTo = (time) => {
       seekedTime = time;
-    }
+    };
 
     el.duration = 100;
 
-    const event = new CustomEvent('foo', { detail: { value: 73 }})
+    const event = new CustomEvent('foo', { detail: { value: 73 } });
 
     setTimeout(() => { el.valueChangedFromScrub(event); });
     const response = await oneEvent(el, 'timeChangedFromScrub');
@@ -658,20 +658,20 @@ describe('Radio Player', () => {
     `);
     const audioElement = el.shadowRoot.querySelector('audio-element');
 
-    var seekedTime = 0;
-    var playCalled = false;
+    let seekedTime = 0;
+    let playCalled = false;
 
     audioElement.seekTo = (time) => {
       seekedTime = time;
-    }
+    };
 
     audioElement.play = () => {
       playCalled = true;
-    }
+    };
 
     el.duration = 100;
 
-    const event = new CustomEvent('foo', { detail: { entry: entry3 }})
+    const event = new CustomEvent('foo', { detail: { entry: entry3 } });
 
     setTimeout(() => { el.transcriptEntrySelected(event); });
     const response = await oneEvent(el, 'transcriptEntrySelected');
@@ -697,11 +697,11 @@ describe('Radio Player', () => {
     `);
     const audioElement = el.shadowRoot.querySelector('audio-element');
 
-    var seekedTime = 0;
+    let seekedTime = 0;
 
     audioElement.seekTo = (time) => {
       seekedTime = time;
-    }
+    };
 
     el.duration = 100;
     el.currentTime = 59;
@@ -724,11 +724,11 @@ describe('Radio Player', () => {
     `);
     const audioElement = el.shadowRoot.querySelector('audio-element');
 
-    var seekedTime = -1;
+    let seekedTime = -1;
 
     audioElement.seekTo = (time) => {
       seekedTime = time;
-    }
+    };
 
     el.duration = 100;
     el.currentTime = 39;
@@ -756,11 +756,11 @@ describe('Radio Player', () => {
       </radio-player>
     `);
 
-    var skipCalled = false;
+    let skipCalled = false;
 
     el.skipMusicZone = () => {
       skipCalled = true;
-    }
+    };
 
     el.duration = 100;
     el.currentTime = 39;
@@ -779,7 +779,7 @@ describe('Radio Player', () => {
       </radio-player>
     `);
 
-    const quickSearches = el.quickSearches;
+    const { quickSearches } = el;
 
     expect(quickSearches[0].displayText).to.equal('foo');
     expect(quickSearches[1].displayText).to.equal('bar');
@@ -848,5 +848,4 @@ describe('Radio Player', () => {
     expect(el.shouldShowNoSearchResultMessage).to.equal(true);
     expect(el.shouldShowSearchResultSwitcher).to.equal(false);
   });
-
 });

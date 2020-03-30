@@ -2,7 +2,7 @@ import {
   html, fixture, expect, oneEvent, elementUpdated
 } from '@open-wc/testing';
 
-import { TranscriptConfig, TranscriptEntryConfig } from "@internetarchive/transcript-view";
+import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 import { SearchHandler } from '../../lib/src/search-handler/search-handler';
 import { LocalSearchBackend } from '../../lib/src/search-handler/search-backends/local-search-backend/local-search-backend';
 import { TranscriptIndex } from '../../lib/src/search-handler/transcript-index';
@@ -17,17 +17,20 @@ class MockSearchIndex {
 
 class MockTranscriptIndex {
   mergedTranscript = 'Foo';
+
   mergedTranscriptLowercased = 'foo';
+
   transcriptEntryRanges = [];
+
   getTranscriptEntryAt(overallCharIndex) {
     return undefined;
-  };
+  }
 }
 
 describe('Search Handler', () => {
   it('can be instantiated', async () => {
     const searchBackend = new MockSearchIndex();
-    const transcriptIndex = new MockTranscriptIndex()
+    const transcriptIndex = new MockTranscriptIndex();
     const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
     expect(searchHandler).to.exist;
   });
@@ -269,7 +272,7 @@ describe('Search Handler', () => {
     it('correctly generates a new transcript with search results that completely cross a transcript entry', async () => {
       const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
       const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
-      const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false);  // will completely skip over this entry
+      const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump boing', false); // will completely skip over this entry
       const entry4 = new TranscriptEntryConfig(4, 14, 18, 'fizz buzz', false);
       const entry5 = new TranscriptEntryConfig(5, 19, 23, 'snip snap', false);
       const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);

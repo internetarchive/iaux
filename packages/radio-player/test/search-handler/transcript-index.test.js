@@ -2,7 +2,7 @@ import {
   html, fixture, expect, oneEvent, elementUpdated
 } from '@open-wc/testing';
 
-import { TranscriptConfig, TranscriptEntryConfig } from "@internetarchive/transcript-view";
+import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 import { TranscriptIndex } from '../../lib/src/search-handler/transcript-index';
 
 describe('Transcript Index', () => {

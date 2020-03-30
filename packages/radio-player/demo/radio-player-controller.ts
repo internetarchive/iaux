@@ -86,15 +86,14 @@ export default class RadioPlayerController extends LitElement {
     const json = await response.json();
 
     const transcriptEntries = json.map(
-      (entry: any) =>
-        new TranscriptEntryConfig(
-          entry.id,
-          entry.start,
-          entry.end,
-          entry.text,
-          entry.is_music,
-          entry.search_match_index,
-        ),
+      (entry: any) => new TranscriptEntryConfig(
+        entry.id,
+        entry.start,
+        entry.end,
+        entry.text,
+        entry.is_music,
+        entry.search_match_index,
+      ),
     );
 
     this.transcriptConfig = new TranscriptConfig(transcriptEntries);
@@ -124,14 +123,12 @@ export default class RadioPlayerController extends LitElement {
     this.fileName = srtFile.name;
 
     const originalAudioFile = metadata.files.find(
-      (file: any) =>
-        file.source === 'original' &&
-        ['vbr mp3', 'ogg vorbis', 'advanced audio coding'].includes(file.format.toLowerCase()),
+      (file: any) => file.source === 'original'
+      && ['vbr mp3', 'ogg vorbis', 'advanced audio coding'].includes(file.format.toLowerCase()),
     );
 
-    const audioFiles = metadata.files.filter((file: any) =>
-      ['vbr mp3', 'ogg vorbis'].includes(file.format.toLowerCase()),
-    );
+    const audioFiles = metadata.files.filter((file: any) => [
+      'vbr mp3', 'ogg vorbis'].includes(file.format.toLowerCase()),);
 
     const audioSources = audioFiles.map((file: any) => {
       const url = `https://archive.org/download/${this.itemId}/${file.name}`;
@@ -140,8 +137,8 @@ export default class RadioPlayerController extends LitElement {
     });
 
     const waveFormImageFile = metadata.files.find(
-      (file: any) =>
-        file.format.toLowerCase() === 'png' && file.original === originalAudioFile.name,
+      (file: any) => file.format.toLowerCase() === 'png'
+      && file.original === originalAudioFile.name,
     );
 
     let waveFormImageUrl;
@@ -180,7 +177,9 @@ export default class RadioPlayerController extends LitElement {
     }
     const transcriptIndex = new TranscriptIndex(this.transcriptConfig);
     // const searchBackend = new LocalSearchBackend();
-    this.searchService = new FullTextSearchService(this.itemId, this.baseUrl, this.searchServicePath);
+    this.searchService = new FullTextSearchService(
+      this.itemId, this.baseUrl, this.searchServicePath
+    );
     const searchBackend = new FullTextSearchBackend(this.searchService);
     this.searchBackend = searchBackend;
     const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
@@ -233,5 +232,4 @@ export default class RadioPlayerController extends LitElement {
     }
     window.history.replaceState({}, '', `?${searchParams.toString()}`);
   }
-
 }

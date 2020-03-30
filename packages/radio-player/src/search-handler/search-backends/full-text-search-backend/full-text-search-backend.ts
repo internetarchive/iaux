@@ -67,7 +67,7 @@ export class FullTextSearchBackend implements SearchBackendInterface {
       });
     });
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       resolve(ranges);
     });
   }

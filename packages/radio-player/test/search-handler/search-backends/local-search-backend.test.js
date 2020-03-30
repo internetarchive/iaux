@@ -2,7 +2,7 @@ import {
   html, fixture, expect, oneEvent, elementUpdated
 } from '@open-wc/testing';
 
-import { TranscriptConfig, TranscriptEntryConfig } from "@internetarchive/transcript-view";
+import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 import { LocalSearchBackend } from '../../../lib/src/search-handler/search-backends/local-search-backend/local-search-backend';
 import { TranscriptIndex } from '../../../lib/src/search-handler/transcript-index';
 

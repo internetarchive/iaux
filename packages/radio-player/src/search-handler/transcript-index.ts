@@ -24,7 +24,7 @@ export class TranscriptIndex implements TranscriptIndexInterface {
 
   /** @inheritdoc */
   getTranscriptEntryAt(overallCharIndex: number): TranscriptEntryRange | undefined {
-    return this.transcriptEntryRanges.find(entry => {
+    return this.transcriptEntryRanges.find((entry) => {
       const { range } = entry;
       return range.endIndex > overallCharIndex && range.startIndex <= overallCharIndex;
     });

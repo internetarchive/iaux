@@ -416,7 +416,7 @@ export default class RadioPlayer extends LitElement {
    */
   private get scrubberBarMarkerPercentages(): number[] {
     const percentages: number[] = [0];
-    this.zonesOfSilence.forEach(zone => {
+    this.zonesOfSilence.forEach((zone) => {
       percentages.push(zone.startPercent);
       percentages.push(zone.endPercent);
     });

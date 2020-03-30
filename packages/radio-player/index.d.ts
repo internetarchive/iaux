@@ -5,4 +5,11 @@ import RadioPlayerConfig from './lib/src/models/radio-player-config.d';
 import { FullTextSearchServiceInterface } from './lib/src/search-handler/search-backends/full-text-search-backend/full-text-search-service-interface.d';
 import { SearchBackendInterface } from './lib/src/search-handler/search-backends/search-backend-interface.d';
 
-export { RadioPlayer, SearchResultsSwitcher, MusicZone, RadioPlayerConfig, FullTextSearchServiceInterface, SearchBackendInterface };
+export {
+  RadioPlayer,
+  SearchResultsSwitcher,
+  MusicZone,
+  RadioPlayerConfig,
+  FullTextSearchServiceInterface,
+  SearchBackendInterface
+};

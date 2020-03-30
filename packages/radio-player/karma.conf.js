@@ -11,7 +11,9 @@ module.exports = (config) => {
         //
         // npm run test -- --grep test/foo/bar.test.js
         // npm run test -- --grep test/bar/*
-        { pattern: 'test/**/*.mp3', watched: false, included: false, served: true },
+        {
+          pattern: 'test/**/*.mp3', watched: false, included: false, served: true
+        },
         { pattern: config.grep ? config.grep : 'test/**/*.test.js', type: 'module' },
       ],
 
@@ -45,10 +47,10 @@ module.exports = (config) => {
       // Configure code coverage reporter
       coverageReporter: {
         reporters: [
-            // generates ./coverage/lcov.info
-            { type: 'lcovonly', subdir: '.' },
-            // generates ./coverage/coverage-final.json
-            { type: 'json', subdir: '.' },
+          // generates ./coverage/lcov.info
+          { type: 'lcovonly', subdir: '.' },
+          // generates ./coverage/coverage-final.json
+          { type: 'json', subdir: '.' },
         ]
       },
 

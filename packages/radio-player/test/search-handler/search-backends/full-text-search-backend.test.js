@@ -71,5 +71,4 @@ describe('Full Text Search Backend', () => {
     expect(searchIndices[5].startIndex).to.equal(1195);
     expect(searchIndices[5].endIndex).to.equal(1206);
   });
-
 });
