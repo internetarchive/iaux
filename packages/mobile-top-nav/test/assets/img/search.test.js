@@ -8,7 +8,7 @@ describe('<search-image>', () => {
     icon.active = true;
     await icon.updateComplete;
 
-    const styleElement = icon.shadowRoot.querySelector('svg > path');
+    const styleElement = icon.shadowRoot.querySelector('svg');
 
     expect(styleElement.classList.contains('active')).to.be.true;
   });
