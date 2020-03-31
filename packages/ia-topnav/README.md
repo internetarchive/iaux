@@ -1,30 +1,30 @@
-# \<topnav-element>
+# \<ia-topnav>
 
-The mobile navigation menu for archive.org
+The top navigation menu for archive.org
 
 ## Installation
 
 ```bash
-yarn add @internetarchive/mobile-top-nav
+yarn add @internetarchive/ia-topnav
 ```
 
 ## Usage
 
 ```js
-// ia-mobile-top-nav.js
-import IAMobileTopNav from '@internetarchive/mobile-top-nav';
-export default IAMobileTopNav;
+// ia-top-nav.js
+import IATopNav from '@internetarchive/ia-topnav';
+export default IATopNav;
 ```
 
 ```html
 <!-- index.html -->
 <script type="module">
-  import './ia-mobile-top-nav.js';
+  import './ia-topnav.js';
 </script>
 
 <style>
   /* Defaults */
-  topnav-element {
+  ia-topnav {
     --white: #fff;
     --grey20: #333;
     --grey999: #999;
@@ -35,7 +35,7 @@ export default IAMobileTopNav;
   }
 </style>
 
-<topnav-element></topnav-element>
+<ia-topnav></ia-topnav>
 ```
 
 # Development

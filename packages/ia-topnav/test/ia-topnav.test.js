@@ -6,9 +6,9 @@ import {
 } from '@open-wc/testing';
 import { LitElement } from 'lit-element';
 
-import '../src/topnav-element';
+import '../src/ia-topnav';
 
-const container = html`<topnav-element></topnav-element>`;
+const container = html`<ia-topnav></ia-topnav>`;
 
 customElements.define('test-search-form', class extends LitElement {
   render() {
@@ -16,7 +16,7 @@ customElements.define('test-search-form', class extends LitElement {
   }
 });
 
-describe('<topnav-element>', () => {
+describe('<ia-topnav>', () => {
   it('defaults all menus to closed and not animating', async () => {
     const topnavElement = await fixture(container);
 
