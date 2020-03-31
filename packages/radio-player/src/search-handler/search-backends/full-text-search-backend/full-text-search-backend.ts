@@ -73,7 +73,16 @@ export class FullTextSearchBackend implements SearchBackendInterface {
   }
 
   /**
-   * Find the range of the results in the `highlight` amongst the `transcript`.
+   * Find the Range (start and end indices) of the results
+   * from the `highlight` in the `transcript`.
+   *
+   * Example:
+   *   If `highlight` = `bar {{{baz}}} snip\n snap`
+   *   and
+   *   `transcript` = `beep boop\n foo bar baz snip\n snap`
+   *
+   * This will return [Range(20, 22)] because `baz` starts at index 20 and ends at 22
+   * in the transcript.
    *
    * @param {string} highlight
    * @param {string} transcript
@@ -83,25 +92,23 @@ export class FullTextSearchBackend implements SearchBackendInterface {
     const regex = new RegExp(`${this.startTag}(.*?)${this.endTag}`, 'gm');
 
     const startIndexOfHighlight = this.getStartIndexOfHighlight(highlight, transcript);
-
-    let match;
-    const currentHighlight = highlight;
-    const matchStarts = [];
-    const matchLengths = [];
-    // eslint-disable-next-line no-cond-assign
-    while ((match = regex.exec(currentHighlight)) !== null) {
-      matchStarts.push(match.index);
-      matchLengths.push(match[1].length);
-    }
+    const totalTagLength = this.startTag.length + this.endTag.length;
 
     const ranges: Range[] = [];
-    const totalTagLength = this.startTag.length + this.endTag.length;
-    for (let index = 0; index < matchStarts.length; index += 1) {
-      const adjustedMatchStart = matchStarts[index] - index * totalTagLength;
+
+    let matchIndex = 0;
+    let match;
+    // eslint-disable-next-line no-cond-assign
+    while ((match = regex.exec(highlight)) !== null) {
+      const startIndex = match.index;
+      const matchLength = match[1].length;
+
+      const adjustedMatchStart = startIndex - matchIndex * totalTagLength;
       const overallMatchStart = startIndexOfHighlight + adjustedMatchStart;
-      const matchEnd = overallMatchStart + matchLengths[index];
+      const matchEnd = overallMatchStart + matchLength;
       const range = new Range(overallMatchStart, matchEnd);
       ranges.push(range);
+      matchIndex += 1;
     }
 
     return ranges;
@@ -111,6 +118,13 @@ export class FullTextSearchBackend implements SearchBackendInterface {
    * This method finds the highlight's overall location within the transcript.
    *
    * To do this, it strips out the start and end tags to treat it as a raw string.
+   *
+   * Example:
+   *   If `highlight` = `bar {{{baz}}} snip\n snap`
+   *   and
+   *   `transcript` = `beep boop\n foo bar baz snip\n snap`
+   *
+   * This will return 16 because `bar baz snip...` starts at index 16.
    *
    * @param {string} highlight The highlighted string to find
    * @param {string} transcript The transcript in which to find the highlight
