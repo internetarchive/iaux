@@ -123,7 +123,7 @@ class MediaButton extends TrackedElement {
         @click=${this.trackClick}
         data-event-click-tracking="${this.analyticsEvent}"
       >
-        ${this.htmlContent}
+        ${this.menuItem}
       </a>
     `;
   }
