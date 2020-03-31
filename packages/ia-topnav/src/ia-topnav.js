@@ -6,7 +6,7 @@ import './search-menu';
 import './media-menu';
 import { user as userMenu } from './data/menus';
 
-export default class TopnavElement extends LitElement {
+export default class IATopNav extends LitElement {
   static get styles() {
     return css`
       :host {
@@ -113,7 +113,7 @@ export default class TopnavElement extends LitElement {
     this.searchSubmitted = true;
     const { originalEvent, formEl } = e.detail;
     const searchIn = document
-      .querySelector('topnav-element')
+      .querySelector('ia-topnav')
       .shadowRoot
       .querySelector('search-menu')
       .shadowRoot
@@ -196,4 +196,4 @@ export default class TopnavElement extends LitElement {
   }
 }
 
-customElements.define('topnav-element', TopnavElement);
+customElements.define('ia-topnav', IATopNav);

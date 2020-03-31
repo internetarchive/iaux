@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="module" src="/src/topnav-element.js"></script>
-    <title>topnav-element</title>
+    <script type="module" src="/src/ia-topnav.js"></script>
+    <title>ia-topnav</title>
     <style>
       html {
         font-size: 10px;
@@ -16,7 +16,7 @@
         padding: 0px;
         overflow-x: hidden;
       }
-      topnav-element {
+      ia-topnav {
         --baseColor: #999;
         --activeColor: #fff;
         --activeSearchColor: #222;
@@ -25,13 +25,13 @@
   </head>
 
   <body>
-    <topnav-element config='{ "baseUrl": "archive.org", "waybackUrl": "web.archive.org", "screenName": "really_long_screen_name_that_may_be_truncated_on_mobile", "username": "shaneriley", "eventCategory": "MobileTopNav" }'></topnav-element>
+    <ia-topnav config='{ "baseUrl": "archive.org", "waybackUrl": "web.archive.org", "screenName": "really_long_screen_name_that_may_be_truncated_on_mobile", "username": "shaneriley", "eventCategory": "MobileTopNav" }'></ia-topnav>
     <main>
       <h1>Site example</h1>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </main>
     <script>
-      const topnav = document.querySelector('topnav-element');
+      const topnav = document.querySelector('ia-topnav');
 
       topnav.addEventListener('trackClick', ({ detail }) => {
         console.log(`Analytics click fired: ${detail.event}`);
