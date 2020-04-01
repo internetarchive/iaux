@@ -742,6 +742,10 @@ export default class RadioPlayer extends LitElement {
       return;
     }
     this.playbackRate = detail.playbackRate;
+    const event = new CustomEvent('playbackRateChanged', {
+      detail: { playbackRate: this.playbackRate },
+    });
+    this.dispatchEvent(event);
   }
 
   /**
@@ -758,6 +762,11 @@ export default class RadioPlayer extends LitElement {
       return;
     }
     this.volume = e.detail.volume;
+
+    const event = new CustomEvent('volumeChanged', {
+      detail: { volume: this.volume },
+    });
+    this.dispatchEvent(event);
   }
 
   /**
@@ -771,6 +780,9 @@ export default class RadioPlayer extends LitElement {
     if (this.audioElement) {
       this.audioElement.seekBy(-10);
     }
+
+    const event = new Event('jumpBackButtonPressed');
+    this.dispatchEvent(event);
   }
 
   /**
@@ -791,6 +803,11 @@ export default class RadioPlayer extends LitElement {
     } else {
       this.audioElement.pause();
     }
+
+    const event = new CustomEvent('playPauseButtonPressed', {
+      detail: { isPlaying: this.isPlaying },
+    });
+    this.dispatchEvent(event);
   }
 
   /**
@@ -804,6 +821,9 @@ export default class RadioPlayer extends LitElement {
     if (this.audioElement) {
       this.audioElement.seekBy(10);
     }
+
+    const event = new Event('jumpForwardButtonPressed');
+    this.dispatchEvent(event);
   }
 
   /**
@@ -824,6 +844,9 @@ export default class RadioPlayer extends LitElement {
     const closestUpper = Math.min(...percentsGreaterThanValue);
     const seekTo: number = this.duration * (closestUpper / 100) + 0.1;
     this.audioElement.seekTo(seekTo);
+
+    const event = new Event('nextSectionButtonPressed');
+    this.dispatchEvent(event);
   }
 
   /**
@@ -844,6 +867,9 @@ export default class RadioPlayer extends LitElement {
     const closestLower = Math.max(...percentsLessThanValue);
     const seekTo: number = this.duration * (closestLower / 100) - 0.1;
     this.audioElement.seekTo(seekTo);
+
+    const event = new Event('prevSectionButtonPressed');
+    this.dispatchEvent(event);
   }
 
   /**
