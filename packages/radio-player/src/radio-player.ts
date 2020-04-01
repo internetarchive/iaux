@@ -22,6 +22,7 @@ import '@internetarchive/scrubber-bar';
 
 import { QuickSearchEntry } from '@internetarchive/expandable-search-bar';
 import '@internetarchive/expandable-search-bar';
+import '@internetarchive/ia-activity-indicator/ia-activity-indicator';
 
 import './search-results-switcher';
 
@@ -30,7 +31,7 @@ import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-contro
 import SearchResultsSwitcher from './search-results-switcher';
 import MusicZone from './models/music-zone';
 import RadioPlayerConfig from './models/radio-player-config';
-import SearchHandler from './search-handler/search-handler';
+import { SearchHandlerInterface } from './search-handler/search-handler-interface';
 
 /**
  * A Radio Player element to play back transcribed audio.
@@ -56,6 +57,14 @@ export default class RadioPlayer extends LitElement {
    * @memberof RadioPlayer
    */
   @property({ type: Object }) config: RadioPlayerConfig | undefined = undefined;
+
+  /**
+   * The Search Handler
+   *
+   * @type {(SearchHandlerInterface | undefined)}
+   * @memberof RadioPlayer
+   */
+  @property({ type: Object }) searchHandler: SearchHandlerInterface | undefined = undefined;
 
   /**
    * Transcript configuration
@@ -163,9 +172,16 @@ export default class RadioPlayer extends LitElement {
    */
   @property({ type: Boolean }) private shouldShowNoSearchResultMessage = false;
 
-  private musicZones: MusicZone[] = [];
+  /**
+   * Are we searching or not?
+   *
+   * @private
+   * @type {boolean}
+   * @memberof RadioPlayer
+   */
+  @property({ type: Boolean }) private isSearching = false;
 
-  private searchHandler: SearchHandler | undefined;
+  private musicZones: MusicZone[] = [];
 
   /**
    * LitElement lifecycle main render method
@@ -274,15 +290,17 @@ export default class RadioPlayer extends LitElement {
    * @memberof RadioPlayer
    */
   private get waveFormProgressTemplate(): TemplateResult | undefined {
-    return this.waveformUrl ? html`
-      <waveform-progress
-        interactive="true"
-        .waveformUrl=${this.waveformUrl}
-        .percentComplete=${this.percentComplete}
-        @valuechange=${this.valueChangedFromScrub}
-      >
-      </waveform-progress>
-    ` : undefined;
+    return this.waveformUrl
+      ? html`
+          <waveform-progress
+            interactive="true"
+            .waveformUrl=${this.waveformUrl}
+            .percentComplete=${this.percentComplete}
+            @valuechange=${this.valueChangedFromScrub}
+          >
+          </waveform-progress>
+        `
+      : undefined;
   }
 
   /**
@@ -398,7 +416,7 @@ export default class RadioPlayer extends LitElement {
    */
   private get scrubberBarMarkerPercentages(): number[] {
     const percentages: number[] = [0];
-    this.zonesOfSilence.forEach(zone => {
+    this.zonesOfSilence.forEach((zone) => {
       percentages.push(zone.startPercent);
       percentages.push(zone.endPercent);
     });
@@ -470,7 +488,9 @@ export default class RadioPlayer extends LitElement {
         >
         </expandable-search-bar>
         <div class="search-results-info">
-          ${this.searchResultsSwitcherTemplate} ${this.noSearchResultsTemplate}
+          ${this.searchActivityIndicator}
+          ${this.searchResultsSwitcherTemplate}
+          ${this.noSearchResultsTemplate}
         </div>
       </div>
     `;
@@ -487,10 +507,26 @@ export default class RadioPlayer extends LitElement {
   private get searchResultsSwitcherTemplate(): TemplateResult {
     return html`
       <search-results-switcher
-        class="${this.shouldShowSearchResultSwitcher ? '' : 'hidden'}"
+        class="${this.shouldShowSearchResultSwitcher && !this.isSearching ? '' : 'hidden'}"
         @searchResultIndexChanged=${this.searchResultIndexChanged}
       >
       </search-results-switcher>
+    `;
+  }
+
+  /**
+   * Search activity indicator template
+   *
+   * @readonly
+   * @private
+   * @type {TemplateResult}
+   * @memberof RadioPlayer
+   */
+  private get searchActivityIndicator(): TemplateResult {
+    return html`
+      <ia-activity-indicator
+        class="${this.isSearching ? '' : 'hidden'}">
+      </ia-activity-indicator>
     `;
   }
 
@@ -505,7 +541,9 @@ export default class RadioPlayer extends LitElement {
   private get noSearchResultsTemplate(): TemplateResult {
     return html`
       <div
-        class="no-search-results-message ${this.shouldShowNoSearchResultMessage ? '' : 'hidden'}"
+        class="
+          no-search-results-message
+          ${this.shouldShowNoSearchResultMessage && !this.isSearching ? '' : 'hidden'}"
       >
         No search results.
       </div>
@@ -607,12 +645,15 @@ export default class RadioPlayer extends LitElement {
     this.executeSearch(detail.value);
   }
 
-  private executeSearch(term: string): void {
+  private async executeSearch(term: string): Promise<void> {
     if (!this.searchHandler || term.length < 2) {
       this.searchResultsTranscript = undefined;
       return;
     }
-    this.searchResultsTranscript = this.searchHandler.search(term);
+    this.searchTerm = term;
+    this.isSearching = true;
+    this.searchResultsTranscript = await this.searchHandler.search(term);
+    this.isSearching = false;
   }
 
   /**
@@ -1061,14 +1102,13 @@ export default class RadioPlayer extends LitElement {
     // when the transcriptConfig gets changed, reload the music zones and search results switcher
     if (changedProperties.has('transcriptConfig')) {
       this.updateMusicZones();
-      this.setupSearchHandler();
     }
 
     if (changedProperties.has('searchResultsTranscript')) {
       this.updateSearchResultSwitcher();
     }
 
-    if (changedProperties.has('searchTerm')) {
+    if (changedProperties.has('searchHandler') && this.searchTerm) {
       this.executeSearch(this.searchTerm);
     }
 
@@ -1078,15 +1118,6 @@ export default class RadioPlayer extends LitElement {
       if (this.skipMusicSections) {
         this.skipMusicZone();
       }
-    }
-  }
-
-  private setupSearchHandler(): void {
-    if (this.transcriptConfig) {
-      this.searchHandler = new SearchHandler(this.transcriptConfig);
-    }
-    if (this.searchTerm) {
-      this.executeSearch(this.searchTerm);
     }
   }
 
@@ -1114,6 +1145,15 @@ export default class RadioPlayer extends LitElement {
         display: -ms-grid;
         display: grid;
         grid-gap: 0.5rem;
+      }
+
+      ia-activity-indicator {
+        width: 1.5em;
+        height: 1.5em;
+        display: block;
+        margin: auto;
+        --activityIndicatorLoadingRingColor: #999;
+        --activityIndicatorLoadingDotColor: #999;
       }
 
       /* mobile view */

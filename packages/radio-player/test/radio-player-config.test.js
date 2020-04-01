@@ -15,7 +15,7 @@ describe('Radio Player Config', () => {
       'http://bar.foo/waveform.png',
       [source1, source2],
       ['foo', 'bar', 'baz']
-    )
+    );
 
     expect(config.title).to.equal('foo');
     expect(config.date).to.equal('2019-10-29');
@@ -35,7 +35,7 @@ describe('Radio Player Config', () => {
       'http://foo.bar/image.jpg',
       'http://bar.foo/waveform.png',
       [source1, source2]
-    )
+    );
 
     expect(config.quickSearches).to.eql([]);
   });

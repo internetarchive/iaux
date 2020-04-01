@@ -6,7 +6,7 @@ import promisedSleep from './promised-sleep';
 
 import '../lib/src/radio-player';
 
-describe('Radio Player', () => {
+describe('Search Results Switcher', () => {
   it('defaults to 0 results', async () => {
     const el = await fixture(html`
       <search-results-switcher></search-results-switcher>
@@ -21,7 +21,7 @@ describe('Radio Player', () => {
       <search-results-switcher numberOfResults='7'></search-results-switcher>
     `);
 
-    const shadowRoot = el.shadowRoot;
+    const { shadowRoot } = el;
 
     expect(shadowRoot.getElementById('current-result').innerText).to.equal('1');
     expect(shadowRoot.getElementById('number-of-results').innerText).to.equal('7');
@@ -32,7 +32,7 @@ describe('Radio Player', () => {
       <search-results-switcher numberOfResults='7'></search-results-switcher>
     `);
 
-    const shadowRoot = el.shadowRoot;
+    const { shadowRoot } = el;
 
     const clickEvent = new MouseEvent('click');
     const nextButton = shadowRoot.getElementById('next-button');
@@ -50,7 +50,7 @@ describe('Radio Player', () => {
 
     el.currentResultIndex = 6;
 
-    const shadowRoot = el.shadowRoot;
+    const { shadowRoot } = el;
 
     const clickEvent = new MouseEvent('click');
     const nextButton = shadowRoot.getElementById('next-button');
@@ -66,9 +66,9 @@ describe('Radio Player', () => {
       <search-results-switcher numberOfResults='7'></search-results-switcher>
     `);
 
-    el.currentResultIndex = 4
+    el.currentResultIndex = 4;
 
-    const shadowRoot = el.shadowRoot;
+    const { shadowRoot } = el;
 
     const clickEvent = new MouseEvent('click');
     const nextButton = shadowRoot.getElementById('previous-button');
@@ -84,7 +84,7 @@ describe('Radio Player', () => {
       <search-results-switcher numberOfResults='7'></search-results-switcher>
     `);
 
-    const shadowRoot = el.shadowRoot;
+    const { shadowRoot } = el;
 
     const clickEvent = new MouseEvent('click');
     const nextButton = shadowRoot.getElementById('previous-button');
@@ -94,6 +94,4 @@ describe('Radio Player', () => {
     expect(response.detail.searchResultIndex).to.equal(6);
     expect(el.currentResultIndex).to.equal(6);
   });
-
-
 });

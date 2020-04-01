@@ -1,5 +1,12 @@
 /* eslint-disable import/no-duplicates */
-import { LitElement, html, customElement, TemplateResult, property } from 'lit-element';
+import {
+  LitElement,
+  html,
+  customElement,
+  TemplateResult,
+  property,
+  PropertyValues,
+} from 'lit-element';
 
 import { AudioSource } from '@internetarchive/audio-element';
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
@@ -7,16 +14,30 @@ import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transc
 import '../src/radio-player';
 import RadioPlayer from '../src/radio-player';
 import RadioPlayerConfig from '../src/models/radio-player-config';
+import { SearchHandler } from '../src/search-handler/search-handler';
+import { SearchHandlerInterface } from '../src/search-handler/search-handler-interface';
+import { TranscriptIndex } from '../src/search-handler/transcript-index';
+import { FullTextSearchBackend } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-backend';
+import { SearchBackendInterface } from '../src/search-handler/search-backends/search-backend-interface';
+import { FullTextSearchService } from './full-text-search-service';
+import { FullTextSearchServiceInterface } from '../src/search-handler/search-backends/full-text-search-backend/full-text-search-service-interface';
+// import { LocalSearchBackend } from '../src/search-handler/search-indices/local-search-index';
 
 @customElement('radio-player-controller')
 export default class RadioPlayerController extends LitElement {
-  @property({ type: RadioPlayerConfig }) radioPlayerConfig:
-    | RadioPlayerConfig
-    | undefined = undefined;
+  @property({ type: Object }) radioPlayerConfig: RadioPlayerConfig | undefined = undefined;
 
-  @property({ type: TranscriptConfig }) transcriptConfig: TranscriptConfig | undefined = undefined;
+  @property({ type: Object }) transcriptConfig: TranscriptConfig | undefined = undefined;
 
-  @property({ type: String }) itemId: string | undefined = 'WFMD_930_AM_20190803_170000';
+  @property({ type: String }) itemId: string | undefined = 'Euronews_Radio_English_20171029_030000';
+
+  /**
+   * The Search Handler
+   *
+   * @type {(SearchHandlerInterface | undefined)}
+   * @memberof RadioPlayer
+   */
+  @property({ type: Object }) searchHandler: SearchHandlerInterface | undefined = undefined;
 
   private startPlaybackAt: number | undefined = undefined;
 
@@ -24,11 +45,20 @@ export default class RadioPlayerController extends LitElement {
 
   private fileName = '';
 
+  private baseUrl = 'https://58-review-radio-arch-bsdafk.archive.org';
+
+  private searchServicePath = '/services/radio-archive/search/service.php';
+
+  private searchBackend: SearchBackendInterface | undefined;
+
+  private searchService: FullTextSearchServiceInterface | undefined;
+
   render(): TemplateResult {
     return html`
       <radio-player
         .config=${this.radioPlayerConfig}
         .transcriptConfig=${this.transcriptConfig}
+        .searchHandler=${this.searchHandler}
         @searchTermChanged=${this.searchTermChanged}
         @playbackPaused=${this.playbackPaused}
         @currentTimeChanged=${this.currentTimeChanged}
@@ -56,15 +86,14 @@ export default class RadioPlayerController extends LitElement {
     const json = await response.json();
 
     const transcriptEntries = json.map(
-      (entry: any) =>
-        new TranscriptEntryConfig(
-          entry.id,
-          entry.start,
-          entry.end,
-          entry.text,
-          entry.is_music,
-          entry.search_match_index,
-        ),
+      (entry: any) => new TranscriptEntryConfig(
+        entry.id,
+        entry.start,
+        entry.end,
+        entry.text,
+        entry.is_music,
+        entry.search_match_index,
+      ),
     );
 
     this.transcriptConfig = new TranscriptConfig(transcriptEntries);
@@ -94,14 +123,12 @@ export default class RadioPlayerController extends LitElement {
     this.fileName = srtFile.name;
 
     const originalAudioFile = metadata.files.find(
-      (file: any) =>
-        file.source === 'original' &&
-        ['vbr mp3', 'ogg vorbis', 'advanced audio coding'].includes(file.format.toLowerCase()),
+      (file: any) => file.source === 'original'
+      && ['vbr mp3', 'ogg vorbis', 'advanced audio coding'].includes(file.format.toLowerCase()),
     );
 
-    const audioFiles = metadata.files.filter((file: any) =>
-      ['vbr mp3', 'ogg vorbis'].includes(file.format.toLowerCase()),
-    );
+    const audioFiles = metadata.files.filter((file: any) => [
+      'vbr mp3', 'ogg vorbis'].includes(file.format.toLowerCase()),);
 
     const audioSources = audioFiles.map((file: any) => {
       const url = `https://archive.org/download/${this.itemId}/${file.name}`;
@@ -110,8 +137,8 @@ export default class RadioPlayerController extends LitElement {
     });
 
     const waveFormImageFile = metadata.files.find(
-      (file: any) =>
-        file.format.toLowerCase() === 'png' && file.original === originalAudioFile.name,
+      (file: any) => file.format.toLowerCase() === 'png'
+      && file.original === originalAudioFile.name,
     );
 
     let waveFormImageUrl;
@@ -136,6 +163,27 @@ export default class RadioPlayerController extends LitElement {
 
   firstUpdated(): void {
     this.setup();
+  }
+
+  updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has('transcriptConfig')) {
+      this.setupSearchHandler();
+    }
+  }
+
+  private setupSearchHandler(): void {
+    if (!this.transcriptConfig || !this.itemId) {
+      return;
+    }
+    const transcriptIndex = new TranscriptIndex(this.transcriptConfig);
+    // const searchBackend = new LocalSearchBackend();
+    this.searchService = new FullTextSearchService(
+      this.itemId, this.baseUrl, this.searchServicePath
+    );
+    const searchBackend = new FullTextSearchBackend(this.searchService);
+    this.searchBackend = searchBackend;
+    const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
+    this.searchHandler = searchHandler;
   }
 
   private canplay(): void {

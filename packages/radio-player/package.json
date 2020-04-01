@@ -20,12 +20,10 @@
     "start:compatibility": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch --compatibility all --preserve-symlinks\"",
     "lint:eslint": "eslint --ext .ts . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .ts . --fix --ignore-path .gitignore",
-    "lint:prettier": "prettier \"**/*.ts\" --check --ignore-path .gitignore",
-    "format:prettier": "prettier \"**/*.ts\" --write --ignore-path .gitignore",
-    "lint": "yarn run lint:eslint && yarn run lint:prettier",
-    "format": "yarn run format:eslint && yarn run format:prettier",
-    "test": "yarn run build && karma start --coverage",
-    "test:watch": "karma start --auto-watch=true --single-run=false",
+    "lint": "yarn run lint:eslint",
+    "format": "yarn run format:eslint",
+    "test": "yarn run build && yarn lint && karma start --coverage",
+    "test:watch": "concurrently \"tsc --watch\" \"karma start --auto-watch=true --single-run=false\"",
     "test:update-snapshots": "karma start --update-snapshots",
     "test:prune-snapshots": "karma start --prune-snapshots",
     "test:compatibility": "karma start --compatibility all --coverage",
@@ -38,6 +36,7 @@
   "dependencies": {
     "@internetarchive/audio-element": "0.0.1-alpha.530",
     "@internetarchive/expandable-search-bar": "0.0.1-alpha.530",
+    "@internetarchive/ia-activity-indicator": "0.0.1-alpha.521",
     "@internetarchive/playback-controls": "0.0.1-alpha.530",
     "@internetarchive/scrubber-bar": "0.0.1-alpha.530",
     "@internetarchive/transcript-view": "0.0.1-alpha.504",
@@ -55,17 +54,17 @@
     "@storybook/react": "^5.1.11",
     "@types/form-data": "^2.5.0",
     "@types/storybook__react": "^4.0.2",
-    "@typescript-eslint/eslint-plugin": "^2.2.0",
-    "@typescript-eslint/parser": "^2.2.0",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
     "concurrently": "^4.1.2",
     "es-dev-server": "^1.5.0",
-    "eslint": "^6.1.0",
+    "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "husky": "^1.0.0",
     "karma-coverage": "^2.0.1",
     "lint-staged": "^8.0.0",
     "polymer-cli": "^1.9.11",
-    "typescript": "^3.6.2",
+    "typescript": "^3.8.3",
     "webpack-merge": "^4.1.5"
   },
   "eslintConfig": {
@@ -86,7 +85,6 @@
   "lint-staged": {
     "*.ts": [
       "eslint --fix",
-      "prettier --write",
       "git add"
     ]
   }

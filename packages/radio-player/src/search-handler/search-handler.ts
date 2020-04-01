@@ -1,53 +1,77 @@
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 import { Range, TranscriptEntryRange, SearchResult } from './search-models';
 import { SearchHelper } from './search-helper';
-import { SearchIndex } from './search-index';
+import { SearchBackendInterface } from './search-backends/search-backend-interface';
+import { TranscriptIndexInterface } from './transcript-index-interface';
+import { SearchHandlerInterface } from './search-handler-interface';
 
 /**
  * This is the main entrypoint into transcript searching. It has a single
- * public method, `search(term: string)`, that returns a `TranscriptConfig`
- * with a search-modified transcript. This means the original transcript
- * entries get merged with search results since search results can span
- * across transcript entries.
+ * public method as defined by `SearchHandlerInterface`: `search(term: string)`,
+ * that returns a `Promise<TranscriptConfig>` with a search-modified transcript.
+ * This means the original transcript entries get merged with search results since
+ * search results can span across transcript entries.
  *
- * It offloads some of the searching work to the `SearchIndex` object that
- * is responsible for indexing the transcript with information that makes
- * it easier to rebuild the transcript later.
+ * It offloads the searching work to a `SearchBackendInterface` object that
+ * is responsible for returning the search result `Range` objects based on some
+ * backend search like the `LocalSearchBackend` or `FullTextSearchBackend`.
+ *
+ * It also uses a `TranscriptIndexInterface` object that is responsible for indexing
+ * the transcipt to make reassembly much more efficient.
  */
-export default class SearchHandler {
-  private searchIndex: SearchIndex;
+export class SearchHandler implements SearchHandlerInterface {
+  /**
+   * The SearchBackend used to executes searches.
+   *
+   * @private
+   * @type {SearchBackendInterface}
+   * @memberof SearchHandler
+   */
+  private searchBackend: SearchBackendInterface;
 
-  constructor(transcriptConfig: TranscriptConfig) {
-    this.searchIndex = new SearchIndex(transcriptConfig);
+  /**
+   * The TranscriptIndex to help with reassembly of the transcript.
+   *
+   * @private
+   * @type {TranscriptIndexInterface}
+   * @memberof SearchHandler
+   */
+  private transcriptIndex: TranscriptIndexInterface;
+
+  constructor(searchBackend: SearchBackendInterface, transcriptIndex: TranscriptIndexInterface) {
+    this.searchBackend = searchBackend;
+    this.transcriptIndex = transcriptIndex;
   }
 
   /**
    * This is the main method in here. It takes a search term and returns a TranscriptConfig
    * that has been modified to insert the search results.
    *
-   * @param {string} term
+   * @param {string} query
    * @returns {TranscriptConfig}
    * @memberof SearchHandler
    */
-  search(term: string): TranscriptConfig {
-    const searchSeparatedTranscript = this.getSearchSeparatedTranscript(term);
+  async search(query: string): Promise<TranscriptConfig> {
+    const searchSeparatedTranscript = await this.getSearchSeparatedTranscript(query);
     const newTranscriptEntries: TranscriptEntryConfig[] = [];
 
     let searchResultIndex = 0;
     let entryIdentifier = 1;
 
-    searchSeparatedTranscript.forEach(entry => {
+    searchSeparatedTranscript.forEach((entry) => {
       // If we encounter a match, just create a new transcript entry from it and append it.
       // We don't care if it crosses over multiple transcript entries since we want one match,
       // not multiple broken up by transcript entry.
       if (entry.isSearchMatch) {
         // find the closest source transcript to this entry
-        const startEntry = this.searchIndex.getTranscriptEntryAt(entry.range.startIndex);
+        const startEntry = this.transcriptIndex.getTranscriptEntryAt(entry.range.startIndex);
         if (!startEntry) {
           return;
         }
 
-        const endEntry = this.searchIndex.getTranscriptEntryAt(entry.range.endIndex) || startEntry;
+        const { range } = entry;
+        const { endIndex } = range;
+        const endEntry = this.transcriptIndex.getTranscriptEntryAt(endIndex) || startEntry;
         const newTranscriptEntry = this.createBlankTranscriptEntryConfig(startEntry.entry);
         newTranscriptEntry.searchMatchIndex = searchResultIndex;
         searchResultIndex += 1;
@@ -62,14 +86,14 @@ export default class SearchHandler {
       // Next loop through all of the source transcript entries to find the ones that intersect
       // with this search result. If it intersects, we take the intersected characters from the
       // merged transcript and make a new entry from that.
-      this.searchIndex.transcriptEntryRanges.forEach((indexMap: TranscriptEntryRange) => {
+      this.transcriptIndex.transcriptEntryRanges.forEach((indexMap: TranscriptEntryRange) => {
         const intersection = SearchHelper.getIntersection(entry.range, indexMap.range);
         if (!intersection || intersection.length === 0) {
           return;
         }
 
         const newTranscriptEntry = this.createBlankTranscriptEntryConfig(indexMap.entry);
-        const text = this.searchIndex.mergedTranscript.substring(
+        const text = this.transcriptIndex.mergedTranscript.substring(
           intersection.startIndex,
           intersection.endIndex,
         );
@@ -82,7 +106,7 @@ export default class SearchHandler {
 
     const newTranscript = new TranscriptConfig(newTranscriptEntries);
 
-    return newTranscript;
+    return new Promise(resolve => resolve(newTranscript));
   }
 
   /**
@@ -117,19 +141,19 @@ export default class SearchHandler {
    * This is helpful when rebuilding the transcript later to be able to identify search results.
    *
    * @private
-   * @param {string} term
+   * @param {string} query
    * @returns {SearchResult[]}
    * @memberof SearchHandler
    */
-  private getSearchSeparatedTranscript(term: string): SearchResult[] {
-    const searchRanges: Range[] = this.searchIndex.getSearchRanges(term);
-    const { mergedTranscript } = this.searchIndex;
+  async getSearchSeparatedTranscript(query: string): Promise<SearchResult[]> {
+    const searchRanges: Range[] = await this.searchBackend.getSearchRanges(query);
+    const { mergedTranscript } = this.transcriptIndex;
 
     // if there's no search results, just return a single SearchResult that is the full
     // transcript marked as not a match.
     if (searchRanges.length === 0) {
       const range = new Range(0, mergedTranscript.length);
-      return [new SearchResult(range, mergedTranscript, false)];
+      return new Promise(resolve => resolve([new SearchResult(range, mergedTranscript, false)]));
     }
 
     const transcriptEntries: SearchResult[] = [];
@@ -144,7 +168,7 @@ export default class SearchHandler {
     // If there were more search results, we would continue from index 12 to build
     // the next range to the next match.
     // Finally once all the matches are finished, tack on the remaining text to the end.
-    searchRanges.forEach(searchRange => {
+    searchRanges.forEach((searchRange) => {
       // first find the "non-result" range, which is the current `startIndex` up to
       // `range.startIndex` (the start of the search result)
       const nonResultRange = new Range(startIndex, searchRange.startIndex);
@@ -164,7 +188,7 @@ export default class SearchHandler {
     const finalResultEntry = this.getSearchResult(finalResultRange, false);
     transcriptEntries.push(finalResultEntry);
 
-    return transcriptEntries;
+    return new Promise(resolve => resolve(transcriptEntries));
   }
 
   /**
@@ -178,7 +202,7 @@ export default class SearchHandler {
    * @memberof SearchHandler
    */
   private getSearchResult(range: Range, isSearchResult: boolean): SearchResult {
-    const { mergedTranscript } = this.searchIndex;
+    const { mergedTranscript } = this.transcriptIndex;
     const text = mergedTranscript.substring(range.startIndex, range.endIndex);
     const searchResult = new SearchResult(range, text, isSearchResult);
     return searchResult;
