@@ -1,7 +1,8 @@
-import { html, css } from 'lit-element';
+import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import { more as moreMenu } from './data/menus';
 import toSnakeCase from './lib/toSnakeCase';
+import moreSliderCSS from './styles/more-slider';
 
 class MoreSlider extends TrackedElement {
   static get properties() {
@@ -15,19 +16,7 @@ class MoreSlider extends TrackedElement {
   }
 
   static get styles() {
-    return css`
-      ul {
-        padding: 0;
-        margin: -1rem 0 0 0;
-        list-style: none;
-      }
-      a {
-        display: block;
-        padding: 1rem 0;
-        text-decoration: none;
-        color: var(--activeColor);
-      }
-    `;
+    return moreSliderCSS;
   }
 
   get baseUrl() {
