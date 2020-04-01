@@ -2,6 +2,7 @@ import { html } from 'lit-element';
 
 export default html`
   <svg
+    class="ia-logo"
     width="27"
     height="30"
     viewBox="0 0 27 30"

@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit-element';
 
 import './media-slider';
 import './media-button';
+import mediaMenuCSS from './styles/media-menu';
 
 const menuSelection = [
   {
@@ -49,35 +50,7 @@ const menuSelection = [
 
 class MediaMenu extends LitElement {
   static get styles() {
-    return css`
-      .media-menu {
-        position: absolute;
-        z-index: -1;
-        top: -80vh;
-        width: 100%;
-        background-color: var(--grey13);
-        margin: 0;
-        overflow: hidden;
-      }
-      .media-menu.tx-slide {
-        transition-property: top;
-        transition-duration: 0.2s;
-        transition-timing-function: ease;
-      }
-      .media-menu.tx-slide.open {
-        top: 100%;
-      }
-      .media-menu.tx-slide.initial,
-      .media-menu.tx-slide.closed {
-        top: -80vh;
-      }
-      .media-menu.tx-slide.closed {
-        transition-duration: 0.2s;
-      }
-      .menu-group {
-        position: relative;
-      }
-    `;
+    return mediaMenuCSS;
   }
 
   static get properties() {
