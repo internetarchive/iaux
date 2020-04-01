@@ -2,62 +2,11 @@ import { html, css } from 'lit-element';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import toSnakeCase from './lib/toSnakeCase';
+import mediaButtonCSS from './styles/media-button';
 
 class MediaButton extends TrackedElement {
   static get styles() {
-    return css`
-      a {
-        display: inline-block;
-        text-decoration: none;
-      }
-      button:focus {
-        outline-color: var(--link-color);
-        outline-width: 0.16rem;
-        outline-style: auto;
-      }
-      .menu-item {
-        width: 100%;
-        background: transparent;
-        font-size: 1.6rem;
-        cursor: pointer;
-        border: none;
-        text-align: left;
-        padding: 0;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-      }
-      .menu-item:focus {
-        outline: none;
-      }
-      .menu-item > .label {
-        display: inline-block;
-        color: var(--white);
-        text-align: left;
-        vertical-align: middle;
-      }
-      .menu-item > .icon {
-        display: inline-flex;
-        width: 42px;
-        height: 42px;
-        vertical-align: middle;
-        align-items: center;
-        justify-content: center;
-      }
-      .menu-item.selected .icon {
-        background-color: var(--grey20);
-        border-radius: 1rem 0 0 1rem;
-      }
-      .icon .fill-color {
-        fill: #999;
-      }
-      .icon.active .fill-color {
-        fill: #fff;
-      }
-      .donate .fill-color {
-        fill: #f00;
-      }
-    `;
+    return mediaButtonCSS;
   }
 
   static get properties() {

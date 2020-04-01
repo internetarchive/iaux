@@ -18,8 +18,11 @@ export default class IATopNav extends LitElement {
         --black: #000;
         --link-color: #428bca;
         --primary-text-color: var(--white);
-        color: var(--primary-text-color);
+
         --theme-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        --logoWidthTablet: 263px;
+
+        color: var(--primary-text-color);
         font-size: 2rem;
         font-family: var(--theme-font-family);
       }
