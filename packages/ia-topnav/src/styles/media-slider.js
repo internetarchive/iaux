@@ -5,9 +5,9 @@ export default css`
     position: absolute;
     top: 0;
     right: 0;
-    bottom: 0;
     left: 4rem;
     padding: 0;
+    height: 336px;
     overflow-x: hidden;
     font-size: 1.4rem;
     background: var(--grey20);
@@ -20,18 +20,18 @@ export default css`
   /* Secondary menu */
   @keyframes menu-enter {
     0% {
-      transform: translate(100%, 0);
+      transform: translate(100%, 4rem);
     }
     100% {
-      transform: translate(0, 0);
+      transform: translate(0, 4rem);
     }
   }
   @keyframes menu-exit {
     0% {
-      transform: translate(4rem, 0);
+      transform: translate(4rem, 4rem);
     }
     100% {
-      transform: translate(100%, 0);
+      transform: translate(100%, 4rem);
     }
   }
   .menu-enter {
@@ -43,5 +43,22 @@ export default css`
 
   .info-box {
     padding: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .information-menu {
+      left: 0;
+      height: auto;
+    }
+
+    .menu-enter {
+      transform: translate(0, 5rem);
+      animation: none;
+    }
+
+    .menu-exit {
+      transform: translate(0, -100%);
+      animation: none;
+    }
   }
 `;

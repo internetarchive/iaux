@@ -53,5 +53,9 @@ export default css`
     .media-menu.tx-slide.initial {
       top: 0;
     }
+
+    .menu-group {
+      font-size: 0;
+    }
   }
 `;

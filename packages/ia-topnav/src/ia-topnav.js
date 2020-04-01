@@ -17,9 +17,12 @@ export default class IATopNav extends LitElement {
       config: { type: Object },
       mediaMenuAnimate: { type: Boolean },
       mediaMenuOpen: { type: Boolean },
+      mediaSliderAnimate: { type: Boolean },
+      mediaSliderOpen: { type: Boolean },
       searchMenuAnimate: { type: Boolean },
       searchMenuOpen: { type: Boolean },
       searchSubmitted: { type: Boolean },
+      selectedMenuOption: { type: String },
       userMenuAnimate: { type: Boolean },
       userMenuOpen: { type: Boolean },
     };
@@ -36,6 +39,35 @@ export default class IATopNav extends LitElement {
     this.searchSubmitted = false;
     this.userMenuAnimate = false;
     this.userMenuOpen = false;
+    this.mediaSliderOpen = false;
+    this.mediaSliderAnimate = false;
+    this.selectedMenuOption = '';
+  }
+
+  updated(changedProperties) {
+    const { mediaMenuOpen, mediaSliderOpen } = this;
+    const menuClosed = changedProperties.has('mediaMenuOpen')
+      && changedProperties.get('mediaMenuOpen')
+      && !mediaMenuOpen;
+
+    if (menuClosed && mediaSliderOpen) {
+      this.mediaSliderOpen = false;
+      this.mediaSliderAnimate = false;
+      this.selectedMenuOption = '';
+    }
+  }
+
+  closeMediaSlider() {
+    this.mediaSliderAnimate = true;
+    this.mediaSliderOpen = false;
+    this.selectedMenuOption = '';
+  }
+
+  toggleMediaSlider() {
+    if (!this.mediaSliderOpen) {
+      this.mediaSliderAnimate = true;
+      this.mediaSliderOpen = !this.mediaSliderOpen;
+    }
   }
 
   mediaMenu() {
@@ -113,16 +145,25 @@ export default class IATopNav extends LitElement {
     }));
   }
 
+  mediaTypeSelected({ detail }) {
+    if (this.selectedMenuOption === detail.mediatype) {
+      this.closeMediaSlider();
+      return;
+    }
+    this.selectedMenuOption = detail.mediatype;
+    this.toggleMediaSlider();
+  }
+
   render() {
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
-    const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
     const closeLayerVisible = this.mediaMenuOpen || this.searchMenuOpen || this.userMenuOpen;
 
     return html`
       <div class='topnav'>
         <mobile-nav
           .config=${this.config}
+          .selectedMenuOption=${this.selectedMenuOption}
           ?mediaMenuOpen="${this.mediaMenuOpen}"
           ?searchMenuFade="${this.searchMenuFade}"
           ?searchMenuOpen="${this.searchMenuOpen}"
@@ -133,14 +174,14 @@ export default class IATopNav extends LitElement {
           @navSearch=${this.navSearch}
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
+          @mediaTypeSelected=${this.mediaTypeSelected}
         ></mobile-nav>
-        <media-menu
+        <media-slider
           .config=${this.config}
-          ?mediaMenuOpen="${this.mediaMenuOpen}"
-          ?mediaMenuAnimate="${this.mediaMenuAnimate}"
-          tabindex="${mediaMenuTabIndex}"
-          @trackClick=${this.trackClick}
-        ></media-menu>
+          .selectedMenuOption=${this.selectedMenuOption}
+          ?mediaSliderOpen="${this.mediaSliderOpen}"
+          ?mediaSliderAnimate="${this.mediaSliderAnimate}"
+        ></media-slider>
         <search-menu
           .config=${this.config}
           ?searchMenuOpen="${this.searchMenuOpen}"
