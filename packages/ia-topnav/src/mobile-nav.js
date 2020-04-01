@@ -5,6 +5,7 @@ import './assets/img/hamburger';
 import './assets/img/search';
 import './login-button';
 import './nav-search';
+import './media-menu';
 import logoWordmark from './assets/img/wordmark-narrow-spacing';
 import mobileNavCSS from './styles/mobile-nav';
 
@@ -18,6 +19,7 @@ class MobileNav extends TrackedElement {
       config: { type: Object },
       mediaMenuOpen: { type: Boolean },
       searchMenuOpen: { type: Boolean },
+      selectedMenuOption: { type: String },
       userMenuOpen: { type: Boolean },
     };
   }
@@ -27,6 +29,7 @@ class MobileNav extends TrackedElement {
     this.config = {};
     this.userMenuOpen = false;
     this.searchMenuOpen = false;
+    this.selectedMenuOption = '';
     this.mediaMenuOpen = false;
   }
 
@@ -67,6 +70,7 @@ class MobileNav extends TrackedElement {
   }
 
   render() {
+    const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
     return html`
       <nav>
         <a class="link-home" href="https://${this.config.baseUrl}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}${logoWordmark}</a>
@@ -80,6 +84,13 @@ class MobileNav extends TrackedElement {
         <div class="user-info">
           ${this.config.username ? this.userIcon : this.loginIcon}
         </div>
+        <media-menu
+          .config=${this.config}
+          ?mediaMenuOpen="${this.mediaMenuOpen}"
+          ?mediaMenuAnimate="${this.mediaMenuAnimate}"
+          tabindex="${mediaMenuTabIndex}"
+          .selectedMenuOption=${this.selectedMenuOption}
+        ></media-menu>
       </nav>
     `;
   }

@@ -36,7 +36,9 @@ class MediaButton extends TrackedElement {
 
   onClick(e) {
     this.trackClick(e);
-    this.dispatchEvent(new CustomEvent('selected', {
+    this.dispatchEvent(new CustomEvent('mediaTypeSelected', {
+      bubbles: true,
+      composed: true,
       detail: {
         mediatype: this.mediatype
       }

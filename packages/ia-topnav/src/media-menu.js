@@ -1,6 +1,5 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 
-import './media-slider';
 import './media-button';
 import mediaMenuCSS from './styles/media-menu';
 
@@ -58,8 +57,6 @@ class MediaMenu extends LitElement {
       config: { type: Object },
       mediaMenuOpen: { type: Boolean },
       mediaMenuAnimate: { type: Boolean },
-      mediaSliderOpen: { type: Boolean },
-      mediaSliderAnimate: { type: Boolean },
       selectedMenuOption: { type: String },
     };
   }
@@ -67,48 +64,7 @@ class MediaMenu extends LitElement {
   constructor() {
     super();
     this.config = {};
-    this.mediaSliderOpen = false;
-    this.mediaSliderAnimate = false;
     this.selectedMenuOption = '';
-  }
-
-  updated(changedProperties) {
-    const { mediaMenuOpen, mediaSliderOpen } = this;
-    const menuClosed = changedProperties.has('mediaMenuOpen')
-      && changedProperties.get('mediaMenuOpen')
-      && !mediaMenuOpen;
-
-    if (menuClosed && mediaSliderOpen) {
-      this.mediaSliderOpen = false;
-      this.mediaSliderAnimate = false;
-      this.selectedMenuOption = '';
-    }
-  }
-
-  closeMediaSlider() {
-    this.mediaSliderAnimate = true;
-    this.mediaSliderOpen = false;
-    this.selectedMenuOption = '';
-  }
-
-  toggleMediaSlider() {
-    if (!this.mediaSliderOpen) {
-      this.mediaSliderAnimate = true;
-      this.mediaSliderOpen = !this.mediaSliderOpen;
-    }
-  }
-
-  select(e) {
-    const { mediatype } = e.detail;
-    const currentSelection = this.selectedMenuOption;
-
-    if (currentSelection === mediatype) {
-      this.closeMediaSlider();
-      return;
-    }
-
-    this.selectedMenuOption = mediatype;
-    this.toggleMediaSlider();
   }
 
   get mediaMenuOptionsTemplate() {
@@ -127,7 +83,6 @@ class MediaMenu extends LitElement {
           .label=${label}
           mediatype=${menu}
           .selected=${selected}
-          @selected=${this.select}
         ></media-button>
       `;
     });
@@ -142,23 +97,15 @@ class MediaMenu extends LitElement {
     if (!this.mediaMenuOpen && this.mediaMenuAnimate) {
       mediaMenuClass = 'closed';
     }
-    const mediaMenuHidden = Boolean(!this.mediaMenuOpen).toString();
-    const mediaMenuExpanded = Boolean(this.mediaMenuOpen).toString();
 
     return html`
       <nav
         class="media-menu tx-slide ${mediaMenuClass}"
-        aria-hidden="${mediaMenuHidden}"
-        aria-expanded="${mediaMenuExpanded}"
+        aria-hidden="${!this.mediaMenuOpen}"
+        aria-expanded="${this.mediaMenuOpen}"
       >
         <div class="menu-group">
           ${this.mediaMenuOptionsTemplate}
-          <media-slider
-            .config=${this.config}
-            .selectedMenuOption=${this.selectedMenuOption}
-            ?mediaSliderOpen="${this.mediaSliderOpen}"
-            ?mediaSliderAnimate="${this.mediaSliderAnimate}"
-          ></media-slider>
         </div>
       </nav>
     `;
