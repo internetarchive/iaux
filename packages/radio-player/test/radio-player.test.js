@@ -873,13 +873,11 @@ describe('Radio Player', () => {
         <radio-player></radio-player>
       `);
 
-      const playbackControls = el.shadowRoot.querySelector('playback-controls');
-      const button = playbackControls.shadowRoot.getElementById('playback-rate-btn');
-
-      const clickEvent = new MouseEvent('click');
-      setTimeout(() => { button.dispatchEvent(clickEvent); });
+      const event = new CustomEvent('foo', {
+        detail: { playbackRate: 1.25 },
+      });
+      setTimeout(() => { el.changePlaybackRate(event); });
       const response = await oneEvent(el, 'playbackRateChanged');
-      expect(response).to.exist;
       expect(response.detail.playbackRate).to.equal(1.25);
     });
 
@@ -888,14 +886,12 @@ describe('Radio Player', () => {
         <radio-player></radio-player>
       `);
 
-      const playbackControls = el.shadowRoot.querySelector('playback-controls');
-      const button = playbackControls.shadowRoot.getElementById('volume-control-btn');
-
-      const clickEvent = new MouseEvent('click');
-      setTimeout(() => { button.dispatchEvent(clickEvent); });
+      const event = new CustomEvent('foo', {
+        detail: { volume: 0.5 },
+      });
+      setTimeout(() => { el.volumeChanged(event); });
       const response = await oneEvent(el, 'volumeChanged');
-      expect(response).to.exist;
-      expect(response.detail.volume).to.equal(0);
+      expect(response.detail.volume).to.equal(0.5);
     });
 
     it('emits jumpBackButtonPressed event', async () => {
@@ -903,11 +899,7 @@ describe('Radio Player', () => {
         <radio-player></radio-player>
       `);
 
-      const playbackControls = el.shadowRoot.querySelector('playback-controls');
-      const button = playbackControls.shadowRoot.getElementById('back-btn');
-
-      const clickEvent = new MouseEvent('click');
-      setTimeout(() => { button.dispatchEvent(clickEvent); });
+      setTimeout(() => { el.backButtonHandler(); });
       const response = await oneEvent(el, 'jumpBackButtonPressed');
       expect(response).to.exist;
     });
@@ -917,11 +909,7 @@ describe('Radio Player', () => {
         <radio-player></radio-player>
       `);
 
-      const playbackControls = el.shadowRoot.querySelector('playback-controls');
-      const button = playbackControls.shadowRoot.getElementById('forward-btn');
-
-      const clickEvent = new MouseEvent('click');
-      setTimeout(() => { button.dispatchEvent(clickEvent); });
+      setTimeout(() => { el.forwardButtonHandler(); });
       const response = await oneEvent(el, 'jumpForwardButtonPressed');
       expect(response).to.exist;
     });
@@ -931,13 +919,8 @@ describe('Radio Player', () => {
         <radio-player></radio-player>
       `);
 
-      const playbackControls = el.shadowRoot.querySelector('playback-controls');
-      const button = playbackControls.shadowRoot.getElementById('play-pause-btn');
-
-      const clickEvent = new MouseEvent('click');
-      setTimeout(() => { button.dispatchEvent(clickEvent); });
+      setTimeout(() => { el.playPauseButtonHandler(); });
       const response = await oneEvent(el, 'playPauseButtonPressed');
-      expect(response).to.exist;
       expect(response.detail.isPlaying).to.equal(true);
     });
 
@@ -946,11 +929,7 @@ describe('Radio Player', () => {
         <radio-player></radio-player>
       `);
 
-      const playbackControls = el.shadowRoot.querySelector('playback-controls');
-      const button = playbackControls.shadowRoot.getElementById('next-section-btn');
-
-      const clickEvent = new MouseEvent('click');
-      setTimeout(() => { button.dispatchEvent(clickEvent); });
+      setTimeout(() => { el.nextSectionButtonHandler(); });
       const response = await oneEvent(el, 'nextSectionButtonPressed');
       expect(response).to.exist;
     });
@@ -963,12 +942,7 @@ describe('Radio Player', () => {
       // needed to be able to press the prev section button
       el.percentComplete = 35;
 
-      const playbackControls = el.shadowRoot.querySelector('playback-controls');
-      const button = playbackControls.shadowRoot.getElementById('prev-section-btn');
-
-      const clickEvent = new MouseEvent('click');
-
-      setTimeout(() => { button.dispatchEvent(clickEvent); });
+      setTimeout(() => { el.prevSectionButtonHandler(); });
       const response = await oneEvent(el, 'prevSectionButtonPressed');
       expect(response).to.exist;
     });
@@ -980,8 +954,88 @@ describe('Radio Player', () => {
 
       setTimeout(() => { el.currentTime = 5; });
       const response = await oneEvent(el, 'currentTimeChanged');
-      expect(response).to.exist;
       expect(response.detail.currentTime).to.equal(5);
+    });
+
+    it('emits searchCleared event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.searchCleared(); });
+      const response = await oneEvent(el, 'searchCleared');
+      expect(response).to.exist;
+    });
+
+    it('emits searchTermChanged event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      const event = new CustomEvent('foo', {
+        detail: { value: 'boop' },
+      });
+      setTimeout(() => { el.updateSearchTerm(event); });
+      const response = await oneEvent(el, 'searchTermChanged');
+      expect(response.detail.searchTerm).to.equal('boop');
+    });
+
+    it('emits playbackPaused event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.playbackPaused(); });
+      const response = await oneEvent(el, 'playbackPaused');
+      expect(response).to.exist;
+    });
+
+    it('emits playbackStarted event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.playbackStarted(); });
+      const response = await oneEvent(el, 'playbackStarted');
+      expect(response).to.exist;
+    });
+
+    it('emits canplay event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.canplay(); });
+      const response = await oneEvent(el, 'canplay');
+      expect(response).to.exist;
+    });
+
+    it('emits timeChangedFromScrub event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      el.duration = 100;
+
+      const event = new CustomEvent('foo', {
+        detail: { value: 35 },
+      });
+      setTimeout(() => { el.valueChangedFromScrub(event); });
+      const response = await oneEvent(el, 'timeChangedFromScrub');
+      expect(response.detail.newTime).to.equal(35);
+    });
+
+    it('emits transcriptEntrySelected event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      const event = new CustomEvent('foo', {
+        detail: { entry: { start: 35 } },
+      });
+      setTimeout(() => { el.transcriptEntrySelected(event); });
+      const response = await oneEvent(el, 'transcriptEntrySelected');
+      expect(response.detail.newTime).to.equal(35);
     });
   });
 });
