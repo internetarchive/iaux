@@ -1044,11 +1044,11 @@ describe('Radio Player', () => {
       `);
 
       const event = new CustomEvent('foo', {
-        detail: { searchResultIndex: 2 },
+        detail: { searchResultIndex: 3 },
       });
       setTimeout(() => { el.searchResultIndexChanged(event); });
       const response = await oneEvent(el, 'highlightedSearchResultChanged');
-      expect(response.detail.searchResultIndex).to.equal(2);
+      expect(response.detail.searchResultIndex).to.equal(3);
     });
   });
 });
