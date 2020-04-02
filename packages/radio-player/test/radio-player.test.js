@@ -1037,5 +1037,18 @@ describe('Radio Player', () => {
       const response = await oneEvent(el, 'transcriptEntrySelected');
       expect(response.detail.newTime).to.equal(35);
     });
+
+    it('emits highlightedSearchResultChanged event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      const event = new CustomEvent('foo', {
+        detail: { searchResultIndex: 2 },
+      });
+      setTimeout(() => { el.searchResultIndexChanged(event); });
+      const response = await oneEvent(el, 'highlightedSearchResultChanged');
+      expect(response.detail.searchResultIndex).to.equal(2);
+    });
   });
 });

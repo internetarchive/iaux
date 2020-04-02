@@ -628,6 +628,11 @@ export default class RadioPlayer extends LitElement {
     }
     this.transcriptView.selectedSearchResultIndex = searchResultIndex;
     this.transcriptView.scrollToSelectedSearchResult();
+
+    const event = new CustomEvent('highlightedSearchResultChanged', {
+      detail: { searchResultIndex },
+    });
+    this.dispatchEvent(event);
   }
 
   /**
