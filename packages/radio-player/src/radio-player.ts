@@ -742,6 +742,7 @@ export default class RadioPlayer extends LitElement {
       return;
     }
     this.playbackRate = detail.playbackRate;
+
     const event = new CustomEvent('playbackRateChanged', {
       detail: { playbackRate: this.playbackRate },
     });
