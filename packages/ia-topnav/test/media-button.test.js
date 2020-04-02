@@ -13,7 +13,7 @@ describe('<media-button>', () => {
     const clickEvent = new MouseEvent('click');
 
     setTimeout(() => el.shadowRoot.querySelector('button').dispatchEvent(clickEvent));
-    const response = await oneEvent(el, 'selected');
+    const response = await oneEvent(el, 'mediaTypeSelected');
 
     expect(response).to.exist;
   });

@@ -49,6 +49,7 @@ export default css`
     .information-menu {
       left: 0;
       height: auto;
+      min-height: 21rem;
     }
 
     .menu-enter {
@@ -59,6 +60,12 @@ export default css`
     .menu-exit {
       transform: translate(0, -100%);
       animation: none;
+    }
+
+    .info-box {
+      max-width: 1000px;
+      padding: 1.5rem 0;
+      margin: 0 auto;
     }
   }
 `;

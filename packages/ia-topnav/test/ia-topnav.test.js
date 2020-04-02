@@ -10,6 +10,18 @@ import '../src/ia-topnav';
 
 const container = html`<ia-topnav></ia-topnav>`;
 
+const verifyClosed = (instance) => {
+  expect(instance.mediaSliderAnimate).to.be.true;
+  expect(instance.mediaSliderOpen).to.be.false;
+  expect(instance.selectedMenuOption).to.equal('');
+};
+
+const verifyOpened = (instance, mediatype) => {
+  expect(instance.mediaSliderOpen).to.be.true;
+  expect(instance.mediaSliderAnimate).to.be.true;
+  expect(instance.selectedMenuOption).to.equal(mediatype);
+};
+
 customElements.define('test-search-form', class extends LitElement {
   render() {
     return html`<form><input name="query"><input name="sin" value="TXT"></form>`;
@@ -136,5 +148,66 @@ describe('<ia-topnav>', () => {
     menus.forEach((menu) => {
       expect(el[`${menu}MenuOpen`]).to.be.false;
     });
+  });
+
+  it('sets media slider to closed', async () => {
+    const el = await fixture(container);
+
+    el.mediaSliderOpen = true;
+    el.selectedMenuOption = 'foo';
+    el.closeMediaSlider();
+
+    verifyClosed(el);
+  });
+
+  it('toggles media slider visibility and starts animation', async () => {
+    const el = await fixture(container);
+    const mediatype = 'foo';
+
+    el.selectedMenuOption = mediatype;
+    el.toggleMediaSlider();
+
+    verifyOpened(el, mediatype);
+  });
+
+  it('closes media slider if selected menu type is the open menu type', async () => {
+    const el = await fixture(container);
+    const mediatype = 'foo';
+
+    el.selectedMenuOption = mediatype;
+    el.mediaTypeSelected({
+      detail: {
+        mediatype
+      }
+    });
+
+    verifyClosed(el);
+  });
+
+  it('opens media slider menu and starts animation', async () => {
+    const el = await fixture(container);
+    const mediatype = 'foo';
+
+    el.mediaTypeSelected({
+      detail: {
+        mediatype
+      }
+    });
+
+    verifyOpened(el, mediatype);
+  });
+
+  it('closes slider when menu closed', async () => {
+    const el = await fixture(container);
+
+    el.selectedMenuOption = 'foo';
+    el.mediaMenuOpen = true;
+    await el.updateComplete;
+    el.mediaSliderOpen = true;
+    await el.updateComplete;
+    el.mediaMenuOpen = false;
+    await el.updateComplete;
+
+    expect(el.selectedMenuOption).to.equal('');
   });
 });

@@ -53,18 +53,6 @@ const texts = baseUrl => ({
     title: 'Children\'s Library',
     url: `https://${baseUrl}/details/iacl`,
   }, {
-    title: 'Halesowen Chronicle Newspaper',
-    url: `https://${baseUrl}/details/halesowen-chronicle-newspaper`,
-  }, {
-    title: 'Kidderminster Chronicle Newspaper',
-    url: `https://${baseUrl}/details/kidderminster-chronicle-newspaper`,
-  }, {
-    title: 'Harlow Star Newspaper',
-    url: `https://${baseUrl}/details/harlow-star-newspaper`,
-  }, {
-    title: 'Mk News Newspaper',
-    url: `https://${baseUrl}/details/mk-news-newspaper`,
-  }, {
     title: 'Books by Language',
     url: `https://${baseUrl}/details/booksbylanguage`,
   }, {
@@ -143,8 +131,8 @@ const video = baseUrl => ({
     title: 'Youth Media',
     url: `https://${baseUrl}/details/youth_media`,
   }, {
-    title: 'Regent Park TV',
-    url: `https://${baseUrl}/details/rptv1on`,
+    title: 'Norton Media Center',
+    url: `https://${baseUrl}/details/nmcma`,
   }]
 });
 
@@ -185,7 +173,7 @@ const audio = baseUrl => ({
     title: 'Community Audio',
     url: `https://${baseUrl}/details/opensource_audio`,
   }, {
-    title: 'Computers & Technology',
+    title: 'Computers, Technology and Science',
     url: `https://${baseUrl}/details/audio_tech`,
   }, {
     title: 'Music, Arts & Culture',
@@ -199,9 +187,6 @@ const audio = baseUrl => ({
   }, {
     title: 'Spirituality & Religion',
     url: `https://${baseUrl}/details/audio_religion`,
-  }, {
-    title: 'Fat Tuesday',
-    url: `https://${baseUrl}/details/FatTuesdayBand`,
   }, {
     title: 'Podcasts',
     url: `https://${baseUrl}/details/podcasts`,
@@ -272,11 +257,11 @@ const software = baseUrl => ({
     title: 'Shareware CD-ROMs',
     url: `https://${baseUrl}/details/cdbbsarchive`,
   }, {
-    title: 'CD-ROM Images',
-    url: `https://${baseUrl}/details/cdromimages`,
-  }, {
     title: 'Software Capsules Compilation',
     url: `https://${baseUrl}/details/softwarecapsules`,
+  }, {
+    title: 'CD-ROM Images',
+    url: `https://${baseUrl}/details/cdromimages`,
   }, {
     title: 'ZX Spectrum',
     url: `https://${baseUrl}/details/softwarelibrary_zx_spectrum`,
