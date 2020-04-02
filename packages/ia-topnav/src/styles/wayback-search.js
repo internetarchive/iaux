@@ -1,6 +1,10 @@
 import { css } from 'lit-element';
 
 export default css`
+  :host {
+    grid-column: 1 / 4;
+  }
+
   form {
     padding: 0 5rem 0 2rem;
   }
