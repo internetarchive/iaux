@@ -26,6 +26,18 @@ class Search extends Icon {
       .active path {
         fill: var(--activeSearchColor);
       }
+
+      @media (min-width: 768px) {
+        svg {
+          display: inline;
+          width: 28px;
+          height: 28px;
+          vertical-align: -14px;
+        }
+        path {
+          fill: var(--grey20);
+        }
+      }
     `;
   }
 

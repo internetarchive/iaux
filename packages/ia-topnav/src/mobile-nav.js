@@ -84,6 +84,7 @@ class MobileNav extends TrackedElement {
         <div class="user-info">
           ${this.config.username ? this.userIcon : this.loginIcon}
         </div>
+        <a href="https://${this.config.baseUrl}/upload/" class="upload">${icons.upload}Upload</a>
         <media-menu
           .config=${this.config}
           ?mediaMenuOpen="${this.mediaMenuOpen}"
