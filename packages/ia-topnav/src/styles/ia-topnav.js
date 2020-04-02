@@ -5,10 +5,12 @@ export default css`
     --white: #fff;
     --grey13: #222;
     --grey20: #333;
+    --grey28: #474747;
     --grey999: #999;
     --grey80: #ccc;
     --black: #000;
     --link-color: #428bca;
+    --subnavLinkColor: #aaa;
     --primary-text-color: var(--white);
 
     --theme-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;

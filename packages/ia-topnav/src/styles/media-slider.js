@@ -50,10 +50,11 @@ export default css`
       left: 0;
       height: auto;
       min-height: 21rem;
+      background: var(--grey28);
     }
 
     .menu-enter {
-      transform: translate(0, 5rem);
+      transform: translate(0, 8rem);
       animation: none;
     }
 
