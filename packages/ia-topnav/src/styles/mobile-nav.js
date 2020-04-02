@@ -13,6 +13,7 @@ export default css`
     height: 4rem;
     grid-template-areas: "hamburger empty search user";
     grid-template-columns: 4rem auto 4.3rem 5rem;
+    grid-template-rows: 100%;
     background: var(--grey13);
     border-bottom: 1px solid var(--grey20);
   }

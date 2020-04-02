@@ -89,7 +89,7 @@ export default css`
     }
 
     .menu-item.selected {
-      background: var(--grey20);
+      background: var(--grey28);
     }
 
     .menu-item.selected .label,

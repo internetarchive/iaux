@@ -4,6 +4,7 @@ import './mobile-nav';
 import './user-menu';
 import './search-menu';
 import './media-slider';
+import './desktop-subnav';
 import { user as userMenu } from './data/menus';
 import iaTopNavCSS from './styles/ia-topnav';
 
@@ -200,6 +201,7 @@ export default class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
         ></user-menu>
       </div>
+      <desktop-subnav .baseUrl=${this.config.baseUrl}></desktop-subnav>
       <div id="close-layer" class="${closeLayerVisible ? 'visible' : ''}" @click=${this.closeMenus}></div>
     `;
   }
