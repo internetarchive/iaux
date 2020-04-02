@@ -78,4 +78,35 @@ export default css`
   .fade-in {
     animation: fade-in .2s forwards;
   }
+
+  @media (min-width: 768px) {
+    :host {
+      grid-area: search;
+    }
+
+    .search-inactive,
+    .search-activated {
+      display: block;
+      position: static;
+      padding: 1.2rem .2rem;
+      background: transparent;
+    }
+
+    .search-activated .highlight {
+      height: 28px;
+      flex-direction: row-reverse;
+    }
+
+    .search-activated .search-field {
+      height: 100%;
+      padding-left: 0;
+      font-size: 1.4rem;
+      text-align: left;
+    }
+
+    .search-activated .search svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
 `;

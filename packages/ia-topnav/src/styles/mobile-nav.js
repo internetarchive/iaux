@@ -66,6 +66,10 @@ export default css`
     text-align: right;
   }
 
+  .upload {
+    display: none;
+  }
+
   .user-info {
     grid-area: user;
     align-self: stretch;
@@ -91,8 +95,9 @@ export default css`
   @media (min-width: 768px) {
     nav {
       height: 5rem;
-      grid-template-areas: "logo menu search user";
-      grid-template-columns: 263px auto 4.3rem 5rem;
+      padding-right: 1.5rem;
+      grid-template-areas: "logo menu user upload search";
+      grid-template-columns: 263px auto 4.3rem 9.5rem 13.5rem;
     }
 
     .link-home {
@@ -113,8 +118,31 @@ export default css`
       margin-left: 1rem;
     }
 
-    .hamburger {
+    .hamburger,
+    .search-trigger {
       display: none;
+    }
+
+    .upload {
+      display: block;
+      grid-area: upload;
+      align-self: center;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--grey999);
+    }
+    .upload:active,
+    .upload:focus,
+    .upload:hover {
+      color: var(--white);
+    }
+
+    .upload svg {
+      width: 32px;
+      height: 32px;
+      vertical-align: middle;
+      fill: var(--grey999);
     }
   }
 `;
