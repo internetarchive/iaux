@@ -82,13 +82,18 @@ class MediaSubnav extends TrackedElement {
       <div class="icon-links">
         ${this.iconLinks}
       </div>
-      <ul>
-        ${this.renderLinks('featuredLinks')}
-      </ul>
-      <h4>Top</h4>
-      <ul>
-        ${this.renderLinks('links')}
-      </ul>
+      <div class="links featured">
+        <h4>Featured</h4>
+        <ul>
+          ${this.renderLinks('featuredLinks')}
+        </ul>
+      </div>
+      <div class="links top">
+        <h4>Top</h4>
+        <ul>
+          ${this.renderLinks('links')}
+        </ul>
+      </div>
     `;
   }
 }

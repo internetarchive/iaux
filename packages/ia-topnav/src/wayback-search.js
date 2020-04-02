@@ -1,4 +1,4 @@
-import { html, css } from 'lit-element';
+import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import './assets/img/search';
 import waybackSearchCSS from './styles/wayback-search';

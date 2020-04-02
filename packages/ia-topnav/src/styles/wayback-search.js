@@ -20,6 +20,7 @@ export default css`
     max-width: 600px;
     padding: 0.7rem 2rem;
     margin: 1.5rem 0;
+    box-sizing: border-box;
     text-align: center;
     border: none;
     border-radius: 7px;
@@ -60,6 +61,7 @@ export default css`
 
   .search-field {
     position: relative;
+    overflow: hidden;
   }
 
   .search-field search-image {
@@ -70,5 +72,33 @@ export default css`
 
   input:focus + search-image {
     display: none;
+  }
+
+  @media (min-width: 768px) {
+    p {
+      margin-bottom: 3rem;
+      font-size: 1.6rem;
+      text-align: center;
+    }
+
+    img {
+      margin: 0;
+    }
+
+    fieldset {
+      margin: 0 auto;
+      font-size: 0;
+    }
+
+    fieldset a,
+    .search-field {
+      display: inline-block;
+      width: 50%;
+      vertical-align: middle;
+    }
+
+    fieldset a {
+      text-align: center;
+    }
   }
 `;

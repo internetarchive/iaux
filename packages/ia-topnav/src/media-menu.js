@@ -55,8 +55,8 @@ class MediaMenu extends LitElement {
   static get properties() {
     return {
       config: { type: Object },
-      mediaMenuOpen: { type: Boolean },
       mediaMenuAnimate: { type: Boolean },
+      mediaMenuOpen: { type: Boolean },
       selectedMenuOption: { type: String },
     };
   }
@@ -64,6 +64,8 @@ class MediaMenu extends LitElement {
   constructor() {
     super();
     this.config = {};
+    this.mediaMenuAnimate = false;
+    this.mediaMenuOpen = false;
     this.selectedMenuOption = '';
   }
 

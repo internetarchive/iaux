@@ -1,4 +1,4 @@
-import { html, css } from 'lit-element';
+import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import './assets/img/hamburger';
