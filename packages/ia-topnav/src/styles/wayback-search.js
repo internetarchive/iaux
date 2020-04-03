@@ -78,7 +78,7 @@ export default css`
     display: none;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 890px) {
     p {
       margin-bottom: 3rem;
       font-size: 1.6rem;

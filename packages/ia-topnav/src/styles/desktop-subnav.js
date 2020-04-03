@@ -2,6 +2,8 @@ import { css } from 'lit-element';
 
 export default css`
   ul {
+    position: relative;
+    z-index: 2;
     padding: .8rem 0;
     margin: 0;
     font-size: 1.2rem;

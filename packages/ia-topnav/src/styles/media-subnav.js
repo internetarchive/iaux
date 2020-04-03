@@ -57,7 +57,7 @@ export default css`
     display: none;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 890px) {
     :host {
       display: grid;
       grid-template-columns: 40% 20% 40%;

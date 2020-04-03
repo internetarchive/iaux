@@ -76,9 +76,20 @@ export default css`
     justify-self: end;
   }
 
+  .username {
+    display: none;
+    font-size: 1.3rem;
+    vertical-align: middle;
+  }
+
   .user-menu {
     height: 100%;
     padding: .5rem 1rem;
+    color: var(--grey999);
+  }
+
+  .user-menu:hover {
+    color: var(--white);
   }
 
   .user-menu.active {
@@ -92,12 +103,13 @@ export default css`
     height: 30px;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 890px) {
     nav {
+      z-index: 2;
       height: 5rem;
       padding-right: 1.5rem;
       grid-template-areas: "logo menu user upload search";
-      grid-template-columns: 263px auto 4.3rem 9.5rem 13.5rem;
+      grid-template-columns: 263px auto 12rem 9.5rem 13.5rem;
     }
 
     .link-home {
@@ -121,6 +133,19 @@ export default css`
     .hamburger,
     .search-trigger {
       display: none;
+    }
+
+    .user-menu {
+      width: 100%;
+    }
+
+    .user-menu img {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .username {
+      display: inline-block;
     }
 
     .upload {
