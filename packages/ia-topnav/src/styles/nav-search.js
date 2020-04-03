@@ -79,7 +79,7 @@ export default css`
     animation: fade-in .2s forwards;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 890px) {
     :host {
       grid-area: search;
     }

@@ -47,4 +47,9 @@ export default css`
     text-decoration: none;
     padding: 1rem 2rem;
   }
+  @media (min-width: 890px) {
+    nav.tx-slide.open {
+      top: 8rem;
+    }
+  }
 `;

@@ -62,6 +62,7 @@ class MobileNav extends TrackedElement {
 
     return html`<button class="user-menu ${userMenuClass}" @click="${this.userMenu}" data-event-click-tracking="${this.config.eventCategory}|NavUserMenu">
       <img src="https://archive.org/services/img/user/profile?${+(new Date())}" alt="${this.config.username}" />
+      <span class="username">${this.config.username}</span>
     </button>`;
   }
 

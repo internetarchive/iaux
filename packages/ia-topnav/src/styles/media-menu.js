@@ -34,7 +34,7 @@ export default css`
     position: relative;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 890px) {
     .media-menu {
       display: inline-block;
       top: 0;

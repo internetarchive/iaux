@@ -62,7 +62,7 @@ export default css`
     fill: #f00;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 890px) {
     .menu-item {
       width: auto;
       height: 5rem;

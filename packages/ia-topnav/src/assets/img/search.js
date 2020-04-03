@@ -27,7 +27,7 @@ class Search extends Icon {
         fill: var(--activeSearchColor);
       }
 
-      @media (min-width: 768px) {
+      @media (min-width: 890px) {
         svg {
           display: inline;
           width: 28px;
