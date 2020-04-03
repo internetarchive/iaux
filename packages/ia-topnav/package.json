@@ -1,10 +1,13 @@
 {
-  "name": "@internetarchive/mobile-top-nav",
-  "version": "0.1.1-alpha.656+51e2df4",
-  "description": "Top Nav for Internet Archive that is optimized for the mobile experience",
+  "name": "@internetarchive/ia-topnav",
+  "version": "0.1.1-alpha.528+21d4f6d",
+  "description": "Top nav for Internet Archive",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "es-dev-server --app-index ./index.html --node-resolve --watch --open",
     "lint:eslint": "eslint --ext .js . --ignore-path .gitignore",
@@ -64,5 +67,5 @@
     ]
   },
   "prettier": "@open-wc/prettier-config",
-  "gitHead": "810ea62d6d8ecc1ad02113ba4d1b33029e6b61bd"
+  "gitHead": "21d4f6ddc8abe8ff1abf890a731bcb97d9586b04"
 }
