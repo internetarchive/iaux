@@ -106,8 +106,10 @@ export default class IATopNav extends LitElement {
 
   closeMenus() {
     this.mediaMenuOpen = false;
+    this.mediaSliderOpen = false;
     this.searchMenuOpen = false;
     this.userMenuOpen = false;
+    this.selectedMenuOption = '';
   }
 
   navSearch(e) {
@@ -155,10 +157,14 @@ export default class IATopNav extends LitElement {
     this.toggleMediaSlider();
   }
 
+  get isMenuOpen() {
+    return this.mediaMenuOpen || this.searchMenuOpen || this.userMenuOpen || this.mediaSliderOpen;
+  }
+
   render() {
     const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
     const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
-    const closeLayerVisible = this.mediaMenuOpen || this.searchMenuOpen || this.userMenuOpen;
+    const closeLayerVisible = this.isMenuOpen;
 
     return html`
       <div class='topnav'>

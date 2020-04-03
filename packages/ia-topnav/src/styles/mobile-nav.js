@@ -115,7 +115,7 @@ export default css`
     .link-home {
       position: static;
       display: flex;
-      padding: 0 10px;
+      padding: 0 10px 0 13px;
       align-items: center;
       transform: translate(0, 0);
     }
