@@ -1062,7 +1062,6 @@ describe('Radio Player', () => {
         }
       }
       const searchHandler = new MockSearchHandler();
-
       el.searchHandler = searchHandler;
 
       setTimeout(() => { el.executeSearch('foo'); });
