@@ -657,6 +657,8 @@ export default class RadioPlayer extends LitElement {
     }
     this.searchTerm = term;
     this.isSearching = true;
+    const event = new Event('searchExecuted');
+    this.dispatchEvent(event);
     this.searchResultsTranscript = await this.searchHandler.search(term);
     this.isSearching = false;
   }

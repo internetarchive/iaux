@@ -1050,5 +1050,24 @@ describe('Radio Player', () => {
       const response = await oneEvent(el, 'highlightedSearchResultChanged');
       expect(response.detail.searchResultIndex).to.equal(3);
     });
+
+    it('emits searchExecuted event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      class MockSearchHandler {
+        search() {
+          return new Promise(resolve => resolve());
+        }
+      }
+      const searchHandler = new MockSearchHandler();
+
+      el.searchHandler = searchHandler;
+
+      setTimeout(() => { el.executeSearch('foo'); });
+      const response = await oneEvent(el, 'searchExecuted');
+      expect(response).to.exist;
+    });
   });
 });
