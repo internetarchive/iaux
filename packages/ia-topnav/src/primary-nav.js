@@ -7,11 +7,11 @@ import './login-button';
 import './nav-search';
 import './media-menu';
 import logoWordmark from './assets/img/wordmark-narrow-spacing';
-import mobileNavCSS from './styles/mobile-nav';
+import primaryNavCSS from './styles/primary-nav';
 
-class MobileNav extends TrackedElement {
+class PrimaryNav extends TrackedElement {
   static get styles() {
-    return mobileNavCSS;
+    return primaryNavCSS;
   }
 
   static get properties() {
@@ -98,4 +98,4 @@ class MobileNav extends TrackedElement {
   }
 }
 
-customElements.define('mobile-nav', MobileNav);
+customElements.define('primary-nav', PrimaryNav);

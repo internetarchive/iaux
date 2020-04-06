@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit-element';
 
-import './mobile-nav';
+import './primary-nav';
 import './user-menu';
 import './search-menu';
 import './media-slider';
@@ -88,7 +88,7 @@ export default class IATopNav extends LitElement {
       window.setTimeout(() => {
         this
           .shadowRoot
-          .querySelector('mobile-nav')
+          .querySelector('primary-nav')
           .shadowRoot
           .querySelector('nav-search')
           .shadowRoot
@@ -168,7 +168,7 @@ export default class IATopNav extends LitElement {
 
     return html`
       <div class='topnav'>
-        <mobile-nav
+        <primary-nav
           .config=${this.config}
           .selectedMenuOption=${this.selectedMenuOption}
           ?mediaMenuOpen="${this.mediaMenuOpen}"
@@ -182,7 +182,7 @@ export default class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @mediaTypeSelected=${this.mediaTypeSelected}
-        ></mobile-nav>
+        ></primary-nav>
         <media-slider
           .config=${this.config}
           .selectedMenuOption=${this.selectedMenuOption}

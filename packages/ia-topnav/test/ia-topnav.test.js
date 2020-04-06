@@ -104,7 +104,7 @@ describe('<ia-topnav>', () => {
     setTimeout(() => (
       el
         .shadowRoot
-        .querySelector('mobile-nav')
+        .querySelector('primary-nav')
         .shadowRoot
         .querySelector('.hamburger')
         .dispatchEvent(clickEvent)
@@ -121,7 +121,7 @@ describe('<ia-topnav>', () => {
     setTimeout(() => (
       el
         .shadowRoot
-        .querySelector('mobile-nav')
+        .querySelector('primary-nav')
         .shadowRoot
         .querySelector('nav-search')
         .shadowRoot
