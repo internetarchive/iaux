@@ -35,7 +35,7 @@ export default css`
     fill: #f00;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 889px) {
     ul {
       display: none;
     }
