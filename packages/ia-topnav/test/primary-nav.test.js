@@ -5,7 +5,7 @@ import {
   oneEvent,
 } from '@open-wc/testing';
 
-import '../src/mobile-nav';
+import '../src/primary-nav';
 
 const config = {
   baseUrl: 'archive.org',
@@ -13,10 +13,10 @@ const config = {
 };
 
 const component = () => (
-  html`<mobile-nav .config=${config}></mobile-nav>`
+  html`<primary-nav .config=${config}></primary-nav>`
 );
 
-describe('<mobile-nav>', () => {
+describe('<primary-nav>', () => {
   it('defaults all menus to closed', async () => {
     const el = await fixture(component());
 
