@@ -12,7 +12,7 @@ const menuSelection = [
   {
     icon: 'texts',
     menu: 'texts',
-    label: 'Texts',
+    label: 'Books',
   },
   {
     icon: 'video',
