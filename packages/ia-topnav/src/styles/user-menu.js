@@ -2,7 +2,7 @@ import { css } from 'lit-element';
 
 export default css`
   :host {
-    --topOffset: -70vh;
+    --topOffset: -100vh;
   }
   nav {
     position: absolute;
@@ -23,7 +23,7 @@ export default css`
     top: var(--topOffset);
   }
   nav.tx-slide.closed {
-    transition-duration: 0.1s;
+    transition-duration: 0.5s;
   }
   nav.tx-slide.open {
     top: 100%;
