@@ -34,6 +34,24 @@ export default css`
       transform: translate(100%, 4rem);
     }
   }
+
+  @keyframes menu-enter-desktop {
+    0% {
+      transform: translate(0, -100%);
+    }
+    100% {
+      transform: translate(0, 8rem);
+    }
+  }
+  @keyframes menu-exit-desktop {
+    0% {
+      transform: translate(0, 8rem);
+    }
+    100% {
+      transform: translate(0, -100%);
+    }
+  }
+
   .menu-enter {
     animation: menu-enter 0.2s forwards;
   }
@@ -56,33 +74,18 @@ export default css`
 
     .menu-enter {
       transform: translate(0, 8rem);
+      animation-name: menu-enter-desktop;
     }
 
     .menu-exit {
       transform: translate(0, -100%);
+      animation-name: menu-exit-desktop;
     }
 
     .info-box {
       max-width: 1000px;
       padding: 1.5rem 0;
       margin: 0 auto;
-    }
-
-    @keyframes menu-enter {
-      0% {
-        transform: translate(0, -100%);
-      }
-      100% {
-        transform: translate(0, 8rem);
-      }
-    }
-    @keyframes menu-exit {
-      0% {
-        transform: translate(0, 8rem);
-      }
-      100% {
-        transform: translate(0, -100%);
-      }
     }
   }
 `;

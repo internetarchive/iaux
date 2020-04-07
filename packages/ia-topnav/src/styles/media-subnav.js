@@ -97,6 +97,10 @@ export default css`
       text-overflow: ellipsis;
     }
 
+    .icon-links {
+      -ms-grid-column: 1;
+    }
+
     .icon-links a {
       padding-top: 3.5rem;
       max-width: 160px;
@@ -106,8 +110,16 @@ export default css`
       padding: 0 1.5rem;
     }
 
+    .featured {
+      -ms-grid-column: 2;
+    }
+
     .featured h4 {
       display: block;
+    }
+
+    .top {
+      -ms-grid-column: 3;
     }
 
     .top ul {

@@ -171,10 +171,10 @@ export default class IATopNav extends LitElement {
         <primary-nav
           .config=${this.config}
           .selectedMenuOption=${this.selectedMenuOption}
-          ?mediaMenuOpen="${this.mediaMenuOpen}"
-          ?searchMenuFade="${this.searchMenuFade}"
-          ?searchMenuOpen="${this.searchMenuOpen}"
-          ?userMenuOpen="${this.userMenuOpen}"
+          .mediaMenuOpen="${this.mediaMenuOpen}"
+          .searchMenuFade="${this.searchMenuFade}"
+          .searchMenuOpen="${this.searchMenuOpen}"
+          .userMenuOpen="${this.userMenuOpen}"
           @mediaMenu=${this.mediaMenu}
           @searchMenu=${this.searchMenu}
           @userMenu=${this.userMenu}
@@ -186,21 +186,21 @@ export default class IATopNav extends LitElement {
         <media-slider
           .config=${this.config}
           .selectedMenuOption=${this.selectedMenuOption}
-          ?mediaSliderOpen="${this.mediaSliderOpen}"
-          ?mediaSliderAnimate="${this.mediaSliderAnimate}"
+          .mediaSliderOpen="${this.mediaSliderOpen}"
+          .mediaSliderAnimate="${this.mediaSliderAnimate}"
         ></media-slider>
         <search-menu
           .config=${this.config}
-          ?searchMenuOpen="${this.searchMenuOpen}"
-          ?searchMenuAnimate="${this.searchMenuAnimate}"
+          .searchMenuOpen="${this.searchMenuOpen}"
+          .searchMenuAnimate="${this.searchMenuAnimate}"
           tabindex="${searchMenuTabIndex}"
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
         ></search-menu>
         <user-menu
           .config=${this.config}
-          ?userMenuOpen="${this.userMenuOpen}"
-          ?userMenuAnimate="${this.userMenuAnimate}"
+          .userMenuOpen="${this.userMenuOpen}"
+          .userMenuAnimate="${this.userMenuAnimate}"
           tabindex="${userMenuTabIndex}"
           username=${this.config.username}
           .menuItems=${userMenu(this.config.baseUrl, this.config.username)}
