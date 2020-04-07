@@ -24,6 +24,8 @@ export default css`
     right: -3px;
   }
   .search-activated {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     position: absolute;
     top: 0;
@@ -44,6 +46,8 @@ export default css`
     border-radius: 0.5rem;
   }
   .search-activated .highlight {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     width: 100%;
     margin: 0 .5rem;
@@ -52,6 +56,8 @@ export default css`
     height: 100%;
     padding: 0;
     margin-right: 0;
+    -ms-flex-item-align: center;
+    -ms-grid-row-align: center;
     align-self: center;
   }
   .search-activated .search-field {
@@ -81,7 +87,7 @@ export default css`
 
   @media (min-width: 890px) {
     :host {
-      grid-area: search;
+      float: right;
     }
 
     .search-inactive,
@@ -93,7 +99,11 @@ export default css`
     }
 
     .search-activated .highlight {
-      height: 28px;
+      width: 13rem;
+      height: 2.8rem;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
       flex-direction: row-reverse;
     }
 
