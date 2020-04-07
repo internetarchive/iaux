@@ -29,7 +29,7 @@ class MediaSlider extends LitElement {
     const scrollPane = this.shadowRoot.querySelector('.information-menu');
 
     if (!scrollPane) { return true; }
-    scrollPane.scroll(0, 0);
+    scrollPane.scrollTop = 0;
     return true;
   }
 
