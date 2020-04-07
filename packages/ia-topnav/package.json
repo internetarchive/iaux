@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-topnav",
-  "version": "0.1.1-alpha.535+b406f7a",
+  "version": "0.1.1-alpha.536+5de5e1e",
   "description": "Top nav for Internet Archive",
   "license": "AGPL-3.0-only",
   "main": "index.js",
@@ -67,5 +67,5 @@
     ]
   },
   "prettier": "@open-wc/prettier-config",
-  "gitHead": "21d4f6ddc8abe8ff1abf890a731bcb97d9586b04"
+  "gitHead": "5de5e1e871f061f14838886d0bb5de5035e1cafd"
 }

@@ -6,6 +6,8 @@ class User extends Icon {
     return css`
       svg {
         vertical-align: middle;
+        width: var(--userIconWidth);
+        height: var(--userIconHeight);
       }
       path {
         fill: var(--baseColor);

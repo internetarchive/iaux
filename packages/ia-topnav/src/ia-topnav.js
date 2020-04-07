@@ -197,17 +197,17 @@ export default class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
         ></search-menu>
-        <user-menu
-          .config=${this.config}
-          .userMenuOpen="${this.userMenuOpen}"
-          .userMenuAnimate="${this.userMenuAnimate}"
-          tabindex="${userMenuTabIndex}"
-          username=${this.config.username}
-          .menuItems=${userMenu(this.config.baseUrl, this.config.username)}
-          @trackClick=${this.trackClick}
-        ></user-menu>
       </div>
       <desktop-subnav .baseUrl=${this.config.baseUrl}></desktop-subnav>
+      <user-menu
+        .config=${this.config}
+        .userMenuOpen="${this.userMenuOpen}"
+        .userMenuAnimate="${this.userMenuAnimate}"
+        tabindex="${userMenuTabIndex}"
+        username=${this.config.username}
+        .menuItems=${userMenu(this.config.baseUrl, this.config.username)}
+        @trackClick=${this.trackClick}
+      ></user-menu>
       <div id="close-layer" class="${closeLayerVisible ? 'visible' : ''}" @click=${this.closeMenus}></div>
     `;
   }

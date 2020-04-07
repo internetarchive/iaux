@@ -1,18 +1,11 @@
-import { html, css } from 'lit-element';
+import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import './assets/img/user';
+import loginButtonCSS from './styles/login-button';
 
 class LoginButton extends TrackedElement {
   static get styles() {
-    return css`
-      a {
-        display: block;
-        font-size: 1.6rem;
-        text-transform: uppercase;
-        text-decoration: none;
-        color: var(--grey80);
-      }
-    `;
+    return loginButtonCSS;
   }
 
   static get properties() {
@@ -38,6 +31,7 @@ class LoginButton extends TrackedElement {
     return html`
       <a href="${this.href}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent}">
         <user-image ?active=${this.userMenuOpen}></user-image>
+        <span>Sign in</span>
       </a>
     `;
   }
