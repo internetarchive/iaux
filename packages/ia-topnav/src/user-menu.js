@@ -49,7 +49,7 @@ class UserMenu extends TrackedElement {
 
     return html`
       <nav
-        class="user-menu tx-slide ${userMenuClass}"
+        class="${userMenuClass}"
         aria-hidden="${userMenuHidden}"
         aria-expanded="${userMenuExpanded}"
       >

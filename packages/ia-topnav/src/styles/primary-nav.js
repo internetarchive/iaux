@@ -116,6 +116,11 @@ export default css`
   }
 
   @media (min-width: 890px) {
+    :host {
+      --userIconWidth: 32px;
+      --userIconHeight: 32px;
+    }
+
     nav {
       display: block;
       z-index: 2;
@@ -149,9 +154,17 @@ export default css`
       display: none;
     }
 
-    .user-menu {
+    .user-info {
       float: right;
       padding-top: 1rem;
+    }
+
+    .user-menu {
+      padding-top: 0;
+    }
+
+    .user-menu.active {
+      background: transparent;
     }
 
     .user-menu img {
