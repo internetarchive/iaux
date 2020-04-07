@@ -9,10 +9,13 @@ export default css`
 
   nav {
     position: relative;
+    display: -ms-grid;
     display: grid;
     height: 4rem;
     grid-template-areas: "hamburger empty search user";
+    -ms-grid-columns: 4rem auto 4.3rem 5rem;
     grid-template-columns: 4rem auto 4.3rem 5rem;
+    -ms-grid-rows: 100%;
     grid-template-rows: 100%;
     background: var(--grey13);
     border-bottom: 1px solid var(--grey20);
@@ -32,6 +35,8 @@ export default css`
     left: 50%;
     z-index: 2;
     text-decoration: none;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }
 
@@ -44,15 +49,23 @@ export default css`
   }
 
   .hamburger {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
     grid-area: hamburger;
     padding: 0;
   }
 
   .search-trigger {
+    -ms-grid-row: 1;
+    -ms-grid-column: 3;
     grid-area: search;
     position: relative;
     padding: 0;
     z-index: 1;
+    width: 100%;
+    text-align: right;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
   }
 
@@ -61,18 +74,17 @@ export default css`
     z-index: 3;
   }
 
-  .search-trigger {
-    width: 100%;
-    text-align: right;
-  }
-
   .upload {
     display: none;
   }
 
   .user-info {
+    -ms-grid-row: 1;
+    -ms-grid-column: 4;
     grid-area: user;
+    -ms-grid-row-align: stretch;
     align-self: stretch;
+    -ms-grid-column-align: end;
     justify-self: end;
   }
 
@@ -105,18 +117,20 @@ export default css`
 
   @media (min-width: 890px) {
     nav {
+      display: block;
       z-index: 2;
       height: 5rem;
       padding-right: 1.5rem;
-      grid-template-areas: "logo menu user upload search";
-      grid-template-columns: 263px auto 12rem 9.5rem 13.5rem;
     }
 
     .link-home {
       position: static;
-      display: flex;
+      float: left;
+      width: 240px;
+      margin-top: 1rem;
       padding: 0 10px 0 13px;
-      align-items: center;
+      -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
       transform: translate(0, 0);
     }
 
@@ -136,7 +150,8 @@ export default css`
     }
 
     .user-menu {
-      width: 100%;
+      float: right;
+      padding-top: 1rem;
     }
 
     .user-menu img {
@@ -150,8 +165,8 @@ export default css`
 
     .upload {
       display: block;
-      grid-area: upload;
-      align-self: center;
+      float: right;
+      margin-top: 1rem;
       font-size: 1.4rem;
       text-transform: uppercase;
       text-decoration: none;

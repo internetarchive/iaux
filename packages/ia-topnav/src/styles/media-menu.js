@@ -37,9 +37,7 @@ export default css`
   @media (min-width: 890px) {
     .media-menu {
       display: inline-block;
-      top: 0;
-      left: var(--logoWidthTablet);
-      z-index: 1;
+      position: static;
       width: auto;
       height: 5rem;
     }

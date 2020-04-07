@@ -82,10 +82,10 @@ class PrimaryNav extends TrackedElement {
           <search-image ?active=${this.searchMenuOpen}></search-image>
         </button>
         <nav-search .config=${this.config} .open=${this.searchMenuOpen}></nav-search>
+        <a href="https://${this.config.baseUrl}/upload/" class="upload">${icons.upload}Upload</a>
         <div class="user-info">
           ${this.config.username ? this.userIcon : this.loginIcon}
         </div>
-        <a href="https://${this.config.baseUrl}/upload/" class="upload">${icons.upload}Upload</a>
         <media-menu
           .config=${this.config}
           ?mediaMenuOpen="${this.mediaMenuOpen}"

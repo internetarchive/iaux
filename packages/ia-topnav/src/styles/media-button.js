@@ -41,7 +41,11 @@ export default css`
     width: 42px;
     height: 42px;
     vertical-align: middle;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
   }
 
