@@ -1,8 +1,7 @@
 import { expect } from '@open-wc/testing';
 
-import { Item } from '../lib/item';
-import { File } from '../lib/file';
-import { Metadata } from '../lib/metadata';
+import { Item } from '../../lib/models/item';
+import { Metadata } from '../../lib/models/metadata';
 
 describe('Item', () => {
   it('can be instantiated with metadata', async () => {

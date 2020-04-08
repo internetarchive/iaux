@@ -1,7 +1,7 @@
 {
-  "name": "@internetarchive/ia-models",
+  "name": "@internetarchive/ia-search-service",
   "version": "0.0.0",
-  "description": "Data Models for the Internet Archive API.",
+  "description": "Search Service for the Internet Archive.",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",

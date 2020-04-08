@@ -2,7 +2,7 @@ import { expect } from '@open-wc/testing';
 
 import {
   MetadataField,
-} from '../../lib/metadata-fields/metadata-field';
+} from '../../../lib/models/metadata-fields/metadata-field';
 
 describe('Metadata Field', () => {
   it('can be properly instantiated with single value', () => {

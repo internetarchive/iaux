@@ -1,6 +1,6 @@
 import { expect } from '@open-wc/testing';
 
-import { Metadata } from '../lib/metadata';
+import { Metadata } from '../../lib/models/metadata';
 
 describe('Metadata', () => {
   it('properly instantiates metadata with identifier', async () => {

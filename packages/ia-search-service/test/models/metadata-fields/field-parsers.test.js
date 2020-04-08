@@ -5,7 +5,7 @@ import {
   DateParser,
   DurationParser,
   StringParser
-} from '../../lib/metadata-fields/field-parsers';
+} from '../../../lib/models/metadata-fields/field-parsers';
 
 describe('NumberParser', () => {
   it('can parse int strings', async () => {
