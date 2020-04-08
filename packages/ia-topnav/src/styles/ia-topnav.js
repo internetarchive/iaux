@@ -12,6 +12,7 @@ export default css`
     --link-color: #428bca;
     --subnavLinkColor: #aaa;
     --primary-text-color: var(--white);
+    --activeColor: var(--white);
 
     --theme-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --logoWidthTablet: 263px;
