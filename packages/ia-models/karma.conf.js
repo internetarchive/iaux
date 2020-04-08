@@ -18,25 +18,29 @@ module.exports = (config) => {
         nodeResolve: true,
       },
 
-      // reporters: [
-      //   // Reference: https://github.com/karma-runner/karma-coverage
-      //   // Output code coverage files
-      //   'coverage'
-      // ],
+      reporters: [
+        // Reference: https://github.com/karma-runner/karma-coverage
+        // Output code coverage files
+        'coverage'
+      ],
 
-      // // Configure code coverage reporter
-      // coverageReporter: {
-      //   reporters: [
-      //       // generates ./coverage/lcov.info
-      //       { type: 'lcovonly', subdir: '.' },
-      //       // generates ./coverage/coverage-final.json
-      //       { type: 'json', subdir: '.' },
-      //   ]
-      // },
+      // Configure code coverage reporter
+      coverageReporter: {
+        reporters: [
+            // generates ./coverage/lcov.info
+            { type: 'lcovonly', subdir: '.' },
+            // generates ./coverage/coverage-final.json
+            { type: 'json', subdir: '.' },
 
-      // plugins: [
-      //   'karma-coverage'
-      // ],
+{            type : 'html',
+            dir : 'coverage/'},
+
+        ]
+      },
+
+      plugins: [
+        'karma-coverage'
+      ],
     }),
   );
   return config;

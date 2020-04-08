@@ -25,7 +25,7 @@
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "format": "npm run format:eslint && npm run format:prettier",
     "test": "npm run build && karma start --coverage",
-    "test:watch": "karma start --auto-watch=true --single-run=false",
+    "test:watch": "concurrently \"npm run watch\" \"karma start --auto-watch=true --single-run=false --coverage\"",
     "test:update-snapshots": "karma start --update-snapshots",
     "test:prune-snapshots": "karma start --prune-snapshots",
     "test:compatibility": "karma start --compatibility all --coverage",

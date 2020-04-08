@@ -2,42 +2,33 @@ import { MetadataField } from './metadata-field';
 import {
   Duration, IAStringParser, IANumberParser, IADateParser, IADurationParser
 } from './ia-field-parsers';
+import { DateField, StringField, NumberField, DurationField } from './ia-field-types';
 
 class Metadata {
   identifier: string;
 
-  collection: MetadataField<string, IAStringParser>;
+  collection: StringField;
 
-  track?: MetadataField<number, IANumberParser>;
+  track: NumberField;
 
-  date?: MetadataField<Date, IADateParser>;
+  date: DateField;
 
-  duration?: MetadataField<Duration, IADurationParser>;
+  duration: DurationField;
 
-  indexdate?: MetadataField<Date, IADateParser>;
+  indexdate: DateField;
+
+  rawResponse: any;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(json: any) {
-    const stringParser: IAStringParser = new IAStringParser();
-    const numberParser: IANumberParser = new IANumberParser();
-    const dateParser: IADateParser = new IADateParser();
-    const durationParser: IADurationParser = new IADurationParser();
-
+    this.rawResponse = json;
     this.identifier = json.identifier;
 
-    this.collection = new MetadataField(json.collection, stringParser);
-
-    if (json.track) {
-      this.track = new MetadataField(json.track, numberParser);
-    }
-
-    if (json.date) {
-      this.date = new MetadataField(json.date, dateParser);
-    }
-
-    if (json.duration) {
-      this.duration = new MetadataField(json.duration, durationParser);
-    }
+    this.collection = new StringField(json.collection);
+    this.track = new NumberField(json.track);
+    this.date = new DateField(json.date);
+    this.indexdate = new DateField(json.indexdate);
+    this.duration = new DurationField(json.duration);
   }
 }
 
