@@ -1,6 +1,6 @@
-import { IAFieldParser } from './ia-field-parsers';
+import { FieldParser } from './field-parsers';
 
-class MetadataField<Type, FieldParserType extends IAFieldParser<Type>> {
+class MetadataField<Type, FieldParserType extends FieldParser<Type>> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rawValue?: any;
 

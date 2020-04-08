@@ -31,10 +31,6 @@ module.exports = (config) => {
             { type: 'lcovonly', subdir: '.' },
             // generates ./coverage/coverage-final.json
             { type: 'json', subdir: '.' },
-
-{            type : 'html',
-            dir : 'coverage/'},
-
         ]
       },
 

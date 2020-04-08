@@ -1,8 +1,4 @@
-import { MetadataField } from './metadata-field';
-import {
-  Duration, IAStringParser, IANumberParser, IADateParser, IADurationParser
-} from './ia-field-parsers';
-import { DateField, StringField, NumberField, DurationField } from './ia-field-types';
+import { DateField, StringField, NumberField, DurationField } from './metadata-fields/field-types';
 
 class Metadata {
   identifier: string;

@@ -1,4 +1,4 @@
-class IAFile {
+class File {
   name: string
 
   constructor(name: string) {
@@ -6,4 +6,4 @@ class IAFile {
   }
 }
 
-export { IAFile };
+export { File };
