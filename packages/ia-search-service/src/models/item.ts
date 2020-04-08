@@ -1,7 +1,7 @@
 import { Metadata } from './metadata';
 import { File } from './file';
 
-class Item {
+export class Item {
   metadata: Metadata
   files: File[] = []
 
@@ -10,5 +10,3 @@ class Item {
     this.files = files;
   }
 }
-
-export { Item };
