@@ -29,7 +29,9 @@ class MediaSubnav extends TrackedElement {
     this.links = MediaSubnav.defaultLinks;
     this.templates = {
       web: () => (
-        html`<wayback-search .config=${this.config} .locationHandler=${locationHandler}></wayback-search>`
+        html`<div class="wayback-search">
+          <wayback-search .config=${this.config} .locationHandler=${locationHandler}></wayback-search>
+        </div>`
       ),
       more: () => html`<more-slider .config=${this.config}></more-slider>`,
     };

@@ -131,7 +131,6 @@ export default css`
     .link-home {
       position: static;
       float: left;
-      width: 240px;
       margin-top: 1rem;
       padding: 0 10px 0 13px;
       -webkit-transform: translate(0, 0);

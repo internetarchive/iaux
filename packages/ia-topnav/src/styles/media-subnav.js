@@ -69,6 +69,12 @@ export default css`
       grid-template-columns: 40% 20% 40%;
     }
 
+    .wayback-search {
+      -ms-grid-column: 1;
+      -ms-grid-column-span: 3;
+      grid-column: 1 / 4;
+    }
+
     h3 {
       display: none;
     }
