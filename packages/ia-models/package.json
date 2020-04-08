@@ -36,7 +36,7 @@
     "lit-html": "^1.1.2"
   },
   "devDependencies": {
-    "@open-wc/eslint-config": "^1.0.0",
+    "@open-wc/eslint-config": "^2.0.4",
     "@open-wc/prettier-config": "^0.1.10",
     "@open-wc/testing": "^2.5.4",
     "@open-wc/testing-karma": "^3.0.0",
@@ -45,6 +45,7 @@
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^2.2.0",
     "concurrently": "^4.1.2",
+    "deepmerge": "^4.2.2",
     "es-dev-server": "^1.5.0",
     "eslint": "^6.1.0",
     "gulp": "^4.0.2",
@@ -52,8 +53,7 @@
     "karma-coverage": "^2.0.1",
     "lint-staged": "^8.0.0",
     "polymer-cli": "^1.9.11",
-    "typescript": "^3.8.3",
-    "webpack-merge": "^4.1.5"
+    "typescript": "^3.8.3"
   },
   "eslintConfig": {
     "extends": [
