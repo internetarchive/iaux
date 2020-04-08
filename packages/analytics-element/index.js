@@ -1,3 +1,3 @@
-import TrackedElement from './src/tracked-element';
+import AnalyticsTracker from './src/analytics-tracker';
 
-export default TrackedElement;
+export default AnalyticsTracker;

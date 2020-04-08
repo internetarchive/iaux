@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import TrackedElement from './tracked-element';
+import AnalyticsTracker from './analytics-tracker';
 
 class ExampleComponent extends LitElement {
   static get styles() {
@@ -68,6 +68,6 @@ class ExampleComponent extends LitElement {
   }
 }
 
-Object.assign(ExampleComponent.prototype, TrackedElement);
+Object.assign(ExampleComponent.prototype, AnalyticsTracker);
 
 customElements.define('example-component', ExampleComponent);

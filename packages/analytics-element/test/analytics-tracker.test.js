@@ -1,7 +1,7 @@
 import { html, fixture, expect } from '@open-wc/testing';
 import '../src/example-component';
 
-describe('TrackedElement', () => {
+describe('AnalyticsTracker', () => {
   it('fires click and submit events when button clicked', async () => {
     const actions = ['foo'];
     let clickFired = false;

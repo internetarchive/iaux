@@ -3,12 +3,17 @@ import { LitElement, html } from 'lit-element';
 const actions = ['foo', 'bar', 'baz'];
 
 class ExampleComponentController extends LitElement {
+  constructor() {
+    super();
+    this.name = '<example-component-controller>';
+  }
+
   buttonClicked(e) {
-    console.log(`Click event data: ${e.detail.eventCategory}|${e.detail.eventAction}`);
+    console.log(`${this.name} Click event data: ${e.detail.eventCategory}|${e.detail.eventAction}`);
   }
 
   formSubmitted(e) {
-    console.log(`Submit event data: ${e.detail.eventCategory}|${e.detail.eventAction}`);
+    console.log(`${this.name} Submit event data: ${e.detail.eventCategory}|${e.detail.eventAction}`);
   }
 
   render() {
