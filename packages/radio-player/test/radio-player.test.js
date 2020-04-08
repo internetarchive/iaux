@@ -866,4 +866,207 @@ describe('Radio Player', () => {
       expect(quickSearches[2].displayText).to.equal('baz');
     });
   });
+
+  describe('Events', () => {
+    it('emits playbackRateChanged event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      const event = new CustomEvent('foo', {
+        detail: { playbackRate: 1.25 },
+      });
+      setTimeout(() => { el.changePlaybackRate(event); });
+      const response = await oneEvent(el, 'playbackRateChanged');
+      expect(response.detail.playbackRate).to.equal(1.25);
+    });
+
+    it('emits volumeChanged event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      const event = new CustomEvent('foo', {
+        detail: { volume: 0.5 },
+      });
+      setTimeout(() => { el.volumeChanged(event); });
+      const response = await oneEvent(el, 'volumeChanged');
+      expect(response.detail.volume).to.equal(0.5);
+    });
+
+    it('emits jumpBackButtonPressed event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.backButtonHandler(); });
+      const response = await oneEvent(el, 'jumpBackButtonPressed');
+      expect(response).to.exist;
+    });
+
+    it('emits jumpForwardButtonPressed event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.forwardButtonHandler(); });
+      const response = await oneEvent(el, 'jumpForwardButtonPressed');
+      expect(response).to.exist;
+    });
+
+    it('emits playPauseButtonPressed event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.playPauseButtonHandler(); });
+      const response = await oneEvent(el, 'playPauseButtonPressed');
+      expect(response.detail.isPlaying).to.equal(true);
+    });
+
+    it('emits nextSectionButtonPressed event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.nextSectionButtonHandler(); });
+      const response = await oneEvent(el, 'nextSectionButtonPressed');
+      expect(response).to.exist;
+    });
+
+    it('emits prevSectionButtonPressed event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      // needed to be able to press the prev section button
+      el.percentComplete = 35;
+
+      setTimeout(() => { el.prevSectionButtonHandler(); });
+      const response = await oneEvent(el, 'prevSectionButtonPressed');
+      expect(response).to.exist;
+    });
+
+    it('emits currentTimeChanged event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.currentTime = 5; });
+      const response = await oneEvent(el, 'currentTimeChanged');
+      expect(response.detail.currentTime).to.equal(5);
+    });
+
+    it('emits searchCleared event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.searchCleared(); });
+      const response = await oneEvent(el, 'searchCleared');
+      expect(response).to.exist;
+    });
+
+    it('emits searchTermChanged event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      const event = new CustomEvent('foo', {
+        detail: { value: 'boop' },
+      });
+      setTimeout(() => { el.updateSearchTerm(event); });
+      const response = await oneEvent(el, 'searchTermChanged');
+      expect(response.detail.searchTerm).to.equal('boop');
+    });
+
+    it('emits playbackPaused event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.playbackPaused(); });
+      const response = await oneEvent(el, 'playbackPaused');
+      expect(response).to.exist;
+    });
+
+    it('emits playbackStarted event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.playbackStarted(); });
+      const response = await oneEvent(el, 'playbackStarted');
+      expect(response).to.exist;
+    });
+
+    it('emits canplay event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      setTimeout(() => { el.canplay(); });
+      const response = await oneEvent(el, 'canplay');
+      expect(response).to.exist;
+    });
+
+    it('emits timeChangedFromScrub event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      el.duration = 100;
+
+      const event = new CustomEvent('foo', {
+        detail: { value: 35 },
+      });
+      setTimeout(() => { el.valueChangedFromScrub(event); });
+      const response = await oneEvent(el, 'timeChangedFromScrub');
+      expect(response.detail.newTime).to.equal(35);
+    });
+
+    it('emits transcriptEntrySelected event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      const event = new CustomEvent('foo', {
+        detail: { entry: { start: 35 } },
+      });
+      setTimeout(() => { el.transcriptEntrySelected(event); });
+      const response = await oneEvent(el, 'transcriptEntrySelected');
+      expect(response.detail.newTime).to.equal(35);
+    });
+
+    it('emits highlightedSearchResultChanged event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      const event = new CustomEvent('foo', {
+        detail: { searchResultIndex: 3 },
+      });
+      setTimeout(() => { el.searchResultIndexChanged(event); });
+      const response = await oneEvent(el, 'highlightedSearchResultChanged');
+      expect(response.detail.searchResultIndex).to.equal(3);
+    });
+
+    it('emits searchExecuted event', async () => {
+      const el = await fixture(html`
+        <radio-player></radio-player>
+      `);
+
+      class MockSearchHandler {
+        search() {
+          return new Promise(resolve => resolve());
+        }
+      }
+      const searchHandler = new MockSearchHandler();
+      el.searchHandler = searchHandler;
+
+      setTimeout(() => { el.executeSearch('foo'); });
+      const response = await oneEvent(el, 'searchExecuted');
+      expect(response).to.exist;
+    });
+  });
 });
