@@ -6,23 +6,16 @@ export default css`
     text-decoration: none;
   }
 
-  button:focus {
-    outline-color: var(--link-color);
-    outline-width: 0.16rem;
-    outline-style: auto;
-  }
-
   .menu-item {
+    display: inline-flex;
     width: 100%;
-    background: transparent;
-    font-size: 1.6rem;
-    cursor: pointer;
-    border: none;
-    text-align: left;
     padding: 0;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    font-size: 1.6rem;
+    text-align: left;
+    background: transparent;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
   }
 
   .menu-item:focus {
@@ -31,6 +24,8 @@ export default css`
 
   .label {
     display: inline-block;
+    padding: 0;
+    font-weight: 400;
     color: var(--white);
     text-align: left;
     vertical-align: middle;
