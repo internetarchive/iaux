@@ -2,11 +2,15 @@
 export type Duration = number;
 
 export interface FieldParser<T> {
-  parseValue(rawValue: string): T;
+  parseValue(rawValue: string): T | undefined;
 }
 
 export class NumberParser implements FieldParser<number> {
-  parseValue(rawValue: string): number {
+  parseValue(rawValue: string): number | undefined {
+    const value = parseFloat(rawValue);
+    if (Number.isNaN(value)) {
+      return undefined;
+    }
     return parseFloat(rawValue);
   }
 }
@@ -18,8 +22,9 @@ export class StringParser implements FieldParser<string> {
 }
 
 export class DateParser implements FieldParser<Date> {
-  parseValue(rawValue: string): Date {
-    return new Date(rawValue);
+  parseValue(rawValue: string): Date | undefined {
+    const parsed = Date.parse(rawValue);
+    return Number.isNaN(parsed) ? undefined : new Date(rawValue);
   }
 }
 

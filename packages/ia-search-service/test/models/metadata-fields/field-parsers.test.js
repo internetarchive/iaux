@@ -32,10 +32,10 @@ describe('NumberParser', () => {
     expect(response).to.equal(3.14);
   });
 
-  it('returns NaN if the number is not a number', async () => {
+  it('returns undefined if the number is not a number', async () => {
     const parser = new NumberParser();
     const response = parser.parseValue('qab');
-    expect(response).to.be.NaN;
+    expect(response).to.be.undefined;
   });
 });
 
@@ -94,6 +94,12 @@ describe('DateParser', () => {
     expected.setUTCDate(20);
     expected.setUTCFullYear(2020);
     expect(response.getTime()).to.equal(expected.getTime());
+  });
+
+  it('returns undefined if it is a bad date', async () => {
+    const parser = new DateParser();
+    const response = parser.parseValue('absjkdvfnskj');
+    expect(response).to.be.undefined;
   });
 });
 

@@ -80,4 +80,18 @@ describe('Metadata Field', () => {
     expect(metadataField.values).to.deep.equal([]);
   });
 
+  it('does not add value to values array if parsed value is undefined', () => {
+    class MockFloatParser {
+      parseValue(rawValue) {
+        return undefined;
+      }
+    }
+
+    let parser = new MockFloatParser();
+    let metadataField = new MetadataField(parser);
+
+    expect(metadataField.rawValue).to.equal(undefined);
+    expect(metadataField.value).to.equal(undefined);
+    expect(metadataField.values).to.deep.equal([]);
+  });
 });

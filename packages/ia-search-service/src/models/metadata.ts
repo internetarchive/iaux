@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 import { DateField, StringField, NumberField, DurationField } from './metadata-fields/field-types';
 
 export class Metadata {
@@ -8,6 +10,10 @@ export class Metadata {
 
   collection: StringField;
 
+  creator: StringField;
+
+  mediatype: StringField;
+
   track: NumberField;
 
   date: DateField;
@@ -15,6 +21,12 @@ export class Metadata {
   duration: DurationField;
 
   indexdate: DateField;
+
+  downloads: NumberField;
+
+  title: StringField;
+
+  num_reviews: NumberField;
 
   constructor(json: any) {
     this.rawResponse = json;
@@ -25,5 +37,10 @@ export class Metadata {
     this.date = new DateField(json.date);
     this.indexdate = new DateField(json.indexdate);
     this.duration = new DurationField(json.duration);
+    this.creator = new StringField(json.creator);
+    this.mediatype = new StringField(json.mediatype);
+    this.downloads = new NumberField(json.downloads);
+    this.title = new StringField(json.title);
+    this.num_reviews = new NumberField(json.num_reviews);
   }
 }
