@@ -3,14 +3,14 @@ import { SearchBackendInterface } from './search-backend-interface';
 import { SearchParams } from './search-params';
 
 export class SearchService {
-  private searchExecutor: SearchBackendInterface;
+  private searchBackend: SearchBackendInterface;
 
-  constructor(searchExecutor: SearchBackendInterface) {
-    this.searchExecutor = searchExecutor;
+  constructor(searchBackend: SearchBackendInterface) {
+    this.searchBackend = searchBackend;
   }
 
   async search(params: SearchParams): Promise<SearchResponse> {
-    const rawResponse = await this.searchExecutor.performSearch(params);
+    const rawResponse = await this.searchBackend.performSearch(params);
     const modeledResponse = new SearchResponse(rawResponse);
     return new Promise(resolve => resolve(modeledResponse));
   }
