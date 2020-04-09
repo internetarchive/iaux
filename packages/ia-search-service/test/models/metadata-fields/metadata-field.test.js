@@ -64,4 +64,20 @@ describe('Metadata Field', () => {
     expect(metadataField.value).to.equal(1.3);
     expect(metadataField.values).to.deep.equal([1.3, 2.4, 4.5]);
   });
+
+  it('has no value if a raw value was not passed in', () => {
+    class MockFloatParser {
+      parseValue(rawValue) {
+        return rawValue;
+      }
+    }
+
+    let parser = new MockFloatParser();
+    let metadataField = new MetadataField(parser);
+
+    expect(metadataField.rawValue).to.equal(undefined);
+    expect(metadataField.value).to.equal(undefined);
+    expect(metadataField.values).to.deep.equal([]);
+  });
+
 });

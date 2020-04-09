@@ -1,22 +1,26 @@
 export class SearchParams {
   query: string;
-  sort?: string;
+  sort: string[];
   rows: number;
   start: number;
   fields: string[];
 
   constructor(
     query: string,
+    sort: string[] = [],
     rows: number = 25,
     start: number = 0,
     fields: string[] = ["identifier"],
-    sort?: string
   ) {
     this.query = query;
     this.sort = sort;
     this.rows = rows;
     this.start = start;
     this.fields = fields;
+  }
+
+  get fieldsAsString(): string {
+    return this.fields.join(",");
   }
 
   get asUrlSearchParams(): URLSearchParams {
@@ -27,12 +31,13 @@ export class SearchParams {
     params.append("output", "json");
 
     this.fields.forEach(field => {
-      params.append("field[]", field);
+      params.append("fl[]", field);
     });
 
-    if (this.sort) {
-      params.append("sort", this.sort);
-    }
+    this.sort.forEach(sort => {
+      params.append("sort[]", sort);
+    });
+
     return params;
   }
 }
