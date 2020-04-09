@@ -31,8 +31,8 @@ const generateMockResponse = (params) => {
 
 describe('SearchService', () => {
   it('can search when requested', async () => {
-    class MockSearchExecutor {
-      executeSearch(params) {
+    class MockSearchBackend {
+      performSearch(params) {
         const mockResponse = generateMockResponse(params);
         return new Promise(resolve => resolve(mockResponse));
       }
@@ -40,7 +40,7 @@ describe('SearchService', () => {
 
     const query = "title:foo AND collection:bar"
     const params = new SearchParams(query)
-    const executor = new MockSearchExecutor();
+    const executor = new MockSearchBackend();
     const service = new SearchService(executor);
     const result = await service.search(params);
     expect(result.responseHeader.params.query).to.equal(query);

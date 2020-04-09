@@ -1,8 +1,11 @@
-import { Metadata } from "./metadata";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Metadata } from './metadata';
 
 export class Response {
   numFound: number;
+
   start: number;
+
   docs: Metadata[];
 
   constructor(json: any) {

@@ -1,13 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DateField, StringField, NumberField, DurationField } from './metadata-fields/field-types';
 
 export class Metadata {
   rawResponse: any;
+
   identifier: string;
 
   collection: StringField;
+
   track: NumberField;
+
   date: DateField;
+
   duration: DurationField;
+
   indexdate: DateField;
 
   constructor(json: any) {

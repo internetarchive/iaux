@@ -1,10 +1,14 @@
-import { MetadataField } from "./metadata-field";
-import { Duration, DateParser, DurationParser, NumberParser, StringParser } from "./field-parsers";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { MetadataField } from './metadata-field';
+import { Duration, DateParser, DurationParser, NumberParser, StringParser } from './field-parsers';
 
 class SharedParsers {
   static dateParser = new DateParser();
+
   static durationParser = new DurationParser();
+
   static numberParser = new NumberParser();
+
   static stringParser = new StringParser();
 }
 

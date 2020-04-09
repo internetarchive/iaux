@@ -15,23 +15,23 @@ class MetadataField<Type, FieldParserType extends FieldParser<Type>> {
     this.parser = parser;
     this.rawValue = rawValue;
 
-    this.processRawValue()
+    this.processRawValue();
   }
 
   private parser: FieldParserType;
 
-  private processRawValue() {
+  private processRawValue(): void {
     if (this.rawValue === undefined) {
       return;
     }
 
     if (Array.isArray(this.rawValue)) {
-      for (const value of (this.rawValue as [string])) {
+      this.rawValue.forEach(value => {
         const parsedValue = this.parser.parseValue(value);
         this.values.push(parsedValue);
-      }
+      });
     } else {
-      this.values = [this.parser.parseValue(this.rawValue)]
+      this.values = [this.parser.parseValue(this.rawValue)];
     }
   }
 }

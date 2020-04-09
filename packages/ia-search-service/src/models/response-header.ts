@@ -1,8 +1,11 @@
-import { ResponseParams } from "./responseParams";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ResponseParams } from './response-params';
 
 export class ResponseHeader {
   status: number;
+
   QTime: number;
+
   params: ResponseParams;
 
   constructor(json: any) {

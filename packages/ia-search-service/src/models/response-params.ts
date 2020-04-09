@@ -1,10 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export class ResponseParams {
   query: string;
+
   qin: string;
+
   fields: string;
+
   wt: string;
+
   sort: string;
+
   rows: string;
+
   start: number;
 
   constructor(json: any) {

@@ -1,8 +1,10 @@
-import { ResponseHeader } from "./responseHeader";
-import { Response } from "./response";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ResponseHeader } from './response-header';
+import { Response } from './response';
 
 export class SearchResponse {
   responseHeader: ResponseHeader;
+
   response: Response;
 
   constructor(json: any) {
