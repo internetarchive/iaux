@@ -8,31 +8,37 @@ const menuSelection = [
     icon: 'web',
     menu: 'web',
     label: 'Wayback Machine',
+    url: '/web/',
   },
   {
     icon: 'texts',
     menu: 'texts',
     label: 'Books',
+    url: '/details/texts',
   },
   {
     icon: 'video',
     menu: 'video',
     label: 'Video',
+    url: '/details/movies',
   },
   {
     icon: 'audio',
     menu: 'audio',
     label: 'Audio',
+    url: '/details/audio',
   },
   {
     icon: 'software',
     menu: 'software',
     label: 'Software',
+    url: '/details/sofware',
   },
   {
     icon: 'images',
     menu: 'images',
     label: 'Images',
+    url: '/details/image',
   },
   {
     icon: 'donate',
@@ -44,6 +50,7 @@ const menuSelection = [
     icon: 'ellipses',
     menu: 'more',
     label: 'More',
+    url: '/about/',
   },
 ];
 
@@ -75,6 +82,7 @@ class MediaMenu extends LitElement {
       menu,
       label,
       href,
+      url,
     }) => {
       const selected = this.selectedMenuOption === menu;
       return html`
@@ -82,6 +90,7 @@ class MediaMenu extends LitElement {
           .config=${this.config}
           .icon=${icon}
           .href=${href}
+          .url=${url}
           .label=${label}
           mediatype=${menu}
           .selected=${selected}

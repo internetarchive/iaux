@@ -17,6 +17,7 @@ class MediaButton extends TrackedElement {
       label: { type: String },
       mediatype: { type: String },
       selected: { type: Boolean },
+      url: { type: String },
     };
   }
 
@@ -32,10 +33,12 @@ class MediaButton extends TrackedElement {
     this.label = '';
     this.mediatype = '';
     this.selected = false;
+    this.url = '';
   }
 
   onClick(e) {
     this.trackClick(e);
+    e.preventDefault();
     this.dispatchEvent(new CustomEvent('mediaTypeSelected', {
       bubbles: true,
       composed: true,
@@ -81,13 +84,14 @@ class MediaButton extends TrackedElement {
 
   get button() {
     return html`
-      <button
+      <a
+        href="${this.url}"
         class="menu-item ${this.mediatype} ${this.buttonClass}"
         @click="${this.onClick}"
         data-event-click-tracking="${this.analyticsEvent}"
       >
         ${this.menuItem}
-      </button>
+      </a>
     `;
   }
 
