@@ -72,7 +72,7 @@ class MediaButton extends TrackedElement {
   render() {
     return html`
       <a
-        href="https://${this.config.baseUrl}${this.url}"
+        href="https://${this.config.baseUrl}${this.href}"
         class="menu-item ${this.mediatype} ${this.buttonClass}"
         @click=${this.followable ? this.trackClick : this.onClick}
         data-event-click-tracking="${this.analyticsEvent}"
