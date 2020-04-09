@@ -3,4 +3,5 @@ import { SearchParams } from './search-params';
 
 export interface SearchBackendInterface {
   performSearch(params: SearchParams): Promise<any>;
+  fetchMetadata(identifier: string): Promise<any>;
 }

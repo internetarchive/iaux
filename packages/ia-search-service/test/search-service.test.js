@@ -40,9 +40,23 @@ describe('SearchService', () => {
 
     const query = "title:foo AND collection:bar"
     const params = new SearchParams(query)
-    const executor = new MockSearchBackend();
-    const service = new SearchService(executor);
+    const backend = new MockSearchBackend();
+    const service = new SearchService(backend);
     const result = await service.search(params);
     expect(result.responseHeader.params.query).to.equal(query);
+  });
+
+  it('can request metadata when requested', async () => {
+    class MockSearchBackend {
+      fetchMetadata(identifier) {
+        const mockResponse = { identifier };
+        return new Promise(resolve => resolve(mockResponse));
+      }
+    }
+
+    const backend = new MockSearchBackend();
+    const service = new SearchService(backend);
+    const result = await service.fetchMetadata('foo');
+    expect(result.identifier).to.equal('foo');
   });
 });
