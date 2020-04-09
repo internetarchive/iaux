@@ -12,7 +12,7 @@ describe('<media-button>', () => {
     const el = await fixture(html`<media-button></media-button>`);
     const clickEvent = new MouseEvent('click');
 
-    setTimeout(() => el.shadowRoot.querySelector('button').dispatchEvent(clickEvent));
+    setTimeout(() => el.shadowRoot.querySelector('a').dispatchEvent(clickEvent));
     const response = await oneEvent(el, 'mediaTypeSelected');
 
     expect(response).to.exist;
