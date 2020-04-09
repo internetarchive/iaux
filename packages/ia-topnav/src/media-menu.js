@@ -45,13 +45,13 @@ const menuSelection = [
     menu: 'donate',
     href: '/donate/',
     label: 'Donate',
+    followable: true,
   },
   {
     icon: 'ellipses',
     menu: 'more',
     href: '/about/',
     label: 'More',
-    followable: true,
   },
 ];
 
