@@ -10,9 +10,8 @@ import '../src/media-button';
 describe('<media-button>', () => {
   it('emits an event when button pressed', async () => {
     const el = await fixture(html`<media-button></media-button>`);
-    const clickEvent = new MouseEvent('click');
 
-    setTimeout(() => el.shadowRoot.querySelector('a').dispatchEvent(clickEvent));
+    setTimeout(() => el.shadowRoot.querySelector('.menu-item').click());
     const response = await oneEvent(el, 'mediaTypeSelected');
 
     expect(response).to.exist;

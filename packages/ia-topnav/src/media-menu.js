@@ -7,38 +7,38 @@ const menuSelection = [
   {
     icon: 'web',
     menu: 'web',
+    href: '/web/',
     label: 'Wayback Machine',
-    url: '/web/',
   },
   {
     icon: 'texts',
     menu: 'texts',
+    href: '/details/texts',
     label: 'Books',
-    url: '/details/texts',
   },
   {
     icon: 'video',
     menu: 'video',
+    href: '/details/movies',
     label: 'Video',
-    url: '/details/movies',
   },
   {
     icon: 'audio',
     menu: 'audio',
+    href: '/details/audio',
     label: 'Audio',
-    url: '/details/audio',
   },
   {
     icon: 'software',
     menu: 'software',
+    href: '/details/sofware',
     label: 'Software',
-    url: '/details/sofware',
   },
   {
     icon: 'images',
     menu: 'images',
+    href: '/details/image',
     label: 'Images',
-    url: '/details/image',
   },
   {
     icon: 'donate',
@@ -49,8 +49,9 @@ const menuSelection = [
   {
     icon: 'ellipses',
     menu: 'more',
+    href: '/about/',
     label: 'More',
-    url: '/about/',
+    followable: true,
   },
 ];
 
@@ -82,7 +83,7 @@ class MediaMenu extends LitElement {
       menu,
       label,
       href,
-      url,
+      followable,
     }) => {
       const selected = this.selectedMenuOption === menu;
       return html`
@@ -90,7 +91,7 @@ class MediaMenu extends LitElement {
           .config=${this.config}
           .icon=${icon}
           .href=${href}
-          .url=${url}
+          .followable=${followable}
           .label=${label}
           mediatype=${menu}
           .selected=${selected}

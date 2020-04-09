@@ -17,7 +17,7 @@ class MediaButton extends TrackedElement {
       label: { type: String },
       mediatype: { type: String },
       selected: { type: Boolean },
-      url: { type: String },
+      followable: { type: Boolean },
     };
   }
 
@@ -33,7 +33,7 @@ class MediaButton extends TrackedElement {
     this.label = '';
     this.mediatype = '';
     this.selected = false;
-    this.url = '';
+    this.followable = false;
   }
 
   onClick(e) {
@@ -69,34 +69,17 @@ class MediaButton extends TrackedElement {
     `;
   }
 
-  get anchor() {
-    return html`
-      <a
-        class="menu-item ${this.mediatype} ${this.buttonClass}"
-        href="https://${this.config.baseUrl}${this.href}"
-        @click=${this.trackClick}
-        data-event-click-tracking="${this.analyticsEvent}"
-      >
-        ${this.menuItem}
-      </a>
-    `;
-  }
-
-  get button() {
-    return html`
-      <a
-        href="${this.url}"
-        class="menu-item ${this.mediatype} ${this.buttonClass}"
-        @click="${this.onClick}"
-        data-event-click-tracking="${this.analyticsEvent}"
-      >
-        ${this.menuItem}
-      </a>
-    `;
-  }
-
   render() {
-    return this.href ? this.anchor : this.button;
+    return html`
+      <a
+        href="https://${this.config.baseUrl}${this.url}"
+        class="menu-item ${this.mediatype} ${this.buttonClass}"
+        @click=${this.followable ? this.trackClick : this.onClick}
+        data-event-click-tracking="${this.analyticsEvent}"
+      >
+        ${this.menuItem}
+      </a>
+    `;
   }
 }
 
