@@ -45,9 +45,11 @@ class MediaSlider extends LitElement {
     }
 
     return html`
-      <div class="information-menu ${sliderDetailsClass}">
-        <div class="info-box">
-          <media-subnav .config=${this.config} .menu=${this.selectedMenuOption}></media-subnav>
+      <div class="overflow-clip ${sliderDetailsClass}">
+        <div class="information-menu ${sliderDetailsClass}">
+          <div class="info-box">
+            <media-subnav .config=${this.config} .menu=${this.selectedMenuOption}></media-subnav>
+          </div>
         </div>
       </div>
     `;
