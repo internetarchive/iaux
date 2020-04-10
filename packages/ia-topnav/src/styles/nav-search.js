@@ -108,6 +108,7 @@ export default css`
     }
 
     .search-activated .search-field {
+      width: calc(100% - 28px);
       height: 100%;
       padding-left: 0;
       font-size: 1.4rem;
