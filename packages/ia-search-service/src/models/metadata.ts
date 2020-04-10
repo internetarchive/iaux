@@ -28,6 +28,8 @@ export class Metadata {
 
   num_reviews: NumberField;
 
+  description: StringField;
+
   constructor(json: any) {
     this.rawResponse = json;
     this.identifier = json.identifier;
@@ -42,5 +44,6 @@ export class Metadata {
     this.downloads = new NumberField(json.downloads);
     this.title = new StringField(json.title);
     this.num_reviews = new NumberField(json.num_reviews);
+    this.description = new StringField(json.description);
   }
 }

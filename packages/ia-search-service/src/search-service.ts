@@ -1,7 +1,7 @@
 import { SearchResponse } from './models/search-response';
 import { SearchBackendInterface } from './search-backend-interface';
 import { SearchParams } from './search-params';
-import { Metadata } from './models/metadata';
+import { MetadataResponse } from './metadata-response';
 
 export class SearchService {
   private searchBackend: SearchBackendInterface;
@@ -16,9 +16,9 @@ export class SearchService {
     return new Promise(resolve => resolve(modeledResponse));
   }
 
-  async fetchMetadata(identifier: string): Promise<Metadata> {
+  async fetchMetadata(identifier: string): Promise<MetadataResponse> {
     const rawResponse = await this.searchBackend.fetchMetadata(identifier);
-    const modeledResponse = new Metadata(rawResponse);
+    const modeledResponse = new MetadataResponse(rawResponse);
     return new Promise(resolve => resolve(modeledResponse));
   }
 }
