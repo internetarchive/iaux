@@ -10,6 +10,8 @@
     }
   },
   "rules": {
+    "arrow-parens": "off",
+    "object-curly-newline": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
