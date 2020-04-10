@@ -20,7 +20,8 @@ describe('SearchParams', () => {
     const query = "title:foo AND collection:bar"
     const fields = ["identifier", "foo", "bar"];
     const params = new SearchParams(query, undefined, undefined, undefined, fields);
-    expect(params.fieldsAsString).to.equal("identifier,foo,bar");
+    const fieldsAsString = fields.join(',');
+    expect(fieldsAsString).to.equal("identifier,foo,bar");
   });
 
   it('properly generates a URLSearchParam with just a query', async () => {

@@ -79,18 +79,18 @@ metadataResponse.metadata.collection.values // => ['some-collection', 'another-c
 
 Internet Archive Metadata is expansive and nearly all metadata fields can be returned as either an array, string, or number.
 
-The Search Service handles all of the possible variations in data formats and converts them to native types. For instance on fields that are dates like `indexdate`, `date`, and `publicdate`, it takes the string returned and converts it into a native javascript `Date` fields.
+The Search Service handles all of the possible variations in data formats and converts them to native types. For instance on date fields, like `date`, it takes the string returned and converts it into a native javascript `Date` value. Similarly for duration-type fields, like `length`, it takes the duration, which can be seconds `324.34` or `hh:mm:ss.ms` and converts them to a `number` in seconds.
 
-There are parsers for several different field types, like `Number`, `String`, `Date`, and `Duration`.
+There are parsers for several different field types, like `Number`, `String`, `Date`, and `Duration` and others can be added for other field types.
 
 See `src/models/metadata-fields/field-types.ts`
 
 ### Usage
 
 ```ts
-metadata.collection.values  // returns all values of the array, even if there's just one, ie. 'my-collection'
-metadata.collection.value   // return just the first item of the `values` array, ie. ['my-collection', 'other-collection']
-metadata.collection.rawValue // return the rawValue. This is useful if it was not parsed properly for some reason, ie. "['my-collection', 'other-collection']"
+metadata.collection.value // return just the first item of the `values` array, ie. 'my-collection'
+metadata.collection.value // returns all values of the array, ie. ['my-collection', 'other-collection']
+metadata.collection.rawValue // return the rawValue. This is useful for inspecting the raw response received.
 
 metadata.date.value  // return the date as a javascript `Date` object
 

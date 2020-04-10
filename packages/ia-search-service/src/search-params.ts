@@ -1,3 +1,11 @@
+/**
+ * SearchParams provides an encapsulation to all of the search parameters
+ * available for searching.
+ *
+ * It also provides an `asUrlSearchParams` helper method for converting the
+ * parameters to an IA-style query string. ie. it converts the `fields` array
+ * to `fl[]=identifier&fl[]=collection` and `sort` to `sort[]=date+desc&sort[]=downloads+asc`
+ */
 export class SearchParams {
   query: string;
 
@@ -23,10 +31,13 @@ export class SearchParams {
     this.fields = fields;
   }
 
-  get fieldsAsString(): string {
-    return this.fields.join(',');
-  }
-
+  /**
+   * Return a URLSearchParams representation of the parameters for use in network requests.
+   *
+   * @readonly
+   * @type {URLSearchParams}
+   * @memberof SearchParams
+   */
   get asUrlSearchParams(): URLSearchParams {
     const params: URLSearchParams = new URLSearchParams();
     params.append('q', this.query);

@@ -1,4 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+/**
+ * This represents an Internet Archive File
+ *
+ * @export
+ * @class File
+ */
 export class File {
   name: string;
 

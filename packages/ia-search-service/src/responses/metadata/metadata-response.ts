@@ -4,6 +4,12 @@
 import { File } from '../../models/file';
 import { Metadata } from '../../models/metadata';
 
+/**
+ * The main top-level reponse when fetching Metadata
+ *
+ * @export
+ * @class MetadataResponse
+ */
 export class MetadataResponse {
   rawResponse: any;
 

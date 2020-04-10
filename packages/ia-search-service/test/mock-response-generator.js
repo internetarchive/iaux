@@ -1,5 +1,7 @@
 export class MockResponseGenerator {
   generateMockSearchResponse(params) {
+    const fieldsAsString = params.fields.join(',');
+
     return {
       responseHeader: {
         status: 0,
@@ -7,7 +9,7 @@ export class MockResponseGenerator {
         params: {
           query: params.query,
           qin: params.query,
-          fields: params.fieldsAsString,
+          fields: fieldsAsString,
           wt: "json",
           sort: params.sort,
           rows: params.rows,

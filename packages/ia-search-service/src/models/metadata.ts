@@ -3,7 +3,23 @@
 /* eslint-disable camelcase */
 import { DateField, StringField, NumberField, DurationField } from './metadata-fields/field-types';
 
+/**
+ * Metadata is an expansive model that describes an Item.
+ *
+ * The fields in here get casted to their respective field types. See `metadata-fields/field-type`.
+ *
+ * Add additional fields as needed.
+ *
+ * @export
+ * @class Metadata
+ */
 export class Metadata {
+  /**
+   * This is the raw metadata reponse; useful for inspecting the raw data returned from the server.
+   *
+   * @type {*}
+   * @memberof Metadata
+   */
   rawMetadata: any;
 
   identifier: string;
