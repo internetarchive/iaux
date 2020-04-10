@@ -23,6 +23,21 @@ export class StringParser implements FieldParser<string> {
 
 export class DateParser implements FieldParser<Date> {
   parseValue(rawValue: string): Date | undefined {
+    // try different date parsing
+    return this.parseJSDate(rawValue) || this.parseBracketDate(rawValue);
+  }
+
+  // handles "[yyyy]" format
+  private parseBracketDate(rawValue: string): Date | undefined {
+    const yearMatch = rawValue.match(/\[([0-9]{4})\]/);
+    if (!yearMatch || yearMatch.length < 2) {
+      return undefined;
+    }
+    return this.parseJSDate(yearMatch[1]);
+  }
+
+  // uses javascript's `Date.parse()`, which handles many formats, including `c.a. 2020`
+  private parseJSDate(rawValue: string): Date | undefined {
     const parsed = Date.parse(rawValue);
     return Number.isNaN(parsed) ? undefined : new Date(rawValue);
   }

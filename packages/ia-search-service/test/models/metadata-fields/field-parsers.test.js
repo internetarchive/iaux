@@ -96,6 +96,48 @@ describe('DateParser', () => {
     expect(response.getTime()).to.equal(expected.getTime());
   });
 
+  it('can parse "c.a. yyyy" formatted dates', async () => {
+    const parser = new DateParser();
+    const response = parser.parseValue('c.a. 2020');
+    const expected = new Date();
+    expected.setHours(0);
+    expected.setMinutes(0);
+    expected.setSeconds(0);
+    expected.setMilliseconds(0);
+    expected.setMonth(0);
+    expected.setDate(1);
+    expected.setFullYear(2020);
+    expect(response.getTime()).to.equal(expected.getTime());
+  });
+
+  it('can parse "ca yyyy" formatted dates', async () => {
+    const parser = new DateParser();
+    const response = parser.parseValue('ca 2020');
+    const expected = new Date();
+    expected.setHours(0);
+    expected.setMinutes(0);
+    expected.setSeconds(0);
+    expected.setMilliseconds(0);
+    expected.setMonth(0);
+    expected.setDate(1);
+    expected.setFullYear(2020);
+    expect(response.getTime()).to.equal(expected.getTime());
+  });
+
+  it('can parse "[yyyy]" formatted dates', async () => {
+    const parser = new DateParser();
+    const response = parser.parseValue('[2020]');
+    const expected = new Date();
+    expected.setUTCHours(0);
+    expected.setUTCMinutes(0);
+    expected.setUTCSeconds(0);
+    expected.setUTCMilliseconds(0);
+    expected.setUTCMonth(0);
+    expected.setUTCDate(1);
+    expected.setUTCFullYear(2020);
+    expect(response.getTime()).to.equal(expected.getTime());
+  });
+
   it('returns undefined if it is a bad date', async () => {
     const parser = new DateParser();
     const response = parser.parseValue('absjkdvfnskj');
