@@ -31,7 +31,7 @@ class WaybackSearch extends TrackedElement {
     return html`
       <form action="" method="post" @submit=${this.handleSubmit}>
         <p>
-          Search the history of over 411 billion
+          Search the history of over ${this.config.waybackPagesArchived}
           <a
             @click=${this.trackClick}
             data-event-click-tracking="TopNav|WaybackMachineStatsLink"
