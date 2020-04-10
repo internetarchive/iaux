@@ -2,6 +2,7 @@ import { css } from 'lit-element';
 
 export default css`
   form {
+    max-width: 600px;
     padding: 0 5rem 0 2rem;
   }
 
@@ -17,7 +18,6 @@ export default css`
   }
 
   fieldset {
-    max-width: 600px;
     padding: 0.7rem 2rem;
     margin: 1.5rem 0;
     box-sizing: border-box;
@@ -75,6 +75,10 @@ export default css`
   }
 
   @media (min-width: 890px) {
+    form {
+      margin: 0 auto;
+    }
+
     p {
       margin-bottom: 3rem;
       font-size: 1.6rem;
