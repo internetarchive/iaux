@@ -53,6 +53,7 @@
     "karma-coverage": "^2.0.1",
     "lint-staged": "^8.0.0",
     "polymer-cli": "^1.9.11",
+    "typedoc": "^0.17.4",
     "typescript": "^3.8.3"
   },
   "eslintConfig": {

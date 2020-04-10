@@ -1,0 +1,256 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@internetarchive/ia-search-service</title>
+	<meta name="description" content="Documentation for @internetarchive/ia-search-service">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@internetarchive/ia-search-service</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>@internetarchive/ia-search-service</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#internet-archive-search-service" id="internet-archive-search-service" style="color: inherit; text-decoration: none;">
+					<h1>Internet Archive Search Service</h1>
+				</a>
+				<p>A service for searching and retrieving metadata from the Internet Archive.</p>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<pre><code class="language-bash">yarn add @internetarchive/ia-search-service</code></pre>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<a href="#1-implement-a-searchbackend" id="1-implement-a-searchbackend" style="color: inherit; text-decoration: none;">
+					<h3>1. Implement a SearchBackend</h3>
+				</a>
+				<p>In order to abstract the network connectivity layer and the environment-specific configuration from the result handling, the consumer should implement a search backend that implements the <code>SearchBackendInterface</code>. These are just two methods, one for fetching search results and the other for fetching metadata. They both return a <code>Promise</code> that should contain JSON that matches a <code>SearchResponse</code> object or a <code>MetadataResponse</code> object.</p>
+				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+					<h4>Example</h4>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-comment">// search-backend.ts</span>
+<span class="hljs-keyword">import</span> { SearchBackendInterface, SearchResponse, MetadataResponse } <span class="hljs-keyword">from</span> <span class="hljs-string">'@internetarchive/ia-search-service'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> SearchBackend <span class="hljs-keyword">implements</span> SearchBackendInterface {
+  <span class="hljs-keyword">constructor</span>(<span class="hljs-params">baseUrl = 'archive.org'</span>) {
+    <span class="hljs-keyword">this</span>.baseUrl = baseUrl;
+  }
+
+  <span class="hljs-keyword">async</span> performSearch(params): <span class="hljs-built_in">Promise</span>&lt;SearchResponse&gt; {
+    <span class="hljs-keyword">const</span> urlSearchParam = params.asUrlSearchParams;
+    <span class="hljs-keyword">const</span> queryAsString = urlSearchParam.toString();
+    <span class="hljs-keyword">const</span> url = <span class="hljs-string">`https://<span class="hljs-subst">${<span class="hljs-keyword">this</span>.baseUrl}</span>/advancedsearch.php?<span class="hljs-subst">${queryAsString}</span>`</span>;
+    <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> fetch(url);
+    <span class="hljs-keyword">const</span> json = <span class="hljs-keyword">await</span> response.json();
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-params">resolve</span> =&gt;</span> resolve(json));
+  }
+
+  <span class="hljs-keyword">async</span> fetchMetadata(identifier): <span class="hljs-built_in">Promise</span>&lt;MetadataResponse&gt; {
+    <span class="hljs-keyword">const</span> url = <span class="hljs-string">`https://<span class="hljs-subst">${<span class="hljs-keyword">this</span>.baseUrl}</span>/metadata/<span class="hljs-subst">${identifier}</span>`</span>;
+    <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> fetch(url);
+    <span class="hljs-keyword">const</span> json = <span class="hljs-keyword">await</span> response.json();
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-params">resolve</span> =&gt;</span> resolve(json));
+  }
+}</code></pre>
+				<a href="#2-make-search-requests" id="2-make-search-requests" style="color: inherit; text-decoration: none;">
+					<h3>2. Make Search Requests</h3>
+				</a>
+				<p>Using the backend you created above, instantiate a <code>SearchService</code> with it, craft some <code>SearchParams</code>, and perform your search:</p>
+				<a href="#example-1" id="example-1" style="color: inherit; text-decoration: none;">
+					<h4>Example</h4>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-comment">// search-consumer.ts</span>
+<span class="hljs-keyword">import</span> { SearchService, SearchParams, SearchResponse } <span class="hljs-keyword">from</span> <span class="hljs-string">'@internetarchive/ia-search-service'</span>;
+<span class="hljs-keyword">import</span> { SearchBackend } <span class="hljs-keyword">from</span> <span class="hljs-string">'./search-backend'</span>;
+
+...
+
+<span class="hljs-keyword">const</span> searchBackend = <span class="hljs-keyword">new</span> SearchBackend();
+<span class="hljs-keyword">const</span> searchService = <span class="hljs-keyword">new</span> SearchService(searchBackend);
+
+<span class="hljs-keyword">const</span> params = <span class="hljs-keyword">new</span> SearchParams(<span class="hljs-string">'collection:books AND title:(little bunny foo foo)'</span>);
+params.sort = <span class="hljs-string">'downloads desc'</span>;
+params.rows = <span class="hljs-number">33</span>;
+params.start = <span class="hljs-number">0</span>;
+params.fields = [<span class="hljs-string">'identifier'</span>, <span class="hljs-string">'collection'</span>, <span class="hljs-string">'creator'</span>, <span class="hljs-string">'downloads'</span>];
+
+<span class="hljs-keyword">const</span> searchResponse: SearchResponse = <span class="hljs-keyword">await</span> searchService.performSearch(params);
+searchResponse.response.numFound <span class="hljs-comment">// =&gt; number</span>
+searchResponse.response.docs <span class="hljs-comment">// =&gt; Metadata[] array</span>
+searchResponse.response.docs[<span class="hljs-number">0</span>].identifier <span class="hljs-comment">// =&gt; 'identifier-foo'</span>
+
+<span class="hljs-keyword">const</span> metadataResponse: MetadataResponse = <span class="hljs-keyword">await</span> searchService.fetchMetadata(<span class="hljs-string">'some-identifier'</span>);
+metadataResponse.metadata.identifier <span class="hljs-comment">// =&gt; 'some-identifier'</span>
+metadataResponse.metadata.collection.value <span class="hljs-comment">// =&gt; 'some-collection'</span>
+metadataResponse.metadata.collection.values <span class="hljs-comment">// =&gt; ['some-collection', 'another-collection', 'more-collections']</span></code></pre>
+				<a href="#metadata-values" id="metadata-values" style="color: inherit; text-decoration: none;">
+					<h2>Metadata Values</h2>
+				</a>
+				<p>Internet Archive Metadata is expansive and nearly all metadata fields can be returned as either an array, string, or number.</p>
+				<p>The Search Service handles all of the possible variations in data formats and converts them to native types. For instance on date fields, like <code>date</code>, it takes the string returned and converts it into a native javascript <code>Date</code> value. Similarly for duration-type fields, like <code>length</code>, it takes the duration, which can be seconds <code>324.34</code> or <code>hh:mm:ss.ms</code> and converts them to a <code>number</code> in seconds.</p>
+				<p>There are parsers for several different field types, like <code>Number</code>, <code>String</code>, <code>Date</code>, and <code>Duration</code> and others can be added for other field types.</p>
+				<p>See <code>src/models/metadata-fields/field-types.ts</code></p>
+				<a href="#usage-1" id="usage-1" style="color: inherit; text-decoration: none;">
+					<h3>Usage</h3>
+				</a>
+				<pre><code class="language-ts">metadata.collection.value <span class="hljs-comment">// return just the first item of the `values` array, ie. 'my-collection'</span>
+metadata.collection.value <span class="hljs-comment">// returns all values of the array, ie. ['my-collection', 'other-collection']</span>
+metadata.collection.rawValue <span class="hljs-comment">// return the rawValue. This is useful for inspecting the raw response received.</span>
+
+metadata.date.value  <span class="hljs-comment">// return the date as a javascript `Date` object</span>
+
+metadata.length.value  <span class="hljs-comment">// return the length (duration) of the item as a number of seconds, can be in the format "hh:mm:ss" or decimal seconds</span></code></pre>
+				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
+					<h1>Development</h1>
+				</a>
+				<a href="#prerequisite" id="prerequisite" style="color: inherit; text-decoration: none;">
+					<h2>Prerequisite</h2>
+				</a>
+				<pre><code class="language-bash">yarn install</code></pre>
+				<a href="#testing" id="testing" style="color: inherit; text-decoration: none;">
+					<h2>Testing</h2>
+				</a>
+				<pre><code class="language-bash">yarn <span class="hljs-built_in">test</span></code></pre>
+				<a href="#linting" id="linting" style="color: inherit; text-decoration: none;">
+					<h2>Linting</h2>
+				</a>
+				<pre><code class="language-bash">yarn lint</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_models_file_.html">&quot;models/file&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_models_item_.html">&quot;models/item&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_models_metadata_.html">&quot;models/metadata&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_models_metadata_fields_field_parsers_.html">&quot;models/metadata-<wbr>fields/field-<wbr>parsers&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_models_metadata_fields_field_types_.html">&quot;models/metadata-<wbr>fields/field-<wbr>types&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_models_metadata_fields_metadata_field_.html">&quot;models/metadata-<wbr>fields/metadata-<wbr>field&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_responses_metadata_metadata_response_.html">&quot;responses/metadata/metadata-<wbr>response&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_responses_search_response_.html">&quot;responses/search/response&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_responses_search_response_header_.html">&quot;responses/search/response-<wbr>header&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_responses_search_response_params_.html">&quot;responses/search/response-<wbr>params&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_responses_search_search_response_.html">&quot;responses/search/search-<wbr>response&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_search_backend_interface_.html">&quot;search-<wbr>backend-<wbr>interface&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_search_params_.html">&quot;search-<wbr>params&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_search_service_.html">&quot;search-<wbr>service&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
