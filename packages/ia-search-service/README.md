@@ -1,48 +1,100 @@
-# \<playback-controls>
+# Internet Archive Search Service
 
-Playback controls for playing media.
-
-![Playback Controls](./assets/img/playback-controls.png "Playback Controls Demo")
+A service for searching and retrieving metadata from the Internet Archive.
 
 ## Installation
 ```bash
-yarn add @internetarchive/playback-controls
+yarn add @internetarchive/ia-search-service
 ```
 
 ## Usage
-```js
-// playback-controls.js
-import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-controls';
-export default { PlaybackControls, PlaybackMode };
+
+### 1. Implement a SearchBackend
+
+In order to abstract the network connectivity layer and the environment-specific configuration from the result handling, the consumer should implement a search backend that implements the `SearchBackendInterface`. These are just two methods, one for fetching search results and the other for fetching metadata. They both return a `Promise` that should contain JSON that matches a `SearchResponse` object or a `MetadataResponse` object.
+
+#### Example
+
+```ts
+// search-backend.ts
+import { SearchBackendInterface, SearchResponse, MetadataResponse } from '@internetarchive/ia-search-service';
+
+export class SearchBackend implements SearchBackendInterface {
+  constructor(baseUrl = 'archive.org') {
+    this.baseUrl = baseUrl;
+  }
+
+  async performSearch(params): Promise<SearchResponse> {
+    const urlSearchParam = params.asUrlSearchParams;
+    const queryAsString = urlSearchParam.toString();
+    const url = `https://${this.baseUrl}/advancedsearch.php?${queryAsString}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    return new Promise(resolve => resolve(json));
+  }
+
+  async fetchMetadata(identifier): Promise<MetadataResponse> {
+    const url = `https://${this.baseUrl}/metadata/${identifier}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    return new Promise(resolve => resolve(json));
+  }
+}
 ```
 
-```html
-<!-- index.html -->
-<script type="module">
-  import { PlaybackControls, PlaybackMode } from './playback-controls.js';
-</script>
+### 2. Make Search Requests
 
-<playback-controls id="playbackControls"></playback-controls>
+Using the backend you created above, instantiate a `SearchService` with it, craft some `SearchParams`, and perform your search:
 
-<script>
-  const playbackControls = document.getElementById('playbackControls');
+#### Example
 
-  playbackControls.addEventListener('back-button-pressed', e => {
-    console.log('Back button pressed');
-  });
+```ts
+// search-consumer.ts
+import { SearchService, SearchParams, SearchResponse } from '@internetarchive/ia-search-service';
+import { SearchBackend } from './search-backend';
 
-  playbackControls.addEventListener('play-pause-button-pressed', e => {
-    console.log('Play pause button pressed');
-  });
+...
 
-  playbackControls.addEventListener('forward-button-pressed', e => {
-    console.log('Forward button pressed');
-  });
+const searchBackend = new SearchBackend();
+const searchService = new SearchService(searchBackend);
 
-  // set a different state
-  playbackControls.playbackMode = PlaybackMode.playing; // or PlaybackMode.paused
-</script>
+const params = new SearchParams('collection:books AND title:(little bunny foo foo)');
+params.sort = 'downloads desc';
+params.rows = 33;
+params.start = 0;
+params.fields = ['identifier', 'collection', 'creator', 'downloads'];
 
+const searchResponse: SearchResponse = await searchService.performSearch(params);
+searchResponse.response.numFound // => number
+searchResponse.response.docs // => Metadata[] array
+searchResponse.response.docs[0].identifier // => 'identifier-foo'
+
+const metadataResponse: MetadataResponse = await searchService.fetchMetadata('some-identifier');
+metadataResponse.metadata.identifier // => 'some-identifier'
+metadataResponse.metadata.collection.value // => 'some-collection'
+metadataResponse.metadata.collection.values // => ['some-collection', 'another-collection', 'more-collections']
+```
+
+## Metadata Values
+
+Internet Archive Metadata is expansive and nearly all metadata fields can be returned as either an array, string, or number.
+
+The Search Service handles all of the possible variations in data formats and converts them to native types. For instance on fields that are dates like `indexdate`, `date`, and `publicdate`, it takes the string returned and converts it into a native javascript `Date` fields.
+
+There are parsers for several different field types, like `Number`, `String`, `Date`, and `Duration`.
+
+See `src/models/metadata-fields/field-types.ts`
+
+### Usage
+
+```ts
+metadata.collection.values  // returns all values of the array, even if there's just one, ie. 'my-collection'
+metadata.collection.value   // return just the first item of the `values` array, ie. ['my-collection', 'other-collection']
+metadata.collection.rawValue // return the rawValue. This is useful if it was not parsed properly for some reason, ie. "['my-collection', 'other-collection']"
+
+metadata.date.value  // return the date as a javascript `Date` object
+
+metadata.length.value  // return the length (duration) of the item as a number of seconds, can be in the format "hh:mm:ss" or decimal seconds
 ```
 
 # Development
@@ -52,24 +104,9 @@ export default { PlaybackControls, PlaybackMode };
 yarn install
 ```
 
-## Start Development Server
-```bash
-yarn start  // start development server and typescript compiler
-```
-
 ## Testing
 ```bash
 yarn test
-```
-
-## Testing via browserstack
-```bash
-yarn test:bs
-```
-
-## Demoing using storybook
-```bash
-yarn storybook
 ```
 
 ## Linting
