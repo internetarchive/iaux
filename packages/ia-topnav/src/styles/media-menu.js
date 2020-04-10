@@ -1,6 +1,10 @@
 import { css } from 'lit-element';
 
 export default css`
+  :host {
+    outline: none;
+  }
+
   .media-menu {
     position: absolute;
     z-index: -1;
