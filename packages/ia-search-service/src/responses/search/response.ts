@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Metadata } from './metadata';
+import { Metadata } from '../../models/metadata';
 
 export class Response {
   numFound: number;

@@ -1,7 +1,7 @@
-import { SearchResponse } from './models/search-response';
+import { SearchResponse } from './responses/search/search-response';
 import { SearchBackendInterface } from './search-backend-interface';
 import { SearchParams } from './search-params';
-import { MetadataResponse } from './metadata-response';
+import { MetadataResponse } from './responses/metadata/metadata-response';
 
 export class SearchService {
   private searchBackend: SearchBackendInterface;

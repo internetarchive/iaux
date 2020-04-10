@@ -4,7 +4,7 @@
 import { DateField, StringField, NumberField, DurationField } from './metadata-fields/field-types';
 
 export class Metadata {
-  rawResponse: any;
+  rawMetadata: any;
 
   identifier: string;
 
@@ -31,7 +31,7 @@ export class Metadata {
   description: StringField;
 
   constructor(json: any) {
-    this.rawResponse = json;
+    this.rawMetadata = json;
     this.identifier = json.identifier;
 
     this.collection = new StringField(json.collection);

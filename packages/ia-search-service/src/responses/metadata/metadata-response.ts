@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable camelcase */
-import { File } from './models/file';
-import { Metadata } from './models/metadata';
+import { File } from '../../models/file';
+import { Metadata } from '../../models/metadata';
 
 export class MetadataResponse {
+  rawResponse: any;
+
   created: number;
 
   d1: string;
@@ -30,6 +32,7 @@ export class MetadataResponse {
   workable_servers: string[];
 
   constructor(json: any) {
+    this.rawResponse = json;
     this.created = json.created;
     this.d1 = json.d1;
     this.d2 = json.d2;
