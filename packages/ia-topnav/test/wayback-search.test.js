@@ -19,4 +19,12 @@ describe('<wayback-search>', () => {
     expect(locationHandler.callCount).to.equal(1);
     expect(locationHandler.firstArg).to.contain(query);
   });
+
+  it('renders the Wayback pages count', async () => {
+    const config = { waybackPagesArchived: 42 };
+    const waybackInstance = await fixture(html`<wayback-search .config=${config}></wayback-search>`);
+    const p = waybackInstance.shadowRoot.querySelector('p');
+
+    expect(p.innerText).to.contain(config.waybackPagesArchived);
+  });
 });
