@@ -3,37 +3,14 @@ import { expect } from '@open-wc/testing';
 import { SearchService } from '../lib/search-service';
 import { SearchParams } from '../lib/search-params';
 
-const generateMockResponse = (params) => {
-  return {
-    responseHeader: {
-      status: 0,
-      QTime: 1459,
-      params: {
-        query: params.query,
-        qin: params.query,
-        fields: params.fieldsAsString,
-        wt: "json",
-        sort: params.sort,
-        rows: params.rows,
-        start: params.start
-      }
-    },
-    response: {
-      numFound: 12345,
-      start: 0,
-      docs: [
-        { identifier: "foo" },
-        { identifier: "bar" },
-      ]
-    }
-  }
-}
+import { MockResponseGenerator } from './mock-response-generator';
 
 describe('SearchService', () => {
   it('can search when requested', async () => {
     class MockSearchBackend {
-      performSearch(params) {
-        const mockResponse = generateMockResponse(params);
+      async performSearch(params) {
+        const responseGenerator = new MockResponseGenerator()
+        const mockResponse = responseGenerator.generateMockSearchResponse(params);
         return new Promise(resolve => resolve(mockResponse));
       }
     }
@@ -48,8 +25,9 @@ describe('SearchService', () => {
 
   it('can request metadata when requested', async () => {
     class MockSearchBackend {
-      fetchMetadata(identifier) {
-        const mockResponse = { identifier };
+      async fetchMetadata(identifier) {
+        const responseGenerator = new MockResponseGenerator()
+        const mockResponse = responseGenerator.generateMockMetadataResponse(identifier);
         return new Promise(resolve => resolve(mockResponse));
       }
     }
@@ -57,6 +35,6 @@ describe('SearchService', () => {
     const backend = new MockSearchBackend();
     const service = new SearchService(backend);
     const result = await service.fetchMetadata('foo');
-    expect(result.identifier).to.equal('foo');
+    expect(result.metadata.identifier).to.equal('foo');
   });
 });
