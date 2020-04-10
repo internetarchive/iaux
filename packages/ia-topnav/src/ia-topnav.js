@@ -68,6 +68,7 @@ export default class IATopNav extends LitElement {
     if (!this.mediaSliderOpen) {
       this.mediaSliderAnimate = true;
       this.mediaSliderOpen = !this.mediaSliderOpen;
+      this.mediaMenuOpen = true;
     }
   }
 
