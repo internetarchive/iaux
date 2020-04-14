@@ -30,66 +30,64 @@ export class Metadata {
 
   identifier: string;
 
-  collection: StringField;
-
-  creator: StringField;
-
-  mediatype: StringField;
-
-  track: NumberField;
-
-  date: DateField;
-
-  duration: DurationField;
-
-  indexdate: DateField;
-
-  downloads: NumberField;
-
-  title: StringField;
-
-  num_reviews: NumberField;
-
-  description: StringField;
-
-  length: DurationField;
-
-  start_time: DateField;
-
-  start_localtime: DateField;
-
-  contributor: StringField;
-
+  addeddate: DateField;
   audio_codec: StringField;
-
   audio_sample_rate: NumberField;
-
+  collection: StringField;
+  contributor: StringField;
   coverage: StringField;
-
+  creator: StringField;
+  date: DateField;
+  description: StringField;
+  downloads: NumberField;
+  duration: DurationField;
+  indexdate: DateField;
+  language: StringField;
+  length: DurationField;
+  mediatype: StringField;
   noindex: BooleanField;
+  num_reviews: NumberField;
+  publicdate: DateField;
+  start_localtime: DateField;
+  start_time: DateField;
+  stop_time: DateField;
+  subject: StringField;
+  title: StringField;
+  track: NumberField;
+  uploader: StringField;
+  utc_offset: NumberField;
+  year: NumberField;
 
   constructor(json: any) {
     this.rawMetadata = json;
     this.identifier = json.identifier;
 
-    this.collection = new StringField(json.collection);
-    this.track = new NumberField(json.track);
-    this.date = new DateField(json.date);
-    this.indexdate = new DateField(json.indexdate);
-    this.duration = new DurationField(json.duration);
-    this.creator = new StringField(json.creator);
-    this.mediatype = new StringField(json.mediatype);
-    this.downloads = new NumberField(json.downloads);
-    this.title = new StringField(json.title);
-    this.num_reviews = new NumberField(json.num_reviews);
-    this.description = new StringField(json.description);
-    this.length = new DurationField(json.length);
-    this.start_time = new DateField(json.start_time);
-    this.start_localtime = new DateField(json.start_localtime);
-    this.contributor = new StringField(json.contributor);
+    this.addeddate = new DateField(json.addeddate);
     this.audio_codec = new StringField(json.audio_codec);
     this.audio_sample_rate = new NumberField(json.audio_sample_rate);
+    this.collection = new StringField(json.collection);
+    this.contributor = new StringField(json.contributor);
     this.coverage = new StringField(json.coverage);
+    this.creator = new StringField(json.creator);
+    this.date = new DateField(json.date);
+    this.description = new StringField(json.description);
+    this.downloads = new NumberField(json.downloads);
+    this.duration = new DurationField(json.duration);
+    this.indexdate = new DateField(json.indexdate);
+    this.language = new StringField(json.language);
+    this.length = new DurationField(json.length);
+    this.mediatype = new StringField(json.mediatype);
     this.noindex = new BooleanField(json.noindex);
+    this.num_reviews = new NumberField(json.num_reviews);
+    this.publicdate = new DateField(json.publicdate);
+    this.start_localtime = new DateField(json.start_localtime);
+    this.start_time = new DateField(json.start_time);
+    this.stop_time = new DateField(json.stop_time);
+    this.subject = new StringField(json.subject);
+    this.title = new StringField(json.title);
+    this.track = new NumberField(json.track);
+    this.uploader = new StringField(json.uploader);
+    this.utc_offset = new NumberField(json.utc_offset);
+    this.year = new NumberField(json.year);
   }
 }
