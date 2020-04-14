@@ -56,6 +56,11 @@ export default class BookReaderWrapper extends Component {
         uri = `${uri}scale=${reduce}&rotate=${rotate}`;
         return uri;
       },
+      controls: {
+        twoPage: {
+          visible: false
+        }
+      },
     };
     const fullOptions = {
       ...defaultOptions,
