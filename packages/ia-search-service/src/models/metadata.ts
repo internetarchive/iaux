@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable camelcase */
-import { DateField, StringField, NumberField, DurationField } from './metadata-fields/field-types';
+import {
+  DateField,
+  StringField,
+  NumberField,
+  DurationField,
+  BooleanField,
+} from './metadata-fields/field-types';
 
 /**
  * Metadata is an expansive model that describes an Item.
@@ -48,6 +54,20 @@ export class Metadata {
 
   length: DurationField;
 
+  start_time: DateField;
+
+  start_localtime: DateField;
+
+  contributor: StringField;
+
+  audio_codec: StringField;
+
+  audio_sample_rate: NumberField;
+
+  coverage: StringField;
+
+  noindex: BooleanField;
+
   constructor(json: any) {
     this.rawMetadata = json;
     this.identifier = json.identifier;
@@ -64,5 +84,12 @@ export class Metadata {
     this.num_reviews = new NumberField(json.num_reviews);
     this.description = new StringField(json.description);
     this.length = new DurationField(json.length);
+    this.start_time = new DateField(json.start_time);
+    this.start_localtime = new DateField(json.start_localtime);
+    this.contributor = new StringField(json.contributor);
+    this.audio_codec = new StringField(json.audio_codec);
+    this.audio_sample_rate = new NumberField(json.audio_sample_rate);
+    this.coverage = new StringField(json.coverage);
+    this.noindex = new BooleanField(json.noindex);
   }
 }

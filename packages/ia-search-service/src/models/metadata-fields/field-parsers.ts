@@ -21,6 +21,15 @@ export class StringParser implements FieldParserInterface<string> {
   }
 }
 
+export class BooleanParser implements FieldParserInterface<boolean> {
+  parseValue(rawValue: string): boolean {
+    if (rawValue === 'false' || rawValue === '0') {
+      return false;
+    }
+    return Boolean(rawValue);
+  }
+}
+
 export class DateParser implements FieldParserInterface<Date> {
   parseValue(rawValue: string): Date | undefined {
     // try different date parsing

@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MetadataField } from './metadata-field';
-import { Duration, DateParser, DurationParser, NumberParser, StringParser } from './field-parsers';
+import {
+  Duration,
+  DateParser,
+  DurationParser,
+  NumberParser,
+  StringParser,
+  BooleanParser,
+} from './field-parsers';
 
 class SharedParsers {
   static dateParser = new DateParser();
@@ -10,6 +17,8 @@ class SharedParsers {
   static numberParser = new NumberParser();
 
   static stringParser = new StringParser();
+
+  static booleanParser = new BooleanParser();
 }
 
 export class DateField extends MetadataField<Date, DateParser> {
@@ -33,5 +42,11 @@ export class NumberField extends MetadataField<number, NumberParser> {
 export class StringField extends MetadataField<string, StringParser> {
   constructor(rawValue: any) {
     super(SharedParsers.stringParser, rawValue);
+  }
+}
+
+export class BooleanField extends MetadataField<boolean, BooleanParser> {
+  constructor(rawValue: any) {
+    super(SharedParsers.booleanParser, rawValue);
   }
 }

@@ -4,7 +4,8 @@ import {
   NumberParser,
   DateParser,
   DurationParser,
-  StringParser
+  StringParser,
+  BooleanParser
 } from '../../../lib/models/metadata-fields/field-parsers';
 
 describe('NumberParser', () => {
@@ -164,5 +165,67 @@ describe('DurationParser', () => {
     const parser = new DurationParser();
     const response = parser.parseValue('345.23');
     expect(response).to.equal(345.23);
+  });
+});
+
+describe('BooleanParser', () => {
+  it('can parse number truthy', async () => {
+    const parser = new BooleanParser();
+    const response = parser.parseValue(1);
+    expect(response).to.be.true;
+  });
+
+  it('can parse number falsy', async () => {
+    const parser = new BooleanParser();
+    const response = parser.parseValue(0);
+    expect(response).to.be.false;
+  });
+
+  it('can parse string number truthy', async () => {
+    const parser = new BooleanParser();
+    const response = parser.parseValue('1');
+    expect(response).to.be.true;
+  });
+
+  it('can parse string number falsy', async () => {
+    const parser = new BooleanParser();
+    const response = parser.parseValue('0');
+    expect(response).to.be.false;
+  });
+
+  it('can parse words truthy', async () => {
+    const parser = new BooleanParser();
+    const response = parser.parseValue('true');
+    expect(response).to.be.true;
+  });
+
+  it('can parse words falsy', async () => {
+    const parser = new BooleanParser();
+    const response = parser.parseValue('false');
+    expect(response).to.be.false;
+  });
+
+  it('can parse boolean truthy', async () => {
+    const parser = new BooleanParser();
+    const response = parser.parseValue(true);
+    expect(response).to.be.true;
+  });
+
+  it('can parse boolean falsy', async () => {
+    const parser = new BooleanParser();
+    const response = parser.parseValue(false);
+    expect(response).to.be.false;
+  });
+
+  it('can parse date truthy', async () => {
+    const parser = new BooleanParser();
+    const response = parser.parseValue(Date());
+    expect(response).to.be.true;
+  });
+
+  it('can parse undefined falsy', async () => {
+    const parser = new BooleanParser();
+    const response = parser.parseValue(undefined);
+    expect(response).to.be.false;
   });
 });
