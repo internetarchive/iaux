@@ -19,15 +19,6 @@ module.exports = function expressMiddleware (router) {
     router.use(`/${route}`, createProxyMiddleware(constructOptions(route)))
   });
 
-  router.use('/BookReader', createProxyMiddleware({
-    target: `${base_url}/bookreader/BookReader`,
-    logLevel: 'debug',
-    changeOrigin: true,
-    pathRewrite: {
-      '^/BookReader': `${base_url}/bookreader/BookReader`
-    }
-  }));
-
   router.use('/api', createProxyMiddleware({
     target: base_url,
     logLevel: 'debug',
