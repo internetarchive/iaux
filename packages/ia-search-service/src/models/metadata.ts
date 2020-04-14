@@ -31,31 +31,57 @@ export class Metadata {
   identifier: string;
 
   addeddate: DateField;
+
   audio_codec: StringField;
+
   audio_sample_rate: NumberField;
+
   collection: StringField;
+
   contributor: StringField;
+
   coverage: StringField;
+
   creator: StringField;
+
   date: DateField;
+
   description: StringField;
+
   downloads: NumberField;
+
   duration: DurationField;
+
   indexdate: DateField;
+
   language: StringField;
+
   length: DurationField;
+
   mediatype: StringField;
+
   noindex: BooleanField;
+
   num_reviews: NumberField;
+
   publicdate: DateField;
+
   start_localtime: DateField;
+
   start_time: DateField;
+
   stop_time: DateField;
+
   subject: StringField;
+
   title: StringField;
+
   track: NumberField;
+
   uploader: StringField;
+
   utc_offset: NumberField;
+
   year: NumberField;
 
   constructor(json: any) {
