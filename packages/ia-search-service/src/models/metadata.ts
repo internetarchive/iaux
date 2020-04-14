@@ -46,6 +46,8 @@ export class Metadata {
 
   description: StringField;
 
+  length: DurationField;
+
   constructor(json: any) {
     this.rawMetadata = json;
     this.identifier = json.identifier;
@@ -61,5 +63,6 @@ export class Metadata {
     this.title = new StringField(json.title);
     this.num_reviews = new NumberField(json.num_reviews);
     this.description = new StringField(json.description);
+    this.length = new DurationField(json.length);
   }
 }
