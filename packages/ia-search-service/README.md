@@ -11,9 +11,11 @@ yarn add @internetarchive/ia-search-service
 
 ### 1. Implement a SearchBackend
 
-In order to abstract the network connectivity layer and the environment-specific configuration from the result handling, the consumer should implement a search backend that implements the `SearchBackendInterface`. These are just two methods, one for fetching search results and the other for fetching metadata. They both return a `Promise` that should contain JSON that matches a `SearchResponse` object or a `MetadataResponse` object.
+In order to abstract the network connectivity layer and the environment-specific configuration from the result handling, the consumer should implement a search backend that implements the `SearchBackendInterface`.
 
-#### Example
+There are just two methods, one for fetching search results and the other for fetching metadata. They both return a `Promise` that should contain JSON that matches a `SearchResponse` object or a `MetadataResponse` object.
+
+#### Example Search Backend
 
 ```ts
 // search-backend.ts
