@@ -3,12 +3,17 @@ import { SearchBackendInterface } from './search-backend-interface';
 import { SearchParams } from './search-params';
 import { MetadataResponse } from './responses/metadata/metadata-response';
 
+export interface SearchServiceInterface {
+  search(params: SearchParams): Promise<SearchResponse>;
+  fetchMetadata(identifier: string): Promise<MetadataResponse>;
+}
+
 /**
  * The Search Service is responsible for taking the raw response provided by
  * the Search Backend and modeling it as a `SearchResponse` or `MetadataResponse`
  * object, depending on the type of response.
  */
-export class SearchService {
+export class SearchService implements SearchServiceInterface {
   private searchBackend: SearchBackendInterface;
 
   constructor(searchBackend: SearchBackendInterface) {

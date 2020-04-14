@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FieldParser } from './field-parsers';
+import { FieldParserInterface } from './field-parsers';
 
 /**
  * The MetadataField is responsible for three things:
@@ -22,9 +22,9 @@ import { FieldParser } from './field-parsers';
  *
  * @class MetadataField
  * @template Type The type of metadata this is (string, number, Date, etc)
- * @template FieldParserType The parser for that type (StringParser, NumberParser, DateParser, etc)
+ * @template FieldParserInterfaceType The parser for that type (StringParser, NumberParser, etc)
  */
-class MetadataField<Type, FieldParserType extends FieldParser<Type>> {
+export class MetadataField<Type, FieldParserInterfaceType extends FieldParserInterface<Type>> {
   rawValue?: any;
 
   values: Type[] = [];
@@ -33,14 +33,14 @@ class MetadataField<Type, FieldParserType extends FieldParser<Type>> {
     return this.values.length > 0 ? this.values[0] : undefined;
   }
 
-  constructor(parser: FieldParserType, rawValue?: any) {
+  constructor(parser: FieldParserInterfaceType, rawValue?: any) {
     this.parser = parser;
     this.rawValue = rawValue;
 
     this.processRawValue();
   }
 
-  private parser: FieldParserType;
+  private parser: FieldParserInterfaceType;
 
   private processRawValue(): void {
     if (this.rawValue === undefined) {
@@ -63,5 +63,3 @@ class MetadataField<Type, FieldParserType extends FieldParser<Type>> {
     }
   }
 }
-
-export { MetadataField };

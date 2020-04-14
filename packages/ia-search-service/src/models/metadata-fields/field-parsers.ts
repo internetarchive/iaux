@@ -1,11 +1,11 @@
 /* eslint-disable class-methods-use-this */
 export type Duration = number;
 
-export interface FieldParser<T> {
+export interface FieldParserInterface<T> {
   parseValue(rawValue: string): T | undefined;
 }
 
-export class NumberParser implements FieldParser<number> {
+export class NumberParser implements FieldParserInterface<number> {
   parseValue(rawValue: string): number | undefined {
     const value = parseFloat(rawValue);
     if (Number.isNaN(value)) {
@@ -15,13 +15,13 @@ export class NumberParser implements FieldParser<number> {
   }
 }
 
-export class StringParser implements FieldParser<string> {
+export class StringParser implements FieldParserInterface<string> {
   parseValue(rawValue: string): string {
     return String(rawValue);
   }
 }
 
-export class DateParser implements FieldParser<Date> {
+export class DateParser implements FieldParserInterface<Date> {
   parseValue(rawValue: string): Date | undefined {
     // try different date parsing
     return this.parseJSDate(rawValue) || this.parseBracketDate(rawValue);
@@ -43,7 +43,7 @@ export class DateParser implements FieldParser<Date> {
   }
 }
 
-export class DurationParser implements FieldParser<Duration> {
+export class DurationParser implements FieldParserInterface<Duration> {
   parseValue(rawValue: string): Duration {
     const componentArray: string[] = rawValue.split(':');
     const componentCount: number = componentArray.length;

@@ -6,9 +6,25 @@ export {
   DateField,
   NumberField,
   DurationField,
-  StringField
+  StringField,
 } from './lib/models/metadata-fields/field-types.js';
 
-export { SearchService } from './lib/search-service.js';
+export {
+  Duration,
+  FieldParserInterface,
+  NumberParser,
+  StringParser,
+  DateParser,
+  DurationParser
+} from './lib/models/metadata-fields/field-parsers.js';
 
+export { MetadataField } from './lib/models/metadata-fields/metadata-field.js';
+
+export { MetadataResponse } from './lib/responses/metadata/metadata-response.js';
+export { SearchResponse } from './lib/responses/search/search-response.js';
+export { SearchResponseHeader } from './lib/responses/search/search-response-header.js';
+export { SearchResponseParams } from './lib/responses/search/search-response-params.js';
+
+export { SearchBackendInterface } from './lib/search-backend-interface.js';
+export { SearchService, SearchServiceInterface } from './lib/search-service.js';
 export { SearchParams } from './lib/search-params.js';

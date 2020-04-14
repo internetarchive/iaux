@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ResponseHeader } from './response-header';
+import { SearchResponseHeader } from './search-response-header';
 import { Response } from './response';
 
 /**
@@ -20,10 +20,10 @@ export class SearchResponse {
   /**
    * The resonse header
    *
-   * @type {ResponseHeader}
+   * @type {SearchResponseHeader}
    * @memberof SearchResponse
    */
-  responseHeader: ResponseHeader;
+  responseHeader: SearchResponseHeader;
 
   /**
    * The response containing the search results
@@ -35,7 +35,7 @@ export class SearchResponse {
 
   constructor(json: any) {
     this.rawResponse = json;
-    this.responseHeader = new ResponseHeader(json.responseHeader);
+    this.responseHeader = new SearchResponseHeader(json.responseHeader);
     this.response = new Response(json.response);
   }
 }

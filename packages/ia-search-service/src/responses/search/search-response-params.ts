@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export class ResponseParams {
+export class SearchResponseParams {
   query: string;
 
   qin: string;
