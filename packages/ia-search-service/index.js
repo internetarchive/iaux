@@ -10,8 +10,6 @@ export {
 } from './lib/models/metadata-fields/field-types.js';
 
 export {
-  Duration,
-  FieldParserInterface,
   NumberParser,
   StringParser,
   DateParser,
@@ -25,6 +23,5 @@ export { SearchResponse } from './lib/responses/search/search-response.js';
 export { SearchResponseHeader } from './lib/responses/search/search-response-header.js';
 export { SearchResponseParams } from './lib/responses/search/search-response-params.js';
 
-export { SearchBackendInterface } from './lib/search-backend-interface.js';
-export { SearchService, SearchServiceInterface } from './lib/search-service.js';
+export { SearchService } from './lib/search-service.js';
 export { SearchParams } from './lib/search-params.js';
