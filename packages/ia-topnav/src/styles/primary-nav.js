@@ -13,7 +13,7 @@ export default css`
     display: grid;
     height: 4rem;
     grid-template-areas: "hamburger empty search user";
-    -ms-grid-columns: 4rem auto 4.3rem 5rem;
+    -ms-grid-columns: 4rem minmax(1rem, 100%) 4.3rem 5rem;
     grid-template-columns: 4rem auto 4.3rem 5rem;
     -ms-grid-rows: 100%;
     grid-template-rows: 100%;
