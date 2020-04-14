@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ResponseHeader | @internetarchive/ia-search-service</title>
+	<title>SearchServiceInterface | @internetarchive/ia-search-service</title>
 	<meta name="description" content="Documentation for @internetarchive/ia-search-service">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_responses_search_response_header_.html">&quot;responses/search/response-header&quot;</a>
+					<a href="../modules/_search_service_.html">&quot;search-service&quot;</a>
 				</li>
 				<li>
-					<a href="_responses_search_response_header_.responseheader.html">ResponseHeader</a>
+					<a href="_search_service_.searchserviceinterface.html">SearchServiceInterface</a>
 				</li>
 			</ul>
-			<h1>Class ResponseHeader</h1>
+			<h1>Interface SearchServiceInterface</h1>
 		</div>
 	</div>
 </header>
@@ -73,8 +73,14 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ResponseHeader</span>
+						<span class="target">SearchServiceInterface</span>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implemented by</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../classes/_search_service_.searchservice.html" class="tsd-signature-type">SearchService</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -82,79 +88,62 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Constructors</h3>
+							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_responses_search_response_header_.responseheader.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_responses_search_response_header_.responseheader.html#qtime" class="tsd-kind-icon">QTime</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_responses_search_response_header_.responseheader.html#params" class="tsd-kind-icon">params</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_responses_search_response_header_.responseheader.html#status" class="tsd-kind-icon">status</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_search_service_.searchserviceinterface.html#fetchmetadata" class="tsd-kind-icon">fetch<wbr>Metadata</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_search_service_.searchserviceinterface.html#search" class="tsd-kind-icon">search</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
-					<a name="constructor" class="tsd-anchor"></a>
-					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Response<wbr>Header<span class="tsd-signature-symbol">(</span>json<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_responses_search_response_header_.responseheader.html" class="tsd-signature-type">ResponseHeader</a></li>
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="fetchmetadata" class="tsd-anchor"></a>
+					<h3>fetch<wbr>Metadata</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Metadata<span class="tsd-signature-symbol">(</span>identifier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_responses_metadata_metadata_response_.metadataresponse.html" class="tsd-signature-type">MetadataResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/internetarchive/iaux/blob/9b9d007/packages/ia-search-service/src/responses/search/response-header.ts#L9">responses/search/response-header.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/internetarchive/iaux/blob/1eabc28/packages/ia-search-service/src/search-service.ts#L8">search-service.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>json: <span class="tsd-signature-type">any</span></h5>
+									<h5>identifier: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_responses_search_response_header_.responseheader.html" class="tsd-signature-type">ResponseHeader</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_responses_metadata_metadata_response_.metadataresponse.html" class="tsd-signature-type">MetadataResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="qtime" class="tsd-anchor"></a>
-					<h3>QTime</h3>
-					<div class="tsd-signature tsd-kind-icon">QTime<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/internetarchive/iaux/blob/9b9d007/packages/ia-search-service/src/responses/search/response-header.ts#L7">responses/search/response-header.ts:7</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="params" class="tsd-anchor"></a>
-					<h3>params</h3>
-					<div class="tsd-signature tsd-kind-icon">params<span class="tsd-signature-symbol">:</span> <a href="_responses_search_response_params_.responseparams.html" class="tsd-signature-type">ResponseParams</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/internetarchive/iaux/blob/9b9d007/packages/ia-search-service/src/responses/search/response-header.ts#L9">responses/search/response-header.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="status" class="tsd-anchor"></a>
-					<h3>status</h3>
-					<div class="tsd-signature tsd-kind-icon">status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/internetarchive/iaux/blob/9b9d007/packages/ia-search-service/src/responses/search/response-header.ts#L5">responses/search/response-header.ts:5</a></li>
-						</ul>
-					</aside>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="search" class="tsd-anchor"></a>
+					<h3>search</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">search<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="../classes/_search_params_.searchparams.html" class="tsd-signature-type">SearchParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_responses_search_search_response_.searchresponse.html" class="tsd-signature-type">SearchResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/internetarchive/iaux/blob/1eabc28/packages/ia-search-service/src/search-service.ts#L7">search-service.ts:7</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="../classes/_search_params_.searchparams.html" class="tsd-signature-type">SearchParams</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_responses_search_search_response_.searchresponse.html" class="tsd-signature-type">SearchResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -188,14 +177,14 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/_responses_search_response_.html">&quot;responses/search/response&quot;</a>
 					</li>
-					<li class="current tsd-kind-module">
-						<a href="../modules/_responses_search_response_header_.html">&quot;responses/search/response-<wbr>header&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_responses_search_response_params_.html">&quot;responses/search/response-<wbr>params&quot;</a>
-					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_responses_search_search_response_.html">&quot;responses/search/search-<wbr>response&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_responses_search_search_response_header_.html">&quot;responses/search/search-<wbr>response-<wbr>header&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_responses_search_search_response_params_.html">&quot;responses/search/search-<wbr>response-<wbr>params&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_search_backend_interface_.html">&quot;search-<wbr>backend-<wbr>interface&quot;</a>
@@ -203,29 +192,26 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/_search_params_.html">&quot;search-<wbr>params&quot;</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/_search_service_.html">&quot;search-<wbr>service&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_search_service_.searchservice.html" class="tsd-kind-icon">Search<wbr>Service</a>
+					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_responses_search_response_header_.responseheader.html" class="tsd-kind-icon">Response<wbr>Header</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
+						<a href="_search_service_.searchserviceinterface.html" class="tsd-kind-icon">Search<wbr>Service<wbr>Interface</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_responses_search_response_header_.responseheader.html#constructor" class="tsd-kind-icon">constructor</a>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="_search_service_.searchserviceinterface.html#fetchmetadata" class="tsd-kind-icon">fetch<wbr>Metadata</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_responses_search_response_header_.responseheader.html#qtime" class="tsd-kind-icon">QTime</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_responses_search_response_header_.responseheader.html#params" class="tsd-kind-icon">params</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_responses_search_response_header_.responseheader.html#status" class="tsd-kind-icon">status</a>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="_search_service_.searchserviceinterface.html#search" class="tsd-kind-icon">search</a>
 							</li>
 						</ul>
 					</li>
@@ -241,14 +227,13 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>

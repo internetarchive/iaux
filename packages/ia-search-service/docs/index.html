@@ -78,9 +78,10 @@
 				<a href="#1-implement-a-searchbackend" id="1-implement-a-searchbackend" style="color: inherit; text-decoration: none;">
 					<h3>1. Implement a SearchBackend</h3>
 				</a>
-				<p>In order to abstract the network connectivity layer and the environment-specific configuration from the result handling, the consumer should implement a search backend that implements the <code>SearchBackendInterface</code>. These are just two methods, one for fetching search results and the other for fetching metadata. They both return a <code>Promise</code> that should contain JSON that matches a <code>SearchResponse</code> object or a <code>MetadataResponse</code> object.</p>
-				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
-					<h4>Example</h4>
+				<p>In order to abstract the network connectivity layer and the environment-specific configuration from the result handling, the consumer should implement a search backend that implements the <code>SearchBackendInterface</code>.</p>
+				<p>There are just two methods, one for fetching search results and the other for fetching metadata. They both return a <code>Promise</code> that should contain JSON that matches a <code>SearchResponse</code> object or a <code>MetadataResponse</code> object.</p>
+				<a href="#example-search-backend" id="example-search-backend" style="color: inherit; text-decoration: none;">
+					<h4>Example Search Backend</h4>
 				</a>
 				<pre><code class="language-ts"><span class="hljs-comment">// search-backend.ts</span>
 <span class="hljs-keyword">import</span> { SearchBackendInterface, SearchResponse, MetadataResponse } <span class="hljs-keyword">from</span> <span class="hljs-string">'@internetarchive/ia-search-service'</span>;
@@ -110,7 +111,7 @@
 					<h3>2. Make Search Requests</h3>
 				</a>
 				<p>Using the backend you created above, instantiate a <code>SearchService</code> with it, craft some <code>SearchParams</code>, and perform your search:</p>
-				<a href="#example-1" id="example-1" style="color: inherit; text-decoration: none;">
+				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 					<h4>Example</h4>
 				</a>
 				<pre><code class="language-ts"><span class="hljs-comment">// search-consumer.ts</span>
@@ -202,13 +203,13 @@ metadata.length.value  <span class="hljs-comment">// return the length (duration
 						<a href="modules/_responses_search_response_.html">&quot;responses/search/response&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_responses_search_response_header_.html">&quot;responses/search/response-<wbr>header&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_responses_search_response_params_.html">&quot;responses/search/response-<wbr>params&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="modules/_responses_search_search_response_.html">&quot;responses/search/search-<wbr>response&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_responses_search_search_response_header_.html">&quot;responses/search/search-<wbr>response-<wbr>header&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_responses_search_search_response_params_.html">&quot;responses/search/search-<wbr>response-<wbr>params&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_search_backend_interface_.html">&quot;search-<wbr>backend-<wbr>interface&quot;</a>

@@ -17,6 +17,7 @@
     "build": "tsc -p tsconfig.build.json",
     "watch": "tsc --watch",
     "start": "npm run:watch",
+    "docs": "yarn typedoc",
     "start:compatibility": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch --compatibility all\"",
     "lint:eslint": "eslint --ext .ts . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .ts . --fix --ignore-path .gitignore",
