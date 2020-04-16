@@ -2,18 +2,16 @@ import { css } from 'lit-element';
 
 export default css`
   :host {
-    --topOffset: -100vh;
+    --topOffset: -1000px;
   }
   nav {
     position: absolute;
     top: var(--topOffset);
     right: 0;
     z-index: 1;
+    overflow: hidden;
     font-size: 1.6rem;
     background-color: var(--grey20);
-  }
-  nav {
-    overflow: hidden;
     transition-property: top;
     transition-duration: 0.5s;
     transition-timing-function: ease;
