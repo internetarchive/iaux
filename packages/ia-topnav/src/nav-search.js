@@ -1,6 +1,7 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import navSearchCSS from './styles/nav-search';
+import icons from './assets/img/icons';
 
 class NavSearch extends TrackedElement {
   static get styles() {
@@ -45,7 +46,7 @@ class NavSearch extends TrackedElement {
         />
         <input type='hidden' name='sin' value='' />
         <button type="submit" class="search" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">
-          <search-image ?active=${this.open}></search-image>
+          ${icons.search}
         </button>
       </form>
     </div>`;

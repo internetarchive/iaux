@@ -69,6 +69,10 @@ export default css`
     align-items: center;
   }
 
+  .search-trigger .fill-color {
+    fill: var(--grey999);
+  }
+
   .search-activated {
     position: relative;
     z-index: 3;

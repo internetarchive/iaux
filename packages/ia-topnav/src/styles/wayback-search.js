@@ -64,13 +64,19 @@ export default css`
     overflow: hidden;
   }
 
-  .search-field search-image {
+  .search-field svg {
     position: absolute;
     top: 2px;
     left: 3px;
+    width: 24px;
+    height: 24px;
   }
 
-  input:focus + search-image {
+  .search-field .fill-color {
+    fill: var(--grey999);
+  }
+
+  input:focus + svg {
     display: none;
   }
 
@@ -103,6 +109,15 @@ export default css`
 
     fieldset a {
       text-align: center;
+    }
+
+    .search-field svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .search-field .fill-color {
+      fill: var(--grey20);
     }
   }
 `;
