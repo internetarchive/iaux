@@ -1,3 +1,4 @@
-const { exec } = require('child_process');
+const { execSync } = require('child_process');
 
-exec('cp -r node_modules/bookreader/BookReader public/');
+execSync('mkdir -p public');
+execSync('cp -r node_modules/bookreader/BookReader public/');
