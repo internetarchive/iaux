@@ -1,7 +1,7 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
-import './assets/img/search';
 import waybackSearchCSS from './styles/wayback-search';
+import icons from './assets/img/icons';
 
 class WaybackSearch extends TrackedElement {
   static get styles() {
@@ -50,7 +50,7 @@ class WaybackSearch extends TrackedElement {
           <label for="url">Search the Wayback Machine</label>
           <div class="search-field">
             <input type="text" name="url" id="url" placeholder="enter URL or keywords" />
-            <search-image width="24" height="24"></search-image>
+            ${icons.search}
           </div>
         </fieldset>
       </form>

@@ -2,7 +2,6 @@ import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import './assets/img/hamburger';
-import './assets/img/search';
 import './login-button';
 import './nav-search';
 import './media-menu';
@@ -76,7 +75,7 @@ class PrimaryNav extends TrackedElement {
       <nav>
         <a class="link-home" href="https://${this.config.baseUrl}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}${logoWordmark}</a>
         <button class="search-trigger" @click="${this.searchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen">
-          <search-image ?active=${this.searchMenuOpen}></search-image>
+          ${icons.search}
         </button>
         <nav-search .config=${this.config} .open=${this.searchMenuOpen}></nav-search>
         <a href="https://${this.config.baseUrl}/upload/" class="upload">${icons.upload}Upload</a>

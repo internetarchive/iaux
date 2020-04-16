@@ -18,10 +18,11 @@ export default css`
     padding-top: 0;
     margin-right: .5rem;
   }
-  .search search-image {
+  .search svg {
     position: relative;
     top: -5px;
     right: -3px;
+    fill: var(--activeSearchColor);
   }
   .search-activated {
     display: -webkit-box;
@@ -88,6 +89,16 @@ export default css`
   @media (min-width: 890px) {
     :host {
       float: right;
+    }
+
+    .search svg {
+      display: inline;
+      width: 28px;
+      height: 28px;
+      vertical-align: -14px;
+    }
+    .search path {
+      fill: var(--grey20);
     }
 
     .search-inactive,
