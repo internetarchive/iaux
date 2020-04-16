@@ -36,6 +36,7 @@ export default css`
 
   .menu-group {
     position: relative;
+    line-height: normal;
   }
 
   @media (min-width: 890px) {
