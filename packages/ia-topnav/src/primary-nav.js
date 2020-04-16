@@ -75,9 +75,6 @@ class PrimaryNav extends TrackedElement {
     return html`
       <nav>
         <a class="link-home" href="https://${this.config.baseUrl}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}${logoWordmark}</a>
-        <button class="hamburger" @click="${this.mediaMenu}" tabindex="1" data-event-click-tracking="${this.config.eventCategory}|NavHamburger">
-          <icon-hamburger ?active=${this.mediaMenuOpen}></icon-hamburger>
-        </button>
         <button class="search-trigger" @click="${this.searchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen">
           <search-image ?active=${this.searchMenuOpen}></search-image>
         </button>
@@ -93,6 +90,9 @@ class PrimaryNav extends TrackedElement {
           tabindex="${mediaMenuTabIndex}"
           .selectedMenuOption=${this.selectedMenuOption}
         ></media-menu>
+        <button class="hamburger" @click="${this.mediaMenu}" tabindex="1" data-event-click-tracking="${this.config.eventCategory}|NavHamburger">
+          <icon-hamburger ?active=${this.mediaMenuOpen}></icon-hamburger>
+        </button>
       </nav>
     `;
   }
