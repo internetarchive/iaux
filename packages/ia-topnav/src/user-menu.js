@@ -1,57 +1,31 @@
 import { html } from 'lit-element';
-import TrackedElement from './tracked-element';
+import DropdownMenu from './dropdown-menu';
 import userMenuCSS from './styles/user-menu';
 
-class UserMenu extends TrackedElement {
+class UserMenu extends DropdownMenu {
   static get styles() {
-    return userMenuCSS;
+    return [DropdownMenu.styles, userMenuCSS];
   }
 
   static get properties() {
-    return {
-      config: { type: Object },
-      menuItems: { type: Array },
-      userMenuAnimate: { type: Boolean },
-      userMenuOpen: { type: Boolean },
+    const props = {
+      ...DropdownMenu.properties,
       username: { type: String },
     };
+    return props;
   }
 
   constructor() {
     super();
-    this.config = {};
-    this.menuItems = [];
     this.username = 'USERNAME';
-    this.userMenuOpen = false;
-    this.userMenuAnimate = false;
-  }
-
-  get dropdownItems() {
-    return this.menuItems.map(link => (
-      html`
-        <li><a href="${link.href}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a></li>
-      `
-    ));
   }
 
   render() {
-    let userMenuClass = 'initial';
-
-    if (this.userMenuOpen) {
-      userMenuClass = 'open';
-    }
-    if (!this.userMenuOpen && this.userMenuAnimate) {
-      userMenuClass = 'closed';
-    }
-
-    const userMenuHidden = Boolean(!this.userMenuOpen).toString();
-    const userMenuExpanded = Boolean(this.userMenuOpen).toString();
-
     return html`
       <nav
-        class="${userMenuClass}"
-        aria-hidden="${userMenuHidden}"
-        aria-expanded="${userMenuExpanded}"
+        class="${this.menuClass}"
+        aria-hidden="${this.ariaHidden}"
+        aria-expanded="${this.ariaExpanded}"
       >
         <h3>${this.config.screenName}</h3>
         <ul>

@@ -19,6 +19,7 @@ class PrimaryNav extends TrackedElement {
       mediaMenuOpen: { type: Boolean },
       searchMenuOpen: { type: Boolean },
       selectedMenuOption: { type: String },
+      signedOutMenuOpen: { type: Boolean },
       userMenuOpen: { type: Boolean },
     };
   }
@@ -29,6 +30,7 @@ class PrimaryNav extends TrackedElement {
     this.userMenuOpen = false;
     this.searchMenuOpen = false;
     this.selectedMenuOption = '';
+    this.signedOutMenuOpen = false;
     this.mediaMenuOpen = false;
   }
 
@@ -66,7 +68,13 @@ class PrimaryNav extends TrackedElement {
   }
 
   get loginIcon() {
-    return html`<login-button .config=${this.config}></login-button>`;
+    return html`
+      <login-button
+        .config=${this.config}
+        .dropdownOpen=${this.signedOutMenuOpen}
+        @signedOutMenu=${this.signedOutMenu}
+      ></login-button>
+    `;
   }
 
   render() {

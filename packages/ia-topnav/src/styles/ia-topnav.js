@@ -37,6 +37,6 @@ export default css`
 
   .topnav {
     position: relative;
-    z-index: 2;
+    z-index: 3;
   }
 `;
