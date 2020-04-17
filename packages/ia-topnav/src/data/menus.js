@@ -1,9 +1,9 @@
 const texts = baseUrl => ({
   heading: 'Books',
   iconLinks: [{
-    title: 'Books to Borrow',
-    icon: `https://${baseUrl}/images/book-lend.png`,
-    url: `https://${baseUrl}/details/inlibrary?sort=-publicdate`,
+    title: 'National Emergency Library',
+    icon: `https://${baseUrl}/images/national-emergency-library-logo-padded.png`,
+    url: `https://${baseUrl}/details/nationalemergencylibrary`,
   }, {
     title: 'Open Library',
     icon: `https://${baseUrl}/images/widgetOL.png`,
