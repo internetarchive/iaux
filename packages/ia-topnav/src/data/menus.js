@@ -347,6 +347,16 @@ const user = (baseUrl, account) => ([{
   analyticsEvent: 'UserLogOut',
 }]);
 
+const signedOut = baseUrl => ([{
+  href: `https://${baseUrl}/account/signup`,
+  title: 'Sign up for free',
+  analyticsEvent: 'SignUpDropdown',
+}, {
+  href: `https://${baseUrl}/account/login`,
+  title: 'Log in',
+  analyticsEvent: 'LogInDropdown',
+}]);
+
 const more = baseUrl => ([
   { label: 'About', url: `https://${baseUrl}/about/` },
   { label: 'Blog', url: 'https://blog.archive.org/' },
@@ -360,11 +370,12 @@ const more = baseUrl => ([
 ]);
 
 export {
-  texts,
-  video,
   audio,
-  software,
   images,
-  user,
   more,
+  signedOut,
+  software,
+  texts,
+  user,
+  video,
 };

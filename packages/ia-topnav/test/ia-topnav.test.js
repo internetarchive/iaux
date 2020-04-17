@@ -210,4 +210,13 @@ describe('<ia-topnav>', () => {
 
     expect(el.selectedMenuOption).to.equal('');
   });
+
+  it('toggles signed out dropdown', async () => {
+    const el = await fixture(container);
+
+    el.signedOutMenu();
+    await el.updateComplete;
+
+    expect(el.signedOutMenuOpen).to.be.true;
+  });
 });

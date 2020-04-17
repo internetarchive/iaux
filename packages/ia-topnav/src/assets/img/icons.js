@@ -8,6 +8,7 @@ import search from './icon-search';
 import software from './icon-software';
 import texts from './icon-texts';
 import upload from './icon-upload';
+import user from './icon-user';
 import video from './icon-video';
 import web from './icon-web';
 
@@ -22,6 +23,7 @@ export default {
   software,
   texts,
   upload,
+  user,
   video,
   web,
 };

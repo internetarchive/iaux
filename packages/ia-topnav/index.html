@@ -40,7 +40,7 @@
       };
       const topnav = document.createElement('ia-topnav');
       topnav.setAttribute('config', JSON.stringify(config));
-      document.body.prepend(topnav);
+      document.body.insertBefore(topnav, document.body.firstChild);
 
       topnav.addEventListener('trackClick', ({ detail }) => {
         console.log(`Analytics click fired: ${detail.event}`);

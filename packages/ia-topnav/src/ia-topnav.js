@@ -5,6 +5,7 @@ import './user-menu';
 import './search-menu';
 import './media-slider';
 import './desktop-subnav';
+import './dropdown-menu';
 import { user as userMenu } from './data/menus';
 import iaTopNavCSS from './styles/ia-topnav';
 
@@ -24,6 +25,7 @@ export default class IATopNav extends LitElement {
       searchMenuOpen: { type: Boolean },
       searchSubmitted: { type: Boolean },
       selectedMenuOption: { type: String },
+      signedOutMenuOpen: { type: Boolean },
       userMenuAnimate: { type: Boolean },
       userMenuOpen: { type: Boolean },
     };
@@ -38,6 +40,7 @@ export default class IATopNav extends LitElement {
     this.searchMenuFade = false;
     this.searchMenuOpen = false;
     this.searchSubmitted = false;
+    this.signedOutMenuOpen = false;
     this.userMenuAnimate = false;
     this.userMenuOpen = false;
     this.mediaSliderOpen = false;
@@ -76,12 +79,21 @@ export default class IATopNav extends LitElement {
     this.userMenuOpen = false;
     this.searchMenuOpen = false;
     this.mediaMenuAnimate = true;
+    this.signedOutMenuOpen = false;
     this.mediaMenuOpen = !this.mediaMenuOpen;
+  }
+
+  signedOutMenu() {
+    this.userMenuOpen = false;
+    this.searchMenuOpen = false;
+    this.mediaMenuOpen = false;
+    this.signedOutMenuOpen = !this.signedOutMenuOpen;
   }
 
   searchMenu() {
     this.userMenuOpen = false;
     this.mediaMenuOpen = false;
+    this.signedOutMenuOpen = false;
     this.searchMenuAnimate = true;
     this.searchMenuFade = true;
     this.searchMenuOpen = !this.searchMenuOpen;
@@ -101,6 +113,7 @@ export default class IATopNav extends LitElement {
   userMenu() {
     this.searchMenuOpen = false;
     this.mediaMenuOpen = false;
+    this.signedOutMenuOpen = false;
     this.userMenuAnimate = true;
     this.userMenuOpen = !this.userMenuOpen;
   }
@@ -109,6 +122,7 @@ export default class IATopNav extends LitElement {
     this.mediaMenuOpen = false;
     this.mediaSliderOpen = false;
     this.searchMenuOpen = false;
+    this.signedOutMenuOpen = false;
     this.userMenuOpen = false;
     this.selectedMenuOption = '';
   }
@@ -159,7 +173,11 @@ export default class IATopNav extends LitElement {
   }
 
   get isMenuOpen() {
-    return this.mediaMenuOpen || this.searchMenuOpen || this.userMenuOpen || this.mediaSliderOpen;
+    return this.mediaMenuOpen
+      || this.searchMenuOpen
+      || this.userMenuOpen
+      || this.mediaSliderOpen
+      || this.signedOutMenuOpen;
   }
 
   render() {
@@ -175,9 +193,11 @@ export default class IATopNav extends LitElement {
           .mediaMenuOpen="${this.mediaMenuOpen}"
           .searchMenuFade="${this.searchMenuFade}"
           .searchMenuOpen="${this.searchMenuOpen}"
+          .signedOutMenuOpen="${this.signedOutMenuOpen}"
           .userMenuOpen="${this.userMenuOpen}"
           @mediaMenu=${this.mediaMenu}
           @searchMenu=${this.searchMenu}
+          @signedOutMenu=${this.signedOutMenu}
           @userMenu=${this.userMenu}
           @navSearch=${this.navSearch}
           @trackClick=${this.trackClick}
@@ -202,8 +222,8 @@ export default class IATopNav extends LitElement {
       <desktop-subnav .baseUrl=${this.config.baseUrl}></desktop-subnav>
       <user-menu
         .config=${this.config}
-        .userMenuOpen="${this.userMenuOpen}"
-        .userMenuAnimate="${this.userMenuAnimate}"
+        .open="${this.userMenuOpen}"
+        .animate="${this.userMenuAnimate}"
         tabindex="${userMenuTabIndex}"
         username=${this.config.username}
         .menuItems=${userMenu(this.config.baseUrl, this.config.username)}
