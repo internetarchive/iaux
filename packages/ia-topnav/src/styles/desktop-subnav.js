@@ -34,10 +34,4 @@ export default css`
     vertical-align: -4px;
     fill: #f00;
   }
-
-  @media (max-width: 889px) {
-    ul {
-      display: none;
-    }
-  }
 `;

@@ -25,7 +25,6 @@ export default css`
     top: 100%;
   }
 
-  .media-menu.tx-slide.initial,
   .media-menu.tx-slide.closed {
     top: -100vh;
   }
@@ -52,8 +51,7 @@ export default css`
     }
 
     .media-menu.tx-slide.open,
-    .media-menu.tx-slide.closed,
-    .media-menu.tx-slide.initial {
+    .media-menu.tx-slide.closed {
       top: 0;
     }
 

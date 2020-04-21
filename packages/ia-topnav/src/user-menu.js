@@ -17,7 +17,7 @@ class UserMenu extends DropdownMenu {
 
   constructor() {
     super();
-    this.username = 'USERNAME';
+    this.username = '';
   }
 
   render() {

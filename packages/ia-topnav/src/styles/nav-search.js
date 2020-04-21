@@ -87,10 +87,6 @@ export default css`
   }
 
   @media (min-width: 890px) {
-    :host {
-      float: right;
-    }
-
     .search svg {
       display: inline;
       width: 28px;

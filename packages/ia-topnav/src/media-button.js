@@ -1,7 +1,7 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
-import toSnakeCase from './lib/toSnakeCase';
+import toSentenceCase from './lib/toSentenceCase';
 import mediaButtonCSS from './styles/media-button';
 
 class MediaButton extends TrackedElement {
@@ -57,7 +57,7 @@ class MediaButton extends TrackedElement {
   }
 
   get analyticsEvent() {
-    return `${this.config.eventCategory}|NavMenu${toSnakeCase(this.mediatype)}`;
+    return `${this.config.eventCategory}|NavMenu${toSentenceCase(this.mediatype)}`;
   }
 
   get menuItem() {
