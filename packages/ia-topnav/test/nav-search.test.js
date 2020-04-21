@@ -2,7 +2,6 @@ import {
   html,
   fixture,
   expect,
-  oneEvent,
 } from '@open-wc/testing';
 
 import '../src/nav-search';
@@ -16,13 +15,13 @@ describe('<nav-search>', () => {
     expect(el.open).to.be.false;
   });
 
-  it('emits an event when form submitted', async () => {
+  it('does not allow search form to submit if query empty', async () => {
     const el = await fixture(component);
-    const submitEvent = new Event('submit');
 
-    setTimeout(() => el.shadowRoot.querySelector('form').dispatchEvent(submitEvent));
-    const response = await oneEvent(el, 'navSearch');
+    const result = el.search({
+      preventDefault: () => {}
+    });
 
-    expect(response).to.exist;
+    expect(result).to.be.false;
   });
 });

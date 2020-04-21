@@ -8,7 +8,6 @@ describe('<media-menu>', () => {
   it('sets default properties', async () => {
     const mediaMenu = await fixture(component);
 
-    expect(mediaMenu.mediaMenuAnimate).to.be.false;
     expect(mediaMenu.mediaMenuOpen).to.be.false;
     expect(mediaMenu.selectedMenuOption).to.equal('');
   });
@@ -22,7 +21,7 @@ describe('<media-menu>', () => {
 
     const textsButton = mediaMenu
       .shadowRoot
-      .querySelector(`[mediatype=${mediaType}`)
+      .querySelector(`[data-mediatype=${mediaType}`)
       .shadowRoot
       .querySelector('.selected');
 

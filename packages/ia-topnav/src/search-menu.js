@@ -28,6 +28,14 @@ class SearchMenu extends TrackedElement {
     this.selectedSearchType = e.target.value;
   }
 
+  searchInChanged(e) {
+    this.dispatchEvent(new CustomEvent('searchInChanged', {
+      detail: {
+        searchIn: e.target.value
+      }
+    }));
+  }
+
   get searchTypesTemplate() {
     const searchTypes = [
       {
@@ -50,7 +58,7 @@ class SearchMenu extends TrackedElement {
     ].map(({ value, label, isDefault }) => (
       html`
         <label @click="${this.selectSearchType}">
-          <input form="nav-search" type="radio" name="sin" value="${value}" ?checked=${isDefault} />
+          <input form="nav-search" type="radio" name="sin" value="${value}" ?checked=${isDefault} @change=${this.searchInChanged} />
           Search ${label}
         </label>
       `

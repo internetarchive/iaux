@@ -17,13 +17,12 @@ export default class IATopNav extends LitElement {
   static get properties() {
     return {
       config: { type: Object },
-      mediaMenuAnimate: { type: Boolean },
       mediaMenuOpen: { type: Boolean },
       mediaSliderAnimate: { type: Boolean },
       mediaSliderOpen: { type: Boolean },
+      searchIn: { type: String },
       searchMenuAnimate: { type: Boolean },
       searchMenuOpen: { type: Boolean },
-      searchSubmitted: { type: Boolean },
       selectedMenuOption: { type: String },
       signedOutMenuOpen: { type: Boolean },
       userMenuAnimate: { type: Boolean },
@@ -34,12 +33,10 @@ export default class IATopNav extends LitElement {
   constructor() {
     super();
     this.config = {};
-    this.mediaMenuAnimate = false;
     this.mediaMenuOpen = false;
+    this.searchIn = '';
     this.searchMenuAnimate = false;
-    this.searchMenuFade = false;
     this.searchMenuOpen = false;
-    this.searchSubmitted = false;
     this.signedOutMenuOpen = false;
     this.userMenuAnimate = false;
     this.userMenuOpen = false;
@@ -78,7 +75,6 @@ export default class IATopNav extends LitElement {
   mediaMenu() {
     this.userMenuOpen = false;
     this.searchMenuOpen = false;
-    this.mediaMenuAnimate = true;
     this.signedOutMenuOpen = false;
     this.mediaMenuOpen = !this.mediaMenuOpen;
   }
@@ -95,19 +91,7 @@ export default class IATopNav extends LitElement {
     this.mediaMenuOpen = false;
     this.signedOutMenuOpen = false;
     this.searchMenuAnimate = true;
-    this.searchMenuFade = true;
     this.searchMenuOpen = !this.searchMenuOpen;
-    if (this.searchMenuOpen) {
-      window.setTimeout(() => {
-        this
-          .shadowRoot
-          .querySelector('primary-nav')
-          .shadowRoot
-          .querySelector('nav-search')
-          .shadowRoot
-          .querySelector('.search-field').focus();
-      }, 0);
-    }
   }
 
   userMenu() {
@@ -127,24 +111,8 @@ export default class IATopNav extends LitElement {
     this.selectedMenuOption = '';
   }
 
-  navSearch(e) {
-    this.searchSubmitted = true;
-    const { originalEvent, formEl } = e.detail;
-    const searchIn = document
-      .querySelector('ia-topnav')
-      .shadowRoot
-      .querySelector('search-menu')
-      .shadowRoot
-      .querySelector('[name=sin]:checked')
-      .value;
-    const query = formEl.querySelector('[name=query]').value;
-    if (!query) {
-      originalEvent.preventDefault();
-      this.searchSubmitted = false;
-      return false;
-    }
-    formEl.querySelector('[name=sin]').value = searchIn;
-    return true;
+  searchInChanged(e) {
+    this.searchIn = e.detail.searchIn;
   }
 
   trackClick({ detail }) {
@@ -189,32 +157,32 @@ export default class IATopNav extends LitElement {
       <div class='topnav'>
         <primary-nav
           .config=${this.config}
+          .mediaMenuOpen=${this.mediaMenuOpen}
+          .searchIn=${this.searchIn}
+          .searchMenuOpen=${this.searchMenuOpen}
           .selectedMenuOption=${this.selectedMenuOption}
-          .mediaMenuOpen="${this.mediaMenuOpen}"
-          .searchMenuFade="${this.searchMenuFade}"
-          .searchMenuOpen="${this.searchMenuOpen}"
-          .signedOutMenuOpen="${this.signedOutMenuOpen}"
-          .userMenuOpen="${this.userMenuOpen}"
+          .signedOutMenuOpen=${this.signedOutMenuOpen}
+          .userMenuOpen=${this.userMenuOpen}
           @mediaMenu=${this.mediaMenu}
+          @mediaTypeSelected=${this.mediaTypeSelected}
           @searchMenu=${this.searchMenu}
           @signedOutMenu=${this.signedOutMenu}
-          @userMenu=${this.userMenu}
-          @navSearch=${this.navSearch}
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
-          @mediaTypeSelected=${this.mediaTypeSelected}
+          @userMenu=${this.userMenu}
         ></primary-nav>
         <media-slider
           .config=${this.config}
           .selectedMenuOption=${this.selectedMenuOption}
-          .mediaSliderOpen="${this.mediaSliderOpen}"
-          .mediaSliderAnimate="${this.mediaSliderAnimate}"
+          .mediaSliderOpen=${this.mediaSliderOpen}
+          .mediaSliderAnimate=${this.mediaSliderAnimate}
         ></media-slider>
         <search-menu
           .config=${this.config}
-          .searchMenuOpen="${this.searchMenuOpen}"
-          .searchMenuAnimate="${this.searchMenuAnimate}"
+          .searchMenuOpen=${this.searchMenuOpen}
+          .searchMenuAnimate=${this.searchMenuAnimate}
           tabindex="${searchMenuTabIndex}"
+          @searchInChanged=${this.searchInChanged}
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
         ></search-menu>
@@ -222,8 +190,8 @@ export default class IATopNav extends LitElement {
       <desktop-subnav .baseUrl=${this.config.baseUrl}></desktop-subnav>
       <user-menu
         .config=${this.config}
-        .open="${this.userMenuOpen}"
-        .animate="${this.userMenuAnimate}"
+        .open=${this.userMenuOpen}
+        .animate=${this.userMenuAnimate}
         tabindex="${userMenuTabIndex}"
         username=${this.config.username}
         .menuItems=${userMenu(this.config.baseUrl, this.config.username)}

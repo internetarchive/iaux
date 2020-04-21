@@ -4,7 +4,6 @@ import {
   expect,
   oneEvent,
 } from '@open-wc/testing';
-import { LitElement } from 'lit-element';
 
 import '../src/ia-topnav';
 
@@ -22,12 +21,6 @@ const verifyOpened = (instance, mediatype) => {
   expect(instance.selectedMenuOption).to.equal(mediatype);
 };
 
-customElements.define('test-search-form', class extends LitElement {
-  render() {
-    return html`<form><input name="query"><input name="sin" value="TXT"></form>`;
-  }
-});
-
 describe('<ia-topnav>', () => {
   it('defaults all menus to closed and not animating', async () => {
     const topnavElement = await fixture(container);
@@ -38,21 +31,26 @@ describe('<ia-topnav>', () => {
       'searchMenuOpen',
       'searchMenuAnimate',
       'mediaMenuOpen',
-      'mediaMenuAnimate',
     ].forEach((prop) => {
       expect(topnavElement[prop]).to.be.false;
     });
   });
 
-  ['media', 'user'].forEach((menuType) => {
-    it(`toggles ${menuType} menu open and animating`, async () => {
-      const el = await fixture(container);
+  it('toggles user menu open and animating', async () => {
+    const el = await fixture(container);
 
-      el[`${menuType}Menu`]();
+    el.userMenu();
 
-      expect(el[`${menuType}MenuAnimate`]).to.be.true;
-      expect(el[`${menuType}MenuOpen`]).to.be.true;
-    });
+    expect(el.userMenuAnimate).to.be.true;
+    expect(el.userMenuOpen).to.be.true;
+  });
+
+  it('toggles media menu open and animating', async () => {
+    const el = await fixture(container);
+
+    el.mediaMenu();
+
+    expect(el.mediaMenuOpen).to.be.true;
   });
 
   it('toggles search menu open and animating', async () => {
@@ -61,40 +59,24 @@ describe('<ia-topnav>', () => {
     el.searchMenu();
 
     expect(el.searchMenuAnimate).to.be.true;
-    expect(el.searchMenuFade).to.be.true;
     expect(el.searchMenuOpen).to.be.true;
   });
 
-  it('does not allow search form to submit if query empty', async () => {
+  it('assigns a value to "search in" from outside event', async () => {
     const el = await fixture(container);
-    const searchForm = await fixture(html`<test-search-form></test-search-form>`);
-    const formEl = searchForm.shadowRoot.querySelector('form');
+    const query = 'atari';
+    const searchMenu = el
+      .shadowRoot
+      .querySelector('search-menu');
 
-    const result = el.navSearch({
-      detail: {
-        originalEvent: { preventDefault: () => {} },
-        formEl,
+    searchMenu.searchInChanged({
+      target: {
+        value: query
       }
     });
+    await el.updateComplete;
 
-    expect(result).to.be.false;
-  });
-
-  it('assigns a value to "search in" field in search form', async () => {
-    const el = await fixture(container);
-    const searchForm = await fixture(html`<test-search-form></test-search-form>`);
-    const formEl = searchForm.shadowRoot.querySelector('form');
-
-    formEl.querySelector('[name=query]').value = 'atari';
-    const result = el.navSearch({
-      detail: {
-        originalEvent: { preventDefault: () => {} },
-        formEl,
-      }
-    });
-
-    expect(result).to.be.true;
-    expect(formEl.querySelector('[name=sin]').value).to.equal('');
+    expect(el.searchIn).to.equal(query);
   });
 
   it('dispatches an analyticsClick event when trackClick event fired', async () => {
@@ -117,17 +99,17 @@ describe('<ia-topnav>', () => {
   it('dispatches an analyticsSubmit event when trackSubmit event fired', async () => {
     const el = await fixture(container);
     const submitEvent = new Event('submit');
+    const form = el
+      .shadowRoot
+      .querySelector('primary-nav')
+      .shadowRoot
+      .querySelector('nav-search')
+      .shadowRoot
+      .querySelector('form');
 
-    setTimeout(() => (
-      el
-        .shadowRoot
-        .querySelector('primary-nav')
-        .shadowRoot
-        .querySelector('nav-search')
-        .shadowRoot
-        .querySelector('form')
-        .dispatchEvent(submitEvent)
-    ));
+    form.addEventListener('submit', e => e.preventDefault());
+    form.querySelector('[name=query]').value = 'atari';
+    setTimeout(() => form.dispatchEvent(submitEvent));
     const response = await oneEvent(el, 'trackSubmit');
 
     expect(response).to.exist;

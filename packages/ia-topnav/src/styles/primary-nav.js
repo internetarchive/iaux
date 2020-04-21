@@ -200,5 +200,9 @@ export default css`
       vertical-align: middle;
       fill: var(--grey999);
     }
+
+    nav-search {
+      float: right;
+    }
   }
 `;

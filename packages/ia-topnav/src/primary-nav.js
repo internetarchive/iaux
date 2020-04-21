@@ -17,6 +17,7 @@ class PrimaryNav extends TrackedElement {
     return {
       config: { type: Object },
       mediaMenuOpen: { type: Boolean },
+      searchIn: { type: String },
       searchMenuOpen: { type: Boolean },
       selectedMenuOption: { type: String },
       signedOutMenuOpen: { type: Boolean },
@@ -28,6 +29,7 @@ class PrimaryNav extends TrackedElement {
     super();
     this.config = {};
     this.userMenuOpen = false;
+    this.searchIn = '';
     this.searchMenuOpen = false;
     this.selectedMenuOption = '';
     this.signedOutMenuOpen = false;
@@ -85,7 +87,11 @@ class PrimaryNav extends TrackedElement {
         <button class="search-trigger" @click="${this.searchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen">
           ${icons.search}
         </button>
-        <nav-search .config=${this.config} .open=${this.searchMenuOpen}></nav-search>
+        <nav-search
+          .config=${this.config}
+          .open=${this.searchMenuOpen}
+          .searchIn=${this.searchIn}
+        ></nav-search>
         <a href="https://${this.config.baseUrl}/upload/" class="upload">${icons.upload}Upload</a>
         <div class="user-info">
           ${this.config.username ? this.userIcon : this.loginIcon}

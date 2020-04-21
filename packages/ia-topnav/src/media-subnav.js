@@ -5,7 +5,7 @@ import locationHandler from './lib/location-handler';
 import './wayback-search';
 import './more-slider';
 import mediaSubnavCSS from './styles/media-subnav';
-import toSnakeCase from './lib/toSnakeCase';
+import toSentenceCase from './lib/toSentenceCase';
 
 class MediaSubnav extends TrackedElement {
   static get styles() {
@@ -49,7 +49,7 @@ class MediaSubnav extends TrackedElement {
   }
 
   analyticsEvent(title) {
-    return `${this.config.eventCategory}|${toSnakeCase(title)}`;
+    return `${this.config.eventCategory}|${toSentenceCase(title)}`;
   }
 
   get iconLinks() {

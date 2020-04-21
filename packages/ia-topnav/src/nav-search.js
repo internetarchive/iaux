@@ -11,26 +11,37 @@ class NavSearch extends TrackedElement {
   static get properties() {
     return {
       config: { type: Object },
+      focusSearchInput: { type: Boolean },
       open: { type: Boolean },
+      searchIn: { type: String },
     };
   }
 
   constructor() {
     super();
     this.config = {};
+    this.focusSearchInput = false;
     this.open = false;
+    this.searchIn = '';
+  }
+
+  updated() {
+    if (this.open) {
+      this.shadowRoot.querySelector('[name=query]').focus();
+    }
+    return true;
   }
 
   search(e) {
+    const query = this.shadowRoot.querySelector('[name=query]').value;
+
+    if (!query) {
+      e.preventDefault();
+      return false;
+    }
+
     this.trackSubmit(e);
-    this.dispatchEvent(new CustomEvent('navSearch', {
-      detail: {
-        originalEvent: e,
-        formEl: this.shadowRoot.querySelector('form'),
-      },
-      bubbles: true,
-      composed: true,
-    }));
+    return true;
   }
 
   render() {
@@ -44,7 +55,7 @@ class NavSearch extends TrackedElement {
           class="search-field"
           placeholder="Search"
         />
-        <input type='hidden' name='sin' value='' />
+        <input type='hidden' name='sin' value='${this.searchIn}' />
         <button type="submit" class="search" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">
           ${icons.search}
         </button>

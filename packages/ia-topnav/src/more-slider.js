@@ -1,7 +1,7 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import { more as moreMenu } from './data/menus';
-import toSnakeCase from './lib/toSnakeCase';
+import toSentenceCase from './lib/toSentenceCase';
 import moreSliderCSS from './styles/more-slider';
 
 class MoreSlider extends TrackedElement {
@@ -24,7 +24,7 @@ class MoreSlider extends TrackedElement {
   }
 
   analyticsEvent(label) {
-    return `${this.config.eventCategory}|NavMore${toSnakeCase(label)}`;
+    return `${this.config.eventCategory}|NavMore${toSentenceCase(label)}`;
   }
 
   render() {

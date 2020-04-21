@@ -39,4 +39,10 @@ export default css`
     position: relative;
     z-index: 3;
   }
+
+  @media (max-width: 889px) {
+    desktop-subnav {
+      display: none;
+    }
+  }
 `;
