@@ -16,7 +16,7 @@ export default css`
 
     .initial,
     .closed {
-      top: 5.1rem;
+      top: -100vh;
       right: 26rem;
     }
 
