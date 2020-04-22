@@ -6,20 +6,46 @@ export default css`
     --grey13: #222;
     --grey20: #333;
     --grey28: #474747;
-    --grey999: #999;
+    --grey60: #999;
     --grey80: #ccc;
-    --black: #000;
-    --link-color: #428bca;
-    --subnavLinkColor: #aaa;
-    --primary-text-color: var(--white);
-    --activeColor: var(--white);
 
-    --theme-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --linkColor: #428bca;
+    --linkHoverColor: var(--white);
+    --subnavLinkColor: #aaa;
+    --primaryTextColor: var(--white);
+    --inverseTextColor: var(--grey20);
+    --lightTextColor: var(--grey60);
+    --activeColor: var(--white);
+    --activeButtonBg: var(--grey20);
+    --iconFill: var(--grey60);
+
+    --searchActiveBg: var(--grey20);
+    --searchActiveInputBg: var(--white);
+    --searchMenuBg: var(--grey20);
+    --desktopSearchIconFill: var(--grey20);
+
+    --mediaMenuBg: var(--grey13);
+    --mediaLabelDesktopColor: var(--grey60);
+    --activeDesktopMenuIcon: var(--grey28);
+
+    --mediaSliderBg: var(--grey20);
+    --mediaSliderDesktopBg: var(--grey28);
+
+    --primaryNavBg: var(--grey13);
+    --primaryNavBottomBorder: var(--grey20);
+
+    --desktopSubnavBg: var(--grey20);
+
+    --dropdownMenuBg: var(--grey20);
+
+    --loginTextColor: var(--grey60);
+
+    --themeFontFamily: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --logoWidthTablet: 263px;
 
-    color: var(--primary-text-color);
+    color: var(--primaryTextColor);
     font-size: 2rem;
-    font-family: var(--theme-font-family);
+    font-family: var(--themeFontFamily);
   }
 
   #close-layer {

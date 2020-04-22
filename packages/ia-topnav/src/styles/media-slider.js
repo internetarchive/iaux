@@ -10,7 +10,7 @@ export default css`
     height: 368px;
     overflow-x: hidden;
     font-size: 1.4rem;
-    background: var(--grey20);
+    background: var(--mediaSliderBg);
   }
 
   .overflow-clip {
@@ -93,7 +93,7 @@ export default css`
       z-index: 1;
       height: auto;
       min-height: 21rem;
-      background: var(--grey28);
+      background: var(--mediaSliderDesktopBg);
     }
 
     .information-menu.menu-enter {

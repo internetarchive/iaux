@@ -3,7 +3,7 @@ import { css } from 'lit-element';
 export default css`
   button:focus,
   input:focus {
-    outline-color: var(--link-color);
+    outline-color: var(--linkColor);
     outline-width: 0.16rem;
     outline-style: auto;
   }
@@ -15,7 +15,7 @@ export default css`
     z-index: -1;
     padding: 0 4.5rem;
     font-size: 1.6rem;
-    background-color: var(--grey20);
+    background-color: var(--searchMenuBg);
   }
   .search-menu.tx-slide {
     overflow: hidden;
@@ -41,6 +41,6 @@ export default css`
 
   .advanced-search {
     text-decoration: none;
-    color: var(--link-color);
+    color: var(--linkColor);
   }
 `;

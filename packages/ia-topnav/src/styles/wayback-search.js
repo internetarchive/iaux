@@ -45,7 +45,7 @@ export default css`
     width: 100%;
     height: 3rem;
     padding: 0.5rem 1rem 0.5rem 2.5rem;
-    font: normal 1.2rem/1.5 var(--theme-font-family);
+    font: normal 1.2rem/1.5 var(--themeFontFamily);
     color: #858585;
     box-sizing: border-box;
     border: 1px solid var(--grey80);
@@ -73,7 +73,7 @@ export default css`
   }
 
   .search-field .fill-color {
-    fill: var(--grey999);
+    fill: var(--iconFill);
   }
 
   input:focus + svg {
@@ -117,7 +117,7 @@ export default css`
     }
 
     .search-field .fill-color {
-      fill: var(--grey20);
+      fill: var(--desktopSearchIconFill);
     }
   }
 `;

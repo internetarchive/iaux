@@ -10,7 +10,7 @@ export default css`
     z-index: -1;
     top: -100vh;
     width: 100%;
-    background-color: var(--grey13);
+    background-color: var(--mediaMenuBg);
     margin: 0;
     overflow: hidden;
   }
