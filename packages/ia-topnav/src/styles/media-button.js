@@ -65,7 +65,20 @@ export default css`
     .menu-item {
       width: auto;
       height: 5rem;
+      color: var(--mediaLabelDesktopColor);
     }
+    .menu-item:hover,
+    .menu-item:active,
+    .menu-item:focus {
+      color: var(--linkHoverColor);
+    }
+
+    .menu-item:hover .fill-color,
+    .menu-item:active .fill-color,
+    .menu-item:focus .fill-color {
+      fill: var(--linkHoverColor);
+    }
+
     .label {
       display: none;
     }
@@ -75,8 +88,9 @@ export default css`
       padding-right: 1rem;
       font-size: 1.3rem;
       text-transform: uppercase;
-      color: var(--mediaLabelDesktopColor);
+      color: inherit;
     }
+
 
     .web:after {
       display: none;
