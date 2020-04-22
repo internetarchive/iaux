@@ -11,7 +11,7 @@ export default css`
     z-index: -1;
     overflow: hidden;
     font-size: 1.6rem;
-    background-color: var(--grey20);
+    background-color: var(--dropdownMenuBg);
     transition-property: top;
     transition-duration: 0.5s;
     transition-timing-function: ease;
@@ -42,7 +42,7 @@ export default css`
   }
   a {
     display: block;
-    color: var(--primary-text-color);
+    color: var(--primaryTextColor);
     text-decoration: none;
     padding: 1rem 2rem;
   }
@@ -55,7 +55,7 @@ export default css`
       transition: opacity .2s ease-in-out;
       font-size: 1.4rem;
       border-radius: 2px;
-      background: var(--white);
+      background: var(--primaryTextColor);
       box-shadow: 0 1px 2px 1px rgba(0, 0, 0, .15);
     }
 
@@ -79,15 +79,15 @@ export default css`
 
     a {
       padding: .5rem 2rem;
-      color: var(--grey20);
+      color: var(--inverseTextColor);
       transition: background .1s ease-out, color .1s ease-out;
     }
 
     a:hover,
     a:active,
     a:focus {
-      color: var(--white);
-      background: var(--link-color);
+      color: var(--linkHoverColor);
+      background: var(--linkColor);
     }
 
     .initial,

@@ -17,8 +17,8 @@ export default css`
     grid-template-columns: 4rem auto 4.3rem 5rem;
     -ms-grid-rows: 100%;
     grid-template-rows: 100%;
-    background: var(--grey13);
-    border-bottom: 1px solid var(--grey20);
+    background: var(--primaryNavBg);
+    border-bottom: 1px solid var(--primaryNavBottomBorder);
   }
 
   button {
@@ -70,7 +70,7 @@ export default css`
   }
 
   .search-trigger .fill-color {
-    fill: var(--grey999);
+    fill: var(--iconFill);
   }
 
   .search-activated {
@@ -101,16 +101,16 @@ export default css`
   .user-menu {
     height: 100%;
     padding: .5rem 1rem;
-    color: var(--grey999);
+    color: var(--lightTextColor);
   }
 
   .user-menu:hover {
-    color: var(--white);
+    color: var(--linkHoverColor);
   }
 
   .user-menu.active {
     border-radius: 1rem 1rem 0 0;
-    background: var(--grey20);
+    background: var(--activeButtonBg);
   }
 
   .user-menu img {
@@ -186,19 +186,19 @@ export default css`
       font-size: 1.4rem;
       text-transform: uppercase;
       text-decoration: none;
-      color: var(--grey999);
+      color: var(--lightTextColor);
     }
     .upload:active,
     .upload:focus,
     .upload:hover {
-      color: var(--white);
+      color: var(--linkHoverColor);
     }
 
     .upload svg {
       width: 32px;
       height: 32px;
       vertical-align: middle;
-      fill: var(--grey999);
+      fill: var(--iconFill);
     }
 
     nav-search {

@@ -26,7 +26,7 @@ export default css`
     display: inline-block;
     padding: 0;
     font-weight: 400;
-    color: var(--white);
+    color: var(--primaryTextColor);
     text-align: left;
     vertical-align: middle;
   }
@@ -45,7 +45,7 @@ export default css`
   }
 
   .menu-item.selected .icon {
-    background-color: var(--grey20);
+    background-color: var(--activeButtonBg);
     border-radius: 1rem 0 0 1rem;
   }
 
@@ -75,7 +75,7 @@ export default css`
       padding-right: 1rem;
       font-size: 1.3rem;
       text-transform: uppercase;
-      color: var(--grey999);
+      color: var(--mediaLabelDesktopColor);
     }
 
     .web:after {
@@ -88,12 +88,12 @@ export default css`
     }
 
     .menu-item.selected {
-      background: var(--grey28);
+      background: var(--activeDesktopMenuIcon);
     }
 
     .menu-item.selected .label,
     .menu-item.selected.web:after {
-      color: var(--white);
+      color: var(--linkHoverColor);
     }
 
     .menu-item.selected .icon {

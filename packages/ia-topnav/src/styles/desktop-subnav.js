@@ -3,13 +3,13 @@ import { css } from 'lit-element';
 export default css`
   ul {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     padding: .8rem 0;
     margin: 0;
     font-size: 1.2rem;
     text-transform: uppercase;
     text-align: center;
-    background: var(--grey20);
+    background: var(--desktopSubnavBg);
   }
 
   li {
@@ -25,7 +25,7 @@ export default css`
   a:hover,
   a:active,
   a:focus {
-    color: var(--white);
+    color: var(--linkHoverColor);
   }
 
   .donate svg {

@@ -11,12 +11,12 @@ export default css`
   }
 
   .dropdown-toggle .fill-color {
-    fill: var(--grey999);
+    fill: var(--iconFill);
   }
 
   .active {
     border-radius: 1rem 1rem 0 0;
-    background: var(--grey20);
+    background: var(--activeButtonBg);
   }
 
   .active .fill-color {
@@ -27,7 +27,7 @@ export default css`
     display: none;
     font-size: 1.4rem;
     text-transform: uppercase;
-    color: var(--grey999);
+    color: var(--loginTextColor);
   }
 
   span a {

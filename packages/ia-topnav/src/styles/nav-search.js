@@ -36,14 +36,14 @@ export default css`
     z-index: 3;
     padding: 0.5rem 0.2rem;
     border-radius: 1rem 1rem 0 0;
-    background: var(--grey20);
+    background: var(--searchActiveBg);
   }
   .search-inactive {
     display: none;
   }
   .search-activated .highlight,
   .search-activated .search {
-    background: var(--white);
+    background: var(--searchActiveInputBg);
     border-radius: 0.5rem;
   }
   .search-activated .highlight {
@@ -94,7 +94,7 @@ export default css`
       vertical-align: -14px;
     }
     .search path {
-      fill: var(--grey20);
+      fill: var(--desktopSearchIconFill);
     }
 
     .search-inactive,
