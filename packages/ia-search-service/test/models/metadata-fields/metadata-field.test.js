@@ -94,4 +94,49 @@ describe('Metadata Field', () => {
     expect(metadataField.value).to.equal(undefined);
     expect(metadataField.values).to.deep.equal([]);
   });
+
+  it('handles falsy `0` return values properly', () => {
+    class MockFloatParser {
+      parseValue(rawValue) {
+        return rawValue;
+      }
+    }
+
+    let parser = new MockFloatParser();
+    let metadataField = new MetadataField(parser, 0);
+
+    expect(metadataField.rawValue).to.equal(0);
+    expect(metadataField.value).to.equal(0);
+    expect(metadataField.values).to.deep.equal([0]);
+  });
+
+  it('handles falsy `false` return values properly', () => {
+    class MockFloatParser {
+      parseValue(rawValue) {
+        return rawValue;
+      }
+    }
+
+    let parser = new MockFloatParser();
+    let metadataField = new MetadataField(parser, false);
+
+    expect(metadataField.rawValue).to.equal(false);
+    expect(metadataField.value).to.equal(false);
+    expect(metadataField.values).to.deep.equal([false]);
+  });
+
+  it('handles falsy empty string return values properly', () => {
+    class MockFloatParser {
+      parseValue(rawValue) {
+        return rawValue;
+      }
+    }
+
+    let parser = new MockFloatParser();
+    let metadataField = new MetadataField(parser, '');
+
+    expect(metadataField.rawValue).to.equal('');
+    expect(metadataField.value).to.equal('');
+    expect(metadataField.values).to.deep.equal(['']);
+  });
 });

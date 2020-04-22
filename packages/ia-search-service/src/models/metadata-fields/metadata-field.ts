@@ -58,7 +58,7 @@ export class MetadataField<Type, FieldParserInterfaceType extends FieldParserInt
 
   private parseAndPersistValue(value: any): void {
     const parsedValue = this.parser.parseValue(value);
-    if (parsedValue) {
+    if (parsedValue !== undefined) {
       this.values.push(parsedValue);
     }
   }
