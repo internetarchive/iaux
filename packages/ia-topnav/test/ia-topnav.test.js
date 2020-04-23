@@ -10,58 +10,16 @@ import '../src/ia-topnav';
 const container = html`<ia-topnav></ia-topnav>`;
 
 const verifyClosed = (instance) => {
-  expect(instance.mediaSliderAnimate).to.be.true;
   expect(instance.mediaSliderOpen).to.be.false;
   expect(instance.selectedMenuOption).to.equal('');
 };
 
 const verifyOpened = (instance, mediatype) => {
   expect(instance.mediaSliderOpen).to.be.true;
-  expect(instance.mediaSliderAnimate).to.be.true;
   expect(instance.selectedMenuOption).to.equal(mediatype);
 };
 
 describe('<ia-topnav>', () => {
-  it('defaults all menus to closed and not animating', async () => {
-    const topnavElement = await fixture(container);
-
-    [
-      'userMenuOpen',
-      'userMenuAnimate',
-      'searchMenuOpen',
-      'searchMenuAnimate',
-      'mediaMenuOpen',
-    ].forEach((prop) => {
-      expect(topnavElement[prop]).to.be.false;
-    });
-  });
-
-  it('toggles user menu open and animating', async () => {
-    const el = await fixture(container);
-
-    el.userMenu();
-
-    expect(el.userMenuAnimate).to.be.true;
-    expect(el.userMenuOpen).to.be.true;
-  });
-
-  it('toggles media menu open and animating', async () => {
-    const el = await fixture(container);
-
-    el.mediaMenu();
-
-    expect(el.mediaMenuOpen).to.be.true;
-  });
-
-  it('toggles search menu open and animating', async () => {
-    const el = await fixture(container);
-
-    el.searchMenu();
-
-    expect(el.searchMenuAnimate).to.be.true;
-    expect(el.searchMenuOpen).to.be.true;
-  });
-
   it('assigns a value to "search in" from outside event', async () => {
     const el = await fixture(container);
     const query = 'atari';
@@ -117,19 +75,17 @@ describe('<ia-topnav>', () => {
 
   it('closes all menus when close-layer clicked', async () => {
     const el = await fixture(container);
-    const menus = ['media', 'search', 'user'];
 
-    menus.forEach((menu) => {
-      el[`${menu}MenuOpen`] = true;
-    });
-
+    el.openMenu = 'media';
+    el.selectedMenuOption = 'texts';
+    el.mediaSliderOpen = true;
     await el.updateComplete;
     el.closeMenus();
     await el.updateComplete;
 
-    menus.forEach((menu) => {
-      expect(el[`${menu}MenuOpen`]).to.be.false;
-    });
+    expect(el.mediaSliderOpen).to.be.false;
+    expect(el.openMenu).to.equal('');
+    expect(el.selectedMenuOption).to.equal('');
   });
 
   it('sets media slider to closed', async () => {
@@ -147,7 +103,7 @@ describe('<ia-topnav>', () => {
     const mediatype = 'foo';
 
     el.selectedMenuOption = mediatype;
-    el.toggleMediaSlider();
+    el.openMediaSlider();
 
     verifyOpened(el, mediatype);
   });
@@ -182,23 +138,41 @@ describe('<ia-topnav>', () => {
   it('closes slider when menu closed', async () => {
     const el = await fixture(container);
 
+    el.openMenu = 'media';
     el.selectedMenuOption = 'foo';
-    el.mediaMenuOpen = true;
-    await el.updateComplete;
     el.mediaSliderOpen = true;
     await el.updateComplete;
-    el.mediaMenuOpen = false;
+
+    el.menuToggled({ detail: { menuName: '' } });
     await el.updateComplete;
 
     expect(el.selectedMenuOption).to.equal('');
   });
 
-  it('toggles signed out dropdown', async () => {
+  it('toggles search menu tabindex when dropdown open', async () => {
     const el = await fixture(container);
 
-    el.signedOutMenu();
+    el.openMenu = 'search';
     await el.updateComplete;
 
-    expect(el.signedOutMenuOpen).to.be.true;
+    expect(el.shadowRoot.querySelector('search-menu').getAttribute('tabindex')).to.equal('');
+  });
+
+  it('toggles user menu tabindex when dropdown open', async () => {
+    const el = await fixture(container);
+
+    el.openMenu = 'user';
+    await el.updateComplete;
+
+    expect(el.shadowRoot.querySelector('user-menu').getAttribute('tabindex')).to.equal('');
+  });
+
+  it('toggles signed out menu tabindex when dropdown open', async () => {
+    const el = await fixture(container);
+
+    el.openMenu = 'login';
+    await el.updateComplete;
+
+    expect(el.shadowRoot.querySelector('signed-out-dropdown').getAttribute('tabindex')).to.equal('');
   });
 });

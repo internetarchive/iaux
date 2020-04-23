@@ -16,6 +16,7 @@ class MediaButton extends TrackedElement {
       href: { type: String },
       label: { type: String },
       mediatype: { type: String },
+      openMenu: { type: String },
       selected: { type: Boolean },
       followable: { type: Boolean },
     };
@@ -32,6 +33,7 @@ class MediaButton extends TrackedElement {
     this.href = '';
     this.label = '';
     this.mediatype = '';
+    this.openMenu = '';
     this.selected = false;
     this.followable = false;
   }
@@ -39,6 +41,18 @@ class MediaButton extends TrackedElement {
   onClick(e) {
     this.trackClick(e);
     e.preventDefault();
+    // On desktop viewport widths, the media subnav is always visible. To
+    // ensure the media subnav is open on mobile if the viewport is
+    // resized, the openMenu needs to be set to 'media'.
+    if (this.openMenu !== 'media') {
+      this.dispatchEvent(new CustomEvent('menuToggled', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          menuName: 'media'
+        }
+      }));
+    }
     this.dispatchEvent(new CustomEvent('mediaTypeSelected', {
       bubbles: true,
       composed: true,

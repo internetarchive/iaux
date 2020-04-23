@@ -8,7 +8,7 @@ describe('<media-menu>', () => {
   it('sets default properties', async () => {
     const mediaMenu = await fixture(component);
 
-    expect(mediaMenu.mediaMenuOpen).to.be.false;
+    expect(mediaMenu.openMenu).to.equal('');
     expect(mediaMenu.selectedMenuOption).to.equal('');
   });
 

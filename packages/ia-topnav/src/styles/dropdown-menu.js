@@ -8,12 +8,12 @@ export default css`
     position: absolute;
     top: var(--topOffset);
     right: 0;
-    z-index: -1;
+    z-index: 1;
     overflow: hidden;
     font-size: 1.6rem;
     background-color: var(--dropdownMenuBg);
     transition-property: top;
-    transition-duration: 0.5s;
+    transition-duration: 0.2s;
     transition-timing-function: ease;
   }
   .initial,
@@ -24,7 +24,7 @@ export default css`
     transition-duration: 0.5s;
   }
   .open {
-    top: 100%;
+    top: 4rem;
     max-height: 100vh;
     max-width: 100vw;
   }
@@ -50,8 +50,7 @@ export default css`
     nav {
       overflow: visible;
       top: calc(100% + 7px);
-      right: 0;
-      z-index: 2;
+      z-index: 5;
       transition: opacity .2s ease-in-out;
       font-size: 1.4rem;
       border-radius: 2px;
@@ -92,13 +91,13 @@ export default css`
 
     .initial,
     .closed {
-      top: calc(100% + 7px);
+      top: -100vh;
       opacity: 0;
       transition-duration: .2s;
     }
 
     .open {
-      top: calc(100% + 7px);
+      top: 5.1rem;
       opacity: 1;
     }
   }

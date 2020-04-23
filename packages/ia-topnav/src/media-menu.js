@@ -63,7 +63,7 @@ class MediaMenu extends LitElement {
   static get properties() {
     return {
       config: { type: Object },
-      mediaMenuOpen: { type: Boolean },
+      openMenu: { type: String },
       selectedMenuOption: { type: String },
     };
   }
@@ -71,7 +71,7 @@ class MediaMenu extends LitElement {
   constructor() {
     super();
     this.config = {};
-    this.mediaMenuOpen = false;
+    this.openMenu = '';
     this.selectedMenuOption = '';
   }
 
@@ -92,6 +92,7 @@ class MediaMenu extends LitElement {
           .followable=${followable}
           .label=${label}
           .mediatype=${menu}
+          .openMenu=${this.openMenu}
           .selected=${selected}
           data-mediatype="${menu}"
         ></media-button>
@@ -100,14 +101,20 @@ class MediaMenu extends LitElement {
     return buttons;
   }
 
-  render() {
-    const mediaMenuClass = this.mediaMenuOpen ? 'open' : 'closed';
+  get menuOpened() {
+    return this.openMenu === 'media';
+  }
 
+  get menuClass() {
+    return this.menuOpened ? 'open' : 'closed';
+  }
+
+  render() {
     return html`
       <nav
-        class="media-menu tx-slide ${mediaMenuClass}"
-        aria-hidden="${!this.mediaMenuOpen}"
-        aria-expanded="${this.mediaMenuOpen}"
+        class="media-menu tx-slide ${this.menuClass}"
+        aria-hidden="${!this.menuOpened}"
+        aria-expanded="${this.menuOpened}"
       >
         <div class="menu-group">
           ${this.mediaMenuOptionsTemplate}
