@@ -16,9 +16,8 @@ class PrimaryNav extends TrackedElement {
   static get properties() {
     return {
       config: { type: Object },
-      mediaMenuOpen: { type: Boolean },
+      openMenu: { type: String },
       searchIn: { type: String },
-      searchMenuOpen: { type: Boolean },
       selectedMenuOption: { type: String },
       signedOutMenuOpen: { type: Boolean },
       userMenuOpen: { type: Boolean },
@@ -28,42 +27,44 @@ class PrimaryNav extends TrackedElement {
   constructor() {
     super();
     this.config = {};
-    this.userMenuOpen = false;
+    this.openMenu = '';
     this.searchIn = '';
-    this.searchMenuOpen = false;
     this.selectedMenuOption = '';
     this.signedOutMenuOpen = false;
-    this.mediaMenuOpen = false;
+    this.userMenuOpen = false;
   }
 
-  mediaMenu(e) {
+  toggleMediaMenu(e) {
     this.trackClick(e);
-    this.dispatchEvent(new CustomEvent('mediaMenu', {
-      bubbles: true,
-      composed: true,
+    this.dispatchEvent(new CustomEvent('menuToggled', {
+      detail: {
+        menuName: 'media'
+      }
     }));
   }
 
-  searchMenu(e) {
+  toggleSearchMenu(e) {
     this.trackClick(e);
-    this.dispatchEvent(new CustomEvent('searchMenu', {
-      bubbles: true,
-      composed: true,
+    this.dispatchEvent(new CustomEvent('menuToggled', {
+      detail: {
+        menuName: 'search'
+      }
     }));
   }
 
-  userMenu(e) {
+  toggleUserMenu(e) {
     this.trackClick(e);
-    this.dispatchEvent(new CustomEvent('userMenu', {
-      bubbles: true,
-      composed: true,
+    this.dispatchEvent(new CustomEvent('menuToggled', {
+      detail: {
+        menuName: 'user'
+      }
     }));
   }
 
   get userIcon() {
-    const userMenuClass = this.userMenuOpen ? 'active' : '';
+    const userMenuClass = this.openMenu === 'user' ? 'active' : '';
 
-    return html`<button class="user-menu ${userMenuClass}" @click="${this.userMenu}" data-event-click-tracking="${this.config.eventCategory}|NavUserMenu">
+    return html`<button class="user-menu ${userMenuClass}" @click="${this.toggleUserMenu}" data-event-click-tracking="${this.config.eventCategory}|NavUserMenu">
       <img src="https://archive.org/services/img/user/profile?${+(new Date())}" alt="${this.config.username}" />
       <span class="username">${this.config.username}</span>
     </button>`;
@@ -74,17 +75,22 @@ class PrimaryNav extends TrackedElement {
       <login-button
         .config=${this.config}
         .dropdownOpen=${this.signedOutMenuOpen}
-        @signedOutMenu=${this.signedOutMenu}
+        .openMenu=${this.openMenu}
+        @signedOutMenuToggled=${this.signedOutMenuToggled}
       ></login-button>
     `;
   }
 
+  get searchMenuOpen() {
+    return this.openMenu === 'search';
+  }
+
   render() {
-    const mediaMenuTabIndex = this.mediaMenuOpen ? '' : '-1';
+    const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
       <nav>
         <a class="link-home" href="https://${this.config.baseUrl}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}${logoWordmark}</a>
-        <button class="search-trigger" @click="${this.searchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen">
+        <button class="search-trigger" @click="${this.toggleSearchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen">
           ${icons.search}
         </button>
         <nav-search
@@ -98,13 +104,13 @@ class PrimaryNav extends TrackedElement {
         </div>
         <media-menu
           .config=${this.config}
-          ?mediaMenuOpen="${this.mediaMenuOpen}"
           ?mediaMenuAnimate="${this.mediaMenuAnimate}"
           tabindex="${mediaMenuTabIndex}"
           .selectedMenuOption=${this.selectedMenuOption}
+          .openMenu=${this.openMenu}
         ></media-menu>
-        <button class="hamburger" @click="${this.mediaMenu}" tabindex="1" data-event-click-tracking="${this.config.eventCategory}|NavHamburger">
-          <icon-hamburger ?active=${this.mediaMenuOpen}></icon-hamburger>
+        <button class="hamburger" @click="${this.toggleMediaMenu}" tabindex="1" data-event-click-tracking="${this.config.eventCategory}|NavHamburger">
+          <icon-hamburger ?active=${this.openMenu === 'media'}></icon-hamburger>
         </button>
       </nav>
     `;

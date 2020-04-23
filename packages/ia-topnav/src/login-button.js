@@ -2,8 +2,6 @@ import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import loginButtonCSS from './styles/login-button';
-import './signed-out-dropdown';
-import { signedOut as menuItems } from './data/menus';
 
 class LoginButton extends TrackedElement {
   static get styles() {
@@ -13,18 +11,14 @@ class LoginButton extends TrackedElement {
   static get properties() {
     return {
       config: { type: Object },
-      dropdownOpen: { type: Boolean },
-      dropdownAnimate: { type: Boolean },
-      dropdownTabIndex: { type: String },
+      openMenu: { type: String },
     };
   }
 
   constructor() {
     super();
     this.config = {};
-    this.dropdownOpen = false;
-    this.dropdownAnimate = false;
-    this.dropdownTabIndex = '-1';
+    this.openMenu = '';
   }
 
   get signupPath() {
@@ -39,17 +33,24 @@ class LoginButton extends TrackedElement {
     return `${this.config.eventCategory}|NavLoginIcon`;
   }
 
+  get menuOpened() {
+    return this.openMenu === 'login';
+  }
+
   get avatarClass() {
-    return `dropdown-toggle${this.dropdownOpen ? ' active' : ''}`;
+    return `dropdown-toggle${this.menuOpened ? ' active' : ''}`;
   }
 
   toggleDropdown(e) {
     e.preventDefault();
     this.trackClick(e);
-    this.dropdownTabIndex = this.dropdownOpen ? '' : '-1';
-    this.dispatchEvent(new CustomEvent('signedOutMenu', {
+    this.dropdownTabIndex = this.menuOpened ? '' : '-1';
+    this.dispatchEvent(new CustomEvent('menuToggled', {
       bubbles: true,
       composed: true,
+      detail: {
+        menuName: 'login'
+      }
     }));
   }
 
@@ -68,13 +69,6 @@ class LoginButton extends TrackedElement {
           /
           <a href="${this.loginPath}">Log in</a>
         </span>
-        <signed-out-dropdown
-          .config=${this.config}
-          .open=${this.dropdownOpen}
-          .animate=${this.dropdownAnimate}
-          tabindex="${this.dropdownTabIndex}"
-          .menuItems=${menuItems(this.config.baseUrl)}
-        ></signed-out-dropdown>
       </div>
     `;
   }

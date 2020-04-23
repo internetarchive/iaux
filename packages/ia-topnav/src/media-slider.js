@@ -11,7 +11,6 @@ class MediaSlider extends LitElement {
     return {
       config: { type: Object },
       mediaSliderOpen: { type: Boolean },
-      mediaSliderAnimate: { type: Boolean },
       selectedMenuOption: { type: String },
     };
   }
@@ -21,7 +20,6 @@ class MediaSlider extends LitElement {
 
     this.config = {};
     this.mediaSliderOpen = false;
-    this.mediaSliderAnimate = false;
     this.selectedMenuOption = 'texts';
   }
 
@@ -34,15 +32,7 @@ class MediaSlider extends LitElement {
   }
 
   render() {
-    let sliderDetailsClass = 'menu-slider-offscreen';
-
-    if (this.mediaSliderOpen) {
-      sliderDetailsClass = 'menu-enter';
-    }
-
-    if (!this.mediaSliderOpen && this.mediaSliderAnimate) {
-      sliderDetailsClass = 'menu-exit';
-    }
+    const sliderDetailsClass = this.mediaSliderOpen ? 'open' : 'closed';
 
     return html`
       <div class="overflow-clip ${sliderDetailsClass}">

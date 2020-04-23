@@ -40,6 +40,10 @@ export default css`
       transform: translateY(-.5rem);
     }
 
+    .active {
+      background: transparent;
+    }
+
     .dropdown-toggle {
       display: inline-block;
       vertical-align: middle;

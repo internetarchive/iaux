@@ -1,6 +1,16 @@
 import { css } from 'lit-element';
 
 export default css`
+  .overflow-clip {
+    display: none;
+    position: absolute;
+    top: 4rem;
+    right: 0;
+    left: 4rem;
+    height: 368px;
+    overflow-x: hidden;
+  }
+
   .information-menu {
     position: absolute;
     top: 0;
@@ -13,63 +23,8 @@ export default css`
     background: var(--mediaSliderBg);
   }
 
-  .overflow-clip {
-    position: absolute;
-    top: 4rem;
-    right: 0;
-    left: 4rem;
-    height: 368px;
-    overflow-x: hidden;
-  }
-  .overflow-clip.menu-exit,
-  .overflow-clip.menu-slider-offscreen {
-    display: none;
-  }
-
-  .menu-slider-offscreen {
-    transform: translate(-100%, -100%);
-  }
-
-  /* Secondary menu */
-  @keyframes menu-enter {
-    0% {
-      transform: translate(100%, 0);
-    }
-    100% {
-      transform: translate(0, 0);
-    }
-  }
-  @keyframes menu-exit {
-    0% {
-      transform: translate(0, 0);
-    }
-    100% {
-      transform: translate(100%, 0);
-    }
-  }
-
-  @keyframes menu-enter-desktop {
-    0% {
-      transform: translate(0, -100%);
-    }
-    100% {
-      transform: translate(0, 8rem);
-    }
-  }
-  @keyframes menu-exit-desktop {
-    0% {
-      transform: translate(0, 8rem);
-    }
-    100% {
-      transform: translate(0, -100%);
-    }
-  }
-
-  .information-menu.menu-enter {
-    animation: menu-enter 0.2s forwards;
-  }
-  .information-menu.menu-exit {
-    animation: menu-exit 0.2s forwards;
+  .open {
+    display: block;
   }
 
   .info-box {
@@ -78,14 +33,13 @@ export default css`
 
   @media (min-width: 890px) {
     .overflow-clip {
+      display: block;
       top: 0;
       left: 0;
       height: auto;
       overflow-x: visible;
-    }
-    .overflow-clip.menu-exit,
-    .overflow-clip.menu-slider-offscreen {
-      display: block;
+      transform: translate(0, -100%);
+      transition: transform .2s ease;
     }
 
     .information-menu {
@@ -94,16 +48,15 @@ export default css`
       height: auto;
       min-height: 21rem;
       background: var(--mediaSliderDesktopBg);
-    }
-
-    .information-menu.menu-enter {
-      transform: translate(0, 8rem);
-      animation-name: menu-enter-desktop;
-    }
-
-    .information-menu.menu-exit {
       transform: translate(0, -100%);
-      animation-name: menu-exit-desktop;
+      transition: transform .2s ease;
+    }
+
+    .overflow-clip.open {
+      transform: translate(0, 8rem);
+    }
+    .information-menu.open {
+      transform: translate(0, 0);
     }
 
     .info-box {

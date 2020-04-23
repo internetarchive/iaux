@@ -6,7 +6,8 @@ import './search-menu';
 import './media-slider';
 import './desktop-subnav';
 import './dropdown-menu';
-import { user as userMenu } from './data/menus';
+import './signed-out-dropdown';
+import { signedOut, user as userMenu } from './data/menus';
 import iaTopNavCSS from './styles/ia-topnav';
 
 export default class IATopNav extends LitElement {
@@ -17,98 +18,44 @@ export default class IATopNav extends LitElement {
   static get properties() {
     return {
       config: { type: Object },
-      mediaMenuOpen: { type: Boolean },
-      mediaSliderAnimate: { type: Boolean },
       mediaSliderOpen: { type: Boolean },
+      openMenu: { type: String },
       searchIn: { type: String },
-      searchMenuAnimate: { type: Boolean },
-      searchMenuOpen: { type: Boolean },
       selectedMenuOption: { type: String },
-      signedOutMenuOpen: { type: Boolean },
-      userMenuAnimate: { type: Boolean },
-      userMenuOpen: { type: Boolean },
     };
   }
 
   constructor() {
     super();
     this.config = {};
-    this.mediaMenuOpen = false;
-    this.searchIn = '';
-    this.searchMenuAnimate = false;
-    this.searchMenuOpen = false;
-    this.signedOutMenuOpen = false;
-    this.userMenuAnimate = false;
-    this.userMenuOpen = false;
     this.mediaSliderOpen = false;
-    this.mediaSliderAnimate = false;
+    this.openMenu = '';
+    this.searchIn = '';
     this.selectedMenuOption = '';
   }
 
-  updated(changedProperties) {
-    const { mediaMenuOpen, mediaSliderOpen } = this;
-    const menuClosed = changedProperties.has('mediaMenuOpen')
-      && changedProperties.get('mediaMenuOpen')
-      && !mediaMenuOpen;
-
-    if (menuClosed && mediaSliderOpen) {
-      this.mediaSliderOpen = false;
-      this.mediaSliderAnimate = false;
-      this.selectedMenuOption = '';
+  menuToggled({ detail }) {
+    const currentMenu = this.openMenu;
+    this.openMenu = currentMenu === detail.menuName ? '' : detail.menuName;
+    // Keeps media slider open if media menu is open
+    if (this.openMenu === 'media') {
+      return;
     }
+    this.closeMediaSlider();
+  }
+
+  openMediaSlider() {
+    this.mediaSliderOpen = true;
   }
 
   closeMediaSlider() {
-    this.mediaSliderAnimate = true;
     this.mediaSliderOpen = false;
     this.selectedMenuOption = '';
-  }
-
-  toggleMediaSlider() {
-    if (!this.mediaSliderOpen) {
-      this.mediaSliderAnimate = true;
-      this.mediaSliderOpen = !this.mediaSliderOpen;
-      this.mediaMenuOpen = true;
-    }
-  }
-
-  mediaMenu() {
-    this.userMenuOpen = false;
-    this.searchMenuOpen = false;
-    this.signedOutMenuOpen = false;
-    this.mediaMenuOpen = !this.mediaMenuOpen;
-  }
-
-  signedOutMenu() {
-    this.userMenuOpen = false;
-    this.searchMenuOpen = false;
-    this.mediaMenuOpen = false;
-    this.signedOutMenuOpen = !this.signedOutMenuOpen;
-  }
-
-  searchMenu() {
-    this.userMenuOpen = false;
-    this.mediaMenuOpen = false;
-    this.signedOutMenuOpen = false;
-    this.searchMenuAnimate = true;
-    this.searchMenuOpen = !this.searchMenuOpen;
-  }
-
-  userMenu() {
-    this.searchMenuOpen = false;
-    this.mediaMenuOpen = false;
-    this.signedOutMenuOpen = false;
-    this.userMenuAnimate = true;
-    this.userMenuOpen = !this.userMenuOpen;
   }
 
   closeMenus() {
-    this.mediaMenuOpen = false;
-    this.mediaSliderOpen = false;
-    this.searchMenuOpen = false;
-    this.signedOutMenuOpen = false;
-    this.userMenuOpen = false;
-    this.selectedMenuOption = '';
+    this.openMenu = '';
+    this.closeMediaSlider();
   }
 
   searchInChanged(e) {
@@ -137,51 +84,60 @@ export default class IATopNav extends LitElement {
       return;
     }
     this.selectedMenuOption = detail.mediatype;
-    this.toggleMediaSlider();
+    this.openMediaSlider();
   }
 
-  get isMenuOpen() {
-    return this.mediaMenuOpen
-      || this.searchMenuOpen
-      || this.userMenuOpen
-      || this.mediaSliderOpen
-      || this.signedOutMenuOpen;
+  get searchMenuOpened() {
+    return this.openMenu === 'search';
+  }
+
+  get signedOutOpened() {
+    return this.openMenu === 'login';
+  }
+
+  get userMenuOpened() {
+    return this.openMenu === 'user';
+  }
+
+  get searchMenuTabIndex() {
+    return this.searchMenuOpened ? '' : '-1';
+  }
+
+  get userMenuTabIndex() {
+    return this.userMenuOpened ? '' : '-1';
+  }
+
+  get signedOutTabIndex() {
+    return this.signedOutOpened ? '' : '-1';
+  }
+
+  get closeLayerClass() {
+    return !!this.openMenu || this.mediaSliderOpen ? 'visible' : '';
   }
 
   render() {
-    const searchMenuTabIndex = this.searchMenuOpen ? '' : '-1';
-    const userMenuTabIndex = this.userMenuOpen ? '' : '-1';
-    const closeLayerVisible = this.isMenuOpen;
-
     return html`
       <div class='topnav'>
         <primary-nav
           .config=${this.config}
-          .mediaMenuOpen=${this.mediaMenuOpen}
           .searchIn=${this.searchIn}
-          .searchMenuOpen=${this.searchMenuOpen}
           .selectedMenuOption=${this.selectedMenuOption}
-          .signedOutMenuOpen=${this.signedOutMenuOpen}
-          .userMenuOpen=${this.userMenuOpen}
-          @mediaMenu=${this.mediaMenu}
+          .openMenu=${this.openMenu}
           @mediaTypeSelected=${this.mediaTypeSelected}
-          @searchMenu=${this.searchMenu}
-          @signedOutMenu=${this.signedOutMenu}
+          @toggleSearchMenu=${this.toggleSearchMenu}
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
-          @userMenu=${this.userMenu}
+          @menuToggled=${this.menuToggled}
         ></primary-nav>
         <media-slider
           .config=${this.config}
           .selectedMenuOption=${this.selectedMenuOption}
           .mediaSliderOpen=${this.mediaSliderOpen}
-          .mediaSliderAnimate=${this.mediaSliderAnimate}
         ></media-slider>
         <search-menu
           .config=${this.config}
-          .searchMenuOpen=${this.searchMenuOpen}
-          .searchMenuAnimate=${this.searchMenuAnimate}
-          tabindex="${searchMenuTabIndex}"
+          .openMenu=${this.openMenu}
+          tabindex="${this.searchMenuTabIndex}"
           @searchInChanged=${this.searchInChanged}
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
@@ -190,14 +146,20 @@ export default class IATopNav extends LitElement {
       <desktop-subnav .baseUrl=${this.config.baseUrl}></desktop-subnav>
       <user-menu
         .config=${this.config}
-        .open=${this.userMenuOpen}
-        .animate=${this.userMenuAnimate}
-        tabindex="${userMenuTabIndex}"
-        username=${this.config.username}
         .menuItems=${userMenu(this.config.baseUrl, this.config.username)}
+        .open=${this.openMenu === 'user'}
+        .username=${this.config.username}
+        tabindex="${this.userMenuTabIndex}"
+        @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
       ></user-menu>
-      <div id="close-layer" class="${closeLayerVisible ? 'visible' : ''}" @click=${this.closeMenus}></div>
+      <signed-out-dropdown
+        .config=${this.config}
+        .open=${this.signedOutOpened}
+        tabindex="${this.signedOutTabIndex}"
+        .menuItems=${signedOut(this.config.baseUrl)}
+      ></signed-out-dropdown>
+      <div id="close-layer" class="${this.closeLayerClass}" @click=${this.closeMenus}></div>
     `;
   }
 }

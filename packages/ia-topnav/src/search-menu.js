@@ -10,6 +10,7 @@ class SearchMenu extends TrackedElement {
   static get properties() {
     return {
       config: { type: Object },
+      openMenu: { type: String },
       searchMenuOpen: { type: Boolean },
       searchMenuAnimate: { type: Boolean },
       selectedSearchType: { type: String },
@@ -19,6 +20,7 @@ class SearchMenu extends TrackedElement {
   constructor() {
     super();
     this.config = {};
+    this.openMenu = '';
     this.searchMenuOpen = false;
     this.searchMenuAnimate = false;
     this.selectedSearchType = '';
@@ -67,21 +69,17 @@ class SearchMenu extends TrackedElement {
     return searchTypes;
   }
 
-  render() {
-    let searchMenuClass = 'initial';
-    if (this.searchMenuOpen) {
-      searchMenuClass = 'open';
-    }
-    if (!this.searchMenuOpen && this.searchMenuAnimate) {
-      searchMenuClass = 'closed';
-    }
+  get menuClass() {
+    return this.openMenu === 'search' ? 'open' : 'closed';
+  }
 
+  render() {
     const searchMenuHidden = Boolean(!this.searchMenuOpen).toString();
     const searchMenuExpanded = Boolean(this.searchMenuOpen).toString();
 
     return html`
       <div
-        class="search-menu tx-slide ${searchMenuClass}"
+        class="search-menu tx-slide ${this.menuClass}"
         aria-hidden="${searchMenuHidden}"
         aria-expanded="${searchMenuExpanded}"
       >
