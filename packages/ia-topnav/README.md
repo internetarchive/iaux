@@ -79,7 +79,8 @@ Config object:
   waybackUrl: "web.archive.org", // domain used for Wayback search
   screenName: "really_long_screen_name_that_may_be_truncated_on_mobile", // full screen name displayed in user menu
   username: "shaneriley", // short user name used for desktop nav and some link building
-  eventCategory: "MobileTopNav" // Google Analytics event category
+  eventCategory: "MobileTopNav", // Google Analytics event category
+  waybackPagesArchived: "424 billion" // Copy to display for number of pages archived at the top of the Wayback search form
 }
 ```
 

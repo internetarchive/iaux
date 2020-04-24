@@ -7,11 +7,12 @@ export default css`
     --grey20: #333;
     --grey28: #474747;
     --grey60: #999;
+    --grey66: #aaa;
     --grey80: #ccc;
 
     --linkColor: #428bca;
     --linkHoverColor: var(--white);
-    --subnavLinkColor: #aaa;
+    --subnavLinkColor: var(--grey66);
     --primaryTextColor: var(--white);
     --inverseTextColor: var(--grey20);
     --lightTextColor: var(--grey60);

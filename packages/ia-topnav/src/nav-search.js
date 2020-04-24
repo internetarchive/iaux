@@ -11,7 +11,6 @@ class NavSearch extends TrackedElement {
   static get properties() {
     return {
       config: { type: Object },
-      focusSearchInput: { type: Boolean },
       open: { type: Boolean },
       searchIn: { type: String },
     };
@@ -20,7 +19,6 @@ class NavSearch extends TrackedElement {
   constructor() {
     super();
     this.config = {};
-    this.focusSearchInput = false;
     this.open = false;
     this.searchIn = '';
   }
