@@ -45,14 +45,22 @@ class MediaButton extends TrackedElement {
     // ensure the media subnav is open on mobile if the viewport is
     // resized, the openMenu needs to be set to 'media'.
     if (this.openMenu !== 'media') {
-      this.dispatchEvent(new CustomEvent('menuToggled', {
-        bubbles: true,
-        composed: true,
-        detail: {
-          menuName: 'media'
-        }
-      }));
+      this.dispatchMenuToggledEvent();
     }
+    this.dispatchMediaTypeSelectedEvent();
+  }
+
+  dispatchMenuToggledEvent() {
+    this.dispatchEvent(new CustomEvent('menuToggled', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        menuName: 'media'
+      }
+    }));
+  }
+
+  dispatchMediaTypeSelectedEvent() {
     this.dispatchEvent(new CustomEvent('mediaTypeSelected', {
       bubbles: true,
       composed: true,
