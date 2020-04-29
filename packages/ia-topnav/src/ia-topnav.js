@@ -116,14 +116,7 @@ export default class IATopNav extends LitElement {
   }
 
   get userMenuItems() {
-    return userMenu(
-      this.config.baseUrl,
-      this.config.username,
-      this.config.isAdmin,
-      this.config.identifier,
-      this.config.uploader,
-      this.config.biblio
-    );
+    return userMenu(this.config);
   }
 
   render() {
