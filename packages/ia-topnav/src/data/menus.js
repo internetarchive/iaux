@@ -377,7 +377,7 @@ const user = ({
     title: 'metadata',
     analyticsEvent: 'AdminUserMetadata',
   }, {
-    href: `https://${catUrl}/history/${identifier}`,
+    href: `${catUrl}/history/${identifier}`,
     title: 'history',
     analyticsEvent: 'AdminUserHistory',
   }, {
