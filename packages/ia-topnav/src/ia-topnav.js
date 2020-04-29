@@ -115,6 +115,17 @@ export default class IATopNav extends LitElement {
     return !!this.openMenu || this.mediaSliderOpen ? 'visible' : '';
   }
 
+  get userMenuItems() {
+    return userMenu(
+      this.config.baseUrl,
+      this.config.username,
+      this.config.isAdmin,
+      this.config.identifier,
+      this.config.uploader,
+      this.config.biblio
+    );
+  }
+
   render() {
     return html`
       <div class='topnav'>
@@ -146,7 +157,7 @@ export default class IATopNav extends LitElement {
       <desktop-subnav .baseUrl=${this.config.baseUrl}></desktop-subnav>
       <user-menu
         .config=${this.config}
-        .menuItems=${userMenu(this.config.baseUrl, this.config.username)}
+        .menuItems=${this.userMenuItems}
         .open=${this.openMenu === 'user'}
         .username=${this.config.username}
         tabindex="${this.userMenuTabIndex}"

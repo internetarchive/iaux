@@ -348,7 +348,14 @@ const user = (baseUrl, account, isAdmin, identifier, uploader, biblio) => {
     analyticsEvent: 'UserLogOut',
   }];
 
+  // only works for production, needs to be fixed for review apps to `cat-review-app.archive.org`
+  const catUrl = `catalogd.${baseUrl}`;
+
   const adminLinks = [{
+    href: '',
+    title: '---------',
+    analyticsEvent: ''
+  }, {
     href: `https://${baseUrl}/editxml/${identifier}`,
     title: 'edit xml',
     analyticsEvent: 'AdminUserEditXML'
@@ -357,81 +364,78 @@ const user = (baseUrl, account, isAdmin, identifier, uploader, biblio) => {
     title: 'edit files',
     analyticsEvent: 'AdminUserEditFiles'
   }, {
-    href: `https://${baseUrl}/download/${identifier}`,
+    href: `https://${baseUrl}/download/${identifier}/`,
     title: 'download',
     analyticsEvent: 'AdminUserDownload'
   }, {
-    href: `https://${baseUrl}/metadata/${identifier}`,
+    href: `https://${baseUrl}/metadata/${identifier}/`,
     title: 'metadata',
     analyticsEvent: 'AdminUserMetadata'
   }, {
-    href: `https://${baseUrl}/edit.php?redir=1&identifier=${uploader}`,
-    title: 'edit files',
-    analyticsEvent: 'AdminUserEditFiles'
+    href: `https://${catUrl}/history/${identifier}`,
+    title: 'history',
+    analyticsEvent: 'AdminUserHistory'
   }, {
-    href: `https://${baseUrl}/edit.php?redir=1&identifier=${biblio}`,
-    title: 'edit files',
-    analyticsEvent: 'AdminUserEditFiles'
+    href: `https://${baseUrl}/manage/${identifier}`,
+    title: 'manage',
+    analyticsEvent: 'AdminUserManager'
   }, {
-    href: `https://${baseUrl}/edit.php?redir=1&identifier=${identifier}`,
-    title: 'edit files',
-    analyticsEvent: 'AdminUserEditFiles'
+    href: `https://${baseUrl}/manage/${identifier}#make_dark`,
+    title: 'curate',
+    analyticsEvent: 'AdminUserCurate'
   }, {
-    href: `https://${baseUrl}/edit.php?redir=1&identifier=${identifier}`,
-    title: 'edit files',
-    analyticsEvent: 'AdminUserEditFiles'
-  }, {
-    href: `https://${baseUrl}/edit.php?redir=1&identifier=${identifier}`,
-    title: 'edit files',
-    analyticsEvent: 'AdminUserEditFiles'
-  }, {
-    href: `https://${baseUrl}/edit.php?redir=1&identifier=${identifier}`,
-    title: 'edit files',
-    analyticsEvent: 'AdminUserEditFiles'
-  }, {
-    href: `https://${baseUrl}/edit.php?redir=1&identifier=${identifier}`,
-    title: 'edit files',
-    analyticsEvent: 'AdminUserEditFiles'
-  }, {
-    href: `https://${baseUrl}/edit.php?redir=1&identifier=${identifier}`,
-    title: 'edit files',
-    analyticsEvent: 'AdminUserEditFiles'
+    href: `https://${baseUrl}/manage/${identifier}#modify_xml`,
+    title: 'modify xml',
+    analyticsEvent: 'AdminUserModifyXML'
   }];
 
-  return generalLinks + isAdmin ? adminLinks : [];
+  const biblioLinks = [{
+    href: `${biblio}&ignored=${identifier}`,
+    title: 'biblio',
+    analyticsEvent: 'AdminUserBiblio'
+  }, {
+    href: `https://${baseUrl}/bookview.php?mode=debug&identifier=${identifier}`,
+    title: 'bookview',
+    analyticsEvent: 'AdminUserBookView'
+  }, {
+    href: `https://${baseUrl}/download/${identifier}/format=Single Page Processed JP2 ZIP`,
+    title: 'jp2 zip',
+    analyticsEvent: 'AdminUserJP2Zip'
+  }];
+
+  const uploaderLinks = [{
+    href: '',
+    title: '---------',
+    analyticsEvent: ''
+  }, {
+    href: '',
+    title: `uploader: ${uploader}`,
+    analyticsEvent: '',
+  }, {
+    href: `https://${baseUrl}/admins/useradmin.php?searchUser=${uploader}&ignore=${identifier}`,
+    title: 'user admin',
+    analyticsEvent: 'AdminUserUserAdmin'
+  }, {
+    href: `https://${baseUrl}/admins/setadmin.php?user=${uploader}&ignore=${identifier}`,
+    title: 'user privs',
+    analyticsEvent: 'AdminUserUserPrivs'
+  }];
+
+  let allLinks = generalLinks;
+  if (isAdmin) {
+    allLinks = allLinks.concat(adminLinks);
+
+    if (biblio) {
+      allLinks = allLinks.concat(biblioLinks);
+    }
+
+    if (uploader) {
+      allLinks = allLinks.concat(uploaderLinks);
+    }
+  }
+
+  return allLinks;
 };
-
-// $map = [
-//   'ignored0'      => '<li role="presentation" class="divider"></li>',
-//   'ignored1'      => ' '.glyph('warning').' ADMINS:',
-//   'ignored4'      => 'item:',
-//   'edit xml'      => '/editxml/',
-//   'edit files'    => '/edit.php?redir=1&identifier=',
-//   'download'      => ['/download/', '/'],
-//   'metadata'      => ['/metadata/', '/'],
-//   'history'       => "$cat/history/",
-//   'manage'        => '/manage/',
-//   'curate'        => ['/manage/', '#make_dark'],
-//   'modify xml'    => ['/manage/', '#modify_xml'],
-//   'manage flags'  => '/services/flags/admin.php?identifier=',
-// ];
-
-// if ($this->biblio!==false) {
-//   $map['biblio']  = $this->biblio.'&ignored=';
-//   $map['bookview']= '/bookview.php?mode=debug&identifier=';
-//   $map['jp2 zip'] = ['/download/', '/format=Single Page Processed JP2 ZIP']; //xxx??
-// }
-
-// if ($this->uploader!==false) {
-//   $map['ignored5']   = '<li role="presentation" class="divider"></li>';
-//   $map['ignored6']   = 'uploader:';
-//   $map['uploader']   = $this->uploader;
-//   $map['user admin'] = '/admins/useradmin.php?searchUser=' . htmlspecialchars($this->uploader) .
-// '&ignore=';
-//   if (Auth::hasPriv('/admins', $this->sts[1]))
-//     $map['user privs'] = '/admins/setadmin.php?user=' . htmlspecialchars($this->uploader) .
-// '&ignore=';
-// }
 
 const signedOut = baseUrl => ([{
   href: `https://${baseUrl}/account/signup`,

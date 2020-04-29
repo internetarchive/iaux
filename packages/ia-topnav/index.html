@@ -36,7 +36,11 @@
         screenName: "really_long_screen_name_that_may_be_truncated_on_mobile",
         username: "shaneriley",
         eventCategory: "MobileTopNav",
-        waybackPagesArchived: "424 billion"
+        waybackPagesArchived: "424 billion",
+        isAdmin: true,
+        identifier: "foo",
+        uploader: "bar-uploader@baz.org",
+        biblio: "https://some-url.com"
       };
       const topnav = document.createElement('ia-topnav');
       topnav.setAttribute('config', JSON.stringify(config));
