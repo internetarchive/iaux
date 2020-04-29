@@ -28,13 +28,15 @@ export default IATopNav;
     --white: #fff;
     --grey13: #222;
     --grey20: #333;
+    --grey40: #666;
     --grey28: #474747;
     --grey60: #999;
+    --grey66: #aaa;
     --grey80: #ccc;
 
     --linkColor: #428bca;
     --linkHoverColor: var(--white);
-    --subnavLinkColor: #aaa;
+    --subnavLinkColor: var(--grey66);
     --primaryTextColor: var(--white);
     --inverseTextColor: var(--grey20);
     --lightTextColor: var(--grey60);
@@ -60,6 +62,9 @@ export default IATopNav;
     --desktopSubnavBg: var(--grey20);
 
     --dropdownMenuBg: var(--grey20);
+    --dropdownMenuInfoItem: var(--grey60);
+    --dropdownMenuDividerMobile: var(--white);
+    --dropdownMenuDividerDesktop: var(--grey40);
 
     --loginTextColor: var(--grey60);
 

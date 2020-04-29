@@ -359,6 +359,10 @@ const user = ({
   const catUrl = `catalogd.${baseUrl}`;
 
   const adminLinks = [{
+    title: 'ADMINS:'
+  }, {
+    title: 'item:'
+  }, {
     href: `https://${baseUrl}/editxml/${identifier}`,
     title: 'edit xml',
     analyticsEvent: 'AdminUserEditXML'
@@ -407,9 +411,9 @@ const user = ({
   }];
 
   const uploaderLinks = [{
-    href: '',
-    title: `uploader: ${uploader}`,
-    analyticsEvent: '',
+    title: 'uploader:'
+  }, {
+    title: uploader,
   }, {
     href: `https://${baseUrl}/admins/useradmin.php?searchUser=${uploader}&ignore=${identifier}`,
     title: 'user admin',

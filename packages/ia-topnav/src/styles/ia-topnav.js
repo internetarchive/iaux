@@ -39,6 +39,7 @@ export default css`
     --desktopSubnavBg: var(--grey20);
 
     --dropdownMenuBg: var(--grey20);
+    --dropdownMenuInfoItem: var(--grey60);
     --dropdownMenuDividerMobile: var(--white);
     --dropdownMenuDividerDesktop: var(--grey40);
 

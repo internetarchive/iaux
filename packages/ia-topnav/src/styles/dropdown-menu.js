@@ -53,11 +53,17 @@ export default css`
     border-bottom: 1px solid var(--dropdownMenuDividerMobile);
   }
 
-  a {
+  a,
+  .info-item {
     display: block;
     color: var(--primaryTextColor);
     text-decoration: none;
     padding: 1rem 2rem;
+  }
+
+  .info-item {
+    font-size: .8em;
+    color: var(--dropdownMenuInfoItem);
   }
 
   @media (min-width: 890px) {
@@ -99,6 +105,11 @@ export default css`
       padding: .5rem 2rem;
       color: var(--inverseTextColor);
       transition: background .1s ease-out, color .1s ease-out;
+    }
+
+    .info-item {
+      padding: .5rem 2rem;
+      font-size: .8em;
     }
 
     a:hover,
