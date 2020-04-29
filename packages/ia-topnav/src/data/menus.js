@@ -315,6 +315,7 @@ const images = baseUrl => ({
 
 const user = ({
   baseUrl,
+  catUrl,
   account,
   isAdmin,
   identifier,
@@ -354,9 +355,6 @@ const user = ({
     title: 'Log out',
     analyticsEvent: 'UserLogOut',
   }];
-
-  // only works for production, needs to be fixed for review apps to `cat-review-app.archive.org`
-  const catUrl = `catalogd.${baseUrl}`;
 
   const adminLinks = [{
     title: 'ADMINS:'

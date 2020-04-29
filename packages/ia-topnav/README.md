@@ -80,6 +80,7 @@ Config object:
 ```js
 {
   baseUrl: "archive.org", // domain used to build most links
+  catUrl: 'catalogd.archive.org', // catalogd base used to build admin history link
   waybackUrl: "web.archive.org", // domain used for Wayback search
   screenName: "really_long_screen_name_that_may_be_truncated_on_mobile", // full screen name displayed in user menu
   username: "shaneriley", // short user name used for desktop nav and some link building
