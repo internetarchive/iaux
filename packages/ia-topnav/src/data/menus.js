@@ -313,7 +313,14 @@ const images = baseUrl => ({
   }]
 });
 
-const user = ({ baseUrl, account, isAdmin, identifier, uploader, biblio }) => {
+const user = ({
+  baseUrl,
+  account,
+  isAdmin,
+  identifier,
+  uploader,
+  biblio,
+}) => {
   const generalLinks = [{
     href: `https://${baseUrl}/create`,
     title: 'Upload',
