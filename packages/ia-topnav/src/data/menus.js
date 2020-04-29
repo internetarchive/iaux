@@ -365,49 +365,53 @@ const user = ({
   }, {
     href: `https://${baseUrl}/editxml/${identifier}`,
     title: 'edit xml',
-    analyticsEvent: 'AdminUserEditXML'
+    analyticsEvent: 'AdminUserEditXML',
   }, {
     href: `https://${baseUrl}/edit.php?redir=1&identifier=${identifier}`,
     title: 'edit files',
-    analyticsEvent: 'AdminUserEditFiles'
+    analyticsEvent: 'AdminUserEditFiles',
   }, {
     href: `https://${baseUrl}/download/${identifier}/`,
     title: 'download',
-    analyticsEvent: 'AdminUserDownload'
+    analyticsEvent: 'AdminUserDownload',
   }, {
     href: `https://${baseUrl}/metadata/${identifier}/`,
     title: 'metadata',
-    analyticsEvent: 'AdminUserMetadata'
+    analyticsEvent: 'AdminUserMetadata',
   }, {
     href: `https://${catUrl}/history/${identifier}`,
     title: 'history',
-    analyticsEvent: 'AdminUserHistory'
+    analyticsEvent: 'AdminUserHistory',
   }, {
     href: `https://${baseUrl}/manage/${identifier}`,
     title: 'manage',
-    analyticsEvent: 'AdminUserManager'
+    analyticsEvent: 'AdminUserManager',
   }, {
     href: `https://${baseUrl}/manage/${identifier}#make_dark`,
     title: 'curate',
-    analyticsEvent: 'AdminUserCurate'
+    analyticsEvent: 'AdminUserCurate',
   }, {
     href: `https://${baseUrl}/manage/${identifier}#modify_xml`,
     title: 'modify xml',
-    analyticsEvent: 'AdminUserModifyXML'
+    analyticsEvent: 'AdminUserModifyXML',
+  }, {
+    href: `https://${baseUrl}/services/flags/admin.php?identifier=${identifier}`,
+    title: 'manage flags',
+    analyticsEvent: 'AdminUserManageFlags',
   }];
 
   const biblioLinks = [{
     href: `${biblio}&ignored=${identifier}`,
     title: 'biblio',
-    analyticsEvent: 'AdminUserBiblio'
+    analyticsEvent: 'AdminUserBiblio',
   }, {
     href: `https://${baseUrl}/bookview.php?mode=debug&identifier=${identifier}`,
     title: 'bookview',
-    analyticsEvent: 'AdminUserBookView'
+    analyticsEvent: 'AdminUserBookView',
   }, {
     href: `https://${baseUrl}/download/${identifier}/format=Single Page Processed JP2 ZIP`,
     title: 'jp2 zip',
-    analyticsEvent: 'AdminUserJP2Zip'
+    analyticsEvent: 'AdminUserJP2Zip',
   }];
 
   const uploaderLinks = [{
@@ -417,11 +421,11 @@ const user = ({
   }, {
     href: `https://${baseUrl}/admins/useradmin.php?searchUser=${uploader}&ignore=${identifier}`,
     title: 'user admin',
-    analyticsEvent: 'AdminUserUserAdmin'
+    analyticsEvent: 'AdminUserUserAdmin',
   }, {
     href: `https://${baseUrl}/admins/setadmin.php?user=${uploader}&ignore=${identifier}`,
     title: 'user privs',
-    analyticsEvent: 'AdminUserUserPrivs'
+    analyticsEvent: 'AdminUserUserPrivs',
   }];
 
   const allLinks = [generalLinks];
