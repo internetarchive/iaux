@@ -425,7 +425,7 @@ const user = ({
   }];
 
   const allLinks = [generalLinks];
-  if (isAdmin) {
+  if (isAdmin && identifier) {
     allLinks.push(adminLinks);
 
     if (biblio) {
