@@ -5,6 +5,7 @@ export default css`
     --white: #fff;
     --grey13: #222;
     --grey20: #333;
+    --grey40: #666;
     --grey28: #474747;
     --grey60: #999;
     --grey66: #aaa;
@@ -38,6 +39,8 @@ export default css`
     --desktopSubnavBg: var(--grey20);
 
     --dropdownMenuBg: var(--grey20);
+    --dropdownMenuDividerMobile: var(--white);
+    --dropdownMenuDividerDesktop: var(--grey40);
 
     --loginTextColor: var(--grey60);
 

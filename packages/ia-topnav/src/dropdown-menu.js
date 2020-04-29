@@ -25,7 +25,21 @@ class DropdownMenu extends TrackedElement {
   }
 
   get dropdownItems() {
-    return this.menuItems.map(link => (
+    if (!Array.isArray(this.menuItems[0])) {
+      return this.dropdownSection(this.menuItems);
+    }
+    return this.menuItems.map((submenu, i) => {
+      const joiner = i ? DropdownMenu.dropdownDivider : html``;
+      return [joiner, ...this.dropdownSection(submenu)];
+    });
+  }
+
+  static get dropdownDivider() {
+    return html`<li role="presentation" class="divider"></li>`;
+  }
+
+  dropdownSection(submenu) {
+    return submenu.map(link => (
       html`
         <li><a href="${link.href}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a></li>
       `

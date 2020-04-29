@@ -359,10 +359,6 @@ const user = ({
   const catUrl = `catalogd.${baseUrl}`;
 
   const adminLinks = [{
-    href: '',
-    title: '---------',
-    analyticsEvent: ''
-  }, {
     href: `https://${baseUrl}/editxml/${identifier}`,
     title: 'edit xml',
     analyticsEvent: 'AdminUserEditXML'
@@ -412,10 +408,6 @@ const user = ({
 
   const uploaderLinks = [{
     href: '',
-    title: '---------',
-    analyticsEvent: ''
-  }, {
-    href: '',
     title: `uploader: ${uploader}`,
     analyticsEvent: '',
   }, {
@@ -428,16 +420,16 @@ const user = ({
     analyticsEvent: 'AdminUserUserPrivs'
   }];
 
-  let allLinks = generalLinks;
+  const allLinks = [generalLinks];
   if (isAdmin) {
-    allLinks = allLinks.concat(adminLinks);
+    allLinks.push(adminLinks);
 
     if (biblio) {
-      allLinks = allLinks.concat(biblioLinks);
+      allLinks[1] = [...allLinks[1], ...biblioLinks];
     }
 
     if (uploader) {
-      allLinks = allLinks.concat(uploaderLinks);
+      allLinks.push(uploaderLinks);
     }
   }
 

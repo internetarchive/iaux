@@ -4,6 +4,7 @@ export default css`
   :host {
     --topOffset: -1000px;
   }
+
   nav {
     position: absolute;
     top: var(--topOffset);
@@ -16,18 +17,23 @@ export default css`
     transition-duration: 0.2s;
     transition-timing-function: ease;
   }
+
   .initial,
   .closed {
     top: var(--topOffset);
   }
+
   .closed {
     transition-duration: 0.5s;
   }
+
   .open {
     top: 4rem;
     max-height: 100vh;
     max-width: 100vw;
+    overflow: auto;
   }
+
   h3 {
     padding: 0.6rem 2rem;
     margin: 0;
@@ -35,21 +41,30 @@ export default css`
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
   ul {
     padding: 0.4rem 0 0.7rem 0;
     margin: 0;
     list-style: none;
   }
+
+  .divider {
+    margin: .5rem 0;
+    border-bottom: 1px solid var(--dropdownMenuDividerMobile);
+  }
+
   a {
     display: block;
     color: var(--primaryTextColor);
     text-decoration: none;
     padding: 1rem 2rem;
   }
+
   @media (min-width: 890px) {
     nav {
       overflow: visible;
       top: calc(100% + 7px);
+      left: auto;
       z-index: 5;
       transition: opacity .2s ease-in-out;
       font-size: 1.4rem;
@@ -76,6 +91,10 @@ export default css`
       display: none;
     }
 
+    .divider {
+      border-bottom-color: var(--dropdownMenuDividerDesktop);
+    }
+
     a {
       padding: .5rem 2rem;
       color: var(--inverseTextColor);
@@ -91,7 +110,7 @@ export default css`
 
     .initial,
     .closed {
-      top: -100vh;
+      left: 100%;
       opacity: 0;
       transition-duration: .2s;
     }
