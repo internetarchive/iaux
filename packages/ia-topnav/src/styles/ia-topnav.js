@@ -40,8 +40,7 @@ export default css`
 
     --dropdownMenuBg: var(--grey20);
     --dropdownMenuInfoItem: var(--grey60);
-    --dropdownMenuDividerMobile: var(--white);
-    --dropdownMenuDividerDesktop: var(--grey40);
+    --dropdownMenuDivider: var(--grey40);
 
     --loginTextColor: var(--grey60);
 

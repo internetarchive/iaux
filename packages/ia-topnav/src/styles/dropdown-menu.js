@@ -29,7 +29,6 @@ export default css`
 
   .open {
     top: 4rem;
-    max-height: 100vh;
     max-width: 100vw;
     overflow: auto;
   }
@@ -50,7 +49,7 @@ export default css`
 
   .divider {
     margin: .5rem 0;
-    border-bottom: 1px solid var(--dropdownMenuDividerMobile);
+    border-bottom: 1px solid var(--dropdownMenuDivider);
   }
 
   a,
@@ -98,7 +97,7 @@ export default css`
     }
 
     .divider {
-      border-bottom-color: var(--dropdownMenuDividerDesktop);
+      border-bottom-color: var(--dropdownMenuDivider);
     }
 
     a {
