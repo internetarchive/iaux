@@ -119,6 +119,31 @@ export default class IATopNav extends LitElement {
     return userMenu(this.config);
   }
 
+  get userMenu() {
+    return html`
+      <user-menu
+        .config=${this.config}
+        .menuItems=${this.userMenuItems}
+        .open=${this.openMenu === 'user'}
+        .username=${this.config.username}
+        tabindex="${this.userMenuTabIndex}"
+        @menuToggled=${this.menuToggled}
+        @trackClick=${this.trackClick}
+      ></user-menu>
+    `;
+  }
+
+  get signedOutDropdown() {
+    return html`
+      <signed-out-dropdown
+        .config=${this.config}
+        .open=${this.signedOutOpened}
+        tabindex="${this.signedOutTabIndex}"
+        .menuItems=${signedOut(this.config.baseUrl)}
+      ></signed-out-dropdown>
+    `;
+  }
+
   render() {
     return html`
       <div class='topnav'>
@@ -138,31 +163,17 @@ export default class IATopNav extends LitElement {
           .selectedMenuOption=${this.selectedMenuOption}
           .mediaSliderOpen=${this.mediaSliderOpen}
         ></media-slider>
-        <search-menu
-          .config=${this.config}
-          .openMenu=${this.openMenu}
-          tabindex="${this.searchMenuTabIndex}"
-          @searchInChanged=${this.searchInChanged}
-          @trackClick=${this.trackClick}
-          @trackSubmit=${this.trackSubmit}
-        ></search-menu>
       </div>
       <desktop-subnav .baseUrl=${this.config.baseUrl}></desktop-subnav>
-      <user-menu
+      <search-menu
         .config=${this.config}
-        .menuItems=${this.userMenuItems}
-        .open=${this.openMenu === 'user'}
-        .username=${this.config.username}
-        tabindex="${this.userMenuTabIndex}"
-        @menuToggled=${this.menuToggled}
+        .openMenu=${this.openMenu}
+        tabindex="${this.searchMenuTabIndex}"
+        @searchInChanged=${this.searchInChanged}
         @trackClick=${this.trackClick}
-      ></user-menu>
-      <signed-out-dropdown
-        .config=${this.config}
-        .open=${this.signedOutOpened}
-        tabindex="${this.signedOutTabIndex}"
-        .menuItems=${signedOut(this.config.baseUrl)}
-      ></signed-out-dropdown>
+        @trackSubmit=${this.trackSubmit}
+      ></search-menu>
+      ${this.config.username ? this.userMenu : this.signedOutDropdown}
       <div id="close-layer" class="${this.closeLayerClass}" @click=${this.closeMenus}></div>
     `;
   }

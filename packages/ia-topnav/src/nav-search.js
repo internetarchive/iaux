@@ -12,6 +12,7 @@ class NavSearch extends TrackedElement {
     return {
       config: { type: Object },
       open: { type: Boolean },
+      openMenu: { type: String },
       searchIn: { type: String },
     };
   }
@@ -20,6 +21,7 @@ class NavSearch extends TrackedElement {
     super();
     this.config = {};
     this.open = false;
+    this.openMenu = '';
     this.searchIn = '';
   }
 
@@ -42,6 +44,19 @@ class NavSearch extends TrackedElement {
     return true;
   }
 
+  toggleSearchMenu() {
+    if (this.openMenu === 'search') {
+      return;
+    }
+    this.dispatchEvent(new CustomEvent('menuToggled', {
+      detail: {
+        menuName: 'search'
+      },
+      composed: true,
+      bubbles: true,
+    }));
+  }
+
   render() {
     const searchMenuClass = this.open ? 'flex' : 'search-inactive';
 
@@ -52,6 +67,8 @@ class NavSearch extends TrackedElement {
           name="query"
           class="search-field"
           placeholder="Search"
+          autocomplete="off"
+          @focus=${this.toggleSearchMenu}
         />
         <input type='hidden' name='sin' value='${this.searchIn}' />
         <button type="submit" class="search" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">

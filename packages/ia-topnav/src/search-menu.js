@@ -54,17 +54,24 @@ class SearchMenu extends TrackedElement {
         value: 'TV',
       },
       {
+        label: 'radio transcripts',
+        value: 'RADIO'
+      },
+      {
         label: 'archived websites',
         value: 'WEB',
       },
-    ].map(({ value, label, isDefault }) => (
-      html`
+    ].map(({ value, label, isDefault }) => {
+      if (this.config.hiddenSearchOptions?.includes(value)) {
+        return html``;
+      }
+      return html`
         <label @click="${this.selectSearchType}">
           <input form="nav-search" type="radio" name="sin" value="${value}" ?checked=${isDefault} @change=${this.searchInChanged} />
           Search ${label}
         </label>
-      `
-    ));
+      `;
+    });
 
     return searchTypes;
   }

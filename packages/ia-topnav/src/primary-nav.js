@@ -96,6 +96,7 @@ class PrimaryNav extends TrackedElement {
         <nav-search
           .config=${this.config}
           .open=${this.searchMenuOpen}
+          .openMenu=${this.openMenu}
           .searchIn=${this.searchIn}
         ></nav-search>
         <a href="https://${this.config.baseUrl}/upload/" class="upload">${icons.upload}Upload</a>

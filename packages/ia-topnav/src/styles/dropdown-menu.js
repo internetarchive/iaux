@@ -2,7 +2,7 @@ import { css } from 'lit-element';
 
 export default css`
   :host {
-    --topOffset: -1000px;
+    --topOffset: -1500px;
   }
 
   nav {

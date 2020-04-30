@@ -161,6 +161,9 @@ describe('<ia-topnav>', () => {
   it('toggles user menu tabindex when dropdown open', async () => {
     const el = await fixture(container);
 
+    el.config = {
+      username: 'shaneriley',
+    };
     el.openMenu = 'user';
     await el.updateComplete;
 
