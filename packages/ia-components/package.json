@@ -1,12 +1,12 @@
 {
     "name": "@internetarchive/ia-components",
-    "version": "0.0.0",
+    "version": "0.0.1-alpha.68+0e6a7dc",
     "source": true,
     "license": "AGPL-3.0-only",
     "scripts": {
         "postversion": "node scripts/postversion.js",
-        "storybook": "yarn run test:generate-output && yarn run storybook:start",
-        "storybook:start": "start-storybook -p 9001 -c .storybook",
+        "storybook": "node bin/copy_bookreader.js && yarn run test:generate-output && yarn run storybook:start",
+        "storybook:start": "start-storybook -p 9001 -c .storybook -s ./public",
         "test:generate-output": "mkdir jest-test-utils && jest --json --outputFile=jest-test-utils/jest-test-results.json || true",
         "test:update-snapshots": "jest --updateSnapshot",
         "test": "start-server-and-test storybook http-get://localhost:9001 'jest --updateSnapshot --coverage'",
@@ -27,6 +27,7 @@
         "@storybook/react": "^4.1.4",
         "axios": "^0.19.0",
         "babel-loader": "^8.0.5",
+        "bookreader": "git://github.com/internetarchive/bookreader.git#^4.8.0",
         "chromedriver": "^78.0.0",
         "css-loader": "^2.1.0",
         "http-proxy-middleware": "^1.0.3",
@@ -49,7 +50,7 @@
         "react-dom": "^16.7.0"
     },
     "peerDependencies": {
-        "bookreader": "git://github.com/internetarchive/bookreader.git#^4.2.2"
+        "bookreader": "git://github.com/internetarchive/bookreader.git#^4.8.0"
     },
     "optionalDependencies": {
         "fsevents": "^1.2.4"
