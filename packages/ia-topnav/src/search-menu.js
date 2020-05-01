@@ -62,7 +62,7 @@ class SearchMenu extends TrackedElement {
         value: 'WEB',
       },
     ].map(({ value, label, isDefault }) => {
-      if (this.config.hiddenSearchOptions?.includes(value)) {
+      if (this.config.hiddenSearchOptions && this.config.hiddenSearchOptions.includes(value)) {
         return html``;
       }
       return html`
