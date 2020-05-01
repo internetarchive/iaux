@@ -316,7 +316,7 @@ const images = baseUrl => ({
 const user = ({
   baseUrl,
   catUrl,
-  account,
+  username,
   isAdmin,
   identifier,
   uploader,
@@ -327,19 +327,19 @@ const user = ({
     title: 'Upload',
     analyticsEvent: 'UserUpload',
   }, {
-    href: `https://${baseUrl}/details/@${account}`,
+    href: `https://${baseUrl}/details/@${username}`,
     title: 'My library',
     analyticsEvent: 'UserLibrary',
   }, {
-    href: `https://${baseUrl}/details/@${account}?tab=loans`,
+    href: `https://${baseUrl}/details/@${username}?tab=loans`,
     title: 'My loans',
     analyticsEvent: 'UserLoans',
   }, {
-    href: `https://${baseUrl}/details/fav-${account}`,
+    href: `https://${baseUrl}/details/fav-${username}`,
     title: 'My favorites',
     analyticsEvent: 'UserFavorites',
   }, {
-    href: `https://${baseUrl}/details/@${account}/web-archive`,
+    href: `https://${baseUrl}/details/@${username}/web-archive`,
     title: 'My web archive',
     analyticsEvent: 'UserWebArchive',
   }, {
