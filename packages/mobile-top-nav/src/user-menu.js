@@ -5,7 +5,7 @@ class UserMenu extends TrackedElement {
   static get styles() {
     return css`
       :host {
-        --topOffset: -70vh;
+        --topOffset: -1300px;
       }
       nav {
         position: absolute;
