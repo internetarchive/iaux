@@ -1,6 +1,10 @@
 import { css } from 'lit-element';
 
 export default css`
+  :host {
+    --topOffset: -800px;
+  }
+
   button:focus,
   input:focus {
     outline-color: var(--linkColor);
@@ -9,7 +13,7 @@ export default css`
   }
   .search-menu {
     position: absolute;
-    top: -50vh;
+    top: var(--topOffset);
     right: 0;
     left: 0;
     z-index: 1;
@@ -25,7 +29,7 @@ export default css`
   }
   .initial,
   .closed {
-    top: -50vh;
+    top: var(--topOffset);
   }
   .closed {
     transition-duration: 0.2s;

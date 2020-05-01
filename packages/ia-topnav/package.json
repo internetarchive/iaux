@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-topnav",
-  "version": "0.1.1-alpha.578+6a908d1",
+  "version": "0.1.1-alpha.579+a6a062e",
   "description": "Top nav for Internet Archive",
   "license": "AGPL-3.0-only",
   "main": "index.js",
