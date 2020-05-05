@@ -52,7 +52,7 @@ export default css`
   @media (min-width: 890px) {
     .search-menu {
       overflow: visible;
-      top: calc(100% + 7px);
+      top: -400px;
       right: 2rem;
       left: auto;
       z-index: 5;
@@ -81,7 +81,6 @@ export default css`
 
     .initial,
     .closed {
-      left: 100%;
       opacity: 0;
       transition-duration: .2s;
     }
