@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://js.braintreegateway.com/web/3.62.0/js/client.min.js"></script>
+</head>
+<body>
+  <div id="demo">
+  </div>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import '../lib/donation-form.js';
+
+    render(
+      html`
+        <donation-form>
+        </donation-form>
+      `,
+      document.querySelector('#demo')
+    );
+  </script>
+</body>
+</html>
