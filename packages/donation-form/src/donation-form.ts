@@ -12,7 +12,7 @@ import './form-section';
 import './donation-form-header/donation-form-header';
 import './contact-form';
 import './payment-selector';
-import { BraintreeManagerInterface } from './braintree-manager';
+import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
 
 @customElement('donation-form')
 export class DonationForm extends LitElement {

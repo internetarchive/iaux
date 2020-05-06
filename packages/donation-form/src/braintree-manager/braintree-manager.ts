@@ -1,9 +1,16 @@
+import { BraintreePaymentProvider } from "./payment-providers/credit-card";
+
 export interface BraintreeManagerInterface {
+  braintree: any;
+  creditCardHandler: BraintreePaymentProvider.CreditCardHandlerInterface;
   getBraintreeClient(): Promise<any | undefined>;
-  setupHostedFields(): Promise<any | undefined>;
 }
 
 export class BraintreeManager implements BraintreeManagerInterface {
+  get braintree(): any {
+    return this._braintree;
+  }
+
   async getBraintreeClient(): Promise<any | undefined> {
     if (this.braintreeClient) {
       return this.braintreeClient;
@@ -22,30 +29,21 @@ export class BraintreeManager implements BraintreeManagerInterface {
     });
   }
 
-  async setupHostedFields(): Promise<any | undefined> {
-    if (this.hostedFields) {
-      return this.hostedFields;
+  get creditCardHandler(): BraintreePaymentProvider.CreditCardHandlerInterface {
+    if (this.creditCardHandlerCache) {
+      return this.creditCardHandlerCache;
     }
 
-    const braintreeClient = await this.getBraintreeClient();
+    this.creditCardHandlerCache = new BraintreePaymentProvider.CreditCardHandler(
+      this,
+      this.hostedFieldStyle,
+      this.hostedFieldConfig
+    );
 
-    return new Promise((resolve, reject) => {
-      this.braintree.hostedFields.create({
-        client: braintreeClient,
-        styles: this.hostedFieldStyle,
-        fields: this.hostedFieldConfig
-      }, (hostedFieldsErr: any, hostedFieldsInstance: any) => {
-        if (hostedFieldsErr) {
-          return reject(hostedFieldsErr);
-        }
-
-        this.hostedFields = hostedFieldsInstance;
-        resolve(hostedFieldsInstance);
-      });
-    });
+    return this.creditCardHandlerCache;
   }
 
-  private braintree: any;
+  private _braintree: any;
 
   private authorizationToken: string;
 
@@ -55,7 +53,7 @@ export class BraintreeManager implements BraintreeManagerInterface {
 
   private braintreeClient: any | undefined;
 
-  private hostedFields: any | undefined;
+  private creditCardHandlerCache: BraintreePaymentProvider.CreditCardHandlerInterface | undefined;
 
   constructor(
     braintree: any = window.braintree,
@@ -64,7 +62,7 @@ export class BraintreeManager implements BraintreeManagerInterface {
     hostedFieldConfig: object
   ) {
     this.authorizationToken = authorizationToken;
-    this.braintree = braintree;
+    this._braintree = braintree;
     this.hostedFieldStyle = hostedFieldStyle;
     this.hostedFieldConfig = hostedFieldConfig;
   }

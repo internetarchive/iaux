@@ -5,7 +5,6 @@ import {
   customElement,
   CSSResult,
   TemplateResult,
-  property,
 } from 'lit-element';
 
 @customElement('contact-form')

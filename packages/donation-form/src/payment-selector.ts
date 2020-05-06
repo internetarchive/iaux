@@ -9,7 +9,8 @@ import {
   PropertyValues,
   query,
 } from 'lit-element';
-import { BraintreeManagerInterface } from './braintree-manager';
+import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
+import { BraintreePaymentProvider } from './braintree-manager/payment-providers/credit-card';
 
 @customElement('payment-selector')
 export class PaymentSelector extends LitElement {
@@ -31,7 +32,7 @@ export class PaymentSelector extends LitElement {
 
   updated(changedProperties: PropertyValues): void {
     if (changedProperties.has('braintreeManager')) {
-      this.braintreeManager?.setupHostedFields();
+      this.braintreeManager?.creditCardHandler.setupHostedFields();
     }
   }
 
