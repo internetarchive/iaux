@@ -8,10 +8,10 @@ import {
   property,
 } from 'lit-element';
 
-import { DonationFrequency } from './models/donation-frequency';
+import { DonationFrequency } from '../models/donation-frequency';
 
 @customElement('donation-summary')
-export class DonationForm extends LitElement {
+export class DonationSummary extends LitElement {
   @property({ type: Number }) amount = 50;
 
   @property({ type: String }) frequency: DonationFrequency = DonationFrequency.OneTime;
@@ -30,7 +30,6 @@ export class DonationForm extends LitElement {
   }
 
   private editClicked() {
-    console.log('editClicked');
     this.dispatchEvent(new Event('editClicked'));
   }
 

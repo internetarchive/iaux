@@ -12,7 +12,7 @@ import {
 export class FormSection extends LitElement {
   @property({ type: Number }) number = 0;
 
-  @property({ type: String }) title = 'Headline';
+  @property({ type: String }) headline: string | undefined;
 
   /** @inheritdoc */
   render(): TemplateResult {
@@ -22,7 +22,7 @@ export class FormSection extends LitElement {
           <div class="number">${this.number}</div>
         </div>
         <div class="col right">
-          <div class="title">${this.title}</div>
+          <div class="title">${this.headline}</div>
           <div class="content">
             <slot></slot>
           </div>
@@ -64,9 +64,5 @@ export class FormSection extends LitElement {
         line-height: calc(${numberSize} * 2);
       }
     `;
-  }
-
-  firstUpdated(): void {
-    console.log('braintree', window.braintree);
   }
 }
