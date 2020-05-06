@@ -8,10 +8,29 @@ export interface BraintreeManagerInterface {
   submitDataToEndpoint(data: object): Promise<DonationResponse>;
 }
 
+export interface BraintreeEndpointManagerInterface {
+  /**
+   * Responsible for submitting a data object to the backend
+   * and returning a Promise of the JSON object response.
+   *
+   * @param {object} data
+   * @returns {Promise<object>}
+   * @memberof BraintreeEndpointManagerInterface
+   */
+  submitData(data: object): Promise<object>;
+}
+
 export class BraintreeManager implements BraintreeManagerInterface {
-  get braintree(): any {
-    return this._braintree;
-  }
+  /**
+   * This is the Braintree library from Braintree.
+   *
+   * By making it a property in this class instead of accessing window.braintree directly,
+   * we can inject mock braintree objects for testing.
+   *
+   * @type {*}
+   * @memberof BraintreeManager
+   */
+  readonly braintree: any;
 
   async getBraintreeClient(): Promise<any | undefined> {
     if (this.braintreeClient) {
@@ -32,16 +51,12 @@ export class BraintreeManager implements BraintreeManagerInterface {
   }
 
   async submitDataToEndpoint(data: object): Promise<DonationResponse> {
-    console.log('data', data);
+    console.debug('submitDataToEndpoint', data);
 
-    const rawResponse = await fetch(this.endpoint, {
-      method: 'post',
-      body: JSON.stringify(data)
-    });
+    const jsonResponse = await this.endpointManager.submitData(data);
 
-    console.log('rawResponse', rawResponse, data);
+    console.debug('submitDataToEndpoint, response', jsonResponse);
 
-    const jsonResponse = await rawResponse.json();
     const modeledResponse = new DonationResponse(jsonResponse);
 
     return modeledResponse;
@@ -61,11 +76,9 @@ export class BraintreeManager implements BraintreeManagerInterface {
     return this.creditCardHandlerCache;
   }
 
-  private _braintree: any;
-
-  private endpoint: string = 'https://archive.org/services/donations/braintree-charge.php'
-
   private authorizationToken: string;
+
+  private endpointManager: BraintreeEndpointManagerInterface;
 
   private hostedFieldStyle: object;
 
@@ -77,12 +90,14 @@ export class BraintreeManager implements BraintreeManagerInterface {
 
   constructor(
     braintree: any = window.braintree,
+    endpointManager: BraintreeEndpointManagerInterface,
     authorizationToken: string,
     hostedFieldStyle: object,
     hostedFieldConfig: object
   ) {
     this.authorizationToken = authorizationToken;
-    this._braintree = braintree;
+    this.braintree = braintree;
+    this.endpointManager = endpointManager;
     this.hostedFieldStyle = hostedFieldStyle;
     this.hostedFieldConfig = hostedFieldConfig;
   }

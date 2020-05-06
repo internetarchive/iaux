@@ -18,8 +18,10 @@
 
   <script type="module">
     import { html, render } from 'lit-html';
-    import '../lib/donation-form.js';
+    import { BraintreeEndpointManager } from './braintree-endpoint-manager.js';
+
     import { BraintreeManager } from '../lib/braintree-manager/braintree-manager.js';
+    import '../lib/donation-form.js';
 
     const hostedFieldStyle = {
       input: {
@@ -53,16 +55,20 @@
       }
     }
 
+    const endpointManager = new BraintreeEndpointManager();
+
     const braintreeManager = new BraintreeManager(
       window.braintree,
-      '',
+      endpointManager,
+      '', // DON'T COMMIT
       hostedFieldStyle,
       hostedFieldConfig
     );
 
     render(
       html`
-        <donation-form .braintreeManager=${braintreeManager}>
+        <donation-form
+          .braintreeManager=${braintreeManager}>
 
           <!--
             Why are these hosted fields here?
