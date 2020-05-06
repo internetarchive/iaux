@@ -38,9 +38,13 @@ export class DonationForm extends LitElement {
       </form-section>
 
       <form-section number=5>
-        <button>Donate</button>
+        <button @click=${this.donateClicked}>Donate</button>
       </form-section>
     `;
+  }
+
+  private donateClicked() {
+    this.braintreeManager?.submitDataToEndpoint({ foo: 'bar' });
   }
 
   /** @inheritdoc */

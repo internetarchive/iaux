@@ -1,9 +1,11 @@
 import { BraintreePaymentProvider } from "./payment-providers/credit-card";
+import { DonationResponse } from "../models/response_models/donation_response";
 
 export interface BraintreeManagerInterface {
   braintree: any;
   creditCardHandler: BraintreePaymentProvider.CreditCardHandlerInterface;
   getBraintreeClient(): Promise<any | undefined>;
+  submitDataToEndpoint(data: object): Promise<DonationResponse>;
 }
 
 export class BraintreeManager implements BraintreeManagerInterface {
@@ -29,6 +31,22 @@ export class BraintreeManager implements BraintreeManagerInterface {
     });
   }
 
+  async submitDataToEndpoint(data: object): Promise<DonationResponse> {
+    console.log('data', data);
+
+    const rawResponse = await fetch(this.endpoint, {
+      method: 'post',
+      body: JSON.stringify(data)
+    });
+
+    console.log('rawResponse', rawResponse, data);
+
+    const jsonResponse = await rawResponse.json();
+    const modeledResponse = new DonationResponse(jsonResponse);
+
+    return modeledResponse;
+  }
+
   get creditCardHandler(): BraintreePaymentProvider.CreditCardHandlerInterface {
     if (this.creditCardHandlerCache) {
       return this.creditCardHandlerCache;
@@ -44,6 +62,8 @@ export class BraintreeManager implements BraintreeManagerInterface {
   }
 
   private _braintree: any;
+
+  private endpoint: string = 'https://archive.org/services/donations/braintree-charge.php'
 
   private authorizationToken: string;
 
