@@ -59,7 +59,7 @@ export class BraintreeManager implements BraintreeManagerInterface {
 
   constructor(
     braintree: any = window.braintree,
-    authorizationToken: string = 'sandbox_x634jsj7_7zybks4ybp63pbmd',
+    authorizationToken: string,
     hostedFieldStyle: object,
     hostedFieldConfig: object
   ) {
