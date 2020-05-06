@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://js.braintreegateway.com/web/3.62.0/js/client.js"></script>
   <script src="https://js.braintreegateway.com/web/3.62.0/js/hosted-fields.js"></script>
+
+  <style>
+    div[slot='braintree-hosted-fields'] div {
+      height: 30px;
+    }
+  </style>
 </head>
 <body>
   <div id="demo">
@@ -13,15 +19,145 @@
   <script type="module">
     import { html, render } from 'lit-html';
     import '../lib/donation-form.js';
+    import { BraintreeManager } from '../lib/braintree-manager.js';
+
+    const hostedFieldStyle = {
+      input: {
+        'font-size': '14px',
+        'font-family': '"Helvetica Neue", Helvetica, Arial, sans-serif',
+        'font-weight': '700',
+        color: '#333',
+      },
+      ':focus': {
+        color: '#333',
+      },
+      '.valid': {
+      },
+      '.invalid': {
+        color: '#b00b00',
+      }
+    }
+
+    const hostedFieldConfig = {
+      number: {
+        selector: '#braintree-creditcard',
+        placeholder: 'Card number'
+      },
+      cvv: {
+        selector: '#braintree-cvv',
+        placeholder: 'CVC'
+      },
+      expirationDate: {
+        selector: '#braintree-expiration',
+        placeholder: 'MM / YY'
+      }
+    }
+
+    const braintreeManager = new BraintreeManager(
+      window.braintree,
+      'sandbox_x634jsj7_7zybks4ybp63pbmd',
+      hostedFieldStyle,
+      hostedFieldConfig
+    );
 
     render(
       html`
-        <donation-form
-          .braintree=${window.braintree}>
+        <donation-form .braintreeManager=${braintreeManager}>
+
+          <!--
+            Why are these hosted fields here?
+
+            Due to the way Braintree works, the hosted fields cannot exist
+            in the shadowDOM so must exist in the clearDOM and get passed
+            in through a <slot>. Their IDs are tied to the hostedFieldConfig
+            configuration above.
+
+            Braintree is working on a solution to this. See:
+            - https://github.com/braintree/braintree-web-drop-in/issues/614#issuecomment-616796104
+            - https://github.com/braintree/braintree-web-drop-in/issues/296#issuecomment-616749307
+          -->
+          <div slot="braintree-hosted-fields">
+            <div id="braintree-creditcard"></div>
+            <div id="braintree-cvv"></div>
+            <div id="braintree-expiration"></div>
+          </div>
+
         </donation-form>
       `,
       document.querySelector('#demo')
     );
+  </script>
+
+  <script>
+    // window.braintree.client.create({
+    //   authorization: 'sandbox_x634jsj7_7zybks4ybp63pbmd',
+    //   debug: true
+    // }, (clientErr, clientInstance) => {
+    //   console.log('braintree client creation complete');
+    //   if (clientErr) {
+    //     console.error(clientErr);
+    //     return;
+    //   }
+
+    //   console.log(clientInstance);
+    //   // this.braintreeClient = clientInstance;
+
+    //   window.braintree.hostedFields.create({
+    //     client: clientInstance,
+    //     styles: {
+    //       'input': {
+    //         'font-size': '14px',
+    //         'background-color': 'purple'
+    //       },
+    //       'input.invalid': {
+    //         'color': 'red'
+    //       },
+    //       'input.valid': {
+    //         'color': 'green'
+    //       }
+    //     },
+    //     fields: {
+    //       number: {
+    //         selector: '#cc-div',
+    //         placeholder: '4111 1111 1111 1111'
+    //       },
+    //       cvv: {
+    //         selector: '#cvc-div',
+    //         placeholder: '123'
+    //       },
+    //       expirationDate: {
+    //         selector: '#exp-div',
+    //         placeholder: '10/2022'
+    //       }
+    //     }
+    //   }, (hostedFieldsErr, hostedFieldsInstance) => {
+    //     if (hostedFieldsErr) {
+    //       console.error(hostedFieldsErr);
+    //       return;
+    //     }
+
+    //     console.log('hostedFieldsInstance', hostedFieldsInstance);
+
+    //     // submit.removeAttribute('disabled');
+
+    //     // form.addEventListener('submit', function (event) {
+    //     //   event.preventDefault();
+
+    //     //   hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
+    //     //     if (tokenizeErr) {
+    //     //       console.error(tokenizeErr);
+    //     //       return;
+    //     //     }
+
+    //     //     // If this was a real integration, this is where you would
+    //     //     // send the nonce to your server.
+    //     //     console.log('Got a nonce: ' + payload.nonce);
+    //     //   });
+    //     // }, false);
+    //   });
+
+    // });
+
   </script>
 </body>
 </html>
