@@ -84,6 +84,10 @@ class SearchMenu extends TrackedElement {
     const searchMenuHidden = Boolean(!this.searchMenuOpen).toString();
     const searchMenuExpanded = Boolean(this.searchMenuOpen).toString();
 
+    if (this.config.hideSearch) {
+      return html``;
+    }
+
     return html`
       <div
         class="search-menu tx-slide ${this.menuClass}"

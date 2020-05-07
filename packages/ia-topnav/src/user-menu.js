@@ -20,6 +20,12 @@ class UserMenu extends DropdownMenu {
     this.username = '';
   }
 
+  get menuClass() {
+    let menuClass = super.menuClass;
+    menuClass += this.config.hideSearch ? ' search-hidden' : '';
+    return menuClass;
+  }
+
   render() {
     return html`
       <nav

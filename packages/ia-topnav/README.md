@@ -91,6 +91,7 @@ Config object:
   uploader: "bar-uploader@baz.org", // Email address of item uploader
   biblio: "https://some-url.com", // Base URL for Biblio link
   hiddenSearchOptions: [], // Array of strings representing the values of options that should be hidden from search options
+  hideSearch: true, // Hides search functionality
 }
 ```
 

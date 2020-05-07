@@ -85,21 +85,30 @@ class PrimaryNav extends TrackedElement {
     return this.openMenu === 'search';
   }
 
+  get searchMenu() {
+    if (this.config.hideSearch) {
+      return html``;
+    }
+    return html`
+      <button class="search-trigger" @click="${this.toggleSearchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen">
+        ${icons.search}
+      </button>
+      <nav-search
+        .config=${this.config}
+        .open=${this.searchMenuOpen}
+        .openMenu=${this.openMenu}
+        .searchIn=${this.searchIn}
+      ></nav-search>
+    `;
+  }
+
   render() {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
       <nav>
-        <a class="link-home" href="https://${this.config.baseHost}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}${logoWordmark}</a>
-        <button class="search-trigger" @click="${this.toggleSearchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen">
-          ${icons.search}
-        </button>
-        <nav-search
-          .config=${this.config}
-          .open=${this.searchMenuOpen}
-          .openMenu=${this.openMenu}
-          .searchIn=${this.searchIn}
-        ></nav-search>
-        <a href="https://${this.config.baseHost}/upload/" class="upload">${icons.upload}Upload</a>
+        <a class="link-home" href="https://${this.config.baseUrl}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}${logoWordmark}</a>
+        ${this.searchMenu}
+        <a href="https://${this.config.baseUrl}/upload/" class="upload">${icons.upload}Upload</a>
         <div class="user-info">
           ${this.config.username ? this.userIcon : this.loginIcon}
         </div>
