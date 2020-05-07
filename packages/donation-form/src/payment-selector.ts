@@ -23,7 +23,7 @@ export class PaymentSelector extends LitElement {
     return html`
       <button @click=${this.startApplePay}>Apple Pay</button>
       <button>Google Pay</button>
-      <button>Venmo</button>
+      <button @click=${this.startVenmo}>Venmo</button>
       <button>PayPal</button>
       <button @click=${this.toggleCreditCard}>Credit Card</button>
       ${this.creditCardVisible ? html`<slot></slot>` : ''}
@@ -38,6 +38,10 @@ export class PaymentSelector extends LitElement {
 
   private startApplePay(): void {
     this.braintreeManager?.applePayHandler.createPaymentRequest();
+  }
+
+  private startVenmo(): void {
+    this.braintreeManager?.venmoHandler.startPayment();
   }
 
   private toggleCreditCard(): void {

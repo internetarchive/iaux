@@ -1,5 +1,3 @@
-/// <reference path="braintree-payment-provider.ts" />
-
 import { BraintreeManagerInterface } from "../braintree-manager";
 
 export interface CreditCardHandlerInterface {

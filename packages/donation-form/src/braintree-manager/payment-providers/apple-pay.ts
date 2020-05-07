@@ -1,5 +1,3 @@
-/// <reference path="braintree-payment-provider.ts" />
-
 import { BraintreeManagerInterface } from "../braintree-manager";
 
 export interface ApplePayHandlerInterface {
@@ -10,11 +8,15 @@ export interface ApplePayHandlerInterface {
 export class ApplePayHandler implements ApplePayHandlerInterface {
   constructor(
     braintreeManager: BraintreeManagerInterface,
+    applePaySession: any | undefined
   ) {
     this.braintreeManager = braintreeManager;
+    this.applePaySession = applePaySession;
   }
 
   private braintreeManager: BraintreeManagerInterface;
+
+  private applePaySession: any | undefined;
 
   private applePayInstance: any | undefined;
 
@@ -30,9 +32,14 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
       braintree.applePay.create({
         client: braintreeClient
       }, (error: any, instance: any) => {
+        console.log('instance', error, instance, instance.merchantIdentifier);
         if (error) {
           return reject(error);
         }
+
+        window.ApplePaySession.canMakePaymentsWithActiveCard(instance.merchantIdentifier).then(result => {
+          console.log('result', result);
+        });
 
         this.applePayInstance = instance;
         resolve(instance);
@@ -49,7 +56,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
         amount: '19.99'
       }
     });
-    var session = new ApplePaySession(3, paymentRequest);
+    var session = new window.ApplePaySession(3, paymentRequest);
 
     session.onvalidatemerchant = function (event) {
       applePayInstance.performValidation({

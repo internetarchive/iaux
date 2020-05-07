@@ -2,11 +2,13 @@ import { CreditCardHandler, CreditCardHandlerInterface } from "./payment-provide
 import { ApplePayHandler, ApplePayHandlerInterface } from "./payment-providers/apple-pay";
 import { DonationResponse } from "../models/response_models/donation_response";
 import { DonationRequest } from "../models/request_models/donation_request";
+import { VenmoHandlerInterface, VenmoHandler } from "./payment-providers/venmo";
 
 export interface BraintreeManagerInterface {
   braintree: any;
   creditCardHandler: CreditCardHandlerInterface;
   applePayHandler: ApplePayHandlerInterface;
+  venmoHandler: VenmoHandlerInterface;
   getBraintreeClient(): Promise<any | undefined>;
   submitDataToEndpoint(request: DonationRequest): Promise<DonationResponse>;
 }
@@ -78,9 +80,19 @@ export class BraintreeManager implements BraintreeManagerInterface {
       return this.applePayHandlerCache;
     }
 
-    this.applePayHandlerCache = new ApplePayHandler(this);
+    this.applePayHandlerCache = new ApplePayHandler(this, window.ApplePaySession);
 
     return this.applePayHandlerCache;
+  }
+
+  get venmoHandler(): VenmoHandlerInterface {
+    if (this.venmoHandlerCache) {
+      return this.venmoHandlerCache;
+    }
+
+    this.venmoHandlerCache = new VenmoHandler(this);
+
+    return this.venmoHandlerCache;
   }
 
   private authorizationToken: string;
@@ -96,6 +108,8 @@ export class BraintreeManager implements BraintreeManagerInterface {
   private creditCardHandlerCache: CreditCardHandlerInterface | undefined;
 
   private applePayHandlerCache: ApplePayHandlerInterface | undefined;
+
+  private venmoHandlerCache: VenmoHandlerInterface | undefined;
 
   constructor(
     braintree: any = window.braintree,

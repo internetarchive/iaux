@@ -16,7 +16,7 @@
   "scripts": {
     "prepare": "yarn run build",
     "build": "tsc -p tsconfig.build.json",
-    "start": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch --preserve-symlinks\"",
+    "start": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch --http2 --preserve-symlinks\"",
     "start:compatibility": "concurrently \"tsc --watch\" \"es-dev-server --app-index demo/index.html --node-resolve --open --watch --compatibility all --preserve-symlinks\"",
     "lint:eslint": "eslint --ext .ts . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .ts . --fix --ignore-path .gitignore",
