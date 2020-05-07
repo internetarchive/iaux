@@ -120,7 +120,6 @@ export default css`
 
     .initial,
     .closed {
-      left: 100%;
       opacity: 0;
       transition-duration: .2s;
     }
