@@ -1,11 +1,14 @@
-import { BraintreePaymentProvider } from "./payment-providers/credit-card";
+import { CreditCardHandler, CreditCardHandlerInterface } from "./payment-providers/credit-card";
+import { ApplePayHandler, ApplePayHandlerInterface } from "./payment-providers/apple-pay";
 import { DonationResponse } from "../models/response_models/donation_response";
+import { DonationRequest } from "../models/request_models/donation_request";
 
 export interface BraintreeManagerInterface {
   braintree: any;
-  creditCardHandler: BraintreePaymentProvider.CreditCardHandlerInterface;
+  creditCardHandler: CreditCardHandlerInterface;
+  applePayHandler: ApplePayHandlerInterface;
   getBraintreeClient(): Promise<any | undefined>;
-  submitDataToEndpoint(data: object): Promise<DonationResponse>;
+  submitDataToEndpoint(request: DonationRequest): Promise<DonationResponse>;
 }
 
 export interface BraintreeEndpointManagerInterface {
@@ -17,7 +20,7 @@ export interface BraintreeEndpointManagerInterface {
    * @returns {Promise<object>}
    * @memberof BraintreeEndpointManagerInterface
    */
-  submitData(data: object): Promise<object>;
+  submitData(request: DonationRequest): Promise<object>;
 }
 
 export class BraintreeManager implements BraintreeManagerInterface {
@@ -50,30 +53,34 @@ export class BraintreeManager implements BraintreeManagerInterface {
     });
   }
 
-  async submitDataToEndpoint(data: object): Promise<DonationResponse> {
-    console.debug('submitDataToEndpoint', data);
-
-    const jsonResponse = await this.endpointManager.submitData(data);
-
-    console.debug('submitDataToEndpoint, response', jsonResponse);
-
+  async submitDataToEndpoint(request: DonationRequest): Promise<DonationResponse> {
+    const jsonResponse = await this.endpointManager.submitData(request);
     const modeledResponse = new DonationResponse(jsonResponse);
-
     return modeledResponse;
   }
 
-  get creditCardHandler(): BraintreePaymentProvider.CreditCardHandlerInterface {
+  get creditCardHandler(): CreditCardHandlerInterface {
     if (this.creditCardHandlerCache) {
       return this.creditCardHandlerCache;
     }
 
-    this.creditCardHandlerCache = new BraintreePaymentProvider.CreditCardHandler(
+    this.creditCardHandlerCache = new CreditCardHandler(
       this,
       this.hostedFieldStyle,
       this.hostedFieldConfig
     );
 
     return this.creditCardHandlerCache;
+  }
+
+  get applePayHandler(): ApplePayHandlerInterface {
+    if (this.applePayHandlerCache) {
+      return this.applePayHandlerCache;
+    }
+
+    this.applePayHandlerCache = new ApplePayHandler(this);
+
+    return this.applePayHandlerCache;
   }
 
   private authorizationToken: string;
@@ -86,7 +93,9 @@ export class BraintreeManager implements BraintreeManagerInterface {
 
   private braintreeClient: any | undefined;
 
-  private creditCardHandlerCache: BraintreePaymentProvider.CreditCardHandlerInterface | undefined;
+  private creditCardHandlerCache: CreditCardHandlerInterface | undefined;
+
+  private applePayHandlerCache: ApplePayHandlerInterface | undefined;
 
   constructor(
     braintree: any = window.braintree,

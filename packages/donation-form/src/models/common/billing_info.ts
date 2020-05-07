@@ -1,4 +1,6 @@
-export class BillingResponse {
+export class BillingInfo {
+  firstName: string | undefined;
+  lastName: string | undefined;
   streetAddress: string;
   extendedAddress: string;
   locality: string;

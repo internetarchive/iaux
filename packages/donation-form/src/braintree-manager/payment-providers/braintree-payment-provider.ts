@@ -1,1 +1,1 @@
-namespace BraintreePaymentProvider {}
+export namespace BraintreePaymentProvider {}

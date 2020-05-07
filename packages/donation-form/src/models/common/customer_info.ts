@@ -1,4 +1,4 @@
-export class CustomerResponse {
+export class CustomerInfo {
   email: string;
   firstName: string;
   lastName: string;

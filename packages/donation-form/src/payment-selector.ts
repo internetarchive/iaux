@@ -9,8 +9,8 @@ import {
   PropertyValues,
   query,
 } from 'lit-element';
+
 import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
-import { BraintreePaymentProvider } from './braintree-manager/payment-providers/credit-card';
 
 @customElement('payment-selector')
 export class PaymentSelector extends LitElement {
@@ -21,7 +21,7 @@ export class PaymentSelector extends LitElement {
   /** @inheritdoc */
   render(): TemplateResult {
     return html`
-      <button>Apple Pay</button>
+      <button @click=${this.startApplePay}>Apple Pay</button>
       <button>Google Pay</button>
       <button>Venmo</button>
       <button>PayPal</button>
@@ -34,6 +34,10 @@ export class PaymentSelector extends LitElement {
     if (changedProperties.has('braintreeManager')) {
       this.braintreeManager?.creditCardHandler.setupHostedFields();
     }
+  }
+
+  private startApplePay(): void {
+    this.braintreeManager?.applePayHandler.createPaymentRequest();
   }
 
   private toggleCreditCard(): void {

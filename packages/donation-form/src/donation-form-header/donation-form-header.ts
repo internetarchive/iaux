@@ -31,11 +31,30 @@ export class DonationFormHeader extends LitElement {
   }
 
   get editDonationTemplate(): TemplateResult {
-    return html`<edit-donation></edit-donation>`;
+    return html`
+      <edit-donation
+        @donationAmountChanged=${this.amountChanged}
+        @donationFrequencyChanged=${this.frequencyChanged}>
+      </edit-donation>`;
   }
 
   get donationSummaryTemplate(): TemplateResult {
-    return html`<donation-summary @editClicked=${this.summaryEditClicked}></donation-summary>`;
+    return html`
+      <donation-summary
+        @editClicked=${this.summaryEditClicked}>
+      </donation-summary>`;
+  }
+
+  private frequencyChanged(e: CustomEvent) {
+    console.log('DonationFormHeader frequencyChanged', e.detail.frequency);
+    const event = new CustomEvent('donationFrequencyChanged', { detail: { frequency: e.detail.frequency }});
+    this.dispatchEvent(event);
+  }
+
+  private amountChanged(e: CustomEvent) {
+    console.log('DonationFormHeader amountChanged', e.detail.amount);
+    const event = new CustomEvent('donationAmountChanged', { detail: { amount: e.detail.amount }});
+    this.dispatchEvent(event);
   }
 
   private summaryEditClicked() {
