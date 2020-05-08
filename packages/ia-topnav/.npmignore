@@ -1,0 +1,15 @@
+/node_modules/
+
+## testing
+/coverage/
+
+## temp folders
+/.tmp/
+
+# build
+/_site/
+/lib/
+
+*.log
+component_diagram.md
+diagrams/

@@ -1,4 +1,6 @@
-const texts = baseUrl => ({
+import { prodUrl } from '../constants';
+
+const texts = (baseUrl = prodUrl) => ({
   heading: 'Books',
   iconLinks: [{
     title: 'National Emergency Library',
@@ -61,7 +63,7 @@ const texts = baseUrl => ({
   }],
 });
 
-const video = baseUrl => ({
+const video = (baseUrl = prodUrl) => ({
   heading: 'Video',
   iconLinks: [{
     icon: `https://${baseUrl}/services/img/tv`,
@@ -136,7 +138,7 @@ const video = baseUrl => ({
   }]
 });
 
-const audio = baseUrl => ({
+const audio = (baseUrl = prodUrl) => ({
   heading: 'Internet Archive Audio',
   iconLinks: [{
     icon: `https://${baseUrl}/services/img/etree`,
@@ -193,7 +195,7 @@ const audio = baseUrl => ({
   }],
 });
 
-const software = baseUrl => ({
+const software = (baseUrl = prodUrl) => ({
   heading: 'Software',
   iconLinks: [{
     icon: `https://${baseUrl}/services/img/internetarcade`,
@@ -271,7 +273,7 @@ const software = baseUrl => ({
   }],
 });
 
-const images = baseUrl => ({
+const images = (baseUrl = prodUrl) => ({
   heading: 'Images',
   iconLinks: [{
     icon: `https://${baseUrl}/services/img/metropolitanmuseumofart-gallery`,
@@ -314,7 +316,7 @@ const images = baseUrl => ({
 });
 
 const user = ({
-  baseUrl,
+  baseUrl = prodUrl,
   catUrl,
   username,
   isAdmin,
@@ -442,7 +444,7 @@ const user = ({
   return allLinks;
 };
 
-const signedOut = baseUrl => ([{
+const signedOut = (baseUrl = prodUrl) => ([{
   href: `https://${baseUrl}/account/signup`,
   title: 'Sign up for free',
   analyticsEvent: 'SignUpDropdown',
@@ -452,7 +454,7 @@ const signedOut = baseUrl => ([{
   analyticsEvent: 'LogInDropdown',
 }]);
 
-const more = baseUrl => ([
+const more = (baseUrl = prodUrl) => ([
   { label: 'About', url: `https://${baseUrl}/about/` },
   { label: 'Blog', url: 'https://blog.archive.org/' },
   { label: 'Projects', url: `https://${baseUrl}/projects/` },

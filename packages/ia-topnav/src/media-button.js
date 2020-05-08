@@ -3,6 +3,7 @@ import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import toSentenceCase from './lib/toSentenceCase';
 import mediaButtonCSS from './styles/media-button';
+import { prodUrl } from './constants';
 
 class MediaButton extends TrackedElement {
   static get styles() {
@@ -94,7 +95,7 @@ class MediaButton extends TrackedElement {
   render() {
     return html`
       <a
-        href="https://${this.config.baseUrl}${this.href}"
+        href="https://${this.config.baseUrl || prodUrl}${this.href}"
         class="menu-item ${this.mediatype} ${this.buttonClass}"
         @click=${this.followable ? this.trackClick : this.onClick}
         data-event-click-tracking="${this.analyticsEvent}"
