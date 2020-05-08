@@ -6,32 +6,44 @@ const component = html`<search-menu></search-menu>`;
 
 describe('<search-menu>', () => {
   it('sets default properties', async () => {
-    const searchMenu = await fixture(component);
+    const el = await fixture(component);
 
-    expect(searchMenu.searchMenuOpen).to.be.false;
-    expect(searchMenu.searchMenuAnimate).to.be.false;
-    expect(searchMenu.selectedSearchType).to.equal('');
+    expect(el.searchMenuOpen).to.be.false;
+    expect(el.searchMenuAnimate).to.be.false;
+    expect(el.selectedSearchType).to.equal('');
   });
 
   it('sets selected search type', async () => {
-    const searchMenu = await fixture(component);
+    const el = await fixture(component);
     const value = 'text';
 
-    searchMenu.selectSearchType({
+    el.selectSearchType({
       target: {
         value
       }
     });
 
-    expect(searchMenu.selectedSearchType).to.equal(value);
+    expect(el.selectedSearchType).to.equal(value);
   });
 
   it('renders with closed class if done animating', async () => {
-    const searchMenu = await fixture(component);
+    const el = await fixture(component);
 
-    searchMenu.searchMenuAnimate = true;
-    await searchMenu.updateComplete;
+    el.searchMenuAnimate = true;
+    await el.updateComplete;
 
-    expect(searchMenu.shadowRoot.querySelector('.search-menu').classList.contains('closed')).to.be.true;
+    expect(el.shadowRoot.querySelector('.search-menu').classList.contains('closed')).to.be.true;
+  });
+
+  it('omits rendering of an option when hiddenSearchOptions has a value', async () => {
+    const el = await fixture(component);
+    const hiddenSearchOptions = ['WEB', 'RADIO'];
+
+    el.config = { hiddenSearchOptions };
+    await el.updateComplete;
+
+    hiddenSearchOptions.forEach((value) => {
+      expect(el.shadowRoot.querySelector(`[value=${value}]`)).to.equal(null);
+    });
   });
 });
