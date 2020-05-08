@@ -22,11 +22,11 @@ class LoginButton extends TrackedElement {
   }
 
   get signupPath() {
-    return `https://${this.config.baseUrl}/account/signup`;
+    return `https://${this.config.baseHost}/account/signup`;
   }
 
   get loginPath() {
-    return `https://${this.config.baseUrl}/account/login`;
+    return `https://${this.config.baseHost}/account/login`;
   }
 
   get analyticsEvent() {

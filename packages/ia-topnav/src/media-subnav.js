@@ -39,7 +39,7 @@ class MediaSubnav extends TrackedElement {
 
   shouldUpdate() {
     if (menus[this.menu]) {
-      this.links = menus[this.menu](this.config.baseUrl);
+      this.links = menus[this.menu](this.config.baseHost);
     }
     return true;
   }

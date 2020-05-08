@@ -1,322 +1,322 @@
-import { prodUrl } from '../constants';
+import { prodHost } from '../constants';
 
-const texts = (baseUrl = prodUrl) => ({
+const texts = (baseHost = prodHost) => ({
   heading: 'Books',
   iconLinks: [{
     title: 'National Emergency Library',
-    icon: `https://${baseUrl}/images/national-emergency-library-logo-padded.png`,
-    url: `https://${baseUrl}/details/nationalemergencylibrary`,
+    icon: `https://${baseHost}/images/national-emergency-library-logo-padded.png`,
+    url: `https://${baseHost}/details/nationalemergencylibrary`,
   }, {
     title: 'Open Library',
-    icon: `https://${baseUrl}/images/widgetOL.png`,
+    icon: `https://${baseHost}/images/widgetOL.png`,
     url: 'https://openlibrary.org/',
   }],
   featuredLinks: [{
     title: 'All Books',
-    url: `https://${baseUrl}/details/books`,
+    url: `https://${baseHost}/details/books`,
   }, {
     title: 'All Texts',
-    url: `https://${baseUrl}/details/texts`,
+    url: `https://${baseHost}/details/texts`,
   }, {
     title: 'This Just In',
-    url: `https://${baseUrl}/search.php?query=mediatype:texts&sort=-publicdate`,
+    url: `https://${baseHost}/search.php?query=mediatype:texts&sort=-publicdate`,
   }, {
     title: 'Smithsonian Libraries',
-    url: `https://${baseUrl}/details/smithsonian`,
+    url: `https://${baseHost}/details/smithsonian`,
   }, {
     title: 'FEDLINK (US)',
-    url: `https://${baseUrl}/details/fedlink`,
+    url: `https://${baseHost}/details/fedlink`,
   }, {
     title: 'Genealogy',
-    url: `https://${baseUrl}/details/genealogy`,
+    url: `https://${baseHost}/details/genealogy`,
   }, {
     title: 'Lincoln Collection',
-    url: `https://${baseUrl}/details/lincolncollection`,
+    url: `https://${baseHost}/details/lincolncollection`,
   }],
   links: [{
     title: 'American Libraries',
-    url: `https://${baseUrl}/details/americana`,
+    url: `https://${baseHost}/details/americana`,
   }, {
     title: 'Canadian Libraries',
-    url: `https://${baseUrl}/details/toronto`,
+    url: `https://${baseHost}/details/toronto`,
   }, {
     title: 'Universal Library',
-    url: `https://${baseUrl}/details/universallibrary`,
+    url: `https://${baseHost}/details/universallibrary`,
   }, {
     title: 'Community Texts',
-    url: `https://${baseUrl}/details/opensource`,
+    url: `https://${baseHost}/details/opensource`,
   }, {
     title: 'Project Gutenberg',
-    url: `https://${baseUrl}/details/gutenberg`,
+    url: `https://${baseHost}/details/gutenberg`,
   }, {
     title: 'Biodiversity Heritage Library',
-    url: `https://${baseUrl}/details/biodiversity`,
+    url: `https://${baseHost}/details/biodiversity`,
   }, {
     title: 'Children\'s Library',
-    url: `https://${baseUrl}/details/iacl`,
+    url: `https://${baseHost}/details/iacl`,
   }, {
     title: 'Books by Language',
-    url: `https://${baseUrl}/details/booksbylanguage`,
+    url: `https://${baseHost}/details/booksbylanguage`,
   }, {
     title: 'Additional Collections',
-    url: `https://${baseUrl}/details/additional_collections`,
+    url: `https://${baseHost}/details/additional_collections`,
   }],
 });
 
-const video = (baseUrl = prodUrl) => ({
+const video = (baseHost = prodHost) => ({
   heading: 'Video',
   iconLinks: [{
-    icon: `https://${baseUrl}/services/img/tv`,
+    icon: `https://${baseHost}/services/img/tv`,
     title: 'TV News',
-    url: `https://${baseUrl}/details/tv`,
+    url: `https://${baseHost}/details/tv`,
   }, {
-    icon: `https://${baseUrl}/services/img/911`,
+    icon: `https://${baseHost}/services/img/911`,
     title: 'Understanding 9/11',
-    url: `https://${baseUrl}/details/911`,
+    url: `https://${baseHost}/details/911`,
   }],
   featuredLinks: [{
     title: 'All video',
-    url: `https://${baseUrl}/details/movies`,
+    url: `https://${baseHost}/details/movies`,
   }, {
     title: 'This Just In',
-    url: `https://${baseUrl}/search.php?query=mediatype:movies&sort=-publicdate`,
+    url: `https://${baseHost}/search.php?query=mediatype:movies&sort=-publicdate`,
   }, {
     title: 'Prelinger Archives',
-    url: `https://${baseUrl}/details/prelinger`,
+    url: `https://${baseHost}/details/prelinger`,
   }, {
     title: 'Democracy Now!',
-    url: `https://${baseUrl}/details/democracy_now_vid`,
+    url: `https://${baseHost}/details/democracy_now_vid`,
   }, {
     title: 'Occupy Wall Street',
-    url: `https://${baseUrl}/details/occupywallstreet`,
+    url: `https://${baseHost}/details/occupywallstreet`,
   }, {
     title: 'TV NSA Clip Library',
-    url: `https://${baseUrl}/details/nsa`,
+    url: `https://${baseHost}/details/nsa`,
   }],
   links: [{
     title: 'Animation & Cartoons',
-    url: `https://${baseUrl}/details/animationandcartoons`,
+    url: `https://${baseHost}/details/animationandcartoons`,
   }, {
     title: 'Arts & Music',
-    url: `https://${baseUrl}/details/artsandmusicvideos`,
+    url: `https://${baseHost}/details/artsandmusicvideos`,
   }, {
     title: 'Computers & Technology',
-    url: `https://${baseUrl}/details/computersandtechvideos`,
+    url: `https://${baseHost}/details/computersandtechvideos`,
   }, {
     title: 'Cultural & Academic Films',
-    url: `https://${baseUrl}/details/culturalandacademicfilms`,
+    url: `https://${baseHost}/details/culturalandacademicfilms`,
   }, {
     title: 'Ephemeral Films',
-    url: `https://${baseUrl}/details/ephemera`,
+    url: `https://${baseHost}/details/ephemera`,
   }, {
     title: 'Movies',
-    url: `https://${baseUrl}/details/moviesandfilms`,
+    url: `https://${baseHost}/details/moviesandfilms`,
   }, {
     title: 'News & Public Affairs',
-    url: `https://${baseUrl}/details/newsandpublicaffairs`,
+    url: `https://${baseHost}/details/newsandpublicaffairs`,
   }, {
     title: 'Spirituality & Religion',
-    url: `https://${baseUrl}/details/spiritualityandreligion`,
+    url: `https://${baseHost}/details/spiritualityandreligion`,
   }, {
     title: 'Sports Videos',
-    url: `https://${baseUrl}/details/sports`,
+    url: `https://${baseHost}/details/sports`,
   }, {
     title: 'Television',
-    url: `https://${baseUrl}/details/television`,
+    url: `https://${baseHost}/details/television`,
   }, {
     title: 'Videogame Videos',
-    url: `https://${baseUrl}/details/gamevideos`,
+    url: `https://${baseHost}/details/gamevideos`,
   }, {
     title: 'Vlogs',
-    url: `https://${baseUrl}/details/vlogs`,
+    url: `https://${baseHost}/details/vlogs`,
   }, {
     title: 'Youth Media',
-    url: `https://${baseUrl}/details/youth_media`,
+    url: `https://${baseHost}/details/youth_media`,
   }, {
     title: 'Norton Media Center',
-    url: `https://${baseUrl}/details/nmcma`,
+    url: `https://${baseHost}/details/nmcma`,
   }]
 });
 
-const audio = (baseUrl = prodUrl) => ({
+const audio = (baseHost = prodHost) => ({
   heading: 'Internet Archive Audio',
   iconLinks: [{
-    icon: `https://${baseUrl}/services/img/etree`,
+    icon: `https://${baseHost}/services/img/etree`,
     title: 'Live Music Archive',
-    url: `https://${baseUrl}/details/etree`,
+    url: `https://${baseHost}/details/etree`,
   }, {
-    icon: `https://${baseUrl}/services/img/librivoxaudio`,
+    icon: `https://${baseHost}/services/img/librivoxaudio`,
     title: 'Librivox Free Audio',
-    url: `https://${baseUrl}/details/librivoxaudio`,
+    url: `https://${baseHost}/details/librivoxaudio`,
   }],
   featuredLinks: [{
     title: 'All audio',
-    url: `https://${baseUrl}/details/audio`,
+    url: `https://${baseHost}/details/audio`,
   }, {
     title: 'This Just In',
-    url: `https://${baseUrl}/search.php?query=mediatype:audio&sort=-publicdate`,
+    url: `https://${baseHost}/search.php?query=mediatype:audio&sort=-publicdate`,
   }, {
     title: 'Grateful Dead',
-    url: `https://${baseUrl}/details/GratefulDead`,
+    url: `https://${baseHost}/details/GratefulDead`,
   }, {
     title: 'Netlabels',
-    url: `https://${baseUrl}/details/netlabels`,
+    url: `https://${baseHost}/details/netlabels`,
   }, {
     title: 'Old Time Radio',
-    url: `https://${baseUrl}/details/oldtimeradio`,
+    url: `https://${baseHost}/details/oldtimeradio`,
   }, {
     title: '78 RPMs and Cylinder Recordings',
-    url: `https://${baseUrl}/details/78rpm`,
+    url: `https://${baseHost}/details/78rpm`,
   }],
   links: [{
     title: 'Audio Books & Poetry',
-    url: `https://${baseUrl}/details/audio_bookspoetry`,
+    url: `https://${baseHost}/details/audio_bookspoetry`,
   }, {
     title: 'Community Audio',
-    url: `https://${baseUrl}/details/opensource_audio`,
+    url: `https://${baseHost}/details/opensource_audio`,
   }, {
     title: 'Computers, Technology and Science',
-    url: `https://${baseUrl}/details/audio_tech`,
+    url: `https://${baseHost}/details/audio_tech`,
   }, {
     title: 'Music, Arts & Culture',
-    url: `https://${baseUrl}/details/audio_music`,
+    url: `https://${baseHost}/details/audio_music`,
   }, {
     title: 'News & Public Affairs',
-    url: `https://${baseUrl}/details/audio_news`,
+    url: `https://${baseHost}/details/audio_news`,
   }, {
     title: 'Non-English Audio',
-    url: `https://${baseUrl}/details/audio_foreign`,
+    url: `https://${baseHost}/details/audio_foreign`,
   }, {
     title: 'Spirituality & Religion',
-    url: `https://${baseUrl}/details/audio_religion`,
+    url: `https://${baseHost}/details/audio_religion`,
   }, {
     title: 'Podcasts',
-    url: `https://${baseUrl}/details/podcasts`,
+    url: `https://${baseHost}/details/podcasts`,
   }],
 });
 
-const software = (baseUrl = prodUrl) => ({
+const software = (baseHost = prodHost) => ({
   heading: 'Software',
   iconLinks: [{
-    icon: `https://${baseUrl}/services/img/internetarcade`,
+    icon: `https://${baseHost}/services/img/internetarcade`,
     title: 'Internet Arcade',
-    url: `https://${baseUrl}/details/internetarcade`,
+    url: `https://${baseHost}/details/internetarcade`,
   }, {
-    icon: `https://${baseUrl}/services/img/consolelivingroom`,
+    icon: `https://${baseHost}/services/img/consolelivingroom`,
     title: 'Console Living Room',
-    url: `https://${baseUrl}/details/consolelivingroom`,
+    url: `https://${baseHost}/details/consolelivingroom`,
   }],
   featuredLinks: [{
     title: 'All software',
-    url: `https://${baseUrl}/details/software`,
+    url: `https://${baseHost}/details/software`,
   }, {
     title: 'latest This Just In',
-    url: `https://${baseUrl}/search.php?query=mediatype:software&sort=-publicdate`,
+    url: `https://${baseHost}/search.php?query=mediatype:software&sort=-publicdate`,
   }, {
     title: 'Old School Emulation',
-    url: `https://${baseUrl}/details/tosec`,
+    url: `https://${baseHost}/details/tosec`,
   }, {
     title: 'MS-DOS Games',
-    url: `https://${baseUrl}/details/softwarelibrary_msdos_games`,
+    url: `https://${baseHost}/details/softwarelibrary_msdos_games`,
   }, {
     title: 'Historical Software',
-    url: `https://${baseUrl}/details/historicalsoftware`,
+    url: `https://${baseHost}/details/historicalsoftware`,
   }, {
     title: 'Classic PC Games',
-    url: `https://${baseUrl}/details/classicpcgames`,
+    url: `https://${baseHost}/details/classicpcgames`,
   }, {
     title: 'Software Library',
-    url: `https://${baseUrl}/details/softwarelibrary`,
+    url: `https://${baseHost}/details/softwarelibrary`,
   }],
   links: [{
     title: 'Kodi Archive and Support File',
-    url: `https://${baseUrl}/details/kodi_archive`,
+    url: `https://${baseHost}/details/kodi_archive`,
   }, {
     title: 'Community Software',
-    url: `https://${baseUrl}/details/open_source_software`,
+    url: `https://${baseHost}/details/open_source_software`,
   }, {
     title: 'Vintage Software',
-    url: `https://${baseUrl}/details/vintagesoftware`,
+    url: `https://${baseHost}/details/vintagesoftware`,
   }, {
     title: 'APK',
-    url: `https://${baseUrl}/details/apkarchive`,
+    url: `https://${baseHost}/details/apkarchive`,
   }, {
     title: 'MS-DOS',
-    url: `https://${baseUrl}/details/softwarelibrary_msdos`,
+    url: `https://${baseHost}/details/softwarelibrary_msdos`,
   }, {
     title: 'CD-ROM Software',
-    url: `https://${baseUrl}/details/cd-roms`,
+    url: `https://${baseHost}/details/cd-roms`,
   }, {
     title: 'CD-ROM Software Library',
-    url: `https://${baseUrl}/details/cdromsoftware`,
+    url: `https://${baseHost}/details/cdromsoftware`,
   }, {
     title: 'Software Sites',
-    url: `https://${baseUrl}/details/softwaresites`,
+    url: `https://${baseHost}/details/softwaresites`,
   }, {
     title: 'Tucows Software Library',
-    url: `https://${baseUrl}/details/tucows`,
+    url: `https://${baseHost}/details/tucows`,
   }, {
     title: 'Shareware CD-ROMs',
-    url: `https://${baseUrl}/details/cdbbsarchive`,
+    url: `https://${baseHost}/details/cdbbsarchive`,
   }, {
     title: 'Software Capsules Compilation',
-    url: `https://${baseUrl}/details/softwarecapsules`,
+    url: `https://${baseHost}/details/softwarecapsules`,
   }, {
     title: 'CD-ROM Images',
-    url: `https://${baseUrl}/details/cdromimages`,
+    url: `https://${baseHost}/details/cdromimages`,
   }, {
     title: 'ZX Spectrum',
-    url: `https://${baseUrl}/details/softwarelibrary_zx_spectrum`,
+    url: `https://${baseHost}/details/softwarelibrary_zx_spectrum`,
   }, {
     title: 'DOOM Level CD',
-    url: `https://${baseUrl}/details/doom-cds`,
+    url: `https://${baseHost}/details/doom-cds`,
   }],
 });
 
-const images = (baseUrl = prodUrl) => ({
+const images = (baseHost = prodHost) => ({
   heading: 'Images',
   iconLinks: [{
-    icon: `https://${baseUrl}/services/img/metropolitanmuseumofart-gallery`,
+    icon: `https://${baseHost}/services/img/metropolitanmuseumofart-gallery`,
     title: 'Metropolitan Museum',
-    url: `https://${baseUrl}/details/metropolitanmuseumofart-gallery`,
+    url: `https://${baseHost}/details/metropolitanmuseumofart-gallery`,
   }, {
-    icon: `https://${baseUrl}/services/img/brooklynmuseum`,
+    icon: `https://${baseHost}/services/img/brooklynmuseum`,
     title: 'Brooklyn Museum',
-    url: `https://${baseUrl}/details/brooklynmuseum`,
+    url: `https://${baseHost}/details/brooklynmuseum`,
   }],
   featuredLinks: [{
     title: 'All images',
-    url: `https://${baseUrl}/details/image`,
+    url: `https://${baseHost}/details/image`,
   }, {
     title: 'This Just In',
-    url: `https://${baseUrl}/search.php?query=mediatype:image&sort=-publicdate`,
+    url: `https://${baseHost}/search.php?query=mediatype:image&sort=-publicdate`,
   }, {
     title: 'Flickr Commons',
-    url: `https://${baseUrl}/details/flickrcommons`,
+    url: `https://${baseHost}/details/flickrcommons`,
   }, {
     title: 'Occupy Wall Street Flickr',
-    url: `https://${baseUrl}/details/flickr-ows`,
+    url: `https://${baseHost}/details/flickr-ows`,
   }, {
     title: 'Cover Art',
-    url: `https://${baseUrl}/details/coverartarchive`,
+    url: `https://${baseHost}/details/coverartarchive`,
   }, {
     title: 'USGS Maps',
-    url: `https://${baseUrl}/details/maps_usgs`,
+    url: `https://${baseHost}/details/maps_usgs`,
   }],
   links: [{
     title: 'NASA Images',
-    url: `https://${baseUrl}/details/nasa`,
+    url: `https://${baseHost}/details/nasa`,
   }, {
     title: 'Solar System Collection',
-    url: `https://${baseUrl}/details/solarsystemcollection`,
+    url: `https://${baseHost}/details/solarsystemcollection`,
   }, {
     title: 'Ames Research Center',
-    url: `https://${baseUrl}/details/amesresearchcenterimagelibrary`,
+    url: `https://${baseHost}/details/amesresearchcenterimagelibrary`,
   }]
 });
 
 const user = ({
-  baseUrl = prodUrl,
+  baseHost = prodHost,
   catUrl,
   username,
   isAdmin,
@@ -325,27 +325,27 @@ const user = ({
   biblio,
 }) => {
   const generalLinks = [{
-    href: `https://${baseUrl}/create`,
+    href: `https://${baseHost}/create`,
     title: 'Upload',
     analyticsEvent: 'UserUpload',
   }, {
-    href: `https://${baseUrl}/details/@${username}`,
+    href: `https://${baseHost}/details/@${username}`,
     title: 'My library',
     analyticsEvent: 'UserLibrary',
   }, {
-    href: `https://${baseUrl}/details/@${username}?tab=loans`,
+    href: `https://${baseHost}/details/@${username}?tab=loans`,
     title: 'My loans',
     analyticsEvent: 'UserLoans',
   }, {
-    href: `https://${baseUrl}/details/fav-${username}`,
+    href: `https://${baseHost}/details/fav-${username}`,
     title: 'My favorites',
     analyticsEvent: 'UserFavorites',
   }, {
-    href: `https://${baseUrl}/details/@${username}/web-archive`,
+    href: `https://${baseHost}/details/@${username}/web-archive`,
     title: 'My web archive',
     analyticsEvent: 'UserWebArchive',
   }, {
-    href: `https://${baseUrl}/account/index.php?settings=1`,
+    href: `https://${baseHost}/account/index.php?settings=1`,
     title: 'Edit settings',
     analyticsEvent: 'UserSettings',
   }, {
@@ -353,7 +353,7 @@ const user = ({
     title: 'Get help',
     analyticsEvent: 'UserHelp',
   }, {
-    href: `https://${baseUrl}/account/logout`,
+    href: `https://${baseHost}/account/logout`,
     title: 'Log out',
     analyticsEvent: 'UserLogOut',
   }];
@@ -363,19 +363,19 @@ const user = ({
   }, {
     title: 'item:'
   }, {
-    href: `https://${baseUrl}/editxml/${identifier}`,
+    href: `https://${baseHost}/editxml/${identifier}`,
     title: 'edit xml',
     analyticsEvent: 'AdminUserEditXML',
   }, {
-    href: `https://${baseUrl}/edit.php?redir=1&identifier=${identifier}`,
+    href: `https://${baseHost}/edit.php?redir=1&identifier=${identifier}`,
     title: 'edit files',
     analyticsEvent: 'AdminUserEditFiles',
   }, {
-    href: `https://${baseUrl}/download/${identifier}/`,
+    href: `https://${baseHost}/download/${identifier}/`,
     title: 'download',
     analyticsEvent: 'AdminUserDownload',
   }, {
-    href: `https://${baseUrl}/metadata/${identifier}/`,
+    href: `https://${baseHost}/metadata/${identifier}/`,
     title: 'metadata',
     analyticsEvent: 'AdminUserMetadata',
   }, {
@@ -383,19 +383,19 @@ const user = ({
     title: 'history',
     analyticsEvent: 'AdminUserHistory',
   }, {
-    href: `https://${baseUrl}/manage/${identifier}`,
+    href: `https://${baseHost}/manage/${identifier}`,
     title: 'manage',
     analyticsEvent: 'AdminUserManager',
   }, {
-    href: `https://${baseUrl}/manage/${identifier}#make_dark`,
+    href: `https://${baseHost}/manage/${identifier}#make_dark`,
     title: 'curate',
     analyticsEvent: 'AdminUserCurate',
   }, {
-    href: `https://${baseUrl}/manage/${identifier}#modify_xml`,
+    href: `https://${baseHost}/manage/${identifier}#modify_xml`,
     title: 'modify xml',
     analyticsEvent: 'AdminUserModifyXML',
   }, {
-    href: `https://${baseUrl}/services/flags/admin.php?identifier=${identifier}`,
+    href: `https://${baseHost}/services/flags/admin.php?identifier=${identifier}`,
     title: 'manage flags',
     analyticsEvent: 'AdminUserManageFlags',
   }];
@@ -405,11 +405,11 @@ const user = ({
     title: 'biblio',
     analyticsEvent: 'AdminUserBiblio',
   }, {
-    href: `https://${baseUrl}/bookview.php?mode=debug&identifier=${identifier}`,
+    href: `https://${baseHost}/bookview.php?mode=debug&identifier=${identifier}`,
     title: 'bookview',
     analyticsEvent: 'AdminUserBookView',
   }, {
-    href: `https://${baseUrl}/download/${identifier}/format=Single Page Processed JP2 ZIP`,
+    href: `https://${baseHost}/download/${identifier}/format=Single Page Processed JP2 ZIP`,
     title: 'jp2 zip',
     analyticsEvent: 'AdminUserJP2Zip',
   }];
@@ -419,11 +419,11 @@ const user = ({
   }, {
     title: uploader,
   }, {
-    href: `https://${baseUrl}/admins/useradmin.php?searchUser=${uploader}&ignore=${identifier}`,
+    href: `https://${baseHost}/admins/useradmin.php?searchUser=${uploader}&ignore=${identifier}`,
     title: 'user admin',
     analyticsEvent: 'AdminUserUserAdmin',
   }, {
-    href: `https://${baseUrl}/admins/setadmin.php?user=${uploader}&ignore=${identifier}`,
+    href: `https://${baseHost}/admins/setadmin.php?user=${uploader}&ignore=${identifier}`,
     title: 'user privs',
     analyticsEvent: 'AdminUserUserPrivs',
   }];
@@ -444,26 +444,26 @@ const user = ({
   return allLinks;
 };
 
-const signedOut = (baseUrl = prodUrl) => ([{
-  href: `https://${baseUrl}/account/signup`,
+const signedOut = (baseHost = prodHost) => ([{
+  href: `https://${baseHost}/account/signup`,
   title: 'Sign up for free',
   analyticsEvent: 'SignUpDropdown',
 }, {
-  href: `https://${baseUrl}/account/login`,
+  href: `https://${baseHost}/account/login`,
   title: 'Log in',
   analyticsEvent: 'LogInDropdown',
 }]);
 
-const more = (baseUrl = prodUrl) => ([
-  { label: 'About', url: `https://${baseUrl}/about/` },
+const more = (baseHost = prodHost) => ([
+  { label: 'About', url: `https://${baseHost}/about/` },
   { label: 'Blog', url: 'https://blog.archive.org/' },
-  { label: 'Projects', url: `https://${baseUrl}/projects/` },
-  { label: 'Help', url: `https://${baseUrl}/about/faqs.php` },
-  { label: 'Donate', url: `https://${baseUrl}/donate/` },
-  { label: 'Contact', url: `https://${baseUrl}/about/contact.php` },
-  { label: 'Jobs', url: `https://${baseUrl}/about/jobs.php` },
-  { label: 'Volunteer', url: `https://${baseUrl}/about/volunteerpositions.php` },
-  { label: 'People', url: `https://${baseUrl}/about/bios.php` },
+  { label: 'Projects', url: `https://${baseHost}/projects/` },
+  { label: 'Help', url: `https://${baseHost}/about/faqs.php` },
+  { label: 'Donate', url: `https://${baseHost}/donate/` },
+  { label: 'Contact', url: `https://${baseHost}/about/contact.php` },
+  { label: 'Jobs', url: `https://${baseHost}/about/jobs.php` },
+  { label: 'Volunteer', url: `https://${baseHost}/about/volunteerpositions.php` },
+  { label: 'People', url: `https://${baseHost}/about/bios.php` },
 ]);
 
 export {
