@@ -55,13 +55,14 @@ class DropdownMenu extends TrackedElement {
   }
 
   get menuClass() {
+    const hiddenClass = this.config.hideSearch ? ' search-hidden' : '';
     if (this.open) {
-      return 'open';
+      return `open${hiddenClass}`;
     }
     if (this.animate) {
-      return 'closed';
+      return `closed${hiddenClass}`;
     }
-    return 'initial';
+    return `initial${hiddenClass}`;
   }
 
   get ariaHidden() {

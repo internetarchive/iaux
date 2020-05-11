@@ -90,7 +90,11 @@ class PrimaryNav extends TrackedElement {
       return html``;
     }
     return html`
-      <button class="search-trigger" @click="${this.toggleSearchMenu}" data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen">
+      <button
+        class="search-trigger"
+        @click="${this.toggleSearchMenu}"
+        data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen"
+      >
         ${icons.search}
       </button>
       <nav-search
