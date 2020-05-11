@@ -3,7 +3,7 @@ import { html, fixture, expect } from '@open-wc/testing';
 import '../src/primary-nav';
 
 const config = {
-  baseUrl: 'archive.org',
+  baseHost: 'archive.org',
   username: 'shaneriley',
 };
 

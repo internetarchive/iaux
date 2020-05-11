@@ -12,7 +12,7 @@ class MoreSlider extends TrackedElement {
   }
 
   get menuItems() {
-    return moreMenu(this.config.baseUrl);
+    return moreMenu(this.config.baseHost);
   }
 
   static get styles() {
@@ -20,7 +20,7 @@ class MoreSlider extends TrackedElement {
   }
 
   get baseUrl() {
-    return `https://${this.config.baseUrl}`;
+    return `https://${this.config.baseHost}`;
   }
 
   analyticsEvent(label) {

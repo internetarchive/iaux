@@ -91,7 +91,7 @@ class SearchMenu extends TrackedElement {
         aria-expanded="${searchMenuExpanded}"
       >
         ${this.searchTypesTemplate}
-        <a class="advanced-search" href="https://${this.config.baseUrl}/advancedsearch.php" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch">Advanced Search</a>
+        <a class="advanced-search" href="https://${this.config.baseHost}/advancedsearch.php" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch">Advanced Search</a>
       </div>
     `;
   }

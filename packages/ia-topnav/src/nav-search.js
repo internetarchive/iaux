@@ -61,7 +61,7 @@ class NavSearch extends TrackedElement {
     const searchMenuClass = this.open ? 'flex' : 'search-inactive';
 
     return html`<div class="search-activated fade-in ${searchMenuClass}">
-      <form id="nav-search" class="highlight" action="https://${this.config.baseUrl}/search.php" method="get" @submit=${this.search} data-event-submit-tracking="${this.config.eventCategory}|NavSearchSubmit">
+      <form id="nav-search" class="highlight" action="https://${this.config.baseHost}/search.php" method="get" @submit=${this.search} data-event-submit-tracking="${this.config.eventCategory}|NavSearchSubmit">
         <input
           type="text"
           name="query"

@@ -11,12 +11,12 @@ class DesktopSubnav extends TrackedElement {
 
   static get properties() {
     return {
-      baseUrl: { type: String }
+      baseHost: { type: String }
     };
   }
 
   get listItems() {
-    return more(this.baseUrl).map(link => (
+    return more(this.baseHost).map(link => (
       html`
         <li>
           <a class="${link.label.toLowerCase()}" href="${link.url}">${link.label}${DesktopSubnav.iconFor(link.label)}</a>

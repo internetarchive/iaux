@@ -139,7 +139,7 @@ export default class IATopNav extends LitElement {
         .config=${this.config}
         .open=${this.signedOutOpened}
         tabindex="${this.signedOutTabIndex}"
-        .menuItems=${signedOut(this.config.baseUrl)}
+        .menuItems=${signedOut(this.config.baseHost)}
       ></signed-out-dropdown>
     `;
   }
@@ -164,7 +164,7 @@ export default class IATopNav extends LitElement {
           .mediaSliderOpen=${this.mediaSliderOpen}
         ></media-slider>
       </div>
-      <desktop-subnav .baseUrl=${this.config.baseUrl}></desktop-subnav>
+      <desktop-subnav .baseUrl=${this.config.baseHost}></desktop-subnav>
       <search-menu
         .config=${this.config}
         .openMenu=${this.openMenu}
