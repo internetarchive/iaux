@@ -9,7 +9,7 @@ import {
 
 import '../form-section';
 import '../static-custom-button';
-import { DonationFrequency } from '../models/donation-frequency';
+import { DonationType } from '../models/donation-info/donation-type';
 
 @customElement('edit-donation')
 export class EditDonation extends LitElement {
@@ -21,13 +21,13 @@ export class EditDonation extends LitElement {
         headline="Choose a frequency">
 
         <static-custom-button
-          .value=${DonationFrequency.OneTime}
+          .value=${DonationType.OneTime}
           displayText='One-Time'
           @selected=${this.frequencyChanged}>
         </static-custom-button>
 
         <static-custom-button
-          .value=${DonationFrequency.Monthly}
+          .value=${DonationType.Monthly}
           displayText='Monthly'
           @selected=${this.frequencyChanged}>
         </static-custom-button>
@@ -51,7 +51,7 @@ export class EditDonation extends LitElement {
 
   private frequencyChanged(e: CustomEvent) {
     console.log('EditDonation frequencyChanged', e.detail.value);
-    const event = new CustomEvent('donationFrequencyChanged', { detail: { frequency: e.detail.value }});
+    const event = new CustomEvent('donationTypeChanged', { detail: { frequency: e.detail.value }});
     this.dispatchEvent(event);
   }
 

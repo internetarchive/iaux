@@ -24,24 +24,25 @@ export class PaymentSelector extends LitElement {
       <button @click=${this.startApplePay}>Apple Pay</button>
       <button>Google Pay</button>
       <button @click=${this.startVenmo}>Venmo</button>
-      <button>PayPal</button>
+      <slot name="paypal-button"></slot>
       <button @click=${this.toggleCreditCard}>Credit Card</button>
-      ${this.creditCardVisible ? html`<slot></slot>` : ''}
+      ${this.creditCardVisible ? html`<slot name="braintree-hosted-fields"></slot>` : ''}
     `;
   }
 
   updated(changedProperties: PropertyValues): void {
     if (changedProperties.has('braintreeManager')) {
-      this.braintreeManager?.creditCardHandler.setupHostedFields();
+      this.braintreeManager?.paymentProviders.creditCardHandler.setupHostedFields();
+      this.braintreeManager?.paymentProviders.paypalHandler.renderPayPalButton();
     }
   }
 
   private startApplePay(): void {
-    this.braintreeManager?.applePayHandler.createPaymentRequest();
+    this.braintreeManager?.paymentProviders.applePayHandler.createPaymentRequest();
   }
 
   private startVenmo(): void {
-    this.braintreeManager?.venmoHandler.startPayment();
+    this.braintreeManager?.paymentProviders.venmoHandler.startPayment();
   }
 
   private toggleCreditCard(): void {

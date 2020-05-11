@@ -53,6 +53,7 @@
     "@open-wc/testing-karma": "^3.0.0",
     "@open-wc/testing-karma-bs": "^1.0.0",
     "@storybook/react": "^5.1.11",
+    "@types/applepayjs": "^3.0.0",
     "@types/braintree-web": "^3.47.2",
     "@types/form-data": "^2.5.0",
     "@types/storybook__react": "^4.0.2",

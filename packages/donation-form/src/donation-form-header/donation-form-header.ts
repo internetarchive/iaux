@@ -34,7 +34,7 @@ export class DonationFormHeader extends LitElement {
     return html`
       <edit-donation
         @donationAmountChanged=${this.amountChanged}
-        @donationFrequencyChanged=${this.frequencyChanged}>
+        @donationTypeChanged=${this.frequencyChanged}>
       </edit-donation>`;
   }
 
@@ -47,7 +47,7 @@ export class DonationFormHeader extends LitElement {
 
   private frequencyChanged(e: CustomEvent) {
     console.log('DonationFormHeader frequencyChanged', e.detail.frequency);
-    const event = new CustomEvent('donationFrequencyChanged', { detail: { frequency: e.detail.frequency }});
+    const event = new CustomEvent('donationTypeChanged', { detail: { frequency: e.detail.frequency }});
     this.dispatchEvent(event);
   }
 

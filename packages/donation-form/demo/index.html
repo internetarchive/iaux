@@ -1,101 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://js.braintreegateway.com/web/3.62.0/js/client.js"></script>
-  <script src="https://js.braintreegateway.com/web/3.62.0/js/hosted-fields.js"></script>
-  <script src="https://js.braintreegateway.com/web/3.62.0/js/apple-pay.js"></script>
-  <script src="https://js.braintreegateway.com/web/3.62.0/js/venmo.js"></script>
-  <script src="https://js.braintreegateway.com/web/3.62.0/js/data-collector.min.js"></script>
-
+  <title>Home</title>
 
   <style>
-    div[slot='braintree-hosted-fields'] div {
-      height: 30px;
+    .banner {
+      border: 1px solid black;
+      background-color: lightskyblue;
+      padding: 10px;
+      margin-bottom: 10px;
     }
   </style>
 </head>
+
 <body>
-  <div id="demo">
+  <div class="banner">
+    <h3>Banner</h3>
+    <form action="donate.html?amount=5&frequency=one-time">
+      <fieldset>
+        <legend>Frequency</legend>
+        <input type="radio" name="frequency" value="one-time" checked />One Time
+        <input type="radio" name="frequency" value="monthly" />Monthly
+      </fieldset>
+      <fieldset>
+        <legend>Amount</legend>
+        <input type="radio" name="amount" value="5" checked />$5
+        <input type="radio" name="amount" value="10" />$10
+        <input type="radio" name="amount" value="25" />$25
+        <input type="radio" name="amount" value="50" />$50
+      </fieldset>
+      <input type="submit" />
+    </form>
+
+    <!-- <a href="donate.html?amount=5">$5</a>
+    <a href="donate.html?amount=10">$10</a>
+    <a href="donate.html?amount=25">$25</a> -->
   </div>
 
-  <script type="module">
-    import { html, render } from 'lit-html';
-    import { BraintreeEndpointManager } from './braintree-endpoint-manager.js';
+  <a href="donate.html">Go to Donate Page without referrer</a>
 
-    import { BraintreeManager } from '../lib/braintree-manager/braintree-manager.js';
-    import '../lib/donation-form.js';
-
-    const hostedFieldStyle = {
-      input: {
-        'font-size': '14px',
-        'font-family': '"Helvetica Neue", Helvetica, Arial, sans-serif',
-        'font-weight': '700',
-        color: '#333',
-      },
-      ':focus': {
-        color: '#333',
-      },
-      '.valid': {
-      },
-      '.invalid': {
-        color: '#b00b00',
-      }
-    }
-
-    const hostedFieldConfig = {
-      number: {
-        selector: '#braintree-creditcard',
-        placeholder: 'Card number'
-      },
-      cvv: {
-        selector: '#braintree-cvv',
-        placeholder: 'CVC'
-      },
-      expirationDate: {
-        selector: '#braintree-expiration',
-        placeholder: 'MM / YY'
-      }
-    }
-
-    const endpointManager = new BraintreeEndpointManager();
-
-    const braintreeManager = new BraintreeManager(
-      window.braintree,
-      endpointManager,
-      '', // DON'T COMMIT
-      hostedFieldStyle,
-      hostedFieldConfig
-    );
-
-    render(
-      html`
-        <donation-form
-          .braintreeManager=${braintreeManager}>
-
-          <!--
-            Why are these hosted fields here?
-
-            Due to the way Braintree works, the hosted fields cannot exist
-            in the shadowDOM so must exist in the clearDOM and get passed
-            in through a <slot>. Their IDs are tied to the hostedFieldConfig
-            configuration above.
-
-            Braintree is working on a solution to this. See:
-            - https://github.com/braintree/braintree-web-drop-in/issues/614#issuecomment-616796104
-            - https://github.com/braintree/braintree-web-drop-in/issues/296#issuecomment-616749307
-          -->
-          <div slot="braintree-hosted-fields">
-            <div id="braintree-creditcard"></div>
-            <div id="braintree-cvv"></div>
-            <div id="braintree-expiration"></div>
-          </div>
-
-        </donation-form>
-      `,
-      document.querySelector('#demo')
-    );
-  </script>
 </body>
 </html>

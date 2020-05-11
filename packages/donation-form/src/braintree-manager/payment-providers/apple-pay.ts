@@ -1,6 +1,8 @@
 import { BraintreeManagerInterface } from "../braintree-manager";
+import { ApplePaySessionManagerInterface } from "./apple-pay-session-manager";
 
 export interface ApplePayHandlerInterface {
+  isAvailable(): Promise<boolean>;
   getApplePayInstance(): Promise<any | undefined>;
   createPaymentRequest(): Promise<any>;
 }
@@ -8,17 +10,27 @@ export interface ApplePayHandlerInterface {
 export class ApplePayHandler implements ApplePayHandlerInterface {
   constructor(
     braintreeManager: BraintreeManagerInterface,
-    applePaySession: any | undefined
+    applePaySessionManager: ApplePaySessionManagerInterface
   ) {
     this.braintreeManager = braintreeManager;
-    this.applePaySession = applePaySession;
+    this.applePaySessionManager = applePaySessionManager;
   }
 
   private braintreeManager: BraintreeManagerInterface;
 
-  private applePaySession: any | undefined;
+  private applePaySessionManager: ApplePaySessionManagerInterface;
 
   private applePayInstance: any | undefined;
+
+  async isAvailable(): Promise<boolean> {
+    try {
+      await this.getApplePayInstance();
+      return true;
+    } catch(err) {
+      console.error(err);
+      return false;
+    }
+  }
 
   async getApplePayInstance(): Promise<any | undefined> {
     if (this.applePayInstance) {
@@ -37,9 +49,9 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
           return reject(error);
         }
 
-        window.ApplePaySession.canMakePaymentsWithActiveCard(instance.merchantIdentifier).then(result => {
-          console.log('result', result);
-        });
+        if (!this.applePaySessionManager?.canMakePayments()) {
+          return reject('Apple Pay unavailable');
+        }
 
         this.applePayInstance = instance;
         resolve(instance);
@@ -50,29 +62,29 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
   async createPaymentRequest(): Promise<any> {
     const applePayInstance = await this.getApplePayInstance();
 
-    var paymentRequest = applePayInstance.createPaymentRequest({
+    const paymentRequest = applePayInstance.createPaymentRequest({
       total: {
         label: 'My Company',
         amount: '19.99'
       }
     });
-    var session = new window.ApplePaySession(3, paymentRequest);
+    var session = this.applePaySessionManager.createNewPaymentSession(paymentRequest);
 
     session.onvalidatemerchant = function (event) {
       applePayInstance.performValidation({
         validationURL: event.validationURL,
         displayName: 'My Great Store'
-      }, function (validationErr, validationData) {
+      }, (validationErr: any, validationData: any) => {
         if (validationErr) {
           console.error(validationErr);
           session.abort();
           return;
         }
+        console.log('validate merchange', validationData);
 
         session.completeMerchantValidation(validationData);
       });
     };
-
+    console.log('session', session);
   }
-
 }

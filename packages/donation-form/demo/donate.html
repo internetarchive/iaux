@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <script src="https://www.paypalobjects.com/api/checkout.js" data-version-4 log-level="warn"></script>
+  <script src="https://js.braintreegateway.com/web/3.62.0/js/client.js"></script>
+  <script src="https://js.braintreegateway.com/web/3.62.0/js/hosted-fields.js"></script>
+  <script src="https://js.braintreegateway.com/web/3.62.0/js/apple-pay.js"></script>
+  <script src="https://js.braintreegateway.com/web/3.62.0/js/venmo.js"></script>
+  <script src="https://js.braintreegateway.com/web/3.62.0/js/data-collector.min.js"></script>
+  <script src="https://js.braintreegateway.com/web/3.62.0/js/paypal-checkout.min.js"></script>
+
+
+  <style>
+    div[slot='braintree-hosted-fields'] div {
+      height: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo">
+  </div>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import { BraintreeEndpointManager } from './braintree-endpoint-manager.js';
+
+    import { BraintreeManager } from '../lib/braintree-manager/braintree-manager.js';
+    import '../lib/donation-form.js';
+    import '../lib/re-captcha.js'
+
+    const hostedFieldStyle = {
+      input: {
+        'font-size': '14px',
+        'font-family': '"Helvetica Neue", Helvetica, Arial, sans-serif',
+        'font-weight': '700',
+        color: '#333',
+      },
+      ':focus': {
+        color: '#333',
+      },
+      '.valid': {
+      },
+      '.invalid': {
+        color: '#b00b00',
+      }
+    }
+
+    const hostedFieldConfig = {
+      number: {
+        selector: '#braintree-creditcard',
+        placeholder: 'Card number'
+      },
+      cvv: {
+        selector: '#braintree-cvv',
+        placeholder: 'CVC'
+      },
+      expirationDate: {
+        selector: '#braintree-expiration',
+        placeholder: 'MM / YY'
+      }
+    }
+
+    const endpointManager = new BraintreeEndpointManager();
+
+    const braintreeManager = new BraintreeManager(
+      window.braintree,
+      endpointManager,
+      '', // DON'T COMMIT
+      hostedFieldStyle,
+      hostedFieldConfig,
+      'dev',
+      window.paypal,
+      window.ApplePaySession
+    );
+
+    render(
+      html`
+        <donation-form
+          .braintreeManager=${braintreeManager}>
+
+          <!--
+            Why are these here?
+
+            Due to the way Braintree & PayPal works, they cannot exist
+            in the shadowDOM so must exist in the clearDOM and get passed
+            in through a <slot>. Their IDs are tied to the hostedFieldConfig
+            configuration above.
+
+            Braintree / PayPal are working on a solution to this. See:
+            - https://github.com/braintree/braintree-web-drop-in/issues/614#issuecomment-616796104
+            - https://github.com/braintree/braintree-web-drop-in/issues/296#issuecomment-616749307
+            - https://github.com/paypal/paypal-checkout-components/issues/353#issuecomment-595956216
+          -->
+          <div slot="braintree-hosted-fields">
+            <div id="braintree-creditcard"></div>
+            <div id="braintree-cvv"></div>
+            <div id="braintree-expiration"></div>
+          </div>
+
+          <div slot="paypal-button">
+            <div id="paypal-button"></div>
+          </div>
+        </donation-form>
+        <re-captcha></re-captcha>
+      `,
+      document.querySelector('#demo')
+    );
+  </script>
+</body>
+</html>

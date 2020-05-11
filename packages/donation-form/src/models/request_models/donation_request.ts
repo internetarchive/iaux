@@ -1,6 +1,6 @@
 import { CustomerInfo } from '../common/customer_info';
 import { BillingInfo } from '../common/billing_info';
-import { DonationFrequency } from '../donation-frequency';
+import { DonationType } from '../donation-info/donation-type';
 
 export enum DonationRequestType {
   OneTime = 'one-time',
@@ -14,7 +14,7 @@ export class DonationRequest {
   customer: CustomerInfo | undefined;
   billing: BillingInfo | undefined;
   referrer: string | undefined;
-  // frequency: DonationFrequency | undefined;
+  // frequency: DonationType | undefined;
 
   customFields: object = {
     'ip_address': 'baz',

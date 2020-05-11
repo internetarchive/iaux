@@ -16,7 +16,7 @@ import './payment-selector';
 import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
 import { DonationRequest } from './models/request_models/donation_request';
 import { ContactForm } from './contact-form';
-import { DonationFrequency } from './models/donation-frequency';
+import { DonationType } from './models/donation-info/donation-type';
 
 @customElement('donation-form')
 export class DonationForm extends LitElement {
@@ -33,7 +33,7 @@ export class DonationForm extends LitElement {
 
       <donation-form-header
         @donationAmountChanged=${this.amountChanged}
-        @donationFrequencyChanged=${this.frequencyChanged}>
+        @donationTypeChanged=${this.frequencyChanged}>
       </donation-form-header>
 
       <form-section number=3 headline="Tell us about yourself">
@@ -42,9 +42,8 @@ export class DonationForm extends LitElement {
 
       <form-section number=4 headline="Choose a payment method">
         <payment-selector .braintreeManager=${this.braintreeManager}>
-
-          <slot name="braintree-hosted-fields"></slot>
-
+          <slot name="braintree-hosted-fields" slot="braintree-hosted-fields"></slot>
+          <slot name="paypal-button" slot="paypal-button"></slot>
         </payment-selector>
       </form-section>
 
@@ -55,7 +54,7 @@ export class DonationForm extends LitElement {
   }
 
   firstUpdated() {
-    // this.donationRequest.frequency = DonationFrequency.OneTime;
+    // this.donationRequest.type = DonationType.OneTime;
     this.donationRequest.amount = 50;
   }
 

@@ -1,14 +1,13 @@
-import { CreditCardHandler, CreditCardHandlerInterface } from "./payment-providers/credit-card";
-import { ApplePayHandler, ApplePayHandlerInterface } from "./payment-providers/apple-pay";
 import { DonationResponse } from "../models/response_models/donation_response";
 import { DonationRequest } from "../models/request_models/donation_request";
-import { VenmoHandlerInterface, VenmoHandler } from "./payment-providers/venmo";
+import { PaymentProvidersInterface, PaymentProviders } from "./payment-providers";
+import { DonationType } from "../models/donation-info/donation-type";
 
 export interface BraintreeManagerInterface {
   braintree: any;
-  creditCardHandler: CreditCardHandlerInterface;
-  applePayHandler: ApplePayHandlerInterface;
-  venmoHandler: VenmoHandlerInterface;
+  paymentProviders: PaymentProvidersInterface;
+  donationAmount: number;
+  donationType: DonationType;
   getBraintreeClient(): Promise<any | undefined>;
   submitDataToEndpoint(request: DonationRequest): Promise<DonationResponse>;
 }
@@ -25,7 +24,16 @@ export interface BraintreeEndpointManagerInterface {
   submitData(request: DonationRequest): Promise<object>;
 }
 
+export enum HostingEnvironment {
+  Development = 'dev',
+  Production = 'prod',
+}
+
 export class BraintreeManager implements BraintreeManagerInterface {
+  donationAmount: number = 5;
+
+  donationType: DonationType = DonationType.OneTime;
+
   /**
    * This is the Braintree library from Braintree.
    *
@@ -36,6 +44,15 @@ export class BraintreeManager implements BraintreeManagerInterface {
    * @memberof BraintreeManager
    */
   readonly braintree: any;
+
+  /**
+   * This contains all of the individual payment providers so as to not clutter the
+   * top-level BraintreeManager class.
+   *
+   * @type {PaymentProvidersInterface}
+   * @memberof BraintreeManager
+   */
+  paymentProviders: PaymentProvidersInterface;
 
   async getBraintreeClient(): Promise<any | undefined> {
     if (this.braintreeClient) {
@@ -61,67 +78,34 @@ export class BraintreeManager implements BraintreeManagerInterface {
     return modeledResponse;
   }
 
-  get creditCardHandler(): CreditCardHandlerInterface {
-    if (this.creditCardHandlerCache) {
-      return this.creditCardHandlerCache;
-    }
-
-    this.creditCardHandlerCache = new CreditCardHandler(
-      this,
-      this.hostedFieldStyle,
-      this.hostedFieldConfig
-    );
-
-    return this.creditCardHandlerCache;
-  }
-
-  get applePayHandler(): ApplePayHandlerInterface {
-    if (this.applePayHandlerCache) {
-      return this.applePayHandlerCache;
-    }
-
-    this.applePayHandlerCache = new ApplePayHandler(this, window.ApplePaySession);
-
-    return this.applePayHandlerCache;
-  }
-
-  get venmoHandler(): VenmoHandlerInterface {
-    if (this.venmoHandlerCache) {
-      return this.venmoHandlerCache;
-    }
-
-    this.venmoHandlerCache = new VenmoHandler(this);
-
-    return this.venmoHandlerCache;
-  }
-
   private authorizationToken: string;
 
   private endpointManager: BraintreeEndpointManagerInterface;
 
-  private hostedFieldStyle: object;
-
-  private hostedFieldConfig: object;
-
   private braintreeClient: any | undefined;
 
-  private creditCardHandlerCache: CreditCardHandlerInterface | undefined;
-
-  private applePayHandlerCache: ApplePayHandlerInterface | undefined;
-
-  private venmoHandlerCache: VenmoHandlerInterface | undefined;
+  private hostingEnvironment: HostingEnvironment = HostingEnvironment.Development;
 
   constructor(
     braintree: any = window.braintree,
     endpointManager: BraintreeEndpointManagerInterface,
     authorizationToken: string,
     hostedFieldStyle: object,
-    hostedFieldConfig: object
+    hostedFieldConfig: object,
+    hostingEnvironment: HostingEnvironment,
+    paypal: any
   ) {
     this.authorizationToken = authorizationToken;
     this.braintree = braintree;
     this.endpointManager = endpointManager;
-    this.hostedFieldStyle = hostedFieldStyle;
-    this.hostedFieldConfig = hostedFieldConfig;
+    this.hostingEnvironment = hostingEnvironment;
+
+    this.paymentProviders = new PaymentProviders(
+      this,
+      hostingEnvironment,
+      hostedFieldStyle,
+      hostedFieldConfig,
+      paypal
+    )
   }
 }
