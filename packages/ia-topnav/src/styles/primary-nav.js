@@ -40,6 +40,11 @@ export default css`
     transform: translate(-50%, -50%);
   }
 
+  media-menu {
+    grid-column-start: hamburger-start;
+    grid-column-end: user-end;
+  }
+
   .ia-logo {
     display: block;
   }

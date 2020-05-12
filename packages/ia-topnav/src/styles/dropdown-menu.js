@@ -127,6 +127,7 @@ export default css`
     .open {
       top: 5.1rem;
       opacity: 1;
+      overflow: visible;
     }
   }
 `;

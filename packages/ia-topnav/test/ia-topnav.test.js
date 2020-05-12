@@ -178,4 +178,22 @@ describe('<ia-topnav>', () => {
 
     expect(el.shadowRoot.querySelector('signed-out-dropdown').getAttribute('tabindex')).to.equal('');
   });
+
+  it('toggles search menu when search toggle button clicked', async () => {
+    const el = await fixture(container);
+    el.shadowRoot.querySelector('primary-nav').shadowRoot.querySelector('.search-trigger').click();
+    await el.updateComplete;
+
+    expect(el.openMenu).to.equal('search');
+  });
+
+  it('toggles user menu when search user avatar clicked', async () => {
+    const el = await fixture(container);
+    el.config = { username: 'shaneriley' };
+    await el.updateComplete;
+    el.shadowRoot.querySelector('primary-nav').shadowRoot.querySelector('.user-menu').click();
+    await el.updateComplete;
+
+    expect(el.openMenu).to.equal('user');
+  });
 });
