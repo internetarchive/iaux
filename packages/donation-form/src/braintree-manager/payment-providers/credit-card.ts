@@ -1,4 +1,4 @@
-import { BraintreeManagerInterface } from "../braintree-manager";
+import { BraintreeManagerInterface, BraintreeManager } from "../braintree-manager";
 
 export interface CreditCardHandlerInterface {
   setupHostedFields(): Promise<any | undefined>;
@@ -9,19 +9,22 @@ export interface CreditCardHandlerInterface {
 export class CreditCardHandler implements CreditCardHandlerInterface {
   constructor(
     braintreeManager: BraintreeManagerInterface,
+    hostedFieldsClient: braintree.HostedFields,
     hostedFieldStyle: object,
-    hostedFieldConfig: object
+    hostedFieldConfig: braintree.HostedFieldFieldOptions
   ) {
     this.braintreeManager = braintreeManager;
+    this.hostedFieldsClient = hostedFieldsClient;
     this.hostedFieldStyle = hostedFieldStyle;
     this.hostedFieldConfig = hostedFieldConfig;
   }
 
-  private hostedFields: any | undefined;
-  private hostedFieldStyle: object;
-  private hostedFieldConfig: object;
-
   private braintreeManager: BraintreeManagerInterface;
+  private hostedFieldsClient: braintree.HostedFields;
+  private hostedFieldStyle: object;
+  private hostedFieldConfig: braintree.HostedFieldFieldOptions;
+
+  private hostedFieldsInstance?: braintree.HostedFields;
 
   /**
    * This is a convenience wrapper for consumers that don't care about the hosted
@@ -32,24 +35,24 @@ export class CreditCardHandler implements CreditCardHandlerInterface {
   }
 
   async getHostedFields(): Promise<any | undefined> {
-    if (this.hostedFields) {
-      return this.hostedFields;
+    if (this.hostedFieldsInstance) {
+      return this.hostedFieldsInstance;
     }
 
-    const braintreeClient = await this.braintreeManager.getBraintreeClient();
-    const braintree = this.braintreeManager.braintree;
+    const braintreeClient = await this.braintreeManager.getInstance();
+    // const braintree = this.braintreeManager.braintree;
 
     return new Promise((resolve, reject) => {
-      braintree.hostedFields.create({
+      this.hostedFieldsClient.create({
         client: braintreeClient,
         styles: this.hostedFieldStyle,
         fields: this.hostedFieldConfig
-      }, (hostedFieldsErr: any, hostedFieldsInstance: any) => {
+      }, (hostedFieldsErr: braintree.BraintreeError | undefined, hostedFieldsInstance: braintree.HostedFields) => {
         if (hostedFieldsErr) {
           return reject(hostedFieldsErr);
         }
 
-        this.hostedFields = hostedFieldsInstance;
+        this.hostedFieldsInstance = hostedFieldsInstance;
         resolve(hostedFieldsInstance);
       });
     });

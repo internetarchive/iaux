@@ -10,34 +10,34 @@ export interface PayPalHandlerInterface {
 export class PayPalHandler implements PayPalHandlerInterface {
   constructor(
     braintreeManager: BraintreeManagerInterface,
-    paypal: any,
+    paypalClient: braintree.PayPalCheckout,
     hostingEnvironment: HostingEnvironment
   ) {
     this.braintreeManager = braintreeManager;
-    this.paypal = paypal;
+    this.paypalClient = paypalClient;
     this.hostingEnvironment = hostingEnvironment;
   }
 
   private braintreeManager: BraintreeManagerInterface;
 
-  private paypal: any;
+  private paypalClient: braintree.PayPalCheckout;
 
   private hostingEnvironment: HostingEnvironment;
 
-  private paypalInstance: any | undefined;
+  private paypalInstance: braintree.PayPal | undefined;
 
   async getPayPalInstance(): Promise<any | undefined> {
     if (this.paypalInstance) {
       return this.paypalInstance;
     }
 
-    const braintreeClient = await this.braintreeManager.getBraintreeClient();
-    const braintree = this.braintreeManager.braintree;
+    const braintreeClient = await this.braintreeManager.getInstance();
+    // const paypalClient = this.braintreeManager.braintree;
 
     return new Promise((resolve, reject) => {
-      braintree.paypalCheckout.create({
+      this.paypalClient.create({
         client: braintreeClient
-      }, (error: any, instance: any) => {
+      }, (error: any, instance: braintree.PayPalCheckout) => {
         console.log('instance', error, instance, instance.merchantIdentifier);
         if (error) {
           return reject(error);

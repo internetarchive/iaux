@@ -1,7 +1,7 @@
 import { BraintreeManagerInterface } from "../braintree-manager";
 
 export interface VenmoHandlerInterface {
-  getVenmoInstance(): Promise<any | undefined>;
+  getVenmoInstance(): Promise<braintree.Venmo | undefined>;
   startPayment(): Promise<any>;
 }
 
@@ -16,13 +16,13 @@ export class VenmoHandler implements VenmoHandlerInterface {
 
   private venmoInstance: any | undefined;
 
-  async getVenmoInstance(): Promise<any | undefined> {
+  async getVenmoInstance(): Promise<braintree.Venmo | undefined> {
     if (this.venmoInstance) {
       return this.venmoInstance;
     }
 
-    const braintreeClient = await this.braintreeManager.getBraintreeClient();
-    const braintree = this.braintreeManager.braintree;
+    const braintreeClient = await this.braintreeManager.getInstance();
+    const braintree = this.braintreeManager.venmo;
 
     return new Promise((resolve, reject) => {
       braintree.venmo.create({
@@ -43,7 +43,7 @@ export class VenmoHandler implements VenmoHandlerInterface {
   async startPayment(): Promise<any> {
     const instance = await this.getVenmoInstance();
 
-    instance.tokenize((error, payload) => {
+    instance.tokenize((error: any, payload: any) => {
       console.log('tokenize complete', error, payload);
     });
   }

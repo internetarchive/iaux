@@ -22,7 +22,7 @@ export enum ReCaptchaType {
 
 @customElement('re-captcha')
 export class ReCaptcha extends LitElement {
-  @property({ type: String }) siteKey = 'foo-bar';
+  @property({ type: String }) siteKey = '6LeTUvYUAAAAAPTvW98MaXyS8c6vxk4-9n8DI1ve';
 
   @property({ type: Number }) tabIndex = 0;
 
@@ -45,7 +45,7 @@ export class ReCaptcha extends LitElement {
   }
 
   async setupReCaptcha(): Promise<any> {
-    await window.grecaptcha.render(this.reCaptchaDiv, {
+    return window.grecaptcha.render(this.reCaptchaDiv, {
       callback: this.responseHandler.bind(this),
       "expired-callback": this.expiredHandler.bind(this),
       sitekey: this.siteKey,
@@ -60,8 +60,8 @@ export class ReCaptcha extends LitElement {
     console.log('responseHandler', response);
   }
 
-  private expiredHandler(result: any): void {
-    console.log('expiredHandler', result);
+  private expiredHandler(): void {
+    console.log('expiredHandler');
   }
 
   /** inheritdoc */

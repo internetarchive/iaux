@@ -41,8 +41,8 @@ export class BraintreeEndpointManager {
       body: JSON.stringify(data)
     })
 
-    const json = await response.json();
-    // const json = JSON.parse(foo); // not sure why i have to parse here, but will solve that later
+    const rawResponse = await response.json();
+    const json = JSON.parse(rawResponse); // not sure why i have to parse here, but will solve that later
     return json;
   }
 }

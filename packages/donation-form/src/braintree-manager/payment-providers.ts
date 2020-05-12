@@ -4,25 +4,31 @@ import { VenmoHandlerInterface, VenmoHandler } from "./payment-providers/venmo";
 import { PayPalHandlerInterface, PayPalHandler } from "./payment-providers/paypal";
 import { HostingEnvironment, BraintreeManagerInterface } from "./braintree-manager";
 import { ApplePaySessionManager } from "./payment-providers/apple-pay-session-manager";
+import { PaymentClientsInterface } from "./payment-clients";
 
 export interface PaymentProvidersInterface {
-  creditCardHandler: CreditCardHandlerInterface;
-  applePayHandler: ApplePayHandlerInterface;
-  venmoHandler: VenmoHandlerInterface;
-  paypalHandler: PayPalHandlerInterface;
+  creditCardHandler: CreditCardHandlerInterface | undefined;
+  applePayHandler: ApplePayHandlerInterface | undefined;
+  venmoHandler: VenmoHandlerInterface | undefined;
+  paypalHandler: PayPalHandlerInterface | undefined;
 }
 
 export class PaymentProviders implements PaymentProvidersInterface {
-  get creditCardHandler(): CreditCardHandlerInterface {
+  get creditCardHandler(): CreditCardHandlerInterface | undefined {
     if (this.creditCardHandlerCache) {
       return this.creditCardHandlerCache;
     }
 
-    this.creditCardHandlerCache = new CreditCardHandler(
-      this.braintreeManager,
-      this.hostedFieldStyle,
-      this.hostedFieldConfig
-    );
+    const hostedFieldsClient = this.paymentClients.hostedFields;
+
+    if (hostedFieldsClient) {
+      this.creditCardHandlerCache = new CreditCardHandler(
+        this.braintreeManager,
+        hostedFieldsClient,
+        this.hostedFieldStyle,
+        this.hostedFieldConfig
+      );
+    }
 
     return this.creditCardHandlerCache;
   }
@@ -71,20 +77,24 @@ export class PaymentProviders implements PaymentProvidersInterface {
 
   private hostedFieldStyle: object;
 
-  private hostedFieldConfig: object;
+  private hostedFieldConfig: braintree.HostedFieldFieldOptions;
 
   private hostingEnvironment: HostingEnvironment = HostingEnvironment.Development;
+
+  private paymentClients: PaymentClientsInterface;
 
   private paypal: any | undefined;
 
   constructor(
     braintreeManager: BraintreeManagerInterface,
+    paymentClients: PaymentClientsInterface,
     hostingEnvironment: HostingEnvironment,
     hostedFieldStyle: object,
-    hostedFieldConfig: object,
+    hostedFieldConfig: braintree.HostedFieldFieldOptions,
     paypal: any | undefined
   ) {
     this.braintreeManager = braintreeManager;
+    this.paymentClients = paymentClients;
     this.hostingEnvironment = hostingEnvironment;
     this.hostedFieldStyle = hostedFieldStyle;
     this.hostedFieldConfig = hostedFieldConfig;

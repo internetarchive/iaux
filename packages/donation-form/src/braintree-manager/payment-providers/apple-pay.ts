@@ -37,7 +37,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
       return this.applePayInstance;
     }
 
-    const braintreeClient = await this.braintreeManager.getBraintreeClient();
+    const braintreeClient = await this.braintreeManager.getInstance();
     const braintree = this.braintreeManager.braintree;
 
     return new Promise((resolve, reject) => {
