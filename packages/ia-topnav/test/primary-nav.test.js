@@ -2,7 +2,7 @@ import { html, fixture, expect } from '@open-wc/testing';
 
 import '../src/primary-nav';
 
-const component = (config) => (
+const component = (config = {}) => (
   html`<primary-nav .config=${config}></primary-nav>`
 );
 

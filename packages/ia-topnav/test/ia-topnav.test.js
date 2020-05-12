@@ -7,7 +7,9 @@ import {
 
 import '../src/ia-topnav';
 
-const container = html`<ia-topnav></ia-topnav>`;
+const container = (config = {}) => (
+  html`<ia-topnav .config=${config}></ia-topnav>`
+);
 
 const verifyClosed = (instance) => {
   expect(instance.mediaSliderOpen).to.be.false;
@@ -21,7 +23,7 @@ const verifyOpened = (instance, mediatype) => {
 
 describe('<ia-topnav>', () => {
   it('assigns a value to "search in" from outside event', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
     const query = 'atari';
     const searchMenu = el
       .shadowRoot
@@ -38,7 +40,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('dispatches an analyticsClick event when trackClick event fired', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
     const clickEvent = new MouseEvent('click');
 
     setTimeout(() => (
@@ -55,7 +57,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('dispatches an analyticsSubmit event when trackSubmit event fired', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
     const submitEvent = new Event('submit');
     const form = el
       .shadowRoot
@@ -74,7 +76,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('closes all menus when close-layer clicked', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
 
     el.openMenu = 'media';
     el.selectedMenuOption = 'texts';
@@ -89,7 +91,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('sets media slider to closed', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
 
     el.mediaSliderOpen = true;
     el.selectedMenuOption = 'foo';
@@ -99,7 +101,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('toggles media slider visibility and starts animation', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
     const mediatype = 'foo';
 
     el.selectedMenuOption = mediatype;
@@ -109,7 +111,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('closes media slider if selected menu type is the open menu type', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
     const mediatype = 'foo';
 
     el.selectedMenuOption = mediatype;
@@ -123,7 +125,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('opens media slider menu and starts animation', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
     const mediatype = 'foo';
 
     el.mediaTypeSelected({
@@ -136,7 +138,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('closes slider when menu closed', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
 
     el.openMenu = 'media';
     el.selectedMenuOption = 'foo';
@@ -150,7 +152,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('toggles search menu tabindex when dropdown open', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
 
     el.openMenu = 'search';
     await el.updateComplete;
@@ -159,11 +161,8 @@ describe('<ia-topnav>', () => {
   });
 
   it('toggles user menu tabindex when dropdown open', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container({ username: 'shaneriley' }));
 
-    el.config = {
-      username: 'shaneriley',
-    };
     el.openMenu = 'user';
     await el.updateComplete;
 
@@ -171,7 +170,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('toggles signed out menu tabindex when dropdown open', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
 
     el.openMenu = 'login';
     await el.updateComplete;
@@ -180,7 +179,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('toggles search menu when search toggle button clicked', async () => {
-    const el = await fixture(container);
+    const el = await fixture(container());
     el.shadowRoot.querySelector('primary-nav').shadowRoot.querySelector('.search-trigger').click();
     await el.updateComplete;
 
@@ -188,12 +187,31 @@ describe('<ia-topnav>', () => {
   });
 
   it('toggles user menu when search user avatar clicked', async () => {
-    const el = await fixture(container);
-    el.config = { username: 'shaneriley' };
-    await el.updateComplete;
+    const el = await fixture(container({ username: 'shaneriley' }));
+
     el.shadowRoot.querySelector('primary-nav').shadowRoot.querySelector('.user-menu').click();
     await el.updateComplete;
 
     expect(el.openMenu).to.equal('user');
+  });
+
+  it('uses baseHost to render logo link to homepage', async () => {
+    const el = await fixture(container({ baseHost: 'archive.org' }));
+    const logoLink = el
+      .shadowRoot
+      .querySelector('primary-nav')
+      .shadowRoot
+      .querySelector('.link-home');
+    expect(logoLink.getAttribute('href')).to.match(/archive\.org/);
+  });
+
+  it('uses baseHost to render upload link', async () => {
+    const el = await fixture(container({ baseHost: 'archive.org' }));
+    const uploadLink = el
+      .shadowRoot
+      .querySelector('primary-nav')
+      .shadowRoot
+      .querySelector('.upload');
+    expect(uploadLink.getAttribute('href')).to.match(/archive\.org\/upload/);
   });
 });
