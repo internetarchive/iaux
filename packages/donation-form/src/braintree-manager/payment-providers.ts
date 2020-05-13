@@ -1,10 +1,10 @@
-import { CreditCardHandlerInterface, CreditCardHandler } from "./payment-providers/credit-card";
-import { ApplePayHandlerInterface, ApplePayHandler } from "./payment-providers/apple-pay";
-import { VenmoHandlerInterface, VenmoHandler } from "./payment-providers/venmo";
-import { PayPalHandlerInterface, PayPalHandler } from "./payment-providers/paypal";
-import { HostingEnvironment, BraintreeManagerInterface } from "./braintree-manager";
-import { ApplePaySessionManager } from "./payment-providers/apple-pay-session-manager";
-import { PaymentClientsInterface } from "./payment-clients";
+import { CreditCardHandlerInterface, CreditCardHandler } from './payment-providers/credit-card';
+import { ApplePayHandlerInterface, ApplePayHandler } from './payment-providers/apple-pay';
+import { VenmoHandlerInterface, VenmoHandler } from './payment-providers/venmo';
+import { PayPalHandlerInterface, PayPalHandler } from './payment-providers/paypal';
+import { HostingEnvironment, BraintreeManagerInterface } from './braintree-manager';
+import { ApplePaySessionManager } from './payment-providers/apple-pay-session-manager';
+import { PaymentClientsInterface } from './payment-clients';
 
 export interface PaymentProvidersInterface {
   creditCardHandler: CreditCardHandlerInterface | undefined;
@@ -74,7 +74,8 @@ export class PaymentProviders implements PaymentProvidersInterface {
         this.braintreeManager,
         this.paymentClients.paypal,
         this.paymentClients.paypalLibrary,
-        this.hostingEnvironment);
+        this.hostingEnvironment
+      );
     }
 
     console.log(this.paymentClients.paypal, this.paymentClients.paypalLibrary, this.paypalHandlerCache);

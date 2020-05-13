@@ -21,6 +21,7 @@ export enum ReCaptchaType {
 
 export class RecaptchaManager {
   private grecaptchaLibrary: any;
+
   private siteKey: string;
 
   constructor(
@@ -43,11 +44,11 @@ export class RecaptchaManager {
   ): void {
     return this.grecaptchaLibrary.render(container, {
       callback: this.responseHandler.bind(this),
-      "expired-callback": this.expiredHandler.bind(this),
+      'expired-callback': this.expiredHandler.bind(this),
       sitekey: this.siteKey,
       tabindex: tabIndex,
-      theme: theme,
-      type: type,
+      theme,
+      type,
       size: 'invisible'
     });
   }

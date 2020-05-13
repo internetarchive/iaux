@@ -1,4 +1,4 @@
-/// <reference path="../../../node_modules/@types/braintree-web/index.d.ts" />
+// / <reference path="../../../node_modules/@types/braintree-web/index.d.ts" />
 
 declare namespace braintree {
   interface VenmoTokenizePayload {
@@ -29,8 +29,8 @@ declare namespace braintree {
      * });
      * @returns {(Promise|void)} Returns the Venmo instance.
      */
-    create(options: { client?: Client, authorization?: string, allowNewBrowserTab?: boolean, ignoreHistoryChanges?: boolean, profileId?: string, deepLinkReturnUrl?: string }): Promise<Venmo>;
-    create(options: { client?: Client, authorization?: string, allowNewBrowserTab?: boolean, ignoreHistoryChanges?: boolean, profileId?: string, deepLinkReturnUrl?: string }, callback?: callback): void;
+    create(options: { client?: Client; authorization?: string; allowNewBrowserTab?: boolean; ignoreHistoryChanges?: boolean; profileId?: string; deepLinkReturnUrl?: string }): Promise<Venmo>;
+    create(options: { client?: Client; authorization?: string; allowNewBrowserTab?: boolean; ignoreHistoryChanges?: boolean; profileId?: string; deepLinkReturnUrl?: string }, callback?: callback): void;
 
     /**
      * @description The current version of the SDK, i.e. `3.0.2`.
@@ -488,8 +488,8 @@ declare namespace braintree {
      * });
      * @returns {(Promise|void)} Returns a promise if no callback is provided.
      */
-    create(options: { client?: Client, authorization?: string, merchantAccountId?: string }): Promise<PayPalCheckout>;
-    create(options: { client?: Client, authorization?: string, merchantAccountId?: string }, callback?: callback): void;
+    create(options: { client?: Client; authorization?: string; merchantAccountId?: string }): Promise<PayPalCheckout>;
+    create(options: { client?: Client; authorization?: string; merchantAccountId?: string }, callback?: callback): void;
 
     /**
      * @description The current version of the SDK, i.e. `3.0.2`.
@@ -640,21 +640,21 @@ declare namespace braintree {
     * @returns {(Promise|void)} Returns a promise if no callback is provided.
     */
     createPayment(options: {
-      flow: PayPalCheckoutFlowType,
-      intent: PayPalCheckoutIntent,
-      offerCredit?: boolean,
-      amount?: string | number,
-      currency?: string,
-      displayName?: string,
-      locale?: string,
-      vaultInitiatedCheckoutPaymentMethodToken?: string,
-      shippingOptions?: PayPalCheckoutShippingOption[],
-      enableShippingAddress?: boolean,
-      shippingAddressOverride?: PayPalCheckoutAddress,
-      shippingAddressEditable?: boolean,
-      billingAgreementDescription?: string,
-      landingPageType?: string,
-      lineItems?: PayPalCheckoutLineItem[]
+      flow: PayPalCheckoutFlowType;
+      intent: PayPalCheckoutIntent;
+      offerCredit?: boolean;
+      amount?: string | number;
+      currency?: string;
+      displayName?: string;
+      locale?: string;
+      vaultInitiatedCheckoutPaymentMethodToken?: string;
+      shippingOptions?: PayPalCheckoutShippingOption[];
+      enableShippingAddress?: boolean;
+      shippingAddressOverride?: PayPalCheckoutAddress;
+      shippingAddressEditable?: boolean;
+      billingAgreementDescription?: string;
+      landingPageType?: string;
+      lineItems?: PayPalCheckoutLineItem[];
     }): Promise<void>;
 
     /**
@@ -686,7 +686,7 @@ declare namespace braintree {
      *
      * @returns {(Promise|void)} Returns a promise if no callback is provided.
      */
-    tokenizePayment(tokenizeOptions: {  }): Promise<object>;
+    tokenizePayment(tokenizeOptions: { }): Promise<object>;
 
     /**
      * Resolves with the PayPal client id to be used when loading the PayPal SDK.

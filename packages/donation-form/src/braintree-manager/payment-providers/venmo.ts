@@ -1,4 +1,4 @@
-import { BraintreeManagerInterface } from "../braintree-manager";
+import { BraintreeManagerInterface } from '../braintree-manager';
 
 export interface VenmoHandlerInterface {
   getVenmoInstance(): Promise<braintree.Venmo | undefined>;
@@ -47,6 +47,6 @@ export class VenmoHandler implements VenmoHandlerInterface {
 
     instance?.tokenize(undefined, (error?: any, payload?: braintree.VenmoTokenizePayload) => {
       console.log('venmo tokenize complete', error, payload);
-    })
+    });
   }
 }

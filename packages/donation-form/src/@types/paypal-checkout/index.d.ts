@@ -1,4 +1,4 @@
-/// <reference path="../braintree-web/index.d.ts" />
+// / <reference path="../braintree-web/index.d.ts" />
 
 declare namespace paypal {
   export interface Button {

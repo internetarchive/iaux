@@ -1,5 +1,5 @@
-import { BraintreeManagerInterface, HostingEnvironment } from "../braintree-manager";
-import { DonationType } from "../../models/donation-info/donation-type";
+import { BraintreeManagerInterface, HostingEnvironment } from '../braintree-manager';
+import { DonationType } from '../../models/donation-info/donation-type';
 
 export interface PayPalHandlerInterface {
   renderPayPalButton(): Promise<any>;
@@ -61,7 +61,7 @@ export class PayPalHandler implements PayPalHandlerInterface {
     console.log('renderPayPalButton');
 
     this.paypalLibrary.Button.render({
-      env:  env,
+      env,
 
       style: {
         color: 'blue',
@@ -70,11 +70,11 @@ export class PayPalHandler implements PayPalHandlerInterface {
         tagline: false,
       },
       payment: () => {
-        const donationInfo = this.braintreeManager.donationInfo;
+        const { donationInfo } = this.braintreeManager;
 
         const frequency = donationInfo.type;
         const flow = frequency === DonationType.OneTime ? 'checkout' : 'vault';
-        const amount = donationInfo.amount;
+        const { amount } = donationInfo;
         const options = {
           flow,
           enableShippingAddress: true
@@ -91,7 +91,7 @@ export class PayPalHandler implements PayPalHandlerInterface {
             billingAgreementDescription: `Subscribe to donate $${amount} monthly`,
           };
         }
-        Object.assign(options, checkoutOptions)
+        Object.assign(options, checkoutOptions);
 
         console.log(options, this, this.paypalInstance);
 
@@ -110,10 +110,10 @@ export class PayPalHandler implements PayPalHandlerInterface {
         // }
         // DonateIframe.postMessage('open modal');
 
-        this.getPayPalInstance().then(instance => {
+        this.getPayPalInstance().then((instance) => {
           console.log('instance', instance, options);
           instance.createPayment(options);// this.getPaymentOptions());
-        })
+        });
       },
       onAuthorize: (data: any, actions: any) => {
         // DonateIframe.postMessage('close modal');
@@ -124,7 +124,7 @@ export class PayPalHandler implements PayPalHandlerInterface {
         //   }
         //   this.submitPayment(payload);
         //   log(payload);
-          // Submit payload.nonce
+        // Submit payload.nonce
         // });
         console.log('authorize', data, actions);
       },
@@ -150,5 +150,4 @@ export class PayPalHandler implements PayPalHandlerInterface {
       console.log('tokenize complete', error, payload);
     });
   }
-
 }

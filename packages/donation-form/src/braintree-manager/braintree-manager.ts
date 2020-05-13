@@ -1,9 +1,9 @@
-import { DonationResponse } from "../models/response_models/donation_response";
-import { DonationRequest } from "../models/request_models/donation_request";
-import { PaymentProvidersInterface, PaymentProviders } from "./payment-providers";
-import { DonationType } from "../models/donation-info/donation-type";
-import { DonationPaymentInfo } from "../models/donation-info/donation-payment-info";
-import { PaymentClientsInterface } from "./payment-clients";
+import { DonationResponse } from '../models/response_models/donation_response';
+import { DonationRequest } from '../models/request_models/donation_request';
+import { PaymentProvidersInterface, PaymentProviders } from './payment-providers';
+import { DonationType } from '../models/donation-info/donation-type';
+import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
+import { PaymentClientsInterface } from './payment-clients';
 
 export interface BraintreeManagerInterface {
   paymentProviders: PaymentProvidersInterface;
@@ -66,7 +66,6 @@ export class BraintreeManager implements BraintreeManagerInterface {
       }
       this._deviceData = instance?.deviceData;
     });
-
   }
 
   async getInstance(): Promise<braintree.Client | undefined> {
@@ -122,6 +121,6 @@ export class BraintreeManager implements BraintreeManagerInterface {
       hostingEnvironment,
       hostedFieldStyle,
       hostedFieldConfig
-    )
+    );
   }
 }
