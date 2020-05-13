@@ -101,6 +101,7 @@ export default css`
     display: none;
     font-size: 1.3rem;
     vertical-align: middle;
+    text-transform: uppercase;
   }
 
   .user-menu {
@@ -204,6 +205,12 @@ export default css`
       height: 32px;
       vertical-align: middle;
       fill: var(--iconFill);
+    }
+
+    .upload:hover svg,
+    .upload:focus svg,
+    .upload:active svg {
+      fill: var(--linkHoverColor);
     }
 
     nav-search {
