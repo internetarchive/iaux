@@ -13,6 +13,14 @@ export interface PaymentProvidersInterface {
   paypalHandler: PayPalHandlerInterface | undefined;
 }
 
+/**
+ * The PaymentProviders class contains the IA-specific handlers for each of the
+ * different payment providers.
+ *
+ * @export
+ * @class PaymentProviders
+ * @implements {PaymentProvidersInterface}
+ */
 export class PaymentProviders implements PaymentProvidersInterface {
   get creditCardHandler(): CreditCardHandlerInterface | undefined {
     if (this.creditCardHandlerCache) {
@@ -33,7 +41,7 @@ export class PaymentProviders implements PaymentProvidersInterface {
     return this.creditCardHandlerCache;
   }
 
-  get applePayHandler(): ApplePayHandlerInterface {
+  get applePayHandler(): ApplePayHandlerInterface | undefined {
     if (this.applePayHandlerCache) {
       return this.applePayHandlerCache;
     }
@@ -44,24 +52,32 @@ export class PaymentProviders implements PaymentProvidersInterface {
     return this.applePayHandlerCache;
   }
 
-  get venmoHandler(): VenmoHandlerInterface {
+  get venmoHandler(): VenmoHandlerInterface | undefined {
     if (this.venmoHandlerCache) {
       return this.venmoHandlerCache;
     }
 
-    this.venmoHandlerCache = new VenmoHandler(this.braintreeManager);
+    if (this.paymentClients.venmo) {
+      this.venmoHandlerCache = new VenmoHandler(this.braintreeManager, this.paymentClients.venmo);
+    }
 
     return this.venmoHandlerCache;
   }
 
-  get paypalHandler(): PayPalHandlerInterface {
+  get paypalHandler(): PayPalHandlerInterface | undefined {
     if (this.paypalHandlerCache) {
       return this.paypalHandlerCache;
     }
 
-    this.paypalHandlerCache = new PayPalHandler(
-      this.braintreeManager, this.paypal, this.hostingEnvironment);
+    if (this.paymentClients.paypal) {
+      this.paypalHandlerCache = new PayPalHandler(
+        this.braintreeManager,
+        this.paymentClients.paypal,
+        this.paymentClients.paypalLibrary,
+        this.hostingEnvironment);
+    }
 
+    console.log(this.paymentClients.paypal, this.paymentClients.paypalLibrary, this.paypalHandlerCache);
     return this.paypalHandlerCache;
   }
 
@@ -83,21 +99,17 @@ export class PaymentProviders implements PaymentProvidersInterface {
 
   private paymentClients: PaymentClientsInterface;
 
-  private paypal: any | undefined;
-
   constructor(
     braintreeManager: BraintreeManagerInterface,
     paymentClients: PaymentClientsInterface,
     hostingEnvironment: HostingEnvironment,
     hostedFieldStyle: object,
-    hostedFieldConfig: braintree.HostedFieldFieldOptions,
-    paypal: any | undefined
+    hostedFieldConfig: braintree.HostedFieldFieldOptions
   ) {
     this.braintreeManager = braintreeManager;
     this.paymentClients = paymentClients;
     this.hostingEnvironment = hostingEnvironment;
     this.hostedFieldStyle = hostedFieldStyle;
     this.hostedFieldConfig = hostedFieldConfig;
-    this.paypal = paypal;
   }
 }

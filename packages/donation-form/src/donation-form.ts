@@ -16,11 +16,13 @@ import './payment-selector';
 import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
 import { DonationRequest } from './models/request_models/donation_request';
 import { ContactForm } from './contact-form';
-import { DonationType } from './models/donation-info/donation-type';
+import { RecaptchaManagerInterface } from './recaptcha-manager';
 
 @customElement('donation-form')
 export class DonationForm extends LitElement {
   @property({ type: Object }) braintreeManager: BraintreeManagerInterface | undefined;
+
+  @property({ type: Object }) recaptchaManager: RecaptchaManagerInterface | undefined;
 
   @property({ type: Object }) donationRequest: DonationRequest = new DonationRequest();
 
@@ -70,11 +72,13 @@ export class DonationForm extends LitElement {
   }
 
   private donateClicked() {
-    this.donationRequest.paymentMethodNonce = 'fake-valid-nonce';
-    this.donationRequest.billing = this.contactForm.billingInfo;
-    this.donationRequest.customer = this.contactForm.contactInfo;
+    this.recaptchaManager.execute();
 
-    this.braintreeManager?.submitDataToEndpoint(this.donationRequest);
+    // this.donationRequest.paymentMethodNonce = 'fake-valid-nonce';
+    // this.donationRequest.billing = this.contactForm.billingInfo;
+    // this.donationRequest.customer = this.contactForm.contactInfo;
+
+    // this.braintreeManager?.submitDataToEndpoint(this.donationRequest);
   }
 
   /** @inheritdoc */

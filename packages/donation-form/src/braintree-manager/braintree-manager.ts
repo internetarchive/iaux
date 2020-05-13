@@ -3,12 +3,15 @@ import { DonationRequest } from "../models/request_models/donation_request";
 import { PaymentProvidersInterface, PaymentProviders } from "./payment-providers";
 import { DonationType } from "../models/donation-info/donation-type";
 import { DonationPaymentInfo } from "../models/donation-info/donation-payment-info";
-import { PaymentClientsInterface, PaymentClients } from "./payment-clients";
+import { PaymentClientsInterface } from "./payment-clients";
 
 export interface BraintreeManagerInterface {
   paymentProviders: PaymentProvidersInterface;
   donationInfo: DonationPaymentInfo;
-  getInstance(): Promise<any | undefined>;
+  deviceData: string | undefined;
+
+  startup(): void;
+  getInstance(): Promise<braintree.Client | undefined>;
   submitDataToEndpoint(request: DonationRequest): Promise<DonationResponse>;
 }
 
@@ -32,6 +35,12 @@ export enum HostingEnvironment {
 export class BraintreeManager implements BraintreeManagerInterface {
   readonly donationInfo: DonationPaymentInfo = new DonationPaymentInfo(DonationType.OneTime, 5);
 
+  get deviceData(): string | undefined {
+    return this._deviceData;
+  }
+
+  private _deviceData?: string;
+
   /**
    * This contains all of the individual payment providers so as to not clutter the
    * top-level BraintreeManager class.
@@ -41,8 +50,26 @@ export class BraintreeManager implements BraintreeManagerInterface {
    */
   paymentProviders: PaymentProvidersInterface;
 
+  async startup() {
+    const instance = await this.getInstance();
+    if (!instance) { return; }
 
-  async getInstance(): Promise<any | undefined> {
+    this.paymentClients.dataCollector?.create({
+      client: instance,
+      kount: false,
+      paypal: true
+    }, (error?: braintree.BraintreeError, instance?: braintree.DataCollector) => {
+      if (error) {
+        console.error(error);
+        // log(dataCollectorError);
+        return;
+      }
+      this._deviceData = instance?.deviceData;
+    });
+
+  }
+
+  async getInstance(): Promise<braintree.Client | undefined> {
     if (this.braintreeInstance) {
       return this.braintreeInstance;
     }
@@ -50,7 +77,7 @@ export class BraintreeManager implements BraintreeManagerInterface {
     return new Promise((resolve, reject) => {
       this.paymentClients.braintree?.create({
         authorization: this.authorizationToken
-      }, (clientErr: any | undefined, clientInstance: any | undefined) => {
+      }, (clientErr: any | undefined, clientInstance: braintree.Client | undefined) => {
         if (clientErr) {
           return reject(clientErr);
         }
@@ -77,26 +104,24 @@ export class BraintreeManager implements BraintreeManagerInterface {
   private hostingEnvironment: HostingEnvironment = HostingEnvironment.Development;
 
   constructor(
-    braintreeLibrary: any = window.braintree,
+    paymentClients: PaymentClientsInterface,
     endpointManager: BraintreeEndpointManagerInterface,
     authorizationToken: string,
     hostedFieldStyle: object,
     hostedFieldConfig: braintree.HostedFieldFieldOptions,
-    hostingEnvironment: HostingEnvironment,
-    paypal: any
+    hostingEnvironment: HostingEnvironment
   ) {
     this.authorizationToken = authorizationToken;
     this.endpointManager = endpointManager;
     this.hostingEnvironment = hostingEnvironment;
+    this.paymentClients = paymentClients;
 
-    this.paymentClients = new PaymentClients(braintreeLibrary);
     this.paymentProviders = new PaymentProviders(
       this,
       this.paymentClients,
       hostingEnvironment,
       hostedFieldStyle,
-      hostedFieldConfig,
-      paypal
+      hostedFieldConfig
     )
   }
 }

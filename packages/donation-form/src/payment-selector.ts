@@ -32,17 +32,18 @@ export class PaymentSelector extends LitElement {
 
   updated(changedProperties: PropertyValues): void {
     if (changedProperties.has('braintreeManager')) {
-      this.braintreeManager?.paymentProviders.creditCardHandler.setupHostedFields();
-      this.braintreeManager?.paymentProviders.paypalHandler.renderPayPalButton();
+      this.braintreeManager?.paymentProviders.creditCardHandler?.setupHostedFields();
+      this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton();
+      console.log('updated', this.braintreeManager?.paymentProviders);
     }
   }
 
   private startApplePay(): void {
-    this.braintreeManager?.paymentProviders.applePayHandler.createPaymentRequest();
+    this.braintreeManager?.paymentProviders.applePayHandler?.createPaymentRequest();
   }
 
   private startVenmo(): void {
-    this.braintreeManager?.paymentProviders.venmoHandler.startPayment();
+    this.braintreeManager?.paymentProviders.venmoHandler?.startPayment();
   }
 
   private toggleCreditCard(): void {

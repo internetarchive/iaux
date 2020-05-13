@@ -11,20 +11,26 @@ export class PayPalHandler implements PayPalHandlerInterface {
   constructor(
     braintreeManager: BraintreeManagerInterface,
     paypalClient: braintree.PayPalCheckout,
+    paypalLibrary: any,
     hostingEnvironment: HostingEnvironment
   ) {
     this.braintreeManager = braintreeManager;
     this.paypalClient = paypalClient;
+    this.paypalLibrary = paypalLibrary;
     this.hostingEnvironment = hostingEnvironment;
+
+    console.log('PayPalHandler', paypalLibrary, paypalClient);
   }
 
   private braintreeManager: BraintreeManagerInterface;
 
   private paypalClient: braintree.PayPalCheckout;
 
+  private paypalLibrary: any;
+
   private hostingEnvironment: HostingEnvironment;
 
-  private paypalInstance: braintree.PayPal | undefined;
+  private paypalInstance: braintree.PayPalCheckout | undefined;
 
   async getPayPalInstance(): Promise<any | undefined> {
     if (this.paypalInstance) {
@@ -38,7 +44,7 @@ export class PayPalHandler implements PayPalHandlerInterface {
       this.paypalClient.create({
         client: braintreeClient
       }, (error: any, instance: braintree.PayPalCheckout) => {
-        console.log('instance', error, instance, instance.merchantIdentifier);
+        // console.log('instance', error, instance, instance.merchantIdentifier);
         if (error) {
           return reject(error);
         }
@@ -52,7 +58,9 @@ export class PayPalHandler implements PayPalHandlerInterface {
   async renderPayPalButton(): Promise<any> {
     const env = this.hostingEnvironment === HostingEnvironment.Development ? 'sandbox' : 'production';
 
-    this.paypal.Button.render({
+    console.log('renderPayPalButton');
+
+    this.paypalLibrary.Button.render({
       env:  env,
 
       style: {
@@ -62,9 +70,11 @@ export class PayPalHandler implements PayPalHandlerInterface {
         tagline: false,
       },
       payment: () => {
-        const frequency = this.braintreeManager.donationType;
+        const donationInfo = this.braintreeManager.donationInfo;
+
+        const frequency = donationInfo.type;
         const flow = frequency === DonationType.OneTime ? 'checkout' : 'vault';
-        const amount = this.braintreeManager.donationAmount;
+        const amount = donationInfo.amount;
         const options = {
           flow,
           enableShippingAddress: true
@@ -101,7 +111,7 @@ export class PayPalHandler implements PayPalHandlerInterface {
         // DonateIframe.postMessage('open modal');
 
         this.getPayPalInstance().then(instance => {
-          console.log('instance', instance);
+          console.log('instance', instance, options);
           instance.createPayment(options);// this.getPaymentOptions());
         })
       },
@@ -116,14 +126,17 @@ export class PayPalHandler implements PayPalHandlerInterface {
         //   log(payload);
           // Submit payload.nonce
         // });
+        console.log('authorize', data, actions);
       },
       onCancel: (data: object) => {
         // DonateIframe.postMessage('close modal');
         // log('PayPal payment cancelled', JSON.stringify(data, 0, 2));
+        console.log('cancel', data);
       },
       onError: (error: string) => {
         // DonateIframe.postMessage('close modal');
         // log(`PayPal error: ${general_err}`);
+        console.log('error', error);
       }
     }, '#paypal-button').then(() => {
       console.log('PayPal button set up');

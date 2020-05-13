@@ -7,12 +7,16 @@ export interface VenmoHandlerInterface {
 
 export class VenmoHandler implements VenmoHandlerInterface {
   constructor(
-    braintreeManager: BraintreeManagerInterface
+    braintreeManager: BraintreeManagerInterface,
+    venmoClient: braintree.Venmo
   ) {
     this.braintreeManager = braintreeManager;
+    this.venmoClient = venmoClient;
   }
 
   private braintreeManager: BraintreeManagerInterface;
+
+  private venmoClient: braintree.Venmo;
 
   private venmoInstance: any | undefined;
 
@@ -21,15 +25,13 @@ export class VenmoHandler implements VenmoHandlerInterface {
       return this.venmoInstance;
     }
 
-    const braintreeClient = await this.braintreeManager.getInstance();
-    const braintree = this.braintreeManager.venmo;
+    const braintreeInstance = await this.braintreeManager.getInstance();
 
     return new Promise((resolve, reject) => {
-      braintree.venmo.create({
-        client: braintreeClient,
+      this.venmoClient.create({
+        client: braintreeInstance,
         profileId: '1953896702662410263'
-      }, (error: any, instance: any) => {
-        console.log('instance', error, instance, instance.merchantIdentifier);
+      }, (error: any, instance: braintree.Venmo) => {
         if (error) {
           return reject(error);
         }
@@ -43,9 +45,8 @@ export class VenmoHandler implements VenmoHandlerInterface {
   async startPayment(): Promise<any> {
     const instance = await this.getVenmoInstance();
 
-    instance.tokenize((error: any, payload: any) => {
-      console.log('tokenize complete', error, payload);
-    });
+    instance?.tokenize(undefined, (error?: any, payload?: braintree.VenmoTokenizePayload) => {
+      console.log('venmo tokenize complete', error, payload);
+    })
   }
-
 }

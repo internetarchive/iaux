@@ -1,6 +1,12 @@
 /// <reference path="../../../node_modules/@types/braintree-web/index.d.ts" />
 
 declare namespace braintree {
+  interface VenmoTokenizePayload {
+    nonce: string;
+    type: string;
+    details: { username: string };
+  }
+
   export interface Venmo {
     /**
      * @static
@@ -23,8 +29,8 @@ declare namespace braintree {
      * });
      * @returns {(Promise|void)} Returns the Venmo instance.
      */
-    create(options: { client: Client, authorization: string, allowNewBrowserTab: boolean, ignoreHistoryChanges: boolean, profileId: string, deepLinkReturnUrl: string }): Promise<Venmo>;
-    create(options: { client: Client, authorization: string, allowNewBrowserTab: boolean, ignoreHistoryChanges: boolean, profileId: string, deepLinkReturnUrl: string }, callback: callback): void;
+    create(options: { client?: Client, authorization?: string, allowNewBrowserTab?: boolean, ignoreHistoryChanges?: boolean, profileId?: string, deepLinkReturnUrl?: string }): Promise<Venmo>;
+    create(options: { client?: Client, authorization?: string, allowNewBrowserTab?: boolean, ignoreHistoryChanges?: boolean, profileId?: string, deepLinkReturnUrl?: string }, callback?: callback): void;
 
     /**
      * @description The current version of the SDK, i.e. `3.0.2`.
@@ -89,8 +95,8 @@ declare namespace braintree {
      *   });
      * });
      */
-    tokenize(options: { processResultsDelay: number }): Promise<void>;
-    tokenize(options: { processResultsDelay: number }, callback: callback): void;
+    tokenize(options?: { processResultsDelay?: number }, callback?: (error?: BraintreeError, payload?: VenmoTokenizePayload) => void): void;
+    tokenize(options?: { processResultsDelay?: number }): Promise<void>;
 
     /**
      * Cleanly tear down anything set up by {@link module:braintree-web/venmo.create|create}.
@@ -482,8 +488,8 @@ declare namespace braintree {
      * });
      * @returns {(Promise|void)} Returns a promise if no callback is provided.
      */
-    create(options: { client: Client, authorization: string, merchantAccountId: string }): Promise<Venmo>;
-    create(options: { client: Client, authorization: string, merchantAccountId: string }, callback: callback): void;
+    create(options: { client?: Client, authorization?: string, merchantAccountId?: string }): Promise<PayPalCheckout>;
+    create(options: { client?: Client, authorization?: string, merchantAccountId?: string }, callback?: callback): void;
 
     /**
      * @description The current version of the SDK, i.e. `3.0.2`.
@@ -749,4 +755,8 @@ declare namespace braintree {
     teardown(callback: () => void): void;
     teardown(): Promise<void>;
   }
+}
+
+declare namespace braintree {
+  export var paypalCheckout: braintree.PayPalCheckout;
 }

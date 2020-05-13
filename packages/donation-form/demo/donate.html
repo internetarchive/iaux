@@ -18,6 +18,16 @@
       height: 30px;
     }
   </style>
+
+  <script>
+    // *****************
+    // DON'T COMMIT KEYS
+    // *****************
+    window.config = {
+      BRAINTREE_KEY: '',
+      RECAPTCHA_KEY: ''
+    };
+  </script>
 </head>
 <body>
   <div id="demo">
@@ -27,7 +37,9 @@
     import { html, render } from 'lit-html';
     import { BraintreeEndpointManager } from './braintree-endpoint-manager.js';
 
+    import { PaymentClients } from '../lib/braintree-manager/payment-clients.js';
     import { BraintreeManager } from '../lib/braintree-manager/braintree-manager.js';
+    import { RecaptchaManager } from '../lib/recaptcha-manager.js';
     import '../lib/donation-form.js';
     import '../lib/re-captcha.js'
 
@@ -65,10 +77,11 @@
 
     const endpointManager = new BraintreeEndpointManager();
 
+    const paymentClients = new PaymentClients(window.braintree, window.paypal);
     const braintreeManager = new BraintreeManager(
-      window.braintree,
+      paymentClients,
       endpointManager,
-      '', // DON'T COMMIT
+      window.config.BRAINTREE_KEY,
       hostedFieldStyle,
       hostedFieldConfig,
       'dev',
@@ -76,10 +89,13 @@
       window.ApplePaySession
     );
 
+    const recaptchaManager = new RecaptchaManager(window.grecaptcha, window.config.RECAPTCHA_KEY)
+
     render(
       html`
         <donation-form
-          .braintreeManager=${braintreeManager}>
+          .braintreeManager=${braintreeManager}
+          .recaptchaManager=${recaptchaManager}>
 
           <!--
             Why are these here?
@@ -104,10 +120,13 @@
             <div id="paypal-button"></div>
           </div>
         </donation-form>
-        <re-captcha></re-captcha>
+        <div id="recaptcha"></div>
       `,
       document.querySelector('#demo')
     );
+
+    const recaptchaContainer = document.getElementById('recaptcha');
+    recaptchaManager.setup(recaptchaContainer, 'light', 'image');
   </script>
 </body>
 </html>
