@@ -6,7 +6,7 @@ export interface RecaptchaManagerInterface {
     type: ReCaptchaType
   ): void;
 
-  execute();
+  execute(): void;
 }
 
 export enum ReCaptchaTheme {

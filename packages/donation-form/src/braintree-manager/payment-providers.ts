@@ -46,8 +46,14 @@ export class PaymentProviders implements PaymentProvidersInterface {
       return this.applePayHandlerCache;
     }
 
-    const applePaySessionManager = new ApplePaySessionManager();
-    this.applePayHandlerCache = new ApplePayHandler(this.braintreeManager, applePaySessionManager);
+    if (this.paymentClients.applePay) {
+      const applePaySessionManager = new ApplePaySessionManager();
+      this.applePayHandlerCache = new ApplePayHandler(
+        this.braintreeManager,
+        this.paymentClients.applePay,
+        applePaySessionManager
+      );
+    }
 
     return this.applePayHandlerCache;
   }

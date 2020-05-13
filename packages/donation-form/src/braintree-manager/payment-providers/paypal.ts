@@ -3,7 +3,7 @@ import { DonationType } from '../../models/donation-info/donation-type';
 
 export interface PayPalHandlerInterface {
   renderPayPalButton(): Promise<any>;
-  getPayPalInstance(): Promise<any | undefined>;
+  getPayPalInstance(): Promise<braintree.PayPalCheckout | undefined>;
   startPayment(): Promise<any>;
 }
 
@@ -32,7 +32,7 @@ export class PayPalHandler implements PayPalHandlerInterface {
 
   private paypalInstance: braintree.PayPalCheckout | undefined;
 
-  async getPayPalInstance(): Promise<any | undefined> {
+  async getPayPalInstance(): Promise<braintree.PayPalCheckout | undefined> {
     if (this.paypalInstance) {
       return this.paypalInstance;
     }
@@ -73,7 +73,11 @@ export class PayPalHandler implements PayPalHandlerInterface {
         const { donationInfo } = this.braintreeManager;
 
         const frequency = donationInfo.type;
-        const flow = frequency === DonationType.OneTime ? 'checkout' : 'vault';
+
+        console.log(braintree.PayPalCheckoutFlowType);
+
+        // you can't use the proper enum in here because it's in a callback
+        const flow: braintree.PayPalCheckoutFlowType = frequency === DonationType.OneTime ? 'checkout' : 'vault';
         const { amount } = donationInfo;
         const options = {
           flow,
@@ -93,7 +97,7 @@ export class PayPalHandler implements PayPalHandlerInterface {
         }
         Object.assign(options, checkoutOptions);
 
-        console.log(options, this, this.paypalInstance);
+        console.log('options', options, this, this.paypalInstance);
 
         // const context = Donations.getDonationContext().replace(/^(\w)/, (matches, $1) => $1.toUpperCase());
         // const platform = context === 'Banner' ? Donations.getDonationPlatform() : '';
@@ -110,9 +114,9 @@ export class PayPalHandler implements PayPalHandlerInterface {
         // }
         // DonateIframe.postMessage('open modal');
 
-        this.getPayPalInstance().then((instance) => {
+        this.getPayPalInstance().then((instance?: braintree.PayPalCheckout) => {
           console.log('instance', instance, options);
-          instance.createPayment(options);// this.getPaymentOptions());
+          instance?.createPayment(options);// this.getPaymentOptions());
         });
       },
       onAuthorize: (data: any, actions: any) => {

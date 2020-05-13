@@ -1,5 +1,5 @@
-import { BraintreeManagerInterface } from "../braintree-manager";
-import { ApplePaySessionManagerInterface } from "./apple-pay-session-manager";
+import { BraintreeManagerInterface } from '../braintree-manager';
+import { ApplePaySessionManagerInterface } from './apple-pay-session-manager';
 
 export interface ApplePayHandlerInterface {
   isAvailable(): Promise<boolean>;
@@ -10,9 +10,11 @@ export interface ApplePayHandlerInterface {
 export class ApplePayHandler implements ApplePayHandlerInterface {
   constructor(
     braintreeManager: BraintreeManagerInterface,
+    applePayClient: braintree.ApplePay,
     applePaySessionManager: ApplePaySessionManagerInterface
   ) {
     this.braintreeManager = braintreeManager;
+    this.applePayClient = applePayClient;
     this.applePaySessionManager = applePaySessionManager;
   }
 
@@ -22,11 +24,13 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
 
   private applePayInstance: any | undefined;
 
+  private applePayClient: braintree.ApplePay;
+
   async isAvailable(): Promise<boolean> {
     try {
       await this.getApplePayInstance();
       return true;
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       return false;
     }
@@ -38,10 +42,10 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
     }
 
     const braintreeClient = await this.braintreeManager.getInstance();
-    const braintree = this.braintreeManager.braintree;
+    if (!braintreeClient) { return undefined; }
 
     return new Promise((resolve, reject) => {
-      braintree.applePay.create({
+      this.applePayClient.create({
         client: braintreeClient
       }, (error: any, instance: any) => {
         console.log('instance', error, instance, instance.merchantIdentifier);
@@ -68,7 +72,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
         amount: '19.99'
       }
     });
-    var session = this.applePaySessionManager.createNewPaymentSession(paymentRequest);
+    const session = this.applePaySessionManager.createNewPaymentSession(paymentRequest);
 
     session.onvalidatemerchant = function (event) {
       applePayInstance.performValidation({

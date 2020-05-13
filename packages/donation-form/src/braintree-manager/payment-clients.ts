@@ -4,6 +4,7 @@ export interface PaymentClientsInterface {
   hostedFields: braintree.HostedFields | undefined;
   venmo: braintree.Venmo | undefined;
   paypal: braintree.PayPalCheckout | undefined;
+  applePay: braintree.ApplePay | undefined;
 
   braintreeLibrary: any;
   paypalLibrary: any;

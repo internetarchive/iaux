@@ -1,4 +1,4 @@
-// / <reference path="../../../node_modules/@types/braintree-web/index.d.ts" />
+/// <reference path="../../../node_modules/@types/braintree-web/index.d.ts" />
 
 declare namespace braintree {
   interface VenmoTokenizePayload {
@@ -641,7 +641,7 @@ declare namespace braintree {
     */
     createPayment(options: {
       flow: PayPalCheckoutFlowType;
-      intent: PayPalCheckoutIntent;
+      intent?: PayPalCheckoutIntent;
       offerCredit?: boolean;
       amount?: string | number;
       currency?: string;
