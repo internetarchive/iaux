@@ -45,6 +45,10 @@ export default css`
     padding: 0.4rem 0 0.7rem 0;
     margin: 0;
     list-style: none;
+    /* viewport height - nav height + bottom nav border */
+    max-height: calc(100vh - 7.2rem + 1px);
+    overflow: auto;
+    box-sizing: border-box;
   }
 
   .divider {
@@ -94,6 +98,11 @@ export default css`
 
     h3 {
       display: none;
+    }
+
+    ul {
+      /* viewport height - nav height + bottom nav border */
+      max-height: calc(100vh - 8.5rem + 1px);
     }
 
     .divider {
