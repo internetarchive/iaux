@@ -6,6 +6,7 @@ import {
   CSSResult,
   TemplateResult,
   property,
+  PropertyValues,
 } from 'lit-element';
 
 import { DonationType } from '../models/donation-info/donation-type';
@@ -13,7 +14,7 @@ import { DonationPaymentInfo } from '../models/donation-info/donation-payment-in
 
 @customElement('donation-summary')
 export class DonationSummary extends LitElement {
-  @property({ type: Object }) donationPaymentInfo: DonationPaymentInfo = new DonationPaymentInfo(
+  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo(
     DonationType.OneTime, 5);
 
   // @property({ type: String }) frequency: DonationType = DonationType.OneTime;
@@ -27,12 +28,16 @@ export class DonationSummary extends LitElement {
   }
 
   get displayTitle(): string {
-    const monthlyString = this.donationPaymentInfo.type === DonationType.Monthly ? 'Monthly' : '';
-    return `$${this.donationPaymentInfo.amount} ${monthlyString} Donation`;
+    const monthlyString = this.donationInfo.type === DonationType.Monthly ? 'Monthly' : '';
+    return `$${this.donationInfo.amount} ${monthlyString} Donation`;
   }
 
   private editClicked() {
     this.dispatchEvent(new Event('editClicked'));
+  }
+
+  updated(changed: PropertyValues) {
+    console.log(changed);
   }
 
   /** @inheritdoc */

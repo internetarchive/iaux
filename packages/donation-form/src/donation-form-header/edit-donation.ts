@@ -5,14 +5,18 @@ import {
   customElement,
   CSSResult,
   TemplateResult,
+  property,
 } from 'lit-element';
 
 import '../form-section';
 import '../static-custom-button';
 import { DonationType } from '../models/donation-info/donation-type';
+import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
 
 @customElement('edit-donation')
 export class EditDonation extends LitElement {
+  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo(DonationType.OneTime, 5);
+
   /** @inheritdoc */
   render(): TemplateResult {
     return html`
@@ -46,18 +50,28 @@ export class EditDonation extends LitElement {
         `)}
 
       </form-section>
+      <button @click=${this.showSummary}>Switch to Summary</button>
     `;
   }
 
+  private showSummary() {
+    this.dispatchEvent(new Event('showSummaryClicked'));
+  }
+
   private frequencyChanged(e: CustomEvent) {
+    this.donationInfo.type = e.detail.value as DonationType;
     console.log('EditDonation frequencyChanged', e.detail.value);
-    const event = new CustomEvent('donationTypeChanged', { detail: { frequency: e.detail.value }});
-    this.dispatchEvent(event);
+    this.dispatchDonationInfoChangedEvent();
   }
 
   private amountChanged(e: CustomEvent) {
+    this.donationInfo.amount = e.detail.value;
     console.log('EditDonation amountChanged', e.detail.value);
-    const event = new CustomEvent('donationAmountChanged', { detail: { amount: e.detail.value }});
+    this.dispatchDonationInfoChangedEvent();
+  }
+
+  private dispatchDonationInfoChangedEvent() {
+    const event = new CustomEvent('donationInfoChanged', { detail: { donationInfo: this.donationInfo }});
     this.dispatchEvent(event);
   }
 

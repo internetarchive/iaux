@@ -6,10 +6,14 @@ import {
   CSSResult,
   TemplateResult,
   property,
+  query,
 } from 'lit-element';
 
 import './donation-summary';
 import './edit-donation';
+import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
+import { DonationType } from '../models/donation-info/donation-type';
+import { EditDonation } from './edit-donation';
 
 export enum DonationFormHeaderMode {
   Summary = 'summary',
@@ -18,7 +22,13 @@ export enum DonationFormHeaderMode {
 
 @customElement('donation-form-header')
 export class DonationFormHeader extends LitElement {
+  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo(DonationType.OneTime, 5);
+
   @property({ type: String }) mode: DonationFormHeaderMode = DonationFormHeaderMode.Summary;
+
+  @query('edit-donation') editDonation?: EditDonation;
+
+  @query('donation-summary') donationSummary?: EditDonation;
 
   /** @inheritdoc */
   render(): TemplateResult {
@@ -33,32 +43,33 @@ export class DonationFormHeader extends LitElement {
   get editDonationTemplate(): TemplateResult {
     return html`
       <edit-donation
-        @donationAmountChanged=${this.amountChanged}
-        @donationTypeChanged=${this.frequencyChanged}>
+        .donationInfo=${this.donationInfo}
+        @donationInfoChanged=${this.donationInfoChanged}
+        @showSummaryClicked=${this.showSummaryClicked}>
       </edit-donation>`;
   }
 
   get donationSummaryTemplate(): TemplateResult {
     return html`
       <donation-summary
+        .donationInfo=${this.donationInfo}
         @editClicked=${this.summaryEditClicked}>
       </donation-summary>`;
   }
 
-  private frequencyChanged(e: CustomEvent) {
+  private donationInfoChanged(e: CustomEvent) {
     console.log('DonationFormHeader frequencyChanged', e.detail.frequency);
-    const event = new CustomEvent('donationTypeChanged', { detail: { frequency: e.detail.frequency }});
-    this.dispatchEvent(event);
-  }
-
-  private amountChanged(e: CustomEvent) {
-    console.log('DonationFormHeader amountChanged', e.detail.amount);
-    const event = new CustomEvent('donationAmountChanged', { detail: { amount: e.detail.amount }});
+    this.donationInfo = e.detail.donationInfo as DonationPaymentInfo;
+    const event = new CustomEvent('donationInfoChanged', { detail: { donationInfo: this.donationInfo }});
     this.dispatchEvent(event);
   }
 
   private summaryEditClicked() {
     this.mode = DonationFormHeaderMode.Edit;
+  }
+
+  private showSummaryClicked() {
+    this.mode = DonationFormHeaderMode.Summary;
   }
 
   /** @inheritdoc */

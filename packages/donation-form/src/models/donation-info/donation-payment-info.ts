@@ -1,9 +1,9 @@
 import { DonationType } from "./donation-type";
 
 export class DonationPaymentInfo {
-  readonly type: DonationType;
+  type: DonationType;
 
-  readonly amount: number;
+  amount: number;
 
   constructor(
     type: DonationType,

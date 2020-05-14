@@ -17,6 +17,8 @@ import { BraintreeManagerInterface } from './braintree-manager/braintree-manager
 import { DonationRequest } from './models/request_models/donation_request';
 import { ContactForm } from './contact-form';
 import { RecaptchaManagerInterface } from './recaptcha-manager';
+import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
+import { DonationFormHeader } from './donation-form-header/donation-form-header';
 
 @customElement('donation-form')
 export class DonationForm extends LitElement {
@@ -27,6 +29,8 @@ export class DonationForm extends LitElement {
   @property({ type: Object }) donationRequest: DonationRequest = new DonationRequest();
 
   @query('contact-form') contactForm!: ContactForm;
+
+  @query('donation-form-header') donationFormHeader!: DonationFormHeader;
 
   /** @inheritdoc */
   render(): TemplateResult {
@@ -58,6 +62,16 @@ export class DonationForm extends LitElement {
   firstUpdated() {
     // this.donationRequest.type = DonationType.OneTime;
     this.donationRequest.amount = 50;
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const frequency = urlParams.get('frequency');
+    const amount = urlParams.get('amount');
+
+    const donationInfo = new DonationPaymentInfo(frequency, amount);
+
+    console.log('donationInfo', donationInfo);
+    this.donationFormHeader.donationInfo = donationInfo;
   }
 
   private frequencyChanged(e: CustomEvent) {
@@ -72,7 +86,7 @@ export class DonationForm extends LitElement {
   }
 
   private donateClicked() {
-    this.recaptchaManager.execute();
+    this.recaptchaManager?.execute();
 
     // this.donationRequest.paymentMethodNonce = 'fake-valid-nonce';
     // this.donationRequest.billing = this.contactForm.billingInfo;
