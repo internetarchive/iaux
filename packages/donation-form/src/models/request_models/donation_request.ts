@@ -14,7 +14,7 @@ export class DonationRequest {
   customer: CustomerInfo | undefined;
   billing: BillingInfo | undefined;
   referrer: string | undefined;
-  // frequency: DonationType | undefined;
+  frequency: DonationType | undefined;
 
   customFields: object = {
     'ip_address': 'baz',

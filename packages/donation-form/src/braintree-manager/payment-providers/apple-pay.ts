@@ -1,6 +1,10 @@
 import { BraintreeManagerInterface } from '../braintree-manager';
 import { ApplePaySessionManagerInterface } from './apple-pay-session-manager';
 import { BraintreeError } from 'braintree-web';
+import { DonationRequest } from '../../models/request_models/donation_request';
+import { BillingInfo } from '../../models/common/billing_info';
+import { CustomerInfo } from '../../models/common/customer_info';
+import { DonationType } from '../../models/donation-info/donation-type';
 
 export interface ApplePayHandlerInterface {
   isAvailable(): Promise<boolean>;
@@ -103,7 +107,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
 
     // session.
 
-    session.onvalidatemerchant = function (event) {
+    session.onvalidatemerchant = function (event: ApplePayJS.ApplePayValidateMerchantEvent) {
       console.log('onvalidatemerchant', event);
 
       applePayInstance.performValidation({
@@ -121,22 +125,53 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
       });
     };
 
-    session.onpaymentauthorized = (event) => {
+    session.onpaymentauthorized = (event: ApplePayJS.ApplePayPaymentAuthorizedEvent) => {
       console.log('onpaymentauthorized, event', event);
 
       applePayInstance.tokenize({
         token: event.payment.token
-      }, (tokenizeErr: braintree.BraintreeError, payload) {
+      }, (tokenizeErr: braintree.BraintreeError, payload: any) {
         if (tokenizeErr) {
           console.error('Error tokenizing Apple Pay:', tokenizeErr);
           session.completePayment(ApplePaySession.STATUS_FAILURE);
           return;
         }
 
+        console.log('payload', payload);
+
+        const payment = event.payment;
+        const billingContact = payment.billingContact;
+        const shippingContact = payment.shippingContact;
+
+        const billingInfo = new BillingInfo({
+          firstName: billingContact?.givenName,
+          lastName: billingContact?.familyName,
+          streetAddress: billingContact?.addressLines[0],
+          extendedAddress: billingContact?.addressLines[1],
+          locality: billingContact?.locality,
+          region: billingContact?.administrativeArea,
+          postalCode: billingContact?.postalCode,
+          countryCodeAlpha2: billingContact?.countryCode
+        })
+
+        const customerInfo = new CustomerInfo({
+          email: billingContact?.emailAddress,
+          firstName: billingContact?.givenName,
+          lastName: billingContact?.familyName
+        })
+
+        const donationRequest = new DonationRequest();
+        donationRequest.paymentMethodNonce = payload.nonce;
+        donationRequest.billing = billingInfo;
+        donationRequest.customer = customerInfo;
+        donationRequest.amount = 10;
+        donationRequest.frequency = DonationType.OneTime;
+
+        this.braintreeManager.submitDataToEndpoint(donationRequest);
+
         // Send payload.nonce to your server.
         console.log('nonce:', payload.nonce);
 
-        console.log('payload', payload);
 
         // If requested, address information is accessible in event.payment
         // and may also be sent to your server.
