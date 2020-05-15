@@ -68,10 +68,11 @@ export class DonationForm extends LitElement {
     const frequency = urlParams.get('frequency');
     const amount = urlParams.get('amount');
 
-    const donationInfo = new DonationPaymentInfo(frequency, amount);
-
-    console.log('donationInfo', donationInfo);
-    this.donationFormHeader.donationInfo = donationInfo;
+    if (frequency && amount) {
+      const donationInfo = new DonationPaymentInfo(frequency, amount);
+      console.log('donationInfo', donationInfo);
+      this.donationFormHeader.donationInfo = donationInfo;
+    }
   }
 
   private frequencyChanged(e: CustomEvent) {

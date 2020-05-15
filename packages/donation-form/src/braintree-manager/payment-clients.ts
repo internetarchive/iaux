@@ -107,12 +107,12 @@ export class PaymentClients implements PaymentClientsInterface {
     return this.braintreeLibrary.applePay;
   }
 
-  constructor(
+  constructor(options: {
     braintreeLibrary: any,
     paypalLibrary: any
-  ) {
-    this.braintreeLibrary = braintreeLibrary;
-    this.paypalLibrary = paypalLibrary;
+  }) {
+    this.braintreeLibrary = options.braintreeLibrary;
+    this.paypalLibrary = options.paypalLibrary;
 
     console.log('payment-clients', this.paypalLibrary);
   }

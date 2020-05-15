@@ -77,19 +77,24 @@
 
     const endpointManager = new BraintreeEndpointManager();
 
-    const paymentClients = new PaymentClients(window.braintree, window.paypal);
-    const braintreeManager = new BraintreeManager(
+    const paymentClients = new PaymentClients({
+      braintreeLibrary: window.braintree,
+      paypalLibrary: window.paypal
+    });
+
+    const braintreeManager = new BraintreeManager({
       paymentClients,
       endpointManager,
-      window.config.BRAINTREE_KEY,
+      authorizationToken: window.config.BRAINTREE_KEY,
       hostedFieldStyle,
       hostedFieldConfig,
-      'dev',
-      window.paypal,
-      window.ApplePaySession
-    );
+      hostingEnvironment: 'dev'
+    });
 
-    const recaptchaManager = new RecaptchaManager(window.grecaptcha, window.config.RECAPTCHA_KEY)
+    const recaptchaManager = new RecaptchaManager({
+      grecaptchaLibrary: window.grecaptcha,
+      siteKey: window.config.RECAPTCHA_KEY
+    });
 
     render(
       html`
@@ -126,7 +131,7 @@
     );
 
     const recaptchaContainer = document.getElementById('recaptcha');
-    recaptchaManager.setup(recaptchaContainer, 'light', 'image');
+    recaptchaManager.setup({ container: recaptchaContainer, theme: 'light', type: 'image' });
   </script>
 </body>
 </html>

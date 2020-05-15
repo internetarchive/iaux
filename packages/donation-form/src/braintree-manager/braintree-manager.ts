@@ -102,25 +102,25 @@ export class BraintreeManager implements BraintreeManagerInterface {
 
   private hostingEnvironment: HostingEnvironment = HostingEnvironment.Development;
 
-  constructor(
+  constructor(options: {
     paymentClients: PaymentClientsInterface,
     endpointManager: BraintreeEndpointManagerInterface,
     authorizationToken: string,
     hostedFieldStyle: object,
     hostedFieldConfig: braintree.HostedFieldFieldOptions,
     hostingEnvironment: HostingEnvironment
-  ) {
-    this.authorizationToken = authorizationToken;
-    this.endpointManager = endpointManager;
-    this.hostingEnvironment = hostingEnvironment;
-    this.paymentClients = paymentClients;
+  }) {
+    this.authorizationToken = options.authorizationToken;
+    this.endpointManager = options.endpointManager;
+    this.hostingEnvironment = options.hostingEnvironment;
+    this.paymentClients = options.paymentClients;
 
     this.paymentProviders = new PaymentProviders(
       this,
       this.paymentClients,
-      hostingEnvironment,
-      hostedFieldStyle,
-      hostedFieldConfig
+      options.hostingEnvironment,
+      options.hostedFieldStyle,
+      options.hostedFieldConfig
     );
   }
 }

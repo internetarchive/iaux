@@ -24,31 +24,31 @@ export class RecaptchaManager {
 
   private siteKey: string;
 
-  constructor(
+  constructor(options: {
     grecaptchaLibrary: any,
     siteKey: string
-  ) {
-    this.grecaptchaLibrary = grecaptchaLibrary;
-    this.siteKey = siteKey;
+  }) {
+    this.grecaptchaLibrary = options.grecaptchaLibrary;
+    this.siteKey = options.siteKey;
   }
 
   execute(): void {
     this.grecaptchaLibrary.execute();
   }
 
-  setup(
+  setup(options: {
     container: HTMLElement,
     tabIndex: number,
     theme: ReCaptchaTheme,
     type: ReCaptchaType
-  ): void {
-    return this.grecaptchaLibrary.render(container, {
+  }): void {
+    return this.grecaptchaLibrary.render(options.container, {
       callback: this.responseHandler.bind(this),
       'expired-callback': this.expiredHandler.bind(this),
       sitekey: this.siteKey,
-      tabindex: tabIndex,
-      theme,
-      type,
+      tabindex: options.tabIndex,
+      theme: options.theme,
+      type: options.type,
       size: 'invisible'
     });
   }
