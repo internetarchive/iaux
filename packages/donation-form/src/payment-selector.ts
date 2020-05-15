@@ -38,8 +38,9 @@ export class PaymentSelector extends LitElement {
     }
   }
 
-  private startApplePay(): void {
-    this.braintreeManager?.paymentProviders.applePayHandler?.createPaymentRequest();
+  private startApplePay(e: Event): void {
+    // you must pass the event to start the ApplePay flow
+    this.braintreeManager?.paymentProviders.applePayHandler?.createPaymentRequest(e);
   }
 
   private startVenmo(): void {

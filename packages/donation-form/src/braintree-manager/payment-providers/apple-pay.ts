@@ -1,10 +1,11 @@
 import { BraintreeManagerInterface } from '../braintree-manager';
 import { ApplePaySessionManagerInterface } from './apple-pay-session-manager';
+import { BraintreeError } from 'braintree-web';
 
 export interface ApplePayHandlerInterface {
   isAvailable(): Promise<boolean>;
   getApplePayInstance(): Promise<any | undefined>;
-  createPaymentRequest(): Promise<any>;
+  createPaymentRequest(e: Event): Promise<any>;
 }
 
 export class ApplePayHandler implements ApplePayHandlerInterface {
@@ -57,24 +58,54 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
           return reject('Apple Pay unavailable');
         }
 
+        var canMakePayments = ApplePaySession.canMakePaymentsWithActiveCard(instance.merchantIdentifier);
+        canMakePayments.then((canMakePaymentsWithActiveCard) => {
+          console.log('can make payments?', canMakePaymentsWithActiveCard);
+          if (canMakePaymentsWithActiveCard) {
+            // Set up Apple Pay buttons
+          }
+        });
+
+        console.log('ApplePay Available')
         this.applePayInstance = instance;
         resolve(instance);
       });
     });
   }
 
-  async createPaymentRequest(): Promise<any> {
+  // In order to trigger the Apple Pay flow, you HAVE to pass in the event
+  // that triggered the launch. Notice we're not actually using the event
+  // but ApplePay won't launch without it.
+  async createPaymentRequest(e: Event): Promise<any> {
     const applePayInstance = await this.getApplePayInstance();
 
     const paymentRequest = applePayInstance.createPaymentRequest({
       total: {
-        label: 'My Company',
+        label: 'Internet Archive Donation',
         amount: '19.99'
-      }
+      },
+      requiredBillingContactFields: [
+        "postalAddress"
+      ],
+      requiredShippingContactFields: [
+        "name",
+        "email"
+      ]
     });
     const session = this.applePaySessionManager.createNewPaymentSession(paymentRequest);
 
+    console.log(paymentRequest.countryCode);
+    console.log(paymentRequest.currencyCode);
+    console.log(paymentRequest.merchantCapabilities);
+    console.log(paymentRequest.supportedNetworks);
+
+    console.log('createPaymentRequest', session, paymentRequest);
+
+    // session.
+
     session.onvalidatemerchant = function (event) {
+      console.log('onvalidatemerchant', event);
+
       applePayInstance.performValidation({
         validationURL: event.validationURL,
         displayName: 'My Great Store'
@@ -89,6 +120,35 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
         session.completeMerchantValidation(validationData);
       });
     };
+
+    session.onpaymentauthorized = (event) => {
+      console.log('onpaymentauthorized, event', event);
+
+      applePayInstance.tokenize({
+        token: event.payment.token
+      }, (tokenizeErr: braintree.BraintreeError, payload) {
+        if (tokenizeErr) {
+          console.error('Error tokenizing Apple Pay:', tokenizeErr);
+          session.completePayment(ApplePaySession.STATUS_FAILURE);
+          return;
+        }
+
+        // Send payload.nonce to your server.
+        console.log('nonce:', payload.nonce);
+
+        console.log('payload', payload);
+
+        // If requested, address information is accessible in event.payment
+        // and may also be sent to your server.
+        // console.log('billingPostalCode:', event.payment.billingContact.postalCode);
+
+        // After you have transacted with the payload.nonce,
+        // call `completePayment` to dismiss the Apple Pay sheet.
+        session.completePayment(ApplePaySession.STATUS_SUCCESS);
+      });
+    };
+
     console.log('session', session);
+    session.begin();
   }
 }
