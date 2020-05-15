@@ -8,10 +8,17 @@ export default css`
     text-transform: uppercase;
     text-decoration: none;
     color: var(--grey80);
+    cursor: pointer;
   }
 
   .dropdown-toggle .fill-color {
     fill: var(--iconFill);
+  }
+
+  .dropdown-toggle:active .fill-color,
+  .dropdown-toggle:focus .fill-color,
+  .dropdown-toggle:hover .fill-color {
+    fill: var(--linkHoverColor);
   }
 
   .active {
@@ -33,6 +40,12 @@ export default css`
   span a {
     color: inherit;
     text-decoration: none;
+  }
+
+  a:hover,
+  a:active,
+  a:focus {
+    color: var(--linkHoverColor);
   }
 
   @media (min-width: 890px) {

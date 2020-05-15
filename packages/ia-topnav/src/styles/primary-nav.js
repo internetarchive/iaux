@@ -215,6 +215,12 @@ export default css`
 
     nav-search {
       float: right;
+      margin-left: 1rem;
+    }
+
+    login-button {
+      display: block;
+      margin-right: 1rem;
     }
   }
 `;
