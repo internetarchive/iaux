@@ -69,15 +69,16 @@ export class PayPalHandler implements PayPalHandlerInterface {
         size: 'small',
         tagline: false,
       },
-      payment: () => {
+      payment: async () => {
         const { donationInfo } = this.braintreeManager;
 
         const frequency = donationInfo.type;
 
-        console.log(braintree.PayPalCheckoutFlowType);
+        console.log(donationInfo);
 
         // you can't use the proper enum in here because it's in a callback
-        const flow: braintree.PayPalCheckoutFlowType = frequency === DonationType.OneTime ? 'checkout' : 'vault';
+        const flow: braintree.PayPalCheckoutFlowType =
+          (frequency === DonationType.OneTime ? 'checkout' : 'vault') as braintree.PayPalCheckoutFlowType;
         const { amount } = donationInfo;
         const options = {
           flow,
@@ -99,25 +100,8 @@ export class PayPalHandler implements PayPalHandlerInterface {
 
         console.log('options', options, this, this.paypalInstance);
 
-        // const context = Donations.getDonationContext().replace(/^(\w)/, (matches, $1) => $1.toUpperCase());
-        // const platform = context === 'Banner' ? Donations.getDonationPlatform() : '';
-        // const frequency = Donations.getFrequency() === 'one-time' ? 'OneTime' : 'Monthly';
-        // try {
-        //   archive_analytics.send_event(
-        //     `Donate${context}${platform}`,
-        //     `PmtPaypal${frequency}`,
-        //     window.location.pathname,
-        //     { service: 'ao_no_sampling' }
-        //   );
-        // } catch (e) {
-        //   log('archive_analytics not available on window object');
-        // }
-        // DonateIframe.postMessage('open modal');
-
-        this.getPayPalInstance().then((instance?: braintree.PayPalCheckout) => {
-          console.log('instance', instance, options);
-          instance?.createPayment(options);// this.getPaymentOptions());
-        });
+        const instance = await this.getPayPalInstance();
+        return instance?.createPayment(options);
       },
       onAuthorize: (data: any, actions: any) => {
         // DonateIframe.postMessage('close modal');

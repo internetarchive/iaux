@@ -38,8 +38,7 @@ export class DonationForm extends LitElement {
       <h1>Donation Form</h1>
 
       <donation-form-header
-        @donationAmountChanged=${this.amountChanged}
-        @donationTypeChanged=${this.frequencyChanged}>
+        @donationInfoChanged=${this.donationInfoChanged}>
       </donation-form-header>
 
       <form-section number=3 headline="Tell us about yourself">
@@ -75,15 +74,12 @@ export class DonationForm extends LitElement {
     }
   }
 
-  private frequencyChanged(e: CustomEvent) {
-    console.log('DonationForm frequencyChanged', e.detail.frequency);
-    // this.donationRequest.frequency = e.detail.frequency;
-  }
-
-  private amountChanged(e: CustomEvent) {
-    console.log('DonationForm amountChanged', e.detail.amount);
-    this.donationRequest.amount = e.detail.amount;
-    console.log(this.donationRequest);
+  private donationInfoChanged(e: CustomEvent) {
+    const donationInfo: DonationPaymentInfo = e.detail.donationInfo;
+    console.log('DonationForm donationInfoChanged', donationInfo);
+    this.donationRequest.frequency = donationInfo.type;
+    this.donationRequest.amount = donationInfo.amount;
+    this.braintreeManager?.updateDonationInfo(donationInfo);
   }
 
   private donateClicked() {

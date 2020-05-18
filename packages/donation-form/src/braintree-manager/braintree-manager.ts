@@ -12,6 +12,7 @@ export interface BraintreeManagerInterface {
 
   startup(): void;
   getInstance(): Promise<braintree.Client | undefined>;
+  updateDonationInfo(donationInfo: DonationPaymentInfo): void;
   submitDataToEndpoint(request: DonationRequest): Promise<DonationResponse>;
 }
 
@@ -37,6 +38,10 @@ export class BraintreeManager implements BraintreeManagerInterface {
 
   get deviceData(): string | undefined {
     return this._deviceData;
+  }
+
+  updateDonationInfo(donationInfo: DonationPaymentInfo) {
+    this.donationInfo = donationInfo;
   }
 
   private _deviceData?: string;
