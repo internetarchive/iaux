@@ -686,7 +686,18 @@ declare namespace braintree {
      *
      * @returns {(Promise|void)} Returns a promise if no callback is provided.
      */
-    tokenizePayment(tokenizeOptions: { }): Promise<object>;
+    tokenizePayment(tokenizeOptions: {
+      payerId: string,
+      paymentId?: string,
+      billingToken?: string,
+      vault?: boolean
+    }): Promise<PayPalCheckoutTokenizePayload>;
+    tokenizePayment(tokenizeOptions: {
+      payerId: string,
+      paymentId?: string,
+      billingToken?: string,
+      vault?: boolean
+    }, callback?: callback): void;
 
     /**
      * Resolves with the PayPal client id to be used when loading the PayPal SDK.

@@ -1,12 +1,12 @@
-import { DonationType } from "./donation-type";
+import { DonationFrequency } from "./donation-frequency";
 
 export class DonationPaymentInfo {
-  type: DonationType;
+  type: DonationFrequency;
 
   amount: number;
 
   constructor(
-    type: DonationType,
+    type: DonationFrequency,
     amount: number
   ) {
     this.type = type;

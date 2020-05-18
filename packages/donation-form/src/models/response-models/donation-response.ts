@@ -1,6 +1,6 @@
-import { ResponseValueInterface } from './response_value';
-import { SuccessResponse } from './success_models/success_response';
-import { ErrorResponse } from './error_models/error_response';
+import { ResponseValueInterface } from './response-value';
+import { SuccessResponse } from './success-models/success-response';
+import { ErrorResponse } from './error-models/error-response';
 
 export class DonationResponse {
   success: boolean;

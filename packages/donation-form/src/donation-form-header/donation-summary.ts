@@ -9,13 +9,13 @@ import {
   PropertyValues,
 } from 'lit-element';
 
-import { DonationType } from '../models/donation-info/donation-type';
+import { DonationFrequency } from '../models/donation-info/donation-frequency';
 import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
 
 @customElement('donation-summary')
 export class DonationSummary extends LitElement {
   @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo(
-    DonationType.OneTime, 5);
+    DonationFrequency.OneTime, 5);
 
   // @property({ type: String }) frequency: DonationType = DonationType.OneTime;
 
@@ -28,7 +28,7 @@ export class DonationSummary extends LitElement {
   }
 
   get displayTitle(): string {
-    const monthlyString = this.donationInfo.type === DonationType.Monthly ? 'Monthly' : '';
+    const monthlyString = this.donationInfo.type === DonationFrequency.Monthly ? 'Monthly' : '';
     return `$${this.donationInfo.amount} ${monthlyString} Donation`;
   }
 

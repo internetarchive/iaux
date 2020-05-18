@@ -1,7 +1,7 @@
-import { CustomerInfo } from '../../common/customer_info';
-import { BillingInfo } from '../../common/billing_info';
-import { SubscriptionResponse } from './subscription_response';
-import { ResponseValueInterface } from '../response_value';
+import { CustomerInfo } from '../../common/customer-info';
+import { BillingInfo } from '../../common/billing-info';
+import { SubscriptionResponse } from './subscription-response';
+import { ResponseValueInterface } from '../response-value';
 
 export class SuccessResponse implements ResponseValueInterface {
   paymentMethodNonce: string;

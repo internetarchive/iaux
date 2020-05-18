@@ -13,8 +13,9 @@ import './form-section';
 import './donation-form-header/donation-form-header';
 import './contact-form';
 import './payment-selector';
+import './donation-modal';
 import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
-import { DonationRequest } from './models/request_models/donation_request';
+import { DonationRequest } from './models/request_models/donation-request';
 import { ContactForm } from './contact-form';
 import { RecaptchaManagerInterface } from './recaptcha-manager';
 import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
@@ -26,7 +27,9 @@ export class DonationForm extends LitElement {
 
   @property({ type: Object }) recaptchaManager: RecaptchaManagerInterface | undefined;
 
-  @property({ type: Object }) donationRequest: DonationRequest = new DonationRequest();
+  @property({ type: Object }) donationRequest: DonationRequest | undefined;
+
+  @property({ type: Boolean }) modalVisible = false;
 
   @query('contact-form') contactForm!: ContactForm;
 
@@ -55,12 +58,24 @@ export class DonationForm extends LitElement {
       <form-section number=5>
         <button @click=${this.donateClicked}>Donate</button>
       </form-section>
+
+      ${this.modalView}
+    `;
+  }
+
+  get modalView(): TemplateResult {
+    if (!this.modalVisible) { return html``; }
+
+    return html`
+      <donation-modal>
+        <slot name="paypal-upsell-button"></slot>
+      </donation-modal>
     `;
   }
 
   firstUpdated() {
     // this.donationRequest.type = DonationType.OneTime;
-    this.donationRequest.amount = 50;
+    // this.donationRequest.amount = 50;
 
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -77,14 +92,14 @@ export class DonationForm extends LitElement {
   private donationInfoChanged(e: CustomEvent) {
     const donationInfo: DonationPaymentInfo = e.detail.donationInfo;
     console.log('DonationForm donationInfoChanged', donationInfo);
-    this.donationRequest.frequency = donationInfo.type;
-    this.donationRequest.amount = donationInfo.amount;
+    // this.donationRequest.frequency = donationInfo.type;
+    // this.donationRequest.amount = donationInfo.amount;
     this.braintreeManager?.updateDonationInfo(donationInfo);
   }
 
   private donateClicked() {
     this.recaptchaManager?.execute();
-
+    this.modalVisible = true
     // this.donationRequest.paymentMethodNonce = 'fake-valid-nonce';
     // this.donationRequest.billing = this.contactForm.billingInfo;
     // this.donationRequest.customer = this.contactForm.contactInfo;

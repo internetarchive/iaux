@@ -1,5 +1,5 @@
-import { CodedError } from './coded_error.js';
-import { ResponseValueInterface } from '../response_value.js';
+import { CodedError } from './coded-error.js';
+import { ResponseValueInterface } from '../response-value.js';
 
 export class ErrorResponse implements ResponseValueInterface {
   message: string;

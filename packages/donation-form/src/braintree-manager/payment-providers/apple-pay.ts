@@ -1,14 +1,14 @@
 import { BraintreeManagerInterface } from '../braintree-manager';
 import { ApplePaySessionManagerInterface } from './apple-pay-session-manager';
 import { BraintreeError } from 'braintree-web';
-import { DonationRequest } from '../../models/request_models/donation_request';
-import { BillingInfo } from '../../models/common/billing_info';
-import { CustomerInfo } from '../../models/common/customer_info';
-import { DonationType } from '../../models/donation-info/donation-type';
+import { DonationRequest } from '../../models/request_models/donation-request';
+import { BillingInfo } from '../../models/common/billing-info';
+import { CustomerInfo } from '../../models/common/customer-info';
+import { DonationFrequency } from '../../models/donation-info/donation-frequency';
 
 export interface ApplePayHandlerInterface {
   isAvailable(): Promise<boolean>;
-  getApplePayInstance(): Promise<any | undefined>;
+  getInstance(): Promise<any | undefined>;
   createPaymentRequest(e: Event): Promise<any>;
 }
 
@@ -33,7 +33,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
 
   async isAvailable(): Promise<boolean> {
     try {
-      await this.getApplePayInstance();
+      await this.getInstance();
       return true;
     } catch (err) {
       console.error(err);
@@ -41,7 +41,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
     }
   }
 
-  async getApplePayInstance(): Promise<any | undefined> {
+  async getInstance(): Promise<any | undefined> {
     if (this.applePayInstance) {
       return this.applePayInstance;
     }
@@ -81,7 +81,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
   // that triggered the launch. Notice we're not actually using the event
   // but ApplePay won't launch without it.
   async createPaymentRequest(e: Event): Promise<any> {
-    const applePayInstance = await this.getApplePayInstance();
+    const applePayInstance = await this.getInstance();
 
     const paymentRequest = applePayInstance.createPaymentRequest({
       total: {
@@ -130,7 +130,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
 
       applePayInstance.tokenize({
         token: event.payment.token
-      }, (tokenizeErr: braintree.BraintreeError, payload: any) {
+      }, (tokenizeErr: braintree.BraintreeError, payload: any) => {
         if (tokenizeErr) {
           console.error('Error tokenizing Apple Pay:', tokenizeErr);
           session.completePayment(ApplePaySession.STATUS_FAILURE);
@@ -142,12 +142,21 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
         const payment = event.payment;
         const billingContact = payment.billingContact;
         const shippingContact = payment.shippingContact;
+        const addressLines = billingContact?.addressLines;
+
+        let line1 = undefined;
+        let line2 = undefined;
+
+        if (addressLines) {
+          line1 = addressLines[0];
+          line2 = addressLines[1];
+        }
 
         const billingInfo = new BillingInfo({
           firstName: billingContact?.givenName,
           lastName: billingContact?.familyName,
-          streetAddress: billingContact?.addressLines[0],
-          extendedAddress: billingContact?.addressLines[1],
+          streetAddress: line1,
+          extendedAddress: line2,
           locality: billingContact?.locality,
           region: billingContact?.administrativeArea,
           postalCode: billingContact?.postalCode,
@@ -160,14 +169,14 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
           lastName: billingContact?.familyName
         })
 
-        const donationRequest = new DonationRequest();
-        donationRequest.paymentMethodNonce = payload.nonce;
-        donationRequest.billing = billingInfo;
-        donationRequest.customer = customerInfo;
-        donationRequest.amount = 10;
-        donationRequest.frequency = DonationType.OneTime;
+        // const donationRequest = new DonationRequest();
+        // donationRequest.nonce = payload.nonce;
+        // donationRequest.billing = billingInfo;
+        // donationRequest.customer = customerInfo;
+        // donationRequest.amount = 10;
+        // donationRequest.frequency = DonationFrequency.OneTime;
 
-        this.braintreeManager.submitDataToEndpoint(donationRequest);
+        // this.braintreeManager.submitDataToEndpoint(donationRequest);
 
         // Send payload.nonce to your server.
         console.log('nonce:', payload.nonce);

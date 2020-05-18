@@ -7,8 +7,8 @@ import {
   TemplateResult,
   query
 } from 'lit-element';
-import { BillingInfo } from './models/common/billing_info';
-import { CustomerInfo } from './models/common/customer_info';
+import { BillingInfo } from './models/common/billing-info';
+import { CustomerInfo } from './models/common/customer-info';
 
 @customElement('contact-form')
 export class ContactForm extends LitElement {

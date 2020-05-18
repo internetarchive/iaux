@@ -1,5 +1,8 @@
 import { BraintreeManagerInterface, HostingEnvironment } from '../braintree-manager';
-import { DonationType } from '../../models/donation-info/donation-type';
+import { DonationFrequency } from '../../models/donation-info/donation-frequency';
+import { DonationRequest, DonationRequestPaymentProvider } from '../../models/request_models/donation-request';
+import { CustomerInfo } from '../../models/common/customer-info';
+import { BillingInfo } from '../../models/common/billing-info';
 
 export interface PayPalHandlerInterface {
   renderPayPalButton(): Promise<any>;
@@ -78,7 +81,7 @@ export class PayPalHandler implements PayPalHandlerInterface {
 
         // you can't use the proper enum in here because it's in a callback
         const flow: braintree.PayPalCheckoutFlowType =
-          (frequency === DonationType.OneTime ? 'checkout' : 'vault') as braintree.PayPalCheckoutFlowType;
+          (frequency === DonationFrequency.Monthly ? 'vault' : 'checkout') as braintree.PayPalCheckoutFlowType;
         const { amount } = donationInfo;
         const options = {
           flow,
@@ -103,9 +106,118 @@ export class PayPalHandler implements PayPalHandlerInterface {
         const instance = await this.getPayPalInstance();
         return instance?.createPayment(options);
       },
-      onAuthorize: (data: any, actions: any) => {
-        // DonateIframe.postMessage('close modal');
-        // return instance.tokenizePayment(data, (auth_err, payload) => {
+      onAuthorize: async (data: any, actions: any): Promise<braintree.PayPalCheckoutTokenizePayload | undefined> => {
+        const instance = await this.getPayPalInstance();
+        if (!instance) { return; }
+        const payload: braintree.PayPalCheckoutTokenizePayload = await instance.tokenizePayment(data);
+
+        console.log('PAYLOAD', payload);
+
+        const details = payload?.details;
+
+        const customerInfo = new CustomerInfo({
+          email: details?.email,
+          firstName: details?.firstName,
+          lastName: details?.lastName
+        });
+
+        const shippingAddress = payload?.shippingAddress;
+
+        const billingInfo = new BillingInfo({
+          firstName: details?.firstName,
+          lastName: details?.lastName,
+          streetAddress: shippingAddress?.line1,
+          extendedAddress: shippingAddress?.line2,
+          locality: shippingAddress?.city,
+          region: shippingAddress?.state,
+          postalCode: shippingAddress?.postalCode,
+          countryCodeAlpha2: shippingAddress?.countryCode
+        })
+
+        const { donationInfo } = this.braintreeManager;
+
+        const request = new DonationRequest({
+          paymentProvider: DonationRequestPaymentProvider.PayPal,
+          paymentMethodNonce: payload.nonce,
+          isUpsell: false,
+          amount: donationInfo.amount,
+          frequency: donationInfo.type,
+          customer: customerInfo,
+          billing: billingInfo,
+          referrer: undefined,
+          customFields: undefined,
+          options: undefined
+        });
+
+        this.braintreeManager.submitDataToEndpoint(request);
+
+        return payload;
+
+        // donationRequest.amount = donationInfo.amount;
+        // donationRequest.frequency = donationInfo.type;
+
+        // donationRequest.billing = billingInfo;
+        // donationRequest.customer = customerInfo;
+
+        // amount: number | undefined;
+        // customer: CustomerInfo | undefined;
+        // billing: BillingInfo | undefined;
+        // referrer: string | undefined;
+        // frequency: DonationType | undefined;
+        // customFields: DonationRequestCustomFields | undefined;
+        // options: DonatinoRequestOptions | undefined;
+
+
+        // type: string;
+
+        // /**
+        //  * Additional PayPal account details.
+        //  *
+        //  * @type {PayPalCheckoutTokenizePayloadDetails}
+        //  * @memberof PayPalCheckoutTokenizePayload
+        //  */
+        // details: PayPalCheckoutTokenizePayloadDetails;
+
+        // /**
+        //  * User's shipping address details, only available if shipping address is enabled.
+        //  *
+        //  * @type {PayPalCheckoutAddress}
+        //  * @memberof PayPalCheckoutTokenizePayload
+        //  */
+        // shippingAddress?: PayPalCheckoutAddress;
+
+        // /**
+        //  * User's billing address details.
+        //  *
+        //  * @type {PayPalCheckoutAddress}
+        //  * @memberof PayPalCheckoutTokenizePayload
+        //  */
+        // billingAddress?: PayPalCheckoutAddress;
+
+        // /**
+        //  * This property will only be present when the customer pays with PayPal Credit.
+        //  *
+        //  * @type {PayPalCheckoutCreditFinancingOptions}
+        //  * @memberof PayPalCheckoutTokenizePayload
+        //  */
+        // creditFinancingOffered?: PayPalCheckoutCreditFinancingOptions;
+
+        // const donationRequest = new DonationRequest({
+        //   nonce: payload?.nonce,
+        //   amount: donationInfo.amount,
+
+        // })
+        // donationRequest.amount = donationInfo.amount
+        // donationRequest.frequency = donationInfo.type;
+
+        // this.braintreeManager.submitDataToEndpoint(donationRequest);
+
+
+        // return payload;
+        // this.submit(payload);
+
+
+        // return instance?.tokenizePayment(data, (auth_err, payload) => {
         //   if (auth_err) {
         //     log(auth_err);
         //     return;
@@ -114,7 +226,7 @@ export class PayPalHandler implements PayPalHandlerInterface {
         //   log(payload);
         // Submit payload.nonce
         // });
-        console.log('authorize', data, actions);
+        // console.log('authorize', data, actions);
       },
       onCancel: (data: object) => {
         // DonateIframe.postMessage('close modal');
@@ -134,8 +246,8 @@ export class PayPalHandler implements PayPalHandlerInterface {
   async startPayment(): Promise<any> {
     const instance = await this.getPayPalInstance();
 
-    instance.tokenize((error: any, payload: object) => {
-      console.log('tokenize complete', error, payload);
-    });
+    // instance?.tokenize((error: any, payload: object) => {
+    //   console.log('tokenize complete', error, payload);
+    // });
   }
 }

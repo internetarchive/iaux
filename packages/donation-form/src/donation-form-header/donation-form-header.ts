@@ -12,7 +12,7 @@ import {
 import './donation-summary';
 import './edit-donation';
 import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
-import { DonationType } from '../models/donation-info/donation-type';
+import { DonationFrequency } from '../models/donation-info/donation-frequency';
 import { EditDonation } from './edit-donation';
 
 export enum DonationFormHeaderMode {
@@ -22,7 +22,7 @@ export enum DonationFormHeaderMode {
 
 @customElement('donation-form-header')
 export class DonationFormHeader extends LitElement {
-  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo(DonationType.OneTime, 5);
+  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo(DonationFrequency.OneTime, 5);
 
   @property({ type: String }) mode: DonationFormHeaderMode = DonationFormHeaderMode.Summary;
 

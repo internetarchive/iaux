@@ -1,7 +1,7 @@
-import { DonationResponse } from '../models/response_models/donation_response';
-import { DonationRequest } from '../models/request_models/donation_request';
+import { DonationResponse } from '../models/response-models/donation-response';
+import { DonationRequest } from '../models/request_models/donation-request';
 import { PaymentProvidersInterface, PaymentProviders } from './payment-providers';
-import { DonationType } from '../models/donation-info/donation-type';
+import { DonationFrequency } from '../models/donation-info/donation-frequency';
 import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
 import { PaymentClientsInterface } from './payment-clients';
 
@@ -34,17 +34,21 @@ export enum HostingEnvironment {
 }
 
 export class BraintreeManager implements BraintreeManagerInterface {
-  readonly donationInfo: DonationPaymentInfo = new DonationPaymentInfo(DonationType.OneTime, 5);
+  get donationInfo(): DonationPaymentInfo {
+    return this._donationInfo;
+  }
 
   get deviceData(): string | undefined {
     return this._deviceData;
   }
 
   updateDonationInfo(donationInfo: DonationPaymentInfo) {
-    this.donationInfo = donationInfo;
+    this._donationInfo = donationInfo;
   }
 
   private _deviceData?: string;
+
+  private _donationInfo: DonationPaymentInfo = new DonationPaymentInfo(DonationFrequency.OneTime, 5);
 
   /**
    * This contains all of the individual payment providers so as to not clutter the

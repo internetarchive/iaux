@@ -1,9 +1,9 @@
 import { BraintreeManagerInterface, BraintreeManager } from "../braintree-manager";
 
 export interface CreditCardHandlerInterface {
-  setupHostedFields(): Promise<any | undefined>;
-  getHostedFields(): Promise<any | undefined>;
-  tokenizeHostedFields(): Promise<any>;
+  setupHostedFields(): Promise<braintree.HostedFields | undefined>;
+  getInstance(): Promise<braintree.HostedFields | undefined>;
+  tokenizeHostedFields(): Promise<braintree.HostedFieldsTokenizePayload | undefined>;
 }
 
 export class CreditCardHandler implements CreditCardHandlerInterface {
@@ -30,45 +30,25 @@ export class CreditCardHandler implements CreditCardHandlerInterface {
    * This is a convenience wrapper for consumers that don't care about the hosted
    * fields themselves, just to set them up.
    */
-  async setupHostedFields(): Promise<any | undefined> {
-    return await this.getHostedFields();
+  async setupHostedFields(): Promise<braintree.HostedFields | undefined> {
+    return await this.getInstance();
   }
 
-  async getHostedFields(): Promise<any | undefined> {
+  async getInstance(): Promise<braintree.HostedFields | undefined> {
     if (this.hostedFieldsInstance) {
       return this.hostedFieldsInstance;
     }
 
     const braintreeClient = await this.braintreeManager.getInstance();
-    // const braintree = this.braintreeManager.braintree;
-
-    return new Promise((resolve, reject) => {
-      this.hostedFieldsClient.create({
-        client: braintreeClient,
-        styles: this.hostedFieldStyle,
-        fields: this.hostedFieldConfig
-      }, (hostedFieldsErr: braintree.BraintreeError | undefined, hostedFieldsInstance: braintree.HostedFields) => {
-        if (hostedFieldsErr) {
-          return reject(hostedFieldsErr);
-        }
-
-        this.hostedFieldsInstance = hostedFieldsInstance;
-        resolve(hostedFieldsInstance);
-      });
+    return this.hostedFieldsClient.create({
+      styles: this.hostedFieldStyle,
+      client: braintreeClient,
+      fields: this.hostedFieldConfig
     });
   }
 
-  async tokenizeHostedFields(): Promise<any> {
-    const hostedFields = await this.getHostedFields();
-
-    return new Promise((resolve, reject) => {
-      hostedFields.tokenize((tokenizeErr: any, payload: any) => {
-        if (tokenizeErr) {
-          return reject(tokenizeErr);
-        }
-
-        resolve(payload);
-      });
-    });
+  async tokenizeHostedFields(): Promise<braintree.HostedFieldsTokenizePayload | undefined> {
+    const hostedFields = await this.getInstance();
+    return hostedFields?.tokenize();
   }
 }
