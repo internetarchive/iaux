@@ -11,6 +11,7 @@ class NavSearch extends TrackedElement {
   static get properties() {
     return {
       config: { type: Object },
+      locationHandler: { type: Function },
       open: { type: Boolean },
       openMenu: { type: String },
       searchIn: { type: String },
@@ -20,6 +21,7 @@ class NavSearch extends TrackedElement {
   constructor() {
     super();
     this.config = {};
+    this.locationHandler = () => {};
     this.open = false;
     this.openMenu = '';
     this.searchIn = '';
@@ -36,6 +38,13 @@ class NavSearch extends TrackedElement {
     const query = this.shadowRoot.querySelector('[name=query]').value;
 
     if (!query) {
+      e.preventDefault();
+      return false;
+    }
+
+    // TV search points to a detail page with a q param instead
+    if (this.searchIn === 'TV') {
+      this.locationHandler(`https://${this.config.baseHost}/details/tv?q=${query}`);
       e.preventDefault();
       return false;
     }

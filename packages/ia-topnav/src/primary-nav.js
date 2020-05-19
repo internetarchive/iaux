@@ -7,6 +7,7 @@ import './nav-search';
 import './media-menu';
 import logoWordmark from './assets/img/wordmark-narrow-spacing';
 import primaryNavCSS from './styles/primary-nav';
+import locationHandler from './lib/location-handler';
 
 class PrimaryNav extends TrackedElement {
   static get styles() {
@@ -99,6 +100,7 @@ class PrimaryNav extends TrackedElement {
       </button>
       <nav-search
         .config=${this.config}
+        .locationHandler=${locationHandler}
         .open=${this.searchMenuOpen}
         .openMenu=${this.openMenu}
         .searchIn=${this.searchIn}
