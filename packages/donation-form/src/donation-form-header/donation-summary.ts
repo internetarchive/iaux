@@ -14,10 +14,11 @@ import { DonationPaymentInfo } from '../models/donation-info/donation-payment-in
 
 @customElement('donation-summary')
 export class DonationSummary extends LitElement {
-  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo(
-    DonationFrequency.OneTime, 5);
-
-  // @property({ type: String }) frequency: DonationType = DonationType.OneTime;
+  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
+      frequency: DonationFrequency.OneTime,
+      amount: 5,
+      isUpsell: false
+    });
 
   /** @inheritdoc */
   render(): TemplateResult {
@@ -28,7 +29,7 @@ export class DonationSummary extends LitElement {
   }
 
   get displayTitle(): string {
-    const monthlyString = this.donationInfo.type === DonationFrequency.Monthly ? 'Monthly' : '';
+    const monthlyString = this.donationInfo.frequency === DonationFrequency.Monthly ? 'Monthly' : '';
     return `$${this.donationInfo.amount} ${monthlyString} Donation`;
   }
 

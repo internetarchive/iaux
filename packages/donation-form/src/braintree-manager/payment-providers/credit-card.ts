@@ -40,10 +40,21 @@ export class CreditCardHandler implements CreditCardHandlerInterface {
     }
 
     const braintreeClient = await this.braintreeManager.getInstance();
-    return this.hostedFieldsClient.create({
-      styles: this.hostedFieldStyle,
-      client: braintreeClient,
-      fields: this.hostedFieldConfig
+
+    return new Promise((resolve, reject) => {
+      console.log('credit card hostedFieldsClient.create');
+      this.hostedFieldsClient.create({
+        client: braintreeClient,
+        styles: this.hostedFieldStyle,
+        fields: this.hostedFieldConfig
+      }, (hostedFieldsErr: braintree.BraintreeError | undefined, hostedFieldsInstance: braintree.HostedFields) => {
+        if (hostedFieldsErr) {
+          return reject(hostedFieldsErr);
+        }
+
+        this.hostedFieldsInstance = hostedFieldsInstance;
+        resolve(hostedFieldsInstance);
+      });
     });
   }
 

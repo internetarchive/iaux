@@ -1,10 +1,10 @@
-import { BraintreeManagerInterface } from '../braintree-manager';
+import { BraintreeManagerInterface } from '../../braintree-manager';
 import { ApplePaySessionManagerInterface } from './apple-pay-session-manager';
 import { BraintreeError } from 'braintree-web';
-import { DonationRequest } from '../../models/request_models/donation-request';
-import { BillingInfo } from '../../models/common/billing-info';
-import { CustomerInfo } from '../../models/common/customer-info';
-import { DonationFrequency } from '../../models/donation-info/donation-frequency';
+import { DonationRequest, DonationRequestPaymentProvider } from '../../../models/request_models/donation-request';
+import { BillingInfo } from '../../../models/common/billing-info';
+import { CustomerInfo } from '../../../models/common/customer-info';
+import { DonationFrequency } from '../../../models/donation-info/donation-frequency';
 
 export interface ApplePayHandlerInterface {
   isAvailable(): Promise<boolean>;
@@ -153,8 +153,8 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
         }
 
         const billingInfo = new BillingInfo({
-          firstName: billingContact?.givenName,
-          lastName: billingContact?.familyName,
+          // firstName: billingContact?.givenName,
+          // lastName: billingContact?.familyName,
           streetAddress: line1,
           extendedAddress: line2,
           locality: billingContact?.locality,
@@ -169,14 +169,25 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
           lastName: billingContact?.familyName
         })
 
-        // const donationRequest = new DonationRequest();
+        const donationRequest = new DonationRequest({
+          paymentProvider: DonationRequestPaymentProvider.ApplePay,
+          paymentMethodNonce: payload.nonce,
+          isUpsell: false,
+          amount: 5,
+          frequency: DonationFrequency.OneTime,
+          customer: customerInfo,
+          billing: billingInfo,
+          referrer: undefined,
+          customFields: undefined,
+          options: undefined
+        })
         // donationRequest.nonce = payload.nonce;
         // donationRequest.billing = billingInfo;
         // donationRequest.customer = customerInfo;
         // donationRequest.amount = 10;
         // donationRequest.frequency = DonationFrequency.OneTime;
 
-        // this.braintreeManager.submitDataToEndpoint(donationRequest);
+        this.braintreeManager.submitDataToEndpoint(donationRequest);
 
         // Send payload.nonce to your server.
         console.log('nonce:', payload.nonce);
@@ -188,7 +199,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
 
         // After you have transacted with the payload.nonce,
         // call `completePayment` to dismiss the Apple Pay sheet.
-        session.completePayment(ApplePaySession.STATUS_SUCCESS);
+        return session.completePayment(ApplePaySession.STATUS_SUCCESS);
       });
     };
 

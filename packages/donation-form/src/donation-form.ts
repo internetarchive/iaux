@@ -7,6 +7,7 @@ import {
   TemplateResult,
   property,
   query,
+  PropertyValues,
 } from 'lit-element';
 
 import './form-section';
@@ -20,6 +21,7 @@ import { ContactForm } from './contact-form';
 import { RecaptchaManagerInterface } from './recaptcha-manager';
 import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
 import { DonationFormHeader } from './donation-form-header/donation-form-header';
+import { DonationFrequency } from './models/donation-info/donation-frequency';
 
 @customElement('donation-form')
 export class DonationForm extends LitElement {
@@ -31,6 +33,12 @@ export class DonationForm extends LitElement {
 
   @property({ type: Boolean }) modalVisible = false;
 
+  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
+    frequency: DonationFrequency.OneTime,
+    amount: 5,
+    isUpsell: false
+  });
+
   @query('contact-form') contactForm!: ContactForm;
 
   @query('donation-form-header') donationFormHeader!: DonationFormHeader;
@@ -41,7 +49,8 @@ export class DonationForm extends LitElement {
       <h1>Donation Form</h1>
 
       <donation-form-header
-        @donationInfoChanged=${this.donationInfoChanged}>
+        @donationInfoChanged=${this.donationInfoChanged}
+        .donationInfo=${this.donationInfo}>
       </donation-form-header>
 
       <form-section number=3 headline="Tell us about yourself">
@@ -49,7 +58,9 @@ export class DonationForm extends LitElement {
       </form-section>
 
       <form-section number=4 headline="Choose a payment method">
-        <payment-selector .braintreeManager=${this.braintreeManager}>
+        <payment-selector
+          .braintreeManager=${this.braintreeManager}
+          .donationInfo=${this.donationInfo}>
           <slot name="braintree-hosted-fields" slot="braintree-hosted-fields"></slot>
           <slot name="paypal-button" slot="paypal-button"></slot>
         </payment-selector>
@@ -59,6 +70,7 @@ export class DonationForm extends LitElement {
         <button @click=${this.donateClicked}>Donate</button>
       </form-section>
 
+      <!-- <slot name="paypal-upsell-button"></slot> -->
       ${this.modalView}
     `;
   }
@@ -74,26 +86,56 @@ export class DonationForm extends LitElement {
   }
 
   firstUpdated() {
-    // this.donationRequest.type = DonationType.OneTime;
-    // this.donationRequest.amount = 50;
-
     const urlParams = new URLSearchParams(window.location.search);
 
-    const frequency = urlParams.get('frequency');
-    const amount = urlParams.get('amount');
+    const frequencyParam = urlParams.get('frequency');
+    const amountParam = urlParams.get('amount');
 
-    if (frequency && amount) {
-      const donationInfo = new DonationPaymentInfo(frequency, amount);
-      console.log('donationInfo', donationInfo);
-      this.donationFormHeader.donationInfo = donationInfo;
+    let frequency = DonationFrequency.OneTime;
+    if (frequencyParam === 'monthly') {
+      frequency = DonationFrequency.Monthly;
+    }
+
+    let amount = 5;
+    if (amountParam) {
+      amount = parseFloat(amountParam);
+    }
+
+    const donationInfo = new DonationPaymentInfo({
+      frequency: frequency,
+      amount: amount,
+      isUpsell: false
+    });
+
+    this.donationInfo = donationInfo;
+
+    console.log('donationInfo', donationInfo);
+  }
+
+  updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has('modalVisible') && this.modalVisible) {
+      const upsellDonationInfo = new DonationPaymentInfo({
+        frequency: DonationFrequency.Monthly,
+        amount: 10,
+        isUpsell: true
+      });
+      this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
+        selector: '#paypal-upsell-button',
+        style: {
+          color: 'gold',
+          label: 'paypal',
+          size: 'small',
+          tagline: false
+        },
+        donationInfo: upsellDonationInfo
+      });
     }
   }
 
   private donationInfoChanged(e: CustomEvent) {
     const donationInfo: DonationPaymentInfo = e.detail.donationInfo;
+    this.donationInfo = donationInfo;
     console.log('DonationForm donationInfoChanged', donationInfo);
-    // this.donationRequest.frequency = donationInfo.type;
-    // this.donationRequest.amount = donationInfo.amount;
     this.braintreeManager?.updateDonationInfo(donationInfo);
   }
 

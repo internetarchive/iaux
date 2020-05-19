@@ -48,7 +48,11 @@ export class BraintreeManager implements BraintreeManagerInterface {
 
   private _deviceData?: string;
 
-  private _donationInfo: DonationPaymentInfo = new DonationPaymentInfo(DonationFrequency.OneTime, 5);
+  private _donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
+    frequency: DonationFrequency.OneTime,
+    amount: 5,
+    isUpsell: false
+  });
 
   /**
    * This contains all of the individual payment providers so as to not clutter the

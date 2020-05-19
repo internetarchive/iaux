@@ -15,9 +15,12 @@ import { DonationPaymentInfo } from '../models/donation-info/donation-payment-in
 
 @customElement('edit-donation')
 export class EditDonation extends LitElement {
-  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo(DonationFrequency.OneTime, 5);
+  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
+    frequency: DonationFrequency.OneTime,
+    amount: 5,
+    isUpsell: false
+  });
 
-  /** @inheritdoc */
   render(): TemplateResult {
     return html`
       <form-section
@@ -59,7 +62,7 @@ export class EditDonation extends LitElement {
   }
 
   private frequencyChanged(e: CustomEvent) {
-    this.donationInfo.type = e.detail.value as DonationFrequency;
+    this.donationInfo.frequency = e.detail.value as DonationFrequency;
     console.log('EditDonation frequencyChanged', e.detail.value);
     this.dispatchDonationInfoChangedEvent();
   }

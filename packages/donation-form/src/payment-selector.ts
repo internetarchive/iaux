@@ -11,10 +11,21 @@ import {
 } from 'lit-element';
 
 import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
+import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
+import { DonationFrequency } from './models/donation-info/donation-frequency';
+import { PayPalButtonDataSourceInterface } from './braintree-manager/payment-providers/paypal/paypal-button-datasource';
 
 @customElement('payment-selector')
 export class PaymentSelector extends LitElement {
   @property({ type: Object }) braintreeManager: BraintreeManagerInterface | undefined;
+
+  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
+    frequency: DonationFrequency.OneTime,
+    amount: 5,
+    isUpsell: false
+  });
+
+  @property({ type: Object }) private paypalDataSource: PayPalButtonDataSourceInterface | undefined;
 
   @property({ type: Boolean }) private creditCardVisible = false;
 
@@ -33,9 +44,25 @@ export class PaymentSelector extends LitElement {
   updated(changedProperties: PropertyValues): void {
     if (changedProperties.has('braintreeManager')) {
       this.braintreeManager?.paymentProviders.creditCardHandler?.setupHostedFields();
-      this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton();
-      console.log('updated', this.braintreeManager?.paymentProviders);
+      this.setupPayPal();
     }
+
+    if (changedProperties.has('donationInfo')) {
+      this.paypalDataSource?.updateDonationInfo(this.donationInfo);
+    }
+  }
+
+  private async setupPayPal(): Promise<void> {
+    this.paypalDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
+      selector: '#paypal-button',
+      style: {
+        color: 'blue',
+        label: 'paypal',
+        size: 'small',
+        tagline: false
+      },
+      donationInfo: this.donationInfo
+    });
   }
 
   private startApplePay(e: Event): void {

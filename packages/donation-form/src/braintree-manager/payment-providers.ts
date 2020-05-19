@@ -1,9 +1,9 @@
 import { CreditCardHandlerInterface, CreditCardHandler } from './payment-providers/credit-card';
-import { ApplePayHandlerInterface, ApplePayHandler } from './payment-providers/apple-pay';
+import { ApplePayHandlerInterface, ApplePayHandler } from './payment-providers/apple-pay/apple-pay';
 import { VenmoHandlerInterface, VenmoHandler } from './payment-providers/venmo';
-import { PayPalHandlerInterface, PayPalHandler } from './payment-providers/paypal';
+import { PayPalHandlerInterface, PayPalHandler } from './payment-providers/paypal/paypal';
 import { HostingEnvironment, BraintreeManagerInterface } from './braintree-manager';
-import { ApplePaySessionManager } from './payment-providers/apple-pay-session-manager';
+import { ApplePaySessionManager } from './payment-providers/apple-pay/apple-pay-session-manager';
 import { PaymentClientsInterface } from './payment-clients';
 
 export interface PaymentProvidersInterface {
