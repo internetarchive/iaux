@@ -1,9 +1,4 @@
-import {
-  html,
-  fixture,
-  expect,
-  oneEvent,
-} from '@open-wc/testing';
+import { html, fixture, expect } from '@open-wc/testing';
 import sinon from 'sinon';
 
 import '../src/nav-search';
