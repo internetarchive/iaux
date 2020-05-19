@@ -5,6 +5,20 @@ export default css`
     .initial,
     .closed,
     .open {
+      right: 33.7rem;
+    }
+
+    .search-hidden.initial,
+    .search-hidden.closed,
+    .search-hidden.open {
+      right: 18.3rem;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .initial,
+    .closed,
+    .open {
       right: 39.7rem;
     }
 
