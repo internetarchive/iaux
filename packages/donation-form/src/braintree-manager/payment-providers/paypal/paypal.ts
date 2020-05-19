@@ -69,10 +69,6 @@ export class PayPalHandler implements PayPalHandlerInterface {
     });
   }
 
-  // private dataSources: { key: string: PayPalButtonDataSourceInterface } = {}
-
-  // private dataSources: { [selector: string]: PayPalButtonDataSourceInterface } = {};
-
   async renderPayPalButton(params: {
     selector: string,
     style: {

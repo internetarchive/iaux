@@ -60,8 +60,6 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
     }
     Object.assign(options, checkoutOptions);
 
-    // console.log('options', options, this, this.paypalInstance);
-
     return this.paypalInstance.createPayment(options);
   }
 
@@ -81,8 +79,6 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
     const shippingAddress = payload?.shippingAddress;
 
     const billingInfo = new BillingInfo({
-      // firstName: details?.firstName,
-      // lastName: details?.lastName,
       streetAddress: shippingAddress?.line1,
       extendedAddress: shippingAddress?.line2,
       locality: shippingAddress?.city,
@@ -94,7 +90,7 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
     const request = new DonationRequest({
       paymentProvider: DonationRequestPaymentProvider.PayPal,
       paymentMethodNonce: payload.nonce,
-      isUpsell: false,
+      isUpsell: this.donationInfo.isUpsell,
       amount: this.donationInfo.amount,
       frequency: this.donationInfo.frequency,
       customer: customerInfo,
