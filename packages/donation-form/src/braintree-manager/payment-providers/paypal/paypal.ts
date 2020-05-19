@@ -1,20 +1,11 @@
 import { BraintreeManagerInterface, HostingEnvironment } from '../../braintree-manager';
-import { DonationRequest, DonationRequestPaymentProvider } from '../../../models/request_models/donation-request';
-import { CustomerInfo } from '../../../models/common/customer-info';
-import { BillingInfo } from '../../../models/common/billing-info';
 import { DonationPaymentInfo } from '../../../models/donation-info/donation-payment-info';
 import { PayPalButtonDataSourceInterface, PayPalButtonDataSource } from './paypal-button-datasource';
-import { DonationFrequency } from '../../../models/donation-info/donation-frequency';
 
 export interface PayPalHandlerInterface {
   renderPayPalButton(params: {
     selector: string,
-    style: {
-      color: string,
-      label: string,
-      size: string,
-      tagline: boolean
-    },
+    style: paypal.ButtonStyle,
     donationInfo: DonationPaymentInfo
   }): Promise<PayPalButtonDataSourceInterface | undefined>;
   getPayPalInstance(): Promise<braintree.PayPalCheckout | undefined>;
@@ -71,15 +62,11 @@ export class PayPalHandler implements PayPalHandlerInterface {
 
   async renderPayPalButton(params: {
     selector: string,
-    style: {
-      color: string,
-      label: string,
-      size: string,
-      tagline: boolean
-    },
+    style: paypal.ButtonStyle,
     donationInfo: DonationPaymentInfo
   }): Promise<PayPalButtonDataSourceInterface | undefined> {
-    const env = this.hostingEnvironment === HostingEnvironment.Development ? 'sandbox' : 'production';
+    const env: paypal.Environment = (this.hostingEnvironment === HostingEnvironment.Development ? 'sandbox' : 'production') as paypal.Environment;
+    // const env: paypal.Environment = this.hostingEnvironment === HostingEnvironment.Development ? paypal.Environment.Sandbox : paypal.Environment.Production;
 
     console.log('renderPayPalButton');
 

@@ -1,4 +1,4 @@
-/// <reference path="../../../node_modules/@types/braintree-web/index.d.ts" />
+/// <reference types="braintree-web" />
 
 declare namespace braintree {
   interface VenmoTokenizePayload {

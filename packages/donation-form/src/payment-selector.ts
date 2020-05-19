@@ -27,23 +27,21 @@ export class PaymentSelector extends LitElement {
 
   @property({ type: Object }) private paypalDataSource: PayPalButtonDataSourceInterface | undefined;
 
-  @property({ type: Boolean }) private creditCardVisible = false;
+  // @property({ type: Boolean }) private creditCardVisible = false;
 
   /** @inheritdoc */
   render(): TemplateResult {
     return html`
-      <button @click=${this.startApplePay}>Apple Pay</button>
-      <button>Google Pay</button>
-      <button @click=${this.startVenmo}>Venmo</button>
       <slot name="paypal-button"></slot>
-      <button @click=${this.toggleCreditCard}>Credit Card</button>
-      ${this.creditCardVisible ? html`<slot name="braintree-hosted-fields"></slot>` : ''}
+      <button @click=${this.applePaySelected}>Apple Pay</button>
+      <button @click=${this.googlePaySelected}>Google Pay</button>
+      <button @click=${this.venmoSelected}>Venmo</button>
+      <button @click=${this.creditCardSelected}>Credit Card</button>
     `;
   }
 
   updated(changedProperties: PropertyValues): void {
     if (changedProperties.has('braintreeManager')) {
-      this.braintreeManager?.paymentProviders.creditCardHandler?.setupHostedFields();
       this.setupPayPal();
     }
 
@@ -56,34 +54,38 @@ export class PaymentSelector extends LitElement {
     this.paypalDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
       selector: '#paypal-button',
       style: {
-        color: 'blue',
-        label: 'paypal',
-        size: 'small',
+        color: 'blue' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
+        label: 'paypal' as paypal.ButtonLabelOption,
+        shape: 'rect' as paypal.ButtonShapeOption,
+        size: 'small' as paypal.ButtonSizeOption,
         tagline: false
       },
       donationInfo: this.donationInfo
     });
   }
 
-  private startApplePay(e: Event): void {
+  private googlePaySelected(): void {
+    this.dispatchEvent(new Event('googlePaySelected'));
+  }
+
+  private applePaySelected(e: Event): void {
+    this.dispatchEvent(new Event('applePaySelected'));
     // you must pass the event to start the ApplePay flow
     this.braintreeManager?.paymentProviders.applePayHandler?.createPaymentRequest(e);
   }
 
-  private startVenmo(): void {
-    this.braintreeManager?.paymentProviders.venmoHandler?.startPayment();
+  private venmoSelected(): void {
+    this.dispatchEvent(new Event('venmoSelected'));
   }
 
-  private toggleCreditCard(): void {
-    this.creditCardVisible = !this.creditCardVisible;
+  private creditCardSelected(): void {
+    this.dispatchEvent(new Event('creditCardSelected'));
+    // this.creditCardVisible = !this.creditCardVisible;
   }
 
   /** @inheritdoc */
   static get styles(): CSSResult {
     return css`
-      div[slot='braintree-hosted-fields'] div {
-        height: 30px;
-      }
     `;
   }
 }

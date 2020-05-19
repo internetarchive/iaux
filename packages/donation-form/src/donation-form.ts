@@ -39,6 +39,10 @@ export class DonationForm extends LitElement {
     isUpsell: false
   });
 
+  @property({ type: Boolean }) private creditCardVisible = false;
+
+  @property({ type: Boolean }) private contactFormVisible = false;
+
   @query('contact-form') contactForm!: ContactForm;
 
   @query('donation-form-header') donationFormHeader!: DonationFormHeader;
@@ -53,25 +57,39 @@ export class DonationForm extends LitElement {
         .donationInfo=${this.donationInfo}>
       </donation-form-header>
 
-      <form-section number=3 headline="Tell us about yourself">
-        <contact-form></contact-form>
-      </form-section>
-
-      <form-section number=4 headline="Choose a payment method">
+      <form-section number=3 headline="Choose a payment method">
         <payment-selector
           .braintreeManager=${this.braintreeManager}
-          .donationInfo=${this.donationInfo}>
-          <slot name="braintree-hosted-fields" slot="braintree-hosted-fields"></slot>
+          .donationInfo=${this.donationInfo}
+          @creditCardSelected=${this.creditCardSelected}
+          @venmoSelected=${this.venmoSelected}
+          @applePaySelected=${this.applePaySelected}
+          @googlePaySelected=${this.googlePaySelected}>
           <slot name="paypal-button" slot="paypal-button"></slot>
         </payment-selector>
+      </form-section>
+
+      ${this.contactFormSection}
+
+      <!-- <slot name="paypal-upsell-button"></slot> -->
+      ${this.modalView}
+    `;
+  }
+
+  get contactFormSection(): TemplateResult {
+    if (!this.contactFormVisible) { return html``; }
+    return html`
+      <form-section number=4 headline="Tell us about yourself">
+        <contact-form></contact-form>
+
+        ${this.creditCardVisible ? html`<slot name="braintree-hosted-fields"></slot>` : ''}
+
+        <!-- <slot name="braintree-hosted-fields" slot="braintree-hosted-fields"></slot> -->
       </form-section>
 
       <form-section number=5>
         <button @click=${this.donateClicked}>Donate</button>
       </form-section>
-
-      <!-- <slot name="paypal-upsell-button"></slot> -->
-      ${this.modalView}
     `;
   }
 
@@ -83,6 +101,26 @@ export class DonationForm extends LitElement {
         <slot name="paypal-upsell-button"></slot>
       </donation-modal>
     `;
+  }
+
+  private applePaySelected(): void {
+    this.contactFormVisible = false;
+    this.creditCardVisible = false;
+  }
+
+  private googlePaySelected(): void {
+    this.contactFormVisible = false;
+    this.creditCardVisible = false;
+  }
+
+  private creditCardSelected(): void {
+    this.contactFormVisible = true;
+    this.creditCardVisible = true;
+  }
+
+  private venmoSelected(): void {
+    this.contactFormVisible = true;
+    this.creditCardVisible = false;
   }
 
   firstUpdated() {
@@ -119,16 +157,27 @@ export class DonationForm extends LitElement {
         amount: 10,
         isUpsell: true
       });
+
+      // const buttonStyle = new paypal.ButtonStyle
+
       this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
         selector: '#paypal-upsell-button',
         style: {
-          color: 'gold',
-          label: 'paypal',
-          size: 'small',
+          color: 'gold' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
+          label: 'paypal' as paypal.ButtonLabelOption,
+          shape: 'rect' as paypal.ButtonShapeOption,
+          size: 'small' as paypal.ButtonSizeOption,
           tagline: false
         },
         donationInfo: upsellDonationInfo
       });
+    }
+    if (changedProperties.has('creditCardVisible')) {
+      if (this.creditCardVisible) {
+        this.braintreeManager?.paymentProviders.creditCardHandler?.setupHostedFields();
+      } else {
+        this.braintreeManager?.paymentProviders.creditCardHandler?.teardownHostedFields();
+      }
     }
   }
 
