@@ -5,7 +5,7 @@ export default css`
     .initial,
     .closed,
     .open {
-      right: 38rem;
+      right: 39.7rem;
     }
 
     .search-hidden.initial,
