@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="index.js"></script>
+    <title>Wayback Search</title>
+    <style>
+      html {
+        font-size: 10px;
+      }
+      body {
+        margin: 0;
+        padding: 2rem;
+        --white: #fff;
+        --grey20: #333;
+        --grey80: #ccc;
+        color: var(--white);
+        background: var(--grey20);
+      }
+      ia-wayback-search {
+        --activeColor: var(--white);
+        --iconFill: var(--grey60);
+        --desktopSearchIconFill: var(--grey20);
+
+        --themeFontFamily: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      }
+    </style>
+  </head>
+
+  <body>
+    <ia-wayback-search
+      waybackPagesArchived="32 trillion pages"
+      waybackHost="archive.org"
+    ></ia-wayback-search>
+    <script>
+      document.querySelector('ia-wayback-search').locationHandler = (url) => {
+        window.location = url;
+      };
+    </script>
+  </body>
+</html>
