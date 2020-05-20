@@ -1,11 +1,11 @@
-import {
-  html, fixture, expect, oneEvent, elementUpdated
-} from '@open-wc/testing';
+/* eslint-disable class-methods-use-this */
+import { expect } from '@open-wc/testing';
 
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
 import { SearchHandler } from '../../lib/src/search-handler/search-handler';
 import { LocalSearchBackend } from '../../lib/src/search-handler/search-backends/local-search-backend/local-search-backend';
 import { TranscriptIndex } from '../../lib/src/search-handler/transcript-index';
+import { Range } from '../../lib/src/search-handler/search-models';
 
 class MockSearchIndex {
   async getSearchRanges(query) {
@@ -80,6 +80,136 @@ describe('Search Handler', () => {
       expect(entry.range.endIndex).to.equal(36);
       expect(entry.text).to.equal('foo bar baz boop blop bump baz boing');
       expect(entry.isSearchMatch).to.equal(false);
+    });
+
+    it('returns the correct results if the results are returned in-order', async () => {
+      class MockInOrderSearchBackend {
+        getSearchRanges() {
+          const range1 = new Range(8, 11);
+          const range2 = new Range(27, 30);
+          const range3 = new Range(52, 55);
+          return [range1, range2, range3];
+        }
+      }
+
+      const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
+      const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
+      const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
+      const entry4 = new TranscriptEntryConfig(4, 14, 19, 'snip snap', false);
+      const entry5 = new TranscriptEntryConfig(5, 20, 24, 'ooga baz booga', false);
+      const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchBackend = new MockInOrderSearchBackend();
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
+
+      const results = await searchHandler.getSearchSeparatedTranscript('baz');
+
+      const result0 = results[0];
+      expect(result0.range.startIndex).to.equal(0);
+      expect(result0.range.endIndex).to.equal(8);
+      expect(result0.text).to.equal('foo bar ');
+      expect(result0.isSearchMatch).to.equal(false);
+
+      const result1 = results[1];
+      expect(result1.range.startIndex).to.equal(8);
+      expect(result1.range.endIndex).to.equal(11);
+      expect(result1.text).to.equal('baz');
+      expect(result1.isSearchMatch).to.equal(true);
+
+      const result2 = results[2];
+      expect(result2.range.startIndex).to.equal(11);
+      expect(result2.range.endIndex).to.equal(27);
+      expect(result2.text).to.equal(' boop blop bump ');
+      expect(result2.isSearchMatch).to.equal(false);
+
+      const result3 = results[3];
+      expect(result3.range.startIndex).to.equal(27);
+      expect(result3.range.endIndex).to.equal(30);
+      expect(result3.text).to.equal('baz');
+      expect(result3.isSearchMatch).to.equal(true);
+
+      const result4 = results[4];
+      expect(result4.range.startIndex).to.equal(30);
+      expect(result4.range.endIndex).to.equal(52);
+      expect(result4.text).to.equal(' boing snip snap ooga ');
+      expect(result4.isSearchMatch).to.equal(false);
+
+      const result5 = results[5];
+      expect(result5.range.startIndex).to.equal(52);
+      expect(result5.range.endIndex).to.equal(55);
+      expect(result5.text).to.equal('baz');
+      expect(result5.isSearchMatch).to.equal(true);
+
+      const result6 = results[6];
+      expect(result6.range.startIndex).to.equal(55);
+      expect(result6.range.endIndex).to.equal(61);
+      expect(result6.text).to.equal(' booga');
+      expect(result6.isSearchMatch).to.equal(false);
+    });
+
+    it('returns the correct results if the results are out of order', async () => {
+      class MockOutOfOrderSearchBackend {
+        getSearchRanges() {
+          const range3 = new Range(52, 55);
+          const range1 = new Range(8, 11);
+          const range2 = new Range(27, 30);
+          return [range3, range1, range2];
+        }
+      }
+
+      const entry1 = new TranscriptEntryConfig(1, 0, 4, 'foo bar baz', false);
+      const entry2 = new TranscriptEntryConfig(2, 5, 9, 'boop blop', false);
+      const entry3 = new TranscriptEntryConfig(3, 10, 13, 'bump baz boing', false);
+      const entry4 = new TranscriptEntryConfig(4, 14, 19, 'snip snap', false);
+      const entry5 = new TranscriptEntryConfig(5, 20, 24, 'ooga baz booga', false);
+      const transcriptConfig = new TranscriptConfig([entry1, entry2, entry3, entry4, entry5]);
+      const transcriptIndex = new TranscriptIndex(transcriptConfig);
+      const searchBackend = new MockOutOfOrderSearchBackend();
+      const searchHandler = new SearchHandler(searchBackend, transcriptIndex);
+
+      const results = await searchHandler.getSearchSeparatedTranscript('baz');
+
+      const result0 = results[0];
+      expect(result0.range.startIndex).to.equal(0);
+      expect(result0.range.endIndex).to.equal(8);
+      expect(result0.text).to.equal('foo bar ');
+      expect(result0.isSearchMatch).to.equal(false);
+
+      const result1 = results[1];
+      expect(result1.range.startIndex).to.equal(8);
+      expect(result1.range.endIndex).to.equal(11);
+      expect(result1.text).to.equal('baz');
+      expect(result1.isSearchMatch).to.equal(true);
+
+      const result2 = results[2];
+      expect(result2.range.startIndex).to.equal(11);
+      expect(result2.range.endIndex).to.equal(27);
+      expect(result2.text).to.equal(' boop blop bump ');
+      expect(result2.isSearchMatch).to.equal(false);
+
+      const result3 = results[3];
+      expect(result3.range.startIndex).to.equal(27);
+      expect(result3.range.endIndex).to.equal(30);
+      expect(result3.text).to.equal('baz');
+      expect(result3.isSearchMatch).to.equal(true);
+
+      const result4 = results[4];
+      expect(result4.range.startIndex).to.equal(30);
+      expect(result4.range.endIndex).to.equal(52);
+      expect(result4.text).to.equal(' boing snip snap ooga ');
+      expect(result4.isSearchMatch).to.equal(false);
+
+      const result5 = results[5];
+      expect(result5.range.startIndex).to.equal(52);
+      expect(result5.range.endIndex).to.equal(55);
+      expect(result5.text).to.equal('baz');
+      expect(result5.isSearchMatch).to.equal(true);
+
+      const result6 = results[6];
+      expect(result6.range.startIndex).to.equal(55);
+      expect(result6.range.endIndex).to.equal(61);
+      expect(result6.text).to.equal(' booga');
+      expect(result6.isSearchMatch).to.equal(false);
     });
 
     it('correctly splits up transcript search results', async () => {
