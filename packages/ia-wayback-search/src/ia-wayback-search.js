@@ -1,16 +1,15 @@
-import { html } from 'lit-element';
-import TrackedElement from './tracked-element';
+import { html, LitElement } from 'lit-element';
 import waybackSearchCSS from './styles/wayback-search';
 import searchIcon from './icon-search';
 
-class WaybackSearch extends TrackedElement {
+class WaybackSearch extends LitElement {
   static get styles() {
     return waybackSearchCSS;
   }
 
   static get properties() {
     return {
-      locationHandler: { type: Function },
+      locationHandler: { type: Object },
       waybackPagesArchived: { type: String },
       waybackHost: { type: String },
     };
@@ -18,7 +17,6 @@ class WaybackSearch extends TrackedElement {
 
   constructor() {
     super();
-    this.locationHandler = () => {};
     this.waybackPagesArchived = '';
     this.waybackHost = 'archive.org';
   }
@@ -26,7 +24,24 @@ class WaybackSearch extends TrackedElement {
   handleSubmit(e) {
     e.preventDefault();
     const query = e.target.querySelector('#url').value;
-    this.locationHandler(`https://${this.waybackHost}/web/*/${query}`);
+    this.emitWaybackSearchSubmitted(query);
+    this.locationHandler.submitCallback(`https://${this.waybackHost}/web/*/${query}`);
+  }
+
+  emitWaybackSearchSubmitted(query) {
+    this.dispatchEvent(new CustomEvent('waybackSearchSubmitted', {
+      detail: {
+        query
+      }
+    }));
+  }
+
+  emitWaybackMachineStatsLinkClicked() {
+    this.dispatchEvent(new CustomEvent('waybackMachineStatsLinkClicked'));
+  }
+
+  emitWaybackMachineLogoLinkClicked() {
+    this.dispatchEvent(new CustomEvent('waybackMachineLogoLink'));
   }
 
   render() {
@@ -35,7 +50,7 @@ class WaybackSearch extends TrackedElement {
         <p>
           Search the history of over ${this.waybackPagesArchived}
           <a
-            @click=${this.trackClick}
+            @click=${this.emitWaybackMachineStatsLinkClicked}
             data-event-click-tracking="TopNav|WaybackMachineStatsLink"
             href="https://blog.archive.org/2016/10/23/defining-web-pages-web-sites-and-web-captures/"
             >web pages</a
@@ -44,7 +59,7 @@ class WaybackSearch extends TrackedElement {
         </p>
         <fieldset>
           <a
-            @click=${this.trackClick}
+            @click=${this.emitWaybackMachineLogoLinkClicked}
             data-event-click-tracking="TopNav|WaybackMachineLogoLink"
             href="https://archive.org/web/"
             ><img src="https://archive.org/images/WaybackLogoSmall.png" alt="Wayback Machine"

@@ -10,18 +10,29 @@
 ```
 
 ```js
-document.querySelector('ia-wayback-search').locationHandler = (url) => {
-  window.location = url;
+document.querySelector('ia-wayback-search').locationHandler = {
+  submitCallback: (url) => {
+    window.location = url;
+  }
 };
 ```
 
-Properties:
+### Properties:
 
 ```js
 locationHandler: { type: Function }, // function called when form submitted. @param url string
 waybackPagesArchived: { type: String }, // Pages archived message, e.g. "428 billion pages"
 waybackHost: { type: String }, // Hostname used to build the Wayback search URL, e.g. "archive.org"
 ```
+
+### Events
+
+*
+    **waybackSearchSubmitted**: form element onsubmit
+*
+    **waybackMachineStatsLinkClicked**: stats link onclick
+*
+    **waybackMachineLogoLink**: Wayback logo link onclick
 
 ## Testing
 
@@ -38,6 +49,5 @@ Run the tests with `yarn test`.
   and BROWSER_STACK_ACCESS_KEY need to be set as environment variables before
   running.
 * /src/wayback-search.js - main component definition
-* /src/tracked-element.js - placeholder event emitter for Google Analytics
 * /stories - Storybook setup
 * /test - unit tests

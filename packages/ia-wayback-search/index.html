@@ -29,14 +29,31 @@
   </head>
 
   <body>
-    <ia-wayback-search
-      waybackPagesArchived="32 trillion pages"
-      waybackHost="archive.org"
-    ></ia-wayback-search>
-    <script>
-      document.querySelector('ia-wayback-search').locationHandler = (url) => {
-        window.location = url;
+    <div id="root"></div>
+    <script type="module">
+      import { html, render } from './node_modules/lit-html/lit-html.js';
+
+      const locationHandler = {
+        submitCallback: (url) => window.location = url
       };
+
+      render(html`<ia-wayback-search
+        waybackPagesArchived="32 trillion pages"
+        waybackHost="web.archive.org"
+        .locationHandler=${locationHandler}
+      ></ia-wayback-search>`, document.getElementById('root'));
+
+      const wbSearch = document.querySelector('ia-wayback-search');
+
+      wbSearch.addEventListener('waybackSearchSubmitted', ({ detail }) => {
+        console.log(`waybackSearchSubmitted: ${detail.query}`);
+      });
+      wbSearch.addEventListener('waybackMachineStatsLinkClicked', ({ detail }) => {
+        console.log('waybackMachineStatsLinkClicked event');
+      });
+      wbSearch.addEventListener('waybackMachineLogoLink', ({ detail }) => {
+        console.log('waybackMachineLogoLink event');
+      });
     </script>
   </body>
 </html>

@@ -8,17 +8,25 @@ import {
 
 import WaybackSearch from '../index';
 
-storiesOf('<hello-component>', module)
+storiesOf('<ia-wayback-search>', module)
   .addDecorator(withKnobs)
   .add('Options', () => withClassPropertiesKnobs(WaybackSearch))
   .add('Styling', () => (
     html`
       <style>
-        ia-wayback-search {
+        html {
+          font-size: 10px;
+        }
+        body {
+          margin: 0;
+          padding: 2rem;
           --white: ${color('White', '#fff')};
           --grey20: ${color('Dark Grey', '#333')};
           --grey80: ${color('Light Grey', '#ccc')};
-
+          color: var(--white);
+          background: var(--grey20);
+        }
+        ia-wayback-search {
           --activeColor: var(--white);
           --iconFill: var(--grey60);
           --desktopSearchIconFill: var(--grey20);
@@ -27,9 +35,8 @@ storiesOf('<hello-component>', module)
         }
       </style>
       <ia-wayback-search
-        .locationHandler="(url) => window.location = url"
-        .waybackPagesArchived="32 trillion pages"
-        .waybackHost="archive.org"
+        waybackPagesArchived="32 trillion pages"
+        waybackHost="archive.org"
       ></ia-wayback-search>
     `
   ));

@@ -1,4 +1,9 @@
-import { html, fixture, expect } from '@open-wc/testing';
+import {
+  html,
+  fixture,
+  expect,
+  oneEvent
+} from '@open-wc/testing';
 import sinon from 'sinon';
 
 import '../src/ia-wayback-search';
@@ -22,22 +27,49 @@ describe('<wayback-search>', () => {
       type: 'submit',
       preventDefault: () => {}
     };
-    const locationHandler = sinon.fake();
+    const submitCallback = sinon.fake();
     const el = await fixture(component());
-    el.locationHandler = locationHandler;
+    el.locationHandler = { submitCallback };
 
     submitEvent.target = el.shadowRoot.querySelector('form');
     el.shadowRoot.getElementById('url').value = query;
     el.handleSubmit(submitEvent);
-    expect(locationHandler.callCount).to.equal(1);
-    expect(locationHandler.firstArg).to.contain(query);
+    expect(submitCallback.callCount).to.equal(1);
+    expect(submitCallback.firstArg).to.contain(query);
   });
 
   it('renders the Wayback pages count', async () => {
     const config = { waybackPagesArchived: 42 };
-    const waybackInstance = await fixture(component(config));
-    const p = waybackInstance.shadowRoot.querySelector('p');
+    const el = await fixture(component(config));
+    const p = el.shadowRoot.querySelector('p');
 
     expect(p.innerText).to.contain(config.waybackPagesArchived);
+  });
+
+  it('emits an event when Wayback logo clicked', async () => {
+    const el = await fixture(component());
+
+    setTimeout(() => el.emitWaybackMachineLogoLinkClicked());
+    const response = await oneEvent(el, 'waybackMachineLogoLink');
+
+    expect(response).to.exist;
+  });
+
+  it('emits an event when machine stats link clicked', async () => {
+    const el = await fixture(component());
+
+    setTimeout(() => el.emitWaybackMachineStatsLinkClicked());
+    const response = await oneEvent(el, 'waybackMachineStatsLinkClicked');
+
+    expect(response).to.exist;
+  });
+
+  it('emits an event when form submitted', async () => {
+    const el = await fixture(component());
+
+    setTimeout(() => el.emitWaybackSearchSubmitted());
+    const response = await oneEvent(el, 'waybackSearchSubmitted');
+
+    expect(response).to.exist;
   });
 });
