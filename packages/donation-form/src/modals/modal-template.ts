@@ -13,17 +13,17 @@ import {
 
 // import closeButton from './close-button.js';
 
-@customElement('donation-modal')
-export class DonationModal extends LitElement {
+@customElement('modal-template')
+export class ModalTemplate extends LitElement {
   @property({ type: String }) title = 'Internet Archive';
-  @property({ type: String }) subtitle = '';
-  @property({ type: String }) headline = '';
-  @property({ type: String }) message = '';
+  @property({ type: String }) subtitle: string | undefined;
+  @property({ type: String }) headline: string | undefined;
+  @property({ type: String }) message: string | undefined;
   @property({ type: Boolean, reflect: true }) visible = true;
   @property({ type: String }) headerColor = '#36A483';
   @property({ type: Boolean }) showProcessingIndicator = false;
   @property({ type: String }) processingImageMode = 'processing';
-  @property({ type: Boolean }) showBackdrop = true;
+  @property({ type: Boolean }) showBackdrop = false;
 
   render() {
     return html`

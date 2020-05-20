@@ -14,8 +14,9 @@ import './form-section';
 import './donation-form-header/donation-form-header';
 import './contact-form';
 import './payment-selector';
-import './donation-modal';
+import './modals/modal-template';
 import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
+import { ModalManagerInterface } from './modals/modal-manager';
 import { DonationRequest } from './models/request_models/donation-request';
 import { ContactForm } from './contact-form';
 import { RecaptchaManagerInterface } from './recaptcha-manager';
@@ -29,6 +30,8 @@ export class DonationForm extends LitElement {
   @property({ type: Object }) braintreeManager: BraintreeManagerInterface | undefined;
 
   @property({ type: Object }) recaptchaManager: RecaptchaManagerInterface | undefined;
+
+  @property({ type: Object }) modalManager: ModalManagerInterface | undefined;
 
   @property({ type: Object }) donationRequest: DonationRequest | undefined;
 
@@ -75,7 +78,7 @@ export class DonationForm extends LitElement {
       ${this.contactFormSection}
 
       <!-- <slot name="paypal-upsell-button"></slot> -->
-      ${this.modalView}
+      <!-- ${this.modalView} -->
     `;
   }
 
@@ -96,15 +99,15 @@ export class DonationForm extends LitElement {
     `;
   }
 
-  get modalView(): TemplateResult {
-    if (!this.modalVisible) { return html``; }
+  // get modalView(): TemplateResult {
+  //   if (!this.modalVisible) { return html``; }
 
-    return html`
-      <donation-modal @close-button-pressed=${this.modalClosePressed}>
-        <slot name="paypal-upsell-button"></slot>
-      </donation-modal>
-    `;
-  }
+  //   return html`
+  //     <donation-modal @close-button-pressed=${this.modalClosePressed}>
+  //       <slot name="paypal-upsell-button"></slot>
+  //     </donation-modal>
+  //   `;
+  // }
 
   private modalClosePressed(): void {
     this.modalVisible = false;
@@ -210,7 +213,25 @@ export class DonationForm extends LitElement {
 
   private donateClicked() {
     this.recaptchaManager?.execute();
-    this.modalVisible = true
+
+    // <slot name="paypal-upsell-button" slot="paypal-upsell-button">
+    //         </slot>
+
+    const customContent = html`<slot name="paypal-upsell-button"></slot>`;
+
+    this.modalManager?.showModal({
+      headerColor: 'green',
+      title: 'Title',
+      subtitle: 'Subtitle',
+      headline: 'Headline',
+      message: 'Message',
+      processingImageMode: 'something',
+      showProcessingIndicator: false,
+      content: customContent
+    });
+
+    this.renderUpsellPayPalButton();
+    // this.modalVisible = true
     // this.donationRequest.paymentMethodNonce = 'fake-valid-nonce';
     // this.donationRequest.billing = this.contactForm.billingInfo;
     // this.donationRequest.customer = this.contactForm.contactInfo;
@@ -221,6 +242,10 @@ export class DonationForm extends LitElement {
   /** @inheritdoc */
   static get styles(): CSSResult {
     return css`
+      h1 {
+        margin: 0;
+        padding: 0;
+      }
     `;
   }
 }
