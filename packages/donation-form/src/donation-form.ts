@@ -20,8 +20,9 @@ import { DonationRequest } from './models/request_models/donation-request';
 import { ContactForm } from './contact-form';
 import { RecaptchaManagerInterface } from './recaptcha-manager';
 import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
-import { DonationFormHeader } from './donation-form-header/donation-form-header';
+import { DonationFormHeader, DonationFormHeaderMode } from './donation-form-header/donation-form-header';
 import { DonationFrequency } from './models/donation-info/donation-frequency';
+import { PayPalButtonDataSourceInterface } from './braintree-manager/payment-providers/paypal/paypal-button-datasource';
 
 @customElement('donation-form')
 export class DonationForm extends LitElement {
@@ -42,6 +43,8 @@ export class DonationForm extends LitElement {
   @property({ type: Boolean }) private creditCardVisible = false;
 
   @property({ type: Boolean }) private contactFormVisible = false;
+
+  @property({ type: Object }) private paypalUpsellButtonDataSource: PayPalButtonDataSourceInterface | undefined;
 
   @query('contact-form') contactForm!: ContactForm;
 
@@ -97,10 +100,14 @@ export class DonationForm extends LitElement {
     if (!this.modalVisible) { return html``; }
 
     return html`
-      <donation-modal>
+      <donation-modal @close-button-pressed=${this.modalClosePressed}>
         <slot name="paypal-upsell-button"></slot>
       </donation-modal>
     `;
+  }
+
+  private modalClosePressed(): void {
+    this.modalVisible = false;
   }
 
   private applePaySelected(): void {
@@ -124,6 +131,10 @@ export class DonationForm extends LitElement {
   }
 
   firstUpdated() {
+    this.readQueryParams();
+  }
+
+  private readQueryParams(): void {
     const urlParams = new URLSearchParams(window.location.search);
 
     const frequencyParam = urlParams.get('frequency');
@@ -147,31 +158,20 @@ export class DonationForm extends LitElement {
 
     this.donationInfo = donationInfo;
 
+    if (amountParam || frequencyParam) {
+      this.donationFormHeader.mode = DonationFormHeaderMode.Summary;
+    } else {
+      this.donationFormHeader.mode = DonationFormHeaderMode.Edit;
+    }
+
     console.log('donationInfo', donationInfo);
   }
 
   updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has('modalVisible') && this.modalVisible) {
-      const upsellDonationInfo = new DonationPaymentInfo({
-        frequency: DonationFrequency.Monthly,
-        amount: 10,
-        isUpsell: true
-      });
-
-      // const buttonStyle = new paypal.ButtonStyle
-
-      this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
-        selector: '#paypal-upsell-button',
-        style: {
-          color: 'gold' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
-          label: 'paypal' as paypal.ButtonLabelOption,
-          shape: 'rect' as paypal.ButtonShapeOption,
-          size: 'small' as paypal.ButtonSizeOption,
-          tagline: false
-        },
-        donationInfo: upsellDonationInfo
-      });
+    if (changedProperties.has('modalVisible') && this.modalVisible && !this.paypalUpsellButtonDataSource) {
+      this.renderUpsellPayPalButton();
     }
+
     if (changedProperties.has('creditCardVisible')) {
       if (this.creditCardVisible) {
         this.braintreeManager?.paymentProviders.creditCardHandler?.setupHostedFields();
@@ -179,6 +179,26 @@ export class DonationForm extends LitElement {
         this.braintreeManager?.paymentProviders.creditCardHandler?.teardownHostedFields();
       }
     }
+  }
+
+  private async renderUpsellPayPalButton(): Promise<void> {
+    const upsellDonationInfo = new DonationPaymentInfo({
+      frequency: DonationFrequency.Monthly,
+      amount: 10,
+      isUpsell: true
+    });
+
+    this.paypalUpsellButtonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
+      selector: '#paypal-upsell-button',
+      style: {
+        color: 'gold' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
+        label: 'paypal' as paypal.ButtonLabelOption,
+        shape: 'rect' as paypal.ButtonShapeOption,
+        size: 'small' as paypal.ButtonSizeOption,
+        tagline: false
+      },
+      donationInfo: upsellDonationInfo
+    });
   }
 
   private donationInfoChanged(e: CustomEvent) {
