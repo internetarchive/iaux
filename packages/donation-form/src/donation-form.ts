@@ -19,7 +19,7 @@ import { BraintreeManagerInterface } from './braintree-manager/braintree-manager
 import { ModalManagerInterface } from './modals/modal-manager';
 import { DonationRequest } from './models/request_models/donation-request';
 import { ContactForm } from './form-elements/contact-form';
-import { RecaptchaManagerInterface } from './recaptcha-manager';
+import { RecaptchaManagerInterface } from './recaptcha-manager/recaptcha-manager';
 import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
 import { DonationFormHeader, DonationFormHeaderMode } from './form-elements/header/donation-form-header';
 import { DonationFrequency } from './models/donation-info/donation-frequency';
@@ -65,6 +65,7 @@ export class DonationForm extends LitElement {
       <form-section number=3 headline="Choose a payment method">
         <payment-selector
           .braintreeManager=${this.braintreeManager}
+          .modalManager=${this.modalManager}
           .donationInfo=${this.donationInfo}
           @creditCardSelected=${this.creditCardSelected}
           @venmoSelected=${this.venmoSelected}
@@ -162,26 +163,6 @@ export class DonationForm extends LitElement {
     }
   }
 
-  private async renderUpsellPayPalButton(): Promise<void> {
-    const upsellDonationInfo = new DonationPaymentInfo({
-      frequency: DonationFrequency.Monthly,
-      amount: 10,
-      isUpsell: true
-    });
-
-    this.paypalUpsellButtonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
-      selector: '#paypal-upsell-button',
-      style: {
-        color: 'gold' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
-        label: 'paypal' as paypal.ButtonLabelOption,
-        shape: 'rect' as paypal.ButtonShapeOption,
-        size: 'small' as paypal.ButtonSizeOption,
-        tagline: false
-      },
-      donationInfo: upsellDonationInfo
-    });
-  }
-
   private donationInfoChanged(e: CustomEvent) {
     const donationInfo: DonationPaymentInfo = e.detail.donationInfo;
     this.donationInfo = donationInfo;
@@ -191,23 +172,6 @@ export class DonationForm extends LitElement {
 
   private donateClicked() {
     // this.recaptchaManager?.execute();
-
-    const customContent = html`<slot name="paypal-upsell-button"></slot>`;
-
-    const modalConfig = new ModalConfig();
-    modalConfig.headerColor = 'green';
-    modalConfig.title = 'Title';
-    modalConfig.subtitle = 'Subtitle';
-    modalConfig.headline = 'Headline';
-    modalConfig.message = 'Message';
-    modalConfig.processingImageMode = 'something';
-    modalConfig.showProcessingIndicator = false;
-
-    this.modalManager?.showModal(modalConfig, customContent);
-
-    if (!this.paypalUpsellButtonDataSource) {
-      this.renderUpsellPayPalButton();
-    }
   }
 
   /** @inheritdoc */

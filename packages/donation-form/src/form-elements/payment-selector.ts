@@ -13,12 +13,11 @@ import {
 import { BraintreeManagerInterface } from '../braintree-manager/braintree-manager';
 import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
 import { DonationFrequency } from '../models/donation-info/donation-frequency';
-import { PayPalButtonDataSourceInterface, PayPalButtonDataSourceDelegate } from '../braintree-manager/payment-providers/paypal/paypal-button-datasource';
-import { DonationResponse } from '../models/response-models/donation-response';
 import { ModalManagerInterface } from '../modals/modal-manager';
+import { PayPalFlowHandler } from './payment-handlers/paypal-handler';
 
 @customElement('payment-selector')
-export class PaymentSelector extends LitElement implements PayPalButtonDataSourceDelegate {
+export class PaymentSelector extends LitElement {
   @property({ type: Object }) braintreeManager: BraintreeManagerInterface | undefined;
 
   @property({ type: Object }) modalManager: ModalManagerInterface | undefined;
@@ -29,7 +28,7 @@ export class PaymentSelector extends LitElement implements PayPalButtonDataSourc
     isUpsell: false
   });
 
-  @property({ type: Object }) private paypalDataSource: PayPalButtonDataSourceInterface | undefined;
+  private paypalHandler?: PayPalFlowHandler;
 
   // @property({ type: Boolean }) private creditCardVisible = false;
 
@@ -45,46 +44,16 @@ export class PaymentSelector extends LitElement implements PayPalButtonDataSourc
   }
 
   updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has('braintreeManager')) {
-      this.setupPayPal();
+    if (changedProperties.has('braintreeManager') || changedProperties.has('modalManager')) {
+      if (this.braintreeManager && this.modalManager) {
+        this.paypalHandler = new PayPalFlowHandler(this.braintreeManager, this.modalManager);
+        this.paypalHandler?.updateDonationInfo(this.donationInfo);
+        this.paypalHandler?.renderPayPalButton();
+      }
     }
 
     if (changedProperties.has('donationInfo')) {
-      this.paypalDataSource?.updateDonationInfo(this.donationInfo);
-    }
-  }
-
-  payPalPaymentStarted(options: object): void {
-    console.debug('PaymentSector:payPalPaymentStarted options:', options);
-  }
-
-  payPalPaymentAuthorized(payload: braintree.PayPalCheckoutTokenizePayload, response: DonationResponse): void {
-    console.debug('PaymentSector:payPalPaymentAuthorized payload,response', payload,response);
-    // this.modalManager
-  }
-
-  payPalPaymentCancelled(data: object): void {
-    console.debug('PaymentSector:payPalPaymentCancelled data:', data);
-  }
-
-  payPalPaymentError(error: string): void {
-    console.debug('PaymentSector:payPalPaymentError error:', error);
-  }
-
-  private async setupPayPal(): Promise<void> {
-    this.paypalDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
-      selector: '#paypal-button',
-      style: {
-        color: 'blue' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
-        label: 'paypal' as paypal.ButtonLabelOption,
-        shape: 'rect' as paypal.ButtonShapeOption,
-        size: 'small' as paypal.ButtonSizeOption,
-        tagline: false
-      },
-      donationInfo: this.donationInfo
-    });
-    if (this.paypalDataSource) {
-      this.paypalDataSource.delegate = this;
+      this.paypalHandler?.updateDonationInfo(this.donationInfo);
     }
   }
 
