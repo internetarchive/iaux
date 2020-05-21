@@ -10,18 +10,18 @@ import {
   PropertyValues,
 } from 'lit-element';
 
-import './form-section';
-import './donation-form-header/donation-form-header';
-import './contact-form';
-import './payment-selector';
+import './form-elements/form-section';
+import './form-elements/header/donation-form-header';
+import './form-elements/contact-form';
+import './form-elements/payment-selector';
 import './modals/modal-template';
 import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
 import { ModalManagerInterface } from './modals/modal-manager';
 import { DonationRequest } from './models/request_models/donation-request';
-import { ContactForm } from './contact-form';
+import { ContactForm } from './form-elements/contact-form';
 import { RecaptchaManagerInterface } from './recaptcha-manager';
 import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
-import { DonationFormHeader, DonationFormHeaderMode } from './donation-form-header/donation-form-header';
+import { DonationFormHeader, DonationFormHeaderMode } from './form-elements/header/donation-form-header';
 import { DonationFrequency } from './models/donation-info/donation-frequency';
 import { PayPalButtonDataSourceInterface } from './braintree-manager/payment-providers/paypal/paypal-button-datasource';
 import { ModalConfig } from './modals/modal-template';

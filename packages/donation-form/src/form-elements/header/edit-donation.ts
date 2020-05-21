@@ -10,8 +10,8 @@ import {
 
 import '../form-section';
 import '../static-custom-button';
-import { DonationFrequency } from '../models/donation-info/donation-frequency';
-import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
+import { DonationFrequency } from '../../models/donation-info/donation-frequency';
+import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
 
 @customElement('edit-donation')
 export class EditDonation extends LitElement {

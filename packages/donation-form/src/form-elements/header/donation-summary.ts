@@ -9,8 +9,8 @@ import {
   PropertyValues,
 } from 'lit-element';
 
-import { DonationFrequency } from '../models/donation-info/donation-frequency';
-import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
+import { DonationFrequency } from '../../models/donation-info/donation-frequency';
+import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
 
 @customElement('donation-summary')
 export class DonationSummary extends LitElement {

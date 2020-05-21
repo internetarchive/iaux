@@ -11,8 +11,8 @@ import {
 
 import './donation-summary';
 import './edit-donation';
-import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
-import { DonationFrequency } from '../models/donation-info/donation-frequency';
+import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
+import { DonationFrequency } from '../../models/donation-info/donation-frequency';
 import { EditDonation } from './edit-donation';
 
 export enum DonationFormHeaderMode {

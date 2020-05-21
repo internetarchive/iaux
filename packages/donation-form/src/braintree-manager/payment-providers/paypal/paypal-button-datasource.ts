@@ -61,7 +61,7 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
       options.amount = this.donationInfo.amount;
       options.currency = 'USD';
     } else {
-      options.billingAgreementDescription = `Subscribe to donate $${amount} monthly`
+      options.billingAgreementDescription = `Subscribe to donate $${this.donationInfo.amount} monthly`
     }
 
     this.delegate?.payPalPaymentStarted(options);

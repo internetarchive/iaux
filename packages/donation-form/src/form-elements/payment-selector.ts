@@ -10,15 +10,18 @@ import {
   query,
 } from 'lit-element';
 
-import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
-import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
-import { DonationFrequency } from './models/donation-info/donation-frequency';
-import { PayPalButtonDataSourceInterface, PayPalButtonDataSourceDelegate } from './braintree-manager/payment-providers/paypal/paypal-button-datasource';
-import { DonationResponse } from './models/response-models/donation-response';
+import { BraintreeManagerInterface } from '../braintree-manager/braintree-manager';
+import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
+import { DonationFrequency } from '../models/donation-info/donation-frequency';
+import { PayPalButtonDataSourceInterface, PayPalButtonDataSourceDelegate } from '../braintree-manager/payment-providers/paypal/paypal-button-datasource';
+import { DonationResponse } from '../models/response-models/donation-response';
+import { ModalManagerInterface } from '../modals/modal-manager';
 
 @customElement('payment-selector')
 export class PaymentSelector extends LitElement implements PayPalButtonDataSourceDelegate {
   @property({ type: Object }) braintreeManager: BraintreeManagerInterface | undefined;
+
+  @property({ type: Object }) modalManager: ModalManagerInterface | undefined;
 
   @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
     frequency: DonationFrequency.OneTime,
@@ -57,6 +60,7 @@ export class PaymentSelector extends LitElement implements PayPalButtonDataSourc
 
   payPalPaymentAuthorized(payload: braintree.PayPalCheckoutTokenizePayload, response: DonationResponse): void {
     console.debug('PaymentSector:payPalPaymentAuthorized payload,response', payload,response);
+    // this.modalManager
   }
 
   payPalPaymentCancelled(data: object): void {
