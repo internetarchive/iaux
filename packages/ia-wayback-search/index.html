@@ -34,12 +34,11 @@
       import { html, render } from './node_modules/lit-html/lit-html.js';
 
       const locationHandler = {
-        submitCallback: (url) => window.location = url
+        submitCallback: (query) => window.location = `https://web.archive.org/web/*/${query}`
       };
 
       render(html`<ia-wayback-search
         waybackPagesArchived="32 trillion pages"
-        waybackHost="web.archive.org"
         .locationHandler=${locationHandler}
       ></ia-wayback-search>`, document.getElementById('root'));
 

@@ -9,13 +9,11 @@ import sinon from 'sinon';
 import '../src/ia-wayback-search';
 
 const component = (properties = {
-  waybackPagesArchived: '32 trillion pages',
-  waybackHost: 'archive.org',
+  waybackPagesArchived: '32 trillion pages'
 }) => (
   html`
     <ia-wayback-search
       waybackPagesArchived=${properties.waybackPagesArchived}
-      waybackHost=${properties.waybackHost}
     ></ia-wayback-search>
   `
 );

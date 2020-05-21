@@ -11,21 +11,19 @@ class WaybackSearch extends LitElement {
     return {
       locationHandler: { type: Object },
       waybackPagesArchived: { type: String },
-      waybackHost: { type: String },
     };
   }
 
   constructor() {
     super();
     this.waybackPagesArchived = '';
-    this.waybackHost = 'archive.org';
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const query = e.target.querySelector('#url').value;
     this.emitWaybackSearchSubmitted(query);
-    this.locationHandler.submitCallback(`https://${this.waybackHost}/web/*/${query}`);
+    this.locationHandler.submitCallback(query);
   }
 
   emitWaybackSearchSubmitted(query) {

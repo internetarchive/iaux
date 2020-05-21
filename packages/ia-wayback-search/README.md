@@ -5,14 +5,13 @@
 ```html
 <ia-wayback-search
   waybackPagesArchived="32 trillion pages"
-  waybackUrl="archive.org"
 ></ia-wayback-search>
 ```
 
 ```js
 document.querySelector('ia-wayback-search').locationHandler = {
-  submitCallback: (url) => {
-    window.location = url;
+  submitCallback: (query) => {
+    window.location = `https://web.archive.org/web/*/${query}`;
   }
 };
 ```
@@ -22,7 +21,6 @@ document.querySelector('ia-wayback-search').locationHandler = {
 ```js
 locationHandler: { type: Function }, // function called when form submitted. @param url string
 waybackPagesArchived: { type: String }, // Pages archived message, e.g. "428 billion pages"
-waybackHost: { type: String }, // Hostname used to build the Wayback search URL, e.g. "archive.org"
 ```
 
 ### Events
