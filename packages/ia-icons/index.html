@@ -64,13 +64,12 @@
           'web',
         ].map((name) => {
           const color = `rgb(${~~(Math.random() * 256)}, ${~~(Math.random() * 256)}, ${~~(Math.random() * 256)})`;
-          const lowerName = name.toLowerCase();
-          return unsafeHTML(`
+          return html`
             <li>
-              <icon-${lowerName} fill="${color}" stroke="${color}"></icon-${lowerName}>
-              <p>icon-${lowerName}</p>
+              <ia-icon icon=${name} fill="${color}" stroke="${color}"></ia-icon>
+              <p>${name}</p>
             </li>
-          `);
+          `;
         });
       };
 

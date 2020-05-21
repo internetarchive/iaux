@@ -1,4 +1,4 @@
-import { LitElement } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 import advance from './icons/advance';
 import audio from './icons/audio';
 import close from './icons/close';
@@ -14,9 +14,27 @@ import user from './icons/user';
 import video from './icons/video';
 import web from './icons/web';
 
-class Icon extends LitElement {
+const iconTemplates = {
+  advance,
+  audio,
+  close,
+  donate,
+  ellipses,
+  iaLogo,
+  images,
+  search,
+  software,
+  texts,
+  upload,
+  user,
+  video,
+  web,
+};
+
+class IAIcon extends LitElement {
   static get properties() {
     return {
+      icon: { type: String },
       fill: { type: String },
       stroke: { type: String },
     };
@@ -24,6 +42,7 @@ class Icon extends LitElement {
 
   constructor() {
     super();
+    this.icon = '';
     this.fill = '';
     this.stroke = '';
   }
@@ -40,91 +59,10 @@ class Icon extends LitElement {
   }
 
   render() {
-    return this.template;
+    return iconTemplates[this.icon] || html``;
   }
 }
 
-export class IconAdvance extends Icon {
-  constructor() {
-    super();
-    this.template = advance;
-  }
-}
-export class IconAudio extends Icon {
-  constructor() {
-    super();
-    this.template = audio;
-  }
-}
-export class IconClose extends Icon {
-  constructor() {
-    super();
-    this.template = close;
-  }
-}
-export class IconDonate extends Icon {
-  constructor() {
-    super();
-    this.template = donate;
-  }
-}
-export class IconEllipses extends Icon {
-  constructor() {
-    super();
-    this.template = ellipses;
-  }
-}
-export class IconIALogo extends Icon {
-  constructor() {
-    super();
-    this.template = iaLogo;
-  }
-}
-export class IconImages extends Icon {
-  constructor() {
-    super();
-    this.template = images;
-  }
-}
-export class IconSearch extends Icon {
-  constructor() {
-    super();
-    this.template = search;
-  }
-}
-export class IconSoftware extends Icon {
-  constructor() {
-    super();
-    this.template = software;
-  }
-}
-export class IconTexts extends Icon {
-  constructor() {
-    super();
-    this.template = texts;
-  }
-}
-export class IconUpload extends Icon {
-  constructor() {
-    super();
-    this.template = upload;
-  }
-}
-export class IconUser extends Icon {
-  constructor() {
-    super();
-    this.template = user;
-  }
-}
-export class IconVideo extends Icon {
-  constructor() {
-    super();
-    this.template = video;
-  }
-}
-export class IconWeb extends Icon {
-  constructor() {
-    super();
-    this.template = web;
-  }
-}
+customElements.define('ia-icon', IAIcon);
+
+export default IAIcon;
