@@ -47,19 +47,18 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
   async payment(): Promise<any> {
     console.log('PayPalButtonDataSource payment, donationInfo', this, this.donationInfo);
 
-    const frequency = this.donationInfo.frequency;
-
-    const flow: braintree.PayPalCheckoutFlowType =
-      (frequency === DonationFrequency.Monthly ? 'vault' : 'checkout') as braintree.PayPalCheckoutFlowType;
-
-    const { amount } = this.donationInfo;
-
     const options: any = {};
-    options.flow = flow;
     options.enableShippingAddress = true;
 
+    const frequency = this.donationInfo.frequency;
+    let flow: braintree.PayPalCheckoutFlowType = 'checkout' as braintree.PayPalCheckoutFlowType;
+    if (frequency === DonationFrequency.Monthly) {
+      flow = 'vault' as braintree.PayPalCheckoutFlowType
+    }
+    options.flow = flow;
+
     if (flow === 'checkout') {
-      options.amount = amount;
+      options.amount = this.donationInfo.amount;
       options.currency = 'USD';
     } else {
       options.billingAgreementDescription = `Subscribe to donate $${amount} monthly`
@@ -115,16 +114,12 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
   }
 
   onCancel(data: object): void {
-    // DonateIframe.postMessage('close modal');
-    // log('PayPal payment cancelled', JSON.stringify(data, 0, 2));
-    console.log('cancel', data);
+    console.debug('cancel', data);
     this.delegate?.payPalPaymentCancelled(data);
   }
 
   onError(error: string): void {
-    // DonateIframe.postMessage('close modal');
-    // log(`PayPal error: ${general_err}`);
-    console.log('error', error);
+    console.error('error', error);
     this.delegate?.payPalPaymentError(error);
   }
 }
