@@ -29,6 +29,11 @@
         text-align: center;
       }
 
+      li:hover {
+        color: #f0f0f0;
+        background: #222;
+      }
+
       p {
         margin: 0;
         white-space: nowrap;
@@ -59,10 +64,11 @@
           'web',
         ].map((name) => {
           const color = `rgb(${~~(Math.random() * 256)}, ${~~(Math.random() * 256)}, ${~~(Math.random() * 256)})`;
+          const lowerName = name.toLowerCase();
           return unsafeHTML(`
             <li>
-              <icon-${name} fill="${color}" stroke="${color}"></icon-${name}>
-              <p>icon-${name}</p>
+              <icon-${lowerName} fill="${color}" stroke="${color}"></icon-${lowerName}>
+              <p>icon-${lowerName}</p>
             </li>
           `);
         });

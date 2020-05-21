@@ -15,16 +15,27 @@ import video from './icons/video';
 import web from './icons/web';
 
 class Icon extends LitElement {
-  firstUpdated() {
-    const fill = this.getAttribute('fill');
-    const stroke = this.getAttribute('stroke');
-    if (fill) {
+  static get properties() {
+    return {
+      fill: { type: String },
+      stroke: { type: String },
+    };
+  }
+
+  constructor() {
+    super();
+    this.fill = '';
+    this.stroke = '';
+  }
+
+  updated() {
+    if (this.fill) {
       this.shadowRoot.querySelectorAll('.fill-color')
-        .forEach(el => el.setAttribute('fill', fill));
+        .forEach(el => el.setAttribute('fill', this.fill));
     }
-    if (stroke) {
+    if (this.stroke) {
       this.shadowRoot.querySelectorAll('.stroke-color')
-        .forEach(el => el.setAttribute('stroke', stroke));
+        .forEach(el => el.setAttribute('stroke', this.stroke));
     }
   }
 
