@@ -14,7 +14,7 @@ import { BraintreeManagerInterface } from '../braintree-manager/braintree-manage
 import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
 import { DonationFrequency } from '../models/donation-info/donation-frequency';
 import { ModalManagerInterface } from '../modals/modal-manager';
-import { PayPalFlowHandler } from './payment-handlers/paypal-handler';
+import { PayPalFlowHandler } from './payment-flow-handlers/paypal-flow-handler';
 
 @customElement('payment-selector')
 export class PaymentSelector extends LitElement {

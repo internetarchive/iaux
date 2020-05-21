@@ -9,7 +9,6 @@ export interface PayPalHandlerInterface {
     donationInfo: DonationPaymentInfo
   }): Promise<PayPalButtonDataSourceInterface | undefined>;
   getPayPalInstance(): Promise<braintree.PayPalCheckout | undefined>;
-  startPayment(): Promise<any>;
 }
 
 export class PayPalHandler implements PayPalHandlerInterface {
@@ -66,7 +65,6 @@ export class PayPalHandler implements PayPalHandlerInterface {
     donationInfo: DonationPaymentInfo
   }): Promise<PayPalButtonDataSourceInterface | undefined> {
     const env: paypal.Environment = (this.hostingEnvironment === HostingEnvironment.Development ? 'sandbox' : 'production') as paypal.Environment;
-    // const env: paypal.Environment = this.hostingEnvironment === HostingEnvironment.Development ? paypal.Environment.Sandbox : paypal.Environment.Production;
 
     console.log('renderPayPalButton');
 
@@ -91,13 +89,5 @@ export class PayPalHandler implements PayPalHandlerInterface {
     });
 
     return dataSource;
-  }
-
-  async startPayment(): Promise<any> {
-    const instance = await this.getPayPalInstance();
-
-    // instance?.tokenize((error: any, payload: object) => {
-    //   console.log('tokenize complete', error, payload);
-    // });
   }
 }

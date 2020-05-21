@@ -23,8 +23,6 @@ import { RecaptchaManagerInterface } from './recaptcha-manager/recaptcha-manager
 import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
 import { DonationFormHeader, DonationFormHeaderMode } from './form-elements/header/donation-form-header';
 import { DonationFrequency } from './models/donation-info/donation-frequency';
-import { PayPalButtonDataSourceInterface } from './braintree-manager/payment-providers/paypal/paypal-button-datasource';
-import { ModalConfig } from './modals/modal-template';
 
 @customElement('donation-form')
 export class DonationForm extends LitElement {
@@ -45,8 +43,6 @@ export class DonationForm extends LitElement {
   @property({ type: Boolean }) private creditCardVisible = false;
 
   @property({ type: Boolean }) private contactFormVisible = false;
-
-  @property({ type: Object }) private paypalUpsellButtonDataSource: PayPalButtonDataSourceInterface | undefined;
 
   @query('contact-form') contactForm!: ContactForm;
 
@@ -84,10 +80,8 @@ export class DonationForm extends LitElement {
     return html`
       <form-section number=4 headline="Tell us about yourself">
         <contact-form></contact-form>
-
-        ${this.creditCardVisible ? html`<slot name="braintree-hosted-fields"></slot>` : ''}
-
-        <!-- <slot name="braintree-hosted-fields" slot="braintree-hosted-fields"></slot> -->
+        ${this.creditCardVisible ?
+            html`<slot name="braintree-hosted-fields"></slot>` : ''}
       </form-section>
 
       <form-section number=5>
