@@ -42,6 +42,9 @@ export class ModalTemplate extends LitElement {
         </header>
         <div class="body">
           <div class="processing-logo ${this.config.showProcessingIndicator ? '' : 'hidden'}">
+            <!-- <donation-processing-image
+              .mode=${this.processingImageMode}>
+            </donation-processing-image> -->
           </div>
 
           ${this.config.headline ? html`<h1 class="headline">${this.config.headline}</h1>` : ''}

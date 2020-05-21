@@ -36,8 +36,6 @@ export class DonationForm extends LitElement {
 
   @property({ type: Object }) donationRequest: DonationRequest | undefined;
 
-  @property({ type: Boolean }) modalVisible = false;
-
   @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
     frequency: DonationFrequency.OneTime,
     amount: 5,
@@ -77,9 +75,6 @@ export class DonationForm extends LitElement {
       </form-section>
 
       ${this.contactFormSection}
-
-      <!-- <slot name="paypal-upsell-button"></slot> -->
-      <!-- ${this.modalView} -->
     `;
   }
 
@@ -98,20 +93,6 @@ export class DonationForm extends LitElement {
         <button @click=${this.donateClicked}>Donate</button>
       </form-section>
     `;
-  }
-
-  // get modalView(): TemplateResult {
-  //   if (!this.modalVisible) { return html``; }
-
-  //   return html`
-  //     <donation-modal @close-button-pressed=${this.modalClosePressed}>
-  //       <slot name="paypal-upsell-button"></slot>
-  //     </donation-modal>
-  //   `;
-  // }
-
-  private modalClosePressed(): void {
-    this.modalVisible = false;
   }
 
   private applePaySelected(): void {
@@ -172,10 +153,6 @@ export class DonationForm extends LitElement {
   }
 
   updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has('modalVisible') && this.modalVisible && !this.paypalUpsellButtonDataSource) {
-      this.renderUpsellPayPalButton();
-    }
-
     if (changedProperties.has('creditCardVisible')) {
       if (this.creditCardVisible) {
         this.braintreeManager?.paymentProviders.creditCardHandler?.setupHostedFields();
@@ -213,7 +190,7 @@ export class DonationForm extends LitElement {
   }
 
   private donateClicked() {
-    this.recaptchaManager?.execute();
+    // this.recaptchaManager?.execute();
 
     const customContent = html`<slot name="paypal-upsell-button"></slot>`;
 
@@ -231,12 +208,6 @@ export class DonationForm extends LitElement {
     if (!this.paypalUpsellButtonDataSource) {
       this.renderUpsellPayPalButton();
     }
-    // this.modalVisible = true
-    // this.donationRequest.paymentMethodNonce = 'fake-valid-nonce';
-    // this.donationRequest.billing = this.contactForm.billingInfo;
-    // this.donationRequest.customer = this.contactForm.contactInfo;
-
-    // this.braintreeManager?.submitDataToEndpoint(this.donationRequest);
   }
 
   /** @inheritdoc */

@@ -1,6 +1,6 @@
 export class BraintreeEndpointManager {
   async submitData(data) {
-    console.log('submitData, returning sample response', data);
+    console.log('submitData', data);
 
     // const data2 = {
     //   'amount': 5,

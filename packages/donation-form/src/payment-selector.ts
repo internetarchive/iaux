@@ -13,10 +13,11 @@ import {
 import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
 import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
 import { DonationFrequency } from './models/donation-info/donation-frequency';
-import { PayPalButtonDataSourceInterface } from './braintree-manager/payment-providers/paypal/paypal-button-datasource';
+import { PayPalButtonDataSourceInterface, PayPalButtonDataSourceDelegate } from './braintree-manager/payment-providers/paypal/paypal-button-datasource';
+import { DonationResponse } from './models/response-models/donation-response';
 
 @customElement('payment-selector')
-export class PaymentSelector extends LitElement {
+export class PaymentSelector extends LitElement implements PayPalButtonDataSourceDelegate {
   @property({ type: Object }) braintreeManager: BraintreeManagerInterface | undefined;
 
   @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
@@ -50,6 +51,22 @@ export class PaymentSelector extends LitElement {
     }
   }
 
+  payPalPaymentStarted(options: object): void {
+    console.debug('PaymentSector:payPalPaymentStarted options:', options);
+  }
+
+  payPalPaymentAuthorized(payload: braintree.PayPalCheckoutTokenizePayload, response: DonationResponse): void {
+    console.debug('PaymentSector:payPalPaymentAuthorized payload,response', payload,response);
+  }
+
+  payPalPaymentCancelled(data: object): void {
+    console.debug('PaymentSector:payPalPaymentCancelled data:', data);
+  }
+
+  payPalPaymentError(error: string): void {
+    console.debug('PaymentSector:payPalPaymentError error:', error);
+  }
+
   private async setupPayPal(): Promise<void> {
     this.paypalDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
       selector: '#paypal-button',
@@ -62,6 +79,9 @@ export class PaymentSelector extends LitElement {
       },
       donationInfo: this.donationInfo
     });
+    if (this.paypalDataSource) {
+      this.paypalDataSource.delegate = this;
+    }
   }
 
   private googlePaySelected(): void {

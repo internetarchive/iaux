@@ -4,8 +4,10 @@ import { CustomerInfo } from "../../../models/common/customer-info";
 import { BillingInfo } from "../../../models/common/billing-info";
 import { DonationRequest, DonationRequestPaymentProvider } from "../../../models/request_models/donation-request";
 import { BraintreeManager, BraintreeManagerInterface } from "../../braintree-manager";
+import { DonationResponse } from "../../../models/response-models/donation-response";
 
 export interface PayPalButtonDataSourceInterface {
+  delegate?: PayPalButtonDataSourceDelegate;
   updateDonationInfo(donationInfo: DonationPaymentInfo): void;
   payment(): Promise<any>;
   onAuthorize(data: any, actions: any): Promise<braintree.PayPalCheckoutTokenizePayload | undefined>;
@@ -13,7 +15,16 @@ export interface PayPalButtonDataSourceInterface {
   onError(error: string): void;
 }
 
+export interface PayPalButtonDataSourceDelegate {
+  payPalPaymentStarted(options: object): void;
+  payPalPaymentAuthorized(payload: braintree.PayPalCheckoutTokenizePayload, response: DonationResponse): void;
+  payPalPaymentCancelled(data: object): void;
+  payPalPaymentError(error: string): void;
+}
+
 export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
+  delegate?: PayPalButtonDataSourceDelegate;
+
   private paypalInstance: braintree.PayPalCheckout;
   private donationInfo: DonationPaymentInfo;
   private braintreeManager: BraintreeManagerInterface;
@@ -38,27 +49,23 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
 
     const frequency = this.donationInfo.frequency;
 
-    // you can't use the proper enum in here because it's in a callback
     const flow: braintree.PayPalCheckoutFlowType =
       (frequency === DonationFrequency.Monthly ? 'vault' : 'checkout') as braintree.PayPalCheckoutFlowType;
-    const { amount } = this.donationInfo;
-    const options = {
-      flow,
-      enableShippingAddress: true
-    };
 
-    let checkoutOptions = {};
+    const { amount } = this.donationInfo;
+
+    const options: any = {};
+    options.flow = flow;
+    options.enableShippingAddress = true;
+
     if (flow === 'checkout') {
-      checkoutOptions = {
-        amount,
-        currency: 'USD',
-      };
+      options.amount = amount;
+      options.currency = 'USD';
     } else {
-      checkoutOptions = {
-        billingAgreementDescription: `Subscribe to donate $${amount} monthly`,
-      };
+      options.billingAgreementDescription = `Subscribe to donate $${amount} monthly`
     }
-    Object.assign(options, checkoutOptions);
+
+    this.delegate?.payPalPaymentStarted(options);
 
     return this.paypalInstance.createPayment(options);
   }
@@ -66,7 +73,7 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
   async onAuthorize(data: any, actions: any): Promise<braintree.PayPalCheckoutTokenizePayload | undefined> {
     const payload: braintree.PayPalCheckoutTokenizePayload = await this.paypalInstance.tokenizePayment(data);
 
-    console.log('PAYLOAD', payload);
+    console.debug('onAuthorize data', data, 'payload', payload);
 
     const details = payload?.details;
 
@@ -100,7 +107,9 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
       options: undefined
     });
 
-    this.braintreeManager.submitDataToEndpoint(request);
+    const response: DonationResponse = await this.braintreeManager.submitDataToEndpoint(request);
+
+    this.delegate?.payPalPaymentAuthorized(payload, response);
 
     return payload;
   }
@@ -109,11 +118,13 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
     // DonateIframe.postMessage('close modal');
     // log('PayPal payment cancelled', JSON.stringify(data, 0, 2));
     console.log('cancel', data);
+    this.delegate?.payPalPaymentCancelled(data);
   }
 
   onError(error: string): void {
     // DonateIframe.postMessage('close modal');
     // log(`PayPal error: ${general_err}`);
     console.log('error', error);
+    this.delegate?.payPalPaymentError(error);
   }
 }

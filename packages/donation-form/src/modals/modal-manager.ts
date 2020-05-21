@@ -28,8 +28,6 @@ export interface ModalManagerInterface {
 @customElement('modal-manager')
 export class ModalManager extends LitElement implements ModalManagerInterface {
 
-  @property({ type: Object }) braintreeManager: BraintreeManagerInterface | undefined;
-
   @property({ type: String, reflect: true }) mode: ModalManagerMode = ModalManagerMode.Closed;
 
   @property({ type: Object }) customModalContent: TemplateResult | undefined;
