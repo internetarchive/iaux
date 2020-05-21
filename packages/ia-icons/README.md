@@ -3,13 +3,11 @@
 ## Usage
 
 ```js
-import { IconClose } from './src/ia-icons';
-
-customElements.define('icon-close', IconClose);
+import { IAIcon } from './src/ia-icon';
 ```
 
 ```html
-<icon-close></icon-close>
+<ia-icon icon="close"></ia-icon>
 ```
 
 ## Testing
