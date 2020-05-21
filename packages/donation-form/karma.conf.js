@@ -11,31 +11,11 @@ module.exports = (config) => {
         //
         // npm run test -- --grep test/foo/bar.test.js
         // npm run test -- --grep test/bar/*
-        {
-          pattern: 'test/**/*.mp3', watched: false, included: false, served: true
-        },
         { pattern: config.grep ? config.grep : 'test/**/*.test.js', type: 'module' },
       ],
 
-      customLaunchers: {
-        ChromeHeadlessAutoplayAllowed: {
-          base: 'ChromeHeadless',
-          flags: [
-            // needed to test playback via javascript since the browser
-            // doesn't allow automated playback without user interaction
-            '--autoplay-policy=no-user-gesture-required',
-            '--no-sandbox',
-            '--disable-setuid-sandbox'
-          ],
-        },
-      },
-
       esm: {
         nodeResolve: true,
-      },
-
-      proxies: {
-        '/assets/': '/base/test/assets/'
       },
 
       reporters: [
@@ -59,6 +39,5 @@ module.exports = (config) => {
       ],
     }),
   );
-  config.browsers = ['ChromeHeadlessAutoplayAllowed'];
   return config;
 };
