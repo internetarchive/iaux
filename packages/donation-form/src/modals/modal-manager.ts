@@ -10,9 +10,7 @@ import {
 } from 'lit-element';
 
 import './modal-template';
-import { ModalTemplate } from './modal-template';
-import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
-import { DonationFrequency } from '../models/donation-info/donation-frequency';
+import { ModalTemplate, ModalConfig } from './modal-template';
 import { BraintreeManagerInterface } from '../braintree-manager/braintree-manager';
 
 enum ModalManagerMode {
@@ -20,21 +18,11 @@ enum ModalManagerMode {
   Closed = 'closed'
 }
 
-export class ModalInstance {
-
-}
-
 export interface ModalManagerInterface {
-  showModal(options: {
-    headerColor?: string,
-    title?: string,
-    subtitle?: string,
-    headline?: string,
-    message?: string,
-    processingImageMode?: string,
-    showProcessingIndicator: boolean,
-    content?: TemplateResult,
-  }): Promise<ModalInstance>;
+  showModal(
+    config: ModalConfig,
+    customModalContent: TemplateResult | undefined
+  ): Promise<void>;
 }
 
 @customElement('modal-manager')
@@ -44,7 +32,7 @@ export class ModalManager extends LitElement implements ModalManagerInterface {
 
   @property({ type: String, reflect: true }) mode: ModalManagerMode = ModalManagerMode.Closed;
 
-  @property({ type: Object }) customContent: TemplateResult | undefined;
+  @property({ type: Object }) customModalContent: TemplateResult | undefined;
 
   @query('modal-template') modalTemplate!: ModalTemplate;
 
@@ -53,97 +41,26 @@ export class ModalManager extends LitElement implements ModalManagerInterface {
     return html`
       <div class="container ${this.mode}">
         <div class="backdrop">
-          <modal-template>
-            ${this.customContent}
+          <modal-template @closeButtonPressed=${this.closeButtonPressed}>
+            ${this.customModalContent}
           </modal-template>
         </div>
       </div>
     `;
   }
 
-  async showModal(options: {
-    title?: string,
-    headerColor?: string,
-    subtitle?: string,
-    headline?: string,
-    message?: string,
-    processingImageMode?: string,
-    showProcessingIndicator: boolean,
-    customContent?: TemplateResult,
-  }): Promise<ModalInstance> {
-    this.customContent = undefined;
-
-    if (options.headerColor) {
-      this.modalTemplate.headerColor = options.headerColor;
-    }
-    if (options.title) {
-      this.modalTemplate.title = options.title;
-    }
-    this.modalTemplate.subtitle = options.subtitle;
-    this.modalTemplate.headline = options.headline;
-    this.modalTemplate.message = options.message;
-    // this.modalTemplate.processingImageMode = options.processingImageMode;
-    this.modalTemplate.showProcessingIndicator = options.showProcessingIndicator;
-    this.customContent = options.customContent;
-
+  async showModal(
+    config: ModalConfig,
+    customModalContent?: TemplateResult | undefined
+  ): Promise<void> {
     this.mode = ModalManagerMode.Modal;
-
-    return new ModalInstance();
-
-    // $(this.container).append(`
-    //   <donation-modal
-    //     id="${identifier}"
-    //     title="${title}"
-    //     subtitle="${subtitle}"
-    //     headline="${headline}"
-    //     message="${message}"
-    //     headerColor="${headerColor}"
-    //     processingImageMode="${processingImageMode}">
-
-    //     ${content}
-
-    //   </donation-modal>
-    // `);
-
-    // const modal = this.container.querySelector(`#${identifier}`);
-
-    // modal.showProcessingIndicator = showProcessingIndicator;
-
-    // modal.addEventListener(
-    //   'close-button-pressed',
-    //   this.closeModal.bind(this),
-    // );
-
-    // return modal;
+    this.customModalContent = undefined;
+    this.modalTemplate.config = config;
+    this.customModalContent = customModalContent;
   }
 
-  // private async renderUpsellPayPalButton(): Promise<void> {
-  //   console.log('render');
-  //   const upsellDonationInfo = new DonationPaymentInfo({
-  //     frequency: DonationFrequency.Monthly,
-  //     amount: 10,
-  //     isUpsell: true
-  //   });
-
-  //   this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
-  //     selector: '#paypal-upsell-button',
-  //     style: {
-  //       color: 'gold' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
-  //       label: 'paypal' as paypal.ButtonLabelOption,
-  //       shape: 'rect' as paypal.ButtonShapeOption,
-  //       size: 'small' as paypal.ButtonSizeOption,
-  //       tagline: false
-  //     },
-  //     donationInfo: upsellDonationInfo
-  //   });
-  // }
-
-  firstUpdated() {
-    // this.customContent = html`
-    //   <slot name="paypal-upsell-button">
-    //   </slot>`;
-
-    // this.renderUpsellPayPalButton();
+  private closeButtonPressed(): void {
+    this.mode = ModalManagerMode.Closed;
   }
 
   /** @inheritdoc */

@@ -24,6 +24,7 @@ import { DonationPaymentInfo } from './models/donation-info/donation-payment-inf
 import { DonationFormHeader, DonationFormHeaderMode } from './donation-form-header/donation-form-header';
 import { DonationFrequency } from './models/donation-info/donation-frequency';
 import { PayPalButtonDataSourceInterface } from './braintree-manager/payment-providers/paypal/paypal-button-datasource';
+import { ModalConfig } from './modals/modal-template';
 
 @customElement('donation-form')
 export class DonationForm extends LitElement {
@@ -214,23 +215,22 @@ export class DonationForm extends LitElement {
   private donateClicked() {
     this.recaptchaManager?.execute();
 
-    // <slot name="paypal-upsell-button" slot="paypal-upsell-button">
-    //         </slot>
-
     const customContent = html`<slot name="paypal-upsell-button"></slot>`;
 
-    this.modalManager?.showModal({
-      headerColor: 'green',
-      title: 'Title',
-      subtitle: 'Subtitle',
-      headline: 'Headline',
-      message: 'Message',
-      processingImageMode: 'something',
-      showProcessingIndicator: false,
-      content: customContent
-    });
+    const modalConfig = new ModalConfig();
+    modalConfig.headerColor = 'green';
+    modalConfig.title = 'Title';
+    modalConfig.subtitle = 'Subtitle';
+    modalConfig.headline = 'Headline';
+    modalConfig.message = 'Message';
+    modalConfig.processingImageMode = 'something';
+    modalConfig.showProcessingIndicator = false;
 
-    this.renderUpsellPayPalButton();
+    this.modalManager?.showModal(modalConfig, customContent);
+
+    if (!this.paypalUpsellButtonDataSource) {
+      this.renderUpsellPayPalButton();
+    }
     // this.modalVisible = true
     // this.donationRequest.paymentMethodNonce = 'fake-valid-nonce';
     // this.donationRequest.billing = this.contactForm.billingInfo;

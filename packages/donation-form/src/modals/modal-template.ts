@@ -9,51 +9,47 @@ import {
   query,
 } from 'lit-element';
 
-// import { DonationProcessingImageMode } from './donation-processing-image.js';
-
-// import closeButton from './close-button.js';
+export class ModalConfig {
+  title = 'Internet Archive';
+  subtitle: string | undefined;
+  headline: string | undefined;
+  message: string | undefined;
+  visible = true;
+  headerColor = '#36A483';
+  showProcessingIndicator = false;
+  processingImageMode = 'processing';
+  showBackdrop = false;
+}
 
 @customElement('modal-template')
 export class ModalTemplate extends LitElement {
-  @property({ type: String }) title = 'Internet Archive';
-  @property({ type: String }) subtitle: string | undefined;
-  @property({ type: String }) headline: string | undefined;
-  @property({ type: String }) message: string | undefined;
-  @property({ type: Boolean, reflect: true }) visible = true;
-  @property({ type: String }) headerColor = '#36A483';
-  @property({ type: Boolean }) showProcessingIndicator = false;
-  @property({ type: String }) processingImageMode = 'processing';
-  @property({ type: Boolean }) showBackdrop = false;
+  @property({ type: Object }) config: ModalConfig = new ModalConfig();
 
   render() {
     return html`
     <div class="modal-wrapper">
       <div class="head-spacer"></div>
       <div class="modal-container">
-        <header style="background-color: ${this.headerColor}">
+        <header style="background-color: ${this.config.headerColor}">
           <button type="button" class="close-button" @click=${this.handleCloseButton}>
             (X)
           </button>
           <div class="logo-icon">
             <img src="https://archive.org/images/logo_arches.png">
           </div>
-          <h1>${this.title}</h1>
-          <h2>${this.subtitle}</h2>
+          <h1>${this.config.title}</h1>
+          <h2>${this.config.subtitle}</h2>
         </header>
         <div class="body">
-          <div class="processing-logo ${this.showProcessingIndicator ? '' : 'hidden'}">
-            <!-- <donation-processing-image
-              .mode=${this.processingImageMode}>
-            </donation-processing-image> -->
+          <div class="processing-logo ${this.config.showProcessingIndicator ? '' : 'hidden'}">
           </div>
 
-          ${this.headline ? html`<h1 class="headline">${this.headline}</h1>` : ''}
+          ${this.config.headline ? html`<h1 class="headline">${this.config.headline}</h1>` : ''}
 
-          ${this.message ? html`<p class="message">${this.message}</p>` : ''}
+          ${this.config.message ? html`<p class="message">${this.config.message}</p>` : ''}
 
           <div class="slot-container">
             <slot>
-
             </slot>
           </div>
         </div>
@@ -63,14 +59,13 @@ export class ModalTemplate extends LitElement {
   }
 
   private handleCloseButton(): void {
-    const event = new Event('close-button-pressed');
+    const event = new Event('closeButtonPressed');
     this.dispatchEvent(event);
   }
 
   static get styles(): CSSResult {
     return css`
       :host {
-        display: none;
         overflow: auto;
         overflow-y: scroll;
         position: fixed;
@@ -78,7 +73,7 @@ export class ModalTemplate extends LitElement {
         right: 0;
         bottom: 0;
         left: 0;
-        z-index: 50001;
+        z-index: 300;
         font-family: 'Helvetica Neue', Helvetica, sans-serif;
       }
 
