@@ -5,6 +5,8 @@ import { DonationRequest, DonationRequestPaymentProvider } from '../../../models
 import { BillingInfo } from '../../../models/common/billing-info';
 import { CustomerInfo } from '../../../models/common/customer-info';
 import { DonationFrequency } from '../../../models/donation-info/donation-frequency';
+import { ApplePaySessionDataSource } from './apple-pay-session-datasource';
+import { DonationPaymentInfo } from '../../../models/donation-info/donation-payment-info';
 
 export interface ApplePayHandlerInterface {
   isAvailable(): Promise<boolean>;
@@ -80,7 +82,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
   // In order to trigger the Apple Pay flow, you HAVE to pass in the event
   // that triggered the launch. Notice we're not actually using the event
   // but ApplePay won't launch without it.
-  async createPaymentRequest(e: Event): Promise<any> {
+  async createPaymentRequest(e: Event): Promise<ApplePaySessionDataSource> {
     const applePayInstance = await this.getInstance();
 
     const paymentRequest = applePayInstance.createPaymentRequest({
@@ -98,112 +100,27 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
     });
     const session = this.applePaySessionManager.createNewPaymentSession(paymentRequest);
 
-    console.log(paymentRequest.countryCode);
-    console.log(paymentRequest.currencyCode);
-    console.log(paymentRequest.merchantCapabilities);
-    console.log(paymentRequest.supportedNetworks);
+    const donationInfo = new DonationPaymentInfo({
+      frequency: DonationFrequency.OneTime,
+      amount: 5,
+      isUpsell: false
+    });
+
+    const sessionDataSource = new ApplePaySessionDataSource({
+      donationInfo: donationInfo,
+      session: session,
+      applePayInstance: applePayInstance,
+      braintreeManager: this.braintreeManager
+    });
 
     console.log('createPaymentRequest', session, paymentRequest);
 
-    // session.
+    session.onvalidatemerchant = sessionDataSource.onvalidatemerchant.bind(sessionDataSource);
+    session.onpaymentauthorized = sessionDataSource.onpaymentauthorized.bind(sessionDataSource);
 
-    session.onvalidatemerchant = function (event: ApplePayJS.ApplePayValidateMerchantEvent) {
-      console.log('onvalidatemerchant', event);
-
-      applePayInstance.performValidation({
-        validationURL: event.validationURL,
-        displayName: 'My Great Store'
-      }, (validationErr: any, validationData: any) => {
-        if (validationErr) {
-          console.error(validationErr);
-          session.abort();
-          return;
-        }
-        console.log('validate merchange', validationData);
-
-        session.completeMerchantValidation(validationData);
-      });
-    };
-
-    session.onpaymentauthorized = (event: ApplePayJS.ApplePayPaymentAuthorizedEvent) => {
-      console.log('onpaymentauthorized, event', event);
-
-      applePayInstance.tokenize({
-        token: event.payment.token
-      }, (tokenizeErr: braintree.BraintreeError, payload: any) => {
-        if (tokenizeErr) {
-          console.error('Error tokenizing Apple Pay:', tokenizeErr);
-          session.completePayment(ApplePaySession.STATUS_FAILURE);
-          return;
-        }
-
-        console.log('payload', payload);
-
-        const payment = event.payment;
-        const billingContact = payment.billingContact;
-        const shippingContact = payment.shippingContact;
-        const addressLines = billingContact?.addressLines;
-
-        let line1 = undefined;
-        let line2 = undefined;
-
-        if (addressLines) {
-          line1 = addressLines[0];
-          line2 = addressLines[1];
-        }
-
-        const billingInfo = new BillingInfo({
-          // firstName: billingContact?.givenName,
-          // lastName: billingContact?.familyName,
-          streetAddress: line1,
-          extendedAddress: line2,
-          locality: billingContact?.locality,
-          region: billingContact?.administrativeArea,
-          postalCode: billingContact?.postalCode,
-          countryCodeAlpha2: billingContact?.countryCode
-        })
-
-        const customerInfo = new CustomerInfo({
-          email: billingContact?.emailAddress,
-          firstName: billingContact?.givenName,
-          lastName: billingContact?.familyName
-        })
-
-        const donationRequest = new DonationRequest({
-          paymentProvider: DonationRequestPaymentProvider.ApplePay,
-          paymentMethodNonce: payload.nonce,
-          isUpsell: false,
-          amount: 5,
-          frequency: DonationFrequency.OneTime,
-          customer: customerInfo,
-          billing: billingInfo,
-          referrer: undefined,
-          customFields: undefined,
-          options: undefined
-        })
-        // donationRequest.nonce = payload.nonce;
-        // donationRequest.billing = billingInfo;
-        // donationRequest.customer = customerInfo;
-        // donationRequest.amount = 10;
-        // donationRequest.frequency = DonationFrequency.OneTime;
-
-        this.braintreeManager.submitDataToEndpoint(donationRequest);
-
-        // Send payload.nonce to your server.
-        console.log('nonce:', payload.nonce);
-
-
-        // If requested, address information is accessible in event.payment
-        // and may also be sent to your server.
-        // console.log('billingPostalCode:', event.payment.billingContact.postalCode);
-
-        // After you have transacted with the payload.nonce,
-        // call `completePayment` to dismiss the Apple Pay sheet.
-        return session.completePayment(ApplePaySession.STATUS_SUCCESS);
-      });
-    };
-
-    console.log('session', session);
+    console.log('session, sessionDataSource', session, sessionDataSource);
     session.begin();
+
+    return sessionDataSource;
   }
 }

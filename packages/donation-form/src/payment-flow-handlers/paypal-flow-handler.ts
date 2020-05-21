@@ -1,12 +1,12 @@
 import { html } from 'lit-element';
 
-import { PayPalButtonDataSourceInterface, PayPalButtonDataSourceDelegate } from "../../braintree-manager/payment-providers/paypal/paypal-button-datasource";
-import { DonationResponse } from "../../models/response-models/donation-response";
-import { ModalManagerInterface } from "../../modals/modal-manager";
-import { BraintreeManagerInterface } from "../../braintree-manager/braintree-manager";
-import { DonationFrequency } from "../../models/donation-info/donation-frequency";
-import { DonationPaymentInfo } from "../../models/donation-info/donation-payment-info";
-import { ModalConfig } from '../../modals/modal-template';
+import { PayPalButtonDataSourceInterface, PayPalButtonDataSourceDelegate } from "../braintree-manager/payment-providers/paypal/paypal-button-datasource";
+import { DonationResponse } from "../models/response-models/donation-response";
+import { ModalManagerInterface } from "../modals/modal-manager";
+import { BraintreeManagerInterface } from "../braintree-manager/braintree-manager";
+import { DonationFrequency } from "../models/donation-info/donation-frequency";
+import { DonationPaymentInfo } from "../models/donation-info/donation-payment-info";
+import { ModalConfig } from '../modals/modal-template';
 
 export class PayPalFlowHandler implements PayPalButtonDataSourceDelegate {
   private paypalUpsellButtonDataSource?: PayPalButtonDataSourceInterface;
