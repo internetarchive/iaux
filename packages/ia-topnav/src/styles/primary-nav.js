@@ -87,6 +87,10 @@ export default css`
     display: none;
   }
 
+  .upload span {
+    display: none;
+  }
+
   .user-info {
     -ms-grid-row: 1;
     -ms-grid-column: 4;
@@ -181,10 +185,6 @@ export default css`
       vertical-align: middle;
     }
 
-    .username {
-      display: inline-block;
-    }
-
     .upload {
       display: block;
       float: right;
@@ -221,6 +221,16 @@ export default css`
     login-button {
       display: block;
       margin-right: 1rem;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .username {
+      display: inline-block;
+    }
+
+    .upload span {
+      display: inline;
     }
   }
 `;
