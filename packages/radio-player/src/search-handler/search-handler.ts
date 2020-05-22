@@ -149,18 +149,19 @@ export class SearchHandler implements SearchHandlerInterface {
     const searchRanges: Range[] = await this.searchBackend.getSearchRanges(query);
     const { mergedTranscript } = this.transcriptIndex;
 
-    // Sort the search range results from start to end
-    // The search engine may return results in any order but while processing the results here,
-    // we are going from start to finish. If the search results are out of order, it rebuilds
-    // incorrect blocks of search results.
-    searchRanges.sort((a: Range, b: Range) => (a.startIndex > b.startIndex ? 1 : -1));
-
     // if there's no search results, just return a single SearchResult that is the full
     // transcript marked as not a match.
     if (searchRanges.length === 0) {
       const range = new Range(0, mergedTranscript.length);
       return new Promise(resolve => resolve([new SearchResult(range, mergedTranscript, false)]));
     }
+
+
+    // Sort the search range results from start to end
+    // The search engine may return results in any order but while processing the results here,
+    // we are going from start to finish. If the search results are out of order, it rebuilds
+    // incorrect blocks of search results.
+    searchRanges.sort((a: Range, b: Range) => (a.startIndex - b.startIndex));
 
     const transcriptEntries: SearchResult[] = [];
     let startIndex = 0;
