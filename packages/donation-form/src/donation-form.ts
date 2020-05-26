@@ -165,7 +165,7 @@ export class DonationForm extends LitElement {
   }
 
   private donateClicked() {
-    // this.recaptchaManager?.execute();
+    this.recaptchaManager?.execute();
   }
 
   /** @inheritdoc */
