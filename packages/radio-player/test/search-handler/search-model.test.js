@@ -7,6 +7,16 @@ import { Range, SearchResult, TranscriptEntryRange } from '../../lib/src/search-
 
 describe('Search Models', () => {
   describe('Range', () => {
+    it('can be initialized properly', async () => {
+      const range = new Range(9, 13);
+      expect(range.startIndex).to.equal(9);
+      expect(range.endIndex).to.equal(13);
+
+      const range2 = new Range(14, 7);
+      expect(range2.startIndex).to.equal(14);
+      expect(range2.endIndex).to.equal(7);
+    });
+
     it('correctly calculates the length of the range is start is less than end', async () => {
       const range = new Range(9, 13);
       expect(range.length).to.equal(4);
@@ -15,6 +25,11 @@ describe('Search Models', () => {
     it('correctly calculates the length of the range is end is less than start', async () => {
       const range = new Range(7, 2);
       expect(range.length).to.equal(5);
+    });
+
+    it('can be initialized with the same number', async () => {
+      const range = new Range(7, 7);
+      expect(range.length).to.equal(0);
     });
   });
 
