@@ -25,6 +25,24 @@ describe('Search Helper', () => {
       expect(intersection.endIndex).to.equal(10);
     });
 
+    it('correctly calculates the intersection when one consumes the other', async () => {
+      const range1 = new Range(3, 17);
+      const range2 = new Range(7, 15);
+      const intersection = SearchHelper.getIntersection(range1, range2);
+
+      expect(intersection.startIndex).to.equal(7);
+      expect(intersection.endIndex).to.equal(15);
+    });
+
+    it('correctly calculates the intersection when one consumes the other in other order', async () => {
+      const range1 = new Range(3, 17);
+      const range2 = new Range(7, 15);
+      const intersection = SearchHelper.getIntersection(range2, range1);
+
+      expect(intersection.startIndex).to.equal(7);
+      expect(intersection.endIndex).to.equal(15);
+    });
+
     it('returns `undefined` if the ranges do not intersect', async () => {
       const range1 = new Range(0, 10);
       const range2 = new Range(11, 15);
