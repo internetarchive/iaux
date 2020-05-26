@@ -45,7 +45,7 @@ export default class RadioPlayerController extends LitElement {
 
   private fileName = '';
 
-  private baseUrl = 'https://58-review-radio-arch-bsdafk.archive.org';
+  private baseUrl = 'https://archive.org';
 
   private searchServicePath = '/services/radio-archive/search/service.php';
 

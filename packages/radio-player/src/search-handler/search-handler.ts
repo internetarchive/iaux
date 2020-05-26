@@ -156,6 +156,13 @@ export class SearchHandler implements SearchHandlerInterface {
       return new Promise(resolve => resolve([new SearchResult(range, mergedTranscript, false)]));
     }
 
+
+    // Sort the search range results from start to end
+    // The search engine may return results in any order but while processing the results here,
+    // we are going from start to finish. If the search results are out of order, it rebuilds
+    // incorrect blocks of search results.
+    searchRanges.sort((a: Range, b: Range) => (a.startIndex - b.startIndex));
+
     const transcriptEntries: SearchResult[] = [];
     let startIndex = 0;
 
