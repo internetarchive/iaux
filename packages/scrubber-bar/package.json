@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/scrubber-bar",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A Scrubber Bar LitElement for use in scrubbing through media",
   "license": "AGPL-3.0-only",
   "main": "index.js",
