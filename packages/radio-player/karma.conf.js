@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const { createDefaultConfig } = require('@open-wc/testing-karma');
-const merge = require('webpack-merge');
+const merge = require('deepmerge');
 
 module.exports = (config) => {
   config.set(
@@ -31,7 +31,8 @@ module.exports = (config) => {
       },
 
       esm: {
-        nodeResolve: true,
+        preserveSymlinks: true,
+        nodeResolve: true
       },
 
       proxies: {
@@ -55,6 +56,7 @@ module.exports = (config) => {
       },
 
       plugins: [
+        require.resolve('@open-wc/karma-esm'),
         'karma-coverage'
       ],
     }),
