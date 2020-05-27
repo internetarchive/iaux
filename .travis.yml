@@ -14,7 +14,7 @@ install:
 
 script:
   - lerna bootstrap
-  - lerna run test
+  - lerna run --parallel test
 
 after_success:
   - codecov
