@@ -56,6 +56,7 @@ module.exports = (config) => {
       },
 
       plugins: [
+        require.resolve('@open-wc/karma-esm'),
         'karma-coverage'
       ],
     }),
