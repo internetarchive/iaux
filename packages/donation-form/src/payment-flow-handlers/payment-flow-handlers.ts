@@ -3,11 +3,12 @@ import { PayPalFlowHandlerInterface, PayPalFlowHandler } from "./handlers/paypal
 import { ModalManagerInterface } from "../modal-manager/modal-manager";
 import { BraintreeManagerInterface } from "../braintree-manager/braintree-manager";
 import { RecaptchaManagerInterface } from "../recaptcha-manager/recaptcha-manager";
+import { ApplePayFlowHandlerInterface, ApplePayFlowHandler } from "./handlers/applepay-flow-handler";
 
 export interface PaymentFlowHandlersInterface {
   creditCardHandler: CreditCardFlowHandlerInterface | undefined;
   paypalHandler: PayPalFlowHandlerInterface | undefined;
-  applePayHandler: PayPalFlowHandlerInterface | undefined;
+  applePayHandler: ApplePayFlowHandlerInterface | undefined;
 }
 
 /**
@@ -57,21 +58,22 @@ export class PaymentFlowHandlers implements PaymentFlowHandlersInterface {
     return this.paypalHandlerCache;
   }
 
-  get applePayHandler(): PayPalFlowHandlerInterface | undefined {
-    if (this.paypalHandlerCache) {
-      return this.paypalHandlerCache;
+  get applePayHandler(): ApplePayFlowHandlerInterface | undefined {
+    if (this.applePayHandlerCache) {
+      return this.applePayHandlerCache;
     }
 
-    this.paypalHandlerCache = new PayPalFlowHandler({
+    this.applePayHandlerCache = new ApplePayFlowHandler({
       braintreeManager: this.braintreeManager,
       modalManager: this.modalManager
     });
 
-    return this.paypalHandlerCache;
+    return this.applePayHandlerCache;
   }
 
   private creditCardHandlerCache?: CreditCardFlowHandlerInterface;
   private paypalHandlerCache?: PayPalFlowHandlerInterface;
+  private applePayHandlerCache?: ApplePayFlowHandlerInterface;
 
   constructor(options: {
     braintreeManager: BraintreeManagerInterface,

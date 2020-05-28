@@ -52,9 +52,7 @@ export class PaymentSelector extends LitElement {
 
   private applePaySelected(e: Event): void {
     this.dispatchEvent(new Event('applePaySelected'));
-    // you must pass the event to start the ApplePay flow
-    this.braintreeManager?.paymentProviders.applePayHandler?.createPaymentRequest(
-      this.donationInfo.amount, e);
+    this.paymentFlowHandlers?.applePayHandler?.paymentInitiated(e);
   }
 
   private venmoSelected(): void {
