@@ -47,8 +47,6 @@ export class ContactForm extends LitElement {
       postalCode: this.postalCodeField.value,
       countryCodeAlpha2: 'US'
     });
-    // billingInfo.firstName = this.firstNameField.value;
-    // billingInfo.lastName = this.lastNameField.value;
     return billingInfo;
   }
 

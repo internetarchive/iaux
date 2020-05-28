@@ -63,22 +63,9 @@ export class BraintreeManager implements BraintreeManagerInterface {
    */
   paymentProviders: PaymentProvidersInterface;
 
-  async startup() {
-    const instance = await this.getInstance();
-    if (!instance) { return; }
-
-    this.paymentClients.dataCollector?.create({
-      client: instance,
-      kount: false,
-      paypal: true
-    }, (error?: braintree.BraintreeError, instance?: braintree.DataCollector) => {
-      if (error) {
-        console.error(error);
-        // log(dataCollectorError);
-        return;
-      }
-      this._deviceData = instance?.deviceData;
-    });
+  async startup(): Promise<void> {
+    console.debug('startup');
+    this.collectDeviceData();
   }
 
   async getInstance(): Promise<braintree.Client | undefined> {
@@ -103,6 +90,25 @@ export class BraintreeManager implements BraintreeManagerInterface {
     const jsonResponse = await this.endpointManager.submitData(request);
     const modeledResponse = new DonationResponse(jsonResponse);
     return modeledResponse;
+  }
+
+  private async collectDeviceData(): Promise<void> {
+    const instance = await this.getInstance();
+    if (!instance) { return; }
+
+    console.debug('collectDeviceData, starting dataCollector');
+    this.paymentClients.dataCollector?.create({
+      client: instance,
+      kount: false,
+      paypal: true
+    }, (error?: braintree.BraintreeError, instance?: braintree.DataCollector) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
+      console.debug('dataCollector started', instance?.deviceData);
+      this._deviceData = instance?.deviceData;
+    });
   }
 
   private authorizationToken: string;

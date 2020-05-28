@@ -176,6 +176,8 @@
       recaptchaManager: recaptchaManager
     });
     donationForm.paymentFlowHandlers = paymentFlowHandlers;
+    braintreeManager.startup();
+    paymentFlowHandlers.startup();
   </script>
 </body>
 </html>

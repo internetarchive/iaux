@@ -7,6 +7,8 @@ import { ApplePayFlowHandlerInterface, ApplePayFlowHandler } from "./handlers/ap
 import { VenmoFlowHandlerInterface, VenmoFlowHandler } from "./handlers/venmo-flow-handler";
 
 export interface PaymentFlowHandlersInterface {
+  startup(): Promise<void>;
+
   creditCardHandler: CreditCardFlowHandlerInterface | undefined;
   paypalHandler: PayPalFlowHandlerInterface | undefined;
   applePayHandler: ApplePayFlowHandlerInterface | undefined;
@@ -34,6 +36,10 @@ export interface PaymentFlowHandlersInterface {
  * @implements {PaymentFlowHandlersInterface}
  */
 export class PaymentFlowHandlers implements PaymentFlowHandlersInterface {
+  async startup(): Promise<void> {
+    this.venmoHandler?.startup();
+  }
+
   get creditCardHandler(): CreditCardFlowHandlerInterface | undefined {
     if (this.creditCardHandlerCache) {
       return this.creditCardHandlerCache;
