@@ -8,6 +8,8 @@ import { DonationFrequency } from "../../models/donation-info/donation-frequency
 import { DonationPaymentInfo } from "../../models/donation-info/donation-payment-info";
 import { ModalConfig } from '../../modal-manager/modal-template';
 
+import '../../modals/upsell-modal-content';
+
 export interface PayPalFlowHandlerInterface {
   updateDonationInfo(donationInfo: DonationPaymentInfo): void;
   updateUpsellDonationInfo(donationInfo: DonationPaymentInfo): void;
@@ -21,9 +23,9 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
   private paypalDataSource?: PayPalButtonDataSourceInterface;
 
-  private modalManager?: ModalManagerInterface;
+  private modalManager: ModalManagerInterface;
 
-  private braintreeManager?: BraintreeManagerInterface;
+  private braintreeManager: BraintreeManagerInterface;
 
   updateDonationInfo(donationInfo: DonationPaymentInfo): void {
     this.paypalDataSource?.updateDonationInfo(donationInfo);
@@ -81,8 +83,17 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     }
   }
 
+  private showYesButton = false
+
   async showUpsellModal(): Promise<void> {
-    const customContent = html`<slot name="paypal-upsell-button"></slot>`;
+    const customContent = html`
+      <upsell-modal-content
+        ?showYesButton=${this.showYesButton}
+        @yesSelected=${this.yesSelected.bind(this)}
+        @noThanksSelected=${this.noThanksSelected.bind(this)}>
+        <slot name="paypal-upsell-button"></slot>
+      </upsell-modal-content>
+    `;
 
     const modalConfig = new ModalConfig();
     modalConfig.headerColor = 'green';
@@ -96,6 +107,16 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     if (!this.paypalUpsellButtonDataSource) {
       this.renderUpsellPayPalButton();
     }
+  }
+
+  private yesSelected(e: CustomEvent): void {
+    console.debug('yesSelected', e.detail.amount);
+    this.modalManager.closeModal();
+  }
+
+  private noThanksSelected(): void {
+    console.debug('noThanksSelected');
+    this.modalManager.closeModal();
   }
 
   async renderUpsellPayPalButton(): Promise<void> {
