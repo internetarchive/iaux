@@ -104,6 +104,7 @@ export class DonationForm extends LitElement {
   private venmoSelected(): void {
     this.contactFormVisible = true;
     this.creditCardVisible = false;
+    this.paymentFlowHandlers?.venmoHandler?.paymentInitiated();
   }
 
   firstUpdated() {

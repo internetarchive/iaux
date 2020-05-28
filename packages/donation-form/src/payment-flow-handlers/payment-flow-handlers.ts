@@ -4,11 +4,14 @@ import { ModalManagerInterface } from "../modal-manager/modal-manager";
 import { BraintreeManagerInterface } from "../braintree-manager/braintree-manager";
 import { RecaptchaManagerInterface } from "../recaptcha-manager/recaptcha-manager";
 import { ApplePayFlowHandlerInterface, ApplePayFlowHandler } from "./handlers/applepay-flow-handler";
+import { VenmoFlowHandlerInterface, VenmoFlowHandler } from "./handlers/venmo-flow-handler";
 
 export interface PaymentFlowHandlersInterface {
   creditCardHandler: CreditCardFlowHandlerInterface | undefined;
   paypalHandler: PayPalFlowHandlerInterface | undefined;
   applePayHandler: ApplePayFlowHandlerInterface | undefined;
+  venmoHandler: VenmoFlowHandlerInterface | undefined;
+  googlePayHandler: ApplePayFlowHandlerInterface | undefined;
 }
 
 /**
@@ -71,9 +74,27 @@ export class PaymentFlowHandlers implements PaymentFlowHandlersInterface {
     return this.applePayHandlerCache;
   }
 
+  get venmoHandler(): VenmoFlowHandlerInterface | undefined {
+    if (this.venmoHandlerCache) {
+      return this.venmoHandlerCache;
+    }
+
+    this.venmoHandlerCache = new VenmoFlowHandler({
+      braintreeManager: this.braintreeManager,
+      modalManager: this.modalManager
+    });
+
+    return this.venmoHandlerCache;
+  }
+
+  get googlePayHandler(): ApplePayFlowHandlerInterface | undefined {
+    return undefined;
+  }
+
   private creditCardHandlerCache?: CreditCardFlowHandlerInterface;
   private paypalHandlerCache?: PayPalFlowHandlerInterface;
   private applePayHandlerCache?: ApplePayFlowHandlerInterface;
+  private venmoHandlerCache?: VenmoFlowHandlerInterface;
 
   constructor(options: {
     braintreeManager: BraintreeManagerInterface,

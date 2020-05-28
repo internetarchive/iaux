@@ -95,8 +95,8 @@ declare namespace braintree {
      *   });
      * });
      */
+    tokenize(options?: { processResultsDelay?: number }): Promise<VenmoTokenizePayload>;
     tokenize(options?: { processResultsDelay?: number }, callback?: (error?: BraintreeError, payload?: VenmoTokenizePayload) => void): void;
-    tokenize(options?: { processResultsDelay?: number }): Promise<void>;
 
     /**
      * Cleanly tear down anything set up by {@link module:braintree-web/venmo.create|create}.
