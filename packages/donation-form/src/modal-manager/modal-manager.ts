@@ -23,6 +23,7 @@ export interface ModalManagerInterface {
     config: ModalConfig,
     customModalContent: TemplateResult | undefined
   ): Promise<void>;
+  closeModal(): void;
 }
 
 @customElement('modal-manager')
@@ -45,6 +46,10 @@ export class ModalManager extends LitElement implements ModalManagerInterface {
         </div>
       </div>
     `;
+  }
+
+  closeModal() {
+    this.mode = ModalManagerMode.Closed;
   }
 
   async showModal(

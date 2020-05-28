@@ -1,7 +1,11 @@
+import { html } from 'lit-element';
+
 import { ModalManagerInterface } from "../../modal-manager/modal-manager";
 import { BraintreeManagerInterface } from "../../braintree-manager/braintree-manager";
 import { RecaptchaManagerInterface } from "../../recaptcha-manager/recaptcha-manager";
 import { ModalConfig } from "../../modal-manager/modal-template";
+
+import '../../modals/upsell-modal-content';
 
 export interface CreditCardFlowHandlerInterface {
   paymentInitiated(): Promise<void>;
@@ -36,7 +40,23 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
     const recaptchaToken = await this.recaptchaManager.execute();
     console.debug('paymentInitiated recaptchaToken', recaptchaToken);
     const modalConfig = new ModalConfig();
-    this.modalManager.showModal(modalConfig, undefined);
+    const modalContent = html`
+      <upsell-modal-content
+        @yesSelected=${this.yesSelected.bind(this)}
+        @noThanksSelected=${this.noThanksSelected.bind(this)}>
+      </upsell-modal-content>
+    `;
+    this.modalManager.showModal(modalConfig, modalContent);
+  }
+
+  private yesSelected(e: CustomEvent): void {
+    console.debug('yesSelected', e.detail.amount);
+    this.modalManager.closeModal();
+  }
+
+  private noThanksSelected(): void {
+    console.debug('noThanksSelected');
+    this.modalManager.closeModal();
   }
 
   async paymentAuthorized(): Promise<void> {}
