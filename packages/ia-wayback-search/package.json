@@ -33,7 +33,7 @@
     "@open-wc/polyfills-loader": "^0.2.1",
     "@open-wc/prettier-config": "^0.1.10",
     "@open-wc/testing": "^2.0.0",
-    "@open-wc/testing-karma": "^3.0.0",
+    "@open-wc/testing-karma": "^3.4.0",
     "@open-wc/testing-karma-bs": "^1.0.0",
     "@storybook/react": "^5.1.11",
     "es-dev-server": "^1.42.0",
