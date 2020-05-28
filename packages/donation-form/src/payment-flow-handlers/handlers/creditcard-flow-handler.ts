@@ -33,12 +33,28 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
 
   // PaymentFlowHandlerInterface conformance
   async paymentInitiated(): Promise<void> {
-    const hostedFieldsResponse = await this.braintreeManager.paymentProviders
-      .creditCardHandler?.tokenizeHostedFields()
+    let hostedFieldsResponse: braintree.HostedFieldsTokenizePayload | undefined;
 
+    try {
+      hostedFieldsResponse = await this.braintreeManager.paymentProviders
+        .creditCardHandler?.tokenizeHostedFields()
+    } catch {
+      alert('Fill in Credit Card');
+      return
+    }
     console.debug('paymentInitiated', hostedFieldsResponse);
-    const recaptchaToken = await this.recaptchaManager.execute();
+    let recaptchaToken: string | undefined;
+
+    try {
+      recaptchaToken = await this.recaptchaManager.execute();
+    } catch {
+      alert('Verification failed');
+      return
+    }
     console.debug('paymentInitiated recaptchaToken', recaptchaToken);
+
+    // TODO: submit data to endpoint, then show upsell modal
+
     const modalConfig = new ModalConfig();
     const modalContent = html`
       <upsell-modal-content
