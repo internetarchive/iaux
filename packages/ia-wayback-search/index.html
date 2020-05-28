@@ -33,13 +33,13 @@
     <script type="module">
       import { html, render } from './node_modules/lit-html/lit-html.js';
 
-      const locationHandler = {
-        submitCallback: (query) => window.location = `https://web.archive.org/web/*/${query}`
+      const queryHandler = {
+        performQuery: (query) => window.location = `https://web.archive.org/web/*/${query}`
       };
 
       render(html`<ia-wayback-search
         waybackPagesArchived="32 trillion pages"
-        .locationHandler=${locationHandler}
+        .queryHandler=${queryHandler}
       ></ia-wayback-search>`, document.getElementById('root'));
 
       const wbSearch = document.querySelector('ia-wayback-search');

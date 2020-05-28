@@ -25,15 +25,15 @@ describe('<wayback-search>', () => {
       type: 'submit',
       preventDefault: () => {}
     };
-    const submitCallback = sinon.fake();
+    const performQuery = sinon.fake();
     const el = await fixture(component());
-    el.locationHandler = { submitCallback };
+    el.queryHandler = { performQuery };
 
     submitEvent.target = el.shadowRoot.querySelector('form');
     el.shadowRoot.getElementById('url').value = query;
     el.handleSubmit(submitEvent);
-    expect(submitCallback.callCount).to.equal(1);
-    expect(submitCallback.firstArg).to.contain(query);
+    expect(performQuery.callCount).to.equal(1);
+    expect(performQuery.firstArg).to.contain(query);
   });
 
   it('renders the Wayback pages count', async () => {

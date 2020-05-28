@@ -9,7 +9,7 @@ class WaybackSearch extends LitElement {
 
   static get properties() {
     return {
-      locationHandler: { type: Object },
+      queryHandler: { type: Object },
       waybackPagesArchived: { type: String },
     };
   }
@@ -23,7 +23,7 @@ class WaybackSearch extends LitElement {
     e.preventDefault();
     const query = e.target.querySelector('#url').value;
     this.emitWaybackSearchSubmitted(query);
-    this.locationHandler.submitCallback(query);
+    this.queryHandler.performQuery(query);
   }
 
   emitWaybackSearchSubmitted(query) {
