@@ -14,7 +14,8 @@ export interface PaymentClientsInterface {
  * The PaymentClients class is a container for all of the payment libraries that get loaded.
  *
  * For instance, it carries around the braintree and paypal libraries, as well as the specific
- * payment-provider clients for each of the providers.
+ * payment-provider clients for each of the providers. This allows us to pass around typed
+ * objects instead of the untyped libraries we get from the providers.
  *
  * @export
  * @class PaymentClients

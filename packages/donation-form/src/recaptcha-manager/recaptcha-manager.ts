@@ -63,7 +63,7 @@ export class RecaptchaManager {
    * @memberof RecaptchaManager
    */
   execute(): Promise<string> {
-    console.debug('execute');
+    console.debug('RecaptchaManager: execute');
 
     if (this.isExecuting) {
       return new Promise((resolve, reject) => { reject('Execution already in progress.'); });
@@ -72,11 +72,13 @@ export class RecaptchaManager {
     this.grecaptchaLibrary.execute();
     return new Promise((resolve, reject) => {
       this.executionSuccessBlock = (token: string) => {
+        console.debug('RecaptchaManager: executionSuccessBlock', token);
         this.finishExecution();
         resolve(token);
       }
 
       this.executionExpiredBlock = () => {
+        console.debug('RecaptchaManager: executionExpiredBlock');
         this.finishExecution();
         reject();
       }

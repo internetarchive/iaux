@@ -54,7 +54,7 @@ export class ApplePaySessionDataSource implements ApplePaySessionDataSourceInter
         this.session.abort();
         return;
       }
-      console.log('validate merchange', validationData);
+      console.log('validate merchant', validationData);
 
       this.session.completeMerchantValidation(validationData);
     });

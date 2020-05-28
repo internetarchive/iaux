@@ -1,9 +1,5 @@
 import { BraintreeManagerInterface } from '../../braintree-manager';
 import { ApplePaySessionManagerInterface } from './apple-pay-session-manager';
-import { BraintreeError } from 'braintree-web';
-import { DonationRequest, DonationRequestPaymentProvider } from '../../../models/request_models/donation-request';
-import { BillingInfo } from '../../../models/common/billing-info';
-import { CustomerInfo } from '../../../models/common/customer-info';
 import { DonationFrequency } from '../../../models/donation-info/donation-frequency';
 import { ApplePaySessionDataSource } from './apple-pay-session-datasource';
 import { DonationPaymentInfo } from '../../../models/donation-info/donation-payment-info';
@@ -11,7 +7,7 @@ import { DonationPaymentInfo } from '../../../models/donation-info/donation-paym
 export interface ApplePayHandlerInterface {
   isAvailable(): Promise<boolean>;
   getInstance(): Promise<any | undefined>;
-  createPaymentRequest(e: Event): Promise<any>;
+  createPaymentRequest(amount: number, e: Event): Promise<ApplePaySessionDataSource>;
 }
 
 export class ApplePayHandler implements ApplePayHandlerInterface {
@@ -82,13 +78,13 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
   // In order to trigger the Apple Pay flow, you HAVE to pass in the event
   // that triggered the launch. Notice we're not actually using the event
   // but ApplePay won't launch without it.
-  async createPaymentRequest(e: Event): Promise<ApplePaySessionDataSource> {
+  async createPaymentRequest(amount: number, e: Event): Promise<ApplePaySessionDataSource> {
     const applePayInstance = await this.getInstance();
 
     const paymentRequest = applePayInstance.createPaymentRequest({
       total: {
         label: 'Internet Archive Donation',
-        amount: '19.99'
+        amount: amount
       },
       requiredBillingContactFields: [
         "postalAddress"

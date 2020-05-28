@@ -16,21 +16,18 @@ import './form-elements/contact-form';
 import './form-elements/payment-selector';
 import './modal-manager/modal-template';
 import { BraintreeManagerInterface } from './braintree-manager/braintree-manager';
-import { ModalManagerInterface } from './modal-manager/modal-manager';
 import { DonationRequest } from './models/request_models/donation-request';
 import { ContactForm } from './form-elements/contact-form';
-import { RecaptchaManagerInterface } from './recaptcha-manager/recaptcha-manager';
 import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
 import { DonationFormHeader, DonationFormHeaderMode } from './form-elements/header/donation-form-header';
 import { DonationFrequency } from './models/donation-info/donation-frequency';
+import { PaymentFlowHandlersInterface } from './payment-flow-handlers/payment-flow-handlers';
 
 @customElement('donation-form')
 export class DonationForm extends LitElement {
   @property({ type: Object }) braintreeManager: BraintreeManagerInterface | undefined;
 
-  @property({ type: Object }) recaptchaManager: RecaptchaManagerInterface | undefined;
-
-  @property({ type: Object }) modalManager: ModalManagerInterface | undefined;
+  @property({ type: Object }) paymentFlowHandlers: PaymentFlowHandlersInterface | undefined;
 
   @property({ type: Object }) donationRequest: DonationRequest | undefined;
 
@@ -60,8 +57,7 @@ export class DonationForm extends LitElement {
 
       <form-section number=3 headline="Choose a payment method">
         <payment-selector
-          .braintreeManager=${this.braintreeManager}
-          .modalManager=${this.modalManager}
+          .paymentFlowHandlers=${this.paymentFlowHandlers}
           .donationInfo=${this.donationInfo}
           @creditCardSelected=${this.creditCardSelected}
           @venmoSelected=${this.venmoSelected}
@@ -165,7 +161,7 @@ export class DonationForm extends LitElement {
   }
 
   private donateClicked() {
-    this.recaptchaManager?.execute();
+    this.paymentFlowHandlers?.creditCardHandler?.paymentInitiated();
   }
 
   /** @inheritdoc */

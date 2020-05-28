@@ -6,6 +6,6 @@
 
 # build
 /_site/
-/lib/
+/lib
 
 *.log

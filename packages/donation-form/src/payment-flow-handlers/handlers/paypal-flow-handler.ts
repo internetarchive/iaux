@@ -1,14 +1,22 @@
 import { html } from 'lit-element';
 
-import { PayPalButtonDataSourceInterface, PayPalButtonDataSourceDelegate } from "../braintree-manager/payment-providers/paypal/paypal-button-datasource";
-import { DonationResponse } from "../models/response-models/donation-response";
-import { ModalManagerInterface } from "../modal-manager/modal-manager";
-import { BraintreeManagerInterface } from "../braintree-manager/braintree-manager";
-import { DonationFrequency } from "../models/donation-info/donation-frequency";
-import { DonationPaymentInfo } from "../models/donation-info/donation-payment-info";
-import { ModalConfig } from '../modal-manager/modal-template';
+import { PayPalButtonDataSourceInterface, PayPalButtonDataSourceDelegate } from "../../braintree-manager/payment-providers/paypal/paypal-button-datasource";
+import { DonationResponse } from "../../models/response-models/donation-response";
+import { ModalManagerInterface } from "../../modal-manager/modal-manager";
+import { BraintreeManagerInterface } from "../../braintree-manager/braintree-manager";
+import { DonationFrequency } from "../../models/donation-info/donation-frequency";
+import { DonationPaymentInfo } from "../../models/donation-info/donation-payment-info";
+import { ModalConfig } from '../../modal-manager/modal-template';
 
-export class PayPalFlowHandler implements PayPalButtonDataSourceDelegate {
+export interface PayPalFlowHandlerInterface {
+  updateDonationInfo(donationInfo: DonationPaymentInfo): void;
+  updateUpsellDonationInfo(donationInfo: DonationPaymentInfo): void;
+  renderPayPalButton(): Promise<void>;
+  showUpsellModal(): Promise<void>;
+  renderUpsellPayPalButton(): Promise<void>;
+}
+
+export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButtonDataSourceDelegate {
   private paypalUpsellButtonDataSource?: PayPalButtonDataSourceInterface;
 
   private paypalDataSource?: PayPalButtonDataSourceInterface;
@@ -17,20 +25,20 @@ export class PayPalFlowHandler implements PayPalButtonDataSourceDelegate {
 
   private braintreeManager?: BraintreeManagerInterface;
 
-  updateDonationInfo(donationInfo: DonationPaymentInfo) {
+  updateDonationInfo(donationInfo: DonationPaymentInfo): void {
     this.paypalDataSource?.updateDonationInfo(donationInfo);
   }
 
-  updateUpsellDonationInfo(donationInfo: DonationPaymentInfo) {
+  updateUpsellDonationInfo(donationInfo: DonationPaymentInfo): void {
     this.paypalUpsellButtonDataSource?.updateDonationInfo(donationInfo);
   }
 
-  constructor(
+  constructor(options: {
     braintreeManager: BraintreeManagerInterface,
     modalManager: ModalManagerInterface
-  ) {
-    this.braintreeManager = braintreeManager;
-    this.modalManager = modalManager;
+  }) {
+    this.braintreeManager = options.braintreeManager;
+    this.modalManager = options.modalManager;
   }
 
   payPalPaymentStarted(options: object): void {

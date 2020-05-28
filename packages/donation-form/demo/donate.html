@@ -12,7 +12,6 @@
   <script src="https://js.braintreegateway.com/web/3.62.0/js/data-collector.min.js"></script>
   <script src="https://js.braintreegateway.com/web/3.62.0/js/paypal-checkout.min.js"></script>
 
-
   <style>
     body {
       margin: 0;
@@ -65,6 +64,7 @@
     import { PaymentClients } from '../lib/braintree-manager/payment-clients.js';
     import { BraintreeManager } from '../lib/braintree-manager/braintree-manager.js';
     import { RecaptchaManager } from '../lib/recaptcha-manager/recaptcha-manager.js';
+    import { PaymentFlowHandlers } from '../lib/payment-flow-handlers/payment-flow-handlers.js';
 
     import '../lib/modal-manager/modal-manager.js';
     import '../lib/donation-form.js';
@@ -124,17 +124,20 @@
 
     render(
       html`
-        <modal-manager .braintreeManager=${braintreeManager}>
+        <modal-manager>
+          <!--
+            The PayPal buttons cannot exist in the shadowDOM so they have to be slotted
+            from the top.
+          -->
           <div slot="paypal-upsell-button">
             <div id="paypal-upsell-button"></div>
           </div>
         </modal-manager>
         <donation-form
-          .braintreeManager=${braintreeManager}
-          .recaptchaManager=${recaptchaManager}>
+          .braintreeManager=${braintreeManager}>
 
           <!--
-            Why are these here?
+            Why are these slots here?
 
             Due to the way Braintree & PayPal works, they cannot exist
             in the shadowDOM so must exist in the clearDOM and get passed
@@ -166,6 +169,13 @@
     const modalManager = document.querySelector('modal-manager');
     const donationForm = document.querySelector('donation-form');
     donationForm.modalManager = modalManager;
+
+    const paymentFlowHandlers = new PaymentFlowHandlers({
+      braintreeManager: braintreeManager,
+      modalManager: modalManager,
+      recaptchaManager: recaptchaManager
+    });
+    donationForm.paymentFlowHandlers = paymentFlowHandlers;
   </script>
 </body>
 </html>
