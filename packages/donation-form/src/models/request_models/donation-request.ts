@@ -19,9 +19,10 @@ export enum DonationRequestPaymentProvider {
 export class DonationRequestCustomFields {
   logged_in_user?: string;
   referrer?: string;
+  paypal_checkout_id?: string;
 }
 
-export class DonatinoRequestOptions {
+export class DonationRequestOptions {
   submitForSettlement: boolean;
 
   constructor(options: {
@@ -34,35 +35,53 @@ export class DonatinoRequestOptions {
 export class DonationRequest {
   paymentProvider: DonationRequestPaymentProvider;
   paymentMethodNonce: string;
-  isUpsell: boolean;
+  recaptchaToken?: string;
+  customerId?: string;
+
+  bin?: string; // first 6 digits of CC
+  binName?: string; // credit card bank name
+
   amount: number;
   frequency: DonationFrequency;
+  isUpsell: boolean;
+
   customer: CustomerInfo;
   billing: BillingInfo;
-  referrer: string | undefined;
-  customFields: DonationRequestCustomFields | undefined;
-  options: DonatinoRequestOptions | undefined;
+  customFields?: DonationRequestCustomFields;
+  options?: DonationRequestOptions;
 
   constructor(options: {
     paymentProvider: DonationRequestPaymentProvider,
     paymentMethodNonce: string,
-    isUpsell: boolean,
+    recaptchaToken?: string,
+    customerId?: string,
+
+    bin?: string, // first 6 digits of CC
+    binName?: string, // credit card bank name
+
     amount: number,
     frequency: DonationFrequency,
+    isUpsell: boolean,
+
     customer: CustomerInfo,
     billing: BillingInfo,
-    referrer: string | undefined,
-    customFields: DonationRequestCustomFields | undefined,
-    options: DonatinoRequestOptions | undefined
+    customFields?: DonationRequestCustomFields,
+    options?: DonationRequestOptions
   }) {
     this.paymentProvider = options.paymentProvider;
     this.paymentMethodNonce = options.paymentMethodNonce;
-    this.isUpsell = options.isUpsell;
+    this.recaptchaToken = options.recaptchaToken;
+    this.customerId = options.customerId;
+
+    this.bin = options.bin;
+    this.binName = options.binName;
+
     this.amount = options.amount;
     this.frequency = options.frequency;
+    this.isUpsell = options.isUpsell;
+
     this.customer = options.customer;
     this.billing = options.billing;
-    this.referrer = options.referrer;
     this.customFields = options.customFields;
     this.options = options.options;
   }
