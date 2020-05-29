@@ -5,6 +5,9 @@
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "es-dev-server --app-index ./index.html --node-resolve --watch --open",
     "lint:eslint": "eslint --ext .js . --ignore-path .gitignore",
