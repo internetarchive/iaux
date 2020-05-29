@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="index.js"></script>
+    <script type="module" src="src/icon-donate.js"></script>
     <title>IA SVG Icons</title>
     <style>
       html {
@@ -66,7 +67,7 @@
           const color = `rgb(${~~(Math.random() * 256)}, ${~~(Math.random() * 256)}, ${~~(Math.random() * 256)})`;
           return html`
             <li>
-              <ia-icon icon=${name} fill="${color}" stroke="${color}"></ia-icon>
+              <ia-icon icon=${name} style="--iconFillColor: ${color}; --iconStrokeColor: ${color};"></ia-icon>
               <p>${name}</p>
             </li>
           `;
@@ -74,9 +75,12 @@
       };
 
       render(html`
+        <h3>Icons using ${"<ia-icon>"}</h3>
         <ul>
           ${listItems()}
         </ul>
+        <h3>Icon created by extending IAIcon</h3>
+        <icon-donate></icon-donate>
       `, document.body);
     </script>
   </body>

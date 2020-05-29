@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 import advance from './icons/advance';
 import audio from './icons/audio';
 import close from './icons/close';
@@ -35,27 +35,24 @@ class IAIcon extends LitElement {
   static get properties() {
     return {
       icon: { type: String },
-      fill: { type: String },
-      stroke: { type: String },
     };
+  }
+
+  static get styles() {
+    return css`
+      .fill-color {
+        fill: var(--iconFillColor);
+      }
+
+      .stroke-color {
+        stroke: var(--iconStrokeColor);
+      }
+    `;
   }
 
   constructor() {
     super();
     this.icon = '';
-    this.fill = '';
-    this.stroke = '';
-  }
-
-  updated() {
-    if (this.fill) {
-      this.shadowRoot.querySelectorAll('.fill-color')
-        .forEach(el => el.setAttribute('fill', this.fill));
-    }
-    if (this.stroke) {
-      this.shadowRoot.querySelectorAll('.stroke-color')
-        .forEach(el => el.setAttribute('stroke', this.stroke));
-    }
   }
 
   render() {

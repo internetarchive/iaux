@@ -7,7 +7,14 @@ import { IAIcon } from './src/ia-icon';
 ```
 
 ```html
-<ia-icon icon="close"></ia-icon>
+<ia-icon icon="close" style="--iconFillColor: #0066cc; --iconStrokeColor: #ffffff;"></ia-icon>
+```
+
+```css
+ia-icon {
+  --iconFillColor: #0066cc;
+  --iconStrokeColor: #ffffff;
+}
 ```
 
 ## Testing
