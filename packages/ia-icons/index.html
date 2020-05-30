@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="index.js"></script>
+    <script type="module" src="src/icon-donate.js"></script>
+    <title>IA SVG Icons</title>
+    <style>
+      html {
+        font: normal 10px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 10px;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      li {
+        display: grid;
+        grid-template: 1fr auto / 1fr;
+        padding: 1.5rem 2.4rem;
+        margin: .5rem;
+        border: 2px solid #ccc;
+        text-align: center;
+      }
+
+      li:hover {
+        color: #f0f0f0;
+        background: #222;
+      }
+
+      p {
+        margin: 0;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="module">
+      import { render, html } from './node_modules/lit-html/lit-html.js';
+      import { unsafeHTML } from './node_modules/lit-html/directives/unsafe-html.js';
+
+      const listItems = () => {
+        return [
+          'advance',
+          'audio',
+          'close',
+          'donate',
+          'ellipses',
+          'iaLogo',
+          'images',
+          'search',
+          'software',
+          'texts',
+          'upload',
+          'user',
+          'video',
+          'web',
+        ].map((name) => {
+          const color = `rgb(${~~(Math.random() * 256)}, ${~~(Math.random() * 256)}, ${~~(Math.random() * 256)})`;
+          return html`
+            <li>
+              <ia-icon icon=${name} style="--iconFillColor: ${color}; --iconStrokeColor: ${color};"></ia-icon>
+              <p>${name}</p>
+            </li>
+          `;
+        });
+      };
+
+      render(html`
+        <h3>Icons using ${"<ia-icon>"}</h3>
+        <ul>
+          ${listItems()}
+        </ul>
+        <h3>Icon created by extending IAIcon</h3>
+        <icon-donate></icon-donate>
+      `, document.body);
+    </script>
+  </body>
+</html>
