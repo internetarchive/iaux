@@ -1,10 +1,13 @@
 {
   "name": "@internetarchive/ia-icons",
-  "version": "0.0.1-alpha",
+  "version": "0.1.0",
   "description": "SVG icon library for use in archive.org components",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "es-dev-server --app-index ./index.html --node-resolve --watch --open",
     "lint:eslint": "eslint --ext .js . --ignore-path .gitignore",
