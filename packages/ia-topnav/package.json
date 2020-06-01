@@ -28,6 +28,7 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
+    "@internetarchive/ia-wayback-search": "^0.1.0",
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"
   },
