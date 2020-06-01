@@ -1,6 +1,6 @@
 import { CustomerInfo } from '../common/customer-info';
 import { BillingInfo } from '../common/billing-info';
-import { DonationFrequency } from '../donation-info/donation-frequency';
+import { DonationType } from '../donation-info/donation-type';
 
 export enum DonationRequestFrequency {
   OneTime = 'one-time',
@@ -42,8 +42,7 @@ export class DonationRequest {
   binName?: string; // credit card bank name
 
   amount: number;
-  frequency: DonationFrequency;
-  isUpsell: boolean;
+  donationType: DonationType;
 
   customer: CustomerInfo;
   billing: BillingInfo;
@@ -60,8 +59,7 @@ export class DonationRequest {
     binName?: string, // credit card bank name
 
     amount: number,
-    frequency: DonationFrequency,
-    isUpsell: boolean,
+    donationType: DonationType,
 
     customer: CustomerInfo,
     billing: BillingInfo,
@@ -77,8 +75,7 @@ export class DonationRequest {
     this.binName = options.binName;
 
     this.amount = options.amount;
-    this.frequency = options.frequency;
-    this.isUpsell = options.isUpsell;
+    this.donationType = options.donationType;
 
     this.customer = options.customer;
     this.billing = options.billing;

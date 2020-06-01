@@ -20,7 +20,7 @@ import { DonationRequest } from './models/request_models/donation-request';
 import { ContactForm } from './form-elements/contact-form';
 import { DonationPaymentInfo } from './models/donation-info/donation-payment-info';
 import { DonationFormHeader, DonationFormHeaderMode } from './form-elements/header/donation-form-header';
-import { DonationFrequency } from './models/donation-info/donation-frequency';
+import { DonationType } from './models/donation-info/donation-type';
 import { PaymentFlowHandlersInterface } from './payment-flow-handlers/payment-flow-handlers';
 
 @customElement('donation-form')
@@ -32,9 +32,8 @@ export class DonationForm extends LitElement {
   @property({ type: Object }) donationRequest: DonationRequest | undefined;
 
   @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
-    frequency: DonationFrequency.OneTime,
-    amount: 5,
-    isUpsell: false
+    donationType: DonationType.OneTime,
+    amount: 5
   });
 
   @property({ type: Boolean }) private creditCardVisible = false;
@@ -117,9 +116,9 @@ export class DonationForm extends LitElement {
     const frequencyParam = urlParams.get('frequency');
     const amountParam = urlParams.get('amount');
 
-    let frequency = DonationFrequency.OneTime;
+    let frequency = DonationType.OneTime;
     if (frequencyParam === 'monthly') {
-      frequency = DonationFrequency.Monthly;
+      frequency = DonationType.Monthly;
     }
 
     let amount = 5;
@@ -128,9 +127,8 @@ export class DonationForm extends LitElement {
     }
 
     const donationInfo = new DonationPaymentInfo({
-      frequency: frequency,
-      amount: amount,
-      isUpsell: false
+      donationType: frequency,
+      amount: amount
     });
 
     this.donationInfo = donationInfo;

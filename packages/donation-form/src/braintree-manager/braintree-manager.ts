@@ -1,7 +1,7 @@
 import { DonationResponse } from '../models/response-models/donation-response';
 import { DonationRequest } from '../models/request_models/donation-request';
 import { PaymentProvidersInterface, PaymentProviders } from './payment-providers';
-import { DonationFrequency } from '../models/donation-info/donation-frequency';
+import { DonationType } from '../models/donation-info/donation-type';
 import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
 import { PaymentClientsInterface } from './payment-clients';
 
@@ -49,9 +49,8 @@ export class BraintreeManager implements BraintreeManagerInterface {
   private _deviceData?: string;
 
   private _donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
-    frequency: DonationFrequency.OneTime,
+    donationType: DonationType.OneTime,
     amount: 5,
-    isUpsell: false
   });
 
   /**

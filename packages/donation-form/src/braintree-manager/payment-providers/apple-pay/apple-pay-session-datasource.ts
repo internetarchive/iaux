@@ -3,7 +3,7 @@ import { BraintreeManagerInterface } from "../../braintree-manager";
 import { BillingInfo } from "../../../models/common/billing-info";
 import { CustomerInfo } from "../../../models/common/customer-info";
 import { DonationRequest, DonationRequestPaymentProvider } from "../../../models/request_models/donation-request";
-import { DonationFrequency } from "../../../models/donation-info/donation-frequency";
+import { DonationType } from "../../../models/donation-info/donation-type";
 import { DonationResponse } from "../../../models/response-models/donation-response";
 
 export interface ApplePaySessionDataSourceInterface {
@@ -107,13 +107,13 @@ export class ApplePaySessionDataSource implements ApplePaySessionDataSourceInter
     const donationRequest = new DonationRequest({
       paymentProvider: DonationRequestPaymentProvider.ApplePay,
       paymentMethodNonce: payload.nonce,
-      isUpsell: false,
       amount: 5,
-      frequency: DonationFrequency.OneTime,
+      donationType: DonationType.OneTime,
       customer: customerInfo,
       billing: billingInfo,
-      referrer: undefined,
-      customFields: undefined,
+      customFields: {
+        referrer: undefined
+      },
       options: undefined
     })
 

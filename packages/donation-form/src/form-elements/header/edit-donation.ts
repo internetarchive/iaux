@@ -10,15 +10,14 @@ import {
 
 import '../form-section';
 import '../static-custom-button';
-import { DonationFrequency } from '../../models/donation-info/donation-frequency';
+import { DonationType } from '../../models/donation-info/donation-type';
 import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
 
 @customElement('edit-donation')
 export class EditDonation extends LitElement {
   @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
-    frequency: DonationFrequency.OneTime,
+    donationType: DonationType.OneTime,
     amount: 5,
-    isUpsell: false
   });
 
   render(): TemplateResult {
@@ -28,13 +27,13 @@ export class EditDonation extends LitElement {
         headline="Choose a frequency">
 
         <static-custom-button
-          .value=${DonationFrequency.OneTime}
+          .value=${DonationType.OneTime}
           displayText='One-Time'
           @selected=${this.frequencyChanged}>
         </static-custom-button>
 
         <static-custom-button
-          .value=${DonationFrequency.Monthly}
+          .value=${DonationType.Monthly}
           displayText='Monthly'
           @selected=${this.frequencyChanged}>
         </static-custom-button>
@@ -62,7 +61,7 @@ export class EditDonation extends LitElement {
   }
 
   private frequencyChanged(e: CustomEvent) {
-    this.donationInfo.frequency = e.detail.value as DonationFrequency;
+    this.donationInfo.donationType = e.detail.value as DonationType;
     console.log('EditDonation frequencyChanged', e.detail.value);
     this.dispatchDonationInfoChangedEvent();
   }

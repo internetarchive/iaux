@@ -4,7 +4,7 @@ import { PayPalButtonDataSourceInterface, PayPalButtonDataSourceDelegate } from 
 import { DonationResponse } from "../../models/response-models/donation-response";
 import { ModalManagerInterface } from "../../modal-manager/modal-manager";
 import { BraintreeManagerInterface } from "../../braintree-manager/braintree-manager";
-import { DonationFrequency } from "../../models/donation-info/donation-frequency";
+import { DonationType } from "../../models/donation-info/donation-type";
 import { DonationPaymentInfo } from "../../models/donation-info/donation-payment-info";
 import { ModalConfig } from '../../modal-manager/modal-template';
 
@@ -62,9 +62,8 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
   async renderPayPalButton(): Promise<void> {
     const donationInfo = new DonationPaymentInfo({
-      frequency: DonationFrequency.OneTime,
-      amount: 5,
-      isUpsell: false
+      donationType: DonationType.OneTime,
+      amount: 5
     });
 
     this.paypalDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
@@ -121,9 +120,8 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
   async renderUpsellPayPalButton(): Promise<void> {
     const upsellDonationInfo = new DonationPaymentInfo({
-      frequency: DonationFrequency.Monthly,
-      amount: 10,
-      isUpsell: true
+      donationType: DonationType.Upsell,
+      amount: 10
     });
 
     this.paypalUpsellButtonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({

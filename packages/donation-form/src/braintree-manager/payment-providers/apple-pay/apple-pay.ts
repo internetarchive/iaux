@@ -1,6 +1,6 @@
 import { BraintreeManagerInterface } from '../../braintree-manager';
 import { ApplePaySessionManagerInterface } from './apple-pay-session-manager';
-import { DonationFrequency } from '../../../models/donation-info/donation-frequency';
+import { DonationType } from '../../../models/donation-info/donation-type';
 import { ApplePaySessionDataSource } from './apple-pay-session-datasource';
 import { DonationPaymentInfo } from '../../../models/donation-info/donation-payment-info';
 
@@ -97,9 +97,8 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
     const session = this.applePaySessionManager.createNewPaymentSession(paymentRequest);
 
     const donationInfo = new DonationPaymentInfo({
-      frequency: DonationFrequency.OneTime,
-      amount: 5,
-      isUpsell: false
+      donationType: DonationType.OneTime,
+      amount: 5
     });
 
     const sessionDataSource = new ApplePaySessionDataSource({

@@ -1,17 +1,14 @@
-import { DonationFrequency } from "./donation-frequency";
+import { DonationType } from "./donation-type";
 
 export class DonationPaymentInfo {
-  frequency: DonationFrequency;
+  donationType: DonationType;
   amount: number;
-  isUpsell: boolean;
 
   constructor(params: {
-    frequency: DonationFrequency,
-    amount: number,
-    isUpsell: boolean
+    donationType: DonationType,
+    amount: number
   }) {
-    this.frequency = params.frequency;
+    this.donationType = params.donationType;
     this.amount = params.amount;
-    this.isUpsell = params.isUpsell;
   }
 }

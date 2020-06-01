@@ -1,5 +1,5 @@
 import { DonationPaymentInfo } from "../../../models/donation-info/donation-payment-info";
-import { DonationFrequency } from "../../../models/donation-info/donation-frequency";
+import { DonationType } from "../../../models/donation-info/donation-type";
 import { CustomerInfo } from "../../../models/common/customer-info";
 import { BillingInfo } from "../../../models/common/billing-info";
 import { DonationRequest, DonationRequestPaymentProvider } from "../../../models/request_models/donation-request";
@@ -50,9 +50,9 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
     const options: any = {};
     options.enableShippingAddress = true;
 
-    const frequency = this.donationInfo.frequency;
+    const donationType = this.donationInfo.donationType;
     let flow: braintree.PayPalCheckoutFlowType = 'checkout' as braintree.PayPalCheckoutFlowType;
-    if (frequency === DonationFrequency.Monthly) {
+    if (donationType === DonationType.Monthly) {
       flow = 'vault' as braintree.PayPalCheckoutFlowType
     }
     options.flow = flow;
@@ -96,13 +96,13 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
     const request = new DonationRequest({
       paymentProvider: DonationRequestPaymentProvider.PayPal,
       paymentMethodNonce: payload.nonce,
-      isUpsell: this.donationInfo.isUpsell,
       amount: this.donationInfo.amount,
-      frequency: this.donationInfo.frequency,
+      donationType: this.donationInfo.donationType,
       customer: customerInfo,
       billing: billingInfo,
-      referrer: undefined,
-      customFields: undefined,
+      customFields: {
+        referrer: undefined
+      },
       options: undefined
     });
 

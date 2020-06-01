@@ -11,7 +11,7 @@ import {
 } from 'lit-element';
 
 import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
-import { DonationFrequency } from '../models/donation-info/donation-frequency';
+import { DonationType } from '../models/donation-info/donation-type';
 import { PaymentFlowHandlersInterface } from '../payment-flow-handlers/payment-flow-handlers';
 
 @customElement('payment-selector')
@@ -19,9 +19,8 @@ export class PaymentSelector extends LitElement {
   @property({ type: Object }) paymentFlowHandlers: PaymentFlowHandlersInterface | undefined;
 
   @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
-    frequency: DonationFrequency.OneTime,
+    donationType: DonationType.OneTime,
     amount: 5,
-    isUpsell: false
   });
 
   /** @inheritdoc */
