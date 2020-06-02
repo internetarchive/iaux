@@ -187,7 +187,10 @@ describe('<ia-topnav>', () => {
   });
 
   it('toggles user menu when search user avatar clicked', async () => {
-    const el = await fixture(container({ username: 'shaneriley' }));
+    const el = await fixture(container({
+      username: 'shaneriley',
+      screenName: 'shaneriley',
+    }));
 
     el.shadowRoot.querySelector('primary-nav').shadowRoot.querySelector('.user-menu').click();
     await el.updateComplete;

@@ -62,12 +62,19 @@ class PrimaryNav extends TrackedElement {
     }));
   }
 
+  get truncatedScreenName() {
+    if (this.config.screenName.length > 10) {
+      return `${this.config.screenName.substr(0, 9)}…`;
+    }
+    return this.config.screenName;
+  }
+
   get userIcon() {
     const userMenuClass = this.openMenu === 'user' ? 'active' : '';
 
     return html`<button class="user-menu ${userMenuClass}" @click="${this.toggleUserMenu}" data-event-click-tracking="${this.config.eventCategory}|NavUserMenu">
       <img src="https://archive.org/services/img/user/profile?${+(new Date())}" alt="${this.config.username}" />
-      <span class="username">${this.config.username}</span>
+      <span class="username">${this.truncatedScreenName}</span>
     </button>`;
   }
 
