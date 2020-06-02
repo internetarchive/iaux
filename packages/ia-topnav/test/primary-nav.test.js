@@ -20,6 +20,7 @@ describe('<primary-nav>', () => {
     const el = await fixture(component({
       baseHost: 'archive.org',
       username: 'shaneriley',
+      screenName: 'shaneriley',
       hideSearch: true,
     }));
 
