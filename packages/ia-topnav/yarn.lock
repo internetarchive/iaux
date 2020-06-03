@@ -1018,6 +1018,13 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
+"@internetarchive/ia-wayback-search@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-wayback-search/-/ia-wayback-search-0.1.0.tgz#33ce8db5ae74273994788a7317d608de5c53311f"
+  integrity sha512-VSBHXNwvHwjDUp0yyp03dOXuq0btdGK8wtBkmuZIFnwa52XAFSCdM94BKUdt4MTgoyP2i4hPIm1dPFE/DlwgAw==
+  dependencies:
+    lit-element "^2.2.1"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

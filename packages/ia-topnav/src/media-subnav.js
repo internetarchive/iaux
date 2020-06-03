@@ -1,8 +1,8 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import * as menus from './data/menus';
-import locationHandler from './lib/location-handler';
-import './wayback-search';
+import queryHandler from './lib/query-handler';
+import '@internetarchive/ia-wayback-search';
 import './more-slider';
 import mediaSubnavCSS from './styles/media-subnav';
 import toSentenceCase from './lib/toSentenceCase';
@@ -30,7 +30,7 @@ class MediaSubnav extends TrackedElement {
     this.templates = {
       web: () => (
         html`<div class="wayback-search">
-          <wayback-search .config=${this.config} .locationHandler=${locationHandler}></wayback-search>
+          <ia-wayback-search waybackPagesArchived=${this.config.waybackPagesArchived} .queryHandler=${queryHandler}></ia-wayback-search>
         </div>`
       ),
       more: () => html`<more-slider .config=${this.config}></more-slider>`,

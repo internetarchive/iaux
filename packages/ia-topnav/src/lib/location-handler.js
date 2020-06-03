@@ -1,3 +1,3 @@
-export default function updateLocation(url) {
+export default function (url) {
   window.location = url;
 }

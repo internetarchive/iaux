@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-topnav",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Top nav for Internet Archive",
   "license": "AGPL-3.0-only",
   "main": "index.js",
@@ -28,6 +28,7 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
+    "@internetarchive/ia-wayback-search": "^0.1.0",
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"
   },
