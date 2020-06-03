@@ -69,6 +69,10 @@ export default IATopNav;
 
     --themeFontFamily: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --logoWidthTablet: 263px;
+
+    --savePageSubmitBg: var(--grey13);
+    --savePageSubmitText: var(--white);
+    --savePageInputBorder: var(--grey60);
   }
 </style>
 

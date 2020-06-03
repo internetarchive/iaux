@@ -466,6 +466,29 @@ const more = (baseHost = prodHost) => ([
   { label: 'People', url: `https://${baseHost}/about/bios.php` },
 ]);
 
+const wayback = {
+  toolsLinks: (baseHost = prodHost) => ([{
+    href: `https://${baseHost}/help/wayback_api.php`,
+    text: 'Wayback Machine Availability API',
+  }, {
+    href: 'https://wordpress.org/plugins/broken-link-checker/',
+    text: 'WordPress Broken Link Checker',
+  }, {
+    href: 'http://blog.archive.org/2013/10/24/web-archive-404-handler-for-webmasters/',
+    text: '404 Handler for Webmasters',
+  }]),
+  archiveItLinks: () => ([{
+    href: 'https://www.archive-it.org/explore',
+    text: 'Explore the Collections',
+  }, {
+    href: 'https://www.archive-it.org/blog/learn-more/',
+    text: 'Learn More',
+  }, {
+    href: 'https://www.archive-it.org/contact-us',
+    text: 'Build Collections',
+  }]),
+};
+
 export {
   audio,
   images,
@@ -475,4 +498,5 @@ export {
   texts,
   user,
   video,
+  wayback,
 };

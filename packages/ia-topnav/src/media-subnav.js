@@ -1,8 +1,7 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import * as menus from './data/menus';
-import locationHandler from './lib/location-handler';
-import './wayback-search';
+import './wayback-slider';
 import './more-slider';
 import mediaSubnavCSS from './styles/media-subnav';
 import toSentenceCase from './lib/toSentenceCase';
@@ -28,11 +27,11 @@ class MediaSubnav extends TrackedElement {
     // Begin properties not monitored by LitElement
     this.links = MediaSubnav.defaultLinks;
     this.templates = {
-      web: () => (
-        html`<div class="wayback-search">
-          <wayback-search .config=${this.config} .locationHandler=${locationHandler}></wayback-search>
-        </div>`
-      ),
+      web: () => html`<wayback-slider
+        .config=${this.config}
+        .archiveItLinks=${menus.wayback.archiveItLinks()}
+        .toolsLinks=${menus.wayback.toolsLinks(this.config.baseHost)}
+      ></wayback-slider>`,
       more: () => html`<more-slider .config=${this.config}></more-slider>`,
     };
   }

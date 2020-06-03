@@ -1,11 +1,7 @@
 import { css } from 'lit-element';
+import { subnavListCSS } from './base';
 
-export default css`
-  a {
-    text-decoration: none;
-    color: var(--activeColor);
-  }
-
+export default [subnavListCSS, css`
   img {
     display: block;
     width: 90px;
@@ -17,20 +13,6 @@ export default css`
   h3 {
     margin-top: 0;
     font-size: 1.8rem;
-  }
-
-  h4 {
-    font-size: 1.6rem;
-  }
-
-  ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  li + li {
-    padding-top: 1.5rem;
   }
 
   .icon-links {
@@ -77,30 +59,6 @@ export default css`
 
     h3 {
       display: none;
-    }
-
-    h4 {
-      margin: 0 0 1rem 0;
-      font-weight: 100;
-    }
-
-    ul {
-      font-size: 1.3rem;
-    }
-
-    li {
-      padding-bottom: .5rem;
-    }
-
-    li + li {
-      padding-top: 0;
-    }
-
-    li a {
-      display: block;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
     }
 
     .icon-links {
@@ -195,4 +153,4 @@ export default css`
       -ms-grid-column: 3;
     }
   }
-`;
+`];

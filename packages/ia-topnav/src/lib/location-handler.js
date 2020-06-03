@@ -1,3 +1,5 @@
-export default function updateLocation(url) {
+/* istanbul ignore file */
+
+export default function (url) {
   window.location = url;
 }

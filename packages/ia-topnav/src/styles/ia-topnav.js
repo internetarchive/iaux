@@ -47,6 +47,10 @@ export default css`
     --themeFontFamily: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --logoWidthTablet: 263px;
 
+    --savePageSubmitBg: var(--grey13);
+    --savePageSubmitText: var(--white);
+    --savePageInputBorder: var(--grey60);
+
     color: var(--primaryTextColor);
     font-size: 2rem;
     font-family: var(--themeFontFamily);
