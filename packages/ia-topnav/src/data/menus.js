@@ -468,24 +468,24 @@ const more = (baseHost = prodHost) => ([
 
 const wayback = {
   toolsLinks: (baseHost = prodHost) => ([{
-    href: `https://${baseHost}/help/wayback_api.php`,
-    text: 'Wayback Machine Availability API',
+    url: `https://${baseHost}/help/wayback_api.php`,
+    title: 'Wayback Machine Availability API',
   }, {
-    href: 'https://wordpress.org/plugins/broken-link-checker/',
-    text: 'WordPress Broken Link Checker',
+    url: 'https://wordpress.org/plugins/broken-link-checker/',
+    title: 'WordPress Broken Link Checker',
   }, {
-    href: 'http://blog.archive.org/2013/10/24/web-archive-404-handler-for-webmasters/',
-    text: '404 Handler for Webmasters',
+    url: 'http://blog.archive.org/2013/10/24/web-archive-404-handler-for-webmasters/',
+    title: '404 Handler for Webmasters',
   }]),
   archiveItLinks: () => ([{
-    href: 'https://www.archive-it.org/explore',
-    text: 'Explore the Collections',
+    url: 'https://www.archive-it.org/explore',
+    title: 'Explore the Collections',
   }, {
-    href: 'https://www.archive-it.org/blog/learn-more/',
-    text: 'Learn More',
+    url: 'https://www.archive-it.org/blog/learn-more/',
+    title: 'Learn More',
   }, {
-    href: 'https://www.archive-it.org/contact-us',
-    text: 'Build Collections',
+    url: 'https://www.archive-it.org/contact-us',
+    title: 'Build Collections',
   }]),
 };
 

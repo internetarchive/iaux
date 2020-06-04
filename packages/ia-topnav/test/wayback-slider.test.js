@@ -1,7 +1,6 @@
 import { html, fixture, expect } from '@open-wc/testing';
 
 import '../src/wayback-slider';
-import { wayback } from '../src/data/menus';
 
 const component = ({ archiveItLinks, config, toolsLinks }) => (
   html`
@@ -16,18 +15,18 @@ const component = ({ archiveItLinks, config, toolsLinks }) => (
 const buildDefaults = () => ({
   config: { baseHost: 'archive.org' },
   archiveItLinks: [{
-    href: '1',
-    text: 'first'
+    url: '1',
+    title: 'first'
   }, {
-    href: '2',
-    text: 'second'
+    url: '2',
+    title: 'second'
   }],
   toolsLinks: [{
-    href: '3',
-    text: 'third'
+    url: '3',
+    title: 'third'
   }, {
-    href: '4',
-    text: 'fourth'
+    url: '4',
+    title: 'fourth'
   }]
 });
 
@@ -38,8 +37,8 @@ describe('<wayback-slider>', () => {
     const anchors = el.shadowRoot.querySelectorAll('.archive-it a');
 
     options.archiveItLinks.forEach((link, i) => {
-      expect(anchors[i].innerText).to.equal(link.text);
-      expect(anchors[i].getAttribute('href')).to.equal(link.href);
+      expect(anchors[i].innerText).to.equal(link.title);
+      expect(anchors[i].getAttribute('href')).to.equal(link.url);
     });
   });
 
@@ -49,8 +48,8 @@ describe('<wayback-slider>', () => {
     const anchors = el.shadowRoot.querySelectorAll('.tools a');
 
     options.toolsLinks.forEach((link, i) => {
-      expect(anchors[i].innerText).to.equal(link.text);
-      expect(anchors[i].getAttribute('href')).to.equal(link.href);
+      expect(anchors[i].innerText).to.equal(link.title);
+      expect(anchors[i].getAttribute('href')).to.equal(link.url);
     });
   });
 });

@@ -1,9 +1,10 @@
 import { html } from 'lit-element';
 import '@internetarchive/ia-wayback-search';
 import TrackedElement from './tracked-element';
+import './save-page-form';
 import queryHandler from './lib/query-handler';
 import waybackSliderCSS from './styles/wayback-slider';
-import './save-page-form';
+import toSentenceCase from './lib/toSentenceCase';
 
 class WaybackSlider extends TrackedElement {
   static get styles() {
@@ -26,17 +27,21 @@ class WaybackSlider extends TrackedElement {
   }
 
   get toolsItems() {
-    return this.linkList('toolsLinks');
+    return this.linkList('toolsLinks', 'Wayback');
   }
 
   get archiveItItems() {
-    return this.linkList('archiveItLinks');
+    return this.linkList('archiveItLinks', 'ArchiveIt');
   }
 
-  linkList(linkType) {
+  linkList(linkType, eventPrefix) {
     return this[linkType].map(link => html`<li>
-      <a href=${link.href}>${link.text}</a>
+      <a href=${link.url} @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(`${eventPrefix}${link.title}`)}">${link.title}</a>
     </li>`);
+  }
+
+  analyticsEvent(title) {
+    return `${this.config.eventCategory}|${toSentenceCase(title)}`;
   }
 
   render() {
@@ -57,7 +62,7 @@ class WaybackSlider extends TrackedElement {
             </ul>
           </div>
         </div>
-        <save-page-form></save-page-form>
+        <save-page-form .config=${this.config}></save-page-form>
       </div>
     `;
   }
