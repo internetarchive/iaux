@@ -82,7 +82,7 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
       lastName: details?.lastName
     });
 
-    const shippingAddress = payload?.shippingAddress;
+    const shippingAddress = details.shippingAddress;
 
     const billingInfo = new BillingInfo({
       streetAddress: shippingAddress?.line1,
@@ -101,10 +101,11 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
       customer: customerInfo,
       billing: billingInfo,
       customFields: {
-        referrer: undefined
-      },
-      options: undefined
+        referrer: undefined // TODO: FIX THIS
+      }
     });
+
+    console.debug('onAuthroize, request', request);
 
     const response: DonationResponse = await this.braintreeManager.submitDataToEndpoint(request);
 

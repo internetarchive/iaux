@@ -1,8 +1,9 @@
 export default {
   "paymentProvider": "Credit Card",
-  "paymentMethodNonce": "fake-payment-nonce",
+  "paymentMethodNonce": "fake-valid-nonce",
   "recaptchaToken": "fake-recaptcha-token",
   "customerId": "fake-customer-id",
+  "deviceData": "{\"correlation_id\":\"356a3b0fe3c1f1bcabdcde4fafdb8d48\"}",
 
   "bin": "123456",
   "binName": "Foo Bank of Bar Islands",

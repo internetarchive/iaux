@@ -382,6 +382,30 @@ declare namespace braintree {
     lastName: string;
     countryCode?: string;
     phone?: string;
+
+    /**
+     * User's shipping address details, only available if shipping address is enabled.
+     *
+     * @type {PayPalCheckoutAddress}
+     * @memberof PayPalCheckoutTokenizePayload
+     */
+    shippingAddress?: PayPalCheckoutAddress;
+
+    /**
+     * User's billing address details.
+     *
+     * @type {PayPalCheckoutAddress}
+     * @memberof PayPalCheckoutTokenizePayload
+     */
+    billingAddress?: PayPalCheckoutAddress;
+
+    /**
+     * This property will only be present when the customer pays with PayPal Credit.
+     *
+     * @type {PayPalCheckoutCreditFinancingOptions}
+     * @memberof PayPalCheckoutTokenizePayload
+     */
+    creditFinancingOffered?: PayPalCheckoutCreditFinancingOptions;
   }
 
   export interface PayPalCheckoutTokenizePayload {
@@ -408,30 +432,6 @@ declare namespace braintree {
      * @memberof PayPalCheckoutTokenizePayload
      */
     details: PayPalCheckoutTokenizePayloadDetails;
-
-    /**
-     * User's shipping address details, only available if shipping address is enabled.
-     *
-     * @type {PayPalCheckoutAddress}
-     * @memberof PayPalCheckoutTokenizePayload
-     */
-    shippingAddress?: PayPalCheckoutAddress;
-
-    /**
-     * User's billing address details.
-     *
-     * @type {PayPalCheckoutAddress}
-     * @memberof PayPalCheckoutTokenizePayload
-     */
-    billingAddress?: PayPalCheckoutAddress;
-
-    /**
-     * This property will only be present when the customer pays with PayPal Credit.
-     *
-     * @type {PayPalCheckoutCreditFinancingOptions}
-     * @memberof PayPalCheckoutTokenizePayload
-     */
-    creditFinancingOffered?: PayPalCheckoutCreditFinancingOptions;
   }
 
   export enum PayPalCheckoutFlowType {

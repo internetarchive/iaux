@@ -22,21 +22,12 @@ export class DonationRequestCustomFields {
   paypal_checkout_id?: string;
 }
 
-export class DonationRequestOptions {
-  submitForSettlement: boolean;
-
-  constructor(options: {
-    submitForSettlement: boolean
-  }) {
-    this.submitForSettlement = options.submitForSettlement;
-  }
-}
-
 export class DonationRequest {
   paymentProvider: DonationRequestPaymentProvider;
   paymentMethodNonce: string;
   recaptchaToken?: string;
   customerId?: string;
+  deviceData?: string;
 
   bin?: string; // first 6 digits of CC
   binName?: string; // credit card bank name
@@ -47,13 +38,13 @@ export class DonationRequest {
   customer: CustomerInfo;
   billing: BillingInfo;
   customFields?: DonationRequestCustomFields;
-  options?: DonationRequestOptions;
 
   constructor(options: {
     paymentProvider: DonationRequestPaymentProvider,
     paymentMethodNonce: string,
     recaptchaToken?: string,
     customerId?: string,
+    deviceData?: string,
 
     bin?: string, // first 6 digits of CC
     binName?: string, // credit card bank name
@@ -64,12 +55,12 @@ export class DonationRequest {
     customer: CustomerInfo,
     billing: BillingInfo,
     customFields?: DonationRequestCustomFields,
-    options?: DonationRequestOptions
   }) {
     this.paymentProvider = options.paymentProvider;
     this.paymentMethodNonce = options.paymentMethodNonce;
     this.recaptchaToken = options.recaptchaToken;
     this.customerId = options.customerId;
+    this.deviceData = options.deviceData;
 
     this.bin = options.bin;
     this.binName = options.binName;
@@ -80,6 +71,5 @@ export class DonationRequest {
     this.customer = options.customer;
     this.billing = options.billing;
     this.customFields = options.customFields;
-    this.options = options.options;
   }
 }

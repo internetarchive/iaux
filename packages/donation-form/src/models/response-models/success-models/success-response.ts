@@ -10,9 +10,17 @@ export class SuccessResponse implements ResponseValueInterface {
   customer_id: string;
   customer: CustomerInfo;
   billing: BillingInfo;
-  subscription: SubscriptionResponse | undefined;
+  subscription?: SubscriptionResponse;
 
-  constructor(params: any) {
+  constructor(params: {
+    paymentMethodNonce: string,
+    amount: string,
+    transaction_id: string,
+    customer_id: string,
+    customer: CustomerInfo,
+    billing: BillingInfo,
+    subscription?: SubscriptionResponse
+  }) {
     this.paymentMethodNonce = params.paymentMethodNonce;
     this.amount = params.amount;
     this.transaction_id = params.transaction_id;
