@@ -40,7 +40,7 @@ export class DonationForm extends LitElement {
 
   @property({ type: Boolean }) private contactFormVisible = false;
 
-  @query('contact-form') contactForm!: ContactForm;
+  @query('contact-form') contactForm?: ContactForm;
 
   @query('donation-form-header') donationFormHeader!: DonationFormHeader;
 
@@ -160,7 +160,12 @@ export class DonationForm extends LitElement {
   }
 
   private donateClicked() {
-    this.paymentFlowHandlers?.creditCardHandler?.paymentInitiated();
+    if (!this.contactForm) {
+      alert('NO CONTACT FORM');
+      return;
+    }
+    const contactInfo = this.contactForm.donorContactInfo;
+    this.paymentFlowHandlers?.creditCardHandler?.paymentInitiated(contactInfo);
   }
 
   /** @inheritdoc */

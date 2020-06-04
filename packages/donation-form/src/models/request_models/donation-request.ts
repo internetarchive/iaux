@@ -37,7 +37,7 @@ export class DonationRequest {
 
   customer: CustomerInfo;
   billing: BillingInfo;
-  customFields?: DonationRequestCustomFields;
+  customFields: DonationRequestCustomFields = new DonationRequestCustomFields();
 
   constructor(options: {
     paymentProvider: DonationRequestPaymentProvider,
@@ -70,6 +70,9 @@ export class DonationRequest {
 
     this.customer = options.customer;
     this.billing = options.billing;
-    this.customFields = options.customFields;
+
+    if (options.customFields) {
+      this.customFields = options.customFields;
+    }
   }
 }

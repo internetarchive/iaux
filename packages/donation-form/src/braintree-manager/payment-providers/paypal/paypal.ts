@@ -66,15 +66,14 @@ export class PayPalHandler implements PayPalHandlerInterface {
   }): Promise<PayPalButtonDataSourceInterface | undefined> {
     const env: paypal.Environment = (this.hostingEnvironment === HostingEnvironment.Development ? 'sandbox' : 'production') as paypal.Environment;
 
-    console.log('renderPayPalButton');
+    console.log('renderPayPalButton', params.donationInfo);
 
     const paypalInstance = await this.getPayPalInstance();
     if (!paypalInstance) { return; }
 
     const dataSource = new PayPalButtonDataSource({
       donationInfo: params.donationInfo,
-      paypalInstance: paypalInstance,
-      braintreeManager: this.braintreeManager
+      paypalInstance: paypalInstance
     });
 
     this.paypalLibrary.Button.render({

@@ -50,6 +50,8 @@ export class UpsellModalContent extends LitElement {
     const amount = (e.target as HTMLFormElement).value;
     console.debug('amountChanged', e, amount);
     this.amount = parseFloat(amount);
+    const event = new CustomEvent('amountChanged', { detail: { amount: this.amount }});
+    this.dispatchEvent(event);
   }
 
   private yesSelected() {

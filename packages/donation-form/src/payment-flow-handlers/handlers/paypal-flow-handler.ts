@@ -9,30 +9,65 @@ import { DonationPaymentInfo } from "../../models/donation-info/donation-payment
 import { ModalConfig } from '../../modal-manager/modal-template';
 
 import '../../modals/upsell-modal-content';
+import { DonationRequest, DonationRequestPaymentProvider, DonationRequestCustomFields } from '../../models/request_models/donation-request';
+import { SuccessResponse } from '../../models/response-models/success-models/success-response';
+import { CustomerInfo } from '../../models/common/customer-info';
+import { BillingInfo } from '../../models/common/billing-info';
 
 export interface PayPalFlowHandlerInterface {
   updateDonationInfo(donationInfo: DonationPaymentInfo): void;
   updateUpsellDonationInfo(donationInfo: DonationPaymentInfo): void;
   renderPayPalButton(): Promise<void>;
-  showUpsellModal(): Promise<void>;
-  renderUpsellPayPalButton(): Promise<void>;
 }
 
-export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButtonDataSourceDelegate {
-  private paypalUpsellButtonDataSource?: PayPalButtonDataSourceInterface;
+/**
+ * This is a class to combine the data from the one-time purchase to the upsell
+ *
+ * @class UpsellDataSourceContainer
+ */
+class UpsellDataSourceContainer {
+  upsellButtonDataSource: PayPalButtonDataSourceInterface;
+  oneTimePayload: braintree.PayPalCheckoutTokenizePayload;
+  oneTimeSuccessResponse: SuccessResponse;
 
-  private paypalDataSource?: PayPalButtonDataSourceInterface;
+  constructor(options: {
+    upsellButtonDataSource: PayPalButtonDataSourceInterface,
+    oneTimePayload: braintree.PayPalCheckoutTokenizePayload,
+    oneTimeSuccessResponse: SuccessResponse
+  }) {
+    this.upsellButtonDataSource = options.upsellButtonDataSource;
+    this.oneTimePayload = options.oneTimePayload;
+    this.oneTimeSuccessResponse = options.oneTimeSuccessResponse;
+  }
+}
+
+/**
+ * This class manages the user-flow for PayPal.
+ *
+ * @export
+ * @class PayPalFlowHandler
+ * @implements {PayPalFlowHandlerInterface}
+ * @implements {PayPalButtonDataSourceDelegate}
+ */
+export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButtonDataSourceDelegate {
+  private upsellButtonDataSourceContainer?: UpsellDataSourceContainer;
+
+  private buttonDataSource?: PayPalButtonDataSourceInterface;
 
   private modalManager: ModalManagerInterface;
 
   private braintreeManager: BraintreeManagerInterface;
 
   updateDonationInfo(donationInfo: DonationPaymentInfo): void {
-    this.paypalDataSource?.updateDonationInfo(donationInfo);
+    if (this.buttonDataSource) {
+      this.buttonDataSource.donationInfo = donationInfo;
+    }
   }
 
   updateUpsellDonationInfo(donationInfo: DonationPaymentInfo): void {
-    this.paypalUpsellButtonDataSource?.updateDonationInfo(donationInfo);
+    if (this.upsellButtonDataSourceContainer) {
+      this.upsellButtonDataSourceContainer.upsellButtonDataSource.donationInfo = donationInfo;
+    }
   }
 
   constructor(options: {
@@ -43,21 +78,56 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     this.modalManager = options.modalManager;
   }
 
-  payPalPaymentStarted(options: object): void {
-    console.debug('PaymentSector:payPalPaymentStarted options:', options);
+  async payPalPaymentStarted(dataSource: PayPalButtonDataSourceInterface, options: object): Promise<void> {
+    console.debug('PaymentSector:payPalPaymentStarted options:', dataSource, dataSource.donationInfo, options);
   }
 
-  payPalPaymentAuthorized(payload: braintree.PayPalCheckoutTokenizePayload, response: DonationResponse): void {
-    console.debug('PaymentSector:payPalPaymentAuthorized payload,response', payload,response);
-    this.showUpsellModal();
+  async payPalPaymentAuthorized(dataSource: PayPalButtonDataSourceInterface, payload: braintree.PayPalCheckoutTokenizePayload): Promise<void> {
+    console.debug('PaymentSector:payPalPaymentAuthorized payload,response', dataSource, dataSource.donationInfo, payload);
+
+    const donationType = dataSource.donationInfo.donationType;
+
+    const request = this.buildDonationRequest({
+      donationInfo: dataSource.donationInfo,
+      payload
+    });
+
+    if (this.upsellButtonDataSourceContainer) {
+      request.customFields.paypal_checkout_id = this.upsellButtonDataSourceContainer.oneTimeSuccessResponse.transaction_id;
+    }
+
+    const response: DonationResponse = await this.braintreeManager.submitDataToEndpoint(request);
+
+    if (!response.success) {
+      alert('ERROR DURING payPalPaymentAuthorized');
+      console.error('Error during payPalPaymentAuthorized', response);
+      return;
+    }
+
+    switch (donationType) {
+      case DonationType.OneTime:
+        console.debug('ONE TIME, SHOW MODAL');
+        this.showUpsellModal(payload, response.value as SuccessResponse);
+        break;
+      case DonationType.Monthly:
+        console.debug('MONTHLY, SHOW THANKS');
+        // show thank you, redirect
+        this.modalManager?.closeModal();
+        break;
+      case DonationType.Upsell:
+        console.debug('UPSELL, SHOW THANKS');
+        // show thank you, redirect
+        this.modalManager?.closeModal();
+        break;
+    }
   }
 
-  payPalPaymentCancelled(data: object): void {
-    console.debug('PaymentSector:payPalPaymentCancelled data:', data);
+  async payPalPaymentCancelled(dataSource: PayPalButtonDataSourceInterface, data: object): Promise<void> {
+    console.debug('PaymentSector:payPalPaymentCancelled data:', dataSource, dataSource.donationInfo, data);
   }
 
-  payPalPaymentError(error: string): void {
-    console.debug('PaymentSector:payPalPaymentError error:', error);
+  async payPalPaymentError(dataSource: PayPalButtonDataSourceInterface, error: string): Promise<void> {
+    console.debug('PaymentSector:payPalPaymentError error:', dataSource, dataSource.donationInfo, error);
   }
 
   async renderPayPalButton(): Promise<void> {
@@ -66,7 +136,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
       amount: 5
     });
 
-    this.paypalDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
+    this.buttonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
       selector: '#paypal-button',
       style: {
         color: 'blue' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
@@ -77,19 +147,24 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
       },
       donationInfo: donationInfo
     });
-    if (this.paypalDataSource) {
-      this.paypalDataSource.delegate = this;
+    if (this.buttonDataSource) {
+      this.buttonDataSource.delegate = this;
     }
   }
 
   private showYesButton = false
 
-  async showUpsellModal(): Promise<void> {
+  private async showUpsellModal(
+    oneTimePayload: braintree.PayPalCheckoutTokenizePayload,
+    oneTimeSuccessResponse: SuccessResponse
+  ): Promise<void> {
+    console.debug('showUpsellModal', oneTimePayload, oneTimeSuccessResponse);
+
     const customContent = html`
       <upsell-modal-content
         ?showYesButton=${this.showYesButton}
-        @yesSelected=${this.yesSelected.bind(this)}
-        @noThanksSelected=${this.noThanksSelected.bind(this)}>
+        @noThanksSelected=${this.noThanksSelected.bind(this)}
+        @amountChanged=${this.upsellAmountChanged.bind(this)}>
         <slot name="paypal-upsell-button"></slot>
       </upsell-modal-content>
     `;
@@ -103,14 +178,16 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
     this.modalManager?.showModal(modalConfig, customContent);
 
-    if (!this.paypalUpsellButtonDataSource) {
-      this.renderUpsellPayPalButton();
+    if (!this.upsellButtonDataSourceContainer) {
+      this.renderUpsellPayPalButton(oneTimePayload, oneTimeSuccessResponse);
     }
   }
 
-  private yesSelected(e: CustomEvent): void {
-    console.debug('yesSelected', e.detail.amount);
-    this.modalManager.closeModal();
+  private upsellAmountChanged(e: CustomEvent): void {
+    console.debug('upsellAmountChanged', e.detail.amount);
+    if (this.upsellButtonDataSourceContainer) {
+      this.upsellButtonDataSourceContainer.upsellButtonDataSource.donationInfo.amount = e.detail.amount;
+    }
   }
 
   private noThanksSelected(): void {
@@ -118,13 +195,16 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     this.modalManager.closeModal();
   }
 
-  async renderUpsellPayPalButton(): Promise<void> {
+  private async renderUpsellPayPalButton(
+    oneTimPayload: braintree.PayPalCheckoutTokenizePayload,
+    oneTimeSuccessResponse: SuccessResponse
+  ): Promise<void> {
     const upsellDonationInfo = new DonationPaymentInfo({
       donationType: DonationType.Upsell,
-      amount: 10
+      amount: 5
     });
 
-    this.paypalUpsellButtonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
+    const upsellButtonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
       selector: '#paypal-upsell-button',
       style: {
         color: 'gold' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
@@ -135,6 +215,54 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
       },
       donationInfo: upsellDonationInfo
     });
+
+    if (upsellButtonDataSource) {
+      upsellButtonDataSource.delegate = this;
+      this.upsellButtonDataSourceContainer = new UpsellDataSourceContainer({
+        upsellButtonDataSource: upsellButtonDataSource,
+        oneTimePayload: oneTimPayload,
+        oneTimeSuccessResponse: oneTimeSuccessResponse
+      });
+    } else {
+      alert('ERROR RENDERING UPSELL PAYPAL BUTTON');
+    }
+  }
+
+  private buildDonationRequest(params: {
+    donationInfo: DonationPaymentInfo,
+    payload: braintree.PayPalCheckoutTokenizePayload
+  }): DonationRequest {
+    const details = params.payload?.details;
+
+    const customerInfo = new CustomerInfo({
+      email: details?.email,
+      firstName: details?.firstName,
+      lastName: details?.lastName
+    });
+
+    const shippingAddress = details.shippingAddress;
+
+    const billingInfo = new BillingInfo({
+      streetAddress: shippingAddress?.line1,
+      extendedAddress: shippingAddress?.line2,
+      locality: shippingAddress?.city,
+      region: shippingAddress?.state,
+      postalCode: shippingAddress?.postalCode,
+      countryCodeAlpha2: shippingAddress?.countryCode
+    })
+
+    const request = new DonationRequest({
+      paymentProvider: DonationRequestPaymentProvider.PayPal,
+      paymentMethodNonce: params.payload.nonce,
+      amount: params.donationInfo.amount,
+      donationType: params.donationInfo.donationType,
+      customer: customerInfo,
+      billing: billingInfo
+    });
+
+    console.debug('buildDonationRequest, request', request);
+
+    return request
   }
 
 }

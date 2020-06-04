@@ -113,8 +113,7 @@ export class ApplePaySessionDataSource implements ApplePaySessionDataSourceInter
       billing: billingInfo,
       customFields: {
         referrer: undefined
-      },
-      options: undefined
+      }
     })
 
     console.log('nonce:', payload.nonce);

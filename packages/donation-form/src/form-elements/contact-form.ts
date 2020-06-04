@@ -9,6 +9,7 @@ import {
 } from 'lit-element';
 import { BillingInfo } from '../models/common/billing-info';
 import { CustomerInfo } from '../models/common/customer-info';
+import { DonorContactInfo } from '../models/common/donor-contact-info';
 
 @customElement('contact-form')
 export class ContactForm extends LitElement {
@@ -26,16 +27,23 @@ export class ContactForm extends LitElement {
   /** @inheritdoc */
   render(): TemplateResult {
     return html`
-      <input type="text" id="email" placeholder="Email" />
-      <input type="text" id="firstName" placeholder="First name" />
-      <input type="text" id="lastName" placeholder="Last name" />
-      <input type="text" id="streetAddress" placeholder="Address Line 1" />
-      <input type="text" id="extendedAddress" placeholder="Address Line 2" />
-      <input type="text" id="locality" placeholder="City" />
-      <input type="text" id="region" placeholder="State / Province" />
-      <input type="text" id="postalCode" placeholder="Zip / Postal" />
-      <input type="text" id="countryCodeAlpha2" placeholder="Country" />
+      <input type="text" id="email" value="foo@bar.com" placeholder="Email" />
+      <input type="text" id="firstName" value="Fooey" placeholder="First name" />
+      <input type="text" id="lastName" value="McBarrison" placeholder="Last name" />
+      <input type="text" id="streetAddress" value="123 Fake St" placeholder="Address Line 1" />
+      <input type="text" id="extendedAddress" value="Apt 2" placeholder="Address Line 2" />
+      <input type="text" id="locality" value="SF" placeholder="City" />
+      <input type="text" id="region" value="CA" placeholder="State / Province" />
+      <input type="text" id="postalCode" value="12345" placeholder="Zip / Postal" />
+      <input type="text" id="countryCodeAlpha2" value="US" placeholder="Country" />
     `;
+  }
+
+  get donorContactInfo(): DonorContactInfo {
+    return new DonorContactInfo({
+      billing: this.billingInfo,
+      customer: this.contactInfo
+    });
   }
 
   get billingInfo(): BillingInfo {

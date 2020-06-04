@@ -6,9 +6,14 @@ import { RecaptchaManagerInterface } from "../../recaptcha-manager/recaptcha-man
 import { ModalConfig } from "../../modal-manager/modal-template";
 
 import '../../modals/upsell-modal-content';
+import { DonorContactInfo } from '../../models/common/donor-contact-info';
+import { DonationRequest, DonationRequestPaymentProvider } from '../../models/request_models/donation-request';
+import { DonationType } from '../../models/donation-info/donation-type';
+import { DonationResponse } from '../../models/response-models/donation-response';
+import { SuccessResponse } from '../../models/response-models/success-models/success-response';
 
 export interface CreditCardFlowHandlerInterface {
-  paymentInitiated(): Promise<void>;
+  paymentInitiated(donorContactInfo: DonorContactInfo): Promise<void>;
   paymentAuthorized(): Promise<void>;
   paymentCancelled(): Promise<void>;
   paymentError(): Promise<void>;
@@ -32,8 +37,10 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
   }
 
   // PaymentFlowHandlerInterface conformance
-  async paymentInitiated(): Promise<void> {
+  async paymentInitiated(donorContactInfo: DonorContactInfo): Promise<void> {
     let hostedFieldsResponse: braintree.HostedFieldsTokenizePayload | undefined;
+
+    console.debug('paymentInitiated donorContactInfo', donorContactInfo);
 
     try {
       hostedFieldsResponse = await this.braintreeManager.paymentProviders
@@ -43,6 +50,12 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
       return
     }
     console.debug('paymentInitiated', hostedFieldsResponse);
+
+    if (!hostedFieldsResponse) {
+      alert('error tokenizinng');
+      return;
+    }
+
     let recaptchaToken: string | undefined;
 
     try {
@@ -53,20 +66,67 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
     }
     console.debug('paymentInitiated recaptchaToken', recaptchaToken);
 
-    // TODO: submit data to endpoint, then show upsell modal
+    const donationRequest = new DonationRequest({
+      paymentMethodNonce: hostedFieldsResponse.nonce,
+      paymentProvider: DonationRequestPaymentProvider.CreditCard,
+      recaptchaToken: recaptchaToken,
+      customerId: undefined,
+      deviceData: 'foo',
+      bin: 'bar',
+      binName: 'baz',
+      amount: 5,
+      donationType: DonationType.OneTime,
+      customer: donorContactInfo.customer,
+      billing: donorContactInfo.billing,
+      customFields: undefined
+    });
 
-    const modalConfig = new ModalConfig();
-    const modalContent = html`
-      <upsell-modal-content
-        @yesSelected=${this.yesSelected.bind(this)}
-        @noThanksSelected=${this.noThanksSelected.bind(this)}>
-      </upsell-modal-content>
-    `;
-    this.modalManager.showModal(modalConfig, modalContent);
+    try {
+      const response = await this.braintreeManager.submitDataToEndpoint(donationRequest);
+
+      // TODO: VERIFY SUCCESS FIRST
+      const success = response.value as SuccessResponse;
+
+      console.debug('RESPONSE', response);
+      const modalConfig = new ModalConfig();
+      const modalContent = html`
+        <upsell-modal-content
+          @yesSelected=${this.yesSelected.bind(this, success)}
+          @noThanksSelected=${this.noThanksSelected.bind(this)}>
+        </upsell-modal-content>
+      `;
+      this.modalManager.showModal(modalConfig, modalContent);
+
+    } catch {
+      console.error('error getting a response')
+      return;
+    }
   }
 
-  private yesSelected(e: CustomEvent): void {
-    console.debug('yesSelected', e.detail.amount);
+  private async yesSelected(oneTimeDonationResponse: SuccessResponse, e: CustomEvent): Promise<void> {
+    console.debug('yesSelected, oneTimeDonationResponse', oneTimeDonationResponse, 'e', e);
+
+    const donationRequest = new DonationRequest({
+      paymentMethodNonce: oneTimeDonationResponse.paymentMethodNonce,
+      paymentProvider: DonationRequestPaymentProvider.CreditCard,
+      recaptchaToken: undefined,
+      customerId: oneTimeDonationResponse.customer_id,
+      deviceData: 'foo',
+      bin: 'bar',
+      binName: 'baz',
+      amount: e.detail.amount,
+      donationType: DonationType.Upsell,
+      customer: oneTimeDonationResponse.customer,
+      billing: oneTimeDonationResponse.billing,
+      customFields: undefined
+    });
+
+    console.debug('yesSelected, donationRequest', donationRequest);
+
+    const response = await this.braintreeManager.submitDataToEndpoint(donationRequest);
+
+    console.debug('yesSelected, UpsellResponse', response);
+
     this.modalManager.closeModal();
   }
 
