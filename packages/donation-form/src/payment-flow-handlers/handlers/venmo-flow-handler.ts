@@ -78,6 +78,7 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
       const result = await this.braintreeManager.paymentProviders.venmoHandler?.startPayment();
       if (!result) {
         this.showErrorModal();
+        this.restorationStateHandler.clearState();
         return;
       }
       console.debug('paymentInitiated', result);
@@ -85,6 +86,7 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
     } catch(tokenizeError) {
       this.handleTokenizationError(tokenizeError);
       this.showErrorModal()
+      this.restorationStateHandler.clearState();
     }
   }
 
@@ -107,12 +109,21 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
       customFields: undefined
     });
 
+    this.showProcessingModal();
+
     const response = await this.braintreeManager.submitDataToEndpoint(donationRequest);
 
     this.restorationStateHandler.clearState();
 
     if (response.success) {
-      this.showUpsellModal(response.value as SuccessResponse);
+      switch (donationInfo.donationType) {
+        case DonationType.OneTime:
+          this.showUpsellModal(response.value as SuccessResponse);
+          break;
+        case DonationType.Monthly:
+          this.showThankYouModal();
+          break;
+      }
     } else {
       this.showErrorModal();
     }
