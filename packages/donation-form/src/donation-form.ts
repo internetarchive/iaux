@@ -174,7 +174,7 @@ export class DonationForm extends LitElement {
         this.paymentFlowHandlers?.creditCardHandler?.paymentInitiated(this.donationInfo, contactInfo);
         break;
       case PaymentProvider.Venmo:
-        this.paymentFlowHandlers?.venmoHandler?.paymentInitiated();
+        this.paymentFlowHandlers?.venmoHandler?.paymentInitiated(contactInfo, this.donationInfo);
         break;
     }
   }
