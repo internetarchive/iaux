@@ -22,6 +22,7 @@ import { DonationPaymentInfo } from './models/donation-info/donation-payment-inf
 import { DonationFormHeader, DonationFormHeaderMode } from './form-elements/header/donation-form-header';
 import { DonationType } from './models/donation-info/donation-type';
 import { PaymentFlowHandlersInterface } from './payment-flow-handlers/payment-flow-handlers';
+import { PaymentProvider } from './models/common/payment-provider-name';
 
 @customElement('donation-form')
 export class DonationForm extends LitElement {
@@ -31,14 +32,13 @@ export class DonationForm extends LitElement {
 
   @property({ type: Object }) donationRequest: DonationRequest | undefined;
 
-  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
-    donationType: DonationType.OneTime,
-    amount: 5
-  });
+  @property({ type: Object }) donationInfo: DonationPaymentInfo = DonationPaymentInfo.default;
 
   @property({ type: Boolean }) private creditCardVisible = false;
 
   @property({ type: Boolean }) private contactFormVisible = false;
+
+  @property({ type: String }) private selectedPaymentProvider?: PaymentProvider;
 
   @query('contact-form') contactForm?: ContactForm;
 
@@ -86,24 +86,27 @@ export class DonationForm extends LitElement {
   }
 
   private applePaySelected(): void {
+    this.selectedPaymentProvider = PaymentProvider.ApplePay;
     this.contactFormVisible = false;
     this.creditCardVisible = false;
   }
 
   private googlePaySelected(): void {
+    this.selectedPaymentProvider = PaymentProvider.GooglePay;
     this.contactFormVisible = false;
     this.creditCardVisible = false;
   }
 
   private creditCardSelected(): void {
+    this.selectedPaymentProvider = PaymentProvider.CreditCard;
     this.contactFormVisible = true;
     this.creditCardVisible = true;
   }
 
   private venmoSelected(): void {
+    this.selectedPaymentProvider = PaymentProvider.Venmo;
     this.contactFormVisible = true;
     this.creditCardVisible = false;
-    this.paymentFlowHandlers?.venmoHandler?.paymentInitiated();
   }
 
   firstUpdated() {
@@ -165,7 +168,15 @@ export class DonationForm extends LitElement {
       return;
     }
     const contactInfo = this.contactForm.donorContactInfo;
-    this.paymentFlowHandlers?.creditCardHandler?.paymentInitiated(this.donationInfo, contactInfo);
+
+    switch (this.selectedPaymentProvider) {
+      case PaymentProvider.CreditCard:
+        this.paymentFlowHandlers?.creditCardHandler?.paymentInitiated(this.donationInfo, contactInfo);
+        break;
+      case PaymentProvider.Venmo:
+        this.paymentFlowHandlers?.venmoHandler?.paymentInitiated();
+        break;
+    }
   }
 
   /** @inheritdoc */

@@ -18,10 +18,7 @@ import { PaymentFlowHandlersInterface } from '../payment-flow-handlers/payment-f
 export class PaymentSelector extends LitElement {
   @property({ type: Object }) paymentFlowHandlers: PaymentFlowHandlersInterface | undefined;
 
-  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
-    donationType: DonationType.OneTime,
-    amount: 5,
-  });
+  @property({ type: Object }) donationInfo: DonationPaymentInfo = DonationPaymentInfo.default;
 
   /** @inheritdoc */
   render(): TemplateResult {
@@ -51,7 +48,7 @@ export class PaymentSelector extends LitElement {
 
   private applePaySelected(e: Event): void {
     this.dispatchEvent(new Event('applePaySelected'));
-    this.paymentFlowHandlers?.applePayHandler?.paymentInitiated(e);
+    this.paymentFlowHandlers?.applePayHandler?.paymentInitiated(this.donationInfo, e);
   }
 
   private venmoSelected(): void {

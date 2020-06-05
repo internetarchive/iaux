@@ -15,10 +15,7 @@ import { DonationPaymentInfo } from '../../models/donation-info/donation-payment
 
 @customElement('edit-donation')
 export class EditDonation extends LitElement {
-  @property({ type: Object }) donationInfo: DonationPaymentInfo = new DonationPaymentInfo({
-    donationType: DonationType.OneTime,
-    amount: 5,
-  });
+  @property({ type: Object }) donationInfo: DonationPaymentInfo = DonationPaymentInfo.default;
 
   render(): TemplateResult {
     return html`

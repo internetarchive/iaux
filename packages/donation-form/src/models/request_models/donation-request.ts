@@ -1,19 +1,7 @@
 import { CustomerInfo } from '../common/customer-info';
 import { BillingInfo } from '../common/billing-info';
 import { DonationType } from '../donation-info/donation-type';
-
-export enum DonationRequestFrequency {
-  OneTime = 'one-time',
-  Monthly = 'monthly'
-}
-
-export enum DonationRequestPaymentProvider {
-  CreditCard = 'Credit Card',
-  PayPal = 'PayPal',
-  GooglePay = 'Google Pay',
-  Venmo = 'Venmo',
-  ApplePay = 'Apple Pay'
-}
+import { PaymentProvider } from '../common/payment-provider-name';
 
 // in order to add additional custom fields, you must add them in the brain
 export class DonationRequestCustomFields {
@@ -22,7 +10,7 @@ export class DonationRequestCustomFields {
 }
 
 export class DonationRequest {
-  paymentProvider: DonationRequestPaymentProvider;
+  paymentProvider: PaymentProvider;
   paymentMethodNonce: string;
   recaptchaToken?: string;
   customerId?: string;
@@ -40,7 +28,7 @@ export class DonationRequest {
   customFields: DonationRequestCustomFields = new DonationRequestCustomFields();
 
   constructor(options: {
-    paymentProvider: DonationRequestPaymentProvider,
+    paymentProvider: PaymentProvider,
     paymentMethodNonce: string,
     recaptchaToken?: string,
     customerId?: string,

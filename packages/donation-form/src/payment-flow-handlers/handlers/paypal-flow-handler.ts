@@ -9,10 +9,11 @@ import { DonationPaymentInfo } from "../../models/donation-info/donation-payment
 import { ModalConfig } from '../../modal-manager/modal-template';
 
 import '../../modals/upsell-modal-content';
-import { DonationRequest, DonationRequestPaymentProvider, DonationRequestCustomFields } from '../../models/request_models/donation-request';
+import { DonationRequest, DonationRequestCustomFields } from '../../models/request_models/donation-request';
 import { SuccessResponse } from '../../models/response-models/success-models/success-response';
 import { CustomerInfo } from '../../models/common/customer-info';
 import { BillingInfo } from '../../models/common/billing-info';
+import { PaymentProvider } from '../../models/common/payment-provider-name';
 
 export interface PayPalFlowHandlerInterface {
   updateDonationInfo(donationInfo: DonationPaymentInfo): void;
@@ -133,10 +134,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
   }
 
   async renderPayPalButton(): Promise<void> {
-    const donationInfo = new DonationPaymentInfo({
-      donationType: DonationType.OneTime,
-      amount: 5
-    });
+    const donationInfo = DonationPaymentInfo.default;
 
     this.buttonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
       selector: '#paypal-button',
@@ -216,10 +214,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     oneTimPayload: braintree.PayPalCheckoutTokenizePayload,
     oneTimeSuccessResponse: SuccessResponse
   ): Promise<void> {
-    const upsellDonationInfo = new DonationPaymentInfo({
-      donationType: DonationType.Upsell,
-      amount: 5
-    });
+    const upsellDonationInfo = DonationPaymentInfo.default; // TODO: This should be dynamic
 
     const upsellButtonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
       selector: '#paypal-upsell-button',
@@ -269,7 +264,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     })
 
     const request = new DonationRequest({
-      paymentProvider: DonationRequestPaymentProvider.PayPal,
+      paymentProvider: PaymentProvider.PayPal,
       paymentMethodNonce: params.payload.nonce,
       amount: params.donationInfo.amount,
       donationType: params.donationInfo.donationType,

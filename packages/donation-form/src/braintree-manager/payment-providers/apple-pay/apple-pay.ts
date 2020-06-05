@@ -7,7 +7,10 @@ import { DonationPaymentInfo } from '../../../models/donation-info/donation-paym
 export interface ApplePayHandlerInterface {
   isAvailable(): Promise<boolean>;
   getInstance(): Promise<any | undefined>;
-  createPaymentRequest(amount: number, e: Event): Promise<ApplePaySessionDataSource>;
+  createPaymentRequest(
+    e: Event,
+    donationInfo: DonationPaymentInfo
+  ): Promise<ApplePaySessionDataSource>;
 }
 
 export class ApplePayHandler implements ApplePayHandlerInterface {
@@ -78,13 +81,21 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
   // In order to trigger the Apple Pay flow, you HAVE to pass in the event
   // that triggered the launch. Notice we're not actually using the event
   // but ApplePay won't launch without it.
-  async createPaymentRequest(amount: number, e: Event): Promise<ApplePaySessionDataSource> {
+  async createPaymentRequest(
+    e: Event,
+    donationInfo: DonationPaymentInfo
+  ): Promise<ApplePaySessionDataSource> {
     const applePayInstance = await this.getInstance();
+
+    let label = 'Internet Archive Monthly Donation';
+    if (donationInfo.donationType === DonationType.OneTime) {
+      label = 'Internet Archive Donation';
+    }
 
     const paymentRequest = applePayInstance.createPaymentRequest({
       total: {
-        label: 'Internet Archive Donation',
-        amount: amount
+        label: label,
+        amount: donationInfo.amount
       },
       requiredBillingContactFields: [
         "postalAddress"
@@ -95,11 +106,6 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
       ]
     });
     const session = this.applePaySessionManager.createNewPaymentSession(paymentRequest);
-
-    const donationInfo = new DonationPaymentInfo({
-      donationType: DonationType.OneTime,
-      amount: 5
-    });
 
     const sessionDataSource = new ApplePaySessionDataSource({
       donationInfo: donationInfo,

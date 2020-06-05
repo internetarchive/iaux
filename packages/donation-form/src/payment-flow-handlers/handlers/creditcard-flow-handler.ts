@@ -7,11 +7,12 @@ import { ModalConfig } from "../../modal-manager/modal-template";
 
 import '../../modals/upsell-modal-content';
 import { DonorContactInfo } from '../../models/common/donor-contact-info';
-import { DonationRequest, DonationRequestPaymentProvider } from '../../models/request_models/donation-request';
+import { DonationRequest } from '../../models/request_models/donation-request';
 import { DonationType } from '../../models/donation-info/donation-type';
 import { DonationResponse } from '../../models/response-models/donation-response';
 import { SuccessResponse } from '../../models/response-models/success-models/success-response';
 import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
+import { PaymentProvider } from '../../models/common/payment-provider-name';
 
 export interface CreditCardFlowHandlerInterface {
   paymentInitiated(
@@ -78,7 +79,7 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
 
     const donationRequest = new DonationRequest({
       paymentMethodNonce: hostedFieldsResponse.nonce,
-      paymentProvider: DonationRequestPaymentProvider.CreditCard,
+      paymentProvider: PaymentProvider.CreditCard,
       recaptchaToken: recaptchaToken,
       deviceData: this.braintreeManager.deviceData,
       bin: hostedFieldsResponse.details.bin,
@@ -159,7 +160,7 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
 
     const donationRequest = new DonationRequest({
       paymentMethodNonce: oneTimeDonationResponse.paymentMethodNonce,
-      paymentProvider: DonationRequestPaymentProvider.CreditCard,
+      paymentProvider: PaymentProvider.CreditCard,
       recaptchaToken: undefined,
       customerId: oneTimeDonationResponse.customer_id,
       deviceData: this.braintreeManager.deviceData,

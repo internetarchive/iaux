@@ -2,9 +2,10 @@ import { DonationPaymentInfo } from "../../../models/donation-info/donation-paym
 import { BraintreeManagerInterface } from "../../braintree-manager";
 import { BillingInfo } from "../../../models/common/billing-info";
 import { CustomerInfo } from "../../../models/common/customer-info";
-import { DonationRequest, DonationRequestPaymentProvider } from "../../../models/request_models/donation-request";
+import { DonationRequest } from "../../../models/request_models/donation-request";
 import { DonationType } from "../../../models/donation-info/donation-type";
 import { DonationResponse } from "../../../models/response-models/donation-response";
+import { PaymentProvider } from "../../../models/common/payment-provider-name";
 
 export interface ApplePaySessionDataSourceInterface {
   delegate?: ApplePaySessionDataSourceDelegate;
@@ -15,6 +16,7 @@ export interface ApplePaySessionDataSourceInterface {
 
 export interface ApplePaySessionDataSourceDelegate {
   paymentComplete(response: DonationResponse): void;
+  paymentFailed(error: string): void;
 }
 
 export class ApplePaySessionDataSource implements ApplePaySessionDataSourceInterface {
@@ -105,7 +107,7 @@ export class ApplePaySessionDataSource implements ApplePaySessionDataSourceInter
     })
 
     const donationRequest = new DonationRequest({
-      paymentProvider: DonationRequestPaymentProvider.ApplePay,
+      paymentProvider: PaymentProvider.ApplePay,
       paymentMethodNonce: payload.nonce,
       amount: 5,
       donationType: DonationType.OneTime,
@@ -120,8 +122,13 @@ export class ApplePaySessionDataSource implements ApplePaySessionDataSourceInter
 
     try {
       const donationResponse = await this.braintreeManager.submitDataToEndpoint(donationRequest);
-      this.delegate?.paymentComplete(donationResponse);
-      this.session.completePayment(ApplePaySession.STATUS_SUCCESS);
+      if (donationResponse.success) {
+        this.delegate?.paymentComplete(donationResponse);
+        this.session.completePayment(ApplePaySession.STATUS_SUCCESS);
+      } else {
+        this.delegate?.paymentFailed('Failure submitting data');
+        this.session.completePayment(ApplePaySession.STATUS_FAILURE);
+      }
     } catch (err) {
       this.session.completePayment(ApplePaySession.STATUS_FAILURE);
     }
