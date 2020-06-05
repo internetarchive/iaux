@@ -11,9 +11,13 @@ import { DonationRequest, DonationRequestPaymentProvider } from '../../models/re
 import { DonationType } from '../../models/donation-info/donation-type';
 import { DonationResponse } from '../../models/response-models/donation-response';
 import { SuccessResponse } from '../../models/response-models/success-models/success-response';
+import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
 
 export interface CreditCardFlowHandlerInterface {
-  paymentInitiated(donorContactInfo: DonorContactInfo): Promise<void>;
+  paymentInitiated(
+    donationInfo: DonationPaymentInfo,
+    donorContactInfo: DonorContactInfo
+  ): Promise<void>;
   paymentAuthorized(): Promise<void>;
   paymentCancelled(): Promise<void>;
   paymentError(): Promise<void>;
@@ -37,19 +41,23 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
   }
 
   // PaymentFlowHandlerInterface conformance
-  async paymentInitiated(donorContactInfo: DonorContactInfo): Promise<void> {
+  async paymentInitiated(
+    donationInfo: DonationPaymentInfo,
+    donorContactInfo: DonorContactInfo
+  ): Promise<void> {
     let hostedFieldsResponse: braintree.HostedFieldsTokenizePayload | undefined;
 
+    const start = performance.now();
     console.debug('paymentInitiated donorContactInfo', donorContactInfo);
 
     try {
       hostedFieldsResponse = await this.braintreeManager.paymentProviders
         .creditCardHandler?.tokenizeHostedFields()
     } catch {
-      alert('Fill in Credit Card');
+      this.showErrorModal();
       return
     }
-    console.debug('paymentInitiated', hostedFieldsResponse);
+    console.debug('paymentInitiated, hostedFieldsResponse', hostedFieldsResponse, 'time from start', performance.now() - start);
 
     if (!hostedFieldsResponse) {
       alert('error tokenizinng');
@@ -64,46 +72,89 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
       alert('Verification failed');
       return
     }
-    console.debug('paymentInitiated recaptchaToken', recaptchaToken);
+    console.debug('paymentInitiated recaptchaToken', recaptchaToken, 'time from start', performance.now() - start);
+
+    this.showProcessingModal();
 
     const donationRequest = new DonationRequest({
       paymentMethodNonce: hostedFieldsResponse.nonce,
       paymentProvider: DonationRequestPaymentProvider.CreditCard,
       recaptchaToken: recaptchaToken,
-      customerId: undefined,
-      deviceData: 'foo',
-      bin: 'bar',
-      binName: 'baz',
-      amount: 5,
-      donationType: DonationType.OneTime,
+      deviceData: this.braintreeManager.deviceData,
+      bin: hostedFieldsResponse.details.bin,
+      amount: donationInfo.amount,
+      donationType: donationInfo.donationType,
       customer: donorContactInfo.customer,
       billing: donorContactInfo.billing,
       customFields: undefined
     });
 
+    let response: DonationResponse;
     try {
-      const response = await this.braintreeManager.submitDataToEndpoint(donationRequest);
-
-      // TODO: VERIFY SUCCESS FIRST
-      const success = response.value as SuccessResponse;
+      response = await this.braintreeManager.submitDataToEndpoint(donationRequest);
 
       console.debug('RESPONSE', response);
-      const modalConfig = new ModalConfig();
-      const modalContent = html`
-        <upsell-modal-content
-          @yesSelected=${this.yesSelected.bind(this, success)}
-          @noThanksSelected=${this.noThanksSelected.bind(this)}>
-        </upsell-modal-content>
-      `;
-      this.modalManager.showModal(modalConfig, modalContent);
+
+      if (response.success) {
+        this.handleSuccessfulResponse(donationInfo, response.value as SuccessResponse);
+      } else {
+        this.showErrorModal();
+      }
 
     } catch {
+      this.showErrorModal();
       console.error('error getting a response')
       return;
     }
   }
 
-  private async yesSelected(oneTimeDonationResponse: SuccessResponse, e: CustomEvent): Promise<void> {
+  private handleSuccessfulResponse(donationInfo: DonationPaymentInfo, response: SuccessResponse) {
+    switch (donationInfo.donationType) {
+      case DonationType.OneTime:
+        this.showUpsellModal(response);
+      break;
+      case DonationType.Monthly:
+        this.showThankYouModal();
+      break;
+      // This case will never be reached, it is only here for completeness.
+      // The upsell case gets handled in `modalYesSelected()` below
+      case DonationType.Upsell:
+      break;
+    }
+  }
+
+  private showProcessingModal() {
+    const modalConfig = new ModalConfig();
+    modalConfig.showProcessingIndicator = true;
+    modalConfig.title = 'Processing...'
+    this.modalManager.showModal(modalConfig, undefined);
+  }
+
+  private showThankYouModal() {
+    const modalConfig = new ModalConfig();
+    modalConfig.showProcessingIndicator = true;
+    modalConfig.processingImageMode = 'complete';
+    modalConfig.title = 'Thank You!';
+    this.modalManager.showModal(modalConfig, undefined);
+  }
+
+  private showErrorModal() {
+    const modalConfig = ModalConfig.errorConfig;
+    this.modalManager.showModal(modalConfig, undefined);
+  }
+
+  private showUpsellModal(successResponse: SuccessResponse) {
+    const modalConfig = new ModalConfig();
+    const modalContent = html`
+      <upsell-modal-content
+        @yesSelected=${this.modalYesSelected.bind(this, successResponse)}
+        @noThanksSelected=${this.modalNoThanksSelected.bind(this)}>
+      </upsell-modal-content>
+    `;
+    this.modalManager.showModal(modalConfig, modalContent);
+  }
+
+  private async modalYesSelected(oneTimeDonationResponse: SuccessResponse, e: CustomEvent): Promise<void> {
     console.debug('yesSelected, oneTimeDonationResponse', oneTimeDonationResponse, 'e', e);
 
     const donationRequest = new DonationRequest({
@@ -111,15 +162,16 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
       paymentProvider: DonationRequestPaymentProvider.CreditCard,
       recaptchaToken: undefined,
       customerId: oneTimeDonationResponse.customer_id,
-      deviceData: 'foo',
-      bin: 'bar',
-      binName: 'baz',
+      deviceData: this.braintreeManager.deviceData,
       amount: e.detail.amount,
       donationType: DonationType.Upsell,
       customer: oneTimeDonationResponse.customer,
       billing: oneTimeDonationResponse.billing,
-      customFields: undefined
+      customFields: undefined,
+      upsellOnetimeTransactionId: oneTimeDonationResponse.transaction_id
     });
+
+    this.showProcessingModal();
 
     console.debug('yesSelected, donationRequest', donationRequest);
 
@@ -127,10 +179,10 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
 
     console.debug('yesSelected, UpsellResponse', response);
 
-    this.modalManager.closeModal();
+    this.showThankYouModal();
   }
 
-  private noThanksSelected(): void {
+  private modalNoThanksSelected(): void {
     console.debug('noThanksSelected');
     this.modalManager.closeModal();
   }

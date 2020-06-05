@@ -165,7 +165,7 @@ export class DonationForm extends LitElement {
       return;
     }
     const contactInfo = this.contactForm.donorContactInfo;
-    this.paymentFlowHandlers?.creditCardHandler?.paymentInitiated(contactInfo);
+    this.paymentFlowHandlers?.creditCardHandler?.paymentInitiated(this.donationInfo, contactInfo);
   }
 
   /** @inheritdoc */

@@ -19,7 +19,6 @@ export enum DonationRequestPaymentProvider {
 export class DonationRequestCustomFields {
   logged_in_user?: string;
   referrer?: string;
-  paypal_checkout_id?: string;
 }
 
 export class DonationRequest {
@@ -28,6 +27,7 @@ export class DonationRequest {
   recaptchaToken?: string;
   customerId?: string;
   deviceData?: string;
+  upsellOnetimeTransactionId?: string;
 
   bin?: string; // first 6 digits of CC
   binName?: string; // credit card bank name
@@ -45,6 +45,7 @@ export class DonationRequest {
     recaptchaToken?: string,
     customerId?: string,
     deviceData?: string,
+    upsellOnetimeTransactionId?: string,
 
     bin?: string, // first 6 digits of CC
     binName?: string, // credit card bank name
@@ -61,6 +62,7 @@ export class DonationRequest {
     this.recaptchaToken = options.recaptchaToken;
     this.customerId = options.customerId;
     this.deviceData = options.deviceData;
+    this.upsellOnetimeTransactionId = options.upsellOnetimeTransactionId;
 
     this.bin = options.bin;
     this.binName = options.binName;

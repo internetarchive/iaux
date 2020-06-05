@@ -1,6 +1,15 @@
 /// <reference types="braintree-web" />
 
 declare namespace braintree {
+  // extends HostedFieldsAccountDetails from @types/braintree-web
+  interface HostedFieldsAccountDetails {
+    bin: string;
+    expirationMonth: string;
+    expirationYear: string;
+  }
+}
+
+declare namespace braintree {
   interface VenmoTokenizePayload {
     nonce: string;
     type: string;

@@ -9,6 +9,14 @@ import {
   query,
 } from 'lit-element';
 
+import '@internetarchive/ia-activity-indicator/ia-activity-indicator';
+
+export enum ModalHeaderColors {
+  Blue = '#497fbf',
+  Green = '#55A183',
+  Red = '#691916'
+}
+
 export class ModalConfig {
   title = 'Internet Archive';
   subtitle: string | undefined;
@@ -19,6 +27,13 @@ export class ModalConfig {
   showProcessingIndicator = false;
   processingImageMode = 'processing';
   showBackdrop = false;
+
+  static get errorConfig(): ModalConfig {
+    const config = new ModalConfig();
+    config.headline = 'Error';
+    config.headerColor = ModalHeaderColors.Red;
+    return config;
+  }
 }
 
 @customElement('modal-template')
@@ -42,6 +57,7 @@ export class ModalTemplate extends LitElement {
         </header>
         <div class="body">
           <div class="processing-logo ${this.config.showProcessingIndicator ? '' : 'hidden'}">
+            <ia-activity-indicator .mode=${this.config.processingImageMode}></ia-activity-indicator>
           </div>
 
           ${this.config.headline ? html`<h1 class="headline">${this.config.headline}</h1>` : ''}

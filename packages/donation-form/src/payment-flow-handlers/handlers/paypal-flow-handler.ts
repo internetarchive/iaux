@@ -85,6 +85,8 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
   async payPalPaymentAuthorized(dataSource: PayPalButtonDataSourceInterface, payload: braintree.PayPalCheckoutTokenizePayload): Promise<void> {
     console.debug('PaymentSector:payPalPaymentAuthorized payload,response', dataSource, dataSource.donationInfo, payload);
 
+    this.showProcessingModal();
+
     const donationType = dataSource.donationInfo.donationType;
 
     const request = this.buildDonationRequest({
@@ -93,7 +95,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     });
 
     if (this.upsellButtonDataSourceContainer) {
-      request.customFields.paypal_checkout_id = this.upsellButtonDataSourceContainer.oneTimeSuccessResponse.transaction_id;
+      request.upsellOnetimeTransactionId = this.upsellButtonDataSourceContainer.oneTimeSuccessResponse.transaction_id;
     }
 
     const response: DonationResponse = await this.braintreeManager.submitDataToEndpoint(request);
@@ -112,12 +114,12 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
       case DonationType.Monthly:
         console.debug('MONTHLY, SHOW THANKS');
         // show thank you, redirect
-        this.modalManager?.closeModal();
+        this.showThankYouModal()
         break;
       case DonationType.Upsell:
         console.debug('UPSELL, SHOW THANKS');
         // show thank you, redirect
-        this.modalManager?.closeModal();
+        this.showThankYouModal()
         break;
     }
   }
@@ -153,6 +155,21 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
   }
 
   private showYesButton = false
+
+  private showProcessingModal() {
+    const modalConfig = new ModalConfig();
+    modalConfig.showProcessingIndicator = true;
+    modalConfig.title = 'Processing...'
+    this.modalManager.showModal(modalConfig, undefined);
+  }
+
+  private showThankYouModal() {
+    const modalConfig = new ModalConfig();
+    modalConfig.showProcessingIndicator = true;
+    modalConfig.processingImageMode = 'complete';
+    modalConfig.title = 'Thank You!';
+    this.modalManager.showModal(modalConfig, undefined);
+  }
 
   private async showUpsellModal(
     oneTimePayload: braintree.PayPalCheckoutTokenizePayload,

@@ -33,6 +33,7 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
+    "@internetarchive/ia-activity-indicator": "^0.0.1",
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"
   },
