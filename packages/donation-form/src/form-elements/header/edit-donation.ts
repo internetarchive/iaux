@@ -12,7 +12,7 @@ import {
 import '../form-section';
 import '../static-custom-button';
 import { DonationType } from '../../models/donation-info/donation-type';
-import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
+import { DonationPaymentInfo, DonationPaymentInfoState } from '../../models/donation-info/donation-payment-info';
 import { CurrencyValidator } from './currency-validator';
 
 enum SelectionGroup {
@@ -145,10 +145,30 @@ export class EditDonation extends LitElement {
 
     if (parsed > 10000) {
       this.error = 'To make a donation of $10,000 or more, please contact our philanthropy department at donations@archive.org';
-    } else {
-      this.error = undefined;
-      this.donationInfo.amount = parsed;
-      this.dispatchDonationInfoChangedEvent();
+      return;
+    }
+
+    if (parsed < 5 && this.donationInfo.donationType === DonationType.OneTime) {
+      this.error = 'Please select an amount (minimum $5)'
+      return;
+    }
+
+    this.error = undefined;
+    this.donationInfo.amount = parsed;
+    this.dispatchDonationInfoChangedEvent();
+  }
+
+  private validateDownloadInfo(donationInfo: DonationPaymentInfo): boolean {
+    switch (donationInfo.state) {
+      case DonationPaymentInfoState.TooHigh:
+        this.error = 'To make a donation of $10,000 or more, please contact our philanthropy department at donations@archive.org';
+        return false;
+      case DonationPaymentInfoState.BelowMinimum:
+        this.error = 'Please select an amount (minimum $5)'
+        return false;
+      case DonationPaymentInfoState.Valid:
+        this.error = undefined;
+        return true;
     }
   }
 
@@ -159,7 +179,7 @@ export class EditDonation extends LitElement {
 
     switch (group) {
       case SelectionGroup.Amount:
-        this.amountChanged(parseFloat(value));
+        this.presetAmountChanged(parseFloat(value));
         break;
       case SelectionGroup.DonationType:
         this.donationTypeChanged(value as DonationType);
@@ -172,12 +192,17 @@ export class EditDonation extends LitElement {
   }
 
   private donationTypeChanged(donationType: DonationType) {
+    if (this.donationInfo.amount < 5 && donationType === DonationType.OneTime) {
+      this.error = 'Please select an amount (minimum $5)';
+    }
+
     this.donationInfo.donationType = donationType;
     console.debug('EditDonation donationTypeChanged', donationType);
     this.dispatchDonationInfoChangedEvent();
   }
 
-  private amountChanged(amount: number) {
+  private presetAmountChanged(amount: number) {
+    this.error = undefined;
     this.donationInfo.amount = amount;
     console.debug('EditDonation amountChanged', amount);
     this.dispatchDonationInfoChangedEvent();
