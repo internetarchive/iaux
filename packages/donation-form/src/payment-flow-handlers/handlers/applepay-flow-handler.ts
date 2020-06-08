@@ -126,6 +126,6 @@ export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, AppleP
   }
 
   paymentFailed(error: string): void {
-
+    this.showErrorModal();
   }
 }

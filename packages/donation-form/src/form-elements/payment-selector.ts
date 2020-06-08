@@ -5,21 +5,10 @@ import {
   customElement,
   CSSResult,
   TemplateResult,
-  property,
-  PropertyValues,
-  query,
 } from 'lit-element';
-
-import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
-import { DonationType } from '../models/donation-info/donation-type';
-import { PaymentFlowHandlersInterface } from '../payment-flow-handlers/payment-flow-handlers';
 
 @customElement('payment-selector')
 export class PaymentSelector extends LitElement {
-  @property({ type: Object }) paymentFlowHandlers: PaymentFlowHandlersInterface | undefined;
-
-  @property({ type: Object }) donationInfo: DonationPaymentInfo = DonationPaymentInfo.default;
-
   /** @inheritdoc */
   render(): TemplateResult {
     return html`
@@ -31,15 +20,9 @@ export class PaymentSelector extends LitElement {
     `;
   }
 
-  updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has('paymentFlowHandlers')) {
-      this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
-      this.paymentFlowHandlers?.paypalHandler?.renderPayPalButton();
-    }
-
-    if (changedProperties.has('donationInfo')) {
-      this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
-    }
+  /** inheritdoc */
+  firstUpdated(): void {
+    this.dispatchEvent(new Event('firstUpdated'));
   }
 
   private googlePaySelected(): void {
@@ -47,8 +30,8 @@ export class PaymentSelector extends LitElement {
   }
 
   private applePaySelected(e: Event): void {
-    this.dispatchEvent(new Event('applePaySelected'));
-    this.paymentFlowHandlers?.applePayHandler?.paymentInitiated(this.donationInfo, e);
+    const event = new CustomEvent('applePaySelected', { detail: { originalEvent: e }})
+    this.dispatchEvent(event);
   }
 
   private venmoSelected(): void {

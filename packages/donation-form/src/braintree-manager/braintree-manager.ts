@@ -1,18 +1,14 @@
 import { DonationResponse } from '../models/response-models/donation-response';
 import { DonationRequest } from '../models/request_models/donation-request';
 import { PaymentProvidersInterface, PaymentProviders } from './payment-providers';
-import { DonationType } from '../models/donation-info/donation-type';
-import { DonationPaymentInfo } from '../models/donation-info/donation-payment-info';
 import { PaymentClientsInterface } from './payment-clients';
 
 export interface BraintreeManagerInterface {
   paymentProviders: PaymentProvidersInterface;
-  donationInfo: DonationPaymentInfo;
   deviceData: string | undefined;
 
   startup(): void;
   getInstance(): Promise<braintree.Client | undefined>;
-  updateDonationInfo(donationInfo: DonationPaymentInfo): void;
   submitDataToEndpoint(request: DonationRequest): Promise<DonationResponse>;
 }
 
@@ -34,21 +30,11 @@ export enum HostingEnvironment {
 }
 
 export class BraintreeManager implements BraintreeManagerInterface {
-  get donationInfo(): DonationPaymentInfo {
-    return this._donationInfo;
-  }
-
   get deviceData(): string | undefined {
     return this._deviceData;
   }
 
-  updateDonationInfo(donationInfo: DonationPaymentInfo) {
-    this._donationInfo = donationInfo;
-  }
-
   private _deviceData?: string;
-
-  private _donationInfo: DonationPaymentInfo = DonationPaymentInfo.default;
 
   /**
    * This contains all of the individual payment providers so as to not clutter the

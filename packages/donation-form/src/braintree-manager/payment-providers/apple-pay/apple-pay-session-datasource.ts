@@ -53,6 +53,7 @@ export class ApplePaySessionDataSource implements ApplePaySessionDataSourceInter
     }, (validationErr: any, validationData: any) => {
       if (validationErr) {
         console.error(validationErr);
+        this.delegate?.paymentFailed(validationErr);
         this.session.abort();
         return;
       }
@@ -73,6 +74,7 @@ export class ApplePaySessionDataSource implements ApplePaySessionDataSourceInter
       });
     } catch (err) {
       console.error('Error tokenizing Apple Pay:', err);
+      this.delegate?.paymentFailed(err);
       this.session.completePayment(ApplePaySession.STATUS_FAILURE);
       return;
     }
@@ -130,6 +132,7 @@ export class ApplePaySessionDataSource implements ApplePaySessionDataSourceInter
         this.session.completePayment(ApplePaySession.STATUS_FAILURE);
       }
     } catch (err) {
+      this.delegate?.paymentFailed(err);
       this.session.completePayment(ApplePaySession.STATUS_FAILURE);
     }
   };

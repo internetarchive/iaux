@@ -60,6 +60,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
   private braintreeManager: BraintreeManagerInterface;
 
   updateDonationInfo(donationInfo: DonationPaymentInfo): void {
+    console.debug('updateDonationInfo', donationInfo);
     if (this.buttonDataSource) {
       this.buttonDataSource.donationInfo = donationInfo;
     }

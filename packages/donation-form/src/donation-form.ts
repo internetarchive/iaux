@@ -23,6 +23,7 @@ import { DonationFormHeader, DonationFormHeaderMode } from './form-elements/head
 import { DonationType } from './models/donation-info/donation-type';
 import { PaymentFlowHandlersInterface } from './payment-flow-handlers/payment-flow-handlers';
 import { PaymentProvider } from './models/common/payment-provider-name';
+import { PaymentSelector } from './form-elements/payment-selector';
 
 @customElement('donation-form')
 export class DonationForm extends LitElement {
@@ -58,6 +59,7 @@ export class DonationForm extends LitElement {
         <payment-selector
           .paymentFlowHandlers=${this.paymentFlowHandlers}
           .donationInfo=${this.donationInfo}
+          @firstUpdated=${this.paymentSelectorReady}
           @creditCardSelected=${this.creditCardSelected}
           @venmoSelected=${this.venmoSelected}
           @applePaySelected=${this.applePaySelected}
@@ -85,10 +87,16 @@ export class DonationForm extends LitElement {
     `;
   }
 
-  private applePaySelected(): void {
+  private paymentSelectorReady(): void {
+    this.paymentFlowHandlers?.paypalHandler?.renderPayPalButton();
+  }
+
+  private applePaySelected(e: CustomEvent): void {
+    const originalEvent = e.detail.originalEvent;
     this.selectedPaymentProvider = PaymentProvider.ApplePay;
     this.contactFormVisible = false;
     this.creditCardVisible = false;
+    this.paymentFlowHandlers?.applePayHandler?.paymentInitiated(this.donationInfo, originalEvent);
   }
 
   private googlePaySelected(): void {
@@ -153,13 +161,18 @@ export class DonationForm extends LitElement {
         this.braintreeManager?.paymentProviders.creditCardHandler?.teardownHostedFields();
       }
     }
+
+    if (changedProperties.has('paymentFlowHandlers')) {
+      this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
+    }
   }
 
   private donationInfoChanged(e: CustomEvent) {
     const donationInfo: DonationPaymentInfo = e.detail.donationInfo;
     this.donationInfo = donationInfo;
-    console.log('DonationForm donationInfoChanged', donationInfo);
-    this.braintreeManager?.updateDonationInfo(donationInfo);
+    // The PayPal button has a standalone datasource since we don't initiate the payment
+    // through code so it has to have the donation info ready when the user taps the button.
+    this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
   }
 
   private donateClicked() {
