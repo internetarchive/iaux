@@ -28,6 +28,8 @@ export class EditDonation extends LitElement {
 
   @query('#custom-amount-button') customAmountButton!: HTMLInputElement;
 
+  @property({ type: Array }) private error?: string;
+
   private currencyValidator: CurrencyValidator = new CurrencyValidator();
 
   render(): TemplateResult {
@@ -66,6 +68,10 @@ export class EditDonation extends LitElement {
           ${this.presetAmountsTemplate}
           <li>${this.customAmountTemplate}</li>
         </ul>
+
+        <div class="errors">
+          ${this.error}
+        </div>
 
       </form-section>
       <button @click=${this.showSummary}>Switch to Summary</button>
@@ -136,7 +142,14 @@ export class EditDonation extends LitElement {
     const target = e.target as HTMLInputElement;
     const amount = target.value;
     const parsed = parseFloat(amount);
-    this.donationInfo.amount = parsed;
+
+    if (parsed > 10000) {
+      this.error = 'To make a donation of $10,000 or more, please contact our philanthropy department at donations@archive.org';
+    } else {
+      this.error = undefined;
+      this.donationInfo.amount = parsed;
+      this.dispatchDonationInfoChangedEvent();
+    }
   }
 
   private radioSelected(e: Event) {
@@ -178,6 +191,10 @@ export class EditDonation extends LitElement {
   /** @inheritdoc */
   static get styles(): CSSResult {
     return css`
+      .errors {
+        color: red;
+      }
+
       ul {
         list-style: none;
       }
