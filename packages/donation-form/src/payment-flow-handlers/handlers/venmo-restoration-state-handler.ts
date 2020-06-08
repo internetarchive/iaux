@@ -6,7 +6,7 @@ export interface VenmoRestorationStateHandlerInterface {
     contactInfo: DonorContactInfo,
     donationInfo: DonationPaymentInfo
   ): void;
-  restoreState(): Promise<VenmoRestorationState | undefined>;
+  getRestorationState(): Promise<VenmoRestorationState | undefined>;
   clearState(): void;
 }
 
@@ -14,6 +14,7 @@ export class VenmoRestorationState {
   contactInfo: DonorContactInfo;
   donationInfo: DonationPaymentInfo;
 
+  // TODO: Add restoration state expiration
   constructor(params: {
     contactInfo: DonorContactInfo,
     donationInfo: DonationPaymentInfo
@@ -41,7 +42,7 @@ export class VenmoRestorationStateHandler implements VenmoRestorationStateHandle
     localStorage.setItem(this.persistanceKey, serialized);
   }
 
-  async restoreState(): Promise<VenmoRestorationState | undefined> {
+  async getRestorationState(): Promise<VenmoRestorationState | undefined> {
     const stored = localStorage.getItem(this.persistanceKey);
     if (!stored) {
       console.error('restoreState: No stored data');

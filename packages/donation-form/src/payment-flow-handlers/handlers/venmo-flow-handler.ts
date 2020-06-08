@@ -54,7 +54,7 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
 
       // if we get redirected back from venmo in a different tab, we need to restore the data
       // that was persisted when the payment was initiated
-      const restoredInfo = await this.restorationStateHandler.restoreState();
+      const restoredInfo = await this.restorationStateHandler.getRestorationState();
       if (restoredInfo) {
         this.paymentInitiated(restoredInfo.contactInfo, restoredInfo.donationInfo);
       } else {
