@@ -68,17 +68,19 @@ export class DonationForm extends LitElement {
         </payment-selector>
       </form-section>
 
-      ${this.contactFormSection}
+      <div class="contact-form-section" class="${this.contactFormVisible ? '' : 'hidden'}">
+        ${this.contactFormSection}
+      </div>
     `;
   }
 
   get contactFormSection(): TemplateResult {
-    if (!this.contactFormVisible) { return html``; }
     return html`
       <form-section number=4 headline="Tell us about yourself">
         <contact-form></contact-form>
-        ${this.creditCardVisible ?
-            html`<slot name="braintree-hosted-fields"></slot>` : ''}
+        <div class="credit-card-fields" class="${this.creditCardVisible ? '' : 'hidden'}">
+          <slot name="braintree-hosted-fields"></slot>
+        </div>
       </form-section>
 
       <form-section number=5>
@@ -154,17 +156,20 @@ export class DonationForm extends LitElement {
   }
 
   updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has('creditCardVisible')) {
-      if (this.creditCardVisible) {
-        this.braintreeManager?.paymentProviders.creditCardHandler?.setupHostedFields();
-      } else {
-        this.braintreeManager?.paymentProviders.creditCardHandler?.teardownHostedFields();
-      }
-    }
-
     if (changedProperties.has('paymentFlowHandlers')) {
       this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
+      this.setupHostedFields();
     }
+  }
+
+  private async setupHostedFields() {
+    console.debug('setupHostedFields');
+    const start = performance.now();
+    await this.braintreeManager?.paymentProviders.creditCardHandler?.teardownHostedFields();
+    const teardown = performance.now();
+    console.debug('setupHostedFields, teardown took (ms)', teardown - start);
+    await this.braintreeManager?.paymentProviders.creditCardHandler?.setupHostedFields();
+    console.debug('setupHostedFields, setup took (ms)', performance.now() - teardown);
   }
 
   private donationInfoChanged(e: CustomEvent) {
@@ -198,6 +203,10 @@ export class DonationForm extends LitElement {
       h1 {
         margin: 0;
         padding: 0;
+      }
+
+      .hidden {
+        display: none;
       }
     `;
   }

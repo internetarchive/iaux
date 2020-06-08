@@ -37,7 +37,7 @@ export class CreditCardHandler implements CreditCardHandlerInterface {
 
   async teardownHostedFields(): Promise<any> {
     console.log('teardownHostedFields', this.hostedFieldsInstance);
-    this.hostedFieldsInstance?.teardown();
+    await this.hostedFieldsInstance?.teardown();
     this.hostedFieldsInstance = undefined;
   }
 

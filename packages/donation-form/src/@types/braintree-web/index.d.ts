@@ -7,6 +7,14 @@ declare namespace braintree {
     expirationMonth: string;
     expirationYear: string;
   }
+
+  export interface HostedFields {
+    // Cleanly remove anything set up by create.
+    // Called on completion, containing an error if one occurred.
+    // No data is returned if teardown completes successfully.
+    // If no callback is provided, teardown returns a promise.
+    teardown(): Promise<void>;
+  }
 }
 
 declare namespace braintree {
