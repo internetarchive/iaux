@@ -61,7 +61,8 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
     console.debug('paymentInitiated, hostedFieldsResponse', hostedFieldsResponse, 'time from start', performance.now() - start);
 
     if (!hostedFieldsResponse) {
-      alert('error tokenizinng');
+      this.showErrorModal();
+      console.error('no hostedFieldsResponse');
       return;
     }
 
@@ -70,7 +71,8 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
     try {
       recaptchaToken = await this.recaptchaManager.execute();
     } catch {
-      alert('Verification failed');
+      this.showErrorModal();
+      console.error('recaptcha failure');
       return
     }
     console.debug('paymentInitiated recaptchaToken', recaptchaToken, 'time from start', performance.now() - start);

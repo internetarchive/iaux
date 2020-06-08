@@ -182,7 +182,7 @@ export class DonationForm extends LitElement {
 
   private donateClicked() {
     if (!this.contactForm) {
-      alert('NO CONTACT FORM');
+      console.error('no contact form');
       return;
     }
     const contactInfo = this.contactForm.donorContactInfo;

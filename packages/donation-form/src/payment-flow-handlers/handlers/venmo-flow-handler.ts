@@ -77,16 +77,16 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
     try {
       const result = await this.braintreeManager.paymentProviders.venmoHandler?.startPayment();
       if (!result) {
-        this.showErrorModal();
         this.restorationStateHandler.clearState();
+        this.showErrorModal();
         return;
       }
       console.debug('paymentInitiated', result);
       this.handleTokenizationResult(result, contactInfo, donationInfo);
     } catch(tokenizeError) {
+      this.restorationStateHandler.clearState();
       this.handleTokenizationError(tokenizeError);
       this.showErrorModal()
-      this.restorationStateHandler.clearState();
     }
   }
 
@@ -142,7 +142,7 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
       default:
         console.error('Error!', tokenizeError);
     }
-    alert(`Tokenization Error: ${tokenizeError.code}`);
+    // alert(`Tokenization Error: ${tokenizeError.code}`);
   }
 
   private showProcessingModal() {

@@ -28,6 +28,7 @@ export class VenmoRestorationStateHandler implements VenmoRestorationStateHandle
   private persistanceKey = 'venmoRestorationStateInfo'
 
   clearState() {
+    console.debug('clearState');
     localStorage.removeItem(this.persistanceKey);
   }
 

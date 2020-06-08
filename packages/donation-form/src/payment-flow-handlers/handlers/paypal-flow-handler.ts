@@ -103,7 +103,8 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     const response: DonationResponse = await this.braintreeManager.submitDataToEndpoint(request);
 
     if (!response.success) {
-      alert('ERROR DURING payPalPaymentAuthorized');
+      this.showErrorModal();
+      // alert('ERROR DURING payPalPaymentAuthorized');
       console.error('Error during payPalPaymentAuthorized', response);
       return;
     }
@@ -159,6 +160,11 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     const modalConfig = new ModalConfig();
     modalConfig.showProcessingIndicator = true;
     modalConfig.title = 'Processing...'
+    this.modalManager.showModal(modalConfig, undefined);
+  }
+
+  private showErrorModal() {
+    const modalConfig = ModalConfig.errorConfig;
     this.modalManager.showModal(modalConfig, undefined);
   }
 
@@ -237,7 +243,9 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
         oneTimeSuccessResponse: oneTimeSuccessResponse
       });
     } else {
-      alert('ERROR RENDERING UPSELL PAYPAL BUTTON');
+      // this.showErrorModal();
+      // alert('ERROR RENDERING UPSELL PAYPAL BUTTON');
+      console.error('error rendering paypal upsell button')
     }
   }
 

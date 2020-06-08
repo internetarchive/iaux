@@ -6,16 +6,29 @@ import {
   CSSResult,
   TemplateResult,
   property,
+  query,
 } from 'lit-element';
 
 import '../form-section';
 import '../static-custom-button';
 import { DonationType } from '../../models/donation-info/donation-type';
 import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
+import { CurrencyValidator } from './currency-validator';
+
+enum SelectionGroup {
+  DonationType = 'donationType',
+  Amount = 'amount',
+}
 
 @customElement('edit-donation')
 export class EditDonation extends LitElement {
   @property({ type: Object }) donationInfo: DonationPaymentInfo = DonationPaymentInfo.default;
+
+  @property({ type: Array }) amountOptions: number[] = [5, 10, 25, 50, 100, 250, 500, 1000];
+
+  @query('#custom-amount-button') customAmountButton!: HTMLInputElement;
+
+  private currencyValidator: CurrencyValidator = new CurrencyValidator();
 
   render(): TemplateResult {
     return html`
@@ -23,49 +36,137 @@ export class EditDonation extends LitElement {
         number=1
         headline="Choose a frequency">
 
-        <static-custom-button
-          .value=${DonationType.OneTime}
-          displayText='One-Time'
-          @selected=${this.frequencyChanged}>
-        </static-custom-button>
+        <ul>
+          <li>
+            ${this.getRadioButton({
+              group: SelectionGroup.DonationType,
+              value: DonationType.OneTime,
+              displayText: 'One time',
+              checked: this.donationInfo.donationType === DonationType.OneTime
+            })}
+          </li>
 
-        <static-custom-button
-          .value=${DonationType.Monthly}
-          displayText='Monthly'
-          @selected=${this.frequencyChanged}>
-        </static-custom-button>
+          <li>
+            ${this.getRadioButton({
+              group: SelectionGroup.DonationType,
+              value: DonationType.Monthly,
+              displayText: 'Monthly',
+              checked: this.donationInfo.donationType === DonationType.Monthly
+            })}
+          </li>
+        </ul>
+
       </form-section>
 
       <form-section
         number=2
         headline="Choose an amount">
 
-        ${[5, 10, 25, 50, 100, 250, 500, 1000].map(value => html`
-          <static-custom-button
-            value=${value}
-            displayText='$${value}'
-            @selected=${this.amountChanged}>
-          </static-custom-button>
-        `)}
+        <ul>
+          ${this.presetAmountsTemplate}
+          <li>${this.customAmountTemplate}</li>
+        </ul>
 
       </form-section>
       <button @click=${this.showSummary}>Switch to Summary</button>
     `;
   }
 
+  private getRadioButton(options: {
+    group: SelectionGroup,
+    value: string,
+    displayText: string,
+    checked: boolean
+  }): TemplateResult {
+    const radioId = `${options.group}-${options.value}-option`;
+    return html`
+      <div class="selection-button">
+        <input type="radio" name=${options.group} value=${options.value} id=${radioId} .checked=${options.checked} @change=${this.radioSelected}>
+        <label for=${radioId}>${options.displayText}</label>
+      </div>
+    `;
+  }
+
+  private get presetAmountsTemplate(): TemplateResult {
+    return html`
+      ${this.amountOptions.map(amount => html`
+        <li>
+          ${this.getRadioButton({
+            group: SelectionGroup.Amount,
+            value: `${amount}`,
+            displayText: `$${amount}`,
+            checked: amount === this.donationInfo.amount
+            })}
+        </li>
+      `)}
+    `;
+  }
+
+  private get customAmountTemplate(): TemplateResult {
+    const selected = !this.amountOptions.includes(this.donationInfo.amount);
+    const value = selected ? this.donationInfo.amount : '';
+
+    return html`
+      <div class="selection-button">
+        <input type="radio"
+               name=${SelectionGroup.Amount}
+               value="custom"
+               id="custom-amount-button"
+               .checked=${selected}
+               @change=${this.radioSelected}>
+
+        <label for="custom-amount-button">
+          Custom: $
+          <input type="text"
+                 id="custom-amount-input"
+                 value=${value}
+                 @input=${this.customAmountChanged}
+                 @keydown=${this.currencyValidator.keydown}
+                 @focus=${this.customAmountFocused} />
+        </label>
+      </div>
+    `;
+  }
+
+  private customAmountFocused(e: Event) {
+    this.customAmountButton.checked = true;
+  }
+
+  private customAmountChanged(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const amount = target.value;
+    const parsed = parseFloat(amount);
+    this.donationInfo.amount = parsed;
+  }
+
+  private radioSelected(e: Event) {
+    let radioButton = e.target as HTMLInputElement;
+    let group = radioButton.name as SelectionGroup;
+    let value = radioButton.value;
+
+    switch (group) {
+      case SelectionGroup.Amount:
+        this.amountChanged(parseFloat(value));
+        break;
+      case SelectionGroup.DonationType:
+        this.donationTypeChanged(value as DonationType);
+        break;
+    }
+  }
+
   private showSummary() {
     this.dispatchEvent(new Event('showSummaryClicked'));
   }
 
-  private frequencyChanged(e: CustomEvent) {
-    this.donationInfo.donationType = e.detail.value as DonationType;
-    console.log('EditDonation frequencyChanged', e.detail.value);
+  private donationTypeChanged(donationType: DonationType) {
+    this.donationInfo.donationType = donationType;
+    console.debug('EditDonation donationTypeChanged', donationType);
     this.dispatchDonationInfoChangedEvent();
   }
 
-  private amountChanged(e: CustomEvent) {
-    this.donationInfo.amount = e.detail.value;
-    console.log('EditDonation amountChanged', e.detail.value);
+  private amountChanged(amount: number) {
+    this.donationInfo.amount = amount;
+    console.debug('EditDonation amountChanged', amount);
     this.dispatchDonationInfoChangedEvent();
   }
 
@@ -77,6 +178,34 @@ export class EditDonation extends LitElement {
   /** @inheritdoc */
   static get styles(): CSSResult {
     return css`
+      ul {
+        list-style: none;
+      }
+
+      ul, li {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+      }
+
+      label {
+        display: block;
+        padding: 10px;
+        border: 0;
+        border-radius: 5px;
+        background-color: #ccc;
+        color: #202020;
+        cursor: pointer;
+        text-align: center;
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      input[type="radio"]:checked + label {
+        background-color: #f9bf3b;
+      }
     `;
   }
 }
