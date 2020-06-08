@@ -6,6 +6,7 @@ export default [subnavListCSS, css`
     :host {
       display: block;
       grid-column: 1 / 4;
+      padding: 0 1.5rem;
     }
 
     h4 {
@@ -15,7 +16,7 @@ export default [subnavListCSS, css`
 
     .grid {
       display: grid;
-      grid-template-columns: 30% 40% 30%;
+      grid-template-columns: calc(30% - 1.25rem) calc(40% - 2.5rem) calc(30% - 1.25rem);
       grid-column-gap: 2.5rem;
     }
 

@@ -23,6 +23,7 @@ export default css`
     -moz-appearance: none;
     appearance: none;
     padding: .4rem .8rem;
+    font: normal 1.3rem var(--themeFontFamily);
     text-transform: uppercase;
     color: var(--savePageSubmitText);
     border: none;
