@@ -28,6 +28,8 @@ export class EditDonation extends LitElement {
 
   @query('#custom-amount-button') customAmountButton!: HTMLInputElement;
 
+  @query('#custom-amount-input') customAmountInput!: HTMLInputElement;
+
   @property({ type: Array }) private error?: string;
 
   private currencyValidator: CurrencyValidator = new CurrencyValidator();
@@ -74,7 +76,7 @@ export class EditDonation extends LitElement {
         </div>
 
       </form-section>
-      <button @click=${this.showSummary}>Switch to Summary</button>
+      <button @click=${this.dispatchShowSummaryClickedEvent}>Switch to Summary</button>
     `;
   }
 
@@ -102,7 +104,7 @@ export class EditDonation extends LitElement {
             value: `${amount}`,
             displayText: `$${amount}`,
             checked: amount === this.donationInfo.amount
-            })}
+          })}
         </li>
       `)}
     `;
@@ -134,11 +136,13 @@ export class EditDonation extends LitElement {
     `;
   }
 
-  private customAmountFocused(e: Event) {
+  private customAmountFocused(): void {
     this.customAmountButton.checked = true;
+    this.donationInfo.amount = parseFloat(this.customAmountInput.value);
+    this.dispatchDonationInfoChangedEvent();
   }
 
-  private customAmountChanged(e: Event) {
+  private customAmountChanged(e: Event): void {
     const target = e.target as HTMLInputElement;
     const amount = target.value;
     const parsed = parseFloat(amount);
@@ -149,7 +153,7 @@ export class EditDonation extends LitElement {
     }
 
     if (parsed < 5 && this.donationInfo.donationType === DonationType.OneTime) {
-      this.error = 'Please select an amount (minimum $5)'
+      this.error = 'Please select an amount (minimum $5)';
       return;
     }
 
@@ -164,7 +168,7 @@ export class EditDonation extends LitElement {
         this.error = 'To make a donation of $10,000 or more, please contact our philanthropy department at donations@archive.org';
         return false;
       case DonationPaymentInfoState.BelowMinimum:
-        this.error = 'Please select an amount (minimum $5)'
+        this.error = 'Please select an amount (minimum $5)';
         return false;
       case DonationPaymentInfoState.Valid:
         this.error = undefined;
@@ -172,10 +176,10 @@ export class EditDonation extends LitElement {
     }
   }
 
-  private radioSelected(e: Event) {
-    let radioButton = e.target as HTMLInputElement;
-    let group = radioButton.name as SelectionGroup;
-    let value = radioButton.value;
+  private radioSelected(e: Event): void {
+    const radioButton = e.target as HTMLInputElement;
+    const group = radioButton.name as SelectionGroup;
+    const { value } = radioButton;
 
     switch (group) {
       case SelectionGroup.Amount:
@@ -184,14 +188,16 @@ export class EditDonation extends LitElement {
       case SelectionGroup.DonationType:
         this.donationTypeChanged(value as DonationType);
         break;
+      default:
+        break;
     }
   }
 
-  private showSummary() {
+  private dispatchShowSummaryClickedEvent(): void {
     this.dispatchEvent(new Event('showSummaryClicked'));
   }
 
-  private donationTypeChanged(donationType: DonationType) {
+  private donationTypeChanged(donationType: DonationType): void {
     if (this.donationInfo.amount < 5 && donationType === DonationType.OneTime) {
       this.error = 'Please select an amount (minimum $5)';
     }
@@ -201,15 +207,15 @@ export class EditDonation extends LitElement {
     this.dispatchDonationInfoChangedEvent();
   }
 
-  private presetAmountChanged(amount: number) {
+  private presetAmountChanged(amount: number): void {
     this.error = undefined;
     this.donationInfo.amount = amount;
     console.debug('EditDonation amountChanged', amount);
     this.dispatchDonationInfoChangedEvent();
   }
 
-  private dispatchDonationInfoChangedEvent() {
-    const event = new CustomEvent('donationInfoChanged', { detail: { donationInfo: this.donationInfo }});
+  private dispatchDonationInfoChangedEvent(): void {
+    const event = new CustomEvent('donationInfoChanged', { detail: { donationInfo: this.donationInfo } });
     this.dispatchEvent(event);
   }
 

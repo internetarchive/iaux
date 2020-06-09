@@ -18,7 +18,7 @@ import { PaymentProvider } from '../../models/common/payment-provider-name';
 export interface PayPalFlowHandlerInterface {
   updateDonationInfo(donationInfo: DonationPaymentInfo): void;
   updateUpsellDonationInfo(donationInfo: DonationPaymentInfo): void;
-  renderPayPalButton(): Promise<void>;
+  renderPayPalButton(donationInfo: DonationPaymentInfo): Promise<void>;
 }
 
 /**
@@ -59,14 +59,20 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
   private braintreeManager: BraintreeManagerInterface;
 
+  private donationInfo: DonationPaymentInfo = DonationPaymentInfo.default;
+
+  private upsellDonationInfo: DonationPaymentInfo = DonationPaymentInfo.default;
+
   updateDonationInfo(donationInfo: DonationPaymentInfo): void {
     console.debug('updateDonationInfo', donationInfo);
+    this.donationInfo = donationInfo;
     if (this.buttonDataSource) {
       this.buttonDataSource.donationInfo = donationInfo;
     }
   }
 
   updateUpsellDonationInfo(donationInfo: DonationPaymentInfo): void {
+    this.upsellDonationInfo = donationInfo;
     if (this.upsellButtonDataSourceContainer) {
       this.upsellButtonDataSourceContainer.upsellButtonDataSource.donationInfo = donationInfo;
     }
@@ -135,9 +141,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     console.debug('PaymentSector:payPalPaymentError error:', dataSource, dataSource.donationInfo, error);
   }
 
-  async renderPayPalButton(): Promise<void> {
-    const donationInfo = DonationPaymentInfo.default;
-
+  async renderPayPalButton(donationInfo: DonationPaymentInfo): Promise<void> {
     this.buttonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
       selector: '#paypal-button',
       style: {
@@ -149,6 +153,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
       },
       donationInfo: donationInfo
     });
+
     if (this.buttonDataSource) {
       this.buttonDataSource.delegate = this;
     }
@@ -200,8 +205,17 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
     this.modalManager?.showModal(modalConfig, customContent);
 
+    const upsellDonationInfo = new DonationPaymentInfo({
+      amount: 5, // TODO: <-- this should be dynamic based on the one-time amount
+      donationType: DonationType.Upsell
+    });
+
     if (!this.upsellButtonDataSourceContainer) {
-      this.renderUpsellPayPalButton(oneTimePayload, oneTimeSuccessResponse);
+      this.renderUpsellPayPalButton({
+        donationInfo: upsellDonationInfo,
+        oneTimePayload,
+        oneTimeSuccessResponse
+      });
     }
   }
 
@@ -217,12 +231,11 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     this.modalManager.closeModal();
   }
 
-  private async renderUpsellPayPalButton(
-    oneTimPayload: braintree.PayPalCheckoutTokenizePayload,
+  private async renderUpsellPayPalButton(options: {
+    donationInfo: DonationPaymentInfo,
+    oneTimePayload: braintree.PayPalCheckoutTokenizePayload,
     oneTimeSuccessResponse: SuccessResponse
-  ): Promise<void> {
-    const upsellDonationInfo = DonationPaymentInfo.default; // TODO: This should be dynamic
-
+  }): Promise<void> {
     const upsellButtonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
       selector: '#paypal-upsell-button',
       style: {
@@ -232,15 +245,16 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
         size: 'small' as paypal.ButtonSizeOption,
         tagline: false
       },
-      donationInfo: upsellDonationInfo
+      donationInfo: donationInfo
     });
 
     if (upsellButtonDataSource) {
       upsellButtonDataSource.delegate = this;
+      upsellButtonDataSource.donationInfo = this.upsellDonationInfo;
       this.upsellButtonDataSourceContainer = new UpsellDataSourceContainer({
         upsellButtonDataSource: upsellButtonDataSource,
-        oneTimePayload: oneTimPayload,
-        oneTimeSuccessResponse: oneTimeSuccessResponse
+        oneTimePayload: options.oneTimePayload,
+        oneTimeSuccessResponse: options.oneTimeSuccessResponse
       });
     } else {
       // this.showErrorModal();

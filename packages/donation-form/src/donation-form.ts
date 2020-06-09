@@ -59,7 +59,7 @@ export class DonationForm extends LitElement {
         <payment-selector
           .paymentFlowHandlers=${this.paymentFlowHandlers}
           .donationInfo=${this.donationInfo}
-          @firstUpdated=${this.paymentSelectorReady}
+          @firstUpdated=${this.paymentSelectorFirstUpdated}
           @creditCardSelected=${this.creditCardSelected}
           @venmoSelected=${this.venmoSelected}
           @applePaySelected=${this.applePaySelected}
@@ -89,8 +89,9 @@ export class DonationForm extends LitElement {
     `;
   }
 
-  private paymentSelectorReady(): void {
-    this.paymentFlowHandlers?.paypalHandler?.renderPayPalButton();
+  private paymentSelectorFirstUpdated(): void {
+    console.debug('paymentSelectorFirstUpdated', this.donationInfo);
+    this.paymentFlowHandlers?.paypalHandler?.renderPayPalButton(this.donationInfo);
   }
 
   private applePaySelected(e: CustomEvent): void {
@@ -144,6 +145,8 @@ export class DonationForm extends LitElement {
       amount: amount
     });
 
+    console.debug('queryParam donationInfo', donationInfo);
+
     this.donationInfo = donationInfo;
 
     if (amountParam || frequencyParam) {
@@ -151,14 +154,18 @@ export class DonationForm extends LitElement {
     } else {
       this.donationFormHeader.mode = DonationFormHeaderMode.Edit;
     }
-
-    console.log('donationInfo', donationInfo);
   }
 
   updated(changedProperties: PropertyValues): void {
     if (changedProperties.has('paymentFlowHandlers')) {
       this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
       this.setupHostedFields();
+    }
+
+    if (changedProperties.has('donationInfo')) {
+      // The PayPal button has a standalone datasource since we don't initiate the payment
+      // through code so it has to have the donation info ready when the user taps the button.
+      this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
     }
   }
 
@@ -175,9 +182,6 @@ export class DonationForm extends LitElement {
   private donationInfoChanged(e: CustomEvent) {
     const donationInfo: DonationPaymentInfo = e.detail.donationInfo;
     this.donationInfo = donationInfo;
-    // The PayPal button has a standalone datasource since we don't initiate the payment
-    // through code so it has to have the donation info ready when the user taps the button.
-    this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
   }
 
   private donateClicked() {
