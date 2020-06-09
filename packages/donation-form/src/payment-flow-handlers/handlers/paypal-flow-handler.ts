@@ -148,7 +148,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
         color: 'blue' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
         label: 'paypal' as paypal.ButtonLabelOption,
         shape: 'rect' as paypal.ButtonShapeOption,
-        size: 'small' as paypal.ButtonSizeOption,
+        size: 'medium' as paypal.ButtonSizeOption,
         tagline: false
       },
       donationInfo: donationInfo
@@ -245,7 +245,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
         size: 'small' as paypal.ButtonSizeOption,
         tagline: false
       },
-      donationInfo: donationInfo
+      donationInfo: options.donationInfo
     });
 
     if (upsellButtonDataSource) {
