@@ -9,7 +9,7 @@ import {
 
 import applePayButtonImage from '../assets/img/payment-providers/applepay';
 import googlePayButtonImage from '../assets/img/payment-providers/googlepay';
-import paypalButtonImage from '../assets/img/payment-providers/applepay';
+import paypalButtonImage from '../assets/img/payment-providers/paypal';
 import venmoButtonImage from '../assets/img/payment-providers/venmo';
 
 @customElement('payment-selector')
