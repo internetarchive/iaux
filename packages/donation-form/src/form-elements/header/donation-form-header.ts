@@ -44,7 +44,8 @@ export class DonationFormHeader extends LitElement {
       <edit-donation
         .donationInfo=${this.donationInfo}
         @donationInfoChanged=${this.donationInfoChanged}
-        @showSummaryClicked=${this.showSummaryClicked}>
+        @showSummaryClicked=${this.showSummaryClicked}
+        @editDonationError=${this.editDonationError}>
       </edit-donation>`;
   }
 
@@ -57,9 +58,14 @@ export class DonationFormHeader extends LitElement {
   }
 
   private donationInfoChanged(e: CustomEvent) {
-    console.log('DonationFormHeader frequencyChanged', e.detail.frequency);
+    console.log('DonationFormHeader frequencyChanged', e.detail.donationInfo);
     this.donationInfo = e.detail.donationInfo as DonationPaymentInfo;
     const event = new CustomEvent('donationInfoChanged', { detail: { donationInfo: this.donationInfo }});
+    this.dispatchEvent(event);
+  }
+
+  private editDonationError(e: CustomEvent) {
+    const event = new CustomEvent('editDonationError', { detail: e.detail });
     this.dispatchEvent(event);
   }
 

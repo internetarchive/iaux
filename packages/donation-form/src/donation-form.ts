@@ -52,6 +52,7 @@ export class DonationForm extends LitElement {
 
       <donation-form-header
         @donationInfoChanged=${this.donationInfoChanged}
+        @editDonationError=${this.editDonationError}
         .donationInfo=${this.donationInfo}>
       </donation-form-header>
 
@@ -87,6 +88,10 @@ export class DonationForm extends LitElement {
         <button @click=${this.donateClicked}>Donate</button>
       </form-section>
     `;
+  }
+
+  private editDonationError(e: CustomEvent): void {
+    console.debug('editDonationError', e.detail);
   }
 
   private paymentSelectorFirstUpdated(): void {

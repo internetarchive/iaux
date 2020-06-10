@@ -20,6 +20,11 @@ enum SelectionGroup {
   Amount = 'amount',
 }
 
+export enum DonationInfoError {
+  DonationTooHigh = 'donation_too_high',
+  DonationTooLow = 'donation_too_low',
+}
+
 @customElement('edit-donation')
 export class EditDonation extends LitElement {
   @property({ type: Object }) donationInfo: DonationPaymentInfo = DonationPaymentInfo.default;
@@ -30,7 +35,7 @@ export class EditDonation extends LitElement {
 
   @query('#custom-amount-input') customAmountInput!: HTMLInputElement;
 
-  @property({ type: Array }) private error?: string;
+  @property({ type: Array }) private error?: TemplateResult;
 
   private currencyValidator: CurrencyValidator = new CurrencyValidator();
 
@@ -121,7 +126,7 @@ export class EditDonation extends LitElement {
                value="custom"
                id="custom-amount-button"
                .checked=${selected}
-               @change=${this.radioSelected}>
+               @change=${this.customRadioSelected}>
 
         <label for="custom-amount-button">
           Custom: $
@@ -136,44 +141,42 @@ export class EditDonation extends LitElement {
     `;
   }
 
+  private customRadioSelected(): void {
+    this.customAmountInput.focus();
+  }
+
   private customAmountFocused(): void {
     this.customAmountButton.checked = true;
-    this.donationInfo.amount = parseFloat(this.customAmountInput.value);
-    this.dispatchDonationInfoChangedEvent();
+    const parsed = parseFloat(this.customAmountInput.value);
+    const amount = isNaN(parsed) ? 0 : parsed;
+    this.amountChanged(amount);
   }
 
   private customAmountChanged(e: Event): void {
     const target = e.target as HTMLInputElement;
     const amount = target.value;
     const parsed = parseFloat(amount);
+    this.amountChanged(parsed);
+  }
 
-    if (parsed > 10000) {
-      this.error = 'To make a donation of $10,000 or more, please contact our philanthropy department at donations@archive.org';
+  private amountChanged(amount: number): void {
+    console.debug('amountChanged', amount);
+
+    if (amount > 10000) {
+      this.error = html`To make a donation of $10,000 or more, please contact our philanthropy department at <a href="mailto:donations@archive.org">donations@archive.org</a>`;
+      this.dispatchEditDonationError(DonationInfoError.DonationTooHigh);
       return;
     }
 
-    if (parsed < 5 && this.donationInfo.donationType === DonationType.OneTime) {
-      this.error = 'Please select an amount (minimum $5)';
+    if (amount < 1) {
+      this.error = html`Please select an amount (minimum $1)`;
+      this.dispatchEditDonationError(DonationInfoError.DonationTooLow);
       return;
     }
 
     this.error = undefined;
-    this.donationInfo.amount = parsed;
+    this.donationInfo.amount = amount;
     this.dispatchDonationInfoChangedEvent();
-  }
-
-  private validateDownloadInfo(donationInfo: DonationPaymentInfo): boolean {
-    switch (donationInfo.state) {
-      case DonationPaymentInfoState.TooHigh:
-        this.error = 'To make a donation of $10,000 or more, please contact our philanthropy department at donations@archive.org';
-        return false;
-      case DonationPaymentInfoState.BelowMinimum:
-        this.error = 'Please select an amount (minimum $5)';
-        return false;
-      case DonationPaymentInfoState.Valid:
-        this.error = undefined;
-        return true;
-    }
   }
 
   private radioSelected(e: Event): void {
@@ -193,15 +196,16 @@ export class EditDonation extends LitElement {
     }
   }
 
+  private dispatchEditDonationError(error: DonationInfoError) {
+    const event = new CustomEvent('editDonationError', { detail: { error: error } });
+    this.dispatchEvent(event);
+  }
+
   private dispatchShowSummaryClickedEvent(): void {
     this.dispatchEvent(new Event('showSummaryClicked'));
   }
 
   private donationTypeChanged(donationType: DonationType): void {
-    if (this.donationInfo.amount < 5 && donationType === DonationType.OneTime) {
-      this.error = 'Please select an amount (minimum $5)';
-    }
-
     this.donationInfo.donationType = donationType;
     console.debug('EditDonation donationTypeChanged', donationType);
     this.dispatchDonationInfoChangedEvent();
@@ -215,6 +219,7 @@ export class EditDonation extends LitElement {
   }
 
   private dispatchDonationInfoChangedEvent(): void {
+    console.debug('dispatchDonationInfoChangedEvent', this.donationInfo);
     const event = new CustomEvent('donationInfoChanged', { detail: { donationInfo: this.donationInfo } });
     this.dispatchEvent(event);
   }
