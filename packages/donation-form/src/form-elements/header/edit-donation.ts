@@ -12,7 +12,7 @@ import {
 import '../form-section';
 import '../static-custom-button';
 import { DonationType } from '../../models/donation-info/donation-type';
-import { DonationPaymentInfo, DonationPaymentInfoState } from '../../models/donation-info/donation-payment-info';
+import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
 import { CurrencyValidator } from './currency-validator';
 
 enum SelectionGroup {

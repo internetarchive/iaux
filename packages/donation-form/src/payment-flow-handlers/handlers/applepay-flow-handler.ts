@@ -12,9 +12,9 @@ import { html } from "lit-html";
 
 export interface ApplePayFlowHandlerInterface {
   paymentInitiated(donationInfo: DonationPaymentInfo, e: Event): Promise<void>;
-  paymentAuthorized(): Promise<void>;
-  paymentCancelled(): Promise<void>;
-  paymentError(): Promise<void>;
+  // paymentAuthorized(): Promise<void>;
+  // paymentCancelled(): Promise<void>;
+  // paymentError(): Promise<void>;
 }
 
 export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, ApplePaySessionDataSourceDelegate {

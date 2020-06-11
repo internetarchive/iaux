@@ -1,37 +1,33 @@
 import { DonationType } from "./donation-type";
 
-export enum DonationPaymentInfoState {
-  Valid = 'valid',
-  TooHigh = 'toohigh',
-  BelowMinimum = 'below-minimum'
-}
-
 export class DonationPaymentInfo {
   donationType: DonationType;
   amount: number;
+  coverFees: boolean;
 
-  get state(): DonationPaymentInfoState {
-    if (this.amount > 10000) {
-      return DonationPaymentInfoState.TooHigh;
-    }
-    if (this.amount < 5 && this.donationType === DonationType.OneTime) {
-      return DonationPaymentInfoState.BelowMinimum;
-    }
-    return DonationPaymentInfoState.Valid
+  get fee(): number {
+    return (this.amount * 0.022) + 0.30
+  }
+
+  get total(): number {
+    return this.coverFees ? this.amount + this.fee : this.amount;
   }
 
   static get default() {
     return new DonationPaymentInfo({
       donationType: DonationType.OneTime,
-      amount: 5
+      amount: 5,
+      coverFees: false
     });
   }
 
   constructor(params: {
     donationType: DonationType,
-    amount: number
+    amount: number,
+    coverFees: boolean
   }) {
     this.donationType = params.donationType;
     this.amount = params.amount;
+    this.coverFees = params.coverFees
   }
 }

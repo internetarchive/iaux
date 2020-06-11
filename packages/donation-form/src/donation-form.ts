@@ -61,6 +61,7 @@ export class DonationForm extends LitElement {
       </donation-form-header>
 
       <form-section number=3 headline="Choose a payment method">
+        <input type="checkbox" /> I'll generously add $ ${this.donationFee} to cover the transaction fees so you can keep 100% of my donation.
         <payment-selector
           .paymentFlowHandlers=${this.paymentFlowHandlers}
           .donationInfo=${this.donationInfo}
@@ -93,6 +94,12 @@ export class DonationForm extends LitElement {
         <button @click=${this.donateClicked} ?disabled=${this.donationInfoValid === false}>Donate</button>
       </form-section>
     `;
+  }
+
+  private get donationFee(): number {
+    const fee = this.donationInfo ? this.donationInfo.fee : 0;
+    console.debug('donationFee', fee);
+    return fee;
   }
 
   private editDonationError(e: CustomEvent): void {
@@ -197,7 +204,8 @@ export class DonationForm extends LitElement {
 
     const donationInfo = new DonationPaymentInfo({
       donationType: frequency,
-      amount: amount
+      amount: amount,
+      coverFees: false
     });
 
     console.debug('queryParam donationInfo', donationInfo);
@@ -218,6 +226,7 @@ export class DonationForm extends LitElement {
     }
 
     if (changedProperties.has('donationInfo')) {
+      console.debug('updated: donationInfo changed');
       // The PayPal button has a standalone datasource since we don't initiate the payment
       // through code so it has to have the donation info ready when the user taps the button.
       this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
@@ -241,6 +250,7 @@ export class DonationForm extends LitElement {
   private donationInfoChanged(e: CustomEvent) {
     const donationInfo: DonationPaymentInfo = e.detail.donationInfo;
     this.donationInfo = donationInfo;
+    console.debug('donationInfoChanged', donationInfo, donationInfo.fee);
     this.donationInfoValid = true;
   }
 

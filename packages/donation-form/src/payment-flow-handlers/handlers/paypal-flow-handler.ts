@@ -61,7 +61,6 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
   updateDonationInfo(donationInfo: DonationPaymentInfo): void {
     console.debug('updateDonationInfo', donationInfo);
-    this.donationInfo = donationInfo;
     if (this.buttonDataSource) {
       this.buttonDataSource.donationInfo = donationInfo;
     }
@@ -202,7 +201,8 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
     const upsellDonationInfo = new DonationPaymentInfo({
       amount: 5, // TODO: <-- this should be dynamic based on the one-time amount
-      donationType: DonationType.Upsell
+      donationType: DonationType.Upsell,
+      coverFees: false
     });
 
     if (!this.upsellButtonDataSourceContainer) {
