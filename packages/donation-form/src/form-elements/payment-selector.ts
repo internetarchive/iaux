@@ -5,6 +5,7 @@ import {
   customElement,
   CSSResult,
   TemplateResult,
+  property,
 } from 'lit-element';
 
 import applePayButtonImage from '../assets/img/payment-providers/applepay';
@@ -14,10 +15,12 @@ import venmoButtonImage from '../assets/img/payment-providers/venmo';
 
 @customElement('payment-selector')
 export class PaymentSelector extends LitElement {
+  @property({ type: Boolean }) donationInfoValid = true;
+
   /** @inheritdoc */
   render(): TemplateResult {
     return html`
-      <div class="payment-container">
+      <div class="payment-container ${this.donationInfoValid ? 'donation-info-valid' : 'donation-info-invalid'}">
 
         <div
           class="applepay provider-button"
@@ -32,7 +35,7 @@ export class PaymentSelector extends LitElement {
           @click=${this.venmoSelected}>${venmoButtonImage}</div>
 
         <div class="paypal-container">
-          <div class="provider-button paypal-local-button">
+          <div class="provider-button paypal-local-button" @click=${this.localPaypalButtonClicked}>
             ${paypalButtonImage}
           </div>
           <slot name="paypal-button"></slot>
@@ -67,6 +70,10 @@ export class PaymentSelector extends LitElement {
     this.dispatchEvent(new Event('creditCardSelected'));
   }
 
+  private localPaypalButtonClicked(): void {
+    this.dispatchEvent(new Event('paypalBlockerSelected'));
+  }
+
   /** @inheritdoc */
   static get styles(): CSSResult {
     const paymentButtonWidthCss = css`var(--paymentButtonWidth, 50px)`;
@@ -86,7 +93,14 @@ export class PaymentSelector extends LitElement {
 
       .paypal-local-button {
         position: absolute;
+      }
+
+      .donation-info-valid .paypal-local-button {
         z-index: 0;
+      }
+
+      .donation-info-invalid .paypal-local-button {
+        z-index: 250;
       }
 
       .credit-card-button {

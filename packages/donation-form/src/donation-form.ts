@@ -39,11 +39,15 @@ export class DonationForm extends LitElement {
 
   @property({ type: Boolean }) private contactFormVisible = false;
 
+  @property({ type: Boolean }) private donationInfoValid = true;
+
   @property({ type: String }) private selectedPaymentProvider?: PaymentProvider;
 
   @query('contact-form') contactForm?: ContactForm;
 
   @query('donation-form-header') donationFormHeader!: DonationFormHeader;
+
+  @query('payment-selector') paymentSelector!: PaymentSelector;
 
   /** @inheritdoc */
   render(): TemplateResult {
@@ -64,7 +68,8 @@ export class DonationForm extends LitElement {
           @creditCardSelected=${this.creditCardSelected}
           @venmoSelected=${this.venmoSelected}
           @applePaySelected=${this.applePaySelected}
-          @googlePaySelected=${this.googlePaySelected}>
+          @googlePaySelected=${this.googlePaySelected}
+          @paypalBlockerSelected=${this.paypalBlockerSelected}>
           <slot name="paypal-button" slot="paypal-button"></slot>
         </payment-selector>
       </form-section>
@@ -85,12 +90,13 @@ export class DonationForm extends LitElement {
       </form-section>
 
       <form-section number=5>
-        <button @click=${this.donateClicked}>Donate</button>
+        <button @click=${this.donateClicked} ?disabled=${this.donationInfoValid === false}>Donate</button>
       </form-section>
     `;
   }
 
   private editDonationError(e: CustomEvent): void {
+    this.donationInfoValid = false;
     console.debug('editDonationError', e.detail);
   }
 
@@ -100,10 +106,16 @@ export class DonationForm extends LitElement {
   }
 
   private applePaySelected(e: CustomEvent): void {
-    const originalEvent = e.detail.originalEvent;
     this.selectedPaymentProvider = PaymentProvider.ApplePay;
     this.contactFormVisible = false;
     this.creditCardVisible = false;
+
+    if (!this.donationInfoValid) {
+      this.showInvalidDonationInfoAlert();
+      return;
+    }
+
+    const originalEvent = e.detail.originalEvent;
     this.paymentFlowHandlers?.applePayHandler?.paymentInitiated(this.donationInfo, originalEvent);
   }
 
@@ -111,6 +123,11 @@ export class DonationForm extends LitElement {
     this.selectedPaymentProvider = PaymentProvider.GooglePay;
     this.contactFormVisible = false;
     this.creditCardVisible = false;
+
+    if (!this.donationInfoValid) {
+      this.showInvalidDonationInfoAlert();
+      return;
+    }
   }
 
   private creditCardSelected(): void {
@@ -123,6 +140,39 @@ export class DonationForm extends LitElement {
     this.selectedPaymentProvider = PaymentProvider.Venmo;
     this.contactFormVisible = true;
     this.creditCardVisible = false;
+  }
+
+  private paypalBlockerSelected(): void {
+    this.contactFormVisible = false;
+    this.creditCardVisible = false;
+    this.showInvalidDonationInfoAlert();
+  }
+
+  private donateClicked() {
+    if (!this.contactForm) {
+      console.error('no contact form');
+      alert('Please enter contact info.');
+      return;
+    }
+    if (!this.donationInfoValid) {
+      this.showInvalidDonationInfoAlert();
+      return;
+    }
+
+    const contactInfo = this.contactForm.donorContactInfo;
+
+    switch (this.selectedPaymentProvider) {
+      case PaymentProvider.CreditCard:
+        this.paymentFlowHandlers?.creditCardHandler?.paymentInitiated(this.donationInfo, contactInfo);
+        break;
+      case PaymentProvider.Venmo:
+        this.paymentFlowHandlers?.venmoHandler?.paymentInitiated(contactInfo, this.donationInfo);
+        break;
+    }
+  }
+
+  private showInvalidDonationInfoAlert(): void {
+    alert('Please enter valid donation info.');
   }
 
   firstUpdated() {
@@ -172,6 +222,10 @@ export class DonationForm extends LitElement {
       // through code so it has to have the donation info ready when the user taps the button.
       this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
     }
+
+    if (changedProperties.has('donationInfoValid')) {
+      this.paymentSelector.donationInfoValid = this.donationInfoValid;
+    }
   }
 
   private async setupHostedFields() {
@@ -187,23 +241,7 @@ export class DonationForm extends LitElement {
   private donationInfoChanged(e: CustomEvent) {
     const donationInfo: DonationPaymentInfo = e.detail.donationInfo;
     this.donationInfo = donationInfo;
-  }
-
-  private donateClicked() {
-    if (!this.contactForm) {
-      console.error('no contact form');
-      return;
-    }
-    const contactInfo = this.contactForm.donorContactInfo;
-
-    switch (this.selectedPaymentProvider) {
-      case PaymentProvider.CreditCard:
-        this.paymentFlowHandlers?.creditCardHandler?.paymentInitiated(this.donationInfo, contactInfo);
-        break;
-      case PaymentProvider.Venmo:
-        this.paymentFlowHandlers?.venmoHandler?.paymentInitiated(contactInfo, this.donationInfo);
-        break;
-    }
+    this.donationInfoValid = true;
   }
 
   /** @inheritdoc */

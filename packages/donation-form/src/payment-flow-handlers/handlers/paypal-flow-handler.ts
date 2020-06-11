@@ -59,10 +59,6 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
   private braintreeManager: BraintreeManagerInterface;
 
-  private donationInfo: DonationPaymentInfo = DonationPaymentInfo.default;
-
-  private upsellDonationInfo: DonationPaymentInfo = DonationPaymentInfo.default;
-
   updateDonationInfo(donationInfo: DonationPaymentInfo): void {
     console.debug('updateDonationInfo', donationInfo);
     this.donationInfo = donationInfo;
@@ -72,7 +68,6 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
   }
 
   updateUpsellDonationInfo(donationInfo: DonationPaymentInfo): void {
-    this.upsellDonationInfo = donationInfo;
     if (this.upsellButtonDataSourceContainer) {
       this.upsellButtonDataSourceContainer.upsellButtonDataSource.donationInfo = donationInfo;
     }
@@ -250,7 +245,6 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
     if (upsellButtonDataSource) {
       upsellButtonDataSource.delegate = this;
-      upsellButtonDataSource.donationInfo = this.upsellDonationInfo;
       this.upsellButtonDataSourceContainer = new UpsellDataSourceContainer({
         upsellButtonDataSource: upsellButtonDataSource,
         oneTimePayload: options.oneTimePayload,

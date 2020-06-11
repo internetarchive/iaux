@@ -236,7 +236,7 @@ export class EditDonation extends LitElement {
       }
 
       ul, li {
-        margin: 0;
+        margin: 5px;
         padding: 0;
         display: inline-block;
       }
@@ -244,7 +244,7 @@ export class EditDonation extends LitElement {
       label {
         display: block;
         padding: 10px;
-        border: 0;
+        border: 1px solid black;
         border-radius: 5px;
         background-color: #ccc;
         color: #202020;
