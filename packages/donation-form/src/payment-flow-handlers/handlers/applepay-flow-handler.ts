@@ -34,6 +34,7 @@ export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, AppleP
 
   // ApplePayFlowHandlerInterface conformance
   async paymentInitiated(donationInfo: DonationPaymentInfo, e: Event): Promise<void> {
+    this.showProcessingModal();
     this.applePayDataSource = await
       this.braintreeManager?.paymentProviders.applePayHandler?.createPaymentRequest(e, donationInfo);
 
@@ -108,24 +109,25 @@ export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, AppleP
     this.modalManager.closeModal();
   }
 
-  async paymentAuthorized(): Promise<void> {}
-
-  async paymentCancelled(): Promise<void> {}
-
-  async paymentError(): Promise<void> {}
-
   // MARK - ApplePaySessionDataSourceDelegate
   paymentComplete(response: DonationResponse): void {
     console.debug('paymentComplete', response);
     if (response.success) {
-      this.showUpsellModal(response.value as SuccessResponse);
+      if (this.applePayDataSource?.donationInfo.donationType == DonationType.OneTime) {
+        this.showUpsellModal(response.value as SuccessResponse);
+      } else {
+        this.showThankYouModal();
+      }
     } else {
       this.showErrorModal();
     }
-
   }
 
   paymentFailed(error: string): void {
     this.showErrorModal();
+  }
+
+  paymentCancelled(): void {
+    this.modalManager.closeModal();
   }
 }

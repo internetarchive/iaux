@@ -9,28 +9,25 @@ import { PaymentProvider } from "../../../models/common/payment-provider-name";
 
 export interface ApplePaySessionDataSourceInterface {
   delegate?: ApplePaySessionDataSourceDelegate;
-  updateDonationInfo(donationInfo: DonationPaymentInfo): void;
+  donationInfo: DonationPaymentInfo;
   onvalidatemerchant(event: ApplePayJS.ApplePayValidateMerchantEvent): Promise<void>;
   onpaymentauthorized(event: ApplePayJS.ApplePayPaymentAuthorizedEvent): Promise<void>;
+  oncancel(): Promise<void>;
 }
 
 export interface ApplePaySessionDataSourceDelegate {
   paymentComplete(response: DonationResponse): void;
   paymentFailed(error: string): void;
+  paymentCancelled(): void;
 }
 
 export class ApplePaySessionDataSource implements ApplePaySessionDataSourceInterface {
   delegate?: ApplePaySessionDataSourceDelegate;
+  donationInfo: DonationPaymentInfo;
 
   private session: ApplePaySession;
   private applePayInstance: any;
-  private donationInfo: DonationPaymentInfo;
   private braintreeManager: BraintreeManagerInterface;
-
-  updateDonationInfo(donationInfo: DonationPaymentInfo): void {
-    console.log('updateDonationInfo', donationInfo);
-    this.donationInfo = donationInfo;
-  }
 
   constructor(options: {
     donationInfo: DonationPaymentInfo,
@@ -62,6 +59,10 @@ export class ApplePaySessionDataSource implements ApplePaySessionDataSourceInter
       this.session.completeMerchantValidation(validationData);
     });
   };
+
+  async oncancel(): Promise<void> {
+    this.delegate?.paymentCancelled();
+  }
 
   async onpaymentauthorized(event: ApplePayJS.ApplePayPaymentAuthorizedEvent): Promise<void> {
     console.log('onpaymentauthorized, event', event);

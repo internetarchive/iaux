@@ -87,9 +87,9 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
   ): Promise<ApplePaySessionDataSource> {
     const applePayInstance = await this.getInstance();
 
-    let label = 'Internet Archive Monthly Donation';
+    let label = 'Internet Archive Monthly';
     if (donationInfo.donationType === DonationType.OneTime) {
-      label = 'Internet Archive Donation';
+      label = 'Internet Archive';
     }
 
     const paymentRequest = applePayInstance.createPaymentRequest({
@@ -118,6 +118,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
 
     session.onvalidatemerchant = sessionDataSource.onvalidatemerchant.bind(sessionDataSource);
     session.onpaymentauthorized = sessionDataSource.onpaymentauthorized.bind(sessionDataSource);
+    session.oncancel = sessionDataSource.oncancel.bind(sessionDataSource);
 
     console.log('session, sessionDataSource', session, sessionDataSource);
     session.begin();
