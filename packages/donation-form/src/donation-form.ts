@@ -10,6 +10,8 @@ import {
   PropertyValues,
 } from 'lit-element';
 
+import currency from 'currency.js';
+
 import './form-elements/form-section';
 import './form-elements/header/donation-form-header';
 import './form-elements/contact-form';
@@ -56,15 +58,19 @@ export class DonationForm extends LitElement {
 
       <donation-form-header
         @donationInfoChanged=${this.donationInfoChanged}
-        @editDonationError=${this.editDonationError}
-        .donationInfo=${this.donationInfo}>
+        @editDonationError=${this.editDonationError}>
       </donation-form-header>
 
       <form-section number=3 headline="Choose a payment method">
-        <input type="checkbox" /> I'll generously add $ ${this.donationFee} to cover the transaction fees so you can keep 100% of my donation.
+        <input
+          type="checkbox"
+          id="cover-fees"
+          @input=${this.coverFeesChecked} />
+        <label for="cover-fees">
+          I'll generously add ${currency(this.donationInfo.fee, { formatWithSymbol: true }).format()} to cover the transaction fees so you can keep 100% of my donation.
+        </label>
         <payment-selector
           .paymentFlowHandlers=${this.paymentFlowHandlers}
-          .donationInfo=${this.donationInfo}
           @firstUpdated=${this.paymentSelectorFirstUpdated}
           @creditCardSelected=${this.creditCardSelected}
           @venmoSelected=${this.venmoSelected}
@@ -74,6 +80,8 @@ export class DonationForm extends LitElement {
           <slot name="paypal-button" slot="paypal-button"></slot>
         </payment-selector>
       </form-section>
+
+      Total: ${currency(this.donationInfo.total, { formatWithSymbol: true }).format()}
 
       <div class="contact-form-section" class="${this.contactFormVisible ? '' : 'hidden'}">
         ${this.contactFormSection}
@@ -96,10 +104,14 @@ export class DonationForm extends LitElement {
     `;
   }
 
-  private get donationFee(): number {
-    const fee = this.donationInfo ? this.donationInfo.fee : 0;
-    console.debug('donationFee', fee);
-    return fee;
+  private coverFeesChecked(e: Event): void {
+    const target = e.target as HTMLInputElement;
+    const coverFees = target.checked;
+    this.donationInfo = new DonationPaymentInfo({
+      amount: this.donationInfo.amount,
+      donationType: this.donationInfo.donationType,
+      coverFees: coverFees
+    });
   }
 
   private editDonationError(e: CustomEvent): void {
@@ -220,13 +232,14 @@ export class DonationForm extends LitElement {
   }
 
   updated(changedProperties: PropertyValues): void {
+    console.debug('updated: changedProperties', changedProperties);
+
     if (changedProperties.has('paymentFlowHandlers')) {
       this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
       this.setupHostedFields();
     }
 
     if (changedProperties.has('donationInfo')) {
-      console.debug('updated: donationInfo changed');
       // The PayPal button has a standalone datasource since we don't initiate the payment
       // through code so it has to have the donation info ready when the user taps the button.
       this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
@@ -249,8 +262,14 @@ export class DonationForm extends LitElement {
 
   private donationInfoChanged(e: CustomEvent) {
     const donationInfo: DonationPaymentInfo = e.detail.donationInfo;
-    this.donationInfo = donationInfo;
-    console.debug('donationInfoChanged', donationInfo, donationInfo.fee);
+    console.debug('donationInfoChanged', this.donationInfo, donationInfo, this.donationInfo === donationInfo);
+
+    this.donationInfo = new DonationPaymentInfo({
+      amount: donationInfo.amount,
+      donationType: donationInfo.donationType,
+      coverFees: this.donationInfo.coverFees
+    });
+
     this.donationInfoValid = true;
   }
 

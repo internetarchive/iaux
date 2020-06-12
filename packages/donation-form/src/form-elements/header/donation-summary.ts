@@ -9,6 +9,8 @@ import {
   PropertyValues,
 } from 'lit-element';
 
+import currency from 'currency.js';
+
 import { DonationType } from '../../models/donation-info/donation-type';
 import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
 
@@ -26,7 +28,16 @@ export class DonationSummary extends LitElement {
 
   get displayTitle(): string {
     const monthlyString = this.donationInfo.donationType === DonationType.Monthly ? 'Monthly' : '';
-    return `$${this.donationInfo.amount} ${monthlyString} Donation`;
+    const amount = this.donationInfo.amount;
+    let precision = 2;
+    // whole number, don't use decimals
+    if (amount === Math.round(amount)) {
+      precision = 0;
+    }
+
+    const displayAmount = currency(this.donationInfo.amount, { formatWithSymbol: true, precision: precision }).format();
+
+    return `${displayAmount} ${monthlyString} Donation`;
   }
 
   private editClicked() {

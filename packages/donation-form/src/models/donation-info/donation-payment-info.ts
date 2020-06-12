@@ -4,13 +4,16 @@ export class DonationPaymentInfo {
   donationType: DonationType;
   amount: number;
   coverFees: boolean;
+  feeFormula: string = '2.2% + $0.30';
 
   get fee(): number {
-    return (this.amount * 0.022) + 0.30
+    const fee = (this.amount * 0.022) + 0.30;
+    return isNaN(fee) ? 0 : fee;
   }
 
   get total(): number {
-    return this.coverFees ? this.amount + this.fee : this.amount;
+    const total = this.coverFees ? this.amount + this.fee : this.amount;
+    return isNaN(total) ? 0 : total;
   }
 
   static get default() {

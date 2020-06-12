@@ -169,7 +169,9 @@ export class EditDonation extends LitElement {
     }
 
     if (amount < 1) {
-      this.error = html`Please select an amount (minimum $1)`;
+      if (this.customAmountInput.value.length > 0) {
+        this.error = html`Please select an amount (minimum $1)`;
+      }
       this.dispatchEditDonationError(DonationInfoError.DonationTooLow);
       return;
     }
@@ -220,7 +222,14 @@ export class EditDonation extends LitElement {
 
   private dispatchDonationInfoChangedEvent(): void {
     console.debug('dispatchDonationInfoChangedEvent', this.donationInfo);
-    const event = new CustomEvent('donationInfoChanged', { detail: { donationInfo: this.donationInfo } });
+
+    const newDonationInfo = new DonationPaymentInfo({
+      donationType: this.donationInfo.donationType,
+      amount: this.donationInfo.amount,
+      coverFees: false
+    });
+
+    const event = new CustomEvent('donationInfoChanged', { detail: { donationInfo: newDonationInfo } });
     this.dispatchEvent(event);
   }
 
