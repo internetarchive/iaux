@@ -12,7 +12,7 @@ class SearchMenu extends TrackedElement {
       }
       .search-menu {
         position: absolute;
-        top: -50vh;
+        top: -250px;
         right: 0;
         left: 0;
         z-index: -1;
@@ -28,7 +28,7 @@ class SearchMenu extends TrackedElement {
       }
       .search-menu.tx-slide.initial,
       .search-menu.tx-slide.closed {
-        top: -50vh;
+        top: -250px;
       }
       .search-menu.tx-slide.closed {
         transition-duration: 0.2s;
