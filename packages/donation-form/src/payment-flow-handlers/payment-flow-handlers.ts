@@ -5,6 +5,7 @@ import { BraintreeManagerInterface } from "../braintree-manager/braintree-manage
 import { RecaptchaManagerInterface } from "../recaptcha-manager/recaptcha-manager";
 import { ApplePayFlowHandlerInterface, ApplePayFlowHandler } from "./handlers/applepay-flow-handler";
 import { VenmoFlowHandlerInterface, VenmoFlowHandler } from "./handlers/venmo-flow-handler";
+import { DonationFlowModalManagerInterface, DonationFlowModalManager } from "./donation-flow-modal-manager";
 
 export interface PaymentFlowHandlersInterface {
   startup(): Promise<void>;
@@ -47,7 +48,7 @@ export class PaymentFlowHandlers implements PaymentFlowHandlersInterface {
 
     this.creditCardHandlerCache = new CreditCardFlowHandler({
       braintreeManager: this.braintreeManager,
-      modalManager: this.modalManager,
+      donationFlowModalManager: this.donationFlowModalManager,
       recaptchaManager: this.recaptchaManager
     });
 
@@ -74,7 +75,7 @@ export class PaymentFlowHandlers implements PaymentFlowHandlersInterface {
 
     this.applePayHandlerCache = new ApplePayFlowHandler({
       braintreeManager: this.braintreeManager,
-      modalManager: this.modalManager
+      donationFlowModalManager: this.donationFlowModalManager
     });
 
     return this.applePayHandlerCache;
@@ -87,7 +88,7 @@ export class PaymentFlowHandlers implements PaymentFlowHandlersInterface {
 
     this.venmoHandlerCache = new VenmoFlowHandler({
       braintreeManager: this.braintreeManager,
-      modalManager: this.modalManager
+      donationFlowModalManager: this.donationFlowModalManager
     });
 
     return this.venmoHandlerCache;
@@ -110,9 +111,14 @@ export class PaymentFlowHandlers implements PaymentFlowHandlersInterface {
     this.braintreeManager = options.braintreeManager;
     this.modalManager = options.modalManager;
     this.recaptchaManager = options.recaptchaManager;
+
+    this.donationFlowModalManager = new DonationFlowModalManager({
+      modalManager: this.modalManager
+    })
   }
 
   private braintreeManager: BraintreeManagerInterface;
   private modalManager: ModalManagerInterface;
   private recaptchaManager: RecaptchaManagerInterface;
+  private donationFlowModalManager: DonationFlowModalManagerInterface;
 }

@@ -13,6 +13,7 @@ import { DonationResponse } from '../../models/response-models/donation-response
 import { SuccessResponse } from '../../models/response-models/success-models/success-response';
 import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
 import { PaymentProvider } from '../../models/common/payment-provider-name';
+import { DonationFlowModalManagerInterface } from '../donation-flow-modal-manager';
 
 export interface CreditCardFlowHandlerInterface {
   paymentInitiated(
@@ -25,7 +26,7 @@ export interface CreditCardFlowHandlerInterface {
 }
 
 export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
-  private modalManager: ModalManagerInterface;
+  private donationFlowModalManager: DonationFlowModalManagerInterface;
 
   private braintreeManager: BraintreeManagerInterface;
 
@@ -33,11 +34,11 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
 
   constructor(options: {
     braintreeManager: BraintreeManagerInterface,
-    modalManager: ModalManagerInterface,
+    donationFlowModalManager: DonationFlowModalManagerInterface,
     recaptchaManager: RecaptchaManagerInterface
   }) {
     this.braintreeManager = options.braintreeManager;
-    this.modalManager = options.modalManager;
+    this.donationFlowModalManager = options.donationFlowModalManager;
     this.recaptchaManager = options.recaptchaManager;
   }
 
@@ -55,13 +56,13 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
       hostedFieldsResponse = await this.braintreeManager.paymentProviders
         .creditCardHandler?.tokenizeHostedFields()
     } catch {
-      this.showErrorModal();
+      this.donationFlowModalManager.showErrorModal();
       return
     }
     console.debug('paymentInitiated, hostedFieldsResponse', hostedFieldsResponse, 'time from start', performance.now() - start);
 
     if (!hostedFieldsResponse) {
-      this.showErrorModal();
+      this.donationFlowModalManager.showErrorModal();
       console.error('no hostedFieldsResponse');
       return;
     }
@@ -71,13 +72,13 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
     try {
       recaptchaToken = await this.recaptchaManager.execute();
     } catch {
-      this.showErrorModal();
+      this.donationFlowModalManager.showErrorModal();
       console.error('recaptcha failure');
       return
     }
     console.debug('paymentInitiated recaptchaToken', recaptchaToken, 'time from start', performance.now() - start);
 
-    this.showProcessingModal();
+    this.donationFlowModalManager.showProcessingModal();
 
     const donationRequest = new DonationRequest({
       paymentMethodNonce: hostedFieldsResponse.nonce,
@@ -101,23 +102,33 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
       if (response.success) {
         this.handleSuccessfulResponse(donationInfo, response.value as SuccessResponse);
       } else {
-        this.showErrorModal();
+        this.donationFlowModalManager.showErrorModal();
       }
 
     } catch {
-      this.showErrorModal();
+      this.donationFlowModalManager.showErrorModal();
       console.error('error getting a response')
       return;
     }
   }
 
   private handleSuccessfulResponse(donationInfo: DonationPaymentInfo, response: SuccessResponse) {
+    console.debug('handleSuccessfulResponse', this);
     switch (donationInfo.donationType) {
       case DonationType.OneTime:
-        this.showUpsellModal(response);
+        this.donationFlowModalManager.showUpsellModal({
+          yesSelected: (amount: number) => {
+            console.debug('yesSelected', this);
+            this.modalYesSelected(response, amount);
+          },
+          noSelected: () => {
+            console.debug('noSelected');
+            this.modalNoThanksSelected();
+          }
+        });
       break;
       case DonationType.Monthly:
-        this.showThankYouModal();
+        this.donationFlowModalManager.showThankYouModal();
       break;
       // This case will never be reached, it is only here for completeness.
       // The upsell case gets handled in `modalYesSelected()` below
@@ -126,39 +137,8 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
     }
   }
 
-  private showProcessingModal() {
-    const modalConfig = new ModalConfig();
-    modalConfig.showProcessingIndicator = true;
-    modalConfig.title = 'Processing...'
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
-  private showThankYouModal() {
-    const modalConfig = new ModalConfig();
-    modalConfig.showProcessingIndicator = true;
-    modalConfig.processingImageMode = 'complete';
-    modalConfig.title = 'Thank You!';
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
-  private showErrorModal() {
-    const modalConfig = ModalConfig.errorConfig;
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
-  private showUpsellModal(successResponse: SuccessResponse) {
-    const modalConfig = new ModalConfig();
-    const modalContent = html`
-      <upsell-modal-content
-        @yesSelected=${this.modalYesSelected.bind(this, successResponse)}
-        @noThanksSelected=${this.modalNoThanksSelected.bind(this)}>
-      </upsell-modal-content>
-    `;
-    this.modalManager.showModal(modalConfig, modalContent);
-  }
-
-  private async modalYesSelected(oneTimeDonationResponse: SuccessResponse, e: CustomEvent): Promise<void> {
-    console.debug('yesSelected, oneTimeDonationResponse', oneTimeDonationResponse, 'e', e);
+  private async modalYesSelected(oneTimeDonationResponse: SuccessResponse, amount: number): Promise<void> {
+    console.debug('yesSelected, oneTimeDonationResponse', oneTimeDonationResponse, amount, this);
 
     const donationRequest = new DonationRequest({
       paymentMethodNonce: oneTimeDonationResponse.paymentMethodNonce,
@@ -166,7 +146,7 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
       recaptchaToken: undefined,
       customerId: oneTimeDonationResponse.customer_id,
       deviceData: this.braintreeManager.deviceData,
-      amount: e.detail.amount,
+      amount: amount,
       donationType: DonationType.Upsell,
       customer: oneTimeDonationResponse.customer,
       billing: oneTimeDonationResponse.billing,
@@ -174,7 +154,7 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
       upsellOnetimeTransactionId: oneTimeDonationResponse.transaction_id
     });
 
-    this.showProcessingModal();
+    this.donationFlowModalManager.showProcessingModal();
 
     console.debug('yesSelected, donationRequest', donationRequest);
 
@@ -182,12 +162,12 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
 
     console.debug('yesSelected, UpsellResponse', response);
 
-    this.showThankYouModal();
+    this.donationFlowModalManager.showThankYouModal();
   }
 
   private modalNoThanksSelected(): void {
     console.debug('noThanksSelected');
-    this.modalManager.closeModal();
+    this.donationFlowModalManager.closeModal();
   }
 
   async paymentAuthorized(): Promise<void> {}

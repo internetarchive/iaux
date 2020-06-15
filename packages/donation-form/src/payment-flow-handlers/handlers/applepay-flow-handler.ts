@@ -9,6 +9,7 @@ import { DonationRequest } from "../../models/request_models/donation-request";
 import { PaymentProvider } from "../../models/common/payment-provider-name";
 import { DonationType } from "../../models/donation-info/donation-type";
 import { html } from "lit-html";
+import { DonationFlowModalManagerInterface } from "../donation-flow-modal-manager";
 
 export interface ApplePayFlowHandlerInterface {
   paymentInitiated(donationInfo: DonationPaymentInfo, e: Event): Promise<void>;
@@ -18,23 +19,23 @@ export interface ApplePayFlowHandlerInterface {
 }
 
 export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, ApplePaySessionDataSourceDelegate {
-  private modalManager: ModalManagerInterface;
+  private donationFlowModalManager: DonationFlowModalManagerInterface;
 
   private braintreeManager: BraintreeManagerInterface;
 
   constructor(options: {
     braintreeManager: BraintreeManagerInterface,
-    modalManager: ModalManagerInterface
+    donationFlowModalManager: DonationFlowModalManagerInterface
   }) {
     this.braintreeManager = options.braintreeManager;
-    this.modalManager = options.modalManager;
+    this.donationFlowModalManager = options.donationFlowModalManager;
   }
 
   private applePayDataSource?: ApplePaySessionDataSourceInterface;
 
   // ApplePayFlowHandlerInterface conformance
   async paymentInitiated(donationInfo: DonationPaymentInfo, e: Event): Promise<void> {
-    this.showProcessingModal();
+    this.donationFlowModalManager.showProcessingModal();
     this.applePayDataSource = await
       this.braintreeManager?.paymentProviders.applePayHandler?.createPaymentRequest(e, donationInfo);
 
@@ -43,37 +44,6 @@ export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, AppleP
     if (this.applePayDataSource) {
       this.applePayDataSource.delegate = this;
     }
-  }
-
-  private showProcessingModal() {
-    const modalConfig = new ModalConfig();
-    modalConfig.showProcessingIndicator = true;
-    modalConfig.title = 'Processing...'
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
-  private showThankYouModal() {
-    const modalConfig = new ModalConfig();
-    modalConfig.showProcessingIndicator = true;
-    modalConfig.processingImageMode = 'complete';
-    modalConfig.title = 'Thank You!';
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
-  private showErrorModal() {
-    const modalConfig = ModalConfig.errorConfig;
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
-  private showUpsellModal(oneTimeDonationResponse: SuccessResponse) {
-    const modalConfig = new ModalConfig();
-    const modalContent = html`
-      <upsell-modal-content
-        @yesSelected=${this.modalYesSelected.bind(this, oneTimeDonationResponse)}
-        @noThanksSelected=${this.modalNoThanksSelected.bind(this)}>
-      </upsell-modal-content>
-    `;
-    this.modalManager.showModal(modalConfig, modalContent);
   }
 
   private async modalYesSelected(oneTimeDonationResponse: SuccessResponse, e: CustomEvent): Promise<void> {
@@ -93,7 +63,7 @@ export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, AppleP
       upsellOnetimeTransactionId: oneTimeDonationResponse.transaction_id
     });
 
-    this.showProcessingModal();
+    this.donationFlowModalManager.showProcessingModal();
 
     console.debug('yesSelected, donationRequest', donationRequest);
 
@@ -101,12 +71,12 @@ export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, AppleP
 
     console.debug('yesSelected, UpsellResponse', response);
 
-    this.showThankYouModal();
+    this.donationFlowModalManager.showThankYouModal();
   }
 
   private modalNoThanksSelected(): void {
     console.debug('noThanksSelected');
-    this.modalManager.closeModal();
+    this.donationFlowModalManager.closeModal();
   }
 
   // MARK - ApplePaySessionDataSourceDelegate
@@ -114,20 +84,27 @@ export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, AppleP
     console.debug('paymentComplete', response);
     if (response.success) {
       if (this.applePayDataSource?.donationInfo.donationType == DonationType.OneTime) {
-        this.showUpsellModal(response.value as SuccessResponse);
+        this.donationFlowModalManager.showUpsellModal({
+          yesSelected: () => {
+            this.modalYesSelected.bind(this, response.value as SuccessResponse)
+          },
+          noSelected: () => {
+            this.modalNoThanksSelected.bind(this)
+          }
+        })
       } else {
-        this.showThankYouModal();
+        this.donationFlowModalManager.showThankYouModal();
       }
     } else {
-      this.showErrorModal();
+      this.donationFlowModalManager.showErrorModal();
     }
   }
 
   paymentFailed(error: string): void {
-    this.showErrorModal();
+    this.donationFlowModalManager.showErrorModal();
   }
 
   paymentCancelled(): void {
-    this.modalManager.closeModal();
+    this.donationFlowModalManager.closeModal();
   }
 }

@@ -9,6 +9,7 @@ import { PaymentProvider } from "../../models/common/payment-provider-name";
 import { VenmoRestorationStateHandlerInterface, VenmoRestorationStateHandler } from "./venmo-restoration-state-handler";
 import { SuccessResponse } from "../../models/response-models/success-models/success-response";
 import { DonationType } from "../../models/donation-info/donation-type";
+import { DonationFlowModalManagerInterface } from "../donation-flow-modal-manager";
 
 export interface VenmoFlowHandlerInterface {
   startup(): Promise<void>;
@@ -22,7 +23,7 @@ export interface VenmoFlowHandlerInterface {
 }
 
 export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
-  private modalManager: ModalManagerInterface;
+  private donationFlowModalManager: DonationFlowModalManagerInterface;
 
   private braintreeManager: BraintreeManagerInterface;
 
@@ -30,11 +31,11 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
 
   constructor(options: {
     braintreeManager: BraintreeManagerInterface,
-    modalManager: ModalManagerInterface,
+    donationFlowModalManager: DonationFlowModalManagerInterface,
     restorationStateHandler?: VenmoRestorationStateHandlerInterface
   }) {
     this.braintreeManager = options.braintreeManager;
-    this.modalManager = options.modalManager;
+    this.donationFlowModalManager = options.donationFlowModalManager;
     this.restorationStateHandler = options.restorationStateHandler ?? new VenmoRestorationStateHandler();
   }
 
@@ -59,7 +60,7 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
         this.paymentInitiated(restoredInfo.contactInfo, restoredInfo.donationInfo);
       } else {
         console.error('no restoration info');
-        this.showErrorModal();
+        this.donationFlowModalManager.showErrorModal();
       }
     }
   }
@@ -78,7 +79,7 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
       const result = await this.braintreeManager.paymentProviders.venmoHandler?.startPayment();
       if (!result) {
         this.restorationStateHandler.clearState();
-        this.showErrorModal();
+        this.donationFlowModalManager.showErrorModal();
         return;
       }
       console.debug('paymentInitiated', result);
@@ -86,7 +87,7 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
     } catch(tokenizeError) {
       this.restorationStateHandler.clearState();
       this.handleTokenizationError(tokenizeError);
-      this.showErrorModal()
+      this.donationFlowModalManager.showErrorModal()
     }
   }
 
@@ -109,7 +110,7 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
       customFields: undefined
     });
 
-    this.showProcessingModal();
+    this.donationFlowModalManager.showProcessingModal();
 
     const response = await this.braintreeManager.submitDataToEndpoint(donationRequest);
 
@@ -118,14 +119,23 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
     if (response.success) {
       switch (donationInfo.donationType) {
         case DonationType.OneTime:
-          this.showUpsellModal(response.value as SuccessResponse);
-          break;
+          this.donationFlowModalManager.showUpsellModal({
+            yesSelected: (amount: number) => {
+              console.debug('yesSelected', this);
+              this.modalYesSelected(response.value as SuccessResponse, amount);
+            },
+            noSelected: () => {
+              console.debug('noSelected');
+              this.modalNoThanksSelected();
+            }
+          });
+            break;
         case DonationType.Monthly:
-          this.showThankYouModal();
+          this.donationFlowModalManager.showThankYouModal();
           break;
       }
     } else {
-      this.showErrorModal();
+      this.donationFlowModalManager.showErrorModal();
     }
   }
 
@@ -145,39 +155,8 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
     // alert(`Tokenization Error: ${tokenizeError.code}`);
   }
 
-  private showProcessingModal() {
-    const modalConfig = new ModalConfig();
-    modalConfig.showProcessingIndicator = true;
-    modalConfig.title = 'Processing...'
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
-  private showThankYouModal() {
-    const modalConfig = new ModalConfig();
-    modalConfig.showProcessingIndicator = true;
-    modalConfig.processingImageMode = 'complete';
-    modalConfig.title = 'Thank You!';
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
-  private showErrorModal() {
-    const modalConfig = ModalConfig.errorConfig;
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
-  private showUpsellModal(oneTimeDonationResponse: SuccessResponse) {
-    const modalConfig = new ModalConfig();
-    const modalContent = html`
-      <upsell-modal-content
-        @yesSelected=${this.modalYesSelected.bind(this, oneTimeDonationResponse)}
-        @noThanksSelected=${this.modalNoThanksSelected.bind(this)}>
-      </upsell-modal-content>
-    `;
-    this.modalManager.showModal(modalConfig, modalContent);
-  }
-
-  private async modalYesSelected(oneTimeDonationResponse: SuccessResponse, e: CustomEvent): Promise<void> {
-    console.debug('yesSelected, oneTimeDonationResponse', oneTimeDonationResponse, 'e', e);
+  private async modalYesSelected(oneTimeDonationResponse: SuccessResponse, amount: number): Promise<void> {
+    console.debug('yesSelected, oneTimeDonationResponse', oneTimeDonationResponse, 'amount', amount);
 
     const donationRequest = new DonationRequest({
       paymentMethodNonce: oneTimeDonationResponse.paymentMethodNonce,
@@ -185,7 +164,7 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
       recaptchaToken: undefined,
       customerId: oneTimeDonationResponse.customer_id,
       deviceData: this.braintreeManager.deviceData,
-      amount: e.detail.amount,
+      amount: amount,
       donationType: DonationType.Upsell,
       customer: oneTimeDonationResponse.customer,
       billing: oneTimeDonationResponse.billing,
@@ -193,7 +172,7 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
       upsellOnetimeTransactionId: oneTimeDonationResponse.transaction_id
     });
 
-    this.showProcessingModal();
+    this.donationFlowModalManager.showProcessingModal();
 
     console.debug('yesSelected, donationRequest', donationRequest);
 
@@ -201,12 +180,12 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
 
     console.debug('yesSelected, UpsellResponse', response);
 
-    this.showThankYouModal();
+    this.donationFlowModalManager.showThankYouModal();
   }
 
   private modalNoThanksSelected(): void {
     console.debug('noThanksSelected');
-    this.modalManager.closeModal();
+    this.donationFlowModalManager.closeModal();
   }
 
   async paymentAuthorized(): Promise<void> {}
