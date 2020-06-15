@@ -8,7 +8,7 @@ export default css`
   .media-menu {
     position: absolute;
     z-index: -1;
-    top: -100vh;
+    top: -400px;
     width: 100%;
     background-color: var(--mediaMenuBg);
     margin: 0;
@@ -26,7 +26,7 @@ export default css`
   }
 
   .media-menu.tx-slide.closed {
-    top: -100vh;
+    top: -400px;
   }
 
   .media-menu.tx-slide.closed {
