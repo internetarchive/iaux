@@ -243,6 +243,7 @@ export class DonationForm extends LitElement {
       // The PayPal button has a standalone datasource since we don't initiate the payment
       // through code so it has to have the donation info ready when the user taps the button.
       this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
+      this.donationFormHeader.donationInfo = this.donationInfo;
     }
 
     if (changedProperties.has('donationInfoValid')) {
