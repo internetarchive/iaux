@@ -62,7 +62,7 @@ export class PaymentFlowHandlers implements PaymentFlowHandlersInterface {
 
     this.paypalHandlerCache = new PayPalFlowHandler({
       braintreeManager: this.braintreeManager,
-      modalManager: this.modalManager
+      donationFlowModalManager: this.donationFlowModalManager
     });
 
     return this.paypalHandlerCache;

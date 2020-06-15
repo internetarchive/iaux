@@ -1,14 +1,11 @@
-import { ModalManagerInterface } from "../../modal-manager/modal-manager";
 import { BraintreeManagerInterface } from "../../braintree-manager/braintree-manager";
 import { ApplePaySessionDataSourceDelegate, ApplePaySessionDataSourceInterface } from "../../braintree-manager/payment-providers/apple-pay/apple-pay-session-datasource";
-import { ModalConfig } from "../../modal-manager/modal-template";
 import { DonationResponse } from "../../models/response-models/donation-response";
 import { DonationPaymentInfo } from "../../models/donation-info/donation-payment-info";
 import { SuccessResponse } from "../../models/response-models/success-models/success-response";
 import { DonationRequest } from "../../models/request_models/donation-request";
 import { PaymentProvider } from "../../models/common/payment-provider-name";
 import { DonationType } from "../../models/donation-info/donation-type";
-import { html } from "lit-html";
 import { DonationFlowModalManagerInterface } from "../donation-flow-modal-manager";
 
 export interface ApplePayFlowHandlerInterface {

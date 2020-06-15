@@ -2,6 +2,7 @@ import { ModalConfig } from "../modal-manager/modal-template";
 import { ModalManagerInterface } from "../modal-manager/modal-manager";
 import { SuccessResponse } from "../models/response-models/success-models/success-response";
 import { html } from "lit-html";
+import { UpsellModalCTAMode } from "../modals/upsell-modal-content";
 
 export interface DonationFlowModalManagerInterface {
   closeModal(): void;
@@ -9,8 +10,10 @@ export interface DonationFlowModalManagerInterface {
   showThankYouModal(): void;
   showErrorModal(): void;
   showUpsellModal(params: {
-    yesSelected: (amount: number) => void,
-    noSelected: () => void
+    ctaMode?: UpsellModalCTAMode,
+    yesSelected?: (amount: number) => void,
+    noSelected?: () => void,
+    amountChanged?: (amount: number) => void
   }): void;
 }
 
@@ -48,14 +51,19 @@ export class DonationFlowModalManager implements DonationFlowModalManagerInterfa
   }
 
   showUpsellModal(params: {
-    yesSelected: (amount: number) => void,
-    noSelected: () => void
+    yesSelected?: (amount: number) => void,
+    noSelected?: () => void,
+    amountChanged?: (amount: number) => void,
+    ctaMode?: UpsellModalCTAMode
   }) {
     const modalConfig = new ModalConfig();
     const modalContent = html`
       <upsell-modal-content
-        @yesSelected=${(e: CustomEvent) => params.yesSelected(e.detail.amount)}
-        @noThanksSelected=${params.noSelected}>
+        .yesButtonMode=${params.ctaMode ?? UpsellModalCTAMode.YesButton}
+        @yesSelected=${(e: CustomEvent) => params.yesSelected ? params.yesSelected(e.detail.amount) : ''}
+        @noThanksSelected=${params.noSelected}
+        @amountChanged=${(e: CustomEvent) => params.amountChanged ? params.amountChanged(e.detail.amount) : ''}>
+        <slot name="paypal-upsell-button"></slot>
       </upsell-modal-content>
     `;
     this.modalManager.showModal(modalConfig, modalContent);

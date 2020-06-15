@@ -95,7 +95,7 @@ export class ApplePayHandler implements ApplePayHandlerInterface {
     const paymentRequest = applePayInstance.createPaymentRequest({
       total: {
         label: label,
-        amount: donationInfo.amount
+        amount: donationInfo.total
       },
       requiredBillingContactFields: [
         "postalAddress"

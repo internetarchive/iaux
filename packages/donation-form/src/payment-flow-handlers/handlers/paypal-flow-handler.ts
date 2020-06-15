@@ -14,6 +14,8 @@ import { SuccessResponse } from '../../models/response-models/success-models/suc
 import { CustomerInfo } from '../../models/common/customer-info';
 import { BillingInfo } from '../../models/common/billing-info';
 import { PaymentProvider } from '../../models/common/payment-provider-name';
+import { DonationFlowModalManagerInterface } from '../donation-flow-modal-manager';
+import { UpsellModalCTAMode } from '../../modals/upsell-modal-content';
 
 export interface PayPalFlowHandlerInterface {
   updateDonationInfo(donationInfo: DonationPaymentInfo): void;
@@ -55,7 +57,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
   private buttonDataSource?: PayPalButtonDataSourceInterface;
 
-  private modalManager: ModalManagerInterface;
+  private donationFlowModalManager: DonationFlowModalManagerInterface;
 
   private braintreeManager: BraintreeManagerInterface;
 
@@ -74,10 +76,10 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
 
   constructor(options: {
     braintreeManager: BraintreeManagerInterface,
-    modalManager: ModalManagerInterface
+    donationFlowModalManager: DonationFlowModalManagerInterface
   }) {
     this.braintreeManager = options.braintreeManager;
-    this.modalManager = options.modalManager;
+    this.donationFlowModalManager = options.donationFlowModalManager;
   }
 
   async payPalPaymentStarted(dataSource: PayPalButtonDataSourceInterface, options: object): Promise<void> {
@@ -87,7 +89,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
   async payPalPaymentAuthorized(dataSource: PayPalButtonDataSourceInterface, payload: braintree.PayPalCheckoutTokenizePayload): Promise<void> {
     console.debug('PaymentSector:payPalPaymentAuthorized payload,response', dataSource, dataSource.donationInfo, payload);
 
-    this.showProcessingModal();
+    this.donationFlowModalManager.showProcessingModal();
 
     const donationType = dataSource.donationInfo.donationType;
 
@@ -103,7 +105,7 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     const response: DonationResponse = await this.braintreeManager.submitDataToEndpoint(request);
 
     if (!response.success) {
-      this.showErrorModal();
+      this.donationFlowModalManager.showErrorModal();
       // alert('ERROR DURING payPalPaymentAuthorized');
       console.error('Error during payPalPaymentAuthorized', response);
       return;
@@ -117,12 +119,12 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
       case DonationType.Monthly:
         console.debug('MONTHLY, SHOW THANKS');
         // show thank you, redirect
-        this.showThankYouModal()
+        this.donationFlowModalManager.showThankYouModal()
         break;
       case DonationType.Upsell:
         console.debug('UPSELL, SHOW THANKS');
         // show thank you, redirect
-        this.showThankYouModal()
+        this.donationFlowModalManager.showThankYouModal()
         break;
     }
   }
@@ -153,51 +155,17 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     }
   }
 
-  private showYesButton = false
-
-  private showProcessingModal() {
-    const modalConfig = new ModalConfig();
-    modalConfig.showProcessingIndicator = true;
-    modalConfig.title = 'Processing...'
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
-  private showErrorModal() {
-    const modalConfig = ModalConfig.errorConfig;
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
-  private showThankYouModal() {
-    const modalConfig = new ModalConfig();
-    modalConfig.showProcessingIndicator = true;
-    modalConfig.processingImageMode = 'complete';
-    modalConfig.title = 'Thank You!';
-    this.modalManager.showModal(modalConfig, undefined);
-  }
-
   private async showUpsellModal(
     oneTimePayload: braintree.PayPalCheckoutTokenizePayload,
     oneTimeSuccessResponse: SuccessResponse
   ): Promise<void> {
     console.debug('showUpsellModal', oneTimePayload, oneTimeSuccessResponse);
 
-    const customContent = html`
-      <upsell-modal-content
-        ?showYesButton=${this.showYesButton}
-        @noThanksSelected=${this.noThanksSelected.bind(this)}
-        @amountChanged=${this.upsellAmountChanged.bind(this)}>
-        <slot name="paypal-upsell-button"></slot>
-      </upsell-modal-content>
-    `;
-
-    const modalConfig = new ModalConfig();
-    modalConfig.headerColor = 'green';
-    modalConfig.title = 'Thank You!';
-    modalConfig.headline = 'Thanks for becoming a donor!';
-    modalConfig.message = 'Would you like to become a monthly supporter?';
-    modalConfig.showProcessingIndicator = false;
-
-    this.modalManager?.showModal(modalConfig, customContent);
+    this.donationFlowModalManager.showUpsellModal({
+      amountChanged: this.upsellAmountChanged.bind(this),
+      noSelected: this.noThanksSelected.bind(this),
+      ctaMode: UpsellModalCTAMode.Slot
+    });
 
     const upsellDonationInfo = new DonationPaymentInfo({
       amount: 5, // TODO: <-- this should be dynamic based on the one-time amount
@@ -214,16 +182,16 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     }
   }
 
-  private upsellAmountChanged(e: CustomEvent): void {
-    console.debug('upsellAmountChanged', e.detail.amount);
+  private upsellAmountChanged(amount: number): void {
+    console.debug('upsellAmountChanged', amount);
     if (this.upsellButtonDataSourceContainer) {
-      this.upsellButtonDataSourceContainer.upsellButtonDataSource.donationInfo.amount = e.detail.amount;
+      this.upsellButtonDataSourceContainer.upsellButtonDataSource.donationInfo.amount = amount;
     }
   }
 
   private noThanksSelected(): void {
     console.debug('noThanksSelected');
-    this.modalManager.closeModal();
+    this.donationFlowModalManager.closeModal();
   }
 
   private async renderUpsellPayPalButton(options: {
@@ -283,10 +251,13 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     const request = new DonationRequest({
       paymentProvider: PaymentProvider.PayPal,
       paymentMethodNonce: params.payload.nonce,
-      amount: params.donationInfo.amount,
+      amount: params.donationInfo.total,
       donationType: params.donationInfo.donationType,
       customer: customerInfo,
-      billing: billingInfo
+      billing: billingInfo,
+      customFields: {
+        fee_amount_covered: params.donationInfo.feeAmountCovered
+      }
     });
 
     console.debug('buildDonationRequest, request', request);

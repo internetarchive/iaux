@@ -7,6 +7,7 @@ import { PaymentProvider } from '../common/payment-provider-name';
 export class DonationRequestCustomFields {
   logged_in_user?: string;
   referrer?: string;
+  fee_amount_covered?: number;
 }
 
 export class DonationRequest {

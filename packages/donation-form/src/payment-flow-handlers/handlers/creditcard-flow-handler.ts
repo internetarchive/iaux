@@ -1,11 +1,6 @@
-import { html } from 'lit-element';
-
-import { ModalManagerInterface } from "../../modal-manager/modal-manager";
 import { BraintreeManagerInterface } from "../../braintree-manager/braintree-manager";
 import { RecaptchaManagerInterface } from "../../recaptcha-manager/recaptcha-manager";
-import { ModalConfig } from "../../modal-manager/modal-template";
 
-import '../../modals/upsell-modal-content';
 import { DonorContactInfo } from '../../models/common/donor-contact-info';
 import { DonationRequest } from '../../models/request_models/donation-request';
 import { DonationType } from '../../models/donation-info/donation-type';
@@ -86,11 +81,13 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
       recaptchaToken: recaptchaToken,
       deviceData: this.braintreeManager.deviceData,
       bin: hostedFieldsResponse.details.bin,
-      amount: donationInfo.amount,
+      amount: donationInfo.total,
       donationType: donationInfo.donationType,
       customer: donorContactInfo.customer,
       billing: donorContactInfo.billing,
-      customFields: undefined
+      customFields: {
+        fee_amount_covered: donationInfo.feeAmountCovered
+      }
     });
 
     let response: DonationResponse;

@@ -1,9 +1,6 @@
-import { ModalManagerInterface } from "../../modal-manager/modal-manager";
 import { BraintreeManagerInterface } from "../../braintree-manager/braintree-manager";
-import { ModalConfig } from "../../modal-manager/modal-template";
 import { DonorContactInfo } from "../../models/common/donor-contact-info";
 import { DonationPaymentInfo } from "../../models/donation-info/donation-payment-info";
-import { html } from "lit-html";
 import { DonationRequest } from "../../models/request_models/donation-request";
 import { PaymentProvider } from "../../models/common/payment-provider-name";
 import { VenmoRestorationStateHandlerInterface, VenmoRestorationStateHandler } from "./venmo-restoration-state-handler";
@@ -103,11 +100,13 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
       paymentProvider: PaymentProvider.Venmo,
       recaptchaToken: undefined,
       deviceData: this.braintreeManager.deviceData,
-      amount: donationInfo.amount,
+      amount: donationInfo.total,
       donationType: donationInfo.donationType,
       customer: contactInfo.customer,
       billing: contactInfo.billing,
-      customFields: undefined
+      customFields: {
+        fee_amount_covered: donationInfo.feeAmountCovered
+      }
     });
 
     this.donationFlowModalManager.showProcessingModal();

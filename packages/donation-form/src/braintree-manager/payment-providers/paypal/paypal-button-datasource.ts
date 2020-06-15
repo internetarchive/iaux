@@ -1,6 +1,8 @@
 import { DonationPaymentInfo } from "../../../models/donation-info/donation-payment-info";
 import { DonationType } from "../../../models/donation-info/donation-type";
 
+import currency from 'currency.js';
+
 export interface PayPalButtonDataSourceInterface {
   delegate?: PayPalButtonDataSourceDelegate;
   donationInfo: DonationPaymentInfo;
@@ -43,10 +45,10 @@ export class PayPalButtonDataSource implements PayPalButtonDataSourceInterface {
     options.flow = flow as braintree.PayPalCheckoutFlowType;
 
     if (flow === 'checkout') {
-      options.amount = this.donationInfo.amount;
+      options.amount = this.donationInfo.total;
       options.currency = 'USD';
     } else {
-      options.billingAgreementDescription = `Subscribe to donate $${this.donationInfo.amount} monthly`
+      options.billingAgreementDescription = `Subscribe to donate ${currency(this.donationInfo.total, { formatWithSymbol: true }).format()} monthly`
     }
 
     this.delegate?.payPalPaymentStarted(this, options);

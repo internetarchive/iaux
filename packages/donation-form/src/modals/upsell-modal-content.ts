@@ -6,13 +6,16 @@ import {
   CSSResult,
   TemplateResult,
   property,
-  query,
-  PropertyValues,
 } from 'lit-element';
+
+export enum UpsellModalCTAMode {
+  YesButton = 'YesButton',
+  Slot = 'Slot',
+}
 
 @customElement('upsell-modal-content')
 export class UpsellModalContent extends LitElement {
-  @property({ type: Boolean }) showYesButton = true;
+  @property({ type: String }) yesButtonMode: UpsellModalCTAMode = UpsellModalCTAMode.YesButton;
 
   @property({ type: Number }) amount = 5;
 
@@ -23,8 +26,6 @@ export class UpsellModalContent extends LitElement {
         <h3>Enter your monthly amount</h3>
         $ <input type="text" value=${this.amount} @input=${this.amountChanged}>
       </div>
-      <slot>
-      </slot>
 
       ${this.yesButton}
 
@@ -35,14 +36,17 @@ export class UpsellModalContent extends LitElement {
   }
 
   private get yesButton(): TemplateResult {
-    if (!this.showYesButton) {
-      return html``;
-    } else {
-      return html`
-        <button @click=${this.yesSelected}>
-          YES, I'll become a monthly donor
-        </button>
-      `;
+    switch (this.yesButtonMode) {
+      case UpsellModalCTAMode.YesButton:
+        return html`
+          <button @click=${this.yesSelected}>
+            YES, I'll become a monthly donor
+          </button>
+        `;
+      case UpsellModalCTAMode.Slot:
+        return html`
+          <slot></slot>
+        `;
     }
   }
 

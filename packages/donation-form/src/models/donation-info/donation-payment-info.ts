@@ -4,7 +4,10 @@ export class DonationPaymentInfo {
   donationType: DonationType;
   amount: number;
   coverFees: boolean;
-  feeFormula: string = '2.2% + $0.30';
+
+  get feeAmountCovered(): number {
+    return this.coverFees ? this.fee : 0;
+  }
 
   get fee(): number {
     const fee = (this.amount * 0.022) + 0.30;
@@ -12,7 +15,7 @@ export class DonationPaymentInfo {
   }
 
   get total(): number {
-    const total = this.coverFees ? this.amount + this.fee : this.amount;
+    const total = this.amount + this.feeAmountCovered;
     return isNaN(total) ? 0 : total;
   }
 
