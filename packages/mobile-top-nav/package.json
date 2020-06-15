@@ -1,0 +1,67 @@
+{
+  "name": "@internetarchive/mobile-top-nav",
+  "description": "Top Nav for Internet Archive that is optimized for the mobile experience",
+  "version": "0.1.1-alpha.1cae460",
+  "dependencies": {
+    "lit-element": "^2.2.1",
+    "lit-html": "^1.0.0"
+  },
+  "devDependencies": {
+    "@open-wc/demoing-storybook": "^0.3.0",
+    "@open-wc/eslint-config": "^1.0.0",
+    "@open-wc/polyfills-loader": "^0.2.1",
+    "@open-wc/prettier-config": "^0.1.10",
+    "@open-wc/testing": "^2.0.0",
+    "@open-wc/testing-karma": "^3.0.0",
+    "@open-wc/testing-karma-bs": "^1.0.0",
+    "@storybook/react": "^5.1.11",
+    "es-dev-server": "^1.42.0",
+    "eslint": "^6.1.0",
+    "eslint-plugin-lit": "^0.5.0",
+    "gulp": "^4.0.2",
+    "husky": "^4.2.3",
+    "lint-staged": "^8.0.0",
+    "sinon": "^9.0.0",
+    "webpack-merge": "^4.1.5"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@open-wc/eslint-config",
+      "eslint-config-prettier"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "license": "AGPL-3.0-only",
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "main": "index.js",
+  "module": "index.js",
+  "prettier": "@open-wc/prettier-config",
+  "scripts": {
+    "format": "npm run format:eslint && npm run format:prettier",
+    "format:eslint": "eslint --ext .js . --fix --ignore-path .gitignore",
+    "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
+    "lint": "npm run lint:eslint",
+    "lint:eslint": "eslint --ext .js . --ignore-path .gitignore",
+    "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
+    "site:build": "npm run storybook:build",
+    "start": "es-dev-server --app-index ./index.html --node-resolve --watch --open",
+    "storybook": "start-storybook -p 9001",
+    "storybook:build": "build-storybook -o _site -s storybook-static",
+    "test": "karma start --coverage",
+    "test:bs": "karma start karma.bs.config.js --compatibility all --coverage",
+    "test:compatibility": "karma start --compatibility all --coverage",
+    "test:compatibility:watch": "karma start --compatibility all --auto-watch=true --single-run=false",
+    "test:prune-snapshots": "karma start --prune-snapshots",
+    "test:update-snapshots": "karma start --update-snapshots",
+    "test:watch": "karma start --auto-watch=true --single-run=false"
+  }
+}
