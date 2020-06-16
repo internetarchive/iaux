@@ -115,6 +115,8 @@
 
     const lazyLoaderService = new LazyLoaderService();
 
+    const start = performance.now();
+
     Promise.all([
       lazyLoaderService.loadScript('https://pay.google.com/gp/p/js/pay.js'),
       lazyLoaderService.loadScript('https://www.paypalobjects.com/api/checkout.js', undefined, [{key: 'data-version-4', value: ''}, {key: 'log-level', value: 'warn'}]),
@@ -126,7 +128,7 @@
       lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/paypal-checkout.min.js'),
       lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.1/js/google-payment.min.js'),
     ]).then((args) => {
-      console.debug('LOADED', window, args);
+      console.debug('LOADED', performance.now() - start, window, args);
 
       const endpointManager = new BraintreeEndpointManager();
 

@@ -1,6 +1,7 @@
 import { BraintreeManagerInterface } from '../braintree-manager';
 
 export interface VenmoHandlerInterface {
+  isBrowserSupported(): Promise<boolean>;
   getInstance(): Promise<braintree.Venmo | undefined>;
   startPayment(): Promise<braintree.VenmoTokenizePayload | undefined>;
 }
@@ -19,6 +20,11 @@ export class VenmoHandler implements VenmoHandlerInterface {
   private venmoClient: braintree.Venmo;
 
   private venmoInstance: any | undefined;
+
+  async isBrowserSupported(): Promise<boolean> {
+    const instance = await this.getInstance();
+    return instance?.isBrowserSupported() ?? false;
+  }
 
   async getInstance(): Promise<braintree.Venmo | undefined> {
     if (this.venmoInstance) {

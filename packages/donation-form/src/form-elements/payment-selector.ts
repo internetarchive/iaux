@@ -6,16 +6,28 @@ import {
   CSSResult,
   TemplateResult,
   property,
+  PropertyValues,
 } from 'lit-element';
 
 import applePayButtonImage from '../assets/img/payment-providers/applepay';
 import googlePayButtonImage from '../assets/img/payment-providers/googlepay';
 import paypalButtonImage from '../assets/img/payment-providers/paypal';
 import venmoButtonImage from '../assets/img/payment-providers/venmo';
+import { PaymentProvidersInterface } from '../braintree-manager/payment-providers';
 
 @customElement('payment-selector')
 export class PaymentSelector extends LitElement {
   @property({ type: Boolean }) donationInfoValid = true;
+
+  @property({ type: Object }) paymentProviders?: PaymentProvidersInterface;
+
+  @property({ type: Boolean }) private applePayVisible = false;
+
+  @property({ type: Boolean }) private googlePayVisible = false;
+
+  @property({ type: Boolean }) private venmoVisible = false;
+
+  @property({ type: Boolean }) private payPalVisible = false;
 
   /** @inheritdoc */
   render(): TemplateResult {
@@ -23,15 +35,15 @@ export class PaymentSelector extends LitElement {
       <div class="payment-container ${this.donationInfoValid ? 'donation-info-valid' : 'donation-info-invalid'}">
 
         <div
-          class="applepay provider-button"
+          class="applepay provider-button ${this.applePayVisible ? '' : 'hidden'}"
           @click=${this.applePaySelected}>${applePayButtonImage}</div>
 
         <div
-          class="googlepay provider-button"
+          class="googlepay provider-button ${this.googlePayVisible ? '' : 'hidden'}"
           @click=${this.googlePaySelected}>${googlePayButtonImage}</div>
 
         <div
-          class="venmo provider-button"
+          class="venmo provider-button ${this.venmoVisible ? '' : 'hidden'}"
           @click=${this.venmoSelected}>${venmoButtonImage}</div>
 
         <div class="paypal-container">
@@ -51,6 +63,22 @@ export class PaymentSelector extends LitElement {
   /** inheritdoc */
   firstUpdated(): void {
     this.dispatchEvent(new Event('firstUpdated'));
+  }
+
+  updated(changed: PropertyValues) {
+    if (changed.has('paymentProviders')) {
+      this.setButtonVisibility();
+    }
+  }
+
+  private async setButtonVisibility(): Promise<void> {
+    this.paymentProviders?.venmoHandler?.isBrowserSupported().then(value => {
+      this.venmoVisible = value;
+    });
+
+    this.paymentProviders?.applePayHandler?.isAvailable().then(value => {
+      this.applePayVisible = value;
+    });
   }
 
   private googlePaySelected(): void {
@@ -79,6 +107,10 @@ export class PaymentSelector extends LitElement {
     const paymentButtonWidthCss = css`var(--paymentButtonWidth, 50px)`;
 
     return css`
+      .hidden {
+        display: none;
+      }
+
       .payment-container {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
