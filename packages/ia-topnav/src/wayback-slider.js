@@ -1,5 +1,5 @@
 import { html } from 'lit-element';
-import '@internetarchive/ia-wayback-search';
+import './wayback-search';
 import TrackedElement from './tracked-element';
 import './save-page-form';
 import queryHandler from './lib/query-handler';
@@ -47,7 +47,7 @@ class WaybackSlider extends TrackedElement {
   render() {
     return html`
       <div class="grid">
-        <ia-wayback-search waybackPagesArchived=${this.config.waybackPagesArchived} .queryHandler=${queryHandler}></ia-wayback-search>
+        <wayback-search waybackPagesArchived=${this.config.waybackPagesArchived} .queryHandler=${queryHandler}></wayback-search>
         <div class="link-lists">
           <div>
             <h4>Tools</h4>
