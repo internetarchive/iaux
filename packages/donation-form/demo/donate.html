@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!--
+    I tried lazy-loading this, but I think the library does some setup that takes some time after it loads
+    and I was getting errors like `recaptcha.render` not found.
+  -->
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -111,7 +117,6 @@
 
     Promise.all([
       lazyLoaderService.loadScript('https://pay.google.com/gp/p/js/pay.js'),
-      lazyLoaderService.loadScript('https://www.google.com/recaptcha/api.js'),
       lazyLoaderService.loadScript('https://www.paypalobjects.com/api/checkout.js', undefined, [{key: 'data-version-4', value: ''}, {key: 'log-level', value: 'warn'}]),
       lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/client.js'),
       lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/hosted-fields.js'),
@@ -119,6 +124,7 @@
       lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/venmo.js'),
       lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/data-collector.min.js'),
       lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/paypal-checkout.min.js'),
+      lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.1/js/google-payment.min.js'),
     ]).then((args) => {
       console.debug('LOADED', window, args);
 
