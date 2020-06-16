@@ -32,6 +32,17 @@ export default css`
     cursor: pointer;
   }
 
+  .error {
+    display: none;
+    margin-top: .5rem;
+    font-weight: bold;
+    color: #E51C23;
+  }
+
+  .visible {
+    display: block;
+  }
+
   @media (min-width: 890px) {
     h3 {
       margin-top: 0;
