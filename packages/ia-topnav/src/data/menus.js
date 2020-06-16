@@ -3,9 +3,9 @@ import { prodHost } from '../constants';
 const texts = (baseHost = prodHost) => ({
   heading: 'Books',
   iconLinks: [{
-    title: 'National Emergency Library',
-    icon: `https://${baseHost}/images/national-emergency-library-logo-padded.png`,
-    url: `https://${baseHost}/details/nationalemergencylibrary`,
+    title: 'Books to Borrow',
+    icon: `https://${baseHost}/images/book-lend.png`,
+    url: `https://${baseHost}/details/inlibrary?sort=-publicdate`,
   }, {
     title: 'Open Library',
     icon: `https://${baseHost}/images/widgetOL.png`,
