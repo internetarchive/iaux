@@ -51,6 +51,8 @@ export class DonationForm extends LitElement {
 
   @query('payment-selector') paymentSelector!: PaymentSelector;
 
+  private paypalButtonNeedsRender = true;
+
   /** @inheritdoc */
   render(): TemplateResult {
     return html`
@@ -70,7 +72,6 @@ export class DonationForm extends LitElement {
           I'll generously add ${currency(this.donationInfo.fee, { formatWithSymbol: true }).format()} to cover the transaction fees so you can keep 100% of my donation.
         </label>
         <payment-selector
-          .paymentFlowHandlers=${this.paymentFlowHandlers}
           @firstUpdated=${this.paymentSelectorFirstUpdated}
           @creditCardSelected=${this.creditCardSelected}
           @venmoSelected=${this.venmoSelected}
@@ -121,7 +122,9 @@ export class DonationForm extends LitElement {
 
   private paymentSelectorFirstUpdated(): void {
     console.debug('paymentSelectorFirstUpdated', this.donationInfo);
-    this.paymentFlowHandlers?.paypalHandler?.renderPayPalButton(this.donationInfo);
+    if (this.paypalButtonNeedsRender && this.paymentFlowHandlers?.paypalHandler) {
+      this.renderPayPalButton();
+    }
   }
 
   private applePaySelected(e: CustomEvent): void {
@@ -231,10 +234,19 @@ export class DonationForm extends LitElement {
     }
   }
 
+  private renderPayPalButton(): void {
+    this.paymentFlowHandlers?.paypalHandler?.renderPayPalButton(this.donationInfo);
+    this.paypalButtonNeedsRender = false;
+  }
+
   updated(changedProperties: PropertyValues): void {
     console.debug('updated: changedProperties', changedProperties);
 
     if (changedProperties.has('paymentFlowHandlers')) {
+      console.debug('updated: paymentFlowHandlers', this.paymentFlowHandlers);
+      if (this.paypalButtonNeedsRender) {
+        this.renderPayPalButton();
+      }
       this.paymentFlowHandlers?.paypalHandler?.updateDonationInfo(this.donationInfo);
       this.setupHostedFields();
     }
