@@ -1,7 +1,7 @@
 {
   "name": "@internetarchive/mobile-top-nav",
   "description": "Top Nav for Internet Archive that is optimized for the mobile experience",
-  "version": "0.1.1-alpha.1cae460",
+  "version": "0.1.1-alpha.557",
   "dependencies": {
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"

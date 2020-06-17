@@ -5,7 +5,7 @@ const texts = (baseHost = prodHost) => ({
   iconLinks: [{
     title: 'Books to Borrow',
     icon: `https://${baseHost}/images/book-lend.png`,
-    url: `https://${baseHost}/details/inlibrary?sort=-publicdate`,
+    url: `https://${baseHost}/details/inlibrary`,
   }, {
     title: 'Open Library',
     icon: `https://${baseHost}/images/widgetOL.png`,
