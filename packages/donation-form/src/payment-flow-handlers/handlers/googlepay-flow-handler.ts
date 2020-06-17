@@ -59,6 +59,7 @@ export class GooglePayFlowHandler implements GooglePayFlowHandlerInterface {
       const name = billingInfo?.name;
       let firstName: string | undefined = name;
       let lastName: string | undefined = '';
+      // TODO: use the name parsing library
       const lastSpace = name?.lastIndexOf(' ');
       if (lastSpace && lastSpace !== -1) {
         firstName = name?.substr(0, lastSpace);
