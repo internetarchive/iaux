@@ -3,7 +3,7 @@ const texts = baseUrl => ({
   iconLinks: [{
     title: 'Books to Borrow',
     icon: `https://${baseUrl}/images/book-lend.png`,
-    url: `https://${baseUrl}/details/inlibrary?sort=-publicdate`,
+    url: `https://${baseUrl}/details/inlibrary`,
   }, {
     title: 'Open Library',
     icon: `https://${baseUrl}/images/widgetOL.png`,
