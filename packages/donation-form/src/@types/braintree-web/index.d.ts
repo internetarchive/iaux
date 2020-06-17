@@ -1,27 +1,54 @@
 /// <reference types="braintree-web" />
 
 declare namespace braintree {
-  // extends HostedFieldsAccountDetails from @types/braintree-web
-  interface HostedFieldsAccountDetails {
-    bin: string;
-    expirationMonth: string;
-    expirationYear: string;
+  export type GooglePaymentTokenizeValues = 'Yes' | 'No' | 'Unknown';
+
+  /**
+   * @typedef {object} GooglePayment~tokenizePayload
+   * @property {string} nonce The payment method nonce.
+   * @property {object} details Additional account details.
+   * @property {string} details.cardType Type of card, ex: Visa, MasterCard.
+   * @property {string} details.lastFour Last four digits of card number.
+   * @property {string} details.lastTwo Last two digits of card number.
+   * @property {boolean} details.isNetworkTokenized True if the card is network tokenized.
+   * @property {string} details.bin First six digits of card number.
+   * @property {string} description A human-readable description.
+   * @property {string} type The payment method type, `CreditCard` or `AndroidPayCard`.
+   * @property {object} binData Information about the card based on the bin.
+   * @property {string} binData.commercial Possible values: 'Yes', 'No', 'Unknown'.
+   * @property {string} binData.countryOfIssuance The country of issuance.
+   * @property {string} binData.debit Possible values: 'Yes', 'No', 'Unknown'.
+   * @property {string} binData.durbinRegulated Possible values: 'Yes', 'No', 'Unknown'.
+   * @property {string} binData.healthcare Possible values: 'Yes', 'No', 'Unknown'.
+   * @property {string} binData.issuingBank The issuing bank.
+   * @property {string} binData.payroll Possible values: 'Yes', 'No', 'Unknown'.
+   * @property {string} binData.prepaid Possible values: 'Yes', 'No', 'Unknown'.
+   * @property {string} binData.productId The product id.
+   */
+  export interface GooglePaymentTokenizePayload {
+    nonce: string;
+    details: {
+      cardType: string,
+      lastFour: string,
+      lastTow: string,
+      isNetworkTokenized: boolean,
+      bin: string,
+    };
+    description: string;
+    type: string;
+    binData: {
+      commercial: GooglePaymentTokenizeValues,
+      countryOfIssuance: string,
+      debit: GooglePaymentTokenizeValues,
+      durbinRegulated: GooglePaymentTokenizeValues,
+      healthcare: GooglePaymentTokenizeValues,
+      issuingBank: GooglePaymentTokenizeValues,
+      payroll: GooglePaymentTokenizeValues,
+      prepaid: GooglePaymentTokenizeValues,
+      productId: string,
+    }
   }
 
-  export interface HostedFields {
-    // Cleanly remove anything set up by create.
-    // Called on completion, containing an error if one occurred.
-    // No data is returned if teardown completes successfully.
-    // If no callback is provided, teardown returns a promise.
-    teardown(): Promise<void>;
-  }
-
-  /** @type {module:braintree-web/venmo} */
-  export var venmo: braintree.Venmo;
-  export var googlePayment: braintree.GooglePayment;
-}
-
-declare namespace braintree {
   export interface GooglePayment {
     /**
      * @static
@@ -208,7 +235,8 @@ declare namespace braintree {
      * @returns {object|Promise} Returns a configuration object for Google PaymentDataRequest. If instantiated with `useDeferredClient` and an `authorization` it will return a promise that resolves with the configuration.
      */
     createPaymentDataRequest(overrides?: {
-      merchantInfo: {
+      emailRequired?: boolean,
+      merchantInfo?: {
         merchantId: string
       },
       transactionInfo: {
@@ -217,6 +245,41 @@ declare namespace braintree {
         totalPrice: string
       }
     }): Promise<google.payments.api.PaymentDataRequest>;
+
+    /**
+     * Parse the response from the tokenization.
+     * @public
+     * @param {object} response The response back from the Google Pay tokenization.
+     * @param {callback} [callback] The second argument, <code>data</code>, is a {@link GooglePay~tokenizePayload|tokenizePayload}. If no callback is provided, `parseResponse` returns a promise that resolves with a {@link GooglePayment~tokenizePayload|tokenizePayload}.
+     * @example with callback
+     * var paymentsClient = new google.payments.api.PaymentsClient({
+     *   environment: 'TEST' // or 'PRODUCTION'
+     * })
+     *
+     * paymentsClient.loadPaymentData(paymentDataRequestFromCreatePaymentDataRequest).then(function (response) {
+     *   googlePaymentInstance.parseResponse(response, function (err, data) {
+     *     if (err) {
+     *       // handle errors
+     *     }
+     *     // send parsedResponse.nonce to your server
+     *   });
+     * });
+     * @example with promise
+     * var paymentsClient = new google.payments.api.PaymentsClient({
+     *   environment: 'TEST' // or 'PRODUCTION'
+     * })
+     *
+     * paymentsClient.loadPaymentData(paymentDataRequestFromCreatePaymentDataRequest).then(function (response) {
+     *   return googlePaymentInstance.parseResponse(response);
+     * }).then(function (parsedResponse) {
+     *   // send parsedResponse.nonce to your server
+     * }).catch(function (err) {
+     *   // handle errors
+     * });
+     * @returns {(Promise|void)} Returns a promise that resolves the parsed response if no callback is provided.
+     */
+    parseResponse(response: any): Promise<GooglePaymentTokenizePayload>;
+    parseResponse(response: any, callback?: callback): void;
   }
 }
 
@@ -988,6 +1051,23 @@ declare namespace braintree {
   }
 }
 
-declare namespace braintree {
+declare namespace braintree {  // extends HostedFieldsAccountDetails from @types/braintree-web
+  interface HostedFieldsAccountDetails {
+    bin: string;
+    expirationMonth: string;
+    expirationYear: string;
+  }
+
+  export interface HostedFields {
+    // Cleanly remove anything set up by create.
+    // Called on completion, containing an error if one occurred.
+    // No data is returned if teardown completes successfully.
+    // If no callback is provided, teardown returns a promise.
+    teardown(): Promise<void>;
+  }
+
+  /** @type {module:braintree-web/venmo} */
+  export var venmo: braintree.Venmo;
+  export var googlePayment: braintree.GooglePayment;
   export var paypalCheckout: braintree.PayPalCheckout;
 }

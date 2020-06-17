@@ -149,7 +149,8 @@ export class DonationForm extends LitElement {
 
     if (!this.donationInfoValid) {
       this.showInvalidDonationInfoAlert();
-      return;
+    } else {
+      this.paymentFlowHandlers?.googlePayHandler?.paymentInitiated(this.donationInfo);
     }
   }
 

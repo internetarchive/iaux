@@ -45,6 +45,7 @@ export class PaymentProviders implements PaymentProvidersInterface {
     console.debug('getApplePayHandler start');
 
     if (this.applePayHandlerCache) {
+      console.debug('getApplePayHandler, handler cached');
       return this.applePayHandlerCache;
     }
 

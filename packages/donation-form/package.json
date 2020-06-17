@@ -49,6 +49,7 @@
     "@types/applepayjs": "^3.0.0",
     "@types/braintree-web": "^3.47.2",
     "@types/form-data": "^2.5.0",
+    "@types/googlepay": "^0.4.1",
     "@types/grecaptcha": "^3.0.1",
     "@types/storybook__react": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^2.26.0",

@@ -1,9 +1,11 @@
 import { BraintreeManagerInterface } from '../braintree-manager';
+import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
 
 export interface GooglePayHandlerInterface {
   isBrowserSupported(): Promise<boolean>;
-  getInstance(): Promise<braintree.GooglePayment | undefined>;
-  startPayment(): Promise<braintree.VenmoTokenizePayload | undefined>;
+  getPaymentsClient(): Promise<google.payments.api.PaymentsClient>
+  getInstance(): Promise<braintree.GooglePayment>;
+  startPayment(donationInfo: DonationPaymentInfo): Promise<braintree.VenmoTokenizePayload | undefined>;
 }
 
 export class GooglePayHandler implements GooglePayHandlerInterface {
@@ -43,7 +45,11 @@ export class GooglePayHandler implements GooglePayHandlerInterface {
     }).then((isReadyToPay) => isReadyToPay.result);
   }
 
-  async getInstance(): Promise<braintree.GooglePayment | undefined> {
+  async getPaymentsClient(): Promise<google.payments.api.PaymentsClient> {
+    return this.googlePaymentsClient;
+  }
+
+  async getInstance(): Promise<braintree.GooglePayment> {
     if (this.googlePayInstance) {
       return this.googlePayInstance;
     }
@@ -65,7 +71,7 @@ export class GooglePayHandler implements GooglePayHandlerInterface {
     });
   }
 
-  async startPayment(): Promise<braintree.VenmoTokenizePayload | undefined> {
+  async startPayment(donationInfo: DonationPaymentInfo): Promise<braintree.VenmoTokenizePayload | undefined> {
     const instance = await this.getInstance();
     // return instance?.tokenize();
     return undefined;

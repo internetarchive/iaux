@@ -100,7 +100,6 @@ export class PaymentClients implements PaymentClientsInterface {
     if (window.braintree?.hostedFields) {
       return window.braintree.hostedFields;
     }
-    await this.getBraintreeClient();
     await this.loadBraintreeScript('hosted-fields');
     return window.braintree.hostedFields;
   }
@@ -116,8 +115,6 @@ export class PaymentClients implements PaymentClientsInterface {
     if (window.braintree?.venmo) {
       return window.braintree.venmo;
     }
-    await this.getDataCollector();
-    await this.getBraintreeClient();
     await this.loadBraintreeScript('venmo');
     return window.braintree.venmo;
   }
@@ -133,7 +130,6 @@ export class PaymentClients implements PaymentClientsInterface {
     if (window.braintree?.paypalCheckout) {
       return window.braintree.paypalCheckout;
     }
-    await this.getBraintreeClient();
     await this.loadBraintreeScript('paypal-checkout');
     return window.braintree.paypalCheckout;
   }
@@ -149,7 +145,6 @@ export class PaymentClients implements PaymentClientsInterface {
     if (window.braintree?.applePay) {
       return window.braintree.applePay;
     }
-    await this.getBraintreeClient();
     await this.loadBraintreeScript('apple-pay');
     return window.braintree.applePay;
   }
@@ -165,7 +160,6 @@ export class PaymentClients implements PaymentClientsInterface {
     if (window.braintree?.googlePayment) {
       return window.braintree.googlePayment;
     }
-    await this.getBraintreeClient();
     await this.loadBraintreeScript('google-payment');
     return window.braintree.googlePayment;
   }

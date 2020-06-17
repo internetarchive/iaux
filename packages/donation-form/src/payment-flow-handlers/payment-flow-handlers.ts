@@ -6,6 +6,7 @@ import { RecaptchaManagerInterface } from "../recaptcha-manager/recaptcha-manage
 import { ApplePayFlowHandlerInterface, ApplePayFlowHandler } from "./handlers/applepay-flow-handler";
 import { VenmoFlowHandlerInterface, VenmoFlowHandler } from "./handlers/venmo-flow-handler";
 import { DonationFlowModalManagerInterface, DonationFlowModalManager } from "./donation-flow-modal-manager";
+import { GooglePayFlowHandlerInterface, GooglePayFlowHandler } from "./handlers/googlepay-flow-handler";
 
 export interface PaymentFlowHandlersInterface {
   startup(): Promise<void>;
@@ -14,7 +15,7 @@ export interface PaymentFlowHandlersInterface {
   paypalHandler: PayPalFlowHandlerInterface | undefined;
   applePayHandler: ApplePayFlowHandlerInterface | undefined;
   venmoHandler: VenmoFlowHandlerInterface | undefined;
-  googlePayHandler: ApplePayFlowHandlerInterface | undefined;
+  googlePayHandler: GooglePayFlowHandlerInterface | undefined;
 }
 
 /**
@@ -94,14 +95,24 @@ export class PaymentFlowHandlers implements PaymentFlowHandlersInterface {
     return this.venmoHandlerCache;
   }
 
-  get googlePayHandler(): ApplePayFlowHandlerInterface | undefined {
-    return undefined;
+  get googlePayHandler(): GooglePayFlowHandlerInterface | undefined {
+    if (this.googlePayHandlerCache) {
+      return this.googlePayHandlerCache;
+    }
+
+    this.googlePayHandlerCache = new GooglePayFlowHandler({
+      braintreeManager: this.braintreeManager,
+      donationFlowModalManager: this.donationFlowModalManager
+    });
+
+    return this.googlePayHandlerCache;
   }
 
   private creditCardHandlerCache?: CreditCardFlowHandlerInterface;
   private paypalHandlerCache?: PayPalFlowHandlerInterface;
   private applePayHandlerCache?: ApplePayFlowHandlerInterface;
   private venmoHandlerCache?: VenmoFlowHandlerInterface;
+  private googlePayHandlerCache?: GooglePayFlowHandlerInterface;
 
   constructor(options: {
     braintreeManager: BraintreeManagerInterface,

@@ -14,9 +14,6 @@ export interface VenmoFlowHandlerInterface {
     contactInfo: DonorContactInfo,
     donationInfo: DonationPaymentInfo
   ): Promise<void>;
-  paymentAuthorized(): Promise<void>;
-  paymentCancelled(): Promise<void>;
-  paymentError(): Promise<void>;
 }
 
 export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
@@ -182,10 +179,4 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
     console.debug('noThanksSelected');
     this.donationFlowModalManager.closeModal();
   }
-
-  async paymentAuthorized(): Promise<void> {}
-
-  async paymentCancelled(): Promise<void> {}
-
-  async paymentError(): Promise<void> {}
 }

@@ -15,9 +15,6 @@ export interface CreditCardFlowHandlerInterface {
     donationInfo: DonationPaymentInfo,
     donorContactInfo: DonorContactInfo
   ): Promise<void>;
-  paymentAuthorized(): Promise<void>;
-  paymentCancelled(): Promise<void>;
-  paymentError(): Promise<void>;
 }
 
 export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
@@ -167,10 +164,4 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
     console.debug('noThanksSelected');
     this.donationFlowModalManager.closeModal();
   }
-
-  async paymentAuthorized(): Promise<void> {}
-
-  async paymentCancelled(): Promise<void> {}
-
-  async paymentError(): Promise<void> {}
 }
