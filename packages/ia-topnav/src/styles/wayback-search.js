@@ -2,32 +2,47 @@ import { css } from 'lit-element';
 
 export default css`
   form {
-    display: grid;
-    grid-template-areas: "search" "message";
-    grid-template-rows: 1fr auto;
-    grid-template-columns: 100%;
   }
 
   p {
-    grid-area: message;
-    padding-top: .5rem;
-    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    text-align: center;
   }
 
   fieldset {
-    grid-area: search;
-    margin: 0;
+    padding: .5rem;
+    border-radius: 5px;
+    box-shadow: none;
+  }
+
+  input {
+    padding-left: 3rem;
+    margin-top: .3rem;
+    font-size: 1.4rem;
+    border-color: #bca38e;
+    background: #fff;
+  }
+
+  input::placeholder,
+  input::-webkit-input-placeholder {
+    color: #8e8e8e;
+  }
+
+  .search-field svg {
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   @media (min-width: 890px) {
-    p {
-      text-align: left;
-    }
-
     fieldset a,
     .search-field {
       display: block;
       width: auto;
+    }
+
+    fieldset a {
+      margin: 0 1.5rem;
     }
   }
 `;
