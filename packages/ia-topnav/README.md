@@ -33,6 +33,7 @@ export default IATopNav;
     --grey60: #999;
     --grey66: #aaa;
     --grey80: #ccc;
+    --errorYellow: #ffcd27;
 
     --linkColor: #428bca;
     --linkHoverColor: var(--white);
@@ -73,6 +74,7 @@ export default IATopNav;
     --savePageSubmitBg: var(--grey13);
     --savePageSubmitText: var(--white);
     --savePageInputBorder: var(--grey60);
+    --savePageErrorText: var(--errorYellow);
   }
 </style>
 

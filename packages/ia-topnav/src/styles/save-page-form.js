@@ -36,7 +36,7 @@ export default css`
     display: none;
     margin-top: .5rem;
     font-weight: bold;
-    color: #E51C23;
+    color: var(--savePageErrorText);
   }
 
   .visible {
