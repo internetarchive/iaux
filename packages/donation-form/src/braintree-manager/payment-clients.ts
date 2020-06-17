@@ -1,13 +1,18 @@
 import { LazyLoaderServiceInterface } from "../utilities/lazy-loader-service";
+import { Environment } from "../@types/paypal";
+import { HostingEnvironment } from "./braintree-manager";
+import { GooglePayment } from "braintree-web";
 
 export interface PaymentClientsInterface {
-  getBraintreeClient(): Promise<braintree.Client | undefined>;
-  getDataCollector(): Promise<braintree.DataCollector | undefined>;
-  getHostedFields(): Promise<braintree.HostedFields | undefined>;
-  getVenmo(): Promise<braintree.Venmo | undefined>;
-  getPayPal(): Promise<braintree.PayPalCheckout | undefined>;
-  getApplePay(): Promise<braintree.ApplePay | undefined>;
+  getBraintreeClient(): Promise<braintree.Client>;
+  getDataCollector(): Promise<braintree.DataCollector>;
+  getHostedFields(): Promise<braintree.HostedFields>;
+  getVenmo(): Promise<braintree.Venmo>;
+  getPayPal(): Promise<braintree.PayPalCheckout>;
+  getApplePay(): Promise<braintree.ApplePay>;
+  getGooglePayBraintreeClient(): Promise<braintree.GooglePayment>;
 
+  getGooglePaymentsClient(): Promise<google.payments.api.PaymentsClient>;
   getPaypalLibrary(): Promise<any>;
 }
 
@@ -32,6 +37,9 @@ export class PaymentClients implements PaymentClientsInterface {
    * @memberof PaymentClients
    */
   async getPaypalLibrary(): Promise<any> {
+    if (window.paypal) {
+      return window.paypal;
+    }
     await this.lazyLoader.loadScript(
       'https://www.paypalobjects.com/api/checkout.js',
       undefined,
@@ -43,6 +51,14 @@ export class PaymentClients implements PaymentClientsInterface {
     return window.paypal;
   }
 
+  async getGooglePaymentsClient(): Promise<google.payments.api.PaymentsClient> {
+    await this.lazyLoader.loadScript('https://pay.google.com/gp/p/js/pay.js');
+    const paymentsClient = new google.payments.api.PaymentsClient({
+      environment: 'TEST' // Or 'PRODUCTION'
+    });
+    return paymentsClient;
+  };
+
   /**
    * The Braintree client from Braintree.
    *
@@ -50,14 +66,13 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.Client | undefined)}
    * @memberof BraintreeManager
    */
-  async getBraintreeClient(): Promise<braintree.Client | undefined> {
+  async getBraintreeClient(): Promise<braintree.Client> {
     if (window.braintree?.client) {
       return window.braintree.client;
     }
     await this.loadBraintreeScript('client');
     return window.braintree.client;
   }
-
 
   /**
    * The Braintree Data Collector
@@ -66,15 +81,13 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.Client | undefined)}
    * @memberof BraintreeManager
    */
-  async getDataCollector(): Promise<braintree.DataCollector | undefined> {
+  async getDataCollector(): Promise<braintree.DataCollector> {
     if (window.braintree?.dataCollector) {
       return window.braintree.dataCollector;
     }
     await this.loadBraintreeScript('data-collector');
     return window.braintree.dataCollector;
   }
-
-  private dataCollectorCache?: braintree.DataCollector;
 
   /**
    * The HostedFields client from Braintree.
@@ -83,10 +96,11 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.HostedFields | undefined)}
    * @memberof BraintreeManager
    */
-  async getHostedFields(): Promise<braintree.HostedFields | undefined> {
+  async getHostedFields(): Promise<braintree.HostedFields> {
     if (window.braintree?.hostedFields) {
       return window.braintree.hostedFields;
     }
+    await this.getBraintreeClient();
     await this.loadBraintreeScript('hosted-fields');
     return window.braintree.hostedFields;
   }
@@ -98,10 +112,12 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.Venmo | undefined)}
    * @memberof BraintreeManager
    */
-  async getVenmo(): Promise<braintree.Venmo | undefined> {
+  async getVenmo(): Promise<braintree.Venmo> {
     if (window.braintree?.venmo) {
       return window.braintree.venmo;
     }
+    await this.getDataCollector();
+    await this.getBraintreeClient();
     await this.loadBraintreeScript('venmo');
     return window.braintree.venmo;
   }
@@ -113,10 +129,11 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.PayPalCheckout | undefined)}
    * @memberof BraintreeManager
    */
-  async getPayPal(): Promise<braintree.PayPalCheckout | undefined> {
+  async getPayPal(): Promise<braintree.PayPalCheckout> {
     if (window.braintree?.paypalCheckout) {
       return window.braintree.paypalCheckout;
     }
+    await this.getBraintreeClient();
     await this.loadBraintreeScript('paypal-checkout');
     return window.braintree.paypalCheckout;
   }
@@ -128,25 +145,48 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.ApplePay | undefined)}
    * @memberof BraintreeManager
    */
-  async getApplePay(): Promise<braintree.ApplePay | undefined> {
+  async getApplePay(): Promise<braintree.ApplePay> {
     if (window.braintree?.applePay) {
       return window.braintree.applePay;
     }
+    await this.getBraintreeClient();
     await this.loadBraintreeScript('apple-pay');
     return window.braintree.applePay;
   }
 
+  /**
+   * The Google Pay client from Braintree.
+   *
+   * @readonly
+   * @type {(braintree.GooglePay)}
+   * @memberof BraintreeManager
+   */
+  async getGooglePayBraintreeClient(): Promise<braintree.GooglePayment> {
+    if (window.braintree?.googlePayment) {
+      return window.braintree.googlePayment;
+    }
+    await this.getBraintreeClient();
+    await this.loadBraintreeScript('google-payment');
+    return window.braintree.googlePayment;
+  }
+
   private async loadBraintreeScript(scriptName: string): Promise<any> {
-    const scriptWithSuffix = `${scriptName}.js`;
+    const extension = this.environment === HostingEnvironment.Production ? 'min.js' : 'js';
+    const scriptWithSuffix = `${scriptName}.${extension}`;
     const url = `https://js.braintreegateway.com/web/${this.braintreeVersion}/js/${scriptWithSuffix}`
     return this.lazyLoader.loadScript(url);
   }
 
   private braintreeVersion = '3.62.2';
 
-  constructor(lazyLoader: LazyLoaderServiceInterface) {
-    this.lazyLoader = lazyLoader;
+  private environment: HostingEnvironment = HostingEnvironment.Development;
 
+  constructor(
+    lazyLoader: LazyLoaderServiceInterface,
+    environment: HostingEnvironment
+  ) {
+    this.lazyLoader = lazyLoader;
+    this.environment = environment;
   }
 
   private lazyLoader: LazyLoaderServiceInterface;

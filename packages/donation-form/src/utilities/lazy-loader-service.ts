@@ -12,7 +12,7 @@ export class LazyLoaderService {
   private container: HTMLElement;
 
   constructor(
-    container = document.head
+    container: HTMLElement = document.head
   ) {
     this.container = container;
   }
@@ -44,7 +44,6 @@ export class LazyLoaderService {
       attributes?.forEach(element => {
         script.setAttribute(element.key, element.value)
       });
-      // script.setAttribute('async', 'true');
 
       switch (bundleType) {
         case BundleType.Module:

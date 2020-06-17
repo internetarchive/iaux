@@ -27,8 +27,6 @@ export class PaymentSelector extends LitElement {
 
   @property({ type: Boolean }) private venmoVisible = false;
 
-  @property({ type: Boolean }) private payPalVisible = false;
-
   /** @inheritdoc */
   render(): TemplateResult {
     return html`
@@ -88,6 +86,13 @@ export class PaymentSelector extends LitElement {
       handler?.isAvailable().then(value => {
         console.debug('applePay: isAvailable', value);
         this.applePayVisible = value;
+      });
+    });
+
+    this.paymentProviders?.getGooglePayHandler().then(handler => {
+      handler.isBrowserSupported().then(value => {
+        console.debug('googlePay: isAvailable', value);
+        this.googlePayVisible = value;
       });
     });
   }
