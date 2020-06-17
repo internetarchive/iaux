@@ -66,18 +66,29 @@ export class PaymentSelector extends LitElement {
   }
 
   updated(changed: PropertyValues) {
+    console.debug('updated', changed);
     if (changed.has('paymentProviders')) {
       this.setButtonVisibility();
     }
   }
 
   private async setButtonVisibility(): Promise<void> {
-    this.paymentProviders?.venmoHandler?.isBrowserSupported().then(value => {
-      this.venmoVisible = value;
+    console.debug('setButtonVisibility')
+
+    this.paymentProviders?.getVenmoHandler().then(handler => {
+      console.debug('getVenmo inside')
+      handler?.isBrowserSupported().then(value => {
+        console.debug('venmo: isBrowserSupporter', value);
+        this.venmoVisible = value;
+      });
     });
 
-    this.paymentProviders?.applePayHandler?.isAvailable().then(value => {
-      this.applePayVisible = value;
+    this.paymentProviders?.getApplePayHandler().then(handler => {
+      console.debug('getApplePayHandler inside')
+      handler?.isAvailable().then(value => {
+        console.debug('applePay: isAvailable', value);
+        this.applePayVisible = value;
+      });
     });
   }
 

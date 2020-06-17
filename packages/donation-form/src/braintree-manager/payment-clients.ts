@@ -1,13 +1,14 @@
-export interface PaymentClientsInterface {
-  braintree: braintree.Client | undefined;
-  dataCollector: braintree.DataCollector | undefined;
-  hostedFields: braintree.HostedFields | undefined;
-  venmo: braintree.Venmo | undefined;
-  paypal: braintree.PayPalCheckout | undefined;
-  applePay: braintree.ApplePay | undefined;
+import { LazyLoaderServiceInterface } from "../utilities/lazy-loader-service";
 
-  braintreeLibrary: any;
-  paypalLibrary: any;
+export interface PaymentClientsInterface {
+  getBraintreeClient(): Promise<braintree.Client | undefined>;
+  getDataCollector(): Promise<braintree.DataCollector | undefined>;
+  getHostedFields(): Promise<braintree.HostedFields | undefined>;
+  getVenmo(): Promise<braintree.Venmo | undefined>;
+  getPayPal(): Promise<braintree.PayPalCheckout | undefined>;
+  getApplePay(): Promise<braintree.ApplePay | undefined>;
+
+  getPaypalLibrary(): Promise<any>;
 }
 
 /**
@@ -23,16 +24,6 @@ export interface PaymentClientsInterface {
  */
 export class PaymentClients implements PaymentClientsInterface {
   /**
-   * The top-level braintree library that gets loaded from the script tag.
-   *
-   * It is used to get the provider-specific clients.
-   *
-   * @type {object} Braintree library
-   * @memberof PaymentClients
-   */
-  readonly braintreeLibrary: any;
-
-  /**
    * The PayPal library loaded from the script tag.
    *
    * This is needed to configure the PayPal button. The Braintree library does not handle this.
@@ -40,7 +31,17 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {object} PayPal library
    * @memberof PaymentClients
    */
-  readonly paypalLibrary: any;
+  async getPaypalLibrary(): Promise<any> {
+    await this.lazyLoader.loadScript(
+      'https://www.paypalobjects.com/api/checkout.js',
+      undefined,
+      [
+        { key: 'data-version-4', value: '' },
+        { key: 'log-level', value: 'warn' }
+      ]
+    );
+    return window.paypal;
+  }
 
   /**
    * The Braintree client from Braintree.
@@ -49,9 +50,14 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.Client | undefined)}
    * @memberof BraintreeManager
    */
-  get braintree(): braintree.Client | undefined {
-    return this.braintreeLibrary.client;
+  async getBraintreeClient(): Promise<braintree.Client | undefined> {
+    if (window.braintree?.client) {
+      return window.braintree.client;
+    }
+    await this.loadBraintreeScript('client');
+    return window.braintree.client;
   }
+
 
   /**
    * The Braintree Data Collector
@@ -60,9 +66,15 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.Client | undefined)}
    * @memberof BraintreeManager
    */
-  get dataCollector(): braintree.DataCollector | undefined {
-    return this.braintreeLibrary.dataCollector;
+  async getDataCollector(): Promise<braintree.DataCollector | undefined> {
+    if (window.braintree?.dataCollector) {
+      return window.braintree.dataCollector;
+    }
+    await this.loadBraintreeScript('data-collector');
+    return window.braintree.dataCollector;
   }
+
+  private dataCollectorCache?: braintree.DataCollector;
 
   /**
    * The HostedFields client from Braintree.
@@ -71,8 +83,12 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.HostedFields | undefined)}
    * @memberof BraintreeManager
    */
-  get hostedFields(): braintree.HostedFields {
-    return this.braintreeLibrary.hostedFields;
+  async getHostedFields(): Promise<braintree.HostedFields | undefined> {
+    if (window.braintree?.hostedFields) {
+      return window.braintree.hostedFields;
+    }
+    await this.loadBraintreeScript('hosted-fields');
+    return window.braintree.hostedFields;
   }
 
   /**
@@ -82,8 +98,12 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.Venmo | undefined)}
    * @memberof BraintreeManager
    */
-  get venmo(): braintree.Venmo | undefined {
-    return this.braintreeLibrary.venmo;
+  async getVenmo(): Promise<braintree.Venmo | undefined> {
+    if (window.braintree?.venmo) {
+      return window.braintree.venmo;
+    }
+    await this.loadBraintreeScript('venmo');
+    return window.braintree.venmo;
   }
 
   /**
@@ -93,8 +113,12 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.PayPalCheckout | undefined)}
    * @memberof BraintreeManager
    */
-  get paypal(): braintree.PayPalCheckout | undefined {
-    return this.braintreeLibrary.paypalCheckout;
+  async getPayPal(): Promise<braintree.PayPalCheckout | undefined> {
+    if (window.braintree?.paypalCheckout) {
+      return window.braintree.paypalCheckout;
+    }
+    await this.loadBraintreeScript('paypal-checkout');
+    return window.braintree.paypalCheckout;
   }
 
   /**
@@ -104,17 +128,26 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {(braintree.ApplePay | undefined)}
    * @memberof BraintreeManager
    */
-  get applePay(): braintree.ApplePay | undefined {
-    return this.braintreeLibrary.applePay;
+  async getApplePay(): Promise<braintree.ApplePay | undefined> {
+    if (window.braintree?.applePay) {
+      return window.braintree.applePay;
+    }
+    await this.loadBraintreeScript('apple-pay');
+    return window.braintree.applePay;
   }
 
-  constructor(options: {
-    braintreeLibrary: any,
-    paypalLibrary: any
-  }) {
-    this.braintreeLibrary = options.braintreeLibrary;
-    this.paypalLibrary = options.paypalLibrary;
-
-    console.log('payment-clients', this.paypalLibrary);
+  private async loadBraintreeScript(scriptName: string): Promise<any> {
+    const scriptWithSuffix = `${scriptName}.js`;
+    const url = `https://js.braintreegateway.com/web/${this.braintreeVersion}/js/${scriptWithSuffix}`
+    return this.lazyLoader.loadScript(url);
   }
+
+  private braintreeVersion = '3.62.2';
+
+  constructor(lazyLoader: LazyLoaderServiceInterface) {
+    this.lazyLoader = lazyLoader;
+
+  }
+
+  private lazyLoader: LazyLoaderServiceInterface;
 }

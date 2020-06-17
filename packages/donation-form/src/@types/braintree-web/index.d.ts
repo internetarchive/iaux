@@ -15,6 +15,9 @@ declare namespace braintree {
     // If no callback is provided, teardown returns a promise.
     teardown(): Promise<void>;
   }
+
+  /** @type {module:braintree-web/venmo} */
+  export var venmo: braintree.Venmo;
 }
 
 declare namespace braintree {

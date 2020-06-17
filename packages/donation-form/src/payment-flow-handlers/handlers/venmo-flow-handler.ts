@@ -46,7 +46,8 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
    */
   async startup(): Promise<void> {
     console.debug('Venmo startup');
-    const instance = await this.braintreeManager.paymentProviders.venmoHandler?.getInstance();
+    const handler = await this.braintreeManager.paymentProviders.getVenmoHandler();
+    const instance = await handler?.getInstance();
     if (instance?.hasTokenizationResult()) {
       console.debug('Venmo startup, has tokenization results');
 
@@ -73,7 +74,8 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
     this.restorationStateHandler.persistState(contactInfo, donationInfo);
 
     try {
-      const result = await this.braintreeManager.paymentProviders.venmoHandler?.startPayment();
+      const handler = await this.braintreeManager.paymentProviders.getVenmoHandler();
+      const result = await handler?.startPayment();
       if (!result) {
         this.restorationStateHandler.clearState();
         this.donationFlowModalManager.showErrorModal();
@@ -119,16 +121,10 @@ export class VenmoFlowHandler implements VenmoFlowHandlerInterface {
       switch (donationInfo.donationType) {
         case DonationType.OneTime:
           this.donationFlowModalManager.showUpsellModal({
-            yesSelected: (amount: number) => {
-              console.debug('yesSelected', this);
-              this.modalYesSelected(response.value as SuccessResponse, amount);
-            },
-            noSelected: () => {
-              console.debug('noSelected');
-              this.modalNoThanksSelected();
-            }
+            yesSelected: this.modalYesSelected.bind(this, response.value as SuccessResponse),
+            noSelected: this.modalNoThanksSelected.bind(this)
           });
-            break;
+          break;
         case DonationType.Monthly:
           this.donationFlowModalManager.showThankYouModal();
           break;

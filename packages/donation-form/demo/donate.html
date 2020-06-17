@@ -117,61 +117,22 @@
 
     const start = performance.now();
 
-    Promise.all([
-      lazyLoaderService.loadScript('https://pay.google.com/gp/p/js/pay.js'),
-      lazyLoaderService.loadScript('https://www.paypalobjects.com/api/checkout.js', undefined, [{key: 'data-version-4', value: ''}, {key: 'log-level', value: 'warn'}]),
-      lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/client.js'),
-      lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/hosted-fields.js'),
-      lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/apple-pay.js'),
-      lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/venmo.js'),
-      lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/data-collector.min.js'),
-      lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.0/js/paypal-checkout.min.js'),
-      lazyLoaderService.loadScript('https://js.braintreegateway.com/web/3.62.1/js/google-payment.min.js'),
-    ]).then((args) => {
-      console.debug('LOADED', performance.now() - start, window, args);
+    const endpointManager = new BraintreeEndpointManager();
 
-      const endpointManager = new BraintreeEndpointManager();
+    const paymentClients = new PaymentClients(lazyLoaderService);
 
-      const paymentClients = new PaymentClients({
-        braintreeLibrary: window.braintree,
-        paypalLibrary: window.paypal
-      });
+    const braintreeManager = new BraintreeManager({
+      paymentClients,
+      endpointManager,
+      authorizationToken: window.config.BRAINTREE_KEY,
+      hostedFieldStyle,
+      hostedFieldConfig,
+      hostingEnvironment: 'dev'
+    });
 
-      const braintreeManager = new BraintreeManager({
-        paymentClients,
-        endpointManager,
-        authorizationToken: window.config.BRAINTREE_KEY,
-        hostedFieldStyle,
-        hostedFieldConfig,
-        hostingEnvironment: 'dev'
-      });
-
-      const recaptchaManager = new RecaptchaManager({
-        grecaptchaLibrary: window.grecaptcha,
-        siteKey: window.config.RECAPTCHA_KEY
-      });
-
-      const modalManager = document.querySelector('modal-manager');
-
-      const paymentFlowHandlers = new PaymentFlowHandlers({
-        braintreeManager: braintreeManager,
-        modalManager: modalManager,
-        recaptchaManager: recaptchaManager
-      });
-
-      const recaptchaContainer = document.getElementById('recaptcha');
-      const donationForm = document.querySelector('donation-form');
-
-      donationForm.braintreeManager = braintreeManager;
-      donationForm.modalManager = modalManager;
-      donationForm.paymentFlowHandlers = paymentFlowHandlers;
-
-      console.debug('setup recaptcha', window.grecaptcha.render);
-
-      recaptchaManager.setup({ container: recaptchaContainer, theme: 'light', type: 'image' });
-
-      braintreeManager.startup();
-      paymentFlowHandlers.startup();
+    const recaptchaManager = new RecaptchaManager({
+      grecaptchaLibrary: window.grecaptcha,
+      siteKey: window.config.RECAPTCHA_KEY
     });
 
     render(
@@ -185,7 +146,8 @@
             <div id="paypal-upsell-button"></div>
           </div>
         </modal-manager>
-        <donation-form>
+        <donation-form
+          .braintreeManager=${braintreeManager}>
 
           <!--
             Why are these slots here?
@@ -214,6 +176,28 @@
       `,
       document.querySelector('#demo')
     );
+
+    const modalManager = document.querySelector('modal-manager');
+
+    const paymentFlowHandlers = new PaymentFlowHandlers({
+      braintreeManager: braintreeManager,
+      modalManager: modalManager,
+      recaptchaManager: recaptchaManager
+    });
+
+    const recaptchaContainer = document.getElementById('recaptcha');
+    const donationForm = document.querySelector('donation-form');
+
+    donationForm.braintreeManager = braintreeManager;
+    donationForm.modalManager = modalManager;
+    donationForm.paymentFlowHandlers = paymentFlowHandlers;
+
+    console.debug('setup recaptcha', window.grecaptcha.render);
+
+    recaptchaManager.setup({ container: recaptchaContainer, theme: 'light', type: 'image' });
+
+    braintreeManager.startup();
+    paymentFlowHandlers.startup();
 
   </script>
 </body>

@@ -267,10 +267,11 @@ export class DonationForm extends LitElement {
   private async setupHostedFields() {
     console.debug('setupHostedFields');
     const start = performance.now();
-    await this.braintreeManager?.paymentProviders.creditCardHandler?.teardownHostedFields();
+    const handler = await this.braintreeManager?.paymentProviders.getCreditCardHandler();
+    await handler?.teardownHostedFields();
     const teardown = performance.now();
     console.debug('setupHostedFields, teardown took (ms)', teardown - start);
-    await this.braintreeManager?.paymentProviders.creditCardHandler?.setupHostedFields();
+    await handler?.setupHostedFields();
     console.debug('setupHostedFields, setup took (ms)', performance.now() - teardown);
   }
 

@@ -1,6 +1,6 @@
 export interface LazyLoaderServiceInterface {
   loadBundle(bundle: { module?: string, nomodule?: string }): Promise<void>;
-  loadScript(src: string): Promise<void>;
+  loadScript(src: string, bundleType?: BundleType, attributes?: {key: string, value: any}[]): Promise<void>;
 }
 
 export enum BundleType {

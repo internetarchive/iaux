@@ -56,14 +56,16 @@ export class BraintreeManager implements BraintreeManagerInterface {
     }
 
     return new Promise((resolve, reject) => {
-      this.paymentClients.braintree?.create({
-        authorization: this.authorizationToken
-      }, (clientErr: any | undefined, clientInstance: braintree.Client | undefined) => {
-        if (clientErr) {
-          return reject(clientErr);
-        }
-        this.braintreeInstance = clientInstance;
-        resolve(clientInstance);
+      this.paymentClients.getBraintreeClient().then((client?: braintree.Client) => {
+        client?.create({
+          authorization: this.authorizationToken
+        }, (clientErr: any | undefined, clientInstance: braintree.Client | undefined) => {
+          if (clientErr) {
+            return reject(clientErr);
+          }
+          this.braintreeInstance = clientInstance;
+          resolve(clientInstance);
+        });
       });
     });
   }
@@ -79,17 +81,19 @@ export class BraintreeManager implements BraintreeManagerInterface {
     if (!instance) { return; }
 
     console.debug('collectDeviceData, starting dataCollector');
-    this.paymentClients.dataCollector?.create({
-      client: instance,
-      kount: false,
-      paypal: true
-    }, (error?: braintree.BraintreeError, instance?: braintree.DataCollector) => {
-      if (error) {
-        console.error(error);
-        return;
-      }
-      console.debug('dataCollector started', instance?.deviceData);
-      this._deviceData = instance?.deviceData;
+    this.paymentClients.getDataCollector().then((collector?: braintree.DataCollector) => {
+      collector?.create({
+        client: instance,
+        kount: false,
+        paypal: true
+      }, (error?: braintree.BraintreeError, instance?: braintree.DataCollector) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+        console.debug('dataCollector started', instance?.deviceData);
+        this._deviceData = instance?.deviceData;
+      });
     });
   }
 

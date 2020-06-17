@@ -33,8 +33,8 @@ export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, AppleP
   // ApplePayFlowHandlerInterface conformance
   async paymentInitiated(donationInfo: DonationPaymentInfo, e: Event): Promise<void> {
     this.donationFlowModalManager.showProcessingModal();
-    this.applePayDataSource = await
-      this.braintreeManager?.paymentProviders.applePayHandler?.createPaymentRequest(e, donationInfo);
+    const handler = await this.braintreeManager?.paymentProviders.getApplePayHandler()
+    this.applePayDataSource = await handler?.createPaymentRequest(e, donationInfo);
 
     console.debug('paymentInitiated, e, applePayDataSource', e, this.applePayDataSource);
 
@@ -43,8 +43,8 @@ export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, AppleP
     }
   }
 
-  private async modalYesSelected(oneTimeDonationResponse: SuccessResponse, e: CustomEvent): Promise<void> {
-    console.debug('yesSelected, oneTimeDonationResponse', oneTimeDonationResponse, 'e', e);
+  private async modalYesSelected(oneTimeDonationResponse: SuccessResponse, amount: number): Promise<void> {
+    console.debug('yesSelected, oneTimeDonationResponse', oneTimeDonationResponse, 'e', amount);
 
     const donationRequest = new DonationRequest({
       paymentMethodNonce: oneTimeDonationResponse.paymentMethodNonce,
@@ -52,7 +52,7 @@ export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, AppleP
       recaptchaToken: undefined,
       customerId: oneTimeDonationResponse.customer_id,
       deviceData: this.braintreeManager.deviceData,
-      amount: e.detail.amount,
+      amount: amount,
       donationType: DonationType.Upsell,
       customer: oneTimeDonationResponse.customer,
       billing: oneTimeDonationResponse.billing,
@@ -82,12 +82,8 @@ export class ApplePayFlowHandler implements ApplePayFlowHandlerInterface, AppleP
     if (response.success) {
       if (this.applePayDataSource?.donationInfo.donationType == DonationType.OneTime) {
         this.donationFlowModalManager.showUpsellModal({
-          yesSelected: () => {
-            this.modalYesSelected.bind(this, response.value as SuccessResponse)
-          },
-          noSelected: () => {
-            this.modalNoThanksSelected.bind(this)
-          }
+          yesSelected: this.modalYesSelected.bind(this, response.value as SuccessResponse),
+          noSelected: this.modalNoThanksSelected.bind(this)
         })
       } else {
         this.donationFlowModalManager.showThankYouModal();

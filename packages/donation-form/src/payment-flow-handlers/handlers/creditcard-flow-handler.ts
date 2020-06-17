@@ -47,9 +47,10 @@ export class CreditCardFlowHandler implements CreditCardFlowHandlerInterface {
     const start = performance.now();
     console.debug('paymentInitiated donorContactInfo', donorContactInfo);
 
+    const handler = await this.braintreeManager.paymentProviders.getCreditCardHandler();
+
     try {
-      hostedFieldsResponse = await this.braintreeManager.paymentProviders
-        .creditCardHandler?.tokenizeHostedFields()
+      hostedFieldsResponse = await handler?.tokenizeHostedFields()
     } catch {
       this.donationFlowModalManager.showErrorModal();
       return

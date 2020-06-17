@@ -138,7 +138,9 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
   }
 
   async renderPayPalButton(donationInfo: DonationPaymentInfo): Promise<void> {
-    this.buttonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
+    const handler = await this.braintreeManager?.paymentProviders.getPaypalHandler();
+
+    this.buttonDataSource = await handler?.renderPayPalButton({
       selector: '#paypal-button',
       style: {
         color: 'blue' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
@@ -199,7 +201,9 @@ export class PayPalFlowHandler implements PayPalFlowHandlerInterface, PayPalButt
     oneTimePayload: braintree.PayPalCheckoutTokenizePayload,
     oneTimeSuccessResponse: SuccessResponse
   }): Promise<void> {
-    const upsellButtonDataSource = await this.braintreeManager?.paymentProviders.paypalHandler?.renderPayPalButton({
+    const handler = await this.braintreeManager?.paymentProviders.getPaypalHandler();
+
+    const upsellButtonDataSource = await handler?.renderPayPalButton({
       selector: '#paypal-upsell-button',
       style: {
         color: 'gold' as paypal.ButtonColorOption, // I'm not sure why I can't access the enum directly here.. I get a UMD error
