@@ -1,1 +1,1 @@
-export { LazyLoaderService } from './lib/lazy-loader-service.d';
+export { BundleType, LazyLoaderService, LazyLoaderServiceInterface } from './lib/lazy-loader-service.d';
