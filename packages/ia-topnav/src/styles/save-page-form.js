@@ -27,7 +27,7 @@ export default css`
     text-transform: uppercase;
     color: var(--savePageSubmitText);
     border: none;
-    border-radius: 0;
+    border-radius: 16px;
     background: var(--savePageSubmitBg);
     cursor: pointer;
   }

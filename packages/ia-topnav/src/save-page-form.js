@@ -46,7 +46,7 @@ class SavePageForm extends TrackedElement {
         <p>Capture a web page as it appears now for use as a trusted citation in the future.</p>
         <div>
           <input type="text" name="url_preload" placeholder="https://" />
-          <input type="submit" value="Save page" />
+          <input type="submit" value="Save" />
         </div>
         <p class=${this.errorClass}>Please enter a valid web address</p>
         <p>Only available for sites that allow crawlers.</p>

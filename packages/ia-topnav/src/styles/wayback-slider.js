@@ -16,13 +16,14 @@ export default [subnavListCSS, css`
 
     .grid {
       display: grid;
-      grid-template-columns: 260px 1fr 260px;
+      grid-template-columns: minmax(auto, 260px) 1fr minmax(auto, 260px);
+      /* Possible for 890 - 935: minmax(auto, 260px) 1fr minmax(auto, 260px) */
       grid-column-gap: 2.5rem;
     }
 
     .link-lists {
       display: grid;
-      grid-template-columns: 50% 50%;
+      grid-template-columns: calc(50% - 1.25rem) calc(50% - 1.25rem);
       grid-column-gap: 2.5rem;
     }
   }
