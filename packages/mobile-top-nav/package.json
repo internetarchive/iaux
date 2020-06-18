@@ -56,7 +56,7 @@
     "start": "es-dev-server --app-index ./index.html --node-resolve --watch --open",
     "storybook": "start-storybook -p 9001",
     "storybook:build": "build-storybook -o _site -s storybook-static",
-    "test": "karma start --coverage",
+    "test": "cd ../../ && yarn test:browser --grep \"packages/mobile-top-nav/test/**/*.test.js\" --coverage",
     "test:bs": "karma start karma.bs.config.js --compatibility all --coverage",
     "test:compatibility": "karma start --compatibility all --coverage",
     "test:compatibility:watch": "karma start --compatibility all --auto-watch=true --single-run=false",

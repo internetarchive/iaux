@@ -7,3 +7,4 @@ __snapshots__
 /publish_dev.sh
 /dist
 *.log
+/coverage

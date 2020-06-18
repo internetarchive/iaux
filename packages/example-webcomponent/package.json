@@ -13,7 +13,7 @@
     "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
     "lint": "npm run lint:eslint",
     "format": "npm run format:eslint && npm run format:prettier",
-    "test": "karma start --coverage",
+    "test": "cd ../../ && yarn test:browser --grep \"packages/example-webcomponent/test/**/*.test.js\" --coverage",
     "test:watch": "karma start --auto-watch=true --single-run=false",
     "test:update-snapshots": "karma start --update-snapshots",
     "test:prune-snapshots": "karma start --prune-snapshots",
