@@ -1,6 +1,6 @@
 # Lazy Loader Service
 
-An ES module to lazy load javascript
+An ES module to lazy load javascript. Based on the lazy loader from [Vaadin Router](https://github.com/vaadin/vaadin-router).
 
 ## Installation
 ```bash
@@ -16,17 +16,18 @@ const lazyLoaderService = new LazyLoaderService();
 await lazyLoaderService.loadScript({ src: 'https://my-server.com/some-service.js' });
 
 // assuming `some-service.js` creates `window.someService`
-const service = window.someService;
-
-// use your service...
-const response = service.getResponse('foo');
+const response = window.someService.getResponse('foo');
 
 ...
 ```
 
 ## Advanced Usage
 
-### Use an alternate script container. It defaults to `document.head`
+### Use an alternate script container instead of `document.head` (the default).
+```html
+<div id="script-container"></div>
+```
+
 ```js
 import { LazyLoaderService } from '@internetarchive/lazy-loader-service';
 
@@ -34,7 +35,7 @@ const container = document.querySelector('#script-container');
 const lazyLoaderService = new LazyLoaderService(container);
 ```
 
-### Load a javascript bundle
+### Load a javascript `module` / `nomodule`
 ```js
 import { LazyLoaderService } from '@internetarchive/lazy-loader-service';
 
