@@ -1,7 +1,5 @@
-import { LazyLoaderServiceInterface } from "../utilities/lazy-loader-service";
-import { Environment } from "../@types/paypal";
-import { HostingEnvironment } from "./braintree-manager";
-import { GooglePayment } from "braintree-web";
+import { LazyLoaderServiceInterface } from '@internetarchive/lazy-loader-service';
+import { HostingEnvironment } from './braintree-manager';
 
 export interface PaymentClientsInterface {
   getBraintreeClient(): Promise<braintree.Client>;
@@ -13,6 +11,7 @@ export interface PaymentClientsInterface {
   getGooglePayBraintreeClient(): Promise<braintree.GooglePayment>;
 
   getGooglePaymentsClient(): Promise<google.payments.api.PaymentsClient>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getPaypalLibrary(): Promise<any>;
 }
 
@@ -36,28 +35,28 @@ export class PaymentClients implements PaymentClientsInterface {
    * @type {object} PayPal library
    * @memberof PaymentClients
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getPaypalLibrary(): Promise<any> {
     if (window.paypal) {
       return window.paypal;
     }
-    await this.lazyLoader.loadScript(
-      'https://www.paypalobjects.com/api/checkout.js',
-      undefined,
-      [
+    await this.lazyLoader.loadScript({
+      src: 'https://www.paypalobjects.com/api/checkout.js',
+      attributes: [
         { key: 'data-version-4', value: '' },
         { key: 'log-level', value: 'warn' }
       ]
-    );
+    });
     return window.paypal;
   }
 
   async getGooglePaymentsClient(): Promise<google.payments.api.PaymentsClient> {
-    await this.lazyLoader.loadScript('https://pay.google.com/gp/p/js/pay.js');
+    await this.lazyLoader.loadScript({ src: 'https://pay.google.com/gp/p/js/pay.js' });
     const paymentsClient = new google.payments.api.PaymentsClient({
       environment: 'TEST' // Or 'PRODUCTION'
     });
     return paymentsClient;
-  };
+  }
 
   /**
    * The Braintree client from Braintree.
@@ -167,8 +166,8 @@ export class PaymentClients implements PaymentClientsInterface {
   private async loadBraintreeScript(scriptName: string): Promise<any> {
     const extension = this.environment === HostingEnvironment.Production ? 'min.js' : 'js';
     const scriptWithSuffix = `${scriptName}.${extension}`;
-    const url = `https://js.braintreegateway.com/web/${this.braintreeVersion}/js/${scriptWithSuffix}`
-    return this.lazyLoader.loadScript(url);
+    const url = `https://js.braintreegateway.com/web/${this.braintreeVersion}/js/${scriptWithSuffix}`;
+    return this.lazyLoader.loadScript({ src: url });
   }
 
   private braintreeVersion = '3.62.2';

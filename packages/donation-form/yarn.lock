@@ -1056,6 +1056,11 @@
     lit-element "^2.2.1"
     lit-html "^1.1.2"
 
+"@internetarchive/lazy-loader-service@0.0.1-alpha.564":
+  version "0.0.1-alpha.564"
+  resolved "https://registry.yarnpkg.com/@internetarchive/lazy-loader-service/-/lazy-loader-service-0.0.1-alpha.564.tgz#4755adbcf5b181cd7a42877d6bac35450770575a"
+  integrity sha512-qOPrgqOECuH9EXlkzONb4sKmPcr9zRqapvL+44JuiDjmaiSiNioCEn2+SKY2x7UeYPxAeqmDBqaHcPWRAaGSTg==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
