@@ -1,13 +1,12 @@
-import { BraintreeManagerInterface } from "../../braintree-manager/braintree-manager";
-import { DonationResponse } from "../../models/response-models/donation-response";
-import { DonationPaymentInfo } from "../../models/donation-info/donation-payment-info";
-import { SuccessResponse } from "../../models/response-models/success-models/success-response";
-import { DonationRequest } from "../../models/request_models/donation-request";
-import { PaymentProvider } from "../../models/common/payment-provider-name";
-import { DonationType } from "../../models/donation-info/donation-type";
-import { DonationFlowModalManagerInterface } from "../donation-flow-modal-manager";
-import { CustomerInfo } from "../../models/common/customer-info";
-import { BillingInfo } from "../../models/common/billing-info";
+import { BraintreeManagerInterface } from '../../braintree-manager/braintree-manager';
+import { DonationPaymentInfo } from '../../models/donation-info/donation-payment-info';
+import { SuccessResponse } from '../../models/response-models/success-models/success-response';
+import { DonationRequest } from '../../models/request_models/donation-request';
+import { PaymentProvider } from '../../models/common/payment-provider-name';
+import { DonationType } from '../../models/donation-info/donation-type';
+import { DonationFlowModalManagerInterface } from '../donation-flow-modal-manager';
+import { CustomerInfo } from '../../models/common/customer-info';
+import { BillingInfo } from '../../models/common/billing-info';
 
 export interface GooglePayFlowHandlerInterface {
   paymentInitiated(donationInfo: DonationPaymentInfo): Promise<void>;
@@ -19,8 +18,8 @@ export class GooglePayFlowHandler implements GooglePayFlowHandlerInterface {
   private braintreeManager: BraintreeManagerInterface;
 
   constructor(options: {
-    braintreeManager: BraintreeManagerInterface,
-    donationFlowModalManager: DonationFlowModalManagerInterface
+    braintreeManager: BraintreeManagerInterface;
+    donationFlowModalManager: DonationFlowModalManagerInterface;
   }) {
     this.braintreeManager = options.braintreeManager;
     this.donationFlowModalManager = options.donationFlowModalManager;
@@ -32,7 +31,7 @@ export class GooglePayFlowHandler implements GooglePayFlowHandlerInterface {
     const handler = await this.braintreeManager?.paymentProviders.getGooglePayHandler();
     const instance = await handler.getInstance();
 
-    var paymentDataRequest = await instance.createPaymentDataRequest({
+    const paymentDataRequest = await instance.createPaymentDataRequest({
       emailRequired: true,
       transactionInfo: {
         currencyCode: 'USD',
@@ -53,7 +52,9 @@ export class GooglePayFlowHandler implements GooglePayFlowHandlerInterface {
 
     try {
       const paymentData = await client.loadPaymentData(paymentDataRequest);
-      const result: braintree.GooglePaymentTokenizePayload = await instance.parseResponse(paymentData);
+      const result: braintree.GooglePaymentTokenizePayload = await instance.parseResponse(
+        paymentData
+      );
 
       const billingInfo = paymentData.paymentMethodData.info?.billingAddress;
       const name = billingInfo?.name;
@@ -68,8 +69,8 @@ export class GooglePayFlowHandler implements GooglePayFlowHandlerInterface {
 
       const customer = new CustomerInfo({
         email: paymentData.email,
-        firstName: firstName,
-        lastName: lastName,
+        firstName,
+        lastName,
       });
 
       const billing = new BillingInfo({
@@ -91,9 +92,10 @@ export class GooglePayFlowHandler implements GooglePayFlowHandlerInterface {
         amount: donationInfo.total,
         donationType: donationInfo.donationType,
 
-        customer: customer,
-        billing: billing,
+        customer,
+        billing,
         customFields: {
+          // eslint-disable-next-line @typescript-eslint/camelcase
           fee_amount_covered: donationInfo.feeAmountCovered
         }
       });
@@ -112,7 +114,10 @@ export class GooglePayFlowHandler implements GooglePayFlowHandlerInterface {
     }
   }
 
-  private handleSuccessfulResponse(donationInfo: DonationPaymentInfo, response: SuccessResponse) {
+  private handleSuccessfulResponse(
+    donationInfo: DonationPaymentInfo,
+    response: SuccessResponse
+  ): void {
     console.debug('handleSuccessfulResponse', this);
     switch (donationInfo.donationType) {
       case DonationType.OneTime:
@@ -126,18 +131,23 @@ export class GooglePayFlowHandler implements GooglePayFlowHandlerInterface {
             this.modalNoThanksSelected();
           }
         });
-      break;
+        break;
       case DonationType.Monthly:
         this.donationFlowModalManager.showThankYouModal();
-      break;
+        break;
       // This case will never be reached, it is only here for completeness.
       // The upsell case gets handled in `modalYesSelected()` below
       case DonationType.Upsell:
-      break;
+        break;
+      default:
+        break;
     }
   }
 
-  private async modalYesSelected(oneTimeDonationResponse: SuccessResponse, amount: number): Promise<void> {
+  private async modalYesSelected(
+    oneTimeDonationResponse: SuccessResponse,
+    amount: number
+  ): Promise<void> {
     console.debug('yesSelected, oneTimeDonationResponse', oneTimeDonationResponse, 'e', amount);
 
     const donationRequest = new DonationRequest({
@@ -146,7 +156,7 @@ export class GooglePayFlowHandler implements GooglePayFlowHandlerInterface {
       recaptchaToken: undefined,
       customerId: oneTimeDonationResponse.customer_id,
       deviceData: this.braintreeManager.deviceData,
-      amount: amount,
+      amount,
       donationType: DonationType.Upsell,
       customer: oneTimeDonationResponse.customer,
       billing: oneTimeDonationResponse.billing,
