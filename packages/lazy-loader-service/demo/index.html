@@ -36,8 +36,12 @@
           await lazyLoaderService.loadScript({ src: 'https://yourserver.com/some-library.js' });
           window.someLibrary.foo();
         </pre>
-        <button @click=${loadScript}>Lazy Load Something</button>
-        <div>Response: <span id="lazy-response"></span></div>
+        <center>
+          <button @click=${loadScript}>Lazy Load Script</button>
+          <p>(inspect the page head tag before and after pushing this)</p>
+          <div>Response:</div>
+          <div id="lazy-response"></div>
+        </center>
       `,
       document.querySelector('#demo')
     );

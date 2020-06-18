@@ -1,112 +1,66 @@
-# \<donation-form>
+# Lazy Loader Service
 
-A Radio Player that displays closed captioning and allows searching.
-
-![Radio Player](./assets/img/donation-form.png "Radio Player Demo")
+An ES module to lazy load javascript
 
 ## Installation
 ```bash
-yarn add @internetarchive/donation-form
+yarn add @internetarchive/lazy-loader-service
 ```
 
 ## Usage
 ```js
-// donation-form.js
-import RadioPlayer from '@internetarchive/donation-form';
-export default RadioPlayer;
+import { LazyLoaderService } from '@internetarchive/lazy-loader-service';
+
+const lazyLoaderService = new LazyLoaderService();
+
+await lazyLoaderService.loadScript({ src: 'https://my-server.com/some-service.js' });
+
+// assuming `some-service.js` creates `window.someService`
+const service = window.someService;
+
+// use your service...
+const response = service.getResponse('foo');
+
+...
 ```
 
-```html
-<!-- index.html -->
-<script type="module">
-  import './donation-form.js';
-</script>
+## Advanced Usage
 
-<style>
-  donation-form {
-    line-height: 1.5rem;
-    color: white;
+### Use an alternate script container. It defaults to `document.head`
+```js
+import { LazyLoaderService } from '@internetarchive/lazy-loader-service';
 
-    --timeColor: white;
-    --timeColumnWidth: 3rem;
-    --transcriptHeight: 200px;
+const container = document.querySelector('#script-container');
+const lazyLoaderService = new LazyLoaderService(container);
+```
 
-    --autoScrollButtonFontColor: black;
-    --autoScrollButtonBackgroundColor: white;
+### Load a javascript bundle
+```js
+import { LazyLoaderService } from '@internetarchive/lazy-loader-service';
 
-    --normalTextColor: gray;
-    --activeTextColor: white;
-    --searchResultInactiveBorderColor: gray;
-    --searchResultActiveBorderColor: green;
+const lazyLoaderService = new LazyLoaderService();
+await lazyLoaderService.loadBundle({
+  module: 'https://my-server.com/some-service-module.js',
+  nomodule: 'https://my-server.com/some-service-nomodule.js'
+});
 
-    --trackColor: black;
-    --trackBorder: 1px solid white;
-  }
-</style>
+const response = window.someService.getResponse('foo');
+...
+```
 
-<donation-form></donation-form>
+### Add additional attributes to the script tags
+```js
+import { LazyLoaderService } from '@internetarchive/lazy-loader-service';
 
-<script>
-  // Configure the radio player
+const lazyLoaderService = new LazyLoaderService();
+await lazyLoaderService.loadScript({
+  src: 'https://my-server.com/some-service.js',
+  attributes: [{ key: 'foo', value: 'bar' }]
+});
 
-  const radioPlayer = document.querySelector('donation-form');
+=>
 
-  radioPlayer.addEventListener('searchRequested', e => {
-    console.log('Search requested', e.detail.searchTerm);
-  });
-
-  radioPlayer.addEventListener('searchCleared', e => {
-    console.log('Search cleared');
-  });
-
-  radioPlayer.addEventListener('playbackPaused', e => {
-    console.log('Playback paused');
-  });
-
-  radioPlayer.addEventListener('playbackStarted', e => {
-    console.log('Playback started');
-  });
-
-  radioPlayer.addEventListener('currentTimeChanged', e => {
-    console.log('Current time changed', e.detail.currentTime);
-  });
-
-  radioPlayer.addEventListener('timeChangedFromScrub', e => {
-    console.log('New time', e.detail.newTime);
-  });
-
-  radioPlayer.addEventListener('transcriptEntrySelected', e => {
-    console.log('New time', e.detail.newTime);
-  });
-
-  radioPlayer.addEventListener('canplay', e => {
-    console.log('Media can play');
-  });
-
-  const quickSearchTerms = [];
-
-  const audioSource = new AudioSource(
-    'https://ia803005.us.archive.org/30/items/BBC_Radio_2_20190502_180000/BBC_Radio_2_20190502_180000.mp3',
-    'audio/mpeg',
-  );
-
-  const radioConfig = new RadioPlayerConfig(
-    'Voice of America',
-    '7:00pm',
-    './logo.jpg',
-    './waveform.png',
-    [audioSource],
-    quickSearchTerms,
-  );
-
-  const transcriptEntries: TranscriptEntryConfig[] = [...];
-
-  const transcriptConfig = new TranscriptConfig(transcriptEntries);
-
-  radioPlayer.config = radioConfig;
-  radioPlayer.transcriptConfig = transcriptConfig
-</script>
-
+<script src="https://my-server.com/some-service.js" async foo="bar"></script>
 ```
 
 # Development
@@ -118,7 +72,7 @@ yarn install
 
 ## Start Development Server
 ```bash
-yarn start  // start development server and typescript compiler
+yarn start
 ```
 
 ## Testing
@@ -129,11 +83,6 @@ yarn test
 ## Testing via browserstack
 ```bash
 yarn test:bs
-```
-
-## Demoing using storybook
-```bash
-yarn storybook
 ```
 
 ## Linting
