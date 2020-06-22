@@ -466,6 +466,41 @@ const more = (baseHost = prodHost) => ([
   { label: 'People', url: `https://${baseHost}/about/bios.php` },
 ]);
 
+const wayback = {
+  mobileAppsLinks: () => ([{
+    url: 'https://apps.apple.com/us/app/wayback-machine/id1201888313',
+    title: 'Wayback Machine (iPhone, iPad)',
+    external: true,
+  }, {
+    url: 'https://play.google.com/store/apps/details?id=com.archive.waybackmachine&hl=en_US',
+    title: 'Wayback Machine (Android)',
+    external: true,
+  }]),
+  browserExtensionsLinks: () => ([{
+    url: 'https://chrome.google.com/webstore/detail/save-to-the-wayback-machi/eebpioaailbjojmdbmlpomfgijnlcemk?hl=en',
+    title: 'Chrome',
+    external: true,
+  }, {
+    url: 'https://addons.mozilla.org/en-US/firefox/addon/wayback-machine_new/',
+    title: 'Firefox',
+    external: true,
+  }, {
+    url: 'https://apps.apple.com/us/app/wayback-machine/id1472432422?mt=12',
+    title: 'Safari',
+    external: true,
+  }]),
+  archiveItLinks: () => ([{
+    url: 'https://www.archive-it.org/explore',
+    title: 'Explore the Collections',
+  }, {
+    url: 'https://www.archive-it.org/blog/learn-more/',
+    title: 'Learn More',
+  }, {
+    url: 'https://www.archive-it.org/contact-us',
+    title: 'Build Collections',
+  }]),
+};
+
 export {
   audio,
   images,
@@ -475,4 +510,5 @@ export {
   texts,
   user,
   video,
+  wayback,
 };
