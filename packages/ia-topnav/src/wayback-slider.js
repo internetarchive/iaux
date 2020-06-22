@@ -42,7 +42,7 @@ class WaybackSlider extends TrackedElement {
 
   linkList(linkType, eventPrefix) {
     return this[linkType].map(link => html`<li>
-      <a href=${link.url} @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(`${eventPrefix}${link.title}`)}">${link.title}</a>
+      <a href=${link.url} @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(`${eventPrefix}${link.title}`)}" target=${link.external ? '_blank' : ''} rel=${link.external ? 'noreferrer noopener' : ''}>${link.title}</a>
     </li>`);
   }
 
