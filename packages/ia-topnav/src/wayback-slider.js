@@ -14,8 +14,9 @@ class WaybackSlider extends TrackedElement {
   static get properties() {
     return {
       archiveItLinks: { type: Array },
+      browserExtensionsLinks: { type: Array },
       config: { type: Object },
-      toolsLinks: { type: Array },
+      mobileAppsLinks: { type: Array },
     };
   }
 
@@ -23,11 +24,16 @@ class WaybackSlider extends TrackedElement {
     super();
 
     this.archiveItLinks = [];
-    this.toolsLinks = [];
+    this.browserExtensionsLinks = [];
+    this.mobileAppsLinks = [];
   }
 
-  get toolsItems() {
-    return this.linkList('toolsLinks', 'Wayback');
+  get mobileAppsItems() {
+    return this.linkList('mobileAppsLinks', 'Wayback');
+  }
+
+  get browserExtensionsItems() {
+    return this.linkList('browserExtensionsLinks', 'Wayback');
   }
 
   get archiveItItems() {
@@ -50,9 +56,13 @@ class WaybackSlider extends TrackedElement {
         <wayback-search waybackPagesArchived=${this.config.waybackPagesArchived} .queryHandler=${queryHandler}></wayback-search>
         <div class="link-lists">
           <div>
-            <h4>Tools</h4>
-            <ul class="tools">
-              ${this.toolsItems}
+            <h4>Mobile Apps</h4>
+            <ul class="mobile-apps">
+              ${this.mobileAppsItems}
+            </ul>
+            <h4>Browser Extensions</h4>
+            <ul class="browser-extensions">
+              ${this.browserExtensionsItems}
             </ul>
           </div>
           <div>

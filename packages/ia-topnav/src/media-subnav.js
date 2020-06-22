@@ -30,7 +30,8 @@ class MediaSubnav extends TrackedElement {
       web: () => html`<wayback-slider
         .config=${this.config}
         .archiveItLinks=${menus.wayback.archiveItLinks()}
-        .toolsLinks=${menus.wayback.toolsLinks(this.config.baseHost)}
+        .browserExtensionsLinks=${menus.wayback.browserExtensionsLinks()}
+        .mobileAppsLinks=${menus.wayback.mobileAppsLinks()}
       ></wayback-slider>`,
       more: () => html`<more-slider .config=${this.config}></more-slider>`,
     };

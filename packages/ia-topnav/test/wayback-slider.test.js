@@ -2,12 +2,18 @@ import { html, fixture, expect } from '@open-wc/testing';
 
 import '../src/wayback-slider';
 
-const component = ({ archiveItLinks, config, toolsLinks }) => (
+const component = ({
+  archiveItLinks,
+  browserExtensionsLinks,
+  config,
+  mobileAppsLinks
+}) => (
   html`
     <wayback-slider
       .config=${config}
       .archiveItLinks=${archiveItLinks}
-      .toolsLinks=${toolsLinks}
+      .browserExtensionsLinks=${browserExtensionsLinks}
+      .mobileAppsLinks=${mobileAppsLinks}
     ></wayback-slider>
   `
 );
@@ -21,12 +27,19 @@ const buildDefaults = () => ({
     url: '2',
     title: 'second'
   }],
-  toolsLinks: [{
+  browserExtensionsLinks: [{
     url: '3',
     title: 'third'
   }, {
     url: '4',
     title: 'fourth'
+  }],
+  mobileAppsLinks: [{
+    url: '5',
+    title: 'fifth'
+  }, {
+    url: '6',
+    title: 'sixth'
   }]
 });
 
@@ -42,12 +55,23 @@ describe('<wayback-slider>', () => {
     });
   });
 
-  it('renders the links passed in via the toolsLinks prop', async () => {
+  it('renders the links passed in via the browserExtensionsLinks prop', async () => {
     const options = buildDefaults();
     const el = await fixture(component(options));
-    const anchors = el.shadowRoot.querySelectorAll('.tools a');
+    const anchors = el.shadowRoot.querySelectorAll('.browser-extensions a');
 
-    options.toolsLinks.forEach((link, i) => {
+    options.browserExtensionsLinks.forEach((link, i) => {
+      expect(anchors[i].innerText).to.equal(link.title);
+      expect(anchors[i].getAttribute('href')).to.equal(link.url);
+    });
+  });
+
+  it('renders the links passed in via the mobileAppsLinks prop', async () => {
+    const options = buildDefaults();
+    const el = await fixture(component(options));
+    const anchors = el.shadowRoot.querySelectorAll('.mobile-apps a');
+
+    options.mobileAppsLinks.forEach((link, i) => {
       expect(anchors[i].innerText).to.equal(link.title);
       expect(anchors[i].getAttribute('href')).to.equal(link.url);
     });

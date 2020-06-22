@@ -467,15 +467,22 @@ const more = (baseHost = prodHost) => ([
 ]);
 
 const wayback = {
-  toolsLinks: (baseHost = prodHost) => ([{
-    url: `https://${baseHost}/help/wayback_api.php`,
-    title: 'Wayback Machine Availability API',
+  mobileAppsLinks: () => ([{
+    url: 'https://apps.apple.com/us/app/wayback-machine/id1201888313',
+    title: 'Wayback Machine (iPhone, iPad)',
   }, {
-    url: 'https://wordpress.org/plugins/broken-link-checker/',
-    title: 'WordPress Broken Link Checker',
+    url: 'https://play.google.com/store/apps/details?id=com.archive.waybackmachine&hl=en_US',
+    title: 'Wayback Machine (Android)',
+  }]),
+  browserExtensionsLinks: () => ([{
+    url: 'https://chrome.google.com/webstore/detail/save-to-the-wayback-machi/eebpioaailbjojmdbmlpomfgijnlcemk?hl=en',
+    title: 'Chrome',
   }, {
-    url: 'http://blog.archive.org/2013/10/24/web-archive-404-handler-for-webmasters/',
-    title: '404 Handler for Webmasters',
+    url: 'https://addons.mozilla.org/en-US/firefox/addon/wayback-machine_new/',
+    title: 'Firefox',
+  }, {
+    url: 'https://apps.apple.com/us/app/wayback-machine/id1472432422?mt=12',
+    title: 'Safari',
   }]),
   archiveItLinks: () => ([{
     url: 'https://www.archive-it.org/explore',
