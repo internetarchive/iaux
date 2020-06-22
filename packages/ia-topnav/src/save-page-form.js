@@ -49,7 +49,6 @@ class SavePageForm extends TrackedElement {
           <input type="submit" value="Save" />
         </div>
         <p class=${this.errorClass}>Please enter a valid web address</p>
-        <p>Only available for sites that allow crawlers.</p>
       </form>
     `;
   }
