@@ -81,7 +81,7 @@ export default IATopNav;
 <ia-topnav></ia-topnav>
 ```
 
-Config object:
+**Config object:**
 
 ```js
 {
@@ -100,6 +100,11 @@ Config object:
   hideSearch: true, // Hides search functionality
 }
 ```
+
+*Menus object:**
+
+Please see [src/data/menus.js](the example menu objects) for an example of a
+valid `menus` property.
 
 # Development
 
