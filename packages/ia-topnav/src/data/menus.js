@@ -469,7 +469,7 @@ const more = (baseHost = prodHost) => ([
 const wayback = {
   mobileAppsLinks: () => ([{
     url: 'https://apps.apple.com/us/app/wayback-machine/id1201888313',
-    title: 'Wayback Machine (iPhone, iPad)',
+    title: 'Wayback Machine (iOS)',
     external: true,
   }, {
     url: 'https://play.google.com/store/apps/details?id=com.archive.waybackmachine&hl=en_US',
