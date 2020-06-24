@@ -11,6 +11,7 @@ class MediaSlider extends LitElement {
     return {
       config: { type: Object },
       mediaSliderOpen: { type: Boolean },
+      menus: { type: Object },
       selectedMenuOption: { type: String },
     };
   }
@@ -20,6 +21,7 @@ class MediaSlider extends LitElement {
 
     this.config = {};
     this.mediaSliderOpen = false;
+    this.menus = {};
     this.selectedMenuOption = 'texts';
   }
 
@@ -32,6 +34,10 @@ class MediaSlider extends LitElement {
     return true;
   }
 
+  get selectedMenuItems() {
+    return this.menus[this.selectedMenuOption];
+  }
+
   render() {
     const sliderDetailsClass = this.mediaSliderOpen ? 'open' : 'closed';
 
@@ -39,7 +45,7 @@ class MediaSlider extends LitElement {
       <div class="overflow-clip ${sliderDetailsClass}">
         <div class="information-menu ${sliderDetailsClass}">
           <div class="info-box">
-            <media-subnav .config=${this.config} .menu=${this.selectedMenuOption}></media-subnav>
+            <media-subnav .config=${this.config} .menu=${this.selectedMenuOption} .menuItems=${this.selectedMenuItems}></media-subnav>
           </div>
         </div>
       </div>

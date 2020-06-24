@@ -1,18 +1,14 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
-import { more as moreMenu } from './data/menus';
 import toSentenceCase from './lib/toSentenceCase';
 import moreSliderCSS from './styles/more-slider';
 
 class MoreSlider extends TrackedElement {
   static get properties() {
     return {
-      config: { type: Object }
+      config: { type: Object },
+      menuItems: { type: Array },
     };
-  }
-
-  get menuItems() {
-    return moreMenu(this.config.baseHost);
   }
 
   static get styles() {

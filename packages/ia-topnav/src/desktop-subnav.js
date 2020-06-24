@@ -1,5 +1,4 @@
 import { html } from 'lit-element';
-import { more } from './data/menus';
 import TrackedElement from './tracked-element';
 import desktopSubnavCSS from './styles/desktop-subnav';
 import icons from './assets/img/icons';
@@ -11,12 +10,13 @@ class DesktopSubnav extends TrackedElement {
 
   static get properties() {
     return {
-      baseHost: { type: String }
+      baseHost: { type: String },
+      menuItems: { type: Array },
     };
   }
 
   get listItems() {
-    return more(this.baseHost).map(link => (
+    return this.menuItems.map(link => (
       html`
         <li>
           <a class="${link.label.toLowerCase()}" href="${link.url}">${link.label}${DesktopSubnav.iconFor(link.label)}</a>

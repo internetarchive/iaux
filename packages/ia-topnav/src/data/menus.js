@@ -1,6 +1,8 @@
 import { prodHost } from '../constants';
 
-const texts = (baseHost = prodHost) => ({
+const baseHost = prodHost;
+
+const texts = {
   heading: 'Books',
   iconLinks: [{
     title: 'Books to Borrow',
@@ -61,9 +63,9 @@ const texts = (baseHost = prodHost) => ({
     title: 'Additional Collections',
     url: `https://${baseHost}/details/additional_collections`,
   }],
-});
+};
 
-const video = (baseHost = prodHost) => ({
+const video = {
   heading: 'Video',
   iconLinks: [{
     icon: `https://${baseHost}/services/img/tv`,
@@ -136,9 +138,9 @@ const video = (baseHost = prodHost) => ({
     title: 'Norton Media Center',
     url: `https://${baseHost}/details/nmcma`,
   }]
-});
+};
 
-const audio = (baseHost = prodHost) => ({
+const audio = {
   heading: 'Internet Archive Audio',
   iconLinks: [{
     icon: `https://${baseHost}/services/img/etree`,
@@ -193,9 +195,9 @@ const audio = (baseHost = prodHost) => ({
     title: 'Podcasts',
     url: `https://${baseHost}/details/podcasts`,
   }],
-});
+};
 
-const software = (baseHost = prodHost) => ({
+const software = {
   heading: 'Software',
   iconLinks: [{
     icon: `https://${baseHost}/services/img/internetarcade`,
@@ -271,9 +273,9 @@ const software = (baseHost = prodHost) => ({
     title: 'DOOM Level CD',
     url: `https://${baseHost}/details/doom-cds`,
   }],
-});
+};
 
-const images = (baseHost = prodHost) => ({
+const images = {
   heading: 'Images',
   iconLinks: [{
     icon: `https://${baseHost}/services/img/metropolitanmuseumofart-gallery`,
@@ -313,10 +315,9 @@ const images = (baseHost = prodHost) => ({
     title: 'Ames Research Center',
     url: `https://${baseHost}/details/amesresearchcenterimagelibrary`,
   }]
-});
+};
 
 const user = ({
-  baseHost = prodHost,
   catUrl,
   username,
   isAdmin,
@@ -444,7 +445,7 @@ const user = ({
   return allLinks;
 };
 
-const signedOut = (baseHost = prodHost) => ([{
+const signedOut = [{
   href: `https://${baseHost}/account/signup`,
   title: 'Sign up for free',
   analyticsEvent: 'SignUpDropdown',
@@ -452,9 +453,9 @@ const signedOut = (baseHost = prodHost) => ([{
   href: `https://${baseHost}/account/login`,
   title: 'Log in',
   analyticsEvent: 'LogInDropdown',
-}]);
+}];
 
-const more = (baseHost = prodHost) => ([
+const more = [
   { label: 'About', url: `https://${baseHost}/about/` },
   { label: 'Blog', url: 'https://blog.archive.org/' },
   { label: 'Projects', url: `https://${baseHost}/projects/` },
@@ -464,10 +465,10 @@ const more = (baseHost = prodHost) => ([
   { label: 'Jobs', url: `https://${baseHost}/about/jobs.php` },
   { label: 'Volunteer', url: `https://${baseHost}/about/volunteerpositions.php` },
   { label: 'People', url: `https://${baseHost}/about/bios.php` },
-]);
+];
 
 const wayback = {
-  mobileAppsLinks: () => ([{
+  mobileAppsLinks: [{
     url: 'https://apps.apple.com/us/app/wayback-machine/id1201888313',
     title: 'Wayback Machine (iOS)',
     external: true,
@@ -475,8 +476,8 @@ const wayback = {
     url: 'https://play.google.com/store/apps/details?id=com.archive.waybackmachine&hl=en_US',
     title: 'Wayback Machine (Android)',
     external: true,
-  }]),
-  browserExtensionsLinks: () => ([{
+  }],
+  browserExtensionsLinks: [{
     url: 'https://chrome.google.com/webstore/detail/save-to-the-wayback-machi/eebpioaailbjojmdbmlpomfgijnlcemk?hl=en',
     title: 'Chrome',
     external: true,
@@ -488,8 +489,8 @@ const wayback = {
     url: 'https://apps.apple.com/us/app/wayback-machine/id1472432422?mt=12',
     title: 'Safari',
     external: true,
-  }]),
-  archiveItLinks: () => ([{
+  }],
+  archiveItLinks: [{
     url: 'https://www.archive-it.org/explore',
     title: 'Explore the Collections',
   }, {
@@ -498,7 +499,7 @@ const wayback = {
   }, {
     url: 'https://www.archive-it.org/contact-us',
     title: 'Build Collections',
-  }]),
+  }],
 };
 
 export {

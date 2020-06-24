@@ -12,20 +12,7 @@ describe('Menu data', () => {
       'user',
       'more',
     ].forEach((category) => {
-      expect(menus[category]('archive.org')).to.not.be.undefined;
-    });
-  });
-
-  it('uses prodHost as a default', () => {
-    [
-      'texts',
-      'video',
-      'audio',
-      'software',
-      'images',
-      'more',
-    ].forEach((category) => {
-      expect(menus[category]()).to.not.be.undefined;
+      expect(menus[category]).to.not.be.undefined;
     });
   });
 });

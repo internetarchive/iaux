@@ -28,7 +28,9 @@
       <h1>Site example</h1>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </main>
-    <script>
+    <script type="module">
+      import * as baseMenus from './src/data/menus.js';
+
       const config = {
         baseHost: 'archive.org',
         catUrl: 'https://catalogd.archive.org',
@@ -44,7 +46,14 @@
         hiddenSearchOptions: [],
       };
       const topnav = document.createElement('ia-topnav');
-      topnav.setAttribute('config', JSON.stringify(config));
+      const menus = Object.assign({}, baseMenus, {
+        user: baseMenus.user(config),
+        web: baseMenus.wayback,
+      });
+      Object.assign(topnav, {
+        config,
+        menus,
+      });
       document.body.insertBefore(topnav, document.body.firstChild);
 
       topnav.addEventListener('trackClick', ({ detail }) => {
