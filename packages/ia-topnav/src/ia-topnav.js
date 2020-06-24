@@ -164,7 +164,7 @@ export default class IATopNav extends LitElement {
           .mediaSliderOpen=${this.mediaSliderOpen}
         ></media-slider>
       </div>
-      <desktop-subnav .baseUrl=${this.config.baseHost}></desktop-subnav>
+      <desktop-subnav .baseHost=${this.config.baseHost}></desktop-subnav>
       <search-menu
         .config=${this.config}
         .openMenu=${this.openMenu}
