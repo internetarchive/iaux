@@ -210,7 +210,7 @@ const software = (baseHost = prodHost) => ({
     title: 'All software',
     url: `https://${baseHost}/details/software`,
   }, {
-    title: 'latest This Just In',
+    title: 'This Just In',
     url: `https://${baseHost}/search.php?query=mediatype:software&sort=-publicdate`,
   }, {
     title: 'Old School Emulation',

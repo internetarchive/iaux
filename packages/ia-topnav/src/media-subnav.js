@@ -49,7 +49,7 @@ class MediaSubnav extends TrackedElement {
   }
 
   analyticsEvent(title) {
-    return `${this.config.eventCategory}|${toSentenceCase(title)}`;
+    return `${this.config.eventCategory}|${toSentenceCase(title)}${toSentenceCase(this.menu)}`;
   }
 
   get iconLinks() {
