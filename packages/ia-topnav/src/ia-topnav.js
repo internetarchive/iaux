@@ -18,7 +18,17 @@ export default class IATopNav extends LitElement {
     return {
       config: { type: Object },
       mediaSliderOpen: { type: Boolean },
-      menus: { type: Object },
+      menus: {
+        type: Object,
+        converter: {
+          fromAttribute: value => (
+            JSON.parse(atob(value))
+          ),
+          toAttribute: value => (
+            btoa(JSON.stringify(value))
+          )
+        }
+      },
       openMenu: { type: String },
       searchIn: { type: String },
       selectedMenuOption: { type: String },
