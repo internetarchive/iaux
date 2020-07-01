@@ -19,14 +19,14 @@ class MoreSlider extends TrackedElement {
     return `https://${this.config.baseHost}`;
   }
 
-  analyticsEvent(label) {
-    return `${this.config.eventCategory}|NavMore${toSentenceCase(label)}`;
+  analyticsEvent(title) {
+    return `${this.config.eventCategory}|NavMore${toSentenceCase(title)}`;
   }
 
   render() {
     return html`
       <ul>
-        ${this.menuItems.map(item => html`<li><a @click=${this.trackClick} href="${item.url}" data-event-click-tracking="${this.analyticsEvent(item.label)}">${item.label}</a></li>`)}
+        ${this.menuItems.map(item => html`<li><a @click=${this.trackClick} href="${item.url}" data-event-click-tracking="${this.analyticsEvent(item.title)}">${item.title}</a></li>`)}
       </ul>
     `;
   }

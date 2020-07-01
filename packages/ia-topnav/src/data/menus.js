@@ -326,35 +326,35 @@ const user = ({
   biblio,
 }) => {
   const generalLinks = [{
-    href: `https://${baseHost}/create`,
+    url: `https://${baseHost}/create`,
     title: 'Upload',
     analyticsEvent: 'UserUpload',
   }, {
-    href: `https://${baseHost}/details/@${username}`,
+    url: `https://${baseHost}/details/@${username}`,
     title: 'My library',
     analyticsEvent: 'UserLibrary',
   }, {
-    href: `https://${baseHost}/details/@${username}?tab=loans`,
+    url: `https://${baseHost}/details/@${username}?tab=loans`,
     title: 'My loans',
     analyticsEvent: 'UserLoans',
   }, {
-    href: `https://${baseHost}/details/fav-${username}`,
+    url: `https://${baseHost}/details/fav-${username}`,
     title: 'My favorites',
     analyticsEvent: 'UserFavorites',
   }, {
-    href: `https://${baseHost}/details/@${username}/web-archive`,
+    url: `https://${baseHost}/details/@${username}/web-archive`,
     title: 'My web archive',
     analyticsEvent: 'UserWebArchive',
   }, {
-    href: `https://${baseHost}/account/index.php?settings=1`,
+    url: `https://${baseHost}/account/index.php?settings=1`,
     title: 'Edit settings',
     analyticsEvent: 'UserSettings',
   }, {
-    href: 'https://help.archive.org',
+    url: 'https://help.archive.org',
     title: 'Get help',
     analyticsEvent: 'UserHelp',
   }, {
-    href: `https://${baseHost}/account/logout`,
+    url: `https://${baseHost}/account/logout`,
     title: 'Log out',
     analyticsEvent: 'UserLogOut',
   }];
@@ -364,53 +364,53 @@ const user = ({
   }, {
     title: 'item:'
   }, {
-    href: `https://${baseHost}/editxml/${identifier}`,
+    url: `https://${baseHost}/editxml/${identifier}`,
     title: 'edit xml',
     analyticsEvent: 'AdminUserEditXML',
   }, {
-    href: `https://${baseHost}/edit.php?redir=1&identifier=${identifier}`,
+    url: `https://${baseHost}/edit.php?redir=1&identifier=${identifier}`,
     title: 'edit files',
     analyticsEvent: 'AdminUserEditFiles',
   }, {
-    href: `https://${baseHost}/download/${identifier}/`,
+    url: `https://${baseHost}/download/${identifier}/`,
     title: 'download',
     analyticsEvent: 'AdminUserDownload',
   }, {
-    href: `https://${baseHost}/metadata/${identifier}/`,
+    url: `https://${baseHost}/metadata/${identifier}/`,
     title: 'metadata',
     analyticsEvent: 'AdminUserMetadata',
   }, {
-    href: `${catUrl}/history/${identifier}`,
+    url: `${catUrl}/history/${identifier}`,
     title: 'history',
     analyticsEvent: 'AdminUserHistory',
   }, {
-    href: `https://${baseHost}/manage/${identifier}`,
+    url: `https://${baseHost}/manage/${identifier}`,
     title: 'manage',
     analyticsEvent: 'AdminUserManager',
   }, {
-    href: `https://${baseHost}/manage/${identifier}#make_dark`,
+    url: `https://${baseHost}/manage/${identifier}#make_dark`,
     title: 'curate',
     analyticsEvent: 'AdminUserCurate',
   }, {
-    href: `https://${baseHost}/manage/${identifier}#modify_xml`,
+    url: `https://${baseHost}/manage/${identifier}#modify_xml`,
     title: 'modify xml',
     analyticsEvent: 'AdminUserModifyXML',
   }, {
-    href: `https://${baseHost}/services/flags/admin.php?identifier=${identifier}`,
+    url: `https://${baseHost}/services/flags/admin.php?identifier=${identifier}`,
     title: 'manage flags',
     analyticsEvent: 'AdminUserManageFlags',
   }];
 
   const biblioLinks = [{
-    href: `${biblio}&ignored=${identifier}`,
+    url: `${biblio}&ignored=${identifier}`,
     title: 'biblio',
     analyticsEvent: 'AdminUserBiblio',
   }, {
-    href: `https://${baseHost}/bookview.php?mode=debug&identifier=${identifier}`,
+    url: `https://${baseHost}/bookview.php?mode=debug&identifier=${identifier}`,
     title: 'bookview',
     analyticsEvent: 'AdminUserBookView',
   }, {
-    href: `https://${baseHost}/download/${identifier}/format=Single Page Processed JP2 ZIP`,
+    url: `https://${baseHost}/download/${identifier}/format=Single Page Processed JP2 ZIP`,
     title: 'jp2 zip',
     analyticsEvent: 'AdminUserJP2Zip',
   }];
@@ -420,11 +420,11 @@ const user = ({
   }, {
     title: uploader,
   }, {
-    href: `https://${baseHost}/admins/useradmin.php?searchUser=${uploader}&ignore=${identifier}`,
+    url: `https://${baseHost}/admins/useradmin.php?searchUser=${uploader}&ignore=${identifier}`,
     title: 'user admin',
     analyticsEvent: 'AdminUserUserAdmin',
   }, {
-    href: `https://${baseHost}/admins/setadmin.php?user=${uploader}&ignore=${identifier}`,
+    url: `https://${baseHost}/admins/setadmin.php?user=${uploader}&ignore=${identifier}`,
     title: 'user privs',
     analyticsEvent: 'AdminUserUserPrivs',
   }];
@@ -446,25 +446,25 @@ const user = ({
 };
 
 const signedOut = [{
-  href: `https://${baseHost}/account/signup`,
+  url: `https://${baseHost}/account/signup`,
   title: 'Sign up for free',
   analyticsEvent: 'SignUpDropdown',
 }, {
-  href: `https://${baseHost}/account/login`,
+  url: `https://${baseHost}/account/login`,
   title: 'Log in',
   analyticsEvent: 'LogInDropdown',
 }];
 
 const more = [
-  { label: 'About', url: `https://${baseHost}/about/` },
-  { label: 'Blog', url: 'https://blog.archive.org/' },
-  { label: 'Projects', url: `https://${baseHost}/projects/` },
-  { label: 'Help', url: `https://${baseHost}/about/faqs.php` },
-  { label: 'Donate', url: `https://${baseHost}/donate/` },
-  { label: 'Contact', url: `https://${baseHost}/about/contact.php` },
-  { label: 'Jobs', url: `https://${baseHost}/about/jobs.php` },
-  { label: 'Volunteer', url: `https://${baseHost}/about/volunteerpositions.php` },
-  { label: 'People', url: `https://${baseHost}/about/bios.php` },
+  { title: 'About', url: `https://${baseHost}/about/` },
+  { title: 'Blog', url: 'https://blog.archive.org/' },
+  { title: 'Projects', url: `https://${baseHost}/projects/` },
+  { title: 'Help', url: `https://${baseHost}/about/faqs.php` },
+  { title: 'Donate', url: `https://${baseHost}/donate/` },
+  { title: 'Contact', url: `https://${baseHost}/about/contact.php` },
+  { title: 'Jobs', url: `https://${baseHost}/about/jobs.php` },
+  { title: 'Volunteer', url: `https://${baseHost}/about/volunteerpositions.php` },
+  { title: 'People', url: `https://${baseHost}/about/bios.php` },
 ];
 
 const wayback = {

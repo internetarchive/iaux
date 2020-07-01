@@ -19,17 +19,17 @@ class DesktopSubnav extends TrackedElement {
     return this.menuItems.map(link => (
       html`
         <li>
-          <a class="${link.label.toLowerCase()}" href="${link.url}">${link.label}${DesktopSubnav.iconFor(link.label)}</a>
+          <a class="${link.title.toLowerCase()}" href="${link.url}">${link.title}${DesktopSubnav.iconFor(link.title)}</a>
         </li>
       `
     ));
   }
 
-  static iconFor(label) {
+  static iconFor(title) {
     const subnavIcons = {
       Donate: icons.donate
     };
-    return subnavIcons[label] ? subnavIcons[label] : html``;
+    return subnavIcons[title] ? subnavIcons[title] : html``;
   }
 
   render() {

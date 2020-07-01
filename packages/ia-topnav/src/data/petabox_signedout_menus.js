@@ -140,39 +140,39 @@ export default {
   },
   "more": [
     {
-      "label": "About",
+      "title": "About",
       "url": "https://www-shaner4.archive.org/about/"
     },
     {
-      "label": "Blog",
+      "title": "Blog",
       "url": "https://blog.archive.org/"
     },
     {
-      "label": "Projects",
+      "title": "Projects",
       "url": "https://www-shaner4.archive.org/projects/"
     },
     {
-      "label": "Help",
+      "title": "Help",
       "url": "https://www-shaner4.archive.org/about/faqs.php"
     },
     {
-      "label": "Donate",
+      "title": "Donate",
       "url": "https://www-shaner4.archive.org/donate/"
     },
     {
-      "label": "Contact",
+      "title": "Contact",
       "url": "https://www-shaner4.archive.org/about/contact.php"
     },
     {
-      "label": "Jobs",
+      "title": "Jobs",
       "url": "https://www-shaner4.archive.org/about/jobs.php"
     },
     {
-      "label": "Volunteer",
+      "title": "Volunteer",
       "url": "https://www-shaner4.archive.org/about/volunteerpositions.php"
     },
     {
-      "label": "People",
+      "title": "People",
       "url": "https://www-shaner4.archive.org/about/bios.php"
     }
   ],
@@ -496,12 +496,12 @@ export default {
   },
   "signedOut": [
     {
-      "href": "https://www-shaner4.archive.org/account/signup",
+      "url": "https://www-shaner4.archive.org/account/signup",
       "title": "Sign up for free",
       "analyticsEvent": "AvatarMenu-Signup"
     },
     {
-      "href": "https://www-shaner4.archive.org/account/login",
+      "url": "https://www-shaner4.archive.org/account/login",
       "title": "Log in",
       "analyticsEvent": "AvatarMenu-Login"
     }
