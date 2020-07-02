@@ -6,7 +6,7 @@ import { texts } from '../src/data/menus';
 const component = (mediaSliderOpen, selectedMenuOption) => (
   html`<media-slider
           ?mediaSliderOpen="${mediaSliderOpen}"
-          selectedMenuOption="${selectedMenuOption}"
+          .selectedMenuOption="${selectedMenuOption}"
           .menus=${{ texts }}></media-slider>`
 );
 
