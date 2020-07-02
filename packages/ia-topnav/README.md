@@ -86,16 +86,11 @@ export default IATopNav;
 ```js
 {
   baseHost: "archive.org", // domain used to build most links
-  catUrl: 'https://catalogd.archive.org', // catalogd base used to build admin history link
-  waybackUrl: "web.archive.org", // domain used for Wayback search
   screenName: "really_long_screen_name_that_may_be_truncated_on_mobile", // full screen name displayed in user menu
   username: "shaneriley", // short user name used for desktop nav and some link building
   eventCategory: "MobileTopNav", // Google Analytics event category
   waybackPagesArchived: "425 billion", // Copy to display for number of pages archived at the top of the Wayback search form
   isAdmin: true, // User admin flag. Boolean.
-  identifier: "foo", // Item identifier
-  uploader: "bar-uploader@baz.org", // Email address of item uploader
-  biblio: "https://some-url.com", // Base URL for Biblio link
   hiddenSearchOptions: [], // Array of strings representing the values of options that should be hidden from search options
   hideSearch: true, // Hides search functionality
 }

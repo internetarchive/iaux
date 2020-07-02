@@ -33,21 +33,23 @@
 
       const config = {
         baseHost: 'archive.org',
-        catUrl: 'https://catalogd.archive.org',
-        waybackUrl: 'web.archive.org',
         screenName: 'really_long_screen_name_that_may_be_truncated_on_mobile',
         username: 'shaneriley',
         eventCategory: 'MobileTopNav',
         waybackPagesArchived: '424 billion',
         isAdmin: true,
-        identifier: 'foo',
-        uploader: 'bar-uploader@baz.org',
-        biblio: 'https://some-url.com',
         hiddenSearchOptions: [],
       };
       const topnav = document.createElement('ia-topnav');
       const menus = Object.assign({}, baseMenus, {
-        user: baseMenus.user(config),
+        user: baseMenus.user({
+          catUrl: 'https://catalogd.archive.org',
+          username: config.username,
+          isAdmin: config.isAdmin,
+          identifier: 'foo',
+          uploader: 'bar-uploader@baz.org',
+          biblio: 'https://some-url.com',
+        }),
         web: baseMenus.wayback,
       });
       Object.assign(topnav, {
