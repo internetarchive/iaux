@@ -6,7 +6,8 @@ import { texts } from '../src/data/menus';
 const component = (mediaSliderOpen, selectedMenuOption) => (
   html`<media-slider
           ?mediaSliderOpen="${mediaSliderOpen}"
-          selectedMenuOption="${selectedMenuOption}"></media-slider>`
+          .selectedMenuOption="${selectedMenuOption}"
+          .menus=${{ texts }}></media-slider>`
 );
 
 describe('<media-slider>', () => {
@@ -21,7 +22,7 @@ describe('<media-slider>', () => {
     const mediaSlider = await fixture(component(false, 'texts'));
     const menuHeading = mediaSlider.shadowRoot.querySelector('media-subnav').shadowRoot.querySelector('h3');
 
-    expect(menuHeading.innerText).to.equal(texts().heading);
+    expect(menuHeading.innerText).to.equal(texts.heading);
   });
 
   it('renders the Wayback component when web menu selected', async () => {

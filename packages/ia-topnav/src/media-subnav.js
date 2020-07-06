@@ -1,6 +1,5 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
-import * as menus from './data/menus';
 import './wayback-slider';
 import './more-slider';
 import mediaSubnavCSS from './styles/media-subnav';
@@ -15,31 +14,33 @@ class MediaSubnav extends TrackedElement {
     return {
       config: { type: Object },
       menu: { type: String },
+      menuItems: { type: Array },
     };
   }
 
   constructor() {
     super();
 
-    this.menu = '';
     this.config = {};
+    this.menu = '';
+    this.menuItems = [];
 
     // Begin properties not monitored by LitElement
     this.links = MediaSubnav.defaultLinks;
     this.templates = {
       web: () => html`<wayback-slider
         .config=${this.config}
-        .archiveItLinks=${menus.wayback.archiveItLinks()}
-        .browserExtensionsLinks=${menus.wayback.browserExtensionsLinks()}
-        .mobileAppsLinks=${menus.wayback.mobileAppsLinks()}
+        .archiveItLinks=${this.menuItems.archiveItLinks}
+        .browserExtensionsLinks=${this.menuItems.browserExtensionsLinks}
+        .mobileAppsLinks=${this.menuItems.mobileAppsLinks}
       ></wayback-slider>`,
-      more: () => html`<more-slider .config=${this.config}></more-slider>`,
+      more: () => html`<more-slider .config=${this.config} .menuItems=${this.menuItems}></more-slider>`,
     };
   }
 
   shouldUpdate() {
-    if (menus[this.menu]) {
-      this.links = menus[this.menu](this.config.baseHost);
+    if (this.menuItems) {
+      this.links = this.menuItems;
     }
     return true;
   }

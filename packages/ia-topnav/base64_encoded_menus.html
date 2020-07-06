@@ -24,11 +24,13 @@
   </head>
 
   <body>
+    <div id="topnav"></div>
     <main>
       <h1>Site example</h1>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </main>
     <script type="module">
+      import { html, render } from './node_modules/lit-html/lit-html.js';
       import * as baseMenus from './src/data/menus.js';
 
       const config = {
@@ -40,7 +42,6 @@
         isAdmin: true,
         hiddenSearchOptions: [],
       };
-      const topnav = document.createElement('ia-topnav');
       const menus = Object.assign({}, baseMenus, {
         user: baseMenus.user({
           catUrl: 'https://catalogd.archive.org',
@@ -52,11 +53,11 @@
         }),
         web: baseMenus.wayback,
       });
-      Object.assign(topnav, {
-        config,
-        menus,
-      });
-      document.body.insertBefore(topnav, document.body.firstChild);
+      render(html`
+        <ia-topnav config=${JSON.stringify(config)} menus=${btoa(JSON.stringify(menus))}></ia-topnav>
+      `, document.getElementById('topnav'));
+
+      const topnav = document.querySelector('ia-topnav');
 
       topnav.addEventListener('trackClick', ({ detail }) => {
         console.log(`Analytics click fired: ${detail.event}`);

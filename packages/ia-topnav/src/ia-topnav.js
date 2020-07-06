@@ -7,7 +7,6 @@ import './media-slider';
 import './desktop-subnav';
 import './dropdown-menu';
 import './signed-out-dropdown';
-import { signedOut, user as userMenu } from './data/menus';
 import iaTopNavCSS from './styles/ia-topnav';
 
 export default class IATopNav extends LitElement {
@@ -19,6 +18,17 @@ export default class IATopNav extends LitElement {
     return {
       config: { type: Object },
       mediaSliderOpen: { type: Boolean },
+      menus: {
+        type: Object,
+        converter: {
+          fromAttribute: value => (
+            JSON.parse(atob(value))
+          ),
+          toAttribute: value => (
+            btoa(JSON.stringify(value))
+          )
+        }
+      },
       openMenu: { type: String },
       searchIn: { type: String },
       selectedMenuOption: { type: String },
@@ -29,6 +39,7 @@ export default class IATopNav extends LitElement {
     super();
     this.config = {};
     this.mediaSliderOpen = false;
+    this.menus = {};
     this.openMenu = '';
     this.searchIn = '';
     this.selectedMenuOption = '';
@@ -115,10 +126,6 @@ export default class IATopNav extends LitElement {
     return !!this.openMenu || this.mediaSliderOpen ? 'visible' : '';
   }
 
-  get userMenuItems() {
-    return userMenu(this.config);
-  }
-
   get userMenu() {
     return html`
       <user-menu
@@ -139,9 +146,21 @@ export default class IATopNav extends LitElement {
         .config=${this.config}
         .open=${this.signedOutOpened}
         tabindex="${this.signedOutTabIndex}"
-        .menuItems=${signedOut(this.config.baseHost)}
+        .menuItems=${this.signedOutMenuItems}
       ></signed-out-dropdown>
     `;
+  }
+
+  get signedOutMenuItems() {
+    return this.menus.signedOut;
+  }
+
+  get userMenuItems() {
+    return this.menus.user;
+  }
+
+  get desktopSubnavMenuItems() {
+    return this.menus.more;
   }
 
   render() {
@@ -162,9 +181,10 @@ export default class IATopNav extends LitElement {
           .config=${this.config}
           .selectedMenuOption=${this.selectedMenuOption}
           .mediaSliderOpen=${this.mediaSliderOpen}
+          .menus=${this.menus}
         ></media-slider>
       </div>
-      <desktop-subnav .baseHost=${this.config.baseHost}></desktop-subnav>
+      <desktop-subnav .baseHost=${this.config.baseHost} .menuItems=${this.desktopSubnavMenuItems}></desktop-subnav>
       <search-menu
         .config=${this.config}
         .openMenu=${this.openMenu}

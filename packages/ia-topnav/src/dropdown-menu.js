@@ -41,13 +41,13 @@ class DropdownMenu extends TrackedElement {
   dropdownSection(submenu) {
     return submenu.map(item => (
       html`
-        <li>${item.href ? this.dropdownLink(item) : DropdownMenu.dropdownText(item)}</li>
+        <li>${item.url ? this.dropdownLink(item) : DropdownMenu.dropdownText(item)}</li>
       `
     ));
   }
 
   dropdownLink(link) {
-    return html`<a href="${link.href}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a>`;
+    return html`<a href="${link.url}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a>`;
   }
 
   static dropdownText(item) {
