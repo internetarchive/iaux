@@ -208,13 +208,13 @@ describe('<ia-topnav>', () => {
     expect(logoLink.getAttribute('href')).to.match(/archive\.org/);
   });
 
-  it('uses baseHost to render upload link', async () => {
-    const el = await fixture(container({ baseHost: 'archive.org' }));
+  it('uses uploadURL to render upload link', async () => {
+    const el = await fixture(container({ uploadURL: 'https://archive.org/create' }));
     const uploadLink = el
       .shadowRoot
       .querySelector('primary-nav')
       .shadowRoot
       .querySelector('.upload');
-    expect(uploadLink.getAttribute('href')).to.match(/archive\.org\/upload/);
+    expect(uploadLink.getAttribute('href')).to.match(/archive\.org\/create/);
   });
 });
