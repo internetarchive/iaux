@@ -78,6 +78,7 @@ class NavSearch extends TrackedElement {
           placeholder="Search"
           autocomplete="off"
           @focus=${this.toggleSearchMenu}
+          value=${this.config.searchQuery || ''}
         />
         <input type='hidden' name='sin' value='${this.searchIn}' />
         <button type="submit" class="search" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">

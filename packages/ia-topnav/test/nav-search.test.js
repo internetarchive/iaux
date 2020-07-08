@@ -41,4 +41,13 @@ describe('<nav-search>', () => {
     expect(locationHandler.callCount).to.equal(1);
     expect(locationHandler.firstArg).to.contain(`/details/tv?q=${query}`);
   });
+
+  it('prefills the search query when present in config', async () => {
+    const config = {
+      searchQuery: 'bananas'
+    };
+    const el = await fixture(html`<nav-search .config=${config}></nav-search>`);
+
+    expect(el.shadowRoot.querySelector('[name="query"]').value).to.equal(config.searchQuery);
+  });
 });
