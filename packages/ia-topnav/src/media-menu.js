@@ -31,7 +31,7 @@ const menuSelection = [
   {
     icon: 'software',
     menu: 'software',
-    href: '/details/sofware',
+    href: '/details/software',
     label: 'Software',
   },
   {
