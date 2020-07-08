@@ -121,7 +121,7 @@ class PrimaryNav extends TrackedElement {
       <nav>
         <a class="link-home" href="https://${this.config.baseHost}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}${logoWordmark}</a>
         ${this.searchMenu}
-        <a href="https://${this.config.baseHost}/upload/" class="upload">
+        <a href="${this.config.uploadURL}" class="upload">
           ${icons.upload}
           <span>Upload</span>
         </a>
