@@ -16,17 +16,17 @@ export default class IATopNav extends LitElement {
 
   static get properties() {
     return {
-      config: { type: Object },
+      config: {
+        type: Object,
+        converter(value) {
+          return JSON.parse(atob(value));
+        }
+      },
       mediaSliderOpen: { type: Boolean },
       menus: {
         type: Object,
-        converter: {
-          fromAttribute: value => (
-            JSON.parse(atob(value))
-          ),
-          toAttribute: value => (
-            btoa(JSON.stringify(value))
-          )
+        converter(value) {
+          return JSON.parse(atob(value));
         }
       },
       openMenu: { type: String },
