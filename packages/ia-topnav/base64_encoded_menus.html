@@ -56,7 +56,7 @@
         web: baseMenus.wayback,
       });
       render(html`
-        <ia-topnav config=${JSON.stringify(config)} menus=${btoa(JSON.stringify(menus))}></ia-topnav>
+        <ia-topnav config=${btoa(JSON.stringify(config))} menus=${btoa(JSON.stringify(menus))}></ia-topnav>
       `, document.getElementById('topnav'));
 
       const topnav = document.querySelector('ia-topnav');
