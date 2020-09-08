@@ -16,6 +16,7 @@ module.exports = (config) => {
 
       esm: {
         nodeResolve: true,
+        preserveSymlinks: true
       },
       // you can overwrite/extend the config further
     }),
