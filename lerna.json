@@ -3,5 +3,10 @@
     "packages/*"
   ],
   "version": "independent",
-  "npmClient": "yarn"
+  "npmClient": "yarn",
+  "command": {
+    "run": {
+      "concurrency": 1
+    }
+  }
 }
