@@ -43,7 +43,7 @@
     "dependencies": {
         "@stratumn/canonicaljson": "^1.0.3",
         "debug": "^4.1.1",
-        "lodash": "^4.17.13",
+        "lodash": "^4.17.19",
         "prettier-bytes": "^1.0.4",
         "prop-types": "^15.6.2",
         "react": "^16.7.0",
