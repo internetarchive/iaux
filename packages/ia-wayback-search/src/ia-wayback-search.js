@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit-element';
 import waybackSearchCSS from './styles/wayback-search';
 import searchIcon from './icon-search';
+import logo from './logo';
 
 class WaybackSearch extends LitElement {
   static get styles() {
@@ -60,8 +61,7 @@ class WaybackSearch extends LitElement {
             @click=${this.emitWaybackMachineLogoLinkClicked}
             data-event-click-tracking="TopNav|WaybackMachineLogoLink"
             href="https://archive.org/web/"
-            ><img src="https://archive.org/images/WaybackLogoSmall.png" alt="Wayback Machine"
-          /></a>
+            >${logo}</a>
           <label for="url">Search the Wayback Machine</label>
           <div class="search-field">
             <input type="text" name="url" id="url" placeholder="enter URL or keywords" />
