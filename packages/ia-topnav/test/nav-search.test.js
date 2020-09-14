@@ -50,4 +50,15 @@ describe('<nav-search>', () => {
 
     expect(el.shadowRoot.querySelector('[name="query"]').value).to.equal(config.searchQuery);
   });
+
+  it('conditionally renders `sin` input based on `searchIn` truthiness', async () => {
+    const el = await fixture(component);
+
+    expect(el.shadowRoot.querySelector('[name="sin"]')).to.be.null;
+
+    el.searchIn = 'TV';
+    await el.updateComplete;
+
+    expect(el.shadowRoot.querySelector('[name="sin"]')).not.to.be.null;
+  });
 });

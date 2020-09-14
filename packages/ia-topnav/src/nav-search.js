@@ -1,3 +1,4 @@
+import { nothing } from 'lit-html';
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import navSearchCSS from './styles/nav-search';
@@ -66,6 +67,10 @@ class NavSearch extends TrackedElement {
     }));
   }
 
+  get searchInsideInput() {
+    return this.searchIn ? html`<input type='hidden' name='sin' value='${this.searchIn}' />` : nothing;
+  }
+
   render() {
     const searchMenuClass = this.open ? 'flex' : 'search-inactive';
 
@@ -80,7 +85,7 @@ class NavSearch extends TrackedElement {
           @focus=${this.toggleSearchMenu}
           value=${this.config.searchQuery || ''}
         />
-        <input type='hidden' name='sin' value='${this.searchIn}' />
+        ${this.searchInsideInput}
         <button type="submit" class="search" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">
           ${icons.search}
         </button>
