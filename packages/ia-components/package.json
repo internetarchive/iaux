@@ -27,7 +27,7 @@
         "@storybook/react": "^4.1.4",
         "axios": "^0.19.0",
         "babel-loader": "^8.0.5",
-        "bookreader": "git://github.com/internetarchive/bookreader.git#^4.8.0",
+        "@internetarchive/bookreader": "4.15.0",
         "chromedriver": "^78.0.0",
         "css-loader": "^2.1.0",
         "http-proxy-middleware": "^1.0.3",

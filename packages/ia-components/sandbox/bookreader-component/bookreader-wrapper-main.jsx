@@ -79,7 +79,7 @@ export default class BookReaderWrapper extends Component {
 
   render() {
     return (
-      <section id="IABookReaderWrapper" {...this.props}>
+      <section className="bookreader-wrapper" {...this.props}>
         {!this.props.jsia ? null :
           <div id="IABookReaderMessageWrapper" style={{display: "none"}}></div>
         }
