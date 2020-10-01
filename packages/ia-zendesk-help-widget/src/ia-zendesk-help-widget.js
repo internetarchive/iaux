@@ -1,7 +1,6 @@
 import { html, LitElement } from 'lit-element';
 import zendeskWidgetCSS from './styles/zendesk-widget';
-// import searchIcon from './icon-search';
-// import logo from './logo';
+import questionIcon from './icon-question-mark';
 
 class ZenDeskHelpWidget extends LitElement {
   static get styles() {
@@ -64,7 +63,7 @@ class ZenDeskHelpWidget extends LitElement {
       <button 
         class="help-widget"
         @click=${this.initiateZenDesk}
-      >Get Help</button>`;
+      >${questionIcon} Help</button>`;
   }
 }
 
