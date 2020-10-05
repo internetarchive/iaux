@@ -10,17 +10,19 @@ class ZenDeskHelpWidget extends LitElement {
   static get properties() {
     return {
       widgetSrc: { type: String },
+      widgetkey: { type: String },
     };
   }
 
   constructor() {
     super();
     this.widgetSrc = '';
+    this.widgetkey = '';
   }
 
-  initiateZenDesk(e) {
+  initiateZenDesk() {
     // Hide button
-    e.target.style.opacity = 0;
+    this.style.opacity = 0;
 
     if (this.abortIfScriptAlreadyLoaded()) return;
 
@@ -50,12 +52,12 @@ class ZenDeskHelpWidget extends LitElement {
   injectScript() {
     const script = document.createElement('script');
     script.setAttribute('id', 'ze-snippet');
-    script.setAttribute('src', this.widgetSrc);
+    script.setAttribute('src', this.widgetSrc + this.widgetkey);
     document.head.appendChild(script);    
   }
 
   abortIfScriptAlreadyLoaded() {
-    if (document.querySelector(`script[src="${this.widgetSrc}"]`)) return;
+    if (document.querySelector(`script[src="${this.widgetSrc + this.widgetkey}"]`)) return;
   }
 
   render() {
