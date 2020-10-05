@@ -4,14 +4,16 @@
 
 ```html
 <ia-zendesk-help-widget
-  widgetSrc="https://static.zdassets.com/ekr/snippet.js?key=685f6dc4-48c5-411f-8463-cc6dd50abe2d"
+  widgetSrc="https://static.zdassets.com/ekr/snippet.js?key="
+  widgetKey="a-valid-key-411f-8463-cc6dd50abe2d"
 ></ia-zendesk-help-widget>
 ```
 
 ### Properties:
 
 ```js
-widgetSrc: { type: String }, // widget src which can be inject in codebase
+widgetSrc: { type: String }, // widget src
+widgetKey: { type: String }, // widget key
 ```
 
 ### Events

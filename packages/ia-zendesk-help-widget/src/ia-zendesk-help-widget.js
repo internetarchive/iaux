@@ -21,9 +21,10 @@ class ZenDeskHelpWidget extends LitElement {
   }
 
   initiateZenDesk() {
-    // Hide button
+    // Hide custom button
     this.style.opacity = 0;
 
+    // prevent further if third party script already loaded
     if (this.abortIfScriptAlreadyLoaded()) return;
 
     // Inject help widget
