@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-zendesk-help-widget",
-  "version": "0.1.1",
+  "version": "0.1.1-alpha1",
   "description": "Zendesk Help Widget Component",
   "license": "AGPL-3.0-only",
   "main": "index.js",
