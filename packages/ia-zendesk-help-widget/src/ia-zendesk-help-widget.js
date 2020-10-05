@@ -60,10 +60,10 @@ class ZenDeskHelpWidget extends LitElement {
 
   render() {
     return html`
-      <button 
+      <div
         class="help-widget"
         @click=${this.initiateZenDesk}
-      >${questionIcon} Help</button>`;
+      >${questionIcon} <span class="hidden-sm">Help</span></div>`;
   }
 }
 
