@@ -7,13 +7,13 @@ import {
 import '../src/ia-zendesk-help-widget';
 
 const component = (properties = {
-  widgetSrc: 'https://static.zdassets.com/ekr/snippet.js?key=',
-  widgetKey: '685f6dc4-48c5-411f-8463-cc6dd50abe2d',
+  widgetSrc: 'https://static.zdassets.com/ekr/snippet.js?key=685f6dc4-48c5-411f-8463-cc6dd50abe2d',
+  buttonVisible: true
 }) => (
   html`
     <ia-zendesk-help-widget
       widgetSrc=${properties.widgetSrc}
-      widgetKey=${properties.widgetKey}
+      buttonVisible=true
     ></ia-zendesk-help-widget>`
 );
 

@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-zendesk-help-widget",
-  "version": "0.1.1-alpha11",
+  "version": "0.1.1-alpha-e559eee",
   "description": "Zendesk Help Widget Component",
   "license": "AGPL-3.0-only",
   "main": "index.js",
@@ -28,6 +28,7 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
+    "@internetarchive/lazy-loader-service": "^0.1.0",
     "lit-element": "^2.2.1"
   },
   "devDependencies": {
@@ -45,7 +46,6 @@
     "gulp": "^4.0.2",
     "husky": "^4.2.3",
     "lint-staged": "^8.0.0",
-    "sinon": "^9.0.0",
     "webpack-merge": "^4.1.5"
   },
   "husky": {

@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit-element';
 import zendeskWidgetCSS from './styles/zendesk-widget';
-import questionIcon from './icon-question-mark';
+import buttonIcons from './help-button-icons';
+import { LazyLoaderService } from '@internetarchive/lazy-loader-service';
 
 class ZenDeskHelpWidget extends LitElement {
   static get styles() {
@@ -10,25 +11,27 @@ class ZenDeskHelpWidget extends LitElement {
   static get properties() {
     return {
       widgetSrc: { type: String },
-      widgetkey: { type: String },
+      buttonVisible: { type: Boolean },
     };
   }
 
   constructor() {
     super();
     this.widgetSrc = '';
-    this.widgetkey = '';
+    this.buttonVisible = true;
   }
 
-  initiateZenDesk() {
-    // Hide custom button
-    this.style.opacity = 0;
+  async initiateZenDesk(e) {
 
-    // prevent further if third party script already loaded
-    if (this.abortIfScriptAlreadyLoaded()) return;
+    // toggle custom button visibility with spinner
+    this.toggleButtonVisibility(e);
 
-    // Inject help widget
-    this.injectScript();
+    // load third-party script
+    const lazyLoaderService = new LazyLoaderService();
+    await lazyLoaderService.loadScript({
+      attributes: [{ key: 'id', value: 'ze-snippet' }],
+      src: this.widgetSrc,
+    });
 
     let countdownTicksLeft = 20;
     const timeoutTimer = setInterval(() => {
@@ -39,6 +42,7 @@ class ZenDeskHelpWidget extends LitElement {
         if (button) {
           // Found it! Click on it and hope the window opens!
           button.click();
+          this.buttonVisible = false;
           clearInterval(timeoutTimer);
           return;
         }
@@ -50,23 +54,25 @@ class ZenDeskHelpWidget extends LitElement {
     }, 250);
   }
 
-  injectScript() {
-    const script = document.createElement('script');
-    script.setAttribute('id', 'ze-snippet');
-    script.setAttribute('src', this.widgetSrc + this.widgetkey);
-    document.head.appendChild(script);    
+  toggleButtonVisibility(e) {
+    const loaderIcon = e.target.querySelector('.icon-loading-spinner');
+    const questionIcon = e.target.querySelector('.icon-question-mark');
+
+    if (loaderIcon) loaderIcon.classList.toggle('hidden');
+    if (questionIcon) questionIcon.classList.toggle('hidden');
   }
 
-  abortIfScriptAlreadyLoaded() {
-    if (document.querySelector(`script[src="${this.widgetSrc + this.widgetkey}"]`)) return;
+  get buttonVisibilityState() {
+    return !this.buttonVisible ? 'hidden' : '';
   }
 
   render() {
     return html`
-      <div
-        class="help-widget"
+      <button
+        class="help-widget ${this.buttonVisibilityState}"
         @click=${this.initiateZenDesk}
-      >${questionIcon} <span class="hidden-sm">Help</span></div>`;
+        data-event-click-tracking="ZenDesk|InitialHelpButton"
+      >${buttonIcons} <span class="hidden-sm">Help</span></button>`;
   }
 }
 
