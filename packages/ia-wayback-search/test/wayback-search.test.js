@@ -10,9 +10,10 @@ import '../src/ia-wayback-search';
 
 const component = (properties = {
   waybackPagesArchived: '32 trillion pages'
-}) => (
+}, baseHost = 'archive.org') => (
   html`
     <ia-wayback-search
+      .baseHost=${baseHost}
       waybackPagesArchived=${properties.waybackPagesArchived}
     ></ia-wayback-search>
   `
@@ -69,5 +70,12 @@ describe('<wayback-search>', () => {
     const response = await oneEvent(el, 'waybackSearchSubmitted');
 
     expect(response).to.exist;
+  });
+
+  it('uses the baseHost property when setting the logo anchor\'s href', async () => {
+    const host = 'archive.onion';
+    const el = await fixture(component({}, host));
+
+    expect(el.shadowRoot.querySelector('fieldset a').getAttribute('href')).to.contain(host);
   });
 });
