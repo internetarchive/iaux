@@ -2,10 +2,12 @@ import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import toSentenceCase from './lib/toSentenceCase';
 import moreSliderCSS from './styles/more-slider';
+import formatUrl from './lib/formatUrl';
 
 class MoreSlider extends TrackedElement {
   static get properties() {
     return {
+      baseHost: { type: String },
       config: { type: Object },
       menuItems: { type: Array },
     };
@@ -15,10 +17,6 @@ class MoreSlider extends TrackedElement {
     return moreSliderCSS;
   }
 
-  get baseUrl() {
-    return `https://${this.config.baseHost}`;
-  }
-
   analyticsEvent(title) {
     return `${this.config.eventCategory}|NavMore${toSentenceCase(title)}`;
   }
@@ -26,7 +24,7 @@ class MoreSlider extends TrackedElement {
   render() {
     return html`
       <ul>
-        ${this.menuItems.map(item => html`<li><a @click=${this.trackClick} href="${item.url}" data-event-click-tracking="${this.analyticsEvent(item.title)}">${item.title}</a></li>`)}
+        ${this.menuItems.map(item => html`<li><a @click=${this.trackClick} href=${formatUrl(item.url, this.baseHost)} data-event-click-tracking="${this.analyticsEvent(item.title)}">${item.title}</a></li>`)}
       </ul>
     `;
   }

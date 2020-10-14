@@ -78,14 +78,13 @@ export default IATopNav;
   }
 </style>
 
-<ia-topnav></ia-topnav>
+<ia-topnav baseHost="archive.org" config=${config} menus=${menus}></ia-topnav>
 ```
 
 **Config object:**
 
 ```js
 {
-  baseHost: "archive.org", // domain used to build most links
   screenName: "really_long_screen_name_that_may_be_truncated_on_mobile", // full screen name displayed in user menu
   username: "shaneriley", // short user name used for desktop nav and some link building
   eventCategory: "MobileTopNav", // Google Analytics event category

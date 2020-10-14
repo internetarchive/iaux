@@ -34,7 +34,6 @@
       import * as baseMenus from './src/data/menus.js';
 
       const config = {
-        baseHost: 'archive.org',
         screenName: 'really_long_screen_name_that_may_be_truncated_on_mobile',
         username: 'shaneriley',
         eventCategory: 'MobileTopNav',
@@ -56,7 +55,7 @@
         web: baseMenus.wayback,
       });
       render(html`
-        <ia-topnav config=${btoa(JSON.stringify(config))} menus=${btoa(JSON.stringify(menus))}></ia-topnav>
+        <ia-topnav baseHost="archive.org" config=${btoa(JSON.stringify(config))} menus=${btoa(JSON.stringify(menus))}></ia-topnav>
       `, document.getElementById('topnav'));
 
       const topnav = document.querySelector('ia-topnav');

@@ -8,6 +8,7 @@ import './media-menu';
 import logoWordmark from './assets/img/wordmark-narrow-spacing';
 import primaryNavCSS from './styles/primary-nav';
 import locationHandler from './lib/location-handler';
+import formatUrl from './lib/formatUrl';
 
 class PrimaryNav extends TrackedElement {
   static get styles() {
@@ -16,6 +17,7 @@ class PrimaryNav extends TrackedElement {
 
   static get properties() {
     return {
+      baseHost: { type: String },
       config: { type: Object },
       openMenu: { type: String },
       searchIn: { type: String },
@@ -81,6 +83,7 @@ class PrimaryNav extends TrackedElement {
   get loginIcon() {
     return html`
       <login-button
+        .baseHost=${this.baseHost}
         .config=${this.config}
         .dropdownOpen=${this.signedOutMenuOpen}
         .openMenu=${this.openMenu}
@@ -106,6 +109,7 @@ class PrimaryNav extends TrackedElement {
         ${icons.search}
       </button>
       <nav-search
+        .baseHost=${this.baseHost}
         .config=${this.config}
         .locationHandler=${locationHandler}
         .open=${this.searchMenuOpen}
@@ -119,9 +123,9 @@ class PrimaryNav extends TrackedElement {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
       <nav>
-        <a class="link-home" href="https://${this.config.baseHost}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}${logoWordmark}</a>
+        <a class="link-home" href=${formatUrl('/', this.baseHost)} @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}${logoWordmark}</a>
         ${this.searchMenu}
-        <a href="${this.config.uploadURL}" class="upload">
+        <a href="${formatUrl(this.config.uploadURL, this.baseHost)}" class="upload">
           ${icons.upload}
           <span>Upload</span>
         </a>
@@ -129,6 +133,7 @@ class PrimaryNav extends TrackedElement {
           ${this.config.username ? this.userIcon : this.loginIcon}
         </div>
         <media-menu
+          .baseHost=${this.baseHost}
           .config=${this.config}
           ?mediaMenuAnimate="${this.mediaMenuAnimate}"
           tabindex="${mediaMenuTabIndex}"

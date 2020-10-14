@@ -3,12 +3,10 @@ import '../src/more-slider';
 import { more } from '../src/data/menus';
 
 describe('<more-slider>', () => {
-  it('returns a baseUrl using this.config.baseHost', async () => {
-    const config = {
-      baseHost: 'archive.org'
-    };
-    const el = await fixture(html`<more-slider .config=${config} .menuItems=${more}>`);
+  it('renders links with relative hrefs using baseHost', async () => {
+    const baseHost = 'archive.org';
+    const el = await fixture(html`<more-slider .baseHost=${baseHost} .config=${{}} .menuItems=${more}>`);
 
-    expect(el.baseUrl).to.contain(config.baseHost);
+    expect(el.shadowRoot.querySelector('a').getAttribute('href')).to.contain(baseHost);
   });
 });

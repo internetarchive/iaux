@@ -5,6 +5,7 @@ import './save-page-form';
 import queryHandler from './lib/query-handler';
 import waybackSliderCSS from './styles/wayback-slider';
 import toSentenceCase from './lib/toSentenceCase';
+import formatUrl from './lib/formatUrl';
 
 class WaybackSlider extends TrackedElement {
   static get styles() {
@@ -14,6 +15,7 @@ class WaybackSlider extends TrackedElement {
   static get properties() {
     return {
       archiveItLinks: { type: Array },
+      baseHost: { type: String },
       browserExtensionsLinks: { type: Array },
       config: { type: Object },
       mobileAppsLinks: { type: Array },
@@ -42,7 +44,7 @@ class WaybackSlider extends TrackedElement {
 
   linkList(linkType, eventPrefix) {
     return this[linkType].map(link => html`<li>
-      <a href=${link.url} @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(`${eventPrefix}${link.title}`)}" target=${link.external ? '_blank' : ''} rel=${link.external ? 'noreferrer noopener' : ''}>${link.title}</a>
+      <a href=${formatUrl(link.url, this.baseHost)} @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(`${eventPrefix}${link.title}`)}" target=${link.external ? '_blank' : ''} rel=${link.external ? 'noreferrer noopener' : ''}>${link.title}</a>
     </li>`);
   }
 
@@ -53,7 +55,10 @@ class WaybackSlider extends TrackedElement {
   render() {
     return html`
       <div class="grid">
-        <wayback-search waybackPagesArchived=${this.config.waybackPagesArchived} .queryHandler=${queryHandler}></wayback-search>
+        <wayback-search
+          .baseHost=${this.baseHost}
+          waybackPagesArchived=${this.config.waybackPagesArchived}
+          .queryHandler=${queryHandler}></wayback-search>
         <div class="link-lists">
           <div>
             <h4>Mobile Apps</h4>

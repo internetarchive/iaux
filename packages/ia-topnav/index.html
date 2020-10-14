@@ -32,13 +32,12 @@
       import * as baseMenus from './src/data/menus.js';
 
       const config = {
-        baseHost: 'archive.org',
         screenName: 'really_long_screen_name_that_may_be_truncated_on_mobile',
         username: 'shaneriley',
         eventCategory: 'MobileTopNav',
         waybackPagesArchived: '424 billion',
         isAdmin: true,
-        uploadURL: 'https://archive.org/create',
+        uploadURL: '/create',
         searchQuery: 'atari',
         hiddenSearchOptions: [],
       };
@@ -55,6 +54,7 @@
         web: baseMenus.wayback,
       });
       Object.assign(topnav, {
+        baseHost: 'archive.onion',
         config,
         menus,
       });

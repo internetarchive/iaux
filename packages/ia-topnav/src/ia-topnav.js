@@ -16,6 +16,7 @@ export default class IATopNav extends LitElement {
 
   static get properties() {
     return {
+      baseHost: { type: String },
       config: {
         type: Object,
         converter(value) {
@@ -37,6 +38,7 @@ export default class IATopNav extends LitElement {
 
   constructor() {
     super();
+    this.baseHost = 'archive.org';
     this.config = {};
     this.mediaSliderOpen = false;
     this.menus = {};
@@ -129,6 +131,7 @@ export default class IATopNav extends LitElement {
   get userMenu() {
     return html`
       <user-menu
+        .baseHost=${this.baseHost}
         .config=${this.config}
         .menuItems=${this.userMenuItems}
         .open=${this.openMenu === 'user'}
@@ -167,6 +170,7 @@ export default class IATopNav extends LitElement {
     return html`
       <div class='topnav'>
         <primary-nav
+          .baseHost=${this.baseHost}
           .config=${this.config}
           .searchIn=${this.searchIn}
           .selectedMenuOption=${this.selectedMenuOption}
@@ -178,14 +182,16 @@ export default class IATopNav extends LitElement {
           @menuToggled=${this.menuToggled}
         ></primary-nav>
         <media-slider
+          .baseHost=${this.baseHost}
           .config=${this.config}
           .selectedMenuOption=${this.selectedMenuOption}
           .mediaSliderOpen=${this.mediaSliderOpen}
           .menus=${this.menus}
         ></media-slider>
       </div>
-      <desktop-subnav .baseHost=${this.config.baseHost} .menuItems=${this.desktopSubnavMenuItems}></desktop-subnav>
+      <desktop-subnav .baseHost=${this.baseHost} .menuItems=${this.desktopSubnavMenuItems}></desktop-subnav>
       <search-menu
+        .baseHost=${this.baseHost}
         .config=${this.config}
         .openMenu=${this.openMenu}
         tabindex="${this.searchMenuTabIndex}"

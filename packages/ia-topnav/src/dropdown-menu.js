@@ -1,6 +1,7 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import dropdownMenuCSS from './styles/dropdown-menu';
+import formatUrl from './lib/formatUrl';
 
 class DropdownMenu extends TrackedElement {
   static get styles() {
@@ -9,6 +10,7 @@ class DropdownMenu extends TrackedElement {
 
   static get properties() {
     return {
+      baseHost: { type: String },
       config: { type: Object },
       menuItems: { type: Array },
       animate: { type: Boolean },
@@ -47,7 +49,7 @@ class DropdownMenu extends TrackedElement {
   }
 
   dropdownLink(link) {
-    return html`<a href="${link.url}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a>`;
+    return html`<a href="${formatUrl(link.url, this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a>`;
   }
 
   static dropdownText(item) {
