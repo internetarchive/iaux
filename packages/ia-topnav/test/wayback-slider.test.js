@@ -10,6 +10,7 @@ const component = ({
 }) => (
   html`
     <wayback-slider
+      .baseHost='archive.org'
       .config=${config}
       .archiveItLinks=${archiveItLinks}
       .browserExtensionsLinks=${browserExtensionsLinks}
@@ -19,7 +20,7 @@ const component = ({
 );
 
 const buildDefaults = () => ({
-  config: { baseHost: 'archive.org' },
+  config: {},
   archiveItLinks: [{
     url: '1',
     title: 'first'
@@ -51,7 +52,7 @@ describe('<wayback-slider>', () => {
 
     options.archiveItLinks.forEach((link, i) => {
       expect(anchors[i].innerText).to.equal(link.title);
-      expect(anchors[i].getAttribute('href')).to.equal(link.url);
+      expect(anchors[i].getAttribute('href')).to.contain(link.url);
     });
   });
 
@@ -62,7 +63,7 @@ describe('<wayback-slider>', () => {
 
     options.browserExtensionsLinks.forEach((link, i) => {
       expect(anchors[i].innerText).to.equal(link.title);
-      expect(anchors[i].getAttribute('href')).to.equal(link.url);
+      expect(anchors[i].getAttribute('href')).to.contain(link.url);
     });
   });
 
@@ -73,7 +74,7 @@ describe('<wayback-slider>', () => {
 
     options.mobileAppsLinks.forEach((link, i) => {
       expect(anchors[i].innerText).to.equal(link.title);
-      expect(anchors[i].getAttribute('href')).to.equal(link.url);
+      expect(anchors[i].getAttribute('href')).to.contain(link.url);
     });
   });
 });

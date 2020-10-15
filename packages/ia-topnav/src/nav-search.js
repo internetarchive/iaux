@@ -3,6 +3,7 @@ import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import navSearchCSS from './styles/nav-search';
 import icons from './assets/img/icons';
+import formatUrl from './lib/formatUrl';
 
 class NavSearch extends TrackedElement {
   static get styles() {
@@ -11,6 +12,7 @@ class NavSearch extends TrackedElement {
 
   static get properties() {
     return {
+      baseHost: { type: String },
       config: { type: Object },
       locationHandler: { type: Function },
       open: { type: Boolean },
@@ -45,7 +47,7 @@ class NavSearch extends TrackedElement {
 
     // TV search points to a detail page with a q param instead
     if (this.searchIn === 'TV') {
-      this.locationHandler(`https://${this.config.baseHost}/details/tv?q=${query}`);
+      this.locationHandler(formatUrl(`/details/tv?q=${query}`, this.baseHost));
       e.preventDefault();
       return false;
     }
@@ -75,7 +77,7 @@ class NavSearch extends TrackedElement {
     const searchMenuClass = this.open ? 'flex' : 'search-inactive';
 
     return html`<div class="search-activated fade-in ${searchMenuClass}">
-      <form id="nav-search" class="highlight" action="https://${this.config.baseHost}/search.php" method="get" @submit=${this.search} data-event-submit-tracking="${this.config.eventCategory}|NavSearchSubmit">
+      <form id="nav-search" class="highlight" action=${formatUrl('/search.php', this.baseHost)} method="get" @submit=${this.search} data-event-submit-tracking="${this.config.eventCategory}|NavSearchSubmit">
         <input
           type="text"
           name="query"

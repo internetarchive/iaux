@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit-element';
 
 import './media-button';
 import mediaMenuCSS from './styles/media-menu';
+import formatUrl from './lib/formatUrl';
 
 const menuSelection = [
   {
@@ -62,6 +63,7 @@ class MediaMenu extends LitElement {
 
   static get properties() {
     return {
+      baseHost: { type: String },
       config: { type: Object },
       openMenu: { type: String },
       selectedMenuOption: { type: String },
@@ -88,7 +90,7 @@ class MediaMenu extends LitElement {
         <media-button
           .config=${this.config}
           .icon=${icon}
-          .href=${href}
+          .href=${formatUrl(href, this.baseHost)}
           .followable=${followable}
           .label=${label}
           .mediatype=${menu}

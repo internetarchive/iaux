@@ -7,8 +7,8 @@ import {
 
 import '../src/ia-topnav';
 
-const container = (config = {}) => (
-  html`<ia-topnav .config=${config}></ia-topnav>`
+const container = (config = {}, baseHost = '') => (
+  html`<ia-topnav .baseHost=${baseHost} .config=${config}></ia-topnav>`
 );
 
 const verifyClosed = (instance) => {
@@ -199,7 +199,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('uses baseHost to render logo link to homepage', async () => {
-    const el = await fixture(container({ baseHost: 'archive.org' }));
+    const el = await fixture(container({}, 'archive.org'));
     const logoLink = el
       .shadowRoot
       .querySelector('primary-nav')

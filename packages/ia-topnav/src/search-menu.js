@@ -1,6 +1,7 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import searchMenuCSS from './styles/search-menu';
+import formatUrl from './lib/formatUrl';
 
 class SearchMenu extends TrackedElement {
   static get styles() {
@@ -9,6 +10,7 @@ class SearchMenu extends TrackedElement {
 
   static get properties() {
     return {
+      baseHost: { type: String },
       config: { type: Object },
       openMenu: { type: String },
       searchMenuOpen: { type: Boolean },
@@ -95,7 +97,7 @@ class SearchMenu extends TrackedElement {
         aria-expanded="${searchMenuExpanded}"
       >
         ${this.searchTypesTemplate}
-        <a class="advanced-search" href="https://${this.config.baseHost}/advancedsearch.php" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch">Advanced Search</a>
+        <a class="advanced-search" href="${formatUrl('/advancedsearch.php', this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch">Advanced Search</a>
       </div>
     `;
   }

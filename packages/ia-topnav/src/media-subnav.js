@@ -4,6 +4,7 @@ import './wayback-slider';
 import './more-slider';
 import mediaSubnavCSS from './styles/media-subnav';
 import toSentenceCase from './lib/toSentenceCase';
+import formatUrl from './lib/formatUrl';
 
 class MediaSubnav extends TrackedElement {
   static get styles() {
@@ -12,6 +13,7 @@ class MediaSubnav extends TrackedElement {
 
   static get properties() {
     return {
+      baseHost: { type: String },
       config: { type: Object },
       menu: { type: String },
       menuItems: { type: Array },
@@ -29,12 +31,13 @@ class MediaSubnav extends TrackedElement {
     this.links = MediaSubnav.defaultLinks;
     this.templates = {
       web: () => html`<wayback-slider
+        .baseHost=${this.baseHost}
         .config=${this.config}
         .archiveItLinks=${this.menuItems.archiveItLinks}
         .browserExtensionsLinks=${this.menuItems.browserExtensionsLinks}
         .mobileAppsLinks=${this.menuItems.mobileAppsLinks}
       ></wayback-slider>`,
-      more: () => html`<more-slider .config=${this.config} .menuItems=${this.menuItems}></more-slider>`,
+      more: () => html`<more-slider .baseHost=${this.baseHost} .config=${this.config} .menuItems=${this.menuItems}></more-slider>`,
     };
   }
 
@@ -56,7 +59,7 @@ class MediaSubnav extends TrackedElement {
   get iconLinks() {
     return this.links.iconLinks.map(link => (
       html`
-        <a href="${link.url}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(link.title)}"><img src="${link.icon}" />${link.title}</a>
+        <a href="${formatUrl(link.url, this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(link.title)}"><img src="${link.icon}" />${link.title}</a>
       `
     ));
   }
@@ -64,7 +67,7 @@ class MediaSubnav extends TrackedElement {
   renderLinks(category) {
     return this.links[category].map(link => (
       html`
-        <li><a href="${link.url}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(link.title)}">${link.title}</a></li>
+        <li><a href="${formatUrl(link.url, this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(link.title)}">${link.title}</a></li>
       `
     ));
   }

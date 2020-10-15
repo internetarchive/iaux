@@ -2,6 +2,7 @@ import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import loginButtonCSS from './styles/login-button';
+import formatUrl from './lib/formatUrl';
 
 class LoginButton extends TrackedElement {
   static get styles() {
@@ -10,6 +11,7 @@ class LoginButton extends TrackedElement {
 
   static get properties() {
     return {
+      baseHost: { type: String },
       config: { type: Object },
       openMenu: { type: String },
     };
@@ -22,11 +24,11 @@ class LoginButton extends TrackedElement {
   }
 
   get signupPath() {
-    return `https://${this.config.baseHost}/account/signup`;
+    return formatUrl('/account/signup', this.baseHost);
   }
 
   get loginPath() {
-    return `https://${this.config.baseHost}/account/login`;
+    return formatUrl('/account/login', this.baseHost);
   }
 
   get analyticsEvent() {

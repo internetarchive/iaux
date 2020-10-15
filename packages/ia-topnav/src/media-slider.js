@@ -9,6 +9,7 @@ class MediaSlider extends LitElement {
 
   static get properties() {
     return {
+      baseHost: { type: String },
       config: { type: Object },
       mediaSliderOpen: { type: Boolean },
       menus: { type: Object },
@@ -45,7 +46,12 @@ class MediaSlider extends LitElement {
       <div class="overflow-clip ${sliderDetailsClass}">
         <div class="information-menu ${sliderDetailsClass}">
           <div class="info-box">
-            <media-subnav .config=${this.config} .menu=${this.selectedMenuOption} .menuItems=${this.selectedMenuItems}></media-subnav>
+            <media-subnav
+              .baseHost=${this.baseHost}
+              .config=${this.config}
+              .menu=${this.selectedMenuOption}
+              .menuItems=${this.selectedMenuItems}
+            ></media-subnav>
           </div>
         </div>
       </div>

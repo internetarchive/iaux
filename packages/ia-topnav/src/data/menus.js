@@ -7,7 +7,7 @@ const texts = {
   iconLinks: [{
     title: 'Books to Borrow',
     icon: `https://${baseHost}/images/book-lend.png`,
-    url: `https://${baseHost}/details/inlibrary`,
+    url: '/details/inlibrary',
   }, {
     title: 'Open Library',
     icon: `https://${baseHost}/images/widgetOL.png`,
@@ -15,53 +15,53 @@ const texts = {
   }],
   featuredLinks: [{
     title: 'All Books',
-    url: `https://${baseHost}/details/books`,
+    url: '/details/books',
   }, {
     title: 'All Texts',
-    url: `https://${baseHost}/details/texts`,
+    url: '/details/texts',
   }, {
     title: 'This Just In',
-    url: `https://${baseHost}/search.php?query=mediatype:texts&sort=-publicdate`,
+    url: '/search.php?query=mediatype:texts&sort=-publicdate',
   }, {
     title: 'Smithsonian Libraries',
-    url: `https://${baseHost}/details/smithsonian`,
+    url: '/details/smithsonian',
   }, {
     title: 'FEDLINK (US)',
-    url: `https://${baseHost}/details/fedlink`,
+    url: '/details/fedlink',
   }, {
     title: 'Genealogy',
-    url: `https://${baseHost}/details/genealogy`,
+    url: '/details/genealogy',
   }, {
     title: 'Lincoln Collection',
-    url: `https://${baseHost}/details/lincolncollection`,
+    url: '/details/lincolncollection',
   }],
   links: [{
     title: 'American Libraries',
-    url: `https://${baseHost}/details/americana`,
+    url: '/details/americana',
   }, {
     title: 'Canadian Libraries',
-    url: `https://${baseHost}/details/toronto`,
+    url: '/details/toronto',
   }, {
     title: 'Universal Library',
-    url: `https://${baseHost}/details/universallibrary`,
+    url: '/details/universallibrary',
   }, {
     title: 'Community Texts',
-    url: `https://${baseHost}/details/opensource`,
+    url: '/details/opensource',
   }, {
     title: 'Project Gutenberg',
-    url: `https://${baseHost}/details/gutenberg`,
+    url: '/details/gutenberg',
   }, {
     title: 'Biodiversity Heritage Library',
-    url: `https://${baseHost}/details/biodiversity`,
+    url: '/details/biodiversity',
   }, {
     title: 'Children\'s Library',
-    url: `https://${baseHost}/details/iacl`,
+    url: '/details/iacl',
   }, {
     title: 'Books by Language',
-    url: `https://${baseHost}/details/booksbylanguage`,
+    url: '/details/booksbylanguage',
   }, {
     title: 'Additional Collections',
-    url: `https://${baseHost}/details/additional_collections`,
+    url: '/details/additional_collections',
   }],
 };
 
@@ -70,73 +70,73 @@ const video = {
   iconLinks: [{
     icon: `https://${baseHost}/services/img/tv`,
     title: 'TV News',
-    url: `https://${baseHost}/details/tv`,
+    url: '/details/tv',
   }, {
     icon: `https://${baseHost}/services/img/911`,
     title: 'Understanding 9/11',
-    url: `https://${baseHost}/details/911`,
+    url: '/details/911',
   }],
   featuredLinks: [{
     title: 'All video',
-    url: `https://${baseHost}/details/movies`,
+    url: '/details/movies',
   }, {
     title: 'This Just In',
-    url: `https://${baseHost}/search.php?query=mediatype:movies&sort=-publicdate`,
+    url: '/search.php?query=mediatype:movies&sort=-publicdate',
   }, {
     title: 'Prelinger Archives',
-    url: `https://${baseHost}/details/prelinger`,
+    url: '/details/prelinger',
   }, {
     title: 'Democracy Now!',
-    url: `https://${baseHost}/details/democracy_now_vid`,
+    url: '/details/democracy_now_vid',
   }, {
     title: 'Occupy Wall Street',
-    url: `https://${baseHost}/details/occupywallstreet`,
+    url: '/details/occupywallstreet',
   }, {
     title: 'TV NSA Clip Library',
-    url: `https://${baseHost}/details/nsa`,
+    url: '/details/nsa',
   }],
   links: [{
     title: 'Animation & Cartoons',
-    url: `https://${baseHost}/details/animationandcartoons`,
+    url: '/details/animationandcartoons',
   }, {
     title: 'Arts & Music',
-    url: `https://${baseHost}/details/artsandmusicvideos`,
+    url: '/details/artsandmusicvideos',
   }, {
     title: 'Computers & Technology',
-    url: `https://${baseHost}/details/computersandtechvideos`,
+    url: '/details/computersandtechvideos',
   }, {
     title: 'Cultural & Academic Films',
-    url: `https://${baseHost}/details/culturalandacademicfilms`,
+    url: '/details/culturalandacademicfilms',
   }, {
     title: 'Ephemeral Films',
-    url: `https://${baseHost}/details/ephemera`,
+    url: '/details/ephemera',
   }, {
     title: 'Movies',
-    url: `https://${baseHost}/details/moviesandfilms`,
+    url: '/details/moviesandfilms',
   }, {
     title: 'News & Public Affairs',
-    url: `https://${baseHost}/details/newsandpublicaffairs`,
+    url: '/details/newsandpublicaffairs',
   }, {
     title: 'Spirituality & Religion',
-    url: `https://${baseHost}/details/spiritualityandreligion`,
+    url: '/details/spiritualityandreligion',
   }, {
     title: 'Sports Videos',
-    url: `https://${baseHost}/details/sports`,
+    url: '/details/sports',
   }, {
     title: 'Television',
-    url: `https://${baseHost}/details/television`,
+    url: '/details/television',
   }, {
     title: 'Videogame Videos',
-    url: `https://${baseHost}/details/gamevideos`,
+    url: '/details/gamevideos',
   }, {
     title: 'Vlogs',
-    url: `https://${baseHost}/details/vlogs`,
+    url: '/details/vlogs',
   }, {
     title: 'Youth Media',
-    url: `https://${baseHost}/details/youth_media`,
+    url: '/details/youth_media',
   }, {
     title: 'Norton Media Center',
-    url: `https://${baseHost}/details/nmcma`,
+    url: '/details/nmcma',
   }]
 };
 
@@ -145,55 +145,55 @@ const audio = {
   iconLinks: [{
     icon: `https://${baseHost}/services/img/etree`,
     title: 'Live Music Archive',
-    url: `https://${baseHost}/details/etree`,
+    url: '/details/etree',
   }, {
     icon: `https://${baseHost}/services/img/librivoxaudio`,
     title: 'Librivox Free Audio',
-    url: `https://${baseHost}/details/librivoxaudio`,
+    url: '/details/librivoxaudio',
   }],
   featuredLinks: [{
     title: 'All audio',
-    url: `https://${baseHost}/details/audio`,
+    url: '/details/audio',
   }, {
     title: 'This Just In',
-    url: `https://${baseHost}/search.php?query=mediatype:audio&sort=-publicdate`,
+    url: '/search.php?query=mediatype:audio&sort=-publicdate',
   }, {
     title: 'Grateful Dead',
-    url: `https://${baseHost}/details/GratefulDead`,
+    url: '/details/GratefulDead',
   }, {
     title: 'Netlabels',
-    url: `https://${baseHost}/details/netlabels`,
+    url: '/details/netlabels',
   }, {
     title: 'Old Time Radio',
-    url: `https://${baseHost}/details/oldtimeradio`,
+    url: '/details/oldtimeradio',
   }, {
     title: '78 RPMs and Cylinder Recordings',
-    url: `https://${baseHost}/details/78rpm`,
+    url: '/details/78rpm',
   }],
   links: [{
     title: 'Audio Books & Poetry',
-    url: `https://${baseHost}/details/audio_bookspoetry`,
+    url: '/details/audio_bookspoetry',
   }, {
     title: 'Community Audio',
-    url: `https://${baseHost}/details/opensource_audio`,
+    url: '/details/opensource_audio',
   }, {
     title: 'Computers, Technology and Science',
-    url: `https://${baseHost}/details/audio_tech`,
+    url: '/details/audio_tech',
   }, {
     title: 'Music, Arts & Culture',
-    url: `https://${baseHost}/details/audio_music`,
+    url: '/details/audio_music',
   }, {
     title: 'News & Public Affairs',
-    url: `https://${baseHost}/details/audio_news`,
+    url: '/details/audio_news',
   }, {
     title: 'Non-English Audio',
-    url: `https://${baseHost}/details/audio_foreign`,
+    url: '/details/audio_foreign',
   }, {
     title: 'Spirituality & Religion',
-    url: `https://${baseHost}/details/audio_religion`,
+    url: '/details/audio_religion',
   }, {
     title: 'Podcasts',
-    url: `https://${baseHost}/details/podcasts`,
+    url: '/details/podcasts',
   }],
 };
 
@@ -202,76 +202,76 @@ const software = {
   iconLinks: [{
     icon: `https://${baseHost}/services/img/internetarcade`,
     title: 'Internet Arcade',
-    url: `https://${baseHost}/details/internetarcade`,
+    url: '/details/internetarcade',
   }, {
     icon: `https://${baseHost}/services/img/consolelivingroom`,
     title: 'Console Living Room',
-    url: `https://${baseHost}/details/consolelivingroom`,
+    url: '/details/consolelivingroom',
   }],
   featuredLinks: [{
     title: 'All software',
-    url: `https://${baseHost}/details/software`,
+    url: '/details/software',
   }, {
     title: 'This Just In',
-    url: `https://${baseHost}/search.php?query=mediatype:software&sort=-publicdate`,
+    url: '/search.php?query=mediatype:software&sort=-publicdate',
   }, {
     title: 'Old School Emulation',
-    url: `https://${baseHost}/details/tosec`,
+    url: '/details/tosec',
   }, {
     title: 'MS-DOS Games',
-    url: `https://${baseHost}/details/softwarelibrary_msdos_games`,
+    url: '/details/softwarelibrary_msdos_games',
   }, {
     title: 'Historical Software',
-    url: `https://${baseHost}/details/historicalsoftware`,
+    url: '/details/historicalsoftware',
   }, {
     title: 'Classic PC Games',
-    url: `https://${baseHost}/details/classicpcgames`,
+    url: '/details/classicpcgames',
   }, {
     title: 'Software Library',
-    url: `https://${baseHost}/details/softwarelibrary`,
+    url: '/details/softwarelibrary',
   }],
   links: [{
     title: 'Kodi Archive and Support File',
-    url: `https://${baseHost}/details/kodi_archive`,
+    url: '/details/kodi_archive',
   }, {
     title: 'Community Software',
-    url: `https://${baseHost}/details/open_source_software`,
+    url: '/details/open_source_software',
   }, {
     title: 'Vintage Software',
-    url: `https://${baseHost}/details/vintagesoftware`,
+    url: '/details/vintagesoftware',
   }, {
     title: 'APK',
-    url: `https://${baseHost}/details/apkarchive`,
+    url: '/details/apkarchive',
   }, {
     title: 'MS-DOS',
-    url: `https://${baseHost}/details/softwarelibrary_msdos`,
+    url: '/details/softwarelibrary_msdos',
   }, {
     title: 'CD-ROM Software',
-    url: `https://${baseHost}/details/cd-roms`,
+    url: '/details/cd-roms',
   }, {
     title: 'CD-ROM Software Library',
-    url: `https://${baseHost}/details/cdromsoftware`,
+    url: '/details/cdromsoftware',
   }, {
     title: 'Software Sites',
-    url: `https://${baseHost}/details/softwaresites`,
+    url: '/details/softwaresites',
   }, {
     title: 'Tucows Software Library',
-    url: `https://${baseHost}/details/tucows`,
+    url: '/details/tucows',
   }, {
     title: 'Shareware CD-ROMs',
-    url: `https://${baseHost}/details/cdbbsarchive`,
+    url: '/details/cdbbsarchive',
   }, {
     title: 'Software Capsules Compilation',
-    url: `https://${baseHost}/details/softwarecapsules`,
+    url: '/details/softwarecapsules',
   }, {
     title: 'CD-ROM Images',
-    url: `https://${baseHost}/details/cdromimages`,
+    url: '/details/cdromimages',
   }, {
     title: 'ZX Spectrum',
-    url: `https://${baseHost}/details/softwarelibrary_zx_spectrum`,
+    url: '/details/softwarelibrary_zx_spectrum',
   }, {
     title: 'DOOM Level CD',
-    url: `https://${baseHost}/details/doom-cds`,
+    url: '/details/doom-cds',
   }],
 };
 
@@ -280,40 +280,40 @@ const images = {
   iconLinks: [{
     icon: `https://${baseHost}/services/img/metropolitanmuseumofart-gallery`,
     title: 'Metropolitan Museum',
-    url: `https://${baseHost}/details/metropolitanmuseumofart-gallery`,
+    url: '/details/metropolitanmuseumofart-gallery',
   }, {
     icon: `https://${baseHost}/services/img/brooklynmuseum`,
     title: 'Brooklyn Museum',
-    url: `https://${baseHost}/details/brooklynmuseum`,
+    url: '/details/brooklynmuseum',
   }],
   featuredLinks: [{
     title: 'All images',
-    url: `https://${baseHost}/details/image`,
+    url: '/details/image',
   }, {
     title: 'This Just In',
-    url: `https://${baseHost}/search.php?query=mediatype:image&sort=-publicdate`,
+    url: '/search.php?query=mediatype:image&sort=-publicdate',
   }, {
     title: 'Flickr Commons',
-    url: `https://${baseHost}/details/flickrcommons`,
+    url: '/details/flickrcommons',
   }, {
     title: 'Occupy Wall Street Flickr',
-    url: `https://${baseHost}/details/flickr-ows`,
+    url: '/details/flickr-ows',
   }, {
     title: 'Cover Art',
-    url: `https://${baseHost}/details/coverartarchive`,
+    url: '/details/coverartarchive',
   }, {
     title: 'USGS Maps',
-    url: `https://${baseHost}/details/maps_usgs`,
+    url: '/details/maps_usgs',
   }],
   links: [{
     title: 'NASA Images',
-    url: `https://${baseHost}/details/nasa`,
+    url: '/details/nasa',
   }, {
     title: 'Solar System Collection',
-    url: `https://${baseHost}/details/solarsystemcollection`,
+    url: '/details/solarsystemcollection',
   }, {
     title: 'Ames Research Center',
-    url: `https://${baseHost}/details/amesresearchcenterimagelibrary`,
+    url: '/details/amesresearchcenterimagelibrary',
   }]
 };
 
@@ -326,27 +326,27 @@ const user = ({
   biblio,
 }) => {
   const generalLinks = [{
-    url: `https://${baseHost}/create`,
+    url: '/create',
     title: 'Upload',
     analyticsEvent: 'UserUpload',
   }, {
-    url: `https://${baseHost}/details/@${username}`,
+    url: `/details/@${username}`,
     title: 'My library',
     analyticsEvent: 'UserLibrary',
   }, {
-    url: `https://${baseHost}/details/@${username}?tab=loans`,
+    url: `/details/@${username}?tab=loans`,
     title: 'My loans',
     analyticsEvent: 'UserLoans',
   }, {
-    url: `https://${baseHost}/details/fav-${username}`,
+    url: `/details/fav-${username}`,
     title: 'My favorites',
     analyticsEvent: 'UserFavorites',
   }, {
-    url: `https://${baseHost}/details/@${username}/web-archive`,
+    url: `/details/@${username}/web-archive`,
     title: 'My web archive',
     analyticsEvent: 'UserWebArchive',
   }, {
-    url: `https://${baseHost}/account/index.php?settings=1`,
+    url: '/account/index.php?settings=1',
     title: 'Edit settings',
     analyticsEvent: 'UserSettings',
   }, {
@@ -354,7 +354,7 @@ const user = ({
     title: 'Get help',
     analyticsEvent: 'UserHelp',
   }, {
-    url: `https://${baseHost}/account/logout`,
+    url: '/account/logout',
     title: 'Log out',
     analyticsEvent: 'UserLogOut',
   }];
@@ -364,19 +364,19 @@ const user = ({
   }, {
     title: 'item:'
   }, {
-    url: `https://${baseHost}/editxml/${identifier}`,
+    url: `/editxml/${identifier}`,
     title: 'edit xml',
     analyticsEvent: 'AdminUserEditXML',
   }, {
-    url: `https://${baseHost}/edit.php?redir=1&identifier=${identifier}`,
+    url: `/edit.php?redir=1&identifier=${identifier}`,
     title: 'edit files',
     analyticsEvent: 'AdminUserEditFiles',
   }, {
-    url: `https://${baseHost}/download/${identifier}/`,
+    url: `/download/${identifier}/`,
     title: 'download',
     analyticsEvent: 'AdminUserDownload',
   }, {
-    url: `https://${baseHost}/metadata/${identifier}/`,
+    url: `/metadata/${identifier}/`,
     title: 'metadata',
     analyticsEvent: 'AdminUserMetadata',
   }, {
@@ -384,19 +384,19 @@ const user = ({
     title: 'history',
     analyticsEvent: 'AdminUserHistory',
   }, {
-    url: `https://${baseHost}/manage/${identifier}`,
+    url: `/manage/${identifier}`,
     title: 'manage',
     analyticsEvent: 'AdminUserManager',
   }, {
-    url: `https://${baseHost}/manage/${identifier}#make_dark`,
+    url: `/manage/${identifier}#make_dark`,
     title: 'curate',
     analyticsEvent: 'AdminUserCurate',
   }, {
-    url: `https://${baseHost}/manage/${identifier}#modify_xml`,
+    url: `/manage/${identifier}#modify_xml`,
     title: 'modify xml',
     analyticsEvent: 'AdminUserModifyXML',
   }, {
-    url: `https://${baseHost}/services/flags/admin.php?identifier=${identifier}`,
+    url: `/services/flags/admin.php?identifier=${identifier}`,
     title: 'manage flags',
     analyticsEvent: 'AdminUserManageFlags',
   }];
@@ -406,11 +406,11 @@ const user = ({
     title: 'biblio',
     analyticsEvent: 'AdminUserBiblio',
   }, {
-    url: `https://${baseHost}/bookview.php?mode=debug&identifier=${identifier}`,
+    url: `/bookview.php?mode=debug&identifier=${identifier}`,
     title: 'bookview',
     analyticsEvent: 'AdminUserBookView',
   }, {
-    url: `https://${baseHost}/download/${identifier}/format=Single Page Processed JP2 ZIP`,
+    url: `/download/${identifier}/format=Single Page Processed JP2 ZIP`,
     title: 'jp2 zip',
     analyticsEvent: 'AdminUserJP2Zip',
   }];
@@ -420,11 +420,11 @@ const user = ({
   }, {
     title: uploader,
   }, {
-    url: `https://${baseHost}/admins/useradmin.php?searchUser=${uploader}&ignore=${identifier}`,
+    url: `/admins/useradmin.php?searchUser=${uploader}&ignore=${identifier}`,
     title: 'user admin',
     analyticsEvent: 'AdminUserUserAdmin',
   }, {
-    url: `https://${baseHost}/admins/setadmin.php?user=${uploader}&ignore=${identifier}`,
+    url: `/admins/setadmin.php?user=${uploader}&ignore=${identifier}`,
     title: 'user privs',
     analyticsEvent: 'AdminUserUserPrivs',
   }];
@@ -446,25 +446,25 @@ const user = ({
 };
 
 const signedOut = [{
-  url: `https://${baseHost}/account/signup`,
+  url: '/account/signup',
   title: 'Sign up for free',
   analyticsEvent: 'SignUpDropdown',
 }, {
-  url: `https://${baseHost}/account/login`,
+  url: '/account/login',
   title: 'Log in',
   analyticsEvent: 'LogInDropdown',
 }];
 
 const more = [
-  { title: 'About', url: `https://${baseHost}/about/` },
+  { title: 'About', url: '/about/' },
   { title: 'Blog', url: 'https://blog.archive.org/' },
-  { title: 'Projects', url: `https://${baseHost}/projects/` },
-  { title: 'Help', url: `https://${baseHost}/about/faqs.php` },
-  { title: 'Donate', url: `https://${baseHost}/donate/` },
-  { title: 'Contact', url: `https://${baseHost}/about/contact.php` },
-  { title: 'Jobs', url: `https://${baseHost}/about/jobs.php` },
-  { title: 'Volunteer', url: `https://${baseHost}/about/volunteerpositions.php` },
-  { title: 'People', url: `https://${baseHost}/about/bios.php` },
+  { title: 'Projects', url: '/projects/' },
+  { title: 'Help', url: '/about/faqs.php' },
+  { title: 'Donate', url: '/donate/' },
+  { title: 'Contact', url: '/about/contact.php' },
+  { title: 'Jobs', url: '/about/jobs.php' },
+  { title: 'Volunteer', url: '/about/volunteerpositions.php' },
+  { title: 'People', url: '/about/bios.php' },
 ];
 
 const wayback = {
