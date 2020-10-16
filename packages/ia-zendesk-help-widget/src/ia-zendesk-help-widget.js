@@ -1,17 +1,82 @@
-import { html, LitElement } from 'lit-element';
-import zendeskWidgetCSS from './styles/zendesk-widget';
-import buttonIcons from './help-button-icons';
+import { html, css, LitElement } from 'lit-element';
+import loadingIcon from './assets/icon-loading';
+import questionIcon from './assets/icon-question-mark';
 import { LazyLoaderService } from '@internetarchive/lazy-loader-service';
 
 class ZenDeskHelpWidget extends LitElement {
   static get styles() {
-    return zendeskWidgetCSS;
+    return css`
+      :host {
+        --buttonBlue: #194880;
+        --white: #fff;
+
+        --iconFillColor: var(--white);
+        --linkColor: var(--white);
+      }
+
+      .help-widget {
+        width: 108px;
+        height: 46px;
+        margin: 14px 20px;
+        position: fixed;
+        bottom: 0px;
+        z-index: 999998;
+        transition-duration: 250ms;
+        right: 0px;
+        background: var(--buttonBlue);
+        color: var(--linkColor);
+        letter-spacing: 0.6px;
+        font-size: inherit;
+        transition: opacity 0.12s linear;
+        border-radius: 999rem;
+        border: 0;
+        outline: none;
+        font-weight: 700;
+        cursor: pointer;
+        vertical-align: middle;
+      }
+
+      .fill-color {
+        fill: var(--iconFillColor);
+      }
+
+      .help-widget svg {
+        vertical-align: middle;
+        margin-right: 3px;
+        pointer-events: none;
+      }
+
+      .help-widget .hidden-sm {
+        pointer-events: none;
+      }
+
+      .hidden {
+        opacity: 0;
+        display: none;
+        visibility: hidden;
+      }
+
+      @media (max-width: 767px) {
+        .hidden-sm {
+          display:none;
+        }
+
+        .help-widget {
+          padding: 13px 13px;
+          width: initial;
+        }
+
+        .help-widget svg {
+          margin-right: 0;
+        }
+      }`;
   }
 
   static get properties() {
     return {
       widgetSrc: { type: String },
       buttonVisible: { type: Boolean },
+      isLoading: { type: Boolean },
     };
   }
 
@@ -19,12 +84,11 @@ class ZenDeskHelpWidget extends LitElement {
     super();
     this.widgetSrc = '';
     this.buttonVisible = true;
+    this.isLoading = false;
   }
 
   async initiateZenDesk(e) {
-
-    // toggle custom button visibility with spinner
-    this.toggleButtonVisibility(e);
+    this.isLoading = false;
 
     // load third-party script
     const lazyLoaderService = new LazyLoaderService();
@@ -54,16 +118,12 @@ class ZenDeskHelpWidget extends LitElement {
     }, 250);
   }
 
-  toggleButtonVisibility(e) {
-    const loaderIcon = e.target.querySelector('.icon-loading-spinner');
-    const questionIcon = e.target.querySelector('.icon-question-mark');
-
-    if (loaderIcon) loaderIcon.classList.toggle('hidden');
-    if (questionIcon) questionIcon.classList.toggle('hidden');
-  }
-
   get buttonVisibilityState() {
     return !this.buttonVisible ? 'hidden' : '';
+  }
+
+  get getActiveIcon() {
+    return !this.isLoading ? loadingIcon : questionIcon
   }
 
   render() {
@@ -72,7 +132,7 @@ class ZenDeskHelpWidget extends LitElement {
         class="help-widget ${this.buttonVisibilityState}"
         @click=${this.initiateZenDesk}
         data-event-click-tracking="ZenDesk|InitialHelpButton"
-      >${buttonIcons} <span class="hidden-sm">Help</span></button>`;
+      >${this.getActiveIcon}<span class="hidden-sm">Help</span></button>`;
   }
 }
 
