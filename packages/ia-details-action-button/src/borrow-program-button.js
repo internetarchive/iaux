@@ -1,10 +1,7 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
-// import icons from './assets/img/icons';
-import searchIcon from './styles/icons/icon-question-mark';
-import actionButtonCSS from './styles/action-button';
-import emailImg from '@internetarchive/icon-email';
-
+import searchIcon from '../assets/icons/icon-question-mark';
+import actionButtonCSS from '../assets/styles/action-button';
 
 class BorrowProgramButton extends TrackedElement {
   static get styles() {
@@ -25,7 +22,6 @@ class BorrowProgramButton extends TrackedElement {
   }
 
   render() {
-    if (this.borrowButton === 'none') return;
     return html`
       <div class="grid-item">
       <a

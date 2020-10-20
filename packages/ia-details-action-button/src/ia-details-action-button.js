@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit-element';
-import waybackSearchCSS from './styles/wayback-search';
+import waybackSearchCSS from '../assets/styles/action-button';
 import './borrow-program-button';
 import './favorite-button';
 import './share-button';

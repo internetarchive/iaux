@@ -1,7 +1,7 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element'
-import searchIcon from './styles/icons/icon-question-mark';
-import actionButtonCSS from './styles/action-button';
+import searchIcon from '../assets/icons/icon-question-mark';
+import actionButtonCSS from '../assets/styles/action-button';
 
 class ShareButton extends TrackedElement {
   static get styles() {

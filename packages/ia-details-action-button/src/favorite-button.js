@@ -1,10 +1,9 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
-import searchIcon from './styles/icons/icon-question-mark';
-import actionButtonCSS from './styles/action-button';
+import searchIcon from '../assets/icons/icon-question-mark';
+import actionButtonCSS from '../assets/styles/action-button';
 
-
-class favoriteButton extends TrackedElement {
+class FavoriteButton extends TrackedElement {
   static get styles() {
     return actionButtonCSS;
   }
@@ -43,7 +42,6 @@ class favoriteButton extends TrackedElement {
     if (this.isFavorited === 'true') {
       return true;
     }
-
     return false;
   }
 
@@ -70,4 +68,4 @@ class favoriteButton extends TrackedElement {
   }
 }
 
-customElements.define('favorite-button', favoriteButton);
+customElements.define('favorite-button', FavoriteButton);
