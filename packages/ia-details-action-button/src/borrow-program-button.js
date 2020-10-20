@@ -14,15 +14,18 @@ class BorrowProgramButton extends TrackedElement {
   static get properties() {
     return {
       identifier: { type: String },
+      borrowButton: { type: String },
     };
   }
 
   constructor() {
     super();
     this.identifier = '';
+    this.borrowButton = '';
   }
 
   render() {
+    if (this.borrowButton === 'none') return;
     return html`
       <div class="grid-item">
       <a

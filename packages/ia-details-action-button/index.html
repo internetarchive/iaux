@@ -3,10 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="module" src="src/ia-details-action-button.js"></script>
+    <script type="module" src="index.js"></script>
     <title>Wayback Search</title>
     <style>
-
+      body {
+        margin-top: 300px;
+      }
+      .grid-container {
+        margin: 100px;
+      }
     </style>
   </head>
 
@@ -14,6 +19,7 @@
     <div id="root"></div>
     <script type="module">
       import { html, render } from './node_modules/lit-html/lit-html.js';
+      
       const flagConfig = {
         threshold: 4,
         whitelistec: '',
@@ -22,6 +28,8 @@
         item: {},
         user: {},
       };
+      const menus = Object.assign({}, flagConfig);
+      // console.log(menus)
       render(html`
         <ia-details-action-button
           identifier="goody"
@@ -30,7 +38,7 @@
           isFavorited='false'
           collectionName="hellowork"
           showShareButton="1"
-          flagConfig=${flagConfig}
+          flagConfig=${btoa(JSON.stringify(menus))}
         ></ia-details-action-button>`, document.getElementById('root'));
     </script>
   </body>

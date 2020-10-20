@@ -1,8 +1,6 @@
 import { html } from 'lit-element';
-import TrackedElement from './tracked-element';
-// import icons from './assets/img/icons';
+import TrackedElement from './tracked-element'
 import searchIcon from './styles/icons/icon-question-mark';
-
 import actionButtonCSS from './styles/action-button';
 
 class ShareButton extends TrackedElement {

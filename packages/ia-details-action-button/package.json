@@ -1,7 +1,7 @@
 {
-  "name": "@internetarchive/ia-wayback-search",
-  "version": "0.1.1",
-  "description": "Wayback search form component",
+  "name": "@internetarchive/ia-details-action-button",
+  "version": "0.1.1-alpha-2570e1a3",
+  "description": "Action Buttons On Details Page",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
@@ -28,16 +28,6 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
-    "@internetarchive/icon-applepay": "^0.4.0",
-    "@internetarchive/icon-calendar": "^0.4.0",
-    "@internetarchive/icon-credit-card": "^0.4.0",
-    "@internetarchive/icon-email": "^0.4.0",
-    "@internetarchive/icon-googlepay": "^0.4.0",
-    "@internetarchive/icon-locale-pin": "^0.4.0",
-    "@internetarchive/icon-lock": "^0.4.0",
-    "@internetarchive/icon-paypal": "^0.4.0",
-    "@internetarchive/icon-user": "^0.4.0",
-    "@internetarchive/icon-venmo": "^0.4.0",
     "lit-element": "^2.2.1"
   },
   "devDependencies": {

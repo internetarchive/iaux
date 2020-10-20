@@ -1,10 +1,8 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
-// import icons from './assets/img/icons';
 import searchIcon from './styles/icons/icon-question-mark';
-
 import actionButtonCSS from './styles/action-button';
-// import venmoButtonImage from '@internetarchive/icon-venmo';
+
 
 class favoriteButton extends TrackedElement {
   static get styles() {
@@ -50,24 +48,23 @@ class favoriteButton extends TrackedElement {
   }
 
   render() {
-    console.log(this.isFavorited)
     return html`
       <div class="grid-item">
-      <button
-        @click=${this.toggleButton}
-        class='topinblock favorite-button button grid-item js-manage-toggle_list_status ${this.isAlreadyFavorite ? 'favorited' : ''}'
-        type='button'
-        data-href='${this.favoriteLink}'
-        data-target='#favorite-modal'
-        data-id='${this.identifier}'
-        data-fav-collection='fav-${this.collectionName}'
-        data-toggle='tooltip'
-        data-container='body'
-        data-placement='bottom'
-        data-original-title='${this.isAlreadyFavorite ? "Unf" : "F"}avorite'
-        aria-haspopup='true'>
-          ${searchIcon} <span>${this.isAlreadyFavorite ? 'Unfavorite' : 'Favorite'}</span>
-      </button>
+        <button
+          @click=${this.toggleButton}
+          class='topinblock favorite-button button grid-item js-manage-toggle_list_status ${this.isAlreadyFavorite ? 'favorited' : ''}'
+          type='button'
+          data-href='${this.favoriteLink}'
+          data-target='#favorite-modal'
+          data-id='${this.identifier}'
+          data-fav-collection='fav-${this.collectionName}'
+          data-toggle='tooltip'
+          data-container='body'
+          data-placement='bottom'
+          data-original-title='${this.isAlreadyFavorite ? "Unf" : "F"}avorite'
+          aria-haspopup='true'>
+            ${searchIcon} <span>${this.isAlreadyFavorite ? 'Unfavorite' : 'Favorite'}</span>
+        </button>
       </div>
     `;
   }
