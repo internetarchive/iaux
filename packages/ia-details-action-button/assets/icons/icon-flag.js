@@ -2,7 +2,7 @@ import { html } from 'lit-element';
 
 export default html`
   <svg
-    class="favorite-icon"
+    class="flag-icon"
     height="20"
     viewBox="0 0 20 20"
     width="20"

@@ -12,32 +12,25 @@ export default css`
     --linkColor: var(--white);
   }
 
-  .favorite-button.favorited, .favorite-button:hover {
-    color: #f0b534! important;
-    border: 1px solid #f0b534;
-    background-color: #fcf0d6;
+  .borrow-program-button:hover {
+    color: #428bca! important;
+    border: 1px solid #428bca;
+    background-color: #d9e8f4;
   }
 
-  .favorite-button .favorite-icon {
-    color: #f0b534! important;
+
+  .borrow-program-button {
+    padding: 0 5px;
+    vertical-align: middle;
+    border: 1px solid black;
+    text-decoration: none;
+    color: var(--textColor);
   }
 
-  .favorite-button, .share-button, .flag-button {
-    width: 84px;
-  }
-
-  .favorite-icon {
-    height: 15px;
-  }
-
-  .hidden {
-    display: none;
-  }
-
+  
   @media (min-width: 890px) {
     form {
       margin: 0 auto;
     }
-
   }
 `;

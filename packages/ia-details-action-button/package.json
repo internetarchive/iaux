@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-details-action-button",
-  "version": "0.1.1-alpha-c89deda112",
+  "version": "0.1.1-alpha-c89deda5",
   "description": "Action Buttons On Details Page",
   "license": "AGPL-3.0-only",
   "main": "index.js",

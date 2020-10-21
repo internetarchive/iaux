@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit-element';
-import waybackSearchCSS from '../assets/styles/action-button';
+import actionButtonCSS from '../assets/styles/action-button';
 import './borrow-program-button';
 import './favorite-button';
 import './share-button';
@@ -7,7 +7,7 @@ import './flag-button';
 
 class DetailsActionButton extends LitElement {
   static get styles() {
-    return waybackSearchCSS;
+    return actionButtonCSS;
   }
 
   static get properties() {

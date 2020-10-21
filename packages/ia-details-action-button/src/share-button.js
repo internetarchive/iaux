@@ -1,11 +1,11 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element'
 import searchIcon from '../assets/icons/icon-question-mark';
-import actionButtonCSS from '../assets/styles/action-button';
+import shareButtonCSS from '../assets/styles/css-share-button';
 
 class ShareButton extends TrackedElement {
   static get styles() {
-    return actionButtonCSS;
+    return shareButtonCSS;
   }
 
   static get properties() {

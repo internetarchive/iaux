@@ -7,7 +7,7 @@
     <title>Wayback Search</title>
     <style>
       body {
-        margin-top: 300px;
+        margin-top: 200px;
       }
       .grid-container {
         margin: 100px;
@@ -24,12 +24,12 @@
         threshold: 4,
         whitelistec: '',
         blacklisted: '',
-        types: {violence: '1Graphic Violence', porn: 'Graphic Sexual Content'},
+        types: [{key: 'violence', value: 'Graphic Violence'}, {key: 'porn', value: 'Graphic Sexual Content'}],
         item: {},
-        user: {},
+        user: [],
       };
       const menus = Object.assign({}, flagConfig);
-      // console.log(menus)
+
       render(html`
         <ia-details-action-button
           identifier="goody"
@@ -40,6 +40,26 @@
           showShareButton="1"
           flagConfig=${btoa(JSON.stringify(menus))}
         ></ia-details-action-button>`, document.getElementById('root'));
+    </script>
+
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+          // const favoriteButton = document.querySelector('ia-details-action-button').shadowRoot.querySelector('favorite-button').shadowRoot.querySelector('.js-manage-toggle_list_status')
+          // favoriteButton.addEventListener('click', (event) =>  {
+          //   console.log(favoriteButton.classList.contains('favorited'))
+          // })
+          let flagButtons = document.querySelector('ia-details-action-button').shadowRoot.querySelector('flag-button').shadowRoot.querySelector('#flag-popover ul').children;
+          // console.log(flagButtons)
+          // flagButton.addEventListener('click', (event) =>  {
+          for (const button of flagButtons) {
+            // console.log(button)
+            button.addEventListener('click', (event) =>  {
+              // event.preventDefault();
+              // this.
+              // console.log(this.classList.toggle('sdfsd'))
+            })
+          }
+      });
     </script>
   </body>
 </html>

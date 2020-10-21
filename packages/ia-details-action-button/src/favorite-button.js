@@ -1,11 +1,11 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
 import searchIcon from '../assets/icons/icon-question-mark';
-import actionButtonCSS from '../assets/styles/action-button';
+import favoriteButtonCSS from '../assets/styles/css-favorite-button';
 
 class FavoriteButton extends TrackedElement {
   static get styles() {
-    return actionButtonCSS;
+    return favoriteButtonCSS;
   }
 
   static get properties() {
@@ -26,8 +26,7 @@ class FavoriteButton extends TrackedElement {
     } else {
       favoriteButtonText.textContent = 'Unfavorite';
     }
-
-    favoriteButton.classList.toggle("favorited");
+    // favoriteButton.classList.toggle("favorited");
   }
 
   constructor() {
