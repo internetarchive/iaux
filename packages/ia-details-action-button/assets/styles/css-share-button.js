@@ -7,8 +7,9 @@ export default css`
     --buttonBlue: #194880;
     --white: #fff;
     --textColor: #333;
+    --shareFillColor: #428bca;
 
-    --iconFillColor: var(--white);
+    --iconFillColor: var(--shareFillColor);
     --linkColor: var(--white);
   }
 
@@ -16,6 +17,7 @@ export default css`
     color: #428bca! important;
     border: 1px solid #428bca;
     background-color: #d9e8f4;
+    fill: var(--iconFillColor);
   }
 
   .favorite-button, .share-button, .flag-button {

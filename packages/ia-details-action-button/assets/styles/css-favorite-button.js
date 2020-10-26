@@ -7,8 +7,9 @@ export default css`
     --buttonBlue: #194880;
     --white: #fff;
     --textColor: #333;
+    --favoriteFillColor: rgb(240, 181, 52);
 
-    --iconFillColor: var(--white);
+    --iconFillColor: var(--favoriteFillColor);
     --linkColor: var(--white);
   }
 
@@ -16,6 +17,7 @@ export default css`
     color: #f0b534! important;
     border: 1px solid #f0b534;
     background-color: #fcf0d6;
+    fill: var(--iconFillColor);
   }
 
   .favorite-button .favorite-icon {

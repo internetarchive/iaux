@@ -25,29 +25,42 @@ class FlagButton extends TrackedElement {
     dropdownMenu.classList.toggle('hidden');
   }
 
-  async addFlag(e) {
-    console.log(e.target.querySelector('a').getAttribute('href'))
-    const container = document.querySelector('ia-details-action-button').shadowRoot.querySelector('flag-button').shadowRoot.querySelector('#flag-button-container')
+  async toggleFlag(e) {
+    const container = document.querySelector('ia-details-action-button').shadowRoot.querySelector('flag-button').shadowRoot.querySelector('#flag-button-container');
     e.preventDefault();
 
-    const ajaxUrl = e.target.querySelector('a').getAttribute('href');
-    var getJSON = function(url) {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', url, true);
-      xhr.responseType = 'json';
-      xhr.onload = function() {
-        var status = xhr.status;
-        console.log(xhr.response)
-        container.querySelector('.dropdown-menu').classList.toggle('hidden');
-      };
-      xhr.send();
-    };
-    getJSON(ajaxUrl + "&no_chrome=1")
+    const currentFlagElement = e.target.querySelector('a');
+    const flagName = currentFlagElement.getAttribute('flag-name');
 
+    const ajaxUrl = this.getAjaxURL(flagName, currentFlagElement);
 
+    this.getAjaxRequest(ajaxUrl + `&no_chrome=1`);
+
+    currentFlagElement.setAttribute('href', `${ajaxUrl}`);
+    container.querySelector('.dropdown-menu').classList.toggle('hidden');
     container.classList.toggle('flagged');
-    e.target.classList.toggle('flagged-text')
+    e.target.classList.toggle('flagged-text');
   }
+
+  getAjaxURL(flagName, element) {
+    let source = '';
+    const random = Math.random();
+    if (element.parentNode.classList.contains('flagged-text')) {
+      source = `?flag_remove=${flagName}&rand=${random}`;
+    } else {
+      source = `?flag_set=${flagName}&rand=${random}`;
+    }
+
+    return source
+  }
+
+  async getAjaxRequest(ajaxUrl) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', ajaxUrl, true);
+    xhr.responseType = 'json';
+    xhr.send();
+  }
+
 
   get isFlaggedItem() {
     return this.flagConfig.user.length != 0;
@@ -57,9 +70,10 @@ class FlagButton extends TrackedElement {
     const userFlag = this.flagConfig.user;
     const list = this.flagConfig.types.map(link => (
       html`
-        <li @click='${this.addFlag}'
+        <li @click='${this.toggleFlag}'
           class='${userFlag.includes(link.key) ? 'flagged-text': ''}'>
             <a
+              flag-name=${link.key}
               href='?${userFlag.includes(link.key) ? 'flag_remove=' : 'flag_set='}${link.key}&amp;rand=${Math.random()}'
               role='menuitem'>${link.value}
             </a>

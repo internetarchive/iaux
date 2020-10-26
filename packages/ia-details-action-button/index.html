@@ -20,7 +20,7 @@
     <script type="module">
       import { html, render } from './node_modules/lit-html/lit-html.js';
       
-      const flagConfig = {
+      const data = {
         threshold: 4,
         whitelistec: '',
         blacklisted: '',
@@ -28,7 +28,7 @@
         item: {},
         user: [],
       };
-      const menus = Object.assign({}, flagConfig);
+      const flagConfig = Object.assign({}, data);
 
       render(html`
         <ia-details-action-button
@@ -38,28 +38,9 @@
           isFavorited='false'
           collectionName="hellowork"
           showShareButton="1"
-          flagConfig=${btoa(JSON.stringify(menus))}
+          flagConfig=${btoa(JSON.stringify(flagConfig))}
         ></ia-details-action-button>`, document.getElementById('root'));
     </script>
 
-    <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', () => {
-          // const favoriteButton = document.querySelector('ia-details-action-button').shadowRoot.querySelector('favorite-button').shadowRoot.querySelector('.js-manage-toggle_list_status')
-          // favoriteButton.addEventListener('click', (event) =>  {
-          //   console.log(favoriteButton.classList.contains('favorited'))
-          // })
-          let flagButtons = document.querySelector('ia-details-action-button').shadowRoot.querySelector('flag-button').shadowRoot.querySelector('#flag-popover ul').children;
-          // console.log(flagButtons)
-          // flagButton.addEventListener('click', (event) =>  {
-          for (const button of flagButtons) {
-            // console.log(button)
-            button.addEventListener('click', (event) =>  {
-              // event.preventDefault();
-              // this.
-              // console.log(this.classList.toggle('sdfsd'))
-            })
-          }
-      });
-    </script>
   </body>
 </html>

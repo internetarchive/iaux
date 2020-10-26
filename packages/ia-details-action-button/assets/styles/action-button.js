@@ -24,19 +24,22 @@ export default css`
   }
   .button span {
     display: block;
+    margin-top: -4px;
   }
   .favorite-icon {
     height: 15px;
   }
   .button {
-    border-radius: 3px;
+    border-radius: 6px;
     text-decoration: none;
     display: inline-block;
     font: normal 1.2rem/1.5 var(--themeFontFamily);
-    border: 1px solid black;
+    border: 1px solid var(--textColor);
     color: var(--textColor);
     outline: none;
     cursor: pointer;
+    padding: 5px;
+    margin-left: 5px;
   }
   a {
     text-decoration: none;

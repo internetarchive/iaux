@@ -7,8 +7,9 @@ export default css`
     --buttonBlue: #194880;
     --white: #fff;
     --textColor: #333;
+    --flagFillColor: rgb(208, 2, 27);
 
-    --iconFillColor: var(--white);
+    --iconFillColor: var(--flagFillColor);
     --linkColor: var(--white);
   }
 
@@ -16,11 +17,13 @@ export default css`
     color: rgba(190, 16, 36, 1) !important;
     background-color: rgba(190, 16, 36, 0.29) !important;
     border: rgba(190, 16, 36, 1) solid 1px;
+    fill: var(--iconFillColor);
   }
 
   .flagged button {
     background-color: rgba(190, 16, 36, 0.29);
     color: rgb(208, 2, 27);
+    fill: var(--iconFillColor);
   }
 
   a {
@@ -73,6 +76,10 @@ export default css`
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
     background-clip: padding-box;
   }
+
+  // .favorite-button:hover {
+  //   fill: var(--iconFillColor);
+  // }
   @media (min-width: 890px) {
     .search-field .fill-color {
       fill: var(--desktopSearchIconFill);
