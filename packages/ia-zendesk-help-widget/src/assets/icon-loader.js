@@ -2,7 +2,7 @@ import { html } from 'lit-element';
 
 export default html`
   <svg
-    class="icon-loading-spinner"
+    class="icon-loader"
     height="20"
     viewBox="0 0 128 128"
     width="20"
