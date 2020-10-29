@@ -4,35 +4,51 @@ import actionButtonCSS from '../styles/action-button';
 export default css`
   ${actionButtonCSS}
   :host {
-    --buttonBlue: #194880;
     --white: #fff;
     --textColor: #333;
+    --lightRedBgColor: rgba(190, 16, 36, 0.29);
     --flagFillColor: rgb(208, 2, 27);
 
     --iconFillColor: var(--flagFillColor);
-    --linkColor: var(--white);
+    --iconStrokeColor: var(--flagFillColor);
   }
 
   .flag-button:hover, .flag-button:focus {
     color: rgba(190, 16, 36, 1) !important;
-    background-color: rgba(190, 16, 36, 0.29) !important;
+    background-color: var(--lightRedBgColor);
     border: rgba(190, 16, 36, 1) solid 1px;
     fill: var(--iconFillColor);
   }
 
   .flagged button {
-    background-color: rgba(190, 16, 36, 0.29);
+    background-color: var(--lightRedBgColor);
     color: rgb(208, 2, 27);
+    fill: var(--iconFillColor);
+    border: 1px solid var(--flagFillColor);
+  }
+
+  .flagged button path {
     fill: var(--iconFillColor);
   }
 
   a {
     pointer-events: none;
     cursor: pointer;
+    padding: 10px 0px 10px 10px;
+    color: var(--textColor);
+    width: auto;
+    display: block;
+    font-size: 12px;
+    font-family: 'Helvetica Neue';
   }
+
   .flagged-text a {
     color: rgb(208, 2, 27);
-    padding: 
+    background-color: rgb(246, 216, 222);
+  }
+
+  .flagged-text path {
+    fill: var(--iconFillColor);
   }
 
   #flag-button-container {
@@ -52,14 +68,13 @@ export default css`
     margin: 0;
   }
   .dropdown-menu ul li {
-    padding: 8px 12px;
     list-style: none;
     border-bottom: 1px solid #f1f1f1;
   }
   .dropdown-menu {
     color: #d0021b;
     border: 2px solid #d0021b;
-    width: 210px;
+    width: 170px;
     padding: 0;
     text-align: left;
     margin-bottom: 10px;
@@ -75,14 +90,5 @@ export default css`
     -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
     background-clip: padding-box;
-  }
-
-  // .favorite-button:hover {
-  //   fill: var(--iconFillColor);
-  // }
-  @media (min-width: 890px) {
-    .search-field .fill-color {
-      fill: var(--desktopSearchIconFill);
-    }
   }
 `;

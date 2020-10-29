@@ -1,6 +1,6 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
-import flagIcon from '../assets/icons/icon-question-mark';
+import flagIcon from '../assets/icons/icon-flag';
 import flagButtonCSS from '../assets/styles/css-flag-button';
 
 class FlagButton extends TrackedElement {

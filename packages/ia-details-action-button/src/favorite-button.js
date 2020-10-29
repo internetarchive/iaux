@@ -1,6 +1,6 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
-import searchIcon from '../assets/icons/icon-question-mark';
+import favoriteIcon from '../assets/icons/icon-favorite';
 import favoriteButtonCSS from '../assets/styles/css-favorite-button';
 
 class FavoriteButton extends TrackedElement {
@@ -60,7 +60,7 @@ class FavoriteButton extends TrackedElement {
           data-placement='bottom'
           data-original-title='${this.isAlreadyFavorite ? "Unf" : "F"}avorite'
           aria-haspopup='true'>
-            ${searchIcon} <span>${this.isAlreadyFavorite ? 'Unfavorite' : 'Favorite'}</span>
+            ${favoriteIcon} <span>${this.isAlreadyFavorite ? 'Unfavorite' : 'Favorite'}</span>
         </button>
       </div>
     `;

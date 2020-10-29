@@ -1,6 +1,6 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element';
-import searchIcon from '../assets/icons/icon-question-mark';
+import emailIcon from '../assets/icons/icon-email';
 import borrowButtonCSS from '../assets/styles/css-borrow-button';
 
 class BorrowProgramButton extends TrackedElement {
@@ -22,7 +22,8 @@ class BorrowProgramButton extends TrackedElement {
   }
 
   render() {
-    if (this.borrowButton === 'none') return;
+    if (this.borrowButton === '') return;
+
     return html`
       <div class="grid-item">
       <a
@@ -30,7 +31,7 @@ class BorrowProgramButton extends TrackedElement {
         href='/services/borrow/${this.identifier}'
         class='stealth'
         rel='nofollow'>
-        ${searchIcon} <span>Borrow Program</span>
+        ${emailIcon} <span>Borrow Program</span>
       </a>
       </div>
     `;

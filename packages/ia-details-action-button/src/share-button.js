@@ -1,6 +1,6 @@
 import { html } from 'lit-element';
 import TrackedElement from './tracked-element'
-import searchIcon from '../assets/icons/icon-question-mark';
+import shareIcon from '../assets/icons/icon-share';
 import shareButtonCSS from '../assets/styles/css-share-button';
 
 class ShareButton extends TrackedElement {
@@ -32,7 +32,7 @@ class ShareButton extends TrackedElement {
           data-placement='bottom'
           data-original-title='Share this item'
           aria-haspopup='true'>
-          ${searchIcon} <span>Share</span>
+          ${shareIcon} <span>Share</span>
         </button>
       </div>
     `;

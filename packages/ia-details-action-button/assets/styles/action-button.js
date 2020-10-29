@@ -9,37 +9,31 @@ export default css`
     --iconFillColor: var(--white);
     --linkColor: var(--white);
   }
-  .grid-container1 {
-    margin: 100px;
-  }
   .grid-item {
     background-color: rgba(255, 255, 255, 0.8);
     text-align: center;
-    height: 40px;
+    // height: 44px;
     display: inline;
     vertical-align: middle;
   }
-  .favorite-button, .share-button, .flag-button {
-    width: 84px;
-  }
+
   .button span {
     display: block;
-    margin-top: -4px;
   }
-  .favorite-icon {
-    height: 15px;
-  }
+
   .button {
-    border-radius: 6px;
+    border-radius: 3px;
     text-decoration: none;
     display: inline-block;
-    font: normal 1.2rem/1.5 var(--themeFontFamily);
+    font-size: 14px; 
+    font-family: 'Helvetica Neue';
     border: 1px solid var(--textColor);
     color: var(--textColor);
     outline: none;
     cursor: pointer;
-    padding: 5px;
-    margin-left: 5px;
+    padding: 5px 5px 0 5px;
+    // padding: 5px;
+    // margin-left: 5px;
   }
   a {
     text-decoration: none;
@@ -48,6 +42,13 @@ export default css`
   .hidden {
     display: none;
   }
-  @media (min-width: 890px) {
+  svg {
+    height: 18px;
+    width: 18px;
+  }
+  @media (max-width: 767px) {
+    .button span {
+      display: none;
+    }
   }
 `;

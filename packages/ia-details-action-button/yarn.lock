@@ -1086,73 +1086,31 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@internetarchive/icon-applepay@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/icon-applepay/-/icon-applepay-0.4.0.tgz#6c25ed4f4e86bffca6208f08f26a8c6a69485dfa"
-  integrity sha512-AuKpjycOw/dB0/bhz2s+3d1XOpRodf3LqTCYP1IjVyz+xhc/i6qz9aY/UMmbwBGpZkNzc9URbImKvwt1UuH9EQ==
+"@internetarchive/icon-email@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@internetarchive/icon-email/-/icon-email-1.1.3.tgz#ed5064df244bff37b452634fbb8f9241373e6dc3"
+  integrity sha512-HSJEsUBQu6Qzpfsvyt+D0odC/m+d5zv03u243hqcYLfCEpYZwmWWvguvP54eQjDkfEEAbgRwDSVO1EGiQ9JP5w==
   dependencies:
     lit-html "^1.2.1"
 
-"@internetarchive/icon-calendar@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/icon-calendar/-/icon-calendar-0.4.0.tgz#e5d28cf9d153c2cb68876b63c13ab55d261215c6"
-  integrity sha512-PqRZlSTSePdfSpn+S71S3yy2XbQHWBFvENnqZY1Y8cgd+LGPmgpkDo6ctacgPTigchwA4EQjCjQ/m1I8I6nzHw==
+"@internetarchive/icon-favorite@^0.3.1-alpha.4":
+  version "0.3.1-alpha.4"
+  resolved "https://registry.yarnpkg.com/@internetarchive/icon-favorite/-/icon-favorite-0.3.1-alpha.4.tgz#18fa052b8cff045b323ecad9665c04e0b48c3bf8"
+  integrity sha512-a+W7BhO0uNGooRy9hbVXmhHGyFsjTQFn6Z2ryfX2mc02PuK73zmFnvCpMQinORwY716Iz0FXIvLZYnfKHe00Xw==
   dependencies:
     lit-html "^1.2.1"
 
-"@internetarchive/icon-credit-card@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/icon-credit-card/-/icon-credit-card-0.4.0.tgz#715506051610f05ef5c091f9c0f1ad845310ec58"
-  integrity sha512-VZUP095kYGJCexzMgha2Wx+yRavnBXbxK7Tl2p5Zwjp4yfF+Lw3HBrZqRPiNCRilVz8ghZpSDJGUvRqvZfmTEw==
+"@internetarchive/icon-flag@^0.3.1-alpha.4":
+  version "0.3.1-alpha.4"
+  resolved "https://registry.yarnpkg.com/@internetarchive/icon-flag/-/icon-flag-0.3.1-alpha.4.tgz#04b8b0d9248d26135d23210aa80e6f467d626e1f"
+  integrity sha512-Vmh3t3eKquKk52C7oWt/4jUxzlIn98Hh0R0R4lxu6gndyVMKGcdtLavL0SMHucYOtqdXYFlOMC1Ka6xaL4Y7xQ==
   dependencies:
     lit-html "^1.2.1"
 
-"@internetarchive/icon-email@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/icon-email/-/icon-email-0.4.0.tgz#9a81a84096539d16da292638ef1b1a8da8f24ac8"
-  integrity sha512-p8a5MzNwYmpL/UNLSoCXgtHhMwxNpDfcOLZUVjdfIb+5MeouwIx5ckvpFFT3qNF1btWBWpKSZG/GTS+WxHxvXw==
-  dependencies:
-    lit-html "^1.2.1"
-
-"@internetarchive/icon-googlepay@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/icon-googlepay/-/icon-googlepay-0.4.0.tgz#e500690779ab12817a2868c5a5f49bfdcf8e7068"
-  integrity sha512-J0gaAHfdwyfNRSnNsXrdG1dRhabFFtyQQxdYKgBEY/AC24yrV5+VkPbbGVl6+4T8c3U7EbAqvikuoJIeTqF6PA==
-  dependencies:
-    lit-html "^1.2.1"
-
-"@internetarchive/icon-locale-pin@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/icon-locale-pin/-/icon-locale-pin-0.4.0.tgz#92036f23cd23542a5d7d5a7502e7d3dad6da687e"
-  integrity sha512-sgyP3K5N4PhCWpUg9kYoNvOJiOfxVCMFSifYeJhcB/gTBwbwWRuP292RAmSxqO6s4RmtE3JVWZiPsxuoCxB2OQ==
-  dependencies:
-    lit-html "^1.2.1"
-
-"@internetarchive/icon-lock@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/icon-lock/-/icon-lock-0.4.0.tgz#fd0ce92bc9f5f887e1a9a1047fa6a4e002fb9e8c"
-  integrity sha512-ODnFP0n251yPogUaAgjnuybhlvcLD5kmUkC0S0rHHh6gR4xbeio6EDctS20h4d1U70eXm6NFGTIp2rSTmY9IFQ==
-  dependencies:
-    lit-html "^1.2.1"
-
-"@internetarchive/icon-paypal@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/icon-paypal/-/icon-paypal-0.4.0.tgz#73202d65e9b8ef281378abd4fa0aba7da1268275"
-  integrity sha512-qw1f7qW8ODToAHT5mtJyN0skT9HdPzMWbaKhXKswWuVmoZcmoJPTA0pqlbcROWnBen1mysGpqZ9pn7A0+JmcaQ==
-  dependencies:
-    lit-html "^1.2.1"
-
-"@internetarchive/icon-user@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/icon-user/-/icon-user-0.4.0.tgz#6ac2aa02df733fbbc84d29116c4f92037a4fd44d"
-  integrity sha512-Fk+MJs2Da8uOlF6OQua54TmJrMHiwNo4imxrHcfIgD7lkqn8WscRsgasaSza2wohiq/4Jc181avPMXi6ZrakDg==
-  dependencies:
-    lit-html "^1.2.1"
-
-"@internetarchive/icon-venmo@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/icon-venmo/-/icon-venmo-0.4.0.tgz#f6f87496da2bfaa1a68d469b6c07b421dcf00153"
-  integrity sha512-zW3JGu6HdggGtbbNWjxhQV5PY88t4gSGxP/U8ZhJ8HzBLB1T4iPYHMrfw1RICmplmA9uFqNzfaefFZ90ur6FQQ==
+"@internetarchive/icon-share@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@internetarchive/icon-share/-/icon-share-1.1.3.tgz#603999936e88267fa8283bb8c1b9eecd2c0d3117"
+  integrity sha512-xAt+K4A04uE7O2zghWiMDPSe2RkCx2ObKCk1vjAn1gk2CexwrcbIUdY2MMYUyvP3k3Lm5DHw5hLm5Aazv++8yQ==
   dependencies:
     lit-html "^1.2.1"
 

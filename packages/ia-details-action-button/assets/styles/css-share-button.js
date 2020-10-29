@@ -20,10 +20,6 @@ export default css`
     fill: var(--iconFillColor);
   }
 
-  .favorite-button, .share-button, .flag-button {
-    width: 84px;
-  }
-
   @media (min-width: 890px) {
     form {
       margin: 0 auto;
