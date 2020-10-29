@@ -14,7 +14,7 @@ class ZenDeskHelpWidget extends LitElement {
   constructor() {
     super();
     this.widgetSrc = '';
-    this.buttonVisible = true;
+    this.buttonVisible = false;
     this.isLoading = false;
   }
 

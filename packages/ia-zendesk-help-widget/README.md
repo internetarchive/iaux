@@ -5,7 +5,7 @@
 ```html
 <ia-zendesk-help-widget
   widgetSrc="https://static.zdassets.com/ekr/snippet.js?key="
-  widgetKey="a-valid-key-411f-8463-cc6dd50abe2d"
+  buttonVisible="true"
 ></ia-zendesk-help-widget>
 ```
 
@@ -13,7 +13,7 @@
 
 ```js
 widgetSrc: { type: String }, // widget src
-widgetKey: { type: String }, // widget key
+buttonVisible: { type: Boolean }, // button visibility state
 ```
 
 ### Events
