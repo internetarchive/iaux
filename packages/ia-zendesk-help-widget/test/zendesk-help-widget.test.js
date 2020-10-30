@@ -1,8 +1,7 @@
 import {
   html,
   fixture,
-  expect,
-  oneEvent
+  expect
 } from '@open-wc/testing';
 import '../src/ia-zendesk-help-widget';
 
@@ -20,7 +19,7 @@ const component = (properties = {
 let testableVariable = false;
 function testableCode() {
   let counter = 1;
-  var interval = setInterval(() => {
+  const interval = setInterval(() => {
     if (counter === 5) {
       testableVariable = true;
       clearInterval(interval);
@@ -64,6 +63,14 @@ describe('<zendesk-help-widget>', () => {
 
   it('terminate before completing interval', (done) => {
     testableCode();
+
+    const iframe = document.createElement('iframe');
+    document.body.appendChild(iframe);
+    const element = '<body><button id="launcher">help</button></body>';
+    iframe.setAttribute('id', 'launcher');
+    iframe.contentWindow.document.open();
+    iframe.contentWindow.document.write(element);
+    iframe.contentWindow.document.close();
 
     setTimeout(() => {
       expect(testableVariable).to.be.false;

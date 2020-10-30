@@ -18,7 +18,7 @@ class ZenDeskHelpWidget extends LitElement {
     this.isLoading = false;
   }
 
-  async initiateZenDesk(e) {
+  async initiateZenDesk() {
     this.isLoading = true;
 
     // force UI update to render loader icon after button click
