@@ -5,8 +5,10 @@ import {
 } from '@open-wc/testing';
 import '../src/ia-zendesk-help-widget';
 
+const testwidgetSrc = '/base/test/mock-zen-desk.js';
+
 const component = (properties = {
-  widgetSrc: 'https://static.zdassets.com/ekr/snippet.js?key=685f6dc4-48c5-411f-8463-cc6dd50abe2d',
+  widgetSrc: testwidgetSrc,
   buttonVisible: true
 }) => (
   html`
@@ -25,8 +27,8 @@ function testableCode() {
       clearInterval(interval);
     }
 
-    counter++;
-  }, 500);
+    counter += 1;
+  }, 200);
 
   return interval;
 }
@@ -40,10 +42,9 @@ describe('<zendesk-help-widget>', () => {
 
   it('change isLoading state on button click', async () => {
     const el = await fixture(component());
-
-    el.widgetSrc = 'https://static.zdassets.com/ekr/snippet.js?key=685f6dc4-48c5-411f-8463-cc6dd50abe2d';
+    el.widgetSrc = testwidgetSrc;
     el.buttonVisible = true;
-    el.isLoading = false;
+
     el.shadowRoot.querySelector('button').click();
     await el.updateComplete;
 
@@ -53,9 +54,9 @@ describe('<zendesk-help-widget>', () => {
   it('get visibilityState on initial props', async () => {
     const el = await fixture(component());
 
-    el.widgetSrc = 'https://static.zdassets.com/ekr/snippet.js?key=685f6dc4-48c5-411f-8463-cc6dd50abe2d';
+    el.widgetSrc = testwidgetSrc;
     el.buttonVisible = false;
-    el.isLoading = false;
+
     await el.updateComplete;
 
     expect(el.buttonVisibilityState).to.equal('hidden');
@@ -63,24 +64,14 @@ describe('<zendesk-help-widget>', () => {
 
   it('terminate before completing interval', (done) => {
     testableCode();
-
-    const iframe = document.createElement('iframe');
-    document.body.appendChild(iframe);
-    const element = '<body><button id="launcher">help</button></body>';
-    iframe.setAttribute('id', 'launcher');
-    iframe.contentWindow.document.open();
-    iframe.contentWindow.document.write(element);
-    iframe.contentWindow.document.close();
-
     setTimeout(() => {
-      expect(testableVariable).to.be.false;
+      expect(testableVariable).to.be.true;
       done();
     }, 1000);
   });
 
   it('Hide the button after click event', async () => {
-    const widgetSrc = 'https://static.zdassets.com/ekr/snippet.js?key=685f6dc4-48c5-411f-8463-cc6dd50abe2d';
-    const el = await fixture(html`<ia-zendesk-help-widget .widgetSrc=${widgetSrc} .buttonVisible></ia-zendesk-help-widget>`);
+    const el = await fixture(html`<ia-zendesk-help-widget .widgetSrc=${testwidgetSrc} .buttonVisible></ia-zendesk-help-widget>`);
     el.shadowRoot.querySelector('.help-widget').click();
     await el.updateComplete;
 

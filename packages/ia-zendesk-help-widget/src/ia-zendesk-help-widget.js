@@ -47,7 +47,7 @@ class ZenDeskHelpWidget extends LitElement {
       }
 
       // Try again later
-      countdownTicksLeft--;
+      countdownTicksLeft -= 1;
       if (countdownTicksLeft <= 0) clearInterval(timeoutTimer);
     }, 250);
   }
