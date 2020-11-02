@@ -22,12 +22,12 @@ let testableVariable = false;
 function testableCode() {
   let counter = 1;
   const interval = setInterval(() => {
-    if (counter === 5) {
+    counter += 1;
+
+    if (counter >= 5) {
       testableVariable = true;
       clearInterval(interval);
     }
-
-    counter += 1;
   }, 200);
 
   return interval;

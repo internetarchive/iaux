@@ -35,8 +35,12 @@ class ZenDeskHelpWidget extends LitElement {
     const timeoutTimer = setInterval(() => {
       // See if button has appeared
       const iframe = document.getElementById('launcher');
+
+      /* istanbul ignore else */
       if (iframe) {
         const button = iframe.contentWindow.document.querySelector('button');
+
+        /* istanbul ignore else */
         if (button) {
           // Found it! Click on it and hope the window opens!
           button.click();
@@ -48,6 +52,7 @@ class ZenDeskHelpWidget extends LitElement {
 
       // Try again later
       countdownTicksLeft -= 1;
+      /* istanbul ignore if */
       if (countdownTicksLeft <= 0) clearInterval(timeoutTimer);
     }, 250);
   }
