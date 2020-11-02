@@ -8,13 +8,11 @@ import '../src/ia-zendesk-help-widget';
 const testwidgetSrc = '/base/test/mock-zen-desk.js';
 
 const component = (properties = {
-  widgetSrc: testwidgetSrc,
-  buttonVisible: true
+  widgetSrc: testwidgetSrc
 }) => (
   html`
     <ia-zendesk-help-widget
       widgetSrc=${properties.widgetSrc}
-      buttonVisible=true
     ></ia-zendesk-help-widget>`
 );
 
@@ -68,13 +66,5 @@ describe('<zendesk-help-widget>', () => {
       expect(testableVariable).to.be.true;
       done();
     }, 1000);
-  });
-
-  it('Hide the button after click event', async () => {
-    const el = await fixture(html`<ia-zendesk-help-widget .widgetSrc=${testwidgetSrc} .buttonVisible></ia-zendesk-help-widget>`);
-    el.shadowRoot.querySelector('.help-widget').click();
-    await el.updateComplete;
-
-    expect(el.shadowRoot.querySelector('.help-widget').classList.contains('hidden')).to.be.true;
   });
 });

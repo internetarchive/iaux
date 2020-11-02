@@ -7,14 +7,13 @@ class ZenDeskHelpWidget extends LitElement {
   static get properties() {
     return {
       widgetSrc: { type: String },
-      buttonVisible: { type: Boolean },
     };
   }
 
   constructor() {
     super();
     this.widgetSrc = '';
-    this.buttonVisible = false;
+    this.buttonVisible = true;
     this.isLoading = false;
   }
 
@@ -45,6 +44,7 @@ class ZenDeskHelpWidget extends LitElement {
           // Found it! Click on it and hope the window opens!
           button.click();
           this.buttonVisible = false;
+          this.requestUpdate(this.buttonVisible, false);
           clearInterval(timeoutTimer);
           return;
         }
