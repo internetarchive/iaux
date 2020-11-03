@@ -22,6 +22,8 @@ class ZenDeskHelpWidget extends LitElement {
   async initiateZenDesk() {
     this.isLoading = true;
 
+    this.emitZendeskHelpButtonClicked();
+
     // load third-party script
     const lazyLoaderService = new LazyLoaderService();
     await lazyLoaderService.loadScript({
@@ -55,6 +57,10 @@ class ZenDeskHelpWidget extends LitElement {
     }, 250);
   }
 
+  emitZendeskHelpButtonClicked() {
+    this.dispatchEvent(new CustomEvent('zendeskHelpButtonClicked'));
+  }
+
   get buttonVisibilityState() {
     return !this.buttonVisible ? 'hidden' : '';
   }
@@ -68,7 +74,6 @@ class ZenDeskHelpWidget extends LitElement {
       <button
         class="help-widget ${this.buttonVisibilityState}"
         @click=${this.initiateZenDesk}
-        data-event-click-tracking="ZenDesk|InitialHelpButton"
       >${this.getActiveIcon}<span class="hidden-sm">Help</span></button>`;
   }
 
