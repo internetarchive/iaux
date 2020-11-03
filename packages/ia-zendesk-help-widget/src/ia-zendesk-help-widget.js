@@ -7,6 +7,8 @@ class ZenDeskHelpWidget extends LitElement {
   static get properties() {
     return {
       widgetSrc: { type: String },
+      isLoading: { type: Boolean },
+      buttonVisible: { type: Boolean },
     };
   }
 
@@ -19,9 +21,6 @@ class ZenDeskHelpWidget extends LitElement {
 
   async initiateZenDesk() {
     this.isLoading = true;
-
-    // force UI update to render loader icon after button click
-    this.requestUpdate();
 
     // load third-party script
     const lazyLoaderService = new LazyLoaderService();
@@ -44,7 +43,6 @@ class ZenDeskHelpWidget extends LitElement {
           // Found it! Click on it and hope the window opens!
           button.click();
           this.buttonVisible = false;
-          this.requestUpdate(this.buttonVisible, false);
           clearInterval(timeoutTimer);
           return;
         }
