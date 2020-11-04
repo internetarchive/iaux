@@ -1,0 +1,11 @@
+<html>
+  <head></head>
+  <body>
+    <button>help</button>
+    <script>
+      document.querySelector('button').addEventListener('click', () => {
+        window.parent.postMessage('button clicked', '*');
+      });
+    </script>
+  </body>
+</html>

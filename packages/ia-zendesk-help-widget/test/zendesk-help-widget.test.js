@@ -6,7 +6,7 @@ import {
 } from '@open-wc/testing';
 import '../src/ia-zendesk-help-widget';
 
-const testwidgetSrc = '/base/test/mock-zen-desk.js';
+const testwidgetSrc = '/base/test/mock-zendesk/iframe.js';
 
 const component = (properties = {
   widgetSrc: testwidgetSrc
@@ -16,7 +16,6 @@ const component = (properties = {
       widgetSrc=${properties.widgetSrc}
     ></ia-zendesk-help-widget>`
 );
-
 
 describe('<zendesk-help-widget>', () => {
   it('renders help button texts', async () => {
@@ -29,12 +28,9 @@ describe('<zendesk-help-widget>', () => {
     const el = await fixture(component());
     const button = el.shadowRoot.querySelector('button');
     button.click();
-
-    setTimeout(() => { window.postMessage('button click'); });
     const response = await oneEvent(window, 'message');
-
     expect(response).to.exist;
-    expect(response.data).to.equal('button click');
+    expect(response.data).to.equal('button clicked');
   });
 
   it('emits an event when help button clicked', async () => {
