@@ -6,7 +6,7 @@ import {
 } from '@open-wc/testing';
 import '../src/ia-zendesk-help-widget';
 
-const testwidgetSrc = '/base/test/mock-zendesk/iframe.js';
+const testwidgetSrc = '/base/test/mock-zendesk/iframe-loader.js';
 
 const component = (properties = {
   widgetSrc: testwidgetSrc
