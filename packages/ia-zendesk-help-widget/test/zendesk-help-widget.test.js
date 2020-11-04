@@ -24,11 +24,12 @@ describe('<zendesk-help-widget>', () => {
     expect(span.innerText).to.contain('Help');
   });
 
-  it('change isLoading state on button click', async () => {
+  it('clicks on the iframe button to activate the zendesk window', async () => {
     const el = await fixture(component());
     const button = el.shadowRoot.querySelector('button');
     button.click();
     const response = await oneEvent(window, 'message');
+    expect(el.buttonVisible).to.equal(false);
     expect(response).to.exist;
     expect(response.data).to.equal('button clicked');
   });
