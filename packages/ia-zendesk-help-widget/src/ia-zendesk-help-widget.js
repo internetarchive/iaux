@@ -58,7 +58,7 @@ class ZenDeskHelpWidget extends LitElement {
   }
 
   emitZendeskHelpButtonClicked() {
-    this.dispatchEvent(new CustomEvent('zendeskHelpButtonClicked'));
+    this.dispatchEvent(new Event('zendeskHelpButtonClicked'));
   }
 
   get buttonVisibilityState() {

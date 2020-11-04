@@ -1,7 +1,8 @@
 import {
   html,
   fixture,
-  expect
+  expect,
+  oneEvent
 } from '@open-wc/testing';
 import '../src/ia-zendesk-help-widget';
 
@@ -16,20 +17,6 @@ const component = (properties = {
     ></ia-zendesk-help-widget>`
 );
 
-let testableVariable = false;
-function testableCode() {
-  let counter = 1;
-  const interval = setInterval(() => {
-    counter += 1;
-
-    if (counter >= 5) {
-      testableVariable = true;
-      clearInterval(interval);
-    }
-  }, 200);
-
-  return interval;
-}
 
 describe('<zendesk-help-widget>', () => {
   it('renders help button texts', async () => {
@@ -40,13 +27,22 @@ describe('<zendesk-help-widget>', () => {
 
   it('change isLoading state on button click', async () => {
     const el = await fixture(component());
-    el.widgetSrc = testwidgetSrc;
-    el.buttonVisible = true;
+    const button = el.shadowRoot.querySelector('button');
+    button.click();
 
-    el.shadowRoot.querySelector('button').click();
-    await el.updateComplete;
+    setTimeout(() => { window.postMessage('button click'); });
+    const response = await oneEvent(window, 'message');
 
-    expect(el.isLoading).to.be.true;
+    expect(response).to.exist;
+    expect(response.data).to.equal('button click');
+  });
+
+  it('emits an event when help button clicked', async () => {
+    const el = await fixture(component());
+
+    setTimeout(() => el.emitZendeskHelpButtonClicked());
+    const response = await oneEvent(el, 'zendeskHelpButtonClicked');
+    expect(response).to.exist;
   });
 
   it('get visibilityState on initial props', async () => {
@@ -58,13 +54,5 @@ describe('<zendesk-help-widget>', () => {
     await el.updateComplete;
 
     expect(el.buttonVisibilityState).to.equal('hidden');
-  });
-
-  it('terminate before completing interval', (done) => {
-    testableCode();
-    setTimeout(() => {
-      expect(testableVariable).to.be.true;
-      done();
-    }, 1000);
   });
 });
