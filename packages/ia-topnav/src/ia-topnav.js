@@ -146,6 +146,7 @@ export default class IATopNav extends LitElement {
   get signedOutDropdown() {
     return html`
       <signed-out-dropdown
+        .baseHost=${this.baseHost}
         .config=${this.config}
         .open=${this.signedOutOpened}
         tabindex="${this.signedOutTabIndex}"
