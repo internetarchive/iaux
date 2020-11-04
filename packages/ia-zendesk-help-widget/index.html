@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="index.js"></script>
+    <title>ZenDesk Help Widget</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import { html, render } from './node_modules/lit-html/lit-html.js';
+
+      render(html`<ia-zendesk-help-widget
+        widgetSrc="https://static.zdassets.com/ekr/snippet.js?key=685f6dc4-48c5-411f-8463-cc6dd50abe2d"
+        ></ia-zendesk-help-widget>`, document.getElementById('root'));
+
+      const zendeskButton = document.querySelector('ia-zendesk-help-widget');
+
+      zendeskButton.addEventListener('zendeskHelpButtonClicked', () => {
+        console.log('zendeskHelpButtonClicked event');
+      });
+    </script>
+  </body>
+</html>
