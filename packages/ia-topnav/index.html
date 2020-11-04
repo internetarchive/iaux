@@ -27,38 +27,62 @@
     <main>
       <h1>Site example</h1>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+      <fieldset>
+        <legend>Dev Tools</legend>
+        <button id="show-logged-in-button">Show Logged-In State</button> |
+        <button id="show-logged-out-button">Show Logged-Out State</button>
+      </fieldset>
     </main>
     <script type="module">
       import * as baseMenus from './src/data/menus.js';
 
-      const config = {
-        screenName: 'really_long_screen_name_that_may_be_truncated_on_mobile',
-        username: 'shaneriley',
-        eventCategory: 'MobileTopNav',
-        waybackPagesArchived: '424 billion',
-        isAdmin: true,
-        uploadURL: '/create',
-        searchQuery: 'atari',
-        hiddenSearchOptions: [],
-      };
+      function updateConfig(configOverrides) {
+        const config = Object.assign({
+          screenName: 'really_long_screen_name_that_may_be_truncated_on_mobile',
+          username: 'fooey_mcbarrison',
+          eventCategory: 'MobileTopNav',
+          waybackPagesArchived: '424 billion',
+          isAdmin: true,
+          uploadURL: '/create',
+          searchQuery: 'atari',
+          hiddenSearchOptions: [],
+        }, configOverrides);
+
+        const menus = Object.assign({}, baseMenus, {
+          user: baseMenus.user({
+            catUrl: 'https://catalogd.archive.org',
+            username: config.username,
+            isAdmin: config.isAdmin,
+            identifier: 'foo',
+            uploader: 'bar-uploader@baz.org',
+            biblio: 'https://some-url.com',
+          }),
+          web: baseMenus.wayback,
+        });
+
+        const topnav = document.querySelector('ia-topnav');
+        Object.assign(topnav, {
+          baseHost: 'archive.org',
+          config,
+          menus,
+        });
+      }
+
+      const loggedInButton = document.querySelector('#show-logged-in-button');
+      loggedInButton.addEventListener('click', () => {
+        updateConfig();
+      })
+
+      const loggedOutButton = document.querySelector('#show-logged-out-button');
+      loggedOutButton.addEventListener('click', () => {
+        updateConfig({ username: undefined, isAdmin: false });
+      })
+
       const topnav = document.createElement('ia-topnav');
-      const menus = Object.assign({}, baseMenus, {
-        user: baseMenus.user({
-          catUrl: 'https://catalogd.archive.org',
-          username: config.username,
-          isAdmin: config.isAdmin,
-          identifier: 'foo',
-          uploader: 'bar-uploader@baz.org',
-          biblio: 'https://some-url.com',
-        }),
-        web: baseMenus.wayback,
-      });
-      Object.assign(topnav, {
-        baseHost: 'archive.onion',
-        config,
-        menus,
-      });
       document.body.insertBefore(topnav, document.body.firstChild);
+
+      updateConfig();
 
       topnav.addEventListener('trackClick', ({ detail }) => {
         console.log(`Analytics click fired: ${detail.event}`);

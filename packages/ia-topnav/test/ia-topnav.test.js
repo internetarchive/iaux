@@ -217,4 +217,27 @@ describe('<ia-topnav>', () => {
       .querySelector('.upload');
     expect(uploadLink.getAttribute('href')).to.match(/archive\.org\/create/);
   });
+
+  describe('sets baseHost properly', async () => {
+    it('sets the baseHost on the common child components', async () => {
+      const el = await fixture(container({}, 'foo.org'));
+      const componentSelectors = ['primary-nav', 'media-slider', 'desktop-subnav', 'search-menu'];
+      componentSelectors.forEach((selector) => {
+        const component = el.shadowRoot.querySelector(selector);
+        expect(component.baseHost).to.equal('foo.org');
+      });
+    });
+
+    it('sets the baseHost on the signed out dropdown', async () => {
+      const el = await fixture(container({}, 'foo.org'));
+      const signedOutDropdown = el.shadowRoot.querySelector('signed-out-dropdown');
+      expect(signedOutDropdown.baseHost).to.equal('foo.org');
+    });
+
+    it('sets the baseHost on the user dropdown', async () => {
+      const el = await fixture(container({ username: 'foo' }, 'foo.org'));
+      const signedOutDropdown = el.shadowRoot.querySelector('user-menu');
+      expect(signedOutDropdown.baseHost).to.equal('foo.org');
+    });
+  });
 });
