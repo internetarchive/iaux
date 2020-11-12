@@ -14,15 +14,7 @@ export default css`
 
   .borrow-program-button:hover {
     color: var(--bgColor);
-    border: 1px solid #428bca;
-    background-color: #d9e8f4;
+    border: 1px solid var(--iconFillColor);
     fill: var(--iconFillColor);
-  }
-
-  .borrow-program-button {
-    vertical-align: middle;
-    border: 1px solid black;
-    text-decoration: none;
-    color: var(--textColor);
   }
 `;

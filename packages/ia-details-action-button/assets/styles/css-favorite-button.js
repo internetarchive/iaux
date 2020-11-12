@@ -14,19 +14,13 @@ export default css`
 
   .favorite-button.favorited, .favorite-button:hover {
     color: #f0b534! important;
-    border: 1px solid #f0b534;
-    background-color: #fcf0d6;
+    border: 1px solid var(--favoriteFillColor);
     fill: var(--iconFillColor);
-  }
-
-  .favorite-button .favorite-icon {
-    color: #f0b534! important;
   }
 
   @media (min-width: 890px) {
     form {
       margin: 0 auto;
     }
-
   }
 `;

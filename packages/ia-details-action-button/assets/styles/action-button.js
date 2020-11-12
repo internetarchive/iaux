@@ -12,7 +12,6 @@ export default css`
   .grid-item {
     background-color: rgba(255, 255, 255, 0.8);
     text-align: center;
-    // height: 44px;
     display: inline;
     vertical-align: middle;
   }
@@ -31,9 +30,8 @@ export default css`
     color: var(--textColor);
     outline: none;
     cursor: pointer;
-    padding: 5px 5px 0 5px;
-    // padding: 5px;
-    // margin-left: 5px;
+    padding: 5px;
+    line-height: normal;
   }
   a {
     text-decoration: none;
@@ -45,6 +43,9 @@ export default css`
   svg {
     height: 18px;
     width: 18px;
+    display: block;
+    align-content: center;
+    margin: 0px auto 2px;
   }
   @media (max-width: 767px) {
     .button span {

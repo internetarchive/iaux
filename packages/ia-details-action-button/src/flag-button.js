@@ -90,12 +90,7 @@ class FlagButton extends TrackedElement {
           class='button flag-button grid-item'
           @click='${this.openMenu}'
           type='button'
-          data-target='#cher-modal'
-          data-toggle='tooltip'
-          data-container='body'
-          data-placement='bottom'
-          data-original-title='Flag this item'
-          aria-haspopup='true'>
+          data-target='#cher-modal'>
           ${flagIcon} <span>Flag</span>
         </button>
         <div id='flag-popover' class='dropdown-menu hidden' aria-labelledby='flag-button'>

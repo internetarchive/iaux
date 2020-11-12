@@ -25,14 +25,13 @@ class BorrowProgramButton extends TrackedElement {
     if (this.borrowButton === '') return;
 
     return html`
-      <div class="grid-item">
-      <a
-        class='topinblock button borrow-program-button'
-        href='/services/borrow/${this.identifier}'
-        class='stealth'
-        rel='nofollow'>
-        ${emailIcon} <span>Borrow Program</span>
-      </a>
+      <div class='grid-item'>
+        <a
+          class='button borrow-program-button grid-item'
+          href='/services/borrow/${this.identifier}'
+        >
+          ${emailIcon} <span>Borrow Program</span>
+        </a>
       </div>
     `;
   }

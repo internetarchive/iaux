@@ -40,7 +40,20 @@
           showShareButton="1"
           flagConfig=${btoa(JSON.stringify(flagConfig))}
         ></ia-details-action-button>`, document.getElementById('root'));
-    </script>
 
+      window.addEventListener('DOMContentLoaded', () => {
+        const iaActionButton = document.querySelector('ia-details-action-button');
+        const shareButton = iaActionButton.shadowRoot.querySelector('share-button').shadowRoot.querySelector('.share-button')
+        // console.log(shareButton)
+        if (shareButton) {
+          shareButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            console.log(shareButton)
+            AJS.modal_go(shareButton, {ignore_lnk:1, shown:AJS.embed_codes_adjust})
+            return;
+          });
+        }
+      })
+    </script>
   </body>
 </html>

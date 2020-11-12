@@ -26,7 +26,7 @@ class FavoriteButton extends TrackedElement {
     } else {
       favoriteButtonText.textContent = 'Unfavorite';
     }
-    // favoriteButton.classList.toggle("favorited");
+    // favoriteButton.classList.toggle('favorited');
   }
 
   constructor() {
@@ -46,21 +46,16 @@ class FavoriteButton extends TrackedElement {
 
   render() {
     return html`
-      <div class="grid-item">
+      <div class='grid-item'>
         <button
-          @click=${this.toggleButton}
-          class='topinblock favorite-button button grid-item js-manage-toggle_list_status ${this.isAlreadyFavorite ? 'favorited' : ''}'
+          class='button favorite-button grid-item ${this.isAlreadyFavorite ? 'favorited' : ''}'
           type='button'
+          @click=${this.toggleButton}
           data-href='${this.favoriteLink}'
           data-target='#favorite-modal'
           data-id='${this.identifier}'
-          data-fav-collection='fav-${this.collectionName}'
-          data-toggle='tooltip'
-          data-container='body'
-          data-placement='bottom'
-          data-original-title='${this.isAlreadyFavorite ? "Unf" : "F"}avorite'
-          aria-haspopup='true'>
-            ${favoriteIcon} <span>${this.isAlreadyFavorite ? 'Unfavorite' : 'Favorite'}</span>
+          data-fav-collection='fav-${this.collectionName}'>
+          ${favoriteIcon} <span>${this.isAlreadyFavorite ? 'Unfavorite' : 'Favorite'}</span>
         </button>
       </div>
     `;

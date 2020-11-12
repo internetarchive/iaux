@@ -48,9 +48,8 @@ class DetailsActionButton extends LitElement {
   }
 
   render() {
-    // console.log((this.flagConfig.types))
     return html`
-      <div class="grid-container">
+      <div class='grid-container'>
         <borrow-program-button
           .identifier=${this.identifier}
           .borrowButton=${this.borrowButton}>

@@ -14,15 +14,15 @@ export default css`
   }
 
   .flag-button:hover, .flag-button:focus {
-    color: rgba(190, 16, 36, 1) !important;
+    color: var(--flagFillColor);
     background-color: var(--lightRedBgColor);
-    border: rgba(190, 16, 36, 1) solid 1px;
+    border: solid 1px var(--flagFillColor);
     fill: var(--iconFillColor);
   }
 
   .flagged button {
     background-color: var(--lightRedBgColor);
-    color: rgb(208, 2, 27);
+    color: var(--flagFillColor);
     fill: var(--iconFillColor);
     border: 1px solid var(--flagFillColor);
   }
