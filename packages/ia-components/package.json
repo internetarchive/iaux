@@ -49,9 +49,6 @@
         "react": "^16.7.0",
         "react-dom": "^16.7.0"
     },
-    "peerDependencies": {
-        "bookreader": "git://github.com/internetarchive/bookreader.git#^4.8.0"
-    },
     "optionalDependencies": {
         "fsevents": "^1.2.4"
     },
