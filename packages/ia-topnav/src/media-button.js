@@ -74,6 +74,10 @@ class MediaButton extends TrackedElement {
     return this.selected ? 'selected' : '';
   }
 
+  get tooltipPrefix() {
+    return this.selected ? 'Collapse' : 'Expand';
+  }
+
   get iconClass() {
     return this.selected ? 'active' : '';
   }
@@ -98,6 +102,7 @@ class MediaButton extends TrackedElement {
         class="menu-item ${this.mediatype} ${this.buttonClass}"
         @click=${this.followable ? this.trackClick : this.onClick}
         data-event-click-tracking="${this.analyticsEvent}"
+        title="${this.tooltipPrefix} ${this.mediatype} menu"
       >
         ${this.menuItem}
       </a>

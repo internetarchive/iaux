@@ -73,8 +73,15 @@ class PrimaryNav extends TrackedElement {
 
   get userIcon() {
     const userMenuClass = this.openMenu === 'user' ? 'active' : '';
+    const userMenuToolTip = this.openMenu === 'user' ? 'Close user menu' : 'Expand user menu';
 
-    return html`<button class="user-menu ${userMenuClass}" @click="${this.toggleUserMenu}" data-event-click-tracking="${this.config.eventCategory}|NavUserMenu">
+    return html`
+      <button
+        class="user-menu ${userMenuClass}"
+        title="${userMenuToolTip}"
+        @click="${this.toggleUserMenu}"
+        data-event-click-tracking="${this.config.eventCategory}|NavUserMenu"
+      >
       <img src="https://archive.org/services/img/user/profile?${+(new Date())}" alt="${this.config.username}" />
       <span class="username">${this.truncatedScreenName}</span>
     </button>`;
