@@ -57,10 +57,10 @@ export default class BookReaderWrapper extends Component {
         return uri;
       },
       controls: {
-        twoPage: {
-          visible: false
-        }
+        twoPage: { visible: false },
+        viewmode: { visible: false },
       },
+      bookType: 'linerNotes', // bookType: linerNotes, book 
     };
     const fullOptions = {
       ...defaultOptions,
