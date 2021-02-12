@@ -92,7 +92,7 @@ class DataHydrator extends Component {
     // using bootstrap v3 styling for container for pretty UI
     return (
       <div>
-        <section>
+      <section>
           <AudioPlayerWithYoutubeSpotify
             albumMetadata={itemInfo}
             jwplayerPlaylist={jwplayerPlaylist}

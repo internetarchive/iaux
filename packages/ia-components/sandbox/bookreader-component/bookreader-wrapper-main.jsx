@@ -30,6 +30,7 @@ export default class BookReaderWrapper extends Component {
   constructor(props) {
     super(props);
     this.BookReaderRef = React.createRef();
+    this.bookreader = {};
   }
 
   componentDidMount() {
@@ -49,11 +50,19 @@ export default class BookReaderWrapper extends Component {
       searchInsideUrl: '/fulltext/inside.php',
       initialSearchTerm: null,
       imagesBaseURL: '/bookreader/BookReader/images/',
-      //TODO-ISA what is going on here, a comment would be useful ? (same on bookreader-wrapper-main and bookreader-wrapper-jsia)
+      useSrcSet: false,
+      /**
+       * Needed bypass to generate Image URL with scale factor.
+       * We must eliminate sooner than later to allow BookReader full image fetching control
+       * @param {Number} index - page index
+       * @param {Number} reduce - image size scale factor
+       * @param {Number} rotate - degrees of rotation
+       */
       getPageURI: (index, reduce = 1, rotate = 0) => {
-        let uri = originalGetPageURI.call(br, index, reduce, rotate);
+        const brReduce = this.bookreader.reduce || reduce;
+        let uri = originalGetPageURI.call(this.bookreader, index, brReduce, rotate);
         uri += (uri.indexOf('?') > -1 ? '&' : '?');
-        uri = `${uri}scale=${reduce}&rotate=${rotate}`;
+        uri = `${uri}scale=${brReduce}&rotate=${rotate}`;
         return uri;
       },
       controls: {
@@ -71,9 +80,9 @@ export default class BookReaderWrapper extends Component {
     if (this.props.jsia) {
       BookReaderJSIAinit(this.props.jsia, fullOptions); // Creates window.br
     } else {
-      const br = new BookReader(fullOptions);
-      window.br = br;
-      br.init();
+      this.bookreader = new BookReader(fullOptions);
+      window.br = this.bookreader; // keep for legacy
+      this.bookreader.init();
     }
   }
 
