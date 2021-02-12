@@ -39,6 +39,7 @@ export default class BookReaderWrapper extends Component {
     const originalGetPageURI = BookReader.prototype.getPageURI;
     const defaultOptions = {
       el: `#${this.BookReaderRef.current.id}`,
+      mobileNavFullscreenOnly: true,
       onePage: { autofit: 'height' }, // options: auto, width, height
       ui: 'full',
       enablePageResume: false,
@@ -59,7 +60,7 @@ export default class BookReaderWrapper extends Component {
        */
       getPageURI: (index, reduce = 1, rotate = 0) => {
         const brReduce = this.bookreader.reduce || reduce;
-        let uri = originalGetPageURI.call(br, index, brReduce, rotate);
+        let uri = originalGetPageURI.call(this.bookreader, index, brReduce, rotate);
         uri += (uri.indexOf('?') > -1 ? '&' : '?');
         uri = `${uri}scale=${brReduce}&rotate=${rotate}`;
         return uri;
@@ -79,10 +80,9 @@ export default class BookReaderWrapper extends Component {
     if (this.props.jsia) {
       BookReaderJSIAinit(this.props.jsia, fullOptions); // Creates window.br
     } else {
-      const br = new BookReader(fullOptions);
-      window.br = br;
-      this.bookreader = window.br;
-      br.init();
+      this.bookreader = new BookReader(fullOptions);
+      window.br = this.bookreader; // keep for legacy
+      this.bookreader.init();
     }
   }
 
