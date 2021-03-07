@@ -18,15 +18,15 @@
   > a {
     display: inline-block;
     padding: (.3 * @rem) @rem;
-    border: 1px solid @text_color;
+    //border: 1px solid @text_color;
     border-radius: 2px;
     background: @dropdown_background_color;
     &:hover {
       color: @text_active_color;
     }
   }
+
   ul {
-    display: none;
     position: absolute;
     top: 100%;
     left: 50%;
@@ -41,10 +41,15 @@
     &.visible {
       display: block;
     }
+    // It needs a more specific classname else the body.navia .navbar #nav-dweb ul { display:inline } beats the one below
+    &.notvisible {
+      display: none !important;
+    }
   }
   li {
-    display: block;
+    display: block !important;
     position: relative;
+    border: none !important;
     &.selected:before {
       position: absolute;
       top: 50%;
@@ -55,8 +60,8 @@
       content: '✓';
     }
     a {
-      display: block;
-      padding: (.2 * @rem) (2.5 * @rem);
+      display: block !important;
+      padding: (.2 * @rem) (2.5 * @rem) !important;
       white-space: nowrap;
       &:hover {
         color: @@text_highlight_color;
