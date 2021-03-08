@@ -38,7 +38,7 @@ export default class IATopNav extends LitElement {
 
   constructor() {
     super();
-    this.baseHost = 'archive.org';
+    this.baseHost = 'https://archive.org';
     this.config = {};
     this.mediaSliderOpen = false;
     this.menus = {};

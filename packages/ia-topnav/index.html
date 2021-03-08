@@ -32,6 +32,7 @@
         <legend>Dev Tools</legend>
         <button id="show-logged-in-button">Show Logged-In State</button> |
         <button id="show-logged-out-button">Show Logged-Out State</button>
+        <button id="change-base-host">Change Base Host</button>
       </fieldset>
     </main>
     <script type="module">
@@ -63,7 +64,7 @@
 
         const topnav = document.querySelector('ia-topnav');
         Object.assign(topnav, {
-          baseHost: 'archive.org',
+          baseHost: 'https://archive.org',
           config,
           menus,
         });
@@ -83,6 +84,11 @@
       document.body.insertBefore(topnav, document.body.firstChild);
 
       updateConfig();
+
+      const changeBaseHostButton = document.querySelector('#change-base-host');
+      changeBaseHostButton.addEventListener('click', () => {
+        topnav.baseHost = 'https://foo.net';
+      })
 
       topnav.addEventListener('trackClick', ({ detail }) => {
         console.log(`Analytics click fired: ${detail.event}`);

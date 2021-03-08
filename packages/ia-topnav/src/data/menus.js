@@ -6,11 +6,11 @@ const texts = {
   heading: 'Books',
   iconLinks: [{
     title: 'Books to Borrow',
-    icon: `https://${baseHost}/images/book-lend.png`,
+    icon: `${baseHost}/images/book-lend.png`,
     url: '/details/inlibrary',
   }, {
     title: 'Open Library',
-    icon: `https://${baseHost}/images/widgetOL.png`,
+    icon: `${baseHost}/images/widgetOL.png`,
     url: 'https://openlibrary.org/',
   }],
   featuredLinks: [{
@@ -68,11 +68,11 @@ const texts = {
 const video = {
   heading: 'Video',
   iconLinks: [{
-    icon: `https://${baseHost}/services/img/tv`,
+    icon: `${baseHost}/services/img/tv`,
     title: 'TV News',
     url: '/details/tv',
   }, {
-    icon: `https://${baseHost}/services/img/911`,
+    icon: `${baseHost}/services/img/911`,
     title: 'Understanding 9/11',
     url: '/details/911',
   }],
@@ -143,11 +143,11 @@ const video = {
 const audio = {
   heading: 'Internet Archive Audio',
   iconLinks: [{
-    icon: `https://${baseHost}/services/img/etree`,
+    icon: `${baseHost}/services/img/etree`,
     title: 'Live Music Archive',
     url: '/details/etree',
   }, {
-    icon: `https://${baseHost}/services/img/librivoxaudio`,
+    icon: `${baseHost}/services/img/librivoxaudio`,
     title: 'Librivox Free Audio',
     url: '/details/librivoxaudio',
   }],
@@ -200,11 +200,11 @@ const audio = {
 const software = {
   heading: 'Software',
   iconLinks: [{
-    icon: `https://${baseHost}/services/img/internetarcade`,
+    icon: `${baseHost}/services/img/internetarcade`,
     title: 'Internet Arcade',
     url: '/details/internetarcade',
   }, {
-    icon: `https://${baseHost}/services/img/consolelivingroom`,
+    icon: `${baseHost}/services/img/consolelivingroom`,
     title: 'Console Living Room',
     url: '/details/consolelivingroom',
   }],
@@ -278,11 +278,11 @@ const software = {
 const images = {
   heading: 'Images',
   iconLinks: [{
-    icon: `https://${baseHost}/services/img/metropolitanmuseumofart-gallery`,
+    icon: `${baseHost}/services/img/metropolitanmuseumofart-gallery`,
     title: 'Metropolitan Museum',
     url: '/details/metropolitanmuseumofart-gallery',
   }, {
-    icon: `https://${baseHost}/services/img/brooklynmuseum`,
+    icon: `${baseHost}/services/img/brooklynmuseum`,
     title: 'Brooklyn Museum',
     url: '/details/brooklynmuseum',
   }],
