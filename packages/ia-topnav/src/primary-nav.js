@@ -82,9 +82,13 @@ class PrimaryNav extends TrackedElement {
         @click="${this.toggleUserMenu}"
         data-event-click-tracking="${this.config.eventCategory}|NavUserMenu"
       >
-      <img src="https://archive.org/services/img/user/profile?${+(new Date())}" alt="${this.config.username}" />
-      <span class="username">${this.truncatedScreenName}</span>
-    </button>`;
+        <img
+          src="${this.baseHost}/services/img/user/profile?${+new Date()}"
+          alt="${this.config.username}"
+        />
+        <span class="username">${this.truncatedScreenName}</span>
+      </button>
+    `;
   }
 
   get loginIcon() {
