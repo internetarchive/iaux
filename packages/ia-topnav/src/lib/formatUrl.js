@@ -1,3 +1,1 @@
-export default (url, baseHost) => (
-  /^https?:/.test(url) ? url : `https://${baseHost}${url}`
-);
+export default (url, baseHost) => (/^https?:/.test(url) ? url : `${baseHost}${url}`);

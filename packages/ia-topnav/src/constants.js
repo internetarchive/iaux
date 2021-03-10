@@ -1,1 +1,1 @@
-export const prodHost = 'archive.org';
+export const prodHost = 'https://archive.org';
