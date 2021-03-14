@@ -1,0 +1,10 @@
+/node_modules/
+
+## testing
+/coverage/
+
+## temp folders
+/.tmp/
+.DS_Store
+
+*.log
