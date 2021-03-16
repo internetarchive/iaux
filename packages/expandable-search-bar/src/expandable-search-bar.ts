@@ -285,6 +285,15 @@ export default class ExpandableSearchBar extends LitElement {
         background: none;
       }
 
+      #disclosure-button {
+        outline: none;
+        box-shadow: none;
+      }
+
+      #disclosure-button:hover {
+        cursor: pointer;
+      }
+
       #search-input {
         border-top: ${expandableSearchBarBorderCss};
         border-bottom: ${expandableSearchBarBorderCss};
