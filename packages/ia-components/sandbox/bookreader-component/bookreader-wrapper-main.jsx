@@ -59,7 +59,8 @@ export default class BookReaderWrapper extends Component {
        * @param {Number} rotate - degrees of rotation
        */
       getPageURI: (index, reduce = 1, rotate = 0) => {
-        const brReduce = this.bookreader.reduce || reduce;
+        // IA only supports power of 2 reduces
+        const brReduce = Math.pow(2, Math.floor(Math.log2(Math.max(1, reduce))));
         let uri = originalGetPageURI.call(this.bookreader, index, brReduce, rotate);
         uri += (uri.indexOf('?') > -1 ? '&' : '?');
         uri = `${uri}scale=${brReduce}&rotate=${rotate}`;
