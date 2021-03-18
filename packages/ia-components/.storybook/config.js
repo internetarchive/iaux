@@ -5,14 +5,13 @@ import { withKnobs } from '@storybook/addon-knobs'
 import { withTests } from '@storybook/addon-jest';
 import results from '../jest-test-utils/jest-test-results.json';
 
-import style from './archive-cf7f2eh.less'
-import styles from './theatre-styling.less'
+import './archive-cf7f2eh.less';
+import './theatre-styling.less';
 
 /**
  * pick all *.stories.js files within the ia-components directory
  */
-const allStories = require.context('../', true, /(\.\/)(live|sandbox)([\w\d\/\-\_]+)(\.stories\.js)/)
-
+const allStories = require.context('../', true, /(\.\/)(components)([\w\d\/\-\_]+)(\.stories\.js)/)
 /**
  * Set all globally used add-ons here
  */
