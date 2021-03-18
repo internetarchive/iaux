@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ArchiveAudioPlayer from './archive-audio-jwplayer-wrapper';
 import ThirdPartyEmbeddedPlayer from './third-party-embed';
-import { HorizontalRadioGroup } from '../../index';
+import HorizontalRadioGroup from '../selectors/horizontal-radio-group/horizontal-radio-group';
 import BookReaderWrapper from '../bookreader-component/bookreader-wrapper-main';
 import YoutubePlayer from './youtube-player';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FlexboxPagination } from '../..';
+import FlexboxPagination from '../pagination/pagination-with-flexbox';
 import OneTrack from './track';
 /**
  * Makes tracklist

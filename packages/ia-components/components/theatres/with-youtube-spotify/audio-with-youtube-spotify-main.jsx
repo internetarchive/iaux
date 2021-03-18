@@ -9,7 +9,9 @@ import YoutubeIcon from '../../svgs/youtube-logo-icon';
 import SpotifyIcon from '../../svgs/spotify-logo-icon';
 import ArchiveIcon from '../../svgs/ia-logo-white-icon';
 import BookletIcon from '../../svgs/icon-booklet';
-import { HorizontalRadioGroup, TheatreAudioPlayer, TheatreTrackList } from '../../../index';
+import HorizontalRadioGroup from '../../selectors/horizontal-radio-group/horizontal-radio-group';
+import TheatreAudioPlayer from '../../audio-players/audio-player-main';
+import TheatreTrackList from '../../track-lists/track-list';
 
 /**
  * Create the channel label to display in channel selector
