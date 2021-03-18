@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/internetarchive/iaux.svg?branch=master)](https://travis-ci.com/internetarchive/iaux) [![codecov](https://codecov.io/gh/internetarchive/iaux/branch/master/graph/badge.svg)](https://codecov.io/gh/internetarchive/iaux)
+![Build Status](https://github.com/internetarchive/iaux/actions/workflows/node.js.yml/badge.svg?branch=master) [![codecov](https://codecov.io/gh/internetarchive/iaux/branch/master/graph/badge.svg)](https://codecov.io/gh/internetarchive/iaux)
 
 # Overview
 
