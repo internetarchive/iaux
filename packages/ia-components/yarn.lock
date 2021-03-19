@@ -1161,12 +1161,10 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@internetarchive/bookreader@4.15.0":
-  version "4.15.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/bookreader/-/bookreader-4.15.0.tgz#5032e0c0cd3bec2175fc29c5455f227c6a763813"
-  integrity sha512-orNlJ6y9BTsxokH0SvuV9eFQ8y3KxhVN79aagvEGop0orDQ8oyqfp7ddl0Sn+cSkwE6Dfdjrdios7MDWFqNStQ==
-  dependencies:
-    jquery "3.4.1"
+"@internetarchive/bookreader@^4.37.0":
+  version "4.37.0"
+  resolved "https://registry.yarnpkg.com/@internetarchive/bookreader/-/bookreader-4.37.0.tgz#d996ae6c41cc61ef63e5b52640603d5590ed153a"
+  integrity sha512-p2n/2K04950DWWX3iFcboxTZ6fkBgey6tiN4CPsnZlnnbc5IrDFvHIB+dYCjMmfztYhqgW1y4Tp+3w6UYefi2g==
 
 "@internetarchive/ia-js-client@0.0.0-alpha.350":
   version "0.0.0-alpha.350"
