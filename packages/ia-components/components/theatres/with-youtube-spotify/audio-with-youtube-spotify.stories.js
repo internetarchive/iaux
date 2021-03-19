@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { storiesOf } from '@storybook/react';
 import axios from 'axios';
 
 import albumData from '../../data-for-stories/album-private-with-spotify-youtube';
 import AudioPlayerWithYoutubeSpotify from './audio-with-youtube-spotify-main';
-import style from './audio-with-youtube-spotify.less';
-// import styles from '../../../.storybook/theatre-styling.less';
+import './audio-with-youtube-spotify.less';
 
 const { itemInfo, jwplayerPlaylist, linerNotes } = albumData;
 
@@ -20,7 +18,6 @@ class DataHydrator extends Component {
     this.state = {
       itemInfo,
       jwplayerPlaylist,
-      fetchComplete: false,
       error: ''
     };
 
@@ -30,19 +27,19 @@ class DataHydrator extends Component {
     this.updateItem = this.updateItem.bind(this);
   }
 
-  updateItem(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const identifier = this.input.current.value;
-
-    this.fetchData(identifier);
-  }
-
   getItem(event) {
     event.preventDefault();
     event.stopPropagation();
     const button = event.target;
     const identifier = button.getAttribute('data-identifier');
+    this.fetchData(identifier);
+  }
+
+  updateItem(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const identifier = this.input.current.value;
+
     this.fetchData(identifier);
   }
 
@@ -85,14 +82,14 @@ class DataHydrator extends Component {
   }
 
   render() {
-    const { itemInfo, jwplayerPlaylist } = this.state;
+    const { itemInfo, jwplayerPlaylist, error } = this.state;
     const { metadata: { identifier } } = itemInfo;
 
     console.log('***** RENDER: ', itemInfo, jwplayerPlaylist.length);
     // using bootstrap v3 styling for container for pretty UI
     return (
       <div>
-      <section>
+        <section style={{ backgroundColor: 'black' }}>
           <AudioPlayerWithYoutubeSpotify
             albumMetadata={itemInfo}
             jwplayerPlaylist={jwplayerPlaylist}
@@ -110,7 +107,7 @@ class DataHydrator extends Component {
                 className="form-control"
               />
             </label>
-            <button className="btn btn-primary" onClick={this.updateItem}>Update Player</button>
+            <button type="button" className="btn btn-primary" onClick={this.updateItem}>Update Player</button>
           </form>
         </section>
         <section className="container">
@@ -118,8 +115,8 @@ class DataHydrator extends Component {
           <h4>Archive </h4>
           <table>
             <thead>
-              <th>Collection</th>
-              <th>Identifier</th>
+              <td>Collection</td>
+              <td>Identifier</td>
             </thead>
             <tbody>
               <tr>
@@ -260,7 +257,10 @@ class DataHydrator extends Component {
   }
 }
 
-storiesOf('Theatres', module)
-  .addWithJSX('Audio with YouTube, Spotify', () => (
-    <DataHydrator />
-  ));
+
+export default {
+  title: 'Theaters',
+  component: AudioPlayerWithYoutubeSpotify,
+};
+
+export const AudioWithLinerNotes = () => <DataHydrator />;
