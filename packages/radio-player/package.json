@@ -60,7 +60,7 @@
     "concurrently": "^4.1.2",
     "deepmerge": "^4.2.2",
     "es-dev-server": "^1.5.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.22.0",
     "gulp": "^4.0.2",
     "husky": "^1.0.0",
     "karma-coverage": "^2.0.1",
