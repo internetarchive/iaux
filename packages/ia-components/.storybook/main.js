@@ -1,17 +1,13 @@
 module.exports = {
   "stories": [
-    // "../stories/**/*.stories.mdx",
-    // "../stories/**/*.stories.@(js|jsx|ts|tsx)",
     "../components/**/*.stories.@(js)"
   ],
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "storybook-addon-jsx",
-    // "@storybook/addon-a11y/register",
-    // "@storybook/addon-knobs/register",
-    // "storybook-addon-jsx/register",
-    // "@storybook/addon-jest/register"
+    "@storybook/addon-a11y",
+    "@storybook/addon-jest"
   ],
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push(

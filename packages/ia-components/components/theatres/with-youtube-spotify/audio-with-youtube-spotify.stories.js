@@ -96,7 +96,6 @@ class DataHydrator extends Component {
             linerNotes={linerNotes}
           />
         </section>
-        <section>{ error }</section>
         <section className="container">
           <h2>{`Identifier: ${identifier}`}</h2>
           <form className="form-group">
