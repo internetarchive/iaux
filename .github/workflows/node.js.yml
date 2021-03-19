@@ -15,16 +15,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/cache@v2
-      with:
-        path: '**/node_modules'
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
     - name: Use Node.js 14.x
       uses: actions/setup-node@v1
       with:
         node-version: 14.x
     - run: npm install && npm install -g codecov
-    - run: lerna bootstrap
+    - run: lerna bootstrap --hoist --npm-client=npm
     - run: lerna run test && codecov
 
 # TODO: Get slack notifications working (this is from our old travis.yml)
