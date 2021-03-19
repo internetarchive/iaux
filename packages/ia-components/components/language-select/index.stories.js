@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import LanguageSelect from './language-select';
 import languageConfig from './languageConfig';
 
@@ -14,11 +13,15 @@ const onSelect = (value) => {
   console.log(`Selected language: ${language.inLocal} (${value})`);
 };
 
-storiesOf('Sandbox', module)
-  .addParameters({ jest: ['language-select.test.js'] })
-  .addWithJSX('Language Select', () => (
-    <div style={containerStyle}>
-      <h3 style={{ color: '#fff' }}>Language dropdown</h3>
-      <LanguageSelect selectedLanguage="en" languages={languageConfig} onSelect={onSelect} />
-    </div>
-  ));
+export default {
+  title: 'Components',
+  component: LanguageSelect,
+
+};
+
+export const LanguageSelectorDropdown = () => (
+  <div style={containerStyle}>
+    <h3 style={{ color: '#fff' }}>Language dropdown</h3>
+    <LanguageSelect selectedLanguage="en" languages={languageConfig} onSelect={onSelect} />
+  </div>
+);
