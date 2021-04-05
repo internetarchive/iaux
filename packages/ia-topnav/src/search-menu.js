@@ -12,6 +12,7 @@ class SearchMenu extends TrackedElement {
     return {
       baseHost: { type: String },
       config: { type: Object },
+      hideSearch: { type: Boolean },
       openMenu: { type: String },
       searchMenuOpen: { type: Boolean },
       searchMenuAnimate: { type: Boolean },
@@ -86,7 +87,7 @@ class SearchMenu extends TrackedElement {
     const searchMenuHidden = Boolean(!this.searchMenuOpen).toString();
     const searchMenuExpanded = Boolean(this.searchMenuOpen).toString();
 
-    if (this.config.hideSearch) {
+    if (this.hideSearch) {
       return html``;
     }
 

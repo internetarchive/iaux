@@ -27,6 +27,7 @@ export default class IATopNav extends LitElement {
           return JSON.parse(atob(value));
         }
       },
+      hideSearch: { type: Boolean },
       mediaSliderOpen: { type: Boolean },
       menus: {
         type: Object,
@@ -45,6 +46,7 @@ export default class IATopNav extends LitElement {
     this.baseHost = 'https://archive.org';
     this.mediaBaseHost = 'https://archive.org';
     this.config = {};
+    this.hideSearch = false;
     this.mediaSliderOpen = false;
     this.menus = {};
     this.openMenu = '';
@@ -182,6 +184,7 @@ export default class IATopNav extends LitElement {
           .searchIn=${this.searchIn}
           .selectedMenuOption=${this.selectedMenuOption}
           .openMenu=${this.openMenu}
+          ?hideSearch=${this.hideSearch}
           @mediaTypeSelected=${this.mediaTypeSelected}
           @toggleSearchMenu=${this.toggleSearchMenu}
           @trackClick=${this.trackClick}
@@ -202,6 +205,7 @@ export default class IATopNav extends LitElement {
         .config=${this.config}
         .openMenu=${this.openMenu}
         tabindex="${this.searchMenuTabIndex}"
+        ?hideSearch=${this.hideSearch}
         @searchInChanged=${this.searchInChanged}
         @trackClick=${this.trackClick}
         @trackSubmit=${this.trackSubmit}

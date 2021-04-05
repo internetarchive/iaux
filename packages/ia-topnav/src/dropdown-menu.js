@@ -13,6 +13,7 @@ class DropdownMenu extends TrackedElement {
     return {
       baseHost: { type: String },
       config: { type: Object },
+      hideSearch: { type: Boolean },
       menuItems: { type: Array },
       animate: { type: Boolean },
       open: { type: Boolean },
@@ -60,7 +61,7 @@ class DropdownMenu extends TrackedElement {
   }
 
   get menuClass() {
-    const hiddenClass = this.config.hideSearch ? ' search-hidden' : '';
+    const hiddenClass = this.hideSearch ? ' search-hidden' : '';
     if (this.open) {
       return `open${hiddenClass}`;
     }

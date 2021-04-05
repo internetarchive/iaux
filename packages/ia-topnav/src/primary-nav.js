@@ -1,4 +1,5 @@
 import { html } from 'lit-element';
+import { nothing } from 'lit-html';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import './assets/img/hamburger';
@@ -19,6 +20,7 @@ class PrimaryNav extends TrackedElement {
     return {
       mediaBaseHost: { type: String },
       baseHost: { type: String },
+      hideSearch: { type: Boolean },
       config: { type: Object },
       openMenu: { type: String },
       searchIn: { type: String },
@@ -110,9 +112,8 @@ class PrimaryNav extends TrackedElement {
   }
 
   get searchMenu() {
-    if (this.config.hideSearch) {
-      return html``;
-    }
+    if (this.hideSearch) return nothing;
+
     return html`
       <button
         class="search-trigger"
