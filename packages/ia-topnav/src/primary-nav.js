@@ -23,10 +23,13 @@ class PrimaryNav extends TrackedElement {
       hideSearch: { type: Boolean },
       config: { type: Object },
       openMenu: { type: String },
+      screenName: { type: String },
       searchIn: { type: String },
+      searchQuery: { type: String },
       selectedMenuOption: { type: String },
       signedOutMenuOpen: { type: Boolean },
       userMenuOpen: { type: Boolean },
+      username: { type: String },
     };
   }
 
@@ -69,10 +72,10 @@ class PrimaryNav extends TrackedElement {
   }
 
   get truncatedScreenName() {
-    if (this.config.screenName.length > 10) {
-      return `${this.config.screenName.substr(0, 9)}…`;
+    if (this.screenName && this.screenName.length > 10) {
+      return `${this.screenName.substr(0, 9)}…`;
     }
-    return this.config.screenName;
+    return this.screenName;
   }
 
   get userIcon() {
@@ -88,7 +91,7 @@ class PrimaryNav extends TrackedElement {
       >
         <img
           src="${this.mediaBaseHost}/services/img/user/profile?${+new Date()}"
-          alt="${this.config.username}"
+          alt="${this.username}"
         />
         <span class="username">${this.truncatedScreenName}</span>
       </button>
@@ -129,6 +132,7 @@ class PrimaryNav extends TrackedElement {
         .open=${this.searchMenuOpen}
         .openMenu=${this.openMenu}
         .searchIn=${this.searchIn}
+        .searchQuery=${this.searchQuery}
       ></nav-search>
     `;
   }
@@ -137,14 +141,20 @@ class PrimaryNav extends TrackedElement {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
       <nav>
-        <a class="link-home" href=${formatUrl('/', this.baseHost)} @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}${logoWordmark}</a>
+        <a
+          class="link-home"
+          href=${formatUrl('/', this.baseHost)}
+          @click=${this.trackClick}
+          data-event-click-tracking="${this.config.eventCategory}|NavHome"
+          >${icons.iaLogo}${logoWordmark}</a
+        >
         ${this.searchMenu}
         <a href="${formatUrl(this.config.uploadURL, this.baseHost)}" class="upload">
           ${icons.upload}
           <span>Upload</span>
         </a>
         <div class="user-info">
-          ${this.config.username ? this.userIcon : this.loginIcon}
+          ${this.username ? this.userIcon : this.loginIcon}
         </div>
         <media-menu
           .baseHost=${this.baseHost}
@@ -154,7 +164,12 @@ class PrimaryNav extends TrackedElement {
           .selectedMenuOption=${this.selectedMenuOption}
           .openMenu=${this.openMenu}
         ></media-menu>
-        <button class="hamburger" @click="${this.toggleMediaMenu}" tabindex="1" data-event-click-tracking="${this.config.eventCategory}|NavHamburger">
+        <button
+          class="hamburger"
+          @click="${this.toggleMediaMenu}"
+          tabindex="1"
+          data-event-click-tracking="${this.config.eventCategory}|NavHamburger"
+        >
           <icon-hamburger ?active=${this.openMenu === 'media'}></icon-hamburger>
         </button>
       </nav>

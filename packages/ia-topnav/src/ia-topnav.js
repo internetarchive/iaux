@@ -25,7 +25,7 @@ export default class IATopNav extends LitElement {
         type: Object,
         converter(value) {
           return JSON.parse(atob(value));
-        }
+        },
       },
       hideSearch: { type: Boolean },
       mediaSliderOpen: { type: Boolean },
@@ -33,11 +33,14 @@ export default class IATopNav extends LitElement {
         type: Object,
         converter(value) {
           return JSON.parse(atob(value));
-        }
+        },
       },
       openMenu: { type: String },
+      screenName: { type: String },
       searchIn: { type: String },
+      searchQuery: { type: String },
       selectedMenuOption: { type: String },
+      username: { type: String },
     };
   }
 
@@ -142,7 +145,7 @@ export default class IATopNav extends LitElement {
         .config=${this.config}
         .menuItems=${this.userMenuItems}
         .open=${this.openMenu === 'user'}
-        .username=${this.config.username}
+        .username=${this.username}
         tabindex="${this.userMenuTabIndex}"
         @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
@@ -176,14 +179,17 @@ export default class IATopNav extends LitElement {
 
   render() {
     return html`
-      <div class='topnav'>
+      <div class="topnav">
         <primary-nav
           .baseHost=${this.baseHost}
           .mediaBaseHost=${this.mediaBaseHost}
           .config=${this.config}
-          .searchIn=${this.searchIn}
-          .selectedMenuOption=${this.selectedMenuOption}
           .openMenu=${this.openMenu}
+          .screenName=${this.screenName}
+          .searchIn=${this.searchIn}
+          .searchQuery=${this.searchQuery}
+          .selectedMenuOption=${this.selectedMenuOption}
+          .username=${this.username}
           ?hideSearch=${this.hideSearch}
           @mediaTypeSelected=${this.mediaTypeSelected}
           @toggleSearchMenu=${this.toggleSearchMenu}
@@ -199,7 +205,10 @@ export default class IATopNav extends LitElement {
           .menus=${this.menus}
         ></media-slider>
       </div>
-      <desktop-subnav .baseHost=${this.baseHost} .menuItems=${this.desktopSubnavMenuItems}></desktop-subnav>
+      <desktop-subnav
+        .baseHost=${this.baseHost}
+        .menuItems=${this.desktopSubnavMenuItems}
+      ></desktop-subnav>
       <search-menu
         .baseHost=${this.baseHost}
         .config=${this.config}
@@ -210,7 +219,7 @@ export default class IATopNav extends LitElement {
         @trackClick=${this.trackClick}
         @trackSubmit=${this.trackSubmit}
       ></search-menu>
-      ${this.config.username ? this.userMenu : this.signedOutDropdown}
+      ${this.username ? this.userMenu : this.signedOutDropdown}
       <div id="close-layer" class="${this.closeLayerClass}" @click=${this.closeMenus}></div>
     `;
   }

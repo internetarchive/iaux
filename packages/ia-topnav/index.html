@@ -20,6 +20,12 @@
         --activeColor: #fff;
         --activeSearchColor: #222;
       }
+      legend {
+        font-size: 1.6rem;
+      }
+      dt {
+        font-size: 1.4rem;
+      }
     </style>
   </head>
 
@@ -30,11 +36,28 @@
 
       <fieldset>
         <legend>Dev Tools</legend>
-        <button id="show-logged-in-button">Show Logged-In State</button> |
-        <button id="show-logged-out-button">Show Logged-Out State</button>
-        <button id="change-base-host">Change Base Host</button>
-        <button id="show-search">Show Search</button>
-        <button id="hide-search">Hide Search</button>
+        <dl>
+          <dt>User</dt>
+          <dd>
+            <button id="show-logged-in-button">Show Logged-In State</button>
+            <button id="show-logged-out-button">Show Logged-Out State</button>
+          </dd>
+          <dt>User</dt>
+          <dd>
+            <form id="base-host-form">
+              <input id="base-host" placeholder="https://foo.net"><input type="submit" value="Change Base Host">
+            </form>
+          </dd>
+          <dt>Search</dt>
+          <dd>
+            <button id="show-search">Show Search</button>
+            <button id="hide-search">Hide Search</button>
+            <form id="search-term-form">
+              <input id="search-term"><input type="submit" value="Set Search Term">
+            </form>
+            
+            </dd>
+            </dl>
       </fieldset>
     </main>
     <script type="module">
@@ -42,21 +65,15 @@
 
       function updateConfig(configOverrides) {
         const config = Object.assign({
-          screenName: 'really_long_screen_name_that_may_be_truncated_on_mobile',
-          username: 'fooey_mcbarrison',
           eventCategory: 'MobileTopNav',
           waybackPagesArchived: '424 billion',
-          isAdmin: true,
           uploadURL: '/create',
-          searchQuery: 'atari',
           hiddenSearchOptions: [],
         }, configOverrides);
 
         const menus = Object.assign({}, baseMenus, {
           user: baseMenus.user({
             catUrl: 'https://catalogd.archive.org',
-            username: config.username,
-            isAdmin: config.isAdmin,
             identifier: 'foo',
             uploader: 'bar-uploader@baz.org',
             biblio: 'https://some-url.com',
@@ -73,24 +90,26 @@
         });
       }
 
+      const topnav = document.createElement('ia-topnav');
+      document.body.insertBefore(topnav, document.body.firstChild);
+      updateConfig();
+
       const loggedInButton = document.querySelector('#show-logged-in-button');
       loggedInButton.addEventListener('click', () => {
-        updateConfig();
+        topnav.username = 'fooey_mcbarrison';
+        topnav.screenName = 'really_long_screen_name_that_may_be_truncated_on_mobile';
       })
 
       const loggedOutButton = document.querySelector('#show-logged-out-button');
       loggedOutButton.addEventListener('click', () => {
-        updateConfig({ username: undefined, isAdmin: false });
+        topnav.username = undefined;
       })
 
-      const topnav = document.createElement('ia-topnav');
-      document.body.insertBefore(topnav, document.body.firstChild);
-
-      updateConfig();
-
-      const changeBaseHostButton = document.querySelector('#change-base-host');
-      changeBaseHostButton.addEventListener('click', () => {
-        topnav.baseHost = 'https://foo.net';
+      const changeBaseHostForm = document.querySelector('#base-host-form');
+      changeBaseHostForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const baseHost = document.querySelector('#base-host');
+        topnav.baseHost = baseHost.value;
       })
 
       const showSearchButton = document.querySelector('#show-search');
@@ -101,6 +120,13 @@
       const hideSearchButton = document.querySelector('#hide-search');
       hideSearchButton.addEventListener('click', () => {
         topnav.hideSearch = true;
+      })
+
+      const searchTermButton = document.querySelector('#search-term-form');
+      searchTermButton.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const searchTermInput = document.querySelector('#search-term');
+        topnav.searchQuery = searchTermInput.value;
       })
 
       topnav.addEventListener('trackClick', ({ detail }) => {

@@ -87,18 +87,18 @@ export default IATopNav;
   mediaBaseHost="https://archive.org"
   config=${config}
   menus=${menus}
-  hideSearch=${true}></ia-topnav>
+  hideSearch=${true}
+  username="shaneriley"
+  screenName="really_long_screen_name_that_may_be_truncated_on_mobile"
+></ia-topnav>
 ```
 
 **Config object:**
 
 ```js
 {
-  screenName: "really_long_screen_name_that_may_be_truncated_on_mobile", // full screen name displayed in user menu
-  username: "shaneriley", // short user name used for desktop nav and some link building
   eventCategory: "MobileTopNav", // Google Analytics event category
   waybackPagesArchived: "425 billion", // Copy to display for number of pages archived at the top of the Wayback search form
-  isAdmin: true, // User admin flag. Boolean.
   uploadURL: 'https://archive.org/create', // Full URL to upload path. Differs on Petabox if user is admin && in category page
   searchQuery: 'atari', // If already viewing search results, prepopulates search with this string
   hiddenSearchOptions: [], // Array of strings representing the values of options that should be hidden from search options

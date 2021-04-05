@@ -11,6 +11,7 @@ class UserMenu extends DropdownMenu {
     const props = {
       ...DropdownMenu.properties,
       username: { type: String },
+      screenName: { type: String },
     };
     return props;
   }
@@ -27,7 +28,7 @@ class UserMenu extends DropdownMenu {
         aria-hidden="${this.ariaHidden}"
         aria-expanded="${this.ariaExpanded}"
       >
-        <h3>${this.config.screenName}</h3>
+        <h3>${this.screenName}</h3>
         <ul>
           ${this.dropdownItems}
         </ul>

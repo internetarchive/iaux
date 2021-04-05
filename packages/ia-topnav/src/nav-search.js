@@ -14,10 +14,11 @@ class NavSearch extends TrackedElement {
     return {
       baseHost: { type: String },
       config: { type: Object },
-      locationHandler: { type: Function },
+      locationHandler: { type: Object },
       open: { type: Boolean },
       openMenu: { type: String },
       searchIn: { type: String },
+      searchQuery: { type: String },
     };
   }
 
@@ -76,23 +77,36 @@ class NavSearch extends TrackedElement {
   render() {
     const searchMenuClass = this.open ? 'flex' : 'search-inactive';
 
-    return html`<div class="search-activated fade-in ${searchMenuClass}">
-      <form id="nav-search" class="highlight" action=${formatUrl('/search.php', this.baseHost)} method="get" @submit=${this.search} data-event-submit-tracking="${this.config.eventCategory}|NavSearchSubmit">
-        <input
-          type="text"
-          name="query"
-          class="search-field"
-          placeholder="Search"
-          autocomplete="off"
-          @focus=${this.toggleSearchMenu}
-          value=${this.config.searchQuery || ''}
-        />
-        ${this.searchInsideInput}
-        <button type="submit" class="search" data-event-click-tracking="${this.config.eventCategory}|NavSearchClose">
-          ${icons.search}
-        </button>
-      </form>
-    </div>`;
+    return html`
+      <div class="search-activated fade-in ${searchMenuClass}">
+        <form
+          id="nav-search"
+          class="highlight"
+          action=${formatUrl('/search.php', this.baseHost)}
+          method="get"
+          @submit=${this.search}
+          data-event-submit-tracking="${this.config.eventCategory}|NavSearchSubmit"
+        >
+          <input
+            type="text"
+            name="query"
+            class="search-field"
+            placeholder="Search"
+            autocomplete="off"
+            @focus=${this.toggleSearchMenu}
+            value=${this.searchQuery || ''}
+          />
+          ${this.searchInsideInput}
+          <button
+            type="submit"
+            class="search"
+            data-event-click-tracking="${this.config.eventCategory}|NavSearchClose"
+          >
+            ${icons.search}
+          </button>
+        </form>
+      </div>
+    `;
   }
 }
 
