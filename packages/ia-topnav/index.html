@@ -33,6 +33,8 @@
         <button id="show-logged-in-button">Show Logged-In State</button> |
         <button id="show-logged-out-button">Show Logged-Out State</button>
         <button id="change-base-host">Change Base Host</button>
+        <button id="show-search">Show Search</button>
+        <button id="hide-search">Hide Search</button>
       </fieldset>
     </main>
     <script type="module">
@@ -65,6 +67,7 @@
         const topnav = document.querySelector('ia-topnav');
         Object.assign(topnav, {
           baseHost: 'https://archive.org',
+          mediaBaseHost: 'https://archive.org',
           config,
           menus,
         });
@@ -88,6 +91,16 @@
       const changeBaseHostButton = document.querySelector('#change-base-host');
       changeBaseHostButton.addEventListener('click', () => {
         topnav.baseHost = 'https://foo.net';
+      })
+
+      const showSearchButton = document.querySelector('#show-search');
+      showSearchButton.addEventListener('click', () => {
+        topnav.hideSearch = false;
+      })
+
+      const hideSearchButton = document.querySelector('#hide-search');
+      hideSearchButton.addEventListener('click', () => {
+        topnav.hideSearch = true;
       })
 
       topnav.addEventListener('trackClick', ({ detail }) => {

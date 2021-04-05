@@ -78,7 +78,16 @@ export default IATopNav;
   }
 </style>
 
-<ia-topnav baseHost="archive.org" config=${config} menus=${menus}></ia-topnav>
+<!--
+  `baseHost` is the navigation base so leave emtpy for relative links
+  `mediaBaseHost` is the base host for media like the profile picture if it's not relative
+-->
+<ia-topnav
+  baseHost="https://archive.org"
+  mediaBaseHost="https://archive.org"
+  config=${config}
+  menus=${menus}
+  hideSearch=${true}></ia-topnav>
 ```
 
 **Config object:**
@@ -93,7 +102,6 @@ export default IATopNav;
   uploadURL: 'https://archive.org/create', // Full URL to upload path. Differs on Petabox if user is admin && in category page
   searchQuery: 'atari', // If already viewing search results, prepopulates search with this string
   hiddenSearchOptions: [], // Array of strings representing the values of options that should be hidden from search options
-  hideSearch: true, // Hides search functionality
 }
 ```
 
