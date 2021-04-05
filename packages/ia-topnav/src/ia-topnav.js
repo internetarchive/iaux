@@ -16,7 +16,11 @@ export default class IATopNav extends LitElement {
 
   static get properties() {
     return {
+      // the base host is for navigation, so may be empty for relative links
       baseHost: { type: String },
+      // the media base host is the base host for images, such as the profile picture
+      // which may not be hosted locally
+      mediaBaseHost: { type: String },
       config: {
         type: Object,
         converter(value) {
@@ -39,6 +43,7 @@ export default class IATopNav extends LitElement {
   constructor() {
     super();
     this.baseHost = 'https://archive.org';
+    this.mediaBaseHost = 'https://archive.org';
     this.config = {};
     this.mediaSliderOpen = false;
     this.menus = {};
@@ -172,6 +177,7 @@ export default class IATopNav extends LitElement {
       <div class='topnav'>
         <primary-nav
           .baseHost=${this.baseHost}
+          .mediaBaseHost=${this.mediaBaseHost}
           .config=${this.config}
           .searchIn=${this.searchIn}
           .selectedMenuOption=${this.selectedMenuOption}

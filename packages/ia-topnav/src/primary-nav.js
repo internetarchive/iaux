@@ -17,6 +17,7 @@ class PrimaryNav extends TrackedElement {
 
   static get properties() {
     return {
+      mediaBaseHost: { type: String },
       baseHost: { type: String },
       config: { type: Object },
       openMenu: { type: String },
@@ -35,6 +36,7 @@ class PrimaryNav extends TrackedElement {
     this.selectedMenuOption = '';
     this.signedOutMenuOpen = false;
     this.userMenuOpen = false;
+    this.mediaBaseHost = 'https://archive.org';
   }
 
   toggleMediaMenu(e) {
@@ -83,7 +85,7 @@ class PrimaryNav extends TrackedElement {
         data-event-click-tracking="${this.config.eventCategory}|NavUserMenu"
       >
         <img
-          src="${this.baseHost}/services/img/user/profile?${+new Date()}"
+          src="${this.mediaBaseHost}/services/img/user/profile?${+new Date()}"
           alt="${this.config.username}"
         />
         <span class="username">${this.truncatedScreenName}</span>
