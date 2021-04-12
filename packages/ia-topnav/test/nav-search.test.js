@@ -43,12 +43,9 @@ describe('<nav-search>', () => {
   });
 
   it('prefills the search query when present in config', async () => {
-    const config = {
-      searchQuery: 'bananas'
-    };
-    const el = await fixture(html`<nav-search .config=${config}></nav-search>`);
+    const el = await fixture(html`<nav-search searchQuery='bananas'></nav-search>`);
 
-    expect(el.shadowRoot.querySelector('[name="query"]').value).to.equal(config.searchQuery);
+    expect(el.shadowRoot.querySelector('[name="query"]').value).to.equal('bananas');
   });
 
   it('conditionally renders `sin` input based on `searchIn` truthiness', async () => {

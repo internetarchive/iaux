@@ -2,8 +2,10 @@ import { html, fixture, expect } from '@open-wc/testing';
 
 import '../src/primary-nav';
 
-const component = (config = {}) => (
-  html`<primary-nav .config=${config}></primary-nav>`
+const component = ({
+  baseHost, username, screenName, hideSearch
+}) => (
+  html`<primary-nav .baseHost=${baseHost} .username=${username} .screenName=${screenName} ?hideSearch=${hideSearch}></primary-nav>`
 );
 
 describe('<primary-nav>', () => {

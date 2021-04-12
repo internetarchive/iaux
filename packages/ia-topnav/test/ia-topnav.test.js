@@ -7,8 +7,13 @@ import {
 
 import '../src/ia-topnav';
 
-const container = (config = {}, baseHost = '') => (
-  html`<ia-topnav .baseHost=${baseHost} .config=${config}></ia-topnav>`
+const container = ({
+  username = '',
+  screenName = '',
+  config = {},
+  baseHost = ''
+}) => (
+  html`<ia-topnav .screenName=${screenName} .username=${username} .baseHost=${baseHost} .config=${config}></ia-topnav>`
 );
 
 const verifyClosed = (instance) => {
@@ -199,7 +204,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('uses baseHost to render logo link to homepage', async () => {
-    const el = await fixture(container({}, 'archive.org'));
+    const el = await fixture(container({ baseHost: 'archive.org' }));
     const logoLink = el
       .shadowRoot
       .querySelector('primary-nav')
@@ -209,7 +214,7 @@ describe('<ia-topnav>', () => {
   });
 
   it('uses uploadURL to render upload link', async () => {
-    const el = await fixture(container({ uploadURL: 'https://archive.org/create' }));
+    const el = await fixture(container({ config: { uploadURL: 'https://archive.org/create' } }));
     const uploadLink = el
       .shadowRoot
       .querySelector('primary-nav')
@@ -220,7 +225,7 @@ describe('<ia-topnav>', () => {
 
   describe('sets baseHost properly', async () => {
     it('sets the baseHost on the common child components', async () => {
-      const el = await fixture(container({}, 'foo.org'));
+      const el = await fixture(container({ baseHost: 'foo.org' }));
       const componentSelectors = ['primary-nav', 'media-slider', 'desktop-subnav', 'search-menu'];
       componentSelectors.forEach((selector) => {
         const component = el.shadowRoot.querySelector(selector);
@@ -229,13 +234,13 @@ describe('<ia-topnav>', () => {
     });
 
     it('sets the baseHost on the signed out dropdown', async () => {
-      const el = await fixture(container({}, 'foo.org'));
+      const el = await fixture(container({ baseHost: 'foo.org' }));
       const signedOutDropdown = el.shadowRoot.querySelector('signed-out-dropdown');
       expect(signedOutDropdown.baseHost).to.equal('foo.org');
     });
 
     it('sets the baseHost on the user dropdown', async () => {
-      const el = await fixture(container({ username: 'foo' }, 'foo.org'));
+      const el = await fixture(container({ username: 'foo', baseHost: 'foo.org' }));
       const signedOutDropdown = el.shadowRoot.querySelector('user-menu');
       expect(signedOutDropdown.baseHost).to.equal('foo.org');
     });
