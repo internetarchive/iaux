@@ -81,6 +81,10 @@ export default IATopNav;
 <!--
   `baseHost` is the navigation base so leave emtpy for relative links
   `mediaBaseHost` is the base host for media like the profile picture if it's not relative
+
+  NOTE:
+  When passing in the `config`, `menus`, and `searchQuery` attributes from HTML, not LitElement bindings,
+  you must base64 the value to account for any special characters.
 -->
 <ia-topnav
   baseHost="https://archive.org"
@@ -90,6 +94,7 @@ export default IATopNav;
   hideSearch=${true}
   username="shaneriley"
   screenName="really_long_screen_name_that_may_be_truncated_on_mobile"
+  searchQuery="J2Zvbyc="
 ></ia-topnav>
 ```
 
@@ -100,7 +105,6 @@ export default IATopNav;
   eventCategory: "MobileTopNav", // Google Analytics event category
   waybackPagesArchived: "425 billion", // Copy to display for number of pages archived at the top of the Wayback search form
   uploadURL: 'https://archive.org/create', // Full URL to upload path. Differs on Petabox if user is admin && in category page
-  searchQuery: 'atari', // If already viewing search results, prepopulates search with this string
   hiddenSearchOptions: [], // Array of strings representing the values of options that should be hidden from search options
 }
 ```
