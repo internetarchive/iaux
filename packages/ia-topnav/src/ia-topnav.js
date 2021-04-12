@@ -38,7 +38,12 @@ export default class IATopNav extends LitElement {
       openMenu: { type: String },
       screenName: { type: String },
       searchIn: { type: String },
-      searchQuery: { type: String },
+      searchQuery: {
+        type: String,
+        converter(value) {
+          return atob(value);
+        },
+      },
       selectedMenuOption: { type: String },
       username: { type: String },
     };
