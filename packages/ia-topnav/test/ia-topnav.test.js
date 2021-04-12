@@ -12,7 +12,7 @@ const container = ({
   screenName = '',
   config = {},
   baseHost = ''
-}) => (
+} = {}) => (
   html`<ia-topnav .screenName=${screenName} .username=${username} .baseHost=${baseHost} .config=${config}></ia-topnav>`
 );
 
