@@ -102,10 +102,9 @@
           uploader: 'bar-uploader@baz.org',
           biblio: 'https://some-url.com',
         });
+        menus.web = baseMenus.wayback;
+        topnav.menus = menus;
       }
-
-      menus.web = baseMenus.wayback;
-      topnav.menus = menus;
 
       updateConfig();
       updateMenus();
