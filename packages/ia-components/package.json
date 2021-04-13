@@ -30,7 +30,7 @@
     "@storybook/addon-jest": "^4.1.6",
     "@storybook/addon-links": "^6.1.21",
     "@storybook/react": "^6.1.21",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "babel-loader": "^8.2.2",
     "chromedriver": "^78.0.0",
     "css-loader": "^2.1.0",
