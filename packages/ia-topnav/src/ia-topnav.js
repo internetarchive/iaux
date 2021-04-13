@@ -151,6 +151,7 @@ export default class IATopNav extends LitElement {
         .menuItems=${this.userMenuItems}
         .open=${this.openMenu === 'user'}
         .username=${this.username}
+        ?hideSearch=${this.hideSearch}
         tabindex="${this.userMenuTabIndex}"
         @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
