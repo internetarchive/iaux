@@ -21,9 +21,13 @@ export default class DurationFormatter extends LitElement {
     const minutes = Math.floor(this.seconds / 60) % 60;
     const seconds = Math.floor(this.seconds % 60);
 
-    return [hours, minutes, seconds]
-      .map(v => (v < 10 ? `0${v}` : v))
-      .filter((v, i) => v !== '00' || i > 0)
-      .join(':');
+    const hoursString = hours > 0 ? `${hours}` : undefined;
+    const minutesString = hours > 0 && minutes < 10 && minutes > 0 ? `0${minutes}` : `${minutes}`;
+    const secondsString = seconds < 10 ? `0${seconds}` : `${seconds}`;
+
+    let durationString = `${minutesString}:${secondsString}`;
+    durationString = hoursString ? `${hoursString}:${durationString}` : durationString;
+
+    return durationString;
   }
 }

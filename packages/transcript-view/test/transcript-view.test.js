@@ -67,7 +67,7 @@ describe('TranscriptView', () => {
 
     const durationFormatter = el.shadowRoot.querySelector('duration-formatter');
 
-    expect(durationFormatter.shadowRoot.innerHTML).to.have.string('01:09');
+    expect(durationFormatter.shadowRoot.innerHTML).to.have.string('1:09');
   });
 
   it('emits a `transcriptEntrySelected` event when the user clicks on a transcript entry', async () => {
