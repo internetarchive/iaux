@@ -136,7 +136,7 @@ in `v2mocks` there is code that is pulled from IA "View Source" and converted to
 `https://magic.reactjs.net/htmltojsx.htm`
 
 
-Archive.org v2 uses [Bootstrap](https://getbootstrap.com) 3.0. Docs can be found here: http://bootstrapdocs.com/v3.0.0/docs/css/#overview
+Archive.org v2 uses [Bootstrap](https://getbootstrap.com) 3.1.5. Docs can be found here: https://bootstrapdocs.com/v3.1.1/docs/css/#overview
 
 ## License
 
