@@ -170,6 +170,7 @@ class PrimaryNav extends TrackedElement {
           @click="${this.toggleMediaMenu}"
           tabindex="1"
           data-event-click-tracking="${this.config.eventCategory}|NavHamburger"
+          title="Open main menu"
         >
           <icon-hamburger ?active=${this.openMenu === 'media'}></icon-hamburger>
         </button>
