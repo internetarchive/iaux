@@ -59,7 +59,9 @@ describe('DurationFormatter', () => {
     `);
 
     el.seconds = 3663;
-
     expect(el.durationString).to.equal('1:01:03');
+
+    el.seconds = 3601;
+    expect(el.durationString).to.equal('1:00:01');
   });
 });

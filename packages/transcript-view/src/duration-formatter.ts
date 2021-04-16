@@ -22,7 +22,7 @@ export default class DurationFormatter extends LitElement {
     const seconds = Math.floor(this.seconds % 60);
 
     const hoursString = hours > 0 ? `${hours}` : undefined;
-    const minutesString = hours > 0 && minutes < 10 && minutes > 0 ? `0${minutes}` : `${minutes}`;
+    const minutesString = hours > 0 && minutes < 10 ? `0${minutes}` : `${minutes}`;
     const secondsString = seconds < 10 ? `0${seconds}` : `${seconds}`;
 
     let durationString = `${minutesString}:${secondsString}`;
