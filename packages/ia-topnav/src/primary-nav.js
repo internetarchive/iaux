@@ -146,6 +146,7 @@ class PrimaryNav extends TrackedElement {
           href=${formatUrl('/', this.baseHost)}
           @click=${this.trackClick}
           data-event-click-tracking="${this.config.eventCategory}|NavHome"
+          title="Go home"
           >${icons.iaLogo}${logoWordmark}</a
         >
         ${this.searchMenu}
