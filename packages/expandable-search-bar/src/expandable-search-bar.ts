@@ -29,6 +29,8 @@ export default class ExpandableSearchBar extends LitElement {
 
   @property({ type: Boolean }) showsDisclosure = false;
 
+  // TODO: searchTerm should be single source of state;
+  //       searchInput.value should not also affect state
   @property({ type: String }) searchTerm = '';
 
   @property({ type: Array }) quickSearches: QuickSearchEntry[] = [];
@@ -165,6 +167,11 @@ export default class ExpandableSearchBar extends LitElement {
    * @memberof ExpandableSearchBar
    */
   private quickSearchSelected(e: CustomEvent): void {
+    this.searchTerm = e.detail.searchEntry.displayText;
+    /* istanbul ignore else */
+    if (this.searchInput) {
+      this.searchInput.value = e.detail.searchEntry.displayText;
+    }
     const event = new CustomEvent('quickSearchSelected', {
       detail: { quickSearchEntry: e.detail.searchEntry },
     });
