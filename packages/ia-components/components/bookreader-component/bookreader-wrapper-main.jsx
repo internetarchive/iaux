@@ -36,10 +36,10 @@ export default class BookReaderWrapper extends Component {
   componentDidMount() {
     const { options } = this.props;
 
-    const originalGetPageURI = BookReader.prototype.getPageURI;
+    const originalGetPageURI = window.BookReader.prototype.getPageURI;
     const defaultOptions = {
       el: `#${this.BookReaderRef.current.id}`,
-      mobileNavFullscreenOnly: true,
+      enableMobileNav: false,
       onePage: { autofit: 'height' }, // options: auto, width, height
       ui: 'full',
       enablePageResume: false,
@@ -70,7 +70,7 @@ export default class BookReaderWrapper extends Component {
         twoPage: { visible: false },
         viewmode: { visible: false },
       },
-      bookType: 'linerNotes', // bookType: linerNotes, book 
+      bookType: 'linerNotes', // bookType: linerNotes, book
     };
     const fullOptions = {
       ...defaultOptions,
@@ -90,11 +90,16 @@ export default class BookReaderWrapper extends Component {
   render() {
     return (
       <section className="bookreader-wrapper" {...this.props}>
-        {!this.props.jsia ? null :
-          <div id="IABookReaderMessageWrapper" style={{display: "none"}}></div>
+        {!this.props.jsia ? null
+          : <div id="IABookReaderMessageWrapper" style={{ display: 'none' }} />
         }
-        <div id="bookreader" ref={this.BookReaderRef} style={{ height: '100%', width: '100%' }} />
+        <ia-bookreader baseHost="https://archive.org">
+          <div id="IABookReaderWrapper" slot="bookreader">
+            <div id="bookreader" className="BookReader" ref={this.BookReaderRef} />
+          </div>
+        </ia-bookreader>
       </section>
+
     );
   }
 }

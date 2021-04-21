@@ -7,7 +7,6 @@ module.exports = {
     "@storybook/addon-essentials",
     "storybook-addon-jsx",
     "@storybook/addon-a11y",
-    "@storybook/addon-jest"
   ],
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push(
