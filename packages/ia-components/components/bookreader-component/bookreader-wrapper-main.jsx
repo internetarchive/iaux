@@ -31,9 +31,28 @@ export default class BookReaderWrapper extends Component {
     super(props);
     this.BookReaderRef = React.createRef();
     this.bookreader = {};
+
+    this.bindEventListeners = this.bindEventListeners.bind(this);
+    this.loadBookReader = this.loadBookReader.bind(this);
+
+    this.bindEventListeners();
   }
 
   componentDidMount() {
+    console.log('RX bookreader mounted');
+  }
+
+  bindEventListeners() {
+    console.log('BINDING EV LIS ----');
+    window.addEventListener('BrBookNav:PostInit', () => {
+      debugger;
+      console.log('IN BrBookNav:PostInit');
+
+      this.loadBookReader();
+    });
+  }
+
+  loadBookReader() {
     const { options } = this.props;
 
     const originalGetPageURI = window.BookReader.prototype.getPageURI;
@@ -76,15 +95,9 @@ export default class BookReaderWrapper extends Component {
       ...defaultOptions,
       ...options,
     };
-    // There are two ways to initialize BookReader, eithr through JSIA which includes IA specific lending info
-    // or the simpler initialization without IA.
-    if (this.props.jsia) {
-      BookReaderJSIAinit(this.props.jsia, fullOptions); // Creates window.br
-    } else {
-      this.bookreader = new BookReader(fullOptions);
-      window.br = this.bookreader; // keep for legacy
-      this.bookreader.init();
-    }
+    this.bookreader = new window.BookReader(fullOptions);
+    window.br = this.bookreader; // keep for legacy
+    this.bookreader.init();
   }
 
   render() {
@@ -95,7 +108,7 @@ export default class BookReaderWrapper extends Component {
         }
         <ia-bookreader baseHost="https://archive.org">
           <div id="IABookReaderWrapper" slot="bookreader">
-            <div id="bookreader" className="BookReader" ref={this.BookReaderRef} />
+            <div id="BookReader" className="BookReader" ref={this.BookReaderRef} />
           </div>
         </ia-bookreader>
       </section>
