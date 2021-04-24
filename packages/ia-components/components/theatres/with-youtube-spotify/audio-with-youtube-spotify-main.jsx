@@ -332,7 +332,10 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   /* END CALLBACKS */
 
   render() {
-    const { jwplayerPlaylist, linerNotes } = this.props;
+    const {
+      jwplayerPlaylist, linerNotes, albumMetadataStr, userSignedIn
+    } = this.props;
+
     const { tracklistToShow, channelToPlay, albumData } = this.state;
     const {
       albumMetadaToDisplay,
@@ -382,6 +385,8 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             sourceData={audioSource}
             customSourceLabels={contentBoxTabs}
             linerNotes={linerNotes}
+            albumMetadataStr={albumMetadataStr}
+            userSignedIn={userSignedIn}
             jwplayerPlaylistChange={this.jwplayerPlaylistChange}
             jwplayerStartingPoint={this.jwplayerStartingPoint}
             youtubePlaylistChange={this.youtubePlaylistChange}
@@ -431,13 +436,18 @@ AudioPlayerWithYoutubeSpotify.defaultProps = {
   jwplayerPlaylist: null,
   playFullIAAudio: false,
   linerNotes: null,
+  userSignedIn: false,
+  albumMetadataStr: '',
+  albumMetadata: null,
 };
 
 AudioPlayerWithYoutubeSpotify.propTypes = {
   albumMetadata: PropTypes.object.isRequired,
+  albumMetadataStr: PropTypes.string,
   jwplayerPlaylist: PropTypes.array,
   playFullIAAudio: PropTypes.bool,
   linerNotes: PropTypes.object,
+  userSignedIn: PropTypes.bool,
 };
 
 export default AudioPlayerWithYoutubeSpotify;

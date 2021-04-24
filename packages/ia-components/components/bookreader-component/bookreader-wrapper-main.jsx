@@ -39,16 +39,24 @@ export default class BookReaderWrapper extends Component {
   }
 
   componentDidMount() {
-    console.log('RX bookreader mounted');
+    this.loadBookReader();
   }
 
   bindEventListeners() {
-    console.log('BINDING EV LIS ----');
     window.addEventListener('BrBookNav:PostInit', () => {
-      debugger;
-      console.log('IN BrBookNav:PostInit');
+      this.bookreader.init();
+      setTimeout(() => {
+        this.bookreader.resize();
+        this.bookreader.jumpToIndex(0);
+      }, 250);
+    });
 
-      this.loadBookReader();
+    window.addEventListener('BookReader:fullscreenToggled', () => {
+      if (!this.bookreader.isFullscreen()) {
+        setTimeout(() => {
+          this.bookreader.resize();
+        }, 300);
+      }
     });
   }
 
@@ -58,7 +66,7 @@ export default class BookReaderWrapper extends Component {
     const originalGetPageURI = window.BookReader.prototype.getPageURI;
     const defaultOptions = {
       el: `#${this.BookReaderRef.current.id}`,
-      enableMobileNav: false,
+      showToolbar: false,
       onePage: { autofit: 'height' }, // options: auto, width, height
       ui: 'full',
       enablePageResume: false,
@@ -70,6 +78,8 @@ export default class BookReaderWrapper extends Component {
       initialSearchTerm: null,
       imagesBaseURL: '/bookreader/BookReader/images/',
       useSrcSet: false,
+      defaultStartLeaf: 0,
+      titleLeaf: 0,
       /**
        * Needed bypass to generate Image URL with scale factor.
        * We must eliminate sooner than later to allow BookReader full image fetching control
@@ -97,20 +107,21 @@ export default class BookReaderWrapper extends Component {
     };
     this.bookreader = new window.BookReader(fullOptions);
     window.br = this.bookreader; // keep for legacy
-    this.bookreader.init();
   }
 
   render() {
+    const { userSignedIn, item } = this.props;
+    const base64item = btoa(item);
     return (
-      <section className="bookreader-wrapper" {...this.props}>
-        {!this.props.jsia ? null
-          : <div id="IABookReaderMessageWrapper" style={{ display: 'none' }} />
-        }
-        <ia-bookreader baseHost="https://archive.org">
-          <div id="IABookReaderWrapper" slot="bookreader">
-            <div id="BookReader" className="BookReader" ref={this.BookReaderRef} />
-          </div>
-        </ia-bookreader>
+      <section className="bookreader-wrapper liner-notes" {...this.props}>
+        <item-navigator
+          baseHost="https://archive.org"
+          itemtype="bookreader"
+          signedIn={userSignedIn}
+          item={base64item}
+        >
+          <div slot="bookreader" id="BookReader" className="BookReader" ref={this.BookReaderRef} />
+        </item-navigator>
       </section>
 
     );
@@ -121,8 +132,12 @@ BookReaderWrapper.displayName = 'BookReaderWrapper';
 
 BookReaderWrapper.defaultProps = {
   options: {},
+  userSignedIn: false,
+  item: null
 };
 
 BookReaderWrapper.propTypes = {
   options: PropTypes.object,
+  userSignedIn: PropTypes.bool,
+  item: PropTypes.object
 };
