@@ -119,6 +119,7 @@ export default class BookReaderWrapper extends Component {
           itemtype="bookreader"
           signedIn={userSignedIn}
           item={base64item}
+          class="focus-on-child-only"
         >
           <div slot="bookreader" id="BookReader" className="BookReader" ref={this.BookReaderRef} />
         </item-navigator>
