@@ -23,7 +23,7 @@
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.13.10",
     "@babel/runtime": "^7.5.5",
-    "@internetarchive/bookreader": "^4.37.0",
+    "@internetarchive/bookreader": "^5.0.0-0",
     "@internetarchive/ia-js-client": "0.0.0-alpha.350",
     "@storybook/addon-actions": "^6.1.21",
     "@storybook/addon-essentials": "^6.1.21",

@@ -31,15 +31,42 @@ export default class BookReaderWrapper extends Component {
     super(props);
     this.BookReaderRef = React.createRef();
     this.bookreader = {};
+
+    this.bindEventListeners = this.bindEventListeners.bind(this);
+    this.loadBookReader = this.loadBookReader.bind(this);
+
+    this.bindEventListeners();
   }
 
   componentDidMount() {
+    this.loadBookReader();
+  }
+
+  bindEventListeners() {
+    window.addEventListener('BrBookNav:PostInit', () => {
+      this.bookreader.init();
+      setTimeout(() => {
+        this.bookreader.resize();
+        this.bookreader.jumpToIndex(0);
+      }, 250);
+    });
+
+    window.addEventListener('BookReader:fullscreenToggled', () => {
+      if (!this.bookreader.isFullscreen()) {
+        setTimeout(() => {
+          this.bookreader.resize();
+        }, 300);
+      }
+    });
+  }
+
+  loadBookReader() {
     const { options } = this.props;
 
-    const originalGetPageURI = BookReader.prototype.getPageURI;
+    const originalGetPageURI = window.BookReader.prototype.getPageURI;
     const defaultOptions = {
       el: `#${this.BookReaderRef.current.id}`,
-      mobileNavFullscreenOnly: true,
+      showToolbar: false,
       onePage: { autofit: 'height' }, // options: auto, width, height
       ui: 'full',
       enablePageResume: false,
@@ -51,6 +78,8 @@ export default class BookReaderWrapper extends Component {
       initialSearchTerm: null,
       imagesBaseURL: '/bookreader/BookReader/images/',
       useSrcSet: false,
+      defaultStartLeaf: 0,
+      titleLeaf: 0,
       /**
        * Needed bypass to generate Image URL with scale factor.
        * We must eliminate sooner than later to allow BookReader full image fetching control
@@ -70,31 +99,32 @@ export default class BookReaderWrapper extends Component {
         twoPage: { visible: false },
         viewmode: { visible: false },
       },
-      bookType: 'linerNotes', // bookType: linerNotes, book 
+      bookType: 'linerNotes', // bookType: linerNotes, book
     };
     const fullOptions = {
       ...defaultOptions,
       ...options,
     };
-    // There are two ways to initialize BookReader, eithr through JSIA which includes IA specific lending info
-    // or the simpler initialization without IA.
-    if (this.props.jsia) {
-      BookReaderJSIAinit(this.props.jsia, fullOptions); // Creates window.br
-    } else {
-      this.bookreader = new BookReader(fullOptions);
-      window.br = this.bookreader; // keep for legacy
-      this.bookreader.init();
-    }
+    this.bookreader = new window.BookReader(fullOptions);
+    window.br = this.bookreader; // keep for legacy
   }
 
   render() {
+    const { userSignedIn, item } = this.props;
+    const base64item = btoa(item);
     return (
-      <section className="bookreader-wrapper" {...this.props}>
-        {!this.props.jsia ? null :
-          <div id="IABookReaderMessageWrapper" style={{display: "none"}}></div>
-        }
-        <div id="bookreader" ref={this.BookReaderRef} style={{ height: '100%', width: '100%' }} />
+      <section className="bookreader-wrapper liner-notes" {...this.props}>
+        <item-navigator
+          baseHost="https://archive.org"
+          itemtype="bookreader"
+          signedIn={userSignedIn}
+          item={base64item}
+          class="focus-on-child-only"
+        >
+          <div slot="bookreader" id="BookReader" className="BookReader" ref={this.BookReaderRef} />
+        </item-navigator>
       </section>
+
     );
   }
 }
@@ -103,8 +133,12 @@ BookReaderWrapper.displayName = 'BookReaderWrapper';
 
 BookReaderWrapper.defaultProps = {
   options: {},
+  userSignedIn: false,
+  item: null
 };
 
 BookReaderWrapper.propTypes = {
   options: PropTypes.object,
+  userSignedIn: PropTypes.bool,
+  item: PropTypes.object
 };
