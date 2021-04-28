@@ -30,7 +30,7 @@ describe('DurationFormatter', () => {
 
     el.seconds = 35;
 
-    expect(el.durationString).to.equal('00:35');
+    expect(el.durationString).to.equal('0:35');
   });
 
   it('returns a properly formatted duration string if seconds less than 10', async () => {
@@ -40,7 +40,7 @@ describe('DurationFormatter', () => {
 
     el.seconds = 7;
 
-    expect(el.durationString).to.equal('00:07');
+    expect(el.durationString).to.equal('0:07');
   });
 
   it('returns a properly formatted duration string if minutes and seconds', async () => {
@@ -50,7 +50,7 @@ describe('DurationFormatter', () => {
 
     el.seconds = 63;
 
-    expect(el.durationString).to.equal('01:03');
+    expect(el.durationString).to.equal('1:03');
   });
 
   it('returns a properly formatted duration string if hours, minutes, and seconds', async () => {
@@ -59,8 +59,9 @@ describe('DurationFormatter', () => {
     `);
 
     el.seconds = 3663;
+    expect(el.durationString).to.equal('1:01:03');
 
-    expect(el.durationString).to.equal('01:01:03');
+    el.seconds = 3601;
+    expect(el.durationString).to.equal('1:00:01');
   });
-
 });
