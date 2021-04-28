@@ -1882,10 +1882,10 @@
     lit-element "^2.2.1"
     lit-html "^1.0.0"
 
-"@internetarchive/transcript-view@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@internetarchive/transcript-view/-/transcript-view-0.0.1.tgz#4d0157e553dacd577f9b09506869a69aab76c94c"
-  integrity sha512-2nWxeV5/SdjafLH2cl7a45Of784Usqg06A+a5v0Z7fJmZ+t0bVwHVUrWP/bEO9ZBY6731HI2s41tdyWHh7XyBw==
+"@internetarchive/transcript-view@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@internetarchive/transcript-view/-/transcript-view-0.0.2.tgz#f2076c5ebfc06995532b3e55764f22b22a0f0474"
+  integrity sha512-aKs4FluelrPuqFEjIOQofEaQvAb0dzOFLBfdi9vhUe2+JDIa5aqS4wSjxNnEeGN+cuyTWDJMUZ34FcUtzOppdA==
   dependencies:
     lit-element "^2.2.1"
     lit-html "^1.0.0"
