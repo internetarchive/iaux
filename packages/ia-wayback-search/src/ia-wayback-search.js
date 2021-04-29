@@ -61,7 +61,7 @@ class WaybackSearch extends LitElement {
           <a
             @click=${this.emitWaybackMachineLogoLinkClicked}
             data-event-click-tracking="TopNav|WaybackMachineLogoLink"
-            href=${`https://${this.baseHost}/web/`}
+            href=${`${this.baseHost}/web/`}
             >${logo}</a>
           <label for="url">Search the Wayback Machine</label>
           <div class="search-field">
