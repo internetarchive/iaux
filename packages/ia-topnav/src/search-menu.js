@@ -12,6 +12,7 @@ class SearchMenu extends TrackedElement {
     return {
       baseHost: { type: String },
       config: { type: Object },
+      hideSearch: { type: Boolean },
       openMenu: { type: String },
       searchMenuOpen: { type: Boolean },
       searchMenuAnimate: { type: Boolean },
@@ -86,7 +87,7 @@ class SearchMenu extends TrackedElement {
     const searchMenuHidden = Boolean(!this.searchMenuOpen).toString();
     const searchMenuExpanded = Boolean(this.searchMenuOpen).toString();
 
-    if (this.config.hideSearch) {
+    if (this.hideSearch) {
       return html``;
     }
 
@@ -97,7 +98,13 @@ class SearchMenu extends TrackedElement {
         aria-expanded="${searchMenuExpanded}"
       >
         ${this.searchTypesTemplate}
-        <a class="advanced-search" href="${formatUrl('/advancedsearch.php', this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch">Advanced Search</a>
+        <a
+          class="advanced-search"
+          href="${formatUrl('/advancedsearch.php', this.baseHost)}"
+          @click=${this.trackClick}
+          data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch"
+          >Advanced Search</a
+        >
       </div>
     `;
   }

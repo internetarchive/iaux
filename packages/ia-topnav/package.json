@@ -5,6 +5,7 @@
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
+  "types": "index.d.ts",
   "publishConfig": {
     "access": "public"
   },
