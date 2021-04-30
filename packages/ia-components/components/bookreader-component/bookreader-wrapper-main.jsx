@@ -110,12 +110,12 @@ export default class BookReaderWrapper extends Component {
   }
 
   render() {
-    const { userSignedIn, item } = this.props;
+    const { userSignedIn, item, baseHost } = this.props;
     const base64item = btoa(item);
     return (
       <section className="bookreader-wrapper liner-notes" {...this.props}>
         <item-navigator
-          baseHost="https://archive.org"
+          baseHost={baseHost}
           itemtype="bookreader"
           signedIn={userSignedIn}
           item={base64item}
@@ -134,11 +134,13 @@ BookReaderWrapper.displayName = 'BookReaderWrapper';
 BookReaderWrapper.defaultProps = {
   options: {},
   userSignedIn: false,
-  item: null
+  item: null,
+  baseHost: ''
 };
 
 BookReaderWrapper.propTypes = {
   options: PropTypes.object,
   userSignedIn: PropTypes.bool,
-  item: PropTypes.object
+  item: PropTypes.object,
+  baseHost: PropTypes.string
 };
