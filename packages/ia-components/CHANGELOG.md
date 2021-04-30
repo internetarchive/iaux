@@ -1,3 +1,5 @@
+# 0.0.10
+liner notes has `baseHost` param @iisa
 # 0.0.9
 liner notes using bookreader v5 @iisa
 # 0.0.7
