@@ -30,6 +30,7 @@ class PrimaryNav extends TrackedElement {
       signedOutMenuOpen: { type: Boolean },
       userMenuOpen: { type: Boolean },
       username: { type: String },
+      userAvatar: { type: String },
     };
   }
 
@@ -90,7 +91,7 @@ class PrimaryNav extends TrackedElement {
         data-event-click-tracking="${this.config.eventCategory}|NavUserMenu"
       >
         <img
-          src="${this.mediaBaseHost}/services/img/user/profile?${+new Date()}"
+          src="${this.mediaBaseHost}${this.userAvatar}"
           alt="${this.username}"
         />
         <span class="username">${this.truncatedScreenName}</span>

@@ -46,6 +46,7 @@ export default class IATopNav extends LitElement {
       },
       selectedMenuOption: { type: String },
       username: { type: String },
+      userAvatar: { type: String },
     };
   }
 
@@ -196,6 +197,7 @@ export default class IATopNav extends LitElement {
           .searchQuery=${this.searchQuery}
           .selectedMenuOption=${this.selectedMenuOption}
           .username=${this.username}
+          .userAvatar=${this.userAvatar}
           ?hideSearch=${this.hideSearch}
           @mediaTypeSelected=${this.mediaTypeSelected}
           @toggleSearchMenu=${this.toggleSearchMenu}
