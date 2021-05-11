@@ -1018,10 +1018,10 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@internetarchive/ia-wayback-search@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-wayback-search/-/ia-wayback-search-0.2.0.tgz#1d2f7831c04012ab85d33c7a90630c2dd60dab06"
-  integrity sha512-Hmtv7pm5sp8cUh7JO1ZSsNK5PCKhJSOK8b5rZArMj7XuFMxwm7mG1OR32XXQr2i68BXHGx5wljmiQhSL9lwdFw==
+"@internetarchive/ia-wayback-search@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-wayback-search/-/ia-wayback-search-0.2.1.tgz#9eb70d5d93e2077bf235e141cbadf9c6be03aed8"
+  integrity sha512-Paogcm2XqgwCtjNp0Z4zB9DsGKeQF8CW8/UWFDL7+VFmg0exnrP0ArfTkxqjhVmYAZX6MqQVEzXAcJ3yVtFEwg==
   dependencies:
     lit-element "^2.2.1"
 
