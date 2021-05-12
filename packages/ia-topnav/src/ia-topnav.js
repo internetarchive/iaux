@@ -55,8 +55,8 @@ export default class IATopNav extends LitElement {
     super();
     this.baseHost = 'https://archive.org';
     this.mediaBaseHost = 'https://archive.org';
-    this.userProfileImagePath = '/services/img/user/profile?';
-    this.userProfileLastModified = '1234567890';
+    this.userProfileImagePath = '/services/img/user/profile';
+    this.userProfileLastModified = '';
     this.config = {};
     this.hideSearch = false;
     this.mediaSliderOpen = false;
