@@ -29,8 +29,6 @@ export default class ExpandableSearchBar extends LitElement {
 
   @property({ type: Boolean }) showsDisclosure = false;
 
-  // TODO: searchTerm should be single source of state;
-  //       searchInput.value should not also affect state
   @property({ type: String }) searchTerm = '';
 
   @property({ type: Array }) quickSearches: QuickSearchEntry[] = [];
@@ -83,6 +81,19 @@ export default class ExpandableSearchBar extends LitElement {
   }
 
   /**
+   * Workaround for lit-element 2.2.1 not reflecting this.searchTerm 
+   * in the HTML element. updated is called when this.searchTerm's value
+   * is changed.
+   *
+   * @memberof ExpandableSearchBar
+   */
+  updated() {
+      if (this.searchInput) {
+        this.searchInput.value = this.searchTerm;
+      }
+  }
+
+  /**
    * Called when then user clicks the X button to clear the search
    *
    * @private
@@ -90,11 +101,6 @@ export default class ExpandableSearchBar extends LitElement {
    */
   private clearSearch(): void {
     this.searchTerm = '';
-    /* istanbul ignore else */
-    if (this.searchInput) {
-      this.searchInput.value = '';
-      this.searchInput.focus();
-    }
     this.emitSearchClearedEvent();
   }
 
@@ -168,10 +174,6 @@ export default class ExpandableSearchBar extends LitElement {
    */
   private quickSearchSelected(e: CustomEvent): void {
     this.searchTerm = e.detail.searchEntry.displayText;
-    /* istanbul ignore else */
-    if (this.searchInput) {
-      this.searchInput.value = e.detail.searchEntry.displayText;
-    }
     const event = new CustomEvent('quickSearchSelected', {
       detail: { quickSearchEntry: e.detail.searchEntry },
     });
