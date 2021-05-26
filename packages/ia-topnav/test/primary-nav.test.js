@@ -2,8 +2,10 @@ import { html, fixture, expect } from '@open-wc/testing';
 
 import '../src/primary-nav';
 
-const component = (config = {}) => (
-  html`<primary-nav .config=${config}></primary-nav>`
+const component = ({
+  baseHost, username, screenName, hideSearch
+}) => (
+  html`<primary-nav .baseHost=${baseHost} .username=${username} .screenName=${screenName} ?hideSearch=${hideSearch}></primary-nav>`
 );
 
 describe('<primary-nav>', () => {
@@ -26,5 +28,17 @@ describe('<primary-nav>', () => {
 
     expect(el.shadowRoot.querySelector('.search-trigger')).to.equal(null);
     expect(el.shadowRoot.querySelector('nav-search')).to.equal(null);
+  });
+
+  it('truncates a long screenname', async () => {
+    const el = await fixture(component({
+      baseHost: 'archive.org',
+      username: 'boop',
+      screenName: 'somesuperlongscreenname'
+    }));
+
+    const usernameSpan = el.shadowRoot.querySelector('.username');
+
+    expect(usernameSpan.innerText).to.equal('somesuper…');
   });
 });

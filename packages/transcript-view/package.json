@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/transcript-view",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Transcript View LitElement that displays closed captioning and search results.",
   "license": "AGPL-3.0-only",
   "main": "index.js",

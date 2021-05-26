@@ -1,4 +1,5 @@
 import { html } from 'lit-element';
+import { nothing } from 'lit-html';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import './assets/img/hamburger';
@@ -17,13 +18,20 @@ class PrimaryNav extends TrackedElement {
 
   static get properties() {
     return {
+      mediaBaseHost: { type: String },
       baseHost: { type: String },
+      hideSearch: { type: Boolean },
       config: { type: Object },
       openMenu: { type: String },
+      screenName: { type: String },
       searchIn: { type: String },
+      searchQuery: { type: String },
       selectedMenuOption: { type: String },
       signedOutMenuOpen: { type: Boolean },
       userMenuOpen: { type: Boolean },
+      username: { type: String },
+      userProfileImagePath: { type: String },
+      userProfileLastModified: { type: String },
     };
   }
 
@@ -35,6 +43,7 @@ class PrimaryNav extends TrackedElement {
     this.selectedMenuOption = '';
     this.signedOutMenuOpen = false;
     this.userMenuOpen = false;
+    this.mediaBaseHost = 'https://archive.org';
   }
 
   toggleMediaMenu(e) {
@@ -65,10 +74,10 @@ class PrimaryNav extends TrackedElement {
   }
 
   get truncatedScreenName() {
-    if (this.config.screenName.length > 10) {
-      return `${this.config.screenName.substr(0, 9)}…`;
+    if (this.screenName && this.screenName.length > 10) {
+      return `${this.screenName.substr(0, 9)}…`;
     }
-    return this.config.screenName;
+    return this.screenName;
   }
 
   get userIcon() {
@@ -83,8 +92,8 @@ class PrimaryNav extends TrackedElement {
         data-event-click-tracking="${this.config.eventCategory}|NavUserMenu"
       >
         <img
-          src="${this.baseHost}/services/img/user/profile?${+new Date()}"
-          alt="${this.config.username}"
+          src="${this.mediaBaseHost}${this.userProfileImagePath}?${this.userProfileLastModified}"
+          alt="${this.username}"
         />
         <span class="username">${this.truncatedScreenName}</span>
       </button>
@@ -108,9 +117,8 @@ class PrimaryNav extends TrackedElement {
   }
 
   get searchMenu() {
-    if (this.config.hideSearch) {
-      return html``;
-    }
+    if (this.hideSearch) return nothing;
+
     return html`
       <button
         class="search-trigger"
@@ -126,6 +134,7 @@ class PrimaryNav extends TrackedElement {
         .open=${this.searchMenuOpen}
         .openMenu=${this.openMenu}
         .searchIn=${this.searchIn}
+        .searchQuery=${this.searchQuery}
       ></nav-search>
     `;
   }
@@ -134,14 +143,21 @@ class PrimaryNav extends TrackedElement {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
       <nav>
-        <a class="link-home" href=${formatUrl('/', this.baseHost)} @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|NavHome">${icons.iaLogo}${logoWordmark}</a>
+        <a
+          class="link-home"
+          href=${formatUrl('/', this.baseHost)}
+          @click=${this.trackClick}
+          data-event-click-tracking="${this.config.eventCategory}|NavHome"
+          title="Go home"
+          >${icons.iaLogo}${logoWordmark}</a
+        >
         ${this.searchMenu}
         <a href="${formatUrl(this.config.uploadURL, this.baseHost)}" class="upload">
           ${icons.upload}
           <span>Upload</span>
         </a>
         <div class="user-info">
-          ${this.config.username ? this.userIcon : this.loginIcon}
+          ${this.username ? this.userIcon : this.loginIcon}
         </div>
         <media-menu
           .baseHost=${this.baseHost}
@@ -151,7 +167,13 @@ class PrimaryNav extends TrackedElement {
           .selectedMenuOption=${this.selectedMenuOption}
           .openMenu=${this.openMenu}
         ></media-menu>
-        <button class="hamburger" @click="${this.toggleMediaMenu}" tabindex="1" data-event-click-tracking="${this.config.eventCategory}|NavHamburger">
+        <button
+          class="hamburger"
+          @click="${this.toggleMediaMenu}"
+          tabindex="1"
+          data-event-click-tracking="${this.config.eventCategory}|NavHamburger"
+          title="Open main menu"
+        >
           <icon-hamburger ?active=${this.openMenu === 'media'}></icon-hamburger>
         </button>
       </nav>

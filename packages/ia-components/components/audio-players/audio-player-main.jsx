@@ -135,7 +135,9 @@ export default class TheatreAudioPlayer extends Component {
    * Render function - determines whether or not we render liner notes
    */
   showLinerNotes() {
-    const { linerNotes } = this.props;
+    const {
+      linerNotes, userSignedIn, albumMetadataStr, baseHost
+    } = this.props;
     const { mediaSource } = this.state;
 
     // may have linerNotes with just {metadata} if bookreader jsia call fails
@@ -148,7 +150,10 @@ export default class TheatreAudioPlayer extends Component {
     return (
       <div style={bookReaderStyle}>
         <BookReaderWrapper
-          options={{ ...linerNotes.data.brOptions, defaultStartLeaf: 0, titleLeaf: 0 }}
+          options={{ ...linerNotes.data.brOptions }}
+          userSignedIn={userSignedIn}
+          baseHost={baseHost}
+          item={albumMetadataStr}
           style={{
             position: 'absolute',
             top: 0,
@@ -197,6 +202,9 @@ TheatreAudioPlayer.defaultProps = {
   photoAltTag: '',
   urlExtensions: '',
   linerNotes: null,
+  albumMetadataStr: '',
+  userSignedIn: false,
+  baseHost: ''
 };
 
 TheatreAudioPlayer.propTypes = {
@@ -216,4 +224,7 @@ TheatreAudioPlayer.propTypes = {
   customSourceLabels: PropTypes.object,
   linerNotes: PropTypes.object,
   playlist: PropTypes.array.isRequired,
+  albumMetadataStr: PropTypes.string,
+  userSignedIn: PropTypes.bool,
+  baseHost: PropTypes.string
 };

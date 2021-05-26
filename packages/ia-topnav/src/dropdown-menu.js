@@ -1,4 +1,5 @@
 import { html } from 'lit-element';
+import { nothing } from 'lit-html';
 import TrackedElement from './tracked-element';
 import dropdownMenuCSS from './styles/dropdown-menu';
 import formatUrl from './lib/formatUrl';
@@ -12,6 +13,7 @@ class DropdownMenu extends TrackedElement {
     return {
       baseHost: { type: String },
       config: { type: Object },
+      hideSearch: { type: Boolean },
       menuItems: { type: Array },
       animate: { type: Boolean },
       open: { type: Boolean },
@@ -27,6 +29,8 @@ class DropdownMenu extends TrackedElement {
   }
 
   get dropdownItems() {
+    if (!this.menuItems) return nothing;
+
     if (!Array.isArray(this.menuItems[0])) {
       return this.dropdownSection(this.menuItems);
     }
@@ -57,7 +61,7 @@ class DropdownMenu extends TrackedElement {
   }
 
   get menuClass() {
-    const hiddenClass = this.config.hideSearch ? ' search-hidden' : '';
+    const hiddenClass = this.hideSearch ? ' search-hidden' : '';
     if (this.open) {
       return `open${hiddenClass}`;
     }

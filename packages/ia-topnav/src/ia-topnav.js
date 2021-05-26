@@ -16,30 +16,49 @@ export default class IATopNav extends LitElement {
 
   static get properties() {
     return {
+      // the base host is for navigation, so may be empty for relative links
       baseHost: { type: String },
+      // the media base host is the base host for images, such as the profile picture
+      // which may not be hosted locally
+      mediaBaseHost: { type: String },
       config: {
         type: Object,
         converter(value) {
           return JSON.parse(atob(value));
-        }
+        },
       },
+      hideSearch: { type: Boolean },
       mediaSliderOpen: { type: Boolean },
       menus: {
         type: Object,
         converter(value) {
           return JSON.parse(atob(value));
-        }
+        },
       },
       openMenu: { type: String },
+      screenName: { type: String },
       searchIn: { type: String },
+      searchQuery: {
+        type: String,
+        converter(value) {
+          return atob(value);
+        },
+      },
       selectedMenuOption: { type: String },
+      username: { type: String },
+      userProfileImagePath: { type: String },
+      userProfileLastModified: { type: String },
     };
   }
 
   constructor() {
     super();
     this.baseHost = 'https://archive.org';
+    this.mediaBaseHost = 'https://archive.org';
+    this.userProfileImagePath = '/services/img/user/profile';
+    this.userProfileLastModified = '';
     this.config = {};
+    this.hideSearch = false;
     this.mediaSliderOpen = false;
     this.menus = {};
     this.openMenu = '';
@@ -135,7 +154,8 @@ export default class IATopNav extends LitElement {
         .config=${this.config}
         .menuItems=${this.userMenuItems}
         .open=${this.openMenu === 'user'}
-        .username=${this.config.username}
+        .username=${this.username}
+        ?hideSearch=${this.hideSearch}
         tabindex="${this.userMenuTabIndex}"
         @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
@@ -169,13 +189,20 @@ export default class IATopNav extends LitElement {
 
   render() {
     return html`
-      <div class='topnav'>
+      <div class="topnav">
         <primary-nav
           .baseHost=${this.baseHost}
+          .mediaBaseHost=${this.mediaBaseHost}
           .config=${this.config}
-          .searchIn=${this.searchIn}
-          .selectedMenuOption=${this.selectedMenuOption}
           .openMenu=${this.openMenu}
+          .screenName=${this.screenName}
+          .searchIn=${this.searchIn}
+          .searchQuery=${this.searchQuery}
+          .selectedMenuOption=${this.selectedMenuOption}
+          .username=${this.username}
+          .userProfileImagePath=${this.userProfileImagePath}
+          .userProfileLastModified=${this.userProfileLastModified}
+          ?hideSearch=${this.hideSearch}
           @mediaTypeSelected=${this.mediaTypeSelected}
           @toggleSearchMenu=${this.toggleSearchMenu}
           @trackClick=${this.trackClick}
@@ -190,17 +217,21 @@ export default class IATopNav extends LitElement {
           .menus=${this.menus}
         ></media-slider>
       </div>
-      <desktop-subnav .baseHost=${this.baseHost} .menuItems=${this.desktopSubnavMenuItems}></desktop-subnav>
+      <desktop-subnav
+        .baseHost=${this.baseHost}
+        .menuItems=${this.desktopSubnavMenuItems}
+      ></desktop-subnav>
       <search-menu
         .baseHost=${this.baseHost}
         .config=${this.config}
         .openMenu=${this.openMenu}
         tabindex="${this.searchMenuTabIndex}"
+        ?hideSearch=${this.hideSearch}
         @searchInChanged=${this.searchInChanged}
         @trackClick=${this.trackClick}
         @trackSubmit=${this.trackSubmit}
       ></search-menu>
-      ${this.config.username ? this.userMenu : this.signedOutDropdown}
+      ${this.username ? this.userMenu : this.signedOutDropdown}
       <div id="close-layer" class="${this.closeLayerClass}" @click=${this.closeMenus}></div>
     `;
   }
