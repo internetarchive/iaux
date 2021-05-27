@@ -61,19 +61,27 @@ export interface IATopNavExternalLink extends IATopNavLink {
 
 export interface IATopNavMediaMenu {
   heading: string;
-  iconLinks: IconLink[];
-  featuredLinks: Link[];
-  links: Link[];
+  iconLinks: IATopNavIconLink[];
+  featuredLinks: IATopNavLink[];
+  links: IATopNavLink[];
 }
 
 export declare class IATopNav extends LitElement {
   baseHost?: string;
-  mediaBaseHost?: string;
-  username?: string;
-  screenName?: string;
-  searchQuery?: string;
+  config?: IATopNavConfig;
   hideSearch?: boolean;
-  config: IATopNavConfig;
+  mediaBaseHost?: string;
+  menuSliderOpen?: boolean;
+  openMenu?: string;
+  screenName?: string;
+  searchIn?: string;
+  searchQuery?: string;
+  searchQuery?: string;
+  selectedMenuOption?: string;
+  username?: string;
+  userProfileImagePath?: string;
+  userProfileLastModified?: string;
+
   menus: {
     web: IATopNavMediaMenu;
     texts: IATopNavMediaMenu;

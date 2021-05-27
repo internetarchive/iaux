@@ -14,6 +14,9 @@ export default class IATopNav extends LitElement {
     return iaTopNavCSS;
   }
 
+  // NOTE:
+  // When adding properties, also add them to index.d.ts in the root `ia-topnav` directory
+  // so Typescript can find them
   static get properties() {
     return {
       // the base host is for navigation, so may be empty for relative links
