@@ -7,7 +7,7 @@ import {
   withClassPropertiesKnobs,
 } from '@open-wc/demoing-storybook';
 
-import ScrubberBar from '../index';
+import { ScrubberBar } from '../index';
 
 storiesOf('scrubber-bar', module)
   .addDecorator(withKnobs)
