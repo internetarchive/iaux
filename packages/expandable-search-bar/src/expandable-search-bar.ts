@@ -6,6 +6,7 @@ import {
   property,
   CSSResult,
   TemplateResult,
+  PropertyValues,
 } from 'lit-element';
 
 import magnifyingGlassIcon from './assets/img/magnifying-glass';
@@ -81,16 +82,14 @@ export default class ExpandableSearchBar extends LitElement {
   }
 
   /**
-   * Workaround for lit-element 2.2.1 not reflecting this.searchTerm 
-   * in the HTML element. updated is called when this.searchTerm's value
-   * is changed.
+   * Update the DOM element after the value of `this.searchTerm` changes
    *
    * @memberof ExpandableSearchBar
    */
-  updated() {
-      if (this.searchInput) {
-        this.searchInput.value = this.searchTerm;
-      }
+  updated(props: PropertyValues) {
+    if (props.has('searchTerm') && this.searchInput) {
+      this.searchInput.value = this.searchTerm;
+    }
   }
 
   /**
