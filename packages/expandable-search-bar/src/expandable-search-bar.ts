@@ -86,7 +86,7 @@ export default class ExpandableSearchBar extends LitElement {
    *
    * @memberof ExpandableSearchBar
    */
-  updated(props: PropertyValues) {
+  updated(props: PropertyValues): void {
     if (props.has('searchTerm') && this.searchInput) {
       this.searchInput.value = this.searchTerm;
     }
@@ -100,6 +100,10 @@ export default class ExpandableSearchBar extends LitElement {
    */
   private clearSearch(): void {
     this.searchTerm = '';
+    /* istanbul ignore else */
+    if (this.searchInput) {
+      this.searchInput.focus();
+    }
     this.emitSearchClearedEvent();
   }
 
