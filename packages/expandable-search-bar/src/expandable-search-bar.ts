@@ -6,6 +6,7 @@ import {
   property,
   CSSResult,
   TemplateResult,
+  PropertyValues,
 } from 'lit-element';
 
 import magnifyingGlassIcon from './assets/img/magnifying-glass';
@@ -81,6 +82,17 @@ export default class ExpandableSearchBar extends LitElement {
   }
 
   /**
+   * Update the DOM element after the value of `this.searchTerm` changes
+   *
+   * @memberof ExpandableSearchBar
+   */
+  updated(props: PropertyValues): void {
+    if (props.has('searchTerm') && this.searchInput) {
+      this.searchInput.value = this.searchTerm;
+    }
+  }
+
+  /**
    * Called when then user clicks the X button to clear the search
    *
    * @private
@@ -90,7 +102,6 @@ export default class ExpandableSearchBar extends LitElement {
     this.searchTerm = '';
     /* istanbul ignore else */
     if (this.searchInput) {
-      this.searchInput.value = '';
       this.searchInput.focus();
     }
     this.emitSearchClearedEvent();
@@ -165,6 +176,7 @@ export default class ExpandableSearchBar extends LitElement {
    * @memberof ExpandableSearchBar
    */
   private quickSearchSelected(e: CustomEvent): void {
+    this.searchTerm = e.detail.searchEntry.displayText;
     const event = new CustomEvent('quickSearchSelected', {
       detail: { quickSearchEntry: e.detail.searchEntry },
     });
