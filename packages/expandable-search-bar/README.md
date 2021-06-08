@@ -97,11 +97,6 @@ yarn test
 yarn test:bs
 ```
 
-## Demoing using storybook
-```bash
-yarn storybook
-```
-
 ## Linting
 ```bash
 yarn lint
