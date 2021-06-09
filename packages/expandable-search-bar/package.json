@@ -33,14 +33,12 @@
     "test:compatibility": "karma start --compatibility all --coverage",
     "test:compatibility:watch": "karma start --compatibility all --auto-watch=true --single-run=false",
     "test:bs": "karma start karma.bs.config.js --compatibility all --coverage"
-    
-  },
+   },
   "dependencies": {
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"
   },
   "devDependencies": {
-    
     "@open-wc/eslint-config": "^1.0.0",
     "@open-wc/prettier-config": "^0.1.10",
     "@open-wc/testing": "^2.0.0",
