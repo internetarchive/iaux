@@ -32,25 +32,19 @@
     "test:prune-snapshots": "karma start --prune-snapshots",
     "test:compatibility": "karma start --compatibility all --coverage",
     "test:compatibility:watch": "karma start --compatibility all --auto-watch=true --single-run=false",
-    "test:bs": "karma start karma.bs.config.js --compatibility all --coverage",
-    "site:build": "npm run storybook:build",
-    "storybook": "start-storybook -p 9001",
-    "storybook:build": "build-storybook -o _site -s storybook-static"
-  },
+    "test:bs": "karma start karma.bs.config.js --compatibility all --coverage"
+   },
   "dependencies": {
     "lit-element": "^2.2.1",
     "lit-html": "^1.0.0"
   },
   "devDependencies": {
-    "@open-wc/demoing-storybook": "^0.3.0",
     "@open-wc/eslint-config": "^1.0.0",
     "@open-wc/prettier-config": "^0.1.10",
     "@open-wc/testing": "^2.0.0",
     "@open-wc/testing-karma": "^3.0.0",
-    "@open-wc/testing-karma-bs": "^1.0.0",
-    "@storybook/react": "^5.1.11",
-    "@types/form-data": "^2.5.0",
-    "@types/storybook__react": "^4.0.2",
+    "@open-wc/testing-karma-bs": "^1.0.0",    
+    "@types/form-data": "^2.5.0",    
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^2.2.0",
     "concurrently": "^4.1.2",
