@@ -172,6 +172,7 @@ export default class IATopNav extends LitElement {
         .baseHost=${this.baseHost}
         .config=${this.config}
         .open=${this.signedOutOpened}
+        ?hideSearch=${this.hideSearch}
         tabindex="${this.signedOutTabIndex}"
         .menuItems=${this.signedOutMenuItems}
       ></signed-out-dropdown>
