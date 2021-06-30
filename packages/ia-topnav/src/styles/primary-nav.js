@@ -40,6 +40,18 @@ export default css`
     transform: translate(-50%, -50%);
   }
 
+  .anniv-logo-link,
+  .link-home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .anniv-logo-link svg {
+    height: 25px;
+    margin-left: 5px;
+  }
+
   media-menu {
     grid-column-start: hamburger-start;
     grid-column-end: user-end;

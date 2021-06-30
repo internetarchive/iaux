@@ -6,7 +6,7 @@ import './assets/img/hamburger';
 import './login-button';
 import './nav-search';
 import './media-menu';
-import logoWordmark from './assets/img/wordmark-narrow-spacing';
+// import logoWordmark from './assets/img/wordmark-narrow-spacing';
 import primaryNavCSS from './styles/primary-nav';
 import locationHandler from './lib/location-handler';
 import formatUrl from './lib/formatUrl';
@@ -143,14 +143,21 @@ class PrimaryNav extends TrackedElement {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
       <nav>
-        <a
-          class="link-home"
-          href=${formatUrl('/', this.baseHost)}
-          @click=${this.trackClick}
-          data-event-click-tracking="${this.config.eventCategory}|NavHome"
-          title="Go home"
-          >${icons.iaLogo}${logoWordmark}</a
-        >
+        <div class="link-home">
+          <a
+            href=${formatUrl('/', this.baseHost)}
+            @click=${this.trackClick}
+            data-event-click-tracking="${this.config.eventCategory}|NavHome"
+            title="Go home"
+            >${icons.iaLogo}</a>
+          <a
+            class="anniv-logo-link"
+            href=${formatUrl('/25-anniversary', this.baseHost)}
+            @click=${this.trackClick}
+            data-event-click-tracking="${this.config.eventCategory}|NavHome25"
+            title="Go home"
+            >${icons.iaAnnivLogo}</a>
+        </div>
         ${this.searchMenu}
         <a href="${formatUrl(this.config.uploadURL, this.baseHost)}" class="upload">
           ${icons.upload}
