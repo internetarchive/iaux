@@ -2,7 +2,6 @@ import audio from './icon-audio';
 import close from './icon-close';
 import donate from './icon-donate';
 import ellipses from './icon-ellipses';
-import iaAnnivLogo from './icon-ia-anniversary-logo';
 import iaLogo from './icon-ia-logo';
 import images from './icon-images';
 import search from './icon-search';
@@ -18,7 +17,6 @@ export default {
   close,
   donate,
   ellipses,
-  iaAnnivLogo,
   iaLogo,
   images,
   search,
