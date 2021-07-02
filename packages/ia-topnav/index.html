@@ -26,6 +26,19 @@
       dt {
         font-size: 1.4rem;
       }
+
+      .anniv-logo-link,
+      .link-home {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .anniv-logo-link svg {
+        height: 25px;
+        margin-left: 5px;
+      }
+  }
     </style>
   </head>
 
@@ -34,7 +47,22 @@
       When passing in a search query through html attributes, base64 encode them.
       This is not needed when setting the search query with lit-element bindings.
     -->
-    <ia-topnav searchQuery="J2Zvbyc="></ia-topnav>
+    <ia-topnav searchQuery="J2Zvbyc=">
+      <div slot="opt-sec-logo">
+        <a class="anniv-logo-link" href="https://archvive.org" title="Go to cool page" slot="opt-sec-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114.6 36.87">
+            <defs>
+              <style>.cls-1{fill:#fff;}</style>
+            </defs>
+              <g id="Layer_2" data-name="Layer 2">
+                <g id="Layer_1-2" data-name="Layer 1">
+                  <path class="cls-1" d="M34.4,22.86c2.59-.82,4.68-1.33,7.11-1.93,4.47-1.12,7.62-4.47,7.62-8.74,0-7-5-12.19-11.68-12.19-6.4,0-11.38,5.74-11.58,13.41h.81c1-3.35,5.29-5.89,10.57-5.89,4.87,0,8.53,2.64,8.53,6.7,0,2.44-2,4.27-5.08,5.08-2.08.56-4.21,1.12-6.3,1.63-4.92,1.16-8.33,5.18-8.33,9.54v5.9H48.73V28.85H28.61A8.39,8.39,0,0,1,34.4,22.86Zm29-8.44a13.19,13.19,0,0,0-8,2.49l-.41-.2.51-8.58h19.2V.51H54.21L53.14,18.84l1.68.71a9.45,9.45,0,0,1,1.83-1.27,13.11,13.11,0,0,1,6.5-1.82c5.68,0,9.6,2.74,9.6,6.4S68.58,29.25,63,29.25c-5.18,0-9.65-2.53-11.07-6.19h-.81C51.11,31,56,36.87,63.4,36.87c7.11,0,12.49-4.67,12.49-11.58C75.89,19,70.46,14.42,63.35,14.42ZM18.52,32.66C12.39,32.6,7.91,25.45,7.91,16.75S12.43,1.82,18.59,1.82h.05V.09C7.86.09,0,7,0,16.75s7.73,17.5,18.38,17.63H3.14v2H20.53V19h-2ZM88.64.48H79l-.35.88,25.5,17L78.61,35.44l.36.9h9.65L106.56,18.4Zm13.61,0H95.9l-.35.88,17,17-17,17.05.35.89h6.33L114.6,18.4Z"/>
+                </g>
+              </g>
+            </svg>
+        </a>
+      </div>
+    </ia-topnav>
 
     <main>
       <h1>Site example</h1>
@@ -106,8 +134,13 @@
         topnav.menus = menus;
       }
 
+      function allowSecondIdenity() {
+        topnav.config.secondIdentitySlot = 'allow';
+      }
+
       updateConfig();
       updateMenus();
+      allowSecondIdenity();
 
       const loggedInButton = document.querySelector('#show-logged-in-button');
       loggedInButton.addEventListener('click', () => {

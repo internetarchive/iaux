@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit-element';
+import { nothing } from 'lit-html';
 
 import './primary-nav';
 import './user-menu';
@@ -190,7 +191,12 @@ export default class IATopNav extends LitElement {
     return this.menus.more;
   }
 
+  get allowSecondaryIcon() {
+    return this.config.secondIdentitySlot === 'allow';
+  }
+
   render() {
+    const secondLogo = this.allowSecondaryIcon ? html`<slot name="opt-sec-logo"><slot>` : nothing;
     return html`
       <div class="topnav">
         <primary-nav
@@ -211,7 +217,7 @@ export default class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
-        ></primary-nav>
+        >${secondLogo}</primary-nav>
         <media-slider
           .baseHost=${this.baseHost}
           .config=${this.config}

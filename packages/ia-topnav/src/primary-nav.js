@@ -26,6 +26,7 @@ class PrimaryNav extends TrackedElement {
       screenName: { type: String },
       searchIn: { type: String },
       searchQuery: { type: String },
+      secondIdentitySlot: { type: String },
       selectedMenuOption: { type: String },
       signedOutMenuOpen: { type: Boolean },
       userMenuOpen: { type: Boolean },
@@ -116,6 +117,10 @@ class PrimaryNav extends TrackedElement {
     return this.openMenu === 'search';
   }
 
+  get allowSecondaryIcon() {
+    return this.config.secondIdentitySlot === 'allow';
+  }
+
   get searchMenu() {
     if (this.hideSearch) return nothing;
 
@@ -141,6 +146,9 @@ class PrimaryNav extends TrackedElement {
 
   render() {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
+    const secondLogo = this.allowSecondaryIcon
+      ? html`<slot name="opt-sec-logo" data-event-click-tracking="${this.config.eventCategory}|${this.config.allow}"><slot>`
+      : nothing;
     return html`
       <nav>
         <div class="link-home">
@@ -150,13 +158,7 @@ class PrimaryNav extends TrackedElement {
             data-event-click-tracking="${this.config.eventCategory}|NavHome"
             title="Go home"
             >${icons.iaLogo}</a>
-          <a
-            class="anniv-logo-link"
-            href=${formatUrl('/25-anniversary', this.baseHost)}
-            @click=${this.trackClick}
-            data-event-click-tracking="${this.config.eventCategory}|NavHome25"
-            title="Go home"
-            >${icons.iaAnnivLogo}</a>
+            ${secondLogo}
         </div>
         ${this.searchMenu}
         <a href="${formatUrl(this.config.uploadURL, this.baseHost)}" class="upload">
