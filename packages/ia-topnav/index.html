@@ -92,6 +92,11 @@
               <input id="search-term"><input type="submit" value="Set Search Term">
             </form>
           </dd>
+          <dt>2nd Logo space</dt>
+          <dd>
+            <button id="show-logo2">Show 2nd logo</button>
+            <button id="hide-logo2">Hide 2nd logo</button>
+          </dd>
         </dl>
       </fieldset>
     </main>
@@ -134,13 +139,8 @@
         topnav.menus = menus;
       }
 
-      function allowSecondIdenity() {
-        topnav.config.secondIdentitySlot = 'allow';
-      }
-
       updateConfig();
       updateMenus();
-      allowSecondIdenity();
 
       const loggedInButton = document.querySelector('#show-logged-in-button');
       loggedInButton.addEventListener('click', () => {
@@ -194,6 +194,21 @@
       topnav.addEventListener('trackSubmit', ({ detail }) => {
         console.log(`Analytics submit fired: ${detail.event}`);
       });
+
+      /* How to add a second logo next to main one: */
+      const showLogo2 = document.querySelector('#show-logo2');
+      showLogo2.addEventListener('click', () => {
+        const config = topnav.config;
+        const newConfig = Object.assign({}, config, {secondIdentitySlot: 'allow'});
+        topnav.config = newConfig;
+      })
+
+      const hideLogo2 = document.querySelector('#hide-logo2');
+      hideLogo2.addEventListener('click', () => {
+        const config = topnav.config;
+        const newConfig = Object.assign({}, config, {secondIdentitySlot: ''});
+        topnav.config = newConfig;
+      })
     </script>
   </body>
 </html>
