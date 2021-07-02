@@ -3,6 +3,8 @@ import {
   fixture,
   expect,
   oneEvent,
+  fixtureCleanup,
+  elementUpdated
 } from '@open-wc/testing';
 
 import '../src/ia-topnav';
@@ -25,6 +27,10 @@ const verifyOpened = (instance, mediatype) => {
   expect(instance.mediaSliderOpen).to.be.true;
   expect(instance.selectedMenuOption).to.equal(mediatype);
 };
+
+afterEach(() => {
+  fixtureCleanup();
+});
 
 describe('<ia-topnav>', () => {
   it('assigns a value to "search in" from outside event', async () => {
@@ -243,6 +249,30 @@ describe('<ia-topnav>', () => {
       const el = await fixture(container({ username: 'foo', baseHost: 'foo.org' }));
       const signedOutDropdown = el.shadowRoot.querySelector('user-menu');
       expect(signedOutDropdown.baseHost).to.equal('foo.org');
+    });
+  });
+
+  describe('slot pass throughs', () => {
+    describe('slot for <primary-nav>', () => {
+      it('opens a slot if config as `secondIdentitySlot`', async () => {
+        const el = await fixture(container({
+          baseHost: 'archive.org',
+          username: 'boop',
+          screenName: 'somesuperlongscreenname',
+          config: {
+            secondIdentitySlot: 'allow'
+          }
+        }));
+
+        const slot = el.shadowRoot.querySelector('primary-nav').querySelector('slot');
+        expect(slot).to.exist;
+        expect(slot.getAttribute('name')).to.equal('opt-sec-logo');
+
+        el.config = { secondIdentitySlot: '' };
+        await elementUpdated(el);
+        const noSlot = el.shadowRoot.querySelector('primary-nav').querySelector('slot');
+        expect(noSlot).to.not.exist;
+      });
     });
   });
 });
