@@ -149,16 +149,17 @@ class PrimaryNav extends TrackedElement {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     const logoSubtext = this.allowSecondaryIcon ? '' : iaWordmark;
     const secondLogo = this.allowSecondaryIcon
-      ? html`<slot name="opt-sec-logo" data-event-click-tracking="${this.config.eventCategory}|${this.config.allow}"><slot>`
+      ? html`<slot name="opt-sec-logo" data-event-click-tracking="${this.config.eventCategory}|${this.config.secondIdentitySlot}"><slot>`
       : nothing;
     return html`
       <nav>
-        <div class="link-home">
+        <div class="branding">
           <a
             href=${formatUrl('/', this.baseHost)}
             @click=${this.trackClick}
             data-event-click-tracking="${this.config.eventCategory}|NavHome"
             title="Go home"
+            class="link-home"
             >${icons.iaLogo}${logoSubtext}</a>
             ${secondLogo}
         </div>

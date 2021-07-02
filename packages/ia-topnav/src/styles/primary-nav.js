@@ -29,7 +29,7 @@ export default css`
     cursor: pointer;
   }
 
-  .link-home {
+  .branding {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -41,7 +41,7 @@ export default css`
   }
 
   slot,
-  .link-home {
+  .branding {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -149,7 +149,7 @@ export default css`
       padding-right: 1.5rem;
     }
 
-    .link-home {
+    .branding {
       position: static;
       float: left;
       margin-top: 1rem;

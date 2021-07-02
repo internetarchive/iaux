@@ -1,12 +1,18 @@
-import { html, fixture, expect } from '@open-wc/testing';
+import {
+  html, fixture, expect, fixtureCleanup, elementUpdated
+} from '@open-wc/testing';
 
 import '../src/primary-nav';
 
 const component = ({
-  baseHost, username, screenName, hideSearch
+  baseHost, username, screenName, hideSearch, config = {}
 }) => (
-  html`<primary-nav .baseHost=${baseHost} .username=${username} .screenName=${screenName} ?hideSearch=${hideSearch}></primary-nav>`
+  html`<primary-nav .baseHost=${baseHost} .username=${username} .screenName=${screenName} ?hideSearch=${hideSearch} .config=${config}></primary-nav>`
 );
+
+afterEach(() => {
+  fixtureCleanup();
+});
 
 describe('<primary-nav>', () => {
   it('renders the login link when no username present', async () => {
@@ -40,5 +46,26 @@ describe('<primary-nav>', () => {
     const usernameSpan = el.shadowRoot.querySelector('.username');
 
     expect(usernameSpan.innerText).to.equal('somesuper…');
+  });
+
+  it('opens a slot if config as `secondIdentitySlot`', async () => {
+    const el = await fixture(component({
+      baseHost: 'archive.org',
+      username: 'boop',
+      screenName: 'somesuperlongscreenname',
+      config: {
+        secondIdentitySlot: 'allow'
+      }
+    }));
+
+    const slot = el.shadowRoot.querySelector('div.branding').querySelector('slot');
+    expect(slot).to.exist;
+    expect(slot.getAttribute('name')).to.equal('opt-sec-logo');
+
+
+    el.config = { secondIdentitySlot: '' };
+    await elementUpdated(el);
+    const noSlot = el.shadowRoot.querySelector('div.branding').querySelector('slot');
+    expect(noSlot).to.not.exist;
   });
 });
