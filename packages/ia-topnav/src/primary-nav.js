@@ -1,13 +1,12 @@
 import { html } from 'lit-element';
 import { nothing } from 'lit-html';
 import TrackedElement from './tracked-element';
-import iaWordmark from './assets/img/wordmark-narrow-spacing';
 import icons from './assets/img/icons';
 import './assets/img/hamburger';
 import './login-button';
 import './nav-search';
 import './media-menu';
-// import logoWordmark from './assets/img/wordmark-narrow-spacing';
+import logoWordmark from './assets/img/wordmark-narrow-spacing';
 import primaryNavCSS from './styles/primary-nav';
 import locationHandler from './lib/location-handler';
 import formatUrl from './lib/formatUrl';
@@ -147,7 +146,7 @@ class PrimaryNav extends TrackedElement {
 
   render() {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
-    const logoSubtext = this.allowSecondaryIcon ? '' : iaWordmark;
+    const logoSubtext = this.allowSecondaryIcon ? '' : logoWordmark;
     const secondLogo = this.allowSecondaryIcon
       ? html`<slot name="opt-sec-logo" data-event-click-tracking="${this.config.eventCategory}|${this.config.secondIdentitySlot}"><slot>`
       : nothing;
