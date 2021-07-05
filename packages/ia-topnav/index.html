@@ -201,16 +201,12 @@
       /* How to add a second logo next to main one: */
       const showLogo2 = document.querySelector('#show-logo2');
       showLogo2.addEventListener('click', () => {
-        const config = topnav.config;
-        const newConfig = Object.assign({}, config, {secondIdentitySlot: 'allow'});
-        topnav.config = newConfig;
+        topnav.secondIdentitySlot = 'allow';
       })
 
       const hideLogo2 = document.querySelector('#hide-logo2');
       hideLogo2.addEventListener('click', () => {
-        const config = topnav.config;
-        const newConfig = Object.assign({}, config, {secondIdentitySlot: ''});
-        topnav.config = newConfig;
+        topnav.secondIdentitySlot = '';
       })
     </script>
   </body>

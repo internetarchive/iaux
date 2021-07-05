@@ -45,6 +45,7 @@ class PrimaryNav extends TrackedElement {
     this.signedOutMenuOpen = false;
     this.userMenuOpen = false;
     this.mediaBaseHost = 'https://archive.org';
+    this.secondIdentitySlot = '';
   }
 
   toggleMediaMenu(e) {
@@ -118,7 +119,7 @@ class PrimaryNav extends TrackedElement {
   }
 
   get allowSecondaryIcon() {
-    return this.config.secondIdentitySlot === 'allow';
+    return this.secondIdentitySlot === 'allow';
   }
 
   get searchMenu() {
@@ -148,7 +149,7 @@ class PrimaryNav extends TrackedElement {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     const logoSubtext = this.allowSecondaryIcon ? '' : logoWordmark;
     const secondLogo = this.allowSecondaryIcon
-      ? html`<slot name="opt-sec-logo" data-event-click-tracking="${this.config.eventCategory}|${this.config.secondIdentitySlot}"><slot>`
+      ? html`<slot name="opt-sec-logo" data-event-click-tracking="${this.config.eventCategory}|${this.secondIdentitySlot}"><slot>`
       : nothing;
     return html`
       <nav>

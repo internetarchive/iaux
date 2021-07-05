@@ -13,9 +13,16 @@ const container = ({
   username = '',
   screenName = '',
   config = {},
-  baseHost = ''
+  baseHost = '',
+  secondIdentitySlot = ''
 } = {}) => (
-  html`<ia-topnav .screenName=${screenName} .username=${username} .baseHost=${baseHost} .config=${config}></ia-topnav>`
+  html`<ia-topnav
+    .screenName=${screenName}
+    .username=${username}
+    .baseHost=${baseHost}
+    .config=${config}
+    .secondIdentitySlot=${secondIdentitySlot}
+  ></ia-topnav>`
 );
 
 const verifyClosed = (instance) => {
@@ -254,21 +261,19 @@ describe('<ia-topnav>', () => {
 
   describe('slot pass throughs', () => {
     describe('slot for <primary-nav>', () => {
-      it('opens a slot if config as `secondIdentitySlot`', async () => {
+      it('opens a slot with `secondIdentitySlot`', async () => {
         const el = await fixture(container({
           baseHost: 'archive.org',
           username: 'boop',
           screenName: 'somesuperlongscreenname',
-          config: {
-            secondIdentitySlot: 'allow'
-          }
+          secondIdentitySlot: 'allow'
         }));
 
         const slot = el.shadowRoot.querySelector('primary-nav').querySelector('slot');
         expect(slot).to.exist;
         expect(slot.getAttribute('name')).to.equal('opt-sec-logo');
 
-        el.config = { secondIdentitySlot: '' };
+        el.secondIdentitySlot = '';
         await elementUpdated(el);
         const noSlot = el.shadowRoot.querySelector('primary-nav').querySelector('slot');
         expect(noSlot).to.not.exist;

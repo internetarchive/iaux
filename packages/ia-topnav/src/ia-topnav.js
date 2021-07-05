@@ -52,6 +52,7 @@ export default class IATopNav extends LitElement {
       username: { type: String },
       userProfileImagePath: { type: String },
       userProfileLastModified: { type: String },
+      secondIdentitySlot: { type: String },
     };
   }
 
@@ -68,6 +69,7 @@ export default class IATopNav extends LitElement {
     this.openMenu = '';
     this.searchIn = '';
     this.selectedMenuOption = '';
+    this.secondIdentitySlot = '';
   }
 
   menuToggled({ detail }) {
@@ -192,7 +194,7 @@ export default class IATopNav extends LitElement {
   }
 
   get allowSecondaryIcon() {
-    return this.config.secondIdentitySlot === 'allow';
+    return this.secondIdentitySlot === 'allow';
   }
 
   render() {
@@ -207,6 +209,7 @@ export default class IATopNav extends LitElement {
           .screenName=${this.screenName}
           .searchIn=${this.searchIn}
           .searchQuery=${this.searchQuery}
+          .secondIdentitySlot=${this.secondIdentitySlot}
           .selectedMenuOption=${this.selectedMenuOption}
           .username=${this.username}
           .userProfileImagePath=${this.userProfileImagePath}

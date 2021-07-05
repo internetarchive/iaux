@@ -5,9 +5,17 @@ import {
 import '../src/primary-nav';
 
 const component = ({
-  baseHost, username, screenName, hideSearch, config = {}
+  baseHost, username, screenName, hideSearch, config = {}, secondIdentitySlot
 }) => (
-  html`<primary-nav .baseHost=${baseHost} .username=${username} .screenName=${screenName} ?hideSearch=${hideSearch} .config=${config}></primary-nav>`
+  html`
+    <primary-nav
+      .baseHost=${baseHost}
+      .username=${username}
+      .screenName=${screenName}
+      ?hideSearch=${hideSearch}
+      .config=${config}
+      .secondIdentitySlot=${secondIdentitySlot}
+    ></primary-nav>`
 );
 
 afterEach(() => {
@@ -48,22 +56,21 @@ describe('<primary-nav>', () => {
     expect(usernameSpan.innerText).to.equal('somesuper…');
   });
 
-  it('opens a slot if config as `secondIdentitySlot`', async () => {
+  it('opens a slot with `secondIdentitySlot`', async () => {
     const el = await fixture(component({
       baseHost: 'archive.org',
       username: 'boop',
       screenName: 'somesuperlongscreenname',
-      config: {
-        secondIdentitySlot: 'allow'
-      }
+      secondIdentitySlot: 'allow'
     }));
 
     const slot = el.shadowRoot.querySelector('div.branding').querySelector('slot');
+
     expect(slot).to.exist;
     expect(slot.getAttribute('name')).to.equal('opt-sec-logo');
 
 
-    el.config = { secondIdentitySlot: '' };
+    el.secondIdentitySlot = '';
     await elementUpdated(el);
     const noSlot = el.shadowRoot.querySelector('div.branding').querySelector('slot');
     expect(noSlot).to.not.exist;
