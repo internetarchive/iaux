@@ -145,12 +145,18 @@ class PrimaryNav extends TrackedElement {
     `;
   }
 
-  render() {
-    const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
-    const logoSubtext = this.allowSecondaryIcon ? '' : logoWordmark;
-    const secondLogo = this.allowSecondaryIcon
+  get secondLogoSlot() {
+    return this.allowSecondaryIcon
       ? html`<slot name="opt-sec-logo" data-event-click-tracking="${this.config.eventCategory}|${this.secondIdentitySlot}"><slot>`
       : nothing;
+  }
+
+  get logoSubtext() {
+    return this.allowSecondaryIcon ? '' : logoWordmark;
+  }
+
+  render() {
+    const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
       <nav>
         <div class="branding">
@@ -160,8 +166,8 @@ class PrimaryNav extends TrackedElement {
             data-event-click-tracking="${this.config.eventCategory}|NavHome"
             title="Go home"
             class="link-home"
-            >${icons.iaLogo}${logoSubtext}</a>
-            ${secondLogo}
+            >${icons.iaLogo}${this.logoSubtext}</a>
+            ${this.secondLogoSlot}
         </div>
         ${this.searchMenu}
         <a href="${formatUrl(this.config.uploadURL, this.baseHost)}" class="upload">

@@ -197,8 +197,11 @@ export default class IATopNav extends LitElement {
     return this.secondIdentitySlot === 'allow';
   }
 
+  get secondLogoSlot() {
+    return this.allowSecondaryIcon ? html`<slot name="opt-sec-logo"><slot>` : nothing;
+  }
+
   render() {
-    const secondLogo = this.allowSecondaryIcon ? html`<slot name="opt-sec-logo"><slot>` : nothing;
     return html`
       <div class="topnav">
         <primary-nav
@@ -220,7 +223,7 @@ export default class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
-        >${secondLogo}</primary-nav>
+        >${this.secondLogoSlot}</primary-nav>
         <media-slider
           .baseHost=${this.baseHost}
           .config=${this.config}
