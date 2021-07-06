@@ -26,7 +26,7 @@ class PrimaryNav extends TrackedElement {
       screenName: { type: String },
       searchIn: { type: String },
       searchQuery: { type: String },
-      secondIdentitySlot: { type: String },
+      secondIdentitySlotMode: { type: String },
       selectedMenuOption: { type: String },
       signedOutMenuOpen: { type: Boolean },
       userMenuOpen: { type: Boolean },
@@ -45,7 +45,7 @@ class PrimaryNav extends TrackedElement {
     this.signedOutMenuOpen = false;
     this.userMenuOpen = false;
     this.mediaBaseHost = 'https://archive.org';
-    this.secondIdentitySlot = '';
+    this.secondIdentitySlotMode = '';
   }
 
   toggleMediaMenu(e) {
@@ -119,7 +119,7 @@ class PrimaryNav extends TrackedElement {
   }
 
   get allowSecondaryIcon() {
-    return this.secondIdentitySlot === 'allow';
+    return this.secondIdentitySlotMode === 'allow';
   }
 
   get searchMenu() {
@@ -147,7 +147,7 @@ class PrimaryNav extends TrackedElement {
 
   get secondLogoSlot() {
     return this.allowSecondaryIcon
-      ? html`<slot name="opt-sec-logo" data-event-click-tracking="${this.config.eventCategory}|${this.secondIdentitySlot}"><slot>`
+      ? html`<slot name="opt-sec-logo" data-event-click-tracking="${this.config.eventCategory}|${this.secondIdentitySlotMode}"><slot>`
       : nothing;
   }
 
