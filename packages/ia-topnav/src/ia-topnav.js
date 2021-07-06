@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit-element';
+import { nothing } from 'lit-html';
 
 import './primary-nav';
 import './user-menu';
@@ -51,6 +52,7 @@ export default class IATopNav extends LitElement {
       username: { type: String },
       userProfileImagePath: { type: String },
       userProfileLastModified: { type: String },
+      secondIdentitySlotMode: { type: String },
     };
   }
 
@@ -67,6 +69,7 @@ export default class IATopNav extends LitElement {
     this.openMenu = '';
     this.searchIn = '';
     this.selectedMenuOption = '';
+    this.secondIdentitySlotMode = '';
   }
 
   menuToggled({ detail }) {
@@ -191,6 +194,14 @@ export default class IATopNav extends LitElement {
     return this.menus.more;
   }
 
+  get allowSecondaryIcon() {
+    return this.secondIdentitySlotMode === 'allow';
+  }
+
+  get secondLogoSlot() {
+    return this.allowSecondaryIcon ? html`<slot name="opt-sec-logo"><slot>` : nothing;
+  }
+
   render() {
     return html`
       <div class="topnav">
@@ -202,6 +213,7 @@ export default class IATopNav extends LitElement {
           .screenName=${this.screenName}
           .searchIn=${this.searchIn}
           .searchQuery=${this.searchQuery}
+          .secondIdentitySlotMode=${this.secondIdentitySlotMode}
           .selectedMenuOption=${this.selectedMenuOption}
           .username=${this.username}
           .userProfileImagePath=${this.userProfileImagePath}
@@ -212,7 +224,7 @@ export default class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
-        ></primary-nav>
+        >${this.secondLogoSlot}</primary-nav>
         <media-slider
           .baseHost=${this.baseHost}
           .config=${this.config}

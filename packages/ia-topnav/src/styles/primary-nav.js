@@ -29,7 +29,7 @@ export default css`
     cursor: pointer;
   }
 
-  .link-home {
+  .branding {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -38,6 +38,13 @@ export default css`
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+  }
+
+  slot,
+  .branding {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   media-menu {
@@ -142,7 +149,7 @@ export default css`
       padding-right: 1.5rem;
     }
 
-    .link-home {
+    .branding {
       position: static;
       float: left;
       margin-top: 1rem;

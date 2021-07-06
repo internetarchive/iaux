@@ -26,6 +26,7 @@ class PrimaryNav extends TrackedElement {
       screenName: { type: String },
       searchIn: { type: String },
       searchQuery: { type: String },
+      secondIdentitySlotMode: { type: String },
       selectedMenuOption: { type: String },
       signedOutMenuOpen: { type: Boolean },
       userMenuOpen: { type: Boolean },
@@ -44,6 +45,7 @@ class PrimaryNav extends TrackedElement {
     this.signedOutMenuOpen = false;
     this.userMenuOpen = false;
     this.mediaBaseHost = 'https://archive.org';
+    this.secondIdentitySlotMode = '';
   }
 
   toggleMediaMenu(e) {
@@ -116,6 +118,10 @@ class PrimaryNav extends TrackedElement {
     return this.openMenu === 'search';
   }
 
+  get allowSecondaryIcon() {
+    return this.secondIdentitySlotMode === 'allow';
+  }
+
   get searchMenu() {
     if (this.hideSearch) return nothing;
 
@@ -139,18 +145,28 @@ class PrimaryNav extends TrackedElement {
     `;
   }
 
+  get secondLogoSlot() {
+    return this.allowSecondaryIcon ? html`<slot name="opt-sec-logo"><slot>` : nothing;
+  }
+
+  get logoSubtext() {
+    return this.allowSecondaryIcon ? nothing : logoWordmark;
+  }
+
   render() {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
       <nav>
-        <a
-          class="link-home"
-          href=${formatUrl('/', this.baseHost)}
-          @click=${this.trackClick}
-          data-event-click-tracking="${this.config.eventCategory}|NavHome"
-          title="Go home"
-          >${icons.iaLogo}${logoWordmark}</a
-        >
+        <div class="branding">
+          <a
+            href=${formatUrl('/', this.baseHost)}
+            @click=${this.trackClick}
+            data-event-click-tracking="${this.config.eventCategory}|NavHome"
+            title="Go home"
+            class="link-home"
+            >${icons.iaLogo}${this.logoSubtext}</a>
+            ${this.secondLogoSlot}
+        </div>
         ${this.searchMenu}
         <a href="${formatUrl(this.config.uploadURL, this.baseHost)}" class="upload">
           ${icons.upload}
