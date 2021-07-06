@@ -146,13 +146,11 @@ class PrimaryNav extends TrackedElement {
   }
 
   get secondLogoSlot() {
-    return this.allowSecondaryIcon
-      ? html`<slot name="opt-sec-logo" data-event-click-tracking="${this.config.eventCategory}|${this.secondIdentitySlotMode}"><slot>`
-      : nothing;
+    return this.allowSecondaryIcon ? html`<slot name="opt-sec-logo"><slot>` : nothing;
   }
 
   get logoSubtext() {
-    return this.allowSecondaryIcon ? '' : logoWordmark;
+    return this.allowSecondaryIcon ? nothing : logoWordmark;
   }
 
   render() {
