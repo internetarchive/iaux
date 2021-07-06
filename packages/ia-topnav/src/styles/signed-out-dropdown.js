@@ -5,13 +5,13 @@ export default css`
     .initial,
     .closed,
     .open {
-      right: 33.7rem;
+      right: 34rem;
     }
 
     .search-hidden.initial,
     .search-hidden.closed,
     .search-hidden.open {
-      right: 18.3rem;
+      right: 18.5rem;
     }
   }
 
@@ -19,13 +19,13 @@ export default css`
     .initial,
     .closed,
     .open {
-      right: 39.7rem;
+      right: 40rem;
     }
 
     .search-hidden.initial,
     .search-hidden.closed,
     .search-hidden.open {
-      right: 23.5rem;
+      right: 24.5rem;
     }
   }
 `;
