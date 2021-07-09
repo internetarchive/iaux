@@ -113,7 +113,7 @@
     }
 
     function transcriptEntrySelected(e) {
-      var newStart = e.detail.entry.start;
+      const newStart = e.detail.entry.start;
       document.querySelector('transcript-view-dev-options').currentTime = newStart;
       document.querySelector('transcript-view').currentTime = newStart;
     }

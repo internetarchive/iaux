@@ -65,7 +65,7 @@ export default class PlaybackControls extends LitElement {
   }
 
   get playPauseButtonImage() {
-    var image = playImage;
+    let image = playImage;
     switch (this.playbackMode) {
       case PlaybackMode.playing:
         image = pauseImage;
@@ -78,7 +78,7 @@ export default class PlaybackControls extends LitElement {
   }
 
   get volumeButtonImage(): TemplateResult {
-    var image = volumeMediumImage;
+    let image = volumeMediumImage;
     if (this.volume === 0) {
       image = volumeMuteImage;
     }

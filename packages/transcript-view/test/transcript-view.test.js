@@ -28,7 +28,7 @@ describe('TranscriptView', () => {
   });
 
   it('autoscroll button enables autoscroll', async () => {
-    var scrollToClosestEntryCalled = false;
+    let scrollToClosestEntryCalled = false;
 
     const el = await fixture(html`
       <transcript-view>
