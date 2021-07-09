@@ -115,8 +115,10 @@ class DataHydrator extends Component {
           <h4>Archive </h4>
           <table>
             <thead>
-              <tr>Collection</tr>
-              <tr>Identifier</tr>
+              <tr>
+                <th>Collection</th>
+                <th>Identifier</th>
+              </tr>
             </thead>
             <tbody>
               <tr>
