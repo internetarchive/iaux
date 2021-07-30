@@ -73,17 +73,15 @@ export interface IATopNavWaybackMenuConfig {
 }
 
 export interface IATopNavMenuConfig {
-  web: IATopNavMediaMenu;
-  texts: IATopNavMediaMenu;
-  video: IATopNavMediaMenu;
   audio: IATopNavMediaMenu;
-  software: IATopNavMediaMenu;
   images: IATopNavMediaMenu;
-  donate: IATopNavMediaMenu;
-  signedOut: IATopNavAnalyticsLink[];
-  user: IATopNavAnalyticsLink[];
   more: IATopNavLink[];
-  wayback: IATopNavWaybackMenuConfig
+  signedOut: IATopNavAnalyticsLink[];
+  software: IATopNavMediaMenu;
+  texts: IATopNavMediaMenu;
+  user: IATopNavAnalyticsLink[];
+  video: IATopNavMediaMenu;
+  web: IATopNavWaybackMenuConfig;
 }
 
 export enum IATopNavSecondIdentitySlotMode {
