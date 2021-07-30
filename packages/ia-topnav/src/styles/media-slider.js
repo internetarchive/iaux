@@ -44,7 +44,7 @@ export default css`
 
     .information-menu {
       left: 0;
-      z-index: 1;
+      z-index: 2;
       height: auto;
       min-height: 21rem;
       background: var(--mediaSliderDesktopBg);

@@ -16,7 +16,7 @@ export default css`
     top: var(--topOffset);
     right: 0;
     left: 0;
-    z-index: 1;
+    z-index: 2;
     padding: 0 4.5rem;
     font-size: 1.6rem;
     background-color: var(--searchMenuBg);
