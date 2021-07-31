@@ -67,9 +67,9 @@ class LoginButton extends TrackedElement {
           ${icons.user}
         </a>
         <span>
-          <a href="${this.signupPath}">Sign up</a>
-          |
-          <a href="${this.loginPath}">Log in</a>
+        <a href="${this.signupPath}">Sign up</a>
+        |
+        <a href="${this.loginPath}">Log in</a>
         </span>
       </div>
     `;
