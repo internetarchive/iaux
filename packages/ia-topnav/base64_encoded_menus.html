@@ -52,7 +52,7 @@
           uploader: 'bar-uploader@baz.org',
           biblio: 'https://some-url.com',
         }),
-        web: baseMenus.wayback,
+        web: baseMenus.web,
       });
       render(html`
         <ia-topnav baseHost="archive.org" config=${btoa(JSON.stringify(config))} menus=${btoa(JSON.stringify(menus))}></ia-topnav>
