@@ -84,10 +84,7 @@ export interface IATopNavMenuConfig {
   web: IATopNavWaybackMenuConfig;
 }
 
-export enum IATopNavSecondIdentitySlotMode {
-  Show = 'allow',
-  Hide = ''
-}
+export type IATopNavSecondIdentitySlotMode = 'allow' | '';
 
 export declare class IATopNav extends LitElement {
   baseHost?: string;
