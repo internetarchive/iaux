@@ -66,6 +66,26 @@ export interface IATopNavMediaMenu {
   links: IATopNavLink[];
 }
 
+export interface IATopNavWaybackMenuConfig {
+  mobileAppsLinks: IATopNavExternalLink[];
+  browserExtensionsLinks: IATopNavExternalLink[];
+  archiveItLinks: IATopNavExternalLink[];
+}
+
+export interface IATopNavMenuConfig {
+  audio: IATopNavMediaMenu;
+  images: IATopNavMediaMenu;
+  more: IATopNavLink[];
+  signedOut: IATopNavAnalyticsLink[];
+  software: IATopNavMediaMenu;
+  texts: IATopNavMediaMenu;
+  user: IATopNavAnalyticsLink[];
+  video: IATopNavMediaMenu;
+  web: IATopNavWaybackMenuConfig;
+}
+
+export type IATopNavSecondIdentitySlotMode = 'allow' | '';
+
 export declare class IATopNav extends LitElement {
   baseHost?: string;
   config?: IATopNavConfig;
@@ -76,27 +96,10 @@ export declare class IATopNav extends LitElement {
   screenName?: string;
   searchIn?: string;
   searchQuery?: string;
-  searchQuery?: string;
+  secondIdentitySlotMode?: IATopNavSecondIdentitySlotMode;
   selectedMenuOption?: string;
   username?: string;
   userProfileImagePath?: string;
   userProfileLastModified?: string;
-
-  menus: {
-    web: IATopNavMediaMenu;
-    texts: IATopNavMediaMenu;
-    video: IATopNavMediaMenu;
-    audio: IATopNavMediaMenu;
-    software: IATopNavMediaMenu;
-    images: IATopNavMediaMenu;
-    donate: IATopNavMediaMenu;
-    signedOut: IATopNavAnalyticsLink[];
-    user: IATopNavAnalyticsLink[];
-    more: IATopNavLink[];
-    wayback: {
-      mobileAppsLinks: IATopNavExternalLink[];
-      browserExtensionsLinks: IATopNavExternalLink[];
-      archiveItLinks: IATopNavExternalLink[];
-    }
-  };
+  menus: IATopNavMenuConfig;
 }

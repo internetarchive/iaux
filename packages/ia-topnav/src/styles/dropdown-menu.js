@@ -9,7 +9,7 @@ export default css`
     position: absolute;
     top: var(--topOffset);
     right: 0;
-    z-index: 1;
+    z-index: 2;
     overflow: hidden;
     font-size: 1.6rem;
     background-color: var(--dropdownMenuBg);

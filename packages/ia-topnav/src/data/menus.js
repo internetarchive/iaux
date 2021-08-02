@@ -467,7 +467,7 @@ const more = [
   { title: 'People', url: '/about/bios.php' },
 ];
 
-const wayback = {
+const web = {
   mobileAppsLinks: [{
     url: 'https://apps.apple.com/us/app/wayback-machine/id1201888313',
     title: 'Wayback Machine (iOS)',
@@ -511,5 +511,5 @@ export {
   texts,
   user,
   video,
-  wayback,
+  web,
 };
