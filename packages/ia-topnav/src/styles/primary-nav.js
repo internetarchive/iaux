@@ -60,9 +60,12 @@ export default css`
     display: none;
   }
 
-  .ia-logo,
-  .ia-wordmark {
+  .ia-logo {
     margin-right: 15px;
+  }
+
+  .ia-wordmark {
+    margin-right: 10px;
   }
 
   .hamburger {
@@ -178,6 +181,10 @@ export default css`
 
     .link-home {
       text-decoration: none;
+    }
+
+    .ia-logo {
+      margin-right: 5px;
     }
 
     .ia-logo,
