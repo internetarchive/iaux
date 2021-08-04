@@ -64,15 +64,19 @@ describe('<primary-nav>', () => {
       secondIdentitySlotMode: 'allow'
     }));
 
-    const slot = el.shadowRoot.querySelector('div.branding').querySelector('slot');
+    const brandingBlock = el.shadowRoot.querySelector('div.branding');
+    expect(brandingBlock.getAttribute('class')).to.contain('branding second-logo');
 
+    const slot = brandingBlock.querySelector('slot');
     expect(slot).to.exist;
     expect(slot.getAttribute('name')).to.equal('opt-sec-logo');
 
-
     el.secondIdentitySlotMode = '';
     await elementUpdated(el);
-    const noSlot = el.shadowRoot.querySelector('div.branding').querySelector('slot');
+    const noSlotBrandingBlock = el.shadowRoot.querySelector('div.branding');
+    expect(noSlotBrandingBlock.getAttribute('class')).to.contain('branding');
+
+    const noSlot = noSlotBrandingBlock.querySelector('slot');
     expect(noSlot).to.not.exist;
   });
 });

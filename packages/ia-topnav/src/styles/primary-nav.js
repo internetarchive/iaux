@@ -60,6 +60,14 @@ export default css`
     display: none;
   }
 
+  .ia-logo {
+    margin-right: 15px;
+  }
+
+  .ia-wordmark {
+    margin-right: 10px;
+  }
+
   .hamburger {
     -ms-grid-row: 1;
     -ms-grid-column: 1;
@@ -136,6 +144,18 @@ export default css`
     height: 30px;
   }
 
+  @media only screen and (min-width: 890px) and (max-device-width: 905px) {
+    .branding.second-logo {
+      padding-right: 0;
+    }
+  }
+
+  @media (min-width: 906px) {
+    .branding.second-logo {
+      padding-right: 20px;
+    }
+  }
+
   @media (min-width: 890px) {
     :host {
       --userIconWidth: 32px;
@@ -153,20 +173,24 @@ export default css`
       position: static;
       float: left;
       margin-top: 1rem;
-      padding: 0 10px 0 13px;
+      padding: 0 5px 0 10px;
       -webkit-transform: translate(0, 0);
       -ms-transform: translate(0, 0);
       transform: translate(0, 0);
+    }
+
+    .link-home {
+      text-decoration: none;
+    }
+
+    .ia-logo {
+      margin-right: 5px;
     }
 
     .ia-logo,
     .ia-wordmark {
       display: inline-block;
       vertical-align: middle;
-    }
-
-    .ia-wordmark {
-      margin-left: 1rem;
     }
 
     .hamburger,

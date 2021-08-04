@@ -7,6 +7,7 @@ import './login-button';
 import './nav-search';
 import './media-menu';
 import logoWordmark from './assets/img/wordmark-narrow-spacing';
+import logoWordmarkStacked from './assets/img/wordmark-stacked';
 import primaryNavCSS from './styles/primary-nav';
 import locationHandler from './lib/location-handler';
 import formatUrl from './lib/formatUrl';
@@ -149,22 +150,26 @@ class PrimaryNav extends TrackedElement {
     return this.allowSecondaryIcon ? html`<slot name="opt-sec-logo"><slot>` : nothing;
   }
 
-  get logoSubtext() {
-    return this.allowSecondaryIcon ? nothing : logoWordmark;
+  get logoWordmark() {
+    return this.allowSecondaryIcon ? logoWordmarkStacked : logoWordmark;
+  }
+
+  get secondLogoClass() {
+    return this.allowSecondaryIcon ? 'second-logo' : '';
   }
 
   render() {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
       <nav>
-        <div class="branding">
+        <div class=${`branding ${this.secondLogoClass}`}>
           <a
             href=${formatUrl('/', this.baseHost)}
             @click=${this.trackClick}
             data-event-click-tracking="${this.config.eventCategory}|NavHome"
             title="Go home"
             class="link-home"
-            >${icons.iaLogo}${this.logoSubtext}</a>
+            >${icons.iaLogo}${this.logoWordmark}</a>
             ${this.secondLogoSlot}
         </div>
         ${this.searchMenu}
