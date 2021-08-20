@@ -6,7 +6,6 @@ import './assets/img/hamburger';
 import './login-button';
 import './nav-search';
 import './media-menu';
-import logoWordmark from './assets/img/wordmark-narrow-spacing';
 import logoWordmarkStacked from './assets/img/wordmark-stacked';
 import primaryNavCSS from './styles/primary-nav';
 import locationHandler from './lib/location-handler';
@@ -51,29 +50,35 @@ class PrimaryNav extends TrackedElement {
 
   toggleMediaMenu(e) {
     this.trackClick(e);
-    this.dispatchEvent(new CustomEvent('menuToggled', {
-      detail: {
-        menuName: 'media'
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent('menuToggled', {
+        detail: {
+          menuName: 'media',
+        },
+      }),
+    );
   }
 
   toggleSearchMenu(e) {
     this.trackClick(e);
-    this.dispatchEvent(new CustomEvent('menuToggled', {
-      detail: {
-        menuName: 'search'
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent('menuToggled', {
+        detail: {
+          menuName: 'search',
+        },
+      }),
+    );
   }
 
   toggleUserMenu(e) {
     this.trackClick(e);
-    this.dispatchEvent(new CustomEvent('menuToggled', {
-      detail: {
-        menuName: 'user'
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent('menuToggled', {
+        detail: {
+          menuName: 'user',
+        },
+      }),
+    );
   }
 
   get truncatedScreenName() {
@@ -147,11 +152,12 @@ class PrimaryNav extends TrackedElement {
   }
 
   get secondLogoSlot() {
-    return this.allowSecondaryIcon ? html`<slot name="opt-sec-logo"><slot>` : nothing;
-  }
-
-  get logoWordmark() {
-    return this.allowSecondaryIcon ? logoWordmarkStacked : logoWordmark;
+    return this.allowSecondaryIcon
+      ? html`
+          <slot name="opt-sec-logo"></slot>
+          <slot name="opt-sec-logo-mobile"></slot>
+        `
+      : nothing;
   }
 
   get secondLogoClass() {
@@ -169,8 +175,9 @@ class PrimaryNav extends TrackedElement {
             data-event-click-tracking="${this.config.eventCategory}|NavHome"
             title="Go home"
             class="link-home"
-            >${icons.iaLogo}${this.logoWordmark}</a>
-            ${this.secondLogoSlot}
+            >${icons.iaLogo}${logoWordmarkStacked}</a
+          >
+          ${this.secondLogoSlot}
         </div>
         ${this.searchMenu}
         <a href="${formatUrl(this.config.uploadURL, this.baseHost)}" class="upload">

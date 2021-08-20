@@ -199,7 +199,12 @@ export default class IATopNav extends LitElement {
   }
 
   get secondLogoSlot() {
-    return this.allowSecondaryIcon ? html`<slot name="opt-sec-logo"><slot>` : nothing;
+    return this.allowSecondaryIcon
+      ? html`
+          <slot name="opt-sec-logo" slot="opt-sec-logo"></slot>
+          <slot name="opt-sec-logo-mobile" slot="opt-sec-logo-mobile"></slot>
+        `
+      : nothing;
   }
 
   render() {
