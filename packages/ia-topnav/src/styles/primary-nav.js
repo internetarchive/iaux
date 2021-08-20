@@ -12,9 +12,9 @@ export default css`
     display: -ms-grid;
     display: grid;
     height: 4rem;
-    grid-template-areas: "hamburger empty search user";
-    -ms-grid-columns: 4rem minmax(1rem, 100%) 4.3rem 5rem;
-    grid-template-columns: 4rem auto 4.3rem 5rem;
+    grid-template-areas: 'hamburger empty search user';
+    -ms-grid-columns: 4rem minmax(1rem, 100%) 4.3rem 4rem;
+    grid-template-columns: 4rem auto 4.3rem 4rem;
     -ms-grid-rows: 100%;
     grid-template-rows: 100%;
     background: var(--primaryNavBg);
@@ -30,20 +30,18 @@ export default css`
   }
 
   .branding {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 2;
-    text-decoration: none;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    position: static;
+    float: left;
+    padding: 0 5px 0 10px;
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
   }
 
   slot,
   .branding {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
   }
 
@@ -52,20 +50,9 @@ export default css`
     grid-column-end: user-end;
   }
 
-  .ia-logo {
-    display: block;
-  }
-
+  .ia-logo,
   .ia-wordmark {
-    display: none;
-  }
-
-  .ia-logo {
-    margin-right: 15px;
-  }
-
-  .ia-wordmark {
-    margin-right: 10px;
+    margin-right: 5px;
   }
 
   .hamburger {
@@ -125,7 +112,7 @@ export default css`
 
   .user-menu {
     height: 100%;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     color: var(--lightTextColor);
   }
 
@@ -144,6 +131,11 @@ export default css`
     height: 30px;
   }
 
+  .link-home {
+    display: flex;
+    text-decoration: none;
+  }
+
   @media only screen and (min-width: 890px) and (max-device-width: 905px) {
     .branding.second-logo {
       padding-right: 0;
@@ -153,6 +145,12 @@ export default css`
   @media (min-width: 906px) {
     .branding.second-logo {
       padding-right: 20px;
+    }
+  }
+
+  @media (max-width: 889px) {
+    slot[name='opt-sec-logo'] {
+      display: none;
     }
   }
 
@@ -169,28 +167,17 @@ export default css`
       padding-right: 1.5rem;
     }
 
+    slot[name='opt-sec-logo-mobile'] {
+      display: none;
+    }
+
     .branding {
-      position: static;
-      float: left;
       margin-top: 1rem;
-      padding: 0 5px 0 10px;
-      -webkit-transform: translate(0, 0);
-      -ms-transform: translate(0, 0);
-      transform: translate(0, 0);
-    }
-
-    .link-home {
-      text-decoration: none;
-    }
-
-    .ia-logo {
-      margin-right: 5px;
     }
 
     .ia-logo,
     .ia-wordmark {
-      display: inline-block;
-      vertical-align: middle;
+      margin-right: 10px;
     }
 
     .hamburger,
