@@ -95,7 +95,7 @@ class ArchiveAudioPlayer extends Component {
     const playersCurrTrack = jwplayerInstance.getPlaylistIndex();
     const playerIncomingTrack = index - 1;
     const nextTrackPlaying = playersCurrTrack === playerIncomingTrack;
-    log('**** Rx - should we play? playersCurrTrack, prevIndex, index ', { playersCurrTrack, prevIndex, index});
+    console.log('**** Rx - should we play? playersCurrTrack, prevIndex, index ', { playersCurrTrack, prevIndex, index});
 
     const isOnSameTrack = playerPlaylistIndex === index;
     const playerStatus = jwplayerInstance.getState();
@@ -142,7 +142,7 @@ class ArchiveAudioPlayer extends Component {
     const { playerPlaylistIndex } = stateToUpdate;
     const { player } = this.state;
     this.setState(stateToUpdate, () => {
-      log('**** Rx playTrack - will play this player Index: ', playerPlaylistIndex);
+      console.log('**** Rx playTrack - will play this player Index: ', playerPlaylistIndex);
       player.playN(playerPlaylistIndex);
     });
   }
