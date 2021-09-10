@@ -92,13 +92,17 @@ class ArchiveAudioPlayer extends Component {
       return;
     }
     const incomingTrackChange = index !== prevIndex;
+    const playersCurrTrack = jwplayerInstance.getPlaylistIndex();
+    const playerIncomingTrack = index - 1;
+    const nextTrackPlaying = playersCurrTrack === playerIncomingTrack;
+    log('**** Rx - should we play? playersCurrTrack, prevIndex, index ', { playersCurrTrack, prevIndex, index});
 
     const isOnSameTrack = playerPlaylistIndex === index;
     const playerStatus = jwplayerInstance.getState();
     const playCurrentTrack = isOnSameTrack && (playerStatus === 'idle');
     const playTrack = indexIsNumber && (playCurrentTrack || incomingTrackChange);
-    if (playTrack) {
-      this.playTrack({ playerPlaylistIndex: index - 1 || 0 });
+    if (!nextTrackPlaying && playTrack) {
+      this.playTrack({ playerPlaylistIndex: playerIncomingTrack || 0 });
     }
   }
 
@@ -138,6 +142,7 @@ class ArchiveAudioPlayer extends Component {
     const { playerPlaylistIndex } = stateToUpdate;
     const { player } = this.state;
     this.setState(stateToUpdate, () => {
+      log('**** Rx playTrack - will play this player Index: ', playerPlaylistIndex);
       player.playN(playerPlaylistIndex);
     });
   }
