@@ -95,7 +95,6 @@ class ArchiveAudioPlayer extends Component {
     const playersCurrTrack = jwplayerInstance.getPlaylistIndex();
     const playerIncomingTrack = index - 1;
     const nextTrackPlaying = playersCurrTrack === playerIncomingTrack;
-    console.log('**** Rx - should we play? playersCurrTrack, prevIndex, index ', { playersCurrTrack, prevIndex, index});
 
     const isOnSameTrack = playerPlaylistIndex === index;
     const playerStatus = jwplayerInstance.getState();
