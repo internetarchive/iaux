@@ -141,7 +141,6 @@ class ArchiveAudioPlayer extends Component {
     const { playerPlaylistIndex } = stateToUpdate;
     const { player } = this.state;
     this.setState(stateToUpdate, () => {
-      console.log('**** Rx playTrack - will play this player Index: ', playerPlaylistIndex);
       player.playN(playerPlaylistIndex);
     });
   }
