@@ -8,12 +8,13 @@ export default css`
   .overflow-clip {
     display: none;
     position: absolute;
-    top: 4rem;
+    top: 0;
     right: 0;
-    left: 4rem;
-    height: 368px;
+    left: 0;
+    height: 0;
     overflow: hidden;
     outline: 1px solid red;
+    transition: height 0.2s ease;
   }
 
   .information-menu {
@@ -39,11 +40,6 @@ export default css`
   @media (min-width: 890px) {
     .overflow-clip {
       display: block;
-      top: 0;
-      left: 0;
-      height: 0;
-      overflow-x: hidden;
-      transition: height 0.2s ease;
     }
 
     .information-menu {
