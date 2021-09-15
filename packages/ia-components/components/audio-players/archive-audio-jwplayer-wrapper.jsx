@@ -92,16 +92,17 @@ class ArchiveAudioPlayer extends Component {
       return;
     }
     const incomingTrackChange = index !== prevIndex;
-    const playersCurrTrack = jwplayerInstance.getPlaylistIndex();
-    const playerIncomingTrack = index - 1;
-    const nextTrackPlaying = playersCurrTrack === playerIncomingTrack;
+    const jwplayerTrack = jwplayerInstance.getPlaylistIndex();
+    const incomingTrackAsJwpTrack = index - 1;
+    /** look out for IA player automatically advancing to next track */
+    const autoAdvanceHappening = jwplayerTrack === incomingTrackAsJwpTrack;
 
     const isOnSameTrack = playerPlaylistIndex === index;
     const playerStatus = jwplayerInstance.getState();
     const playCurrentTrack = isOnSameTrack && (playerStatus === 'idle');
     const playTrack = indexIsNumber && (playCurrentTrack || incomingTrackChange);
-    if (!nextTrackPlaying && playTrack) {
-      this.playTrack({ playerPlaylistIndex: playerIncomingTrack || 0 });
+    if (!autoAdvanceHappening && playTrack) {
+      this.playTrack({ playerPlaylistIndex: incomingTrackAsJwpTrack || 0 });
     }
   }
 
