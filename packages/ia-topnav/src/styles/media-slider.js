@@ -1,6 +1,10 @@
 import { css } from 'lit-element';
 
 export default css`
+  .media-slider-container {
+    position: relative;
+  }
+
   .overflow-clip {
     display: none;
     position: absolute;
@@ -8,7 +12,8 @@ export default css`
     right: 0;
     left: 4rem;
     height: 368px;
-    overflow-x: hidden;
+    overflow: hidden;
+    outline: 1px solid red;
   }
 
   .information-menu {
@@ -36,10 +41,9 @@ export default css`
       display: block;
       top: 0;
       left: 0;
-      height: auto;
-      overflow-x: visible;
-      transform: translate(0, -100%);
-      transition: transform .2s ease;
+      height: 0;
+      overflow-x: hidden;
+      transition: height 0.2s ease;
     }
 
     .information-menu {
@@ -49,12 +53,13 @@ export default css`
       min-height: 21rem;
       background: var(--mediaSliderDesktopBg);
       transform: translate(0, -100%);
-      transition: transform .2s ease;
+      transition: transform 0.2s ease;
     }
 
     .overflow-clip.open {
-      transform: translate(0, 8rem);
+      height: 21rem;
     }
+
     .information-menu.open {
       transform: translate(0, 0);
     }
