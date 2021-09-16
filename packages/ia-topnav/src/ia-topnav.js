@@ -88,6 +88,7 @@ export default class IATopNav extends LitElement {
 
   closeMediaSlider() {
     this.mediaSliderOpen = false;
+    this.openMenu = '';
     this.selectedMenuOption = '';
   }
 
