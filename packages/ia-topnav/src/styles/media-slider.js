@@ -8,12 +8,11 @@ export default css`
   .overflow-clip {
     display: none;
     position: absolute;
-    top: 0;
+    top: 3rem;
     right: 0;
     left: 0;
     height: 0;
     overflow: hidden;
-    outline: 1px solid red;
     transition: height 0.2s ease;
   }
 
@@ -53,7 +52,7 @@ export default css`
     }
 
     .overflow-clip.open {
-      height: 21rem;
+      height: 20rem;
     }
 
     .information-menu.open {
