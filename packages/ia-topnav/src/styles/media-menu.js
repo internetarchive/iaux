@@ -38,6 +38,7 @@ export default css`
 
     .overflow-clip {
       position: absolute;
+      z-index: -1; /** needs to be under the navigation, otherwise it intercepts clicks */
       top: 0;
       left: 0;
       height: 0;

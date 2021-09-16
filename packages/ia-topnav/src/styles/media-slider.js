@@ -36,6 +36,15 @@ export default css`
     padding: 1rem;
   }
 
+  @media (max-width: 889px) {
+    .overflow-clip.open {
+      display: block;
+      height: 367px;
+      left: 4rem;
+      top: 0;
+    }
+  }
+
   @media (min-width: 890px) {
     .overflow-clip {
       display: block;
