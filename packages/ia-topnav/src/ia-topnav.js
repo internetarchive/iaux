@@ -159,7 +159,7 @@ export default class IATopNav extends LitElement {
         .baseHost=${this.baseHost}
         .config=${this.config}
         .menuItems=${this.userMenuItems}
-        .open=${this.openMenu === 'user'}
+        ?open=${this.openMenu === 'user'}
         .username=${this.username}
         ?hideSearch=${this.hideSearch}
         tabindex="${this.userMenuTabIndex}"
