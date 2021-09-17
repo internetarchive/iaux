@@ -61,7 +61,7 @@ export default css`
     }
 
     .overflow-clip.open {
-      height: 20rem;
+      height: 22rem;
     }
 
     .information-menu.open {
