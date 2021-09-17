@@ -238,6 +238,7 @@ export default class IATopNav extends LitElement {
           .menus=${this.menus}
         ></media-slider>
       </div>
+      ${this.username ? this.userMenu : this.signedOutDropdown}
       <desktop-subnav
         .baseHost=${this.baseHost}
         .menuItems=${this.desktopSubnavMenuItems}
@@ -252,7 +253,6 @@ export default class IATopNav extends LitElement {
         @trackClick=${this.trackClick}
         @trackSubmit=${this.trackSubmit}
       ></search-menu>
-      ${this.username ? this.userMenu : this.signedOutDropdown}
       <div id="close-layer" class="${this.closeLayerClass}" @click=${this.closeMenus}></div>
     `;
   }
