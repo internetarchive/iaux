@@ -19,11 +19,19 @@ class ArchiveAudioPlayer extends Component {
       player: null,
       jwplayerInstance: null,
       playerPlaylistIndex: null,
+      playlistLoadCount: 0,
+      playerReady: false,
+      startingOnTrack: 0,
+      playerEverStarted: false,
+      trackStarting: false,
     };
 
     this.onPlaylistItemCB = this.onPlaylistItemCB.bind(this);
     this.playTrack = this.playTrack.bind(this);
     this.setURL = this.setURL.bind(this);
+    this.yayPlayerIsReady = this.yayPlayerIsReady.bind(this);
+
+    this.maxPlaylistLoadsUntilPlayerIsReady = 2;
   }
 
   /**
@@ -53,9 +61,15 @@ class ArchiveAudioPlayer extends Component {
          */
         const playerPlaylistIndex = jwplayerInstance.getPlaylistIndex();
         this.setState({ playerPlaylistIndex, jwplayerInstance }, () => {
-          this.props.jwplayerStartingPoint(playerPlaylistIndex);
+          debugger;
+          console.log("onReady - jwplayerStartingPoint - ", this.props?.jwplayerStartingPoint);
+          this.props?.jwplayerStartingPoint(playerPlaylistIndex);
+
+          this.state.jwplayerInstance.on('complete', (e) => {
+            this.setState({ trackStarting: false, playerEverStarted: true });
+          });
         });
-      }
+      },
     };
 
     if (window.Play && Play) {
@@ -73,15 +87,21 @@ class ArchiveAudioPlayer extends Component {
     }
   }
 
+  yayPlayerIsReady() {
+    this.setState({ playerReady: true });
+  }
+
   /**
    * Check if track index has changed. If so, then play that track
    */
-  componentDidUpdate(prevProps) {
-    const { sourceData: { index = null } } = this.props;
+  componentDidUpdate(prevProps, prevState) {
+    const { sourceData: { index: incomingTrackIndex = null } } = this.props;
+    const {
+      playerReady, playlistLoadCount, playerEverStarted, jwplayerInstance, playerPlaylistIndex, startingOnTrack, trackStarting
+    } = this.state;
     const { sourceData: prevSourceData } = prevProps;
     const { index: prevIndex } = prevSourceData;
-    const { jwplayerInstance, playerPlaylistIndex } = this.state;
-    const indexIsNumber = Number.isInteger(index);
+    const indexIsNumber = Number.isInteger(incomingTrackIndex);
 
     if (!indexIsNumber) return;
 
@@ -91,18 +111,69 @@ class ArchiveAudioPlayer extends Component {
       // do not autoplay this track any longer
       return;
     }
-    const incomingTrackChange = index !== prevIndex;
-    const jwplayerTrack = jwplayerInstance.getPlaylistIndex();
-    const incomingTrackAsJwpTrack = index - 1;
-    /** look out for IA player automatically advancing to next track */
-    const autoAdvanceHappening = jwplayerTrack === incomingTrackAsJwpTrack;
 
-    const isOnSameTrack = playerPlaylistIndex === index;
+    if (!playerReady && playlistLoadCount === this.maxPlaylistLoadsUntilPlayerIsReady) {
+      this.yayPlayerIsReady();
+      return;
+    }
+
+    if (!prevState.playerReady && playerReady) {
+      // Play8 w/ JWP is now ready & at rest.
+      return;
+    }
+    const jwplayerTrack = jwplayerInstance.getPlaylistIndex();
     const playerStatus = jwplayerInstance.getState();
-    const playCurrentTrack = isOnSameTrack && (playerStatus === 'idle');
-    const playTrack = indexIsNumber && (playCurrentTrack || incomingTrackChange);
-    if (!autoAdvanceHappening && playTrack) {
-      this.playTrack({ playerPlaylistIndex: incomingTrackAsJwpTrack || 0 });
+
+    const incomingTrackChange = incomingTrackIndex > prevIndex || (playerPlaylistIndex !== incomingTrackIndex);
+
+    const isOnSameTrack = playerPlaylistIndex === incomingTrackIndex;
+
+    const autoplaying = incomingTrackChange && (playerStatus === 'idle');
+
+
+    if (!playerEverStarted) {
+      // First song to play
+      this.playTrack({ playerPlaylistIndex: incomingTrackIndex, playerEverStarted: true });
+      return;
+    }
+
+    if (!prevState.trackStarting && trackStarting) {
+      // let this track continue
+      console.log('!prevState.trackStarting && trackStarting', prevState.trackStarting, trackStarting);
+      return;
+    }
+
+    if (prevState.trackStarting && !trackStarting) {
+      // track has ended
+      console.log('prevState.trackStarting && !trackStarting', prevState.trackStarting, trackStarting);
+      return;
+    }
+
+    if ( playerStatus === 'complete') {
+      console.log('track complete', { playerStatus, incomingTrackIndex, });
+
+      return;
+    }
+    // if (!prevState.playerEverStarted && playerEverStarted) {
+    //   // let this track continue
+    //   console.log('!prevState.playerEverStarted && playerEverStarted', playerEverStarted);
+    //   return;
+    // }
+
+    console.log('***** just conna play incomingTrack', {
+      autoplaying,
+      playerStatus,
+      trackStarting,
+      playerPlaylistIndex,
+      incomingTrackIndex,
+      isOnSameTrack,
+      sourceData: this.props.sourceData
+    });
+
+
+    // const isAutoPlaying = prevState.player;
+    if (!autoplaying  && (incomingTrackIndex !== playerPlaylistIndex) ) {
+      this.playTrack({ playerPlaylistIndex: incomingTrackIndex });
     }
   }
 
@@ -111,7 +182,28 @@ class ArchiveAudioPlayer extends Component {
    */
   onPlaylistItemCB(jwplayer, event) {
     const { index } = event;
-    const { playerPlaylistIndex } = this.state;
+    const {
+      playerPlaylistIndex,
+      playlistLoadCount,
+    } = this.state;
+    const callCount = playlistLoadCount + 1;
+    const newState = { playlistLoadCount: callCount };
+
+    if (callCount < this.maxPlaylistLoadsUntilPlayerIsReady) {
+      this.setState(newState);
+      return;
+    }
+
+    if (callCount === this.maxPlaylistLoadsUntilPlayerIsReady) {
+      this.setState({ ...newState, startingOnTrack: index }, () => {
+        console.log("onPlaylistItemCB - jwplayerStartingPoint - ", index);
+        this.props?.jwplayerStartingPoint(playerPlaylistIndex);
+      });
+      return;
+    }
+
+    console.log(' **** onPlaylistItemCB end of ', { playerPlaylistIndex, index });
+
 
     if (playerPlaylistIndex !== index) {
       const { jwplayerPlaylistChange } = this.props;
@@ -141,7 +233,8 @@ class ArchiveAudioPlayer extends Component {
   playTrack(stateToUpdate) {
     const { playerPlaylistIndex } = stateToUpdate;
     const { player } = this.state;
-    this.setState(stateToUpdate, () => {
+
+    this.setState({ ...stateToUpdate, trackStarting: true }, () => {
       player.playN(playerPlaylistIndex);
     });
   }
@@ -175,6 +268,7 @@ ArchiveAudioPlayer.propTypes = {
   backgroundPhoto: PropTypes.string,
   jwplayerID: PropTypes.string,
   jwplayerPlaylistChange: PropTypes.func,
+  jwplayerStartingPoint: PropTypes.func,
   jwplayerInfo: PropTypes.shape({
     jwplayerPlaylist: PropTypes.array,
     identifier: PropTypes.string

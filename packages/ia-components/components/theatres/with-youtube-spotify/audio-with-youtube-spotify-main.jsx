@@ -312,7 +312,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    */
   jwplayerPlaylistChange(playlistItem) {
     const { newTrackIndex } = playlistItem;
-    this.setState({ trackSelected: newTrackIndex + 1 });
+    this.setState({ trackSelected: newTrackIndex });
   }
 
   /**
