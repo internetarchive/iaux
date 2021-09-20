@@ -92,19 +92,21 @@ class SearchMenu extends TrackedElement {
     }
 
     return html`
-      <div
-        class="search-menu tx-slide ${this.menuClass}"
-        aria-hidden="${searchMenuHidden}"
-        aria-expanded="${searchMenuExpanded}"
-      >
-        ${this.searchTypesTemplate}
-        <a
-          class="advanced-search"
-          href="${formatUrl('/advancedsearch.php', this.baseHost)}"
-          @click=${this.trackClick}
-          data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch"
-          >Advanced Search</a
+      <div class="menu-wrapper">
+        <div
+          class="search-menu tx-slide ${this.menuClass}"
+          aria-hidden="${searchMenuHidden}"
+          aria-expanded="${searchMenuExpanded}"
         >
+          ${this.searchTypesTemplate}
+          <a
+            class="advanced-search"
+            href="${formatUrl('/advancedsearch.php', this.baseHost)}"
+            @click=${this.trackClick}
+            data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch"
+            >Advanced Search</a
+          >
+        </div>
       </div>
     `;
   }

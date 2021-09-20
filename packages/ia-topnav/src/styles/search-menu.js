@@ -5,6 +5,10 @@ export default css`
     --topOffset: -800px;
   }
 
+  .menu-wrapper {
+    position: relative;
+  }
+
   button:focus,
   input:focus {
     outline-color: var(--linkColor);
@@ -13,7 +17,6 @@ export default css`
   }
   .search-menu {
     position: absolute;
-    top: var(--topOffset);
     right: 0;
     left: 0;
     z-index: 2;
@@ -34,9 +37,6 @@ export default css`
   .closed {
     transition-duration: 0.2s;
   }
-  .open {
-    top: 4rem;
-  }
 
   label,
   a {
@@ -52,17 +52,16 @@ export default css`
   @media (min-width: 890px) {
     .search-menu {
       overflow: visible;
-      top: -400px;
       right: 2rem;
       left: auto;
       z-index: 5;
       padding: 1rem 2rem;
-      transition: opacity .2s ease-in-out;
+      transition: opacity 0.2s ease-in-out;
       font-size: 1.4rem;
       color: var(--inverseTextColor);
       border-radius: 2px;
       background: var(--primaryTextColor);
-      box-shadow: 0 1px 2px 1px rgba(0, 0, 0, .15);
+      box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.15);
     }
 
     .search-menu:after {
@@ -73,7 +72,7 @@ export default css`
       height: 7px;
       box-sizing: border-box;
       color: #fff;
-      content: "";
+      content: '';
       border-bottom: 7px solid currentColor;
       border-left: 6px solid transparent;
       border-right: 6px solid transparent;
@@ -82,11 +81,10 @@ export default css`
     .initial,
     .closed {
       opacity: 0;
-      transition-duration: .2s;
+      transition-duration: 0.2s;
     }
 
     .open {
-      top: 5.1rem;
       opacity: 1;
     }
 
