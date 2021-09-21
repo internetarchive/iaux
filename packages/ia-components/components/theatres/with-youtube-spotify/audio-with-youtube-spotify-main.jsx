@@ -151,29 +151,18 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    */
   getAudioSourceInfoToPlay() {
     const {
-      albumData, channelToPlay, trackSelected, tracklistToShow, trackStartingPoint
+      channelToPlay, trackSelected, tracklistToShow, trackStartingPoint
     } = this.state;
-    const isAlbum = trackSelected === 0;
 
     let audioSource;
 
     if (channelToPlay === 'archive') {
-      const index = isAlbum ? null : trackSelected;
-      audioSource = { index };
+      audioSource = { index: trackSelected };
       return audioSource;
     }
 
     // it's youtube or spotify
-    const { albumSpotifyYoutubeInfo } = albumData;
-    const albumSource = albumSpotifyYoutubeInfo[channelToPlay] || null;
-    if (isAlbum && albumSpotifyYoutubeInfo.hasOwnProperty(channelToPlay)) {
-      audioSource = {
-        trackNumber: 0,
-        [channelToPlay]: albumSource,
-      };
-      return audioSource;
-    }
-    const playerLoadingOnCertainTrack = trackSelected === null && trackStartingPoint !== null;
+    const playerLoadingOnCertainTrack = trackSelected === null && trackStartingPoint > 0;
     const trackToHighlight = playerLoadingOnCertainTrack ? trackStartingPoint : trackSelected;
 
     const trackInfo = find(tracklistToShow, (track) => {
@@ -183,7 +172,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       }
     });
     audioSource = trackInfo || head(tracklistToShow);
-
+    console.log('!!!! audo source', audioSource);
     return audioSource || {};
   }
 
@@ -196,17 +185,21 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    */
   getTrackToHighlight(audioSource) {
     const { trackSelected, trackStartingPoint } = this.state;
-    if (Number.isInteger(audioSource.index)) {
+    console.log('^^^^^ getTrackToHighlight', { audioSource, trackSelected, trackStartingPoint });
+    if (parseInt(audioSource.index, 10) >= 0) {
       // has available track number to refer to, archive player
       return audioSource.index;
     }
-    if (Number.isInteger(audioSource.trackNumber)) {
+
+    if (trackSelected === null && trackStartingPoint >= 0) {
+      return audioSource.trackNumber || trackStartingPoint;
+    }
+
+    if (parseInt(audioSource.trackNumber, 10)) {
       // has available track number to refer to, third party
       return audioSource.trackNumber;
     }
-    if (Number.isInteger(trackStartingPoint) && (trackSelected === null)) {
-      return trackStartingPoint;
-    }
+
     // no highlight
     return null;
   }
@@ -300,19 +293,16 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const selectedTrackNumber = parseInt(selected.getAttribute('data-track-number'), 10);
 
     this.setState({
-      trackSelected: Number.isInteger(selectedTrackNumber)
-        ? selectedTrackNumber
-        : 1
+      trackSelected: selectedTrackNumber
     }, this.updateURL);
   }
 
   /**
    * Callback every time JWPlayer plays a track
-   * @param { object } playlistItem - JWPlayer track object
+   * @param { number } trackSelected
    */
-  jwplayerPlaylistChange(playlistItem) {
-    const { newTrackIndex } = playlistItem;
-    this.setState({ trackSelected: newTrackIndex });
+  jwplayerPlaylistChange(trackSelected) {
+    this.setState({ trackSelected });
   }
 
   /**
@@ -324,10 +314,10 @@ class AudioPlayerWithYoutubeSpotify extends Component {
 
   /**
    * Callback when JWPlayer loads for the first time & it starts on a different track
-   * @param { index } JWPlayer track index
+   * @param { trackStartingPoint } album track number upon cold start
    */
-  jwplayerStartingPoint(index) {
-    this.setState({ trackStartingPoint: index + 1 });
+  jwplayerStartingPoint(trackStartingPoint) {
+    this.setState({ trackStartingPoint });
   }
   /* END CALLBACKS */
 

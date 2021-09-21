@@ -11,17 +11,15 @@ import OneTrack from './track';
  */
 const TheatreTrackList = (props) => {
   const {
-    selectedTrack, onSelected, tracks, displayTrackNumbers, creator: albumCreator, albumName
+    selectedTrack = 0, onSelected, tracks, displayTrackNumbers, creator: albumCreator, albumName
   } = props;
 
   if (!tracks.length) return <p className="no-tracks">No tracks to display.</p>;
 
-  const [firstTrack = {}] = tracks;
-  const { trackNumber: firstTrackNumber } = firstTrack;
-  const trackNumberToHighlight = Number.isInteger(selectedTrack)
-    ? selectedTrack
-    : firstTrackNumber;
+  const trackNumberToHighlight = selectedTrack === null ? 0 : selectedTrack;
+
   const itemToViewClass = `[data-track-number="${trackNumberToHighlight}"]`;
+  console.log('TRACK LIST ', { trackNumberToHighlight, selectedTrack, itemToViewClass });
   return (
     <div className="audio-track-list">
       <FlexboxPagination
@@ -36,6 +34,7 @@ const TheatreTrackList = (props) => {
             const trackProps = {
               thisTrack, onSelected, selected, displayTrackNumbers, albumCreator, albumName
             };
+
             return <OneTrack {...trackProps} key={key} />;
           })
         }

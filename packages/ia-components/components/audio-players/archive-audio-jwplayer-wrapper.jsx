@@ -18,7 +18,7 @@ class ArchiveAudioPlayer extends Component {
     this.state = {
       player: null,
       jwplayerInstance: null,
-      playerPlaylistIndex: null,
+      trackNumber: null,
       playlistLoadCount: 0,
       playerReady: false,
       startingOnTrack: 0,
@@ -27,9 +27,8 @@ class ArchiveAudioPlayer extends Component {
     };
 
     this.onPlaylistItemCB = this.onPlaylistItemCB.bind(this);
-    this.playTrack = this.playTrack.bind(this);
+    this.updateAndPlayTrack = this.updateAndPlayTrack.bind(this);
     this.setURL = this.setURL.bind(this);
-    this.yayPlayerIsReady = this.yayPlayerIsReady.bind(this);
 
     this.maxPlaylistLoadsUntilPlayerIsReady = 2;
   }
@@ -59,13 +58,16 @@ class ArchiveAudioPlayer extends Component {
         /**
          * Capture if player starts on track N+1
          */
-        const playerPlaylistIndex = jwplayerInstance.getPlaylistIndex();
-        this.setState({ playerPlaylistIndex, jwplayerInstance }, () => {
-          debugger;
+        const trackNumber = jwplayerInstance.getPlaylistIndex();
+        this.setState({ trackNumber, jwplayerInstance }, () => {
           console.log("onReady - jwplayerStartingPoint - ", this.props?.jwplayerStartingPoint);
-          this.props?.jwplayerStartingPoint(playerPlaylistIndex);
+          this.props?.jwplayerStartingPoint(trackNumber + 1);
 
           this.state.jwplayerInstance.on('complete', (e) => {
+            this.setState({ trackStarting: false, playerEverStarted: true });
+          });
+
+          this.state.jwplayerInstance.on('paused', (e) => {
             this.setState({ trackStarting: false, playerEverStarted: true });
           });
         });
@@ -87,25 +89,22 @@ class ArchiveAudioPlayer extends Component {
     }
   }
 
-  yayPlayerIsReady() {
-    this.setState({ playerReady: true });
-  }
-
   /**
    * Check if track index has changed. If so, then play that track
    */
   componentDidUpdate(prevProps, prevState) {
-    const { sourceData: { index: incomingTrackIndex = null } } = this.props;
+    const { sourceData: { index: incomingTrackNum = null } } = this.props;
     const {
-      playerReady, playlistLoadCount, playerEverStarted, jwplayerInstance, playerPlaylistIndex, startingOnTrack, trackStarting
+      playerReady, playlistLoadCount, playerEverStarted, jwplayerInstance, trackNumber, startingOnTrack, trackStarting
     } = this.state;
     const { sourceData: prevSourceData } = prevProps;
     const { index: prevIndex } = prevSourceData;
-    const indexIsNumber = Number.isInteger(incomingTrackIndex);
+    const idxN = parseInt(incomingTrackNum);
+    const unsupportedAlbumView = incomingTrackNum === 0; // 0 = album for 3d party players
 
-    if (!indexIsNumber) return;
+    if (!jwplayerInstance || Number.isNaN(idxN) || (idxN < 0) || unsupportedAlbumView) return;
 
-    const isNowMainPlayer = !prevSourceData.hasOwnProperty('index') && indexIsNumber;
+    const isNowMainPlayer = !prevSourceData.hasOwnProperty('index') && idxN;
 
     if (isNowMainPlayer) {
       // do not autoplay this track any longer
@@ -113,7 +112,10 @@ class ArchiveAudioPlayer extends Component {
     }
 
     if (!playerReady && playlistLoadCount === this.maxPlaylistLoadsUntilPlayerIsReady) {
-      this.yayPlayerIsReady();
+      this.updateAndPlayTrack({
+        playerReady: true,
+        trackNumber: incomingTrackNum,
+      });
       return;
     }
 
@@ -121,59 +123,45 @@ class ArchiveAudioPlayer extends Component {
       // Play8 w/ JWP is now ready & at rest.
       return;
     }
-    const jwplayerTrack = jwplayerInstance.getPlaylistIndex();
     const playerStatus = jwplayerInstance.getState();
-
-    const incomingTrackChange = incomingTrackIndex > prevIndex || (playerPlaylistIndex !== incomingTrackIndex);
-
-    const isOnSameTrack = playerPlaylistIndex === incomingTrackIndex;
-
+    const incomingTrackChange = incomingTrackNum > prevIndex || (trackNumber !== incomingTrackNum);
+    const isOnSameTrack = trackNumber === incomingTrackNum;
     const autoplaying = incomingTrackChange && (playerStatus === 'idle');
-
 
     if (!playerEverStarted) {
       // First song to play
-      this.playTrack({ playerPlaylistIndex: incomingTrackIndex, playerEverStarted: true });
+      this.updateAndPlayTrack({ trackNumber: incomingTrackNum, playerEverStarted: true, playerReady: true  });
       return;
     }
 
-    if (!prevState.trackStarting && trackStarting) {
-      // let this track continue
-      console.log('!prevState.trackStarting && trackStarting', prevState.trackStarting, trackStarting);
+    const trackStarted = !prevState.trackStarting && trackStarting;
+    const trackEnded = prevState.trackStarting && !trackStarting;
+    if (unsupportedAlbumView || trackStarted || trackEnded) {
+      console.log('album || trackStarted || trackEnded -- album, prevState.trackStarting, trackStarting: ', album, prevState.trackStarting, trackStarting);
       return;
     }
-
-    if (prevState.trackStarting && !trackStarting) {
-      // track has ended
-      console.log('prevState.trackStarting && !trackStarting', prevState.trackStarting, trackStarting);
-      return;
-    }
-
-    if ( playerStatus === 'complete') {
-      console.log('track complete', { playerStatus, incomingTrackIndex, });
-
-      return;
-    }
-    // if (!prevState.playerEverStarted && playerEverStarted) {
-    //   // let this track continue
-    //   console.log('!prevState.playerEverStarted && playerEverStarted', playerEverStarted);
-    //   return;
-    // }
 
     console.log('***** just conna play incomingTrack', {
       autoplaying,
       playerStatus,
       trackStarting,
-      playerPlaylistIndex,
-      incomingTrackIndex,
+      trackNumber,
+      incomingTrackNum,
       isOnSameTrack,
       sourceData: this.props.sourceData
     });
 
+    if (autoplaying) {
+      // just update pointer as play continues
+      console.log('autoplaying --- ', incomingTrackNum);
+      this.updateAndPlayTrack({ trackNumber: incomingTrackNum }, false);
+      return;
+    }
 
-    // const isAutoPlaying = prevState.player;
-    if (!autoplaying  && (incomingTrackIndex !== playerPlaylistIndex) ) {
-      this.playTrack({ playerPlaylistIndex: incomingTrackIndex });
+    const trackChange = incomingTrackNum !== trackNumber;
+    if (trackChange) {
+      console.log("*** DID UPDATE - incomingTrackNum", {incomingTrackNum, trackNumber});
+      this.updateAndPlayTrack({ trackNumber: incomingTrackNum });
     }
   }
 
@@ -181,9 +169,9 @@ class ArchiveAudioPlayer extends Component {
    * Event Handler that fires when JWPlayer starts a new track (eg: controlbar or auto-advance)
    */
   onPlaylistItemCB(jwplayer, event) {
-    const { index } = event;
+    const { index: incomingTrackIdx } = event;
     const {
-      playerPlaylistIndex,
+      trackNumber,
       playlistLoadCount,
     } = this.state;
     const callCount = playlistLoadCount + 1;
@@ -195,19 +183,18 @@ class ArchiveAudioPlayer extends Component {
     }
 
     if (callCount === this.maxPlaylistLoadsUntilPlayerIsReady) {
-      this.setState({ ...newState, startingOnTrack: index }, () => {
-        console.log("onPlaylistItemCB - jwplayerStartingPoint - ", index);
-        this.props?.jwplayerStartingPoint(playerPlaylistIndex);
+      // finally, Play8 class is ready.
+      this.setState({ ...newState, startingOnTrack: incomingTrackIdx }, () => {
+        this.props?.jwplayerStartingPoint(incomingTrackIdx + 1);
       });
       return;
     }
 
-    console.log(' **** onPlaylistItemCB end of ', { playerPlaylistIndex, index });
+    console.log(' **** onPlaylistItemCB end of ', { trackNumber, incomingTrackIdx, event });
 
-
-    if (playerPlaylistIndex !== index) {
+    if (trackNumber !== incomingTrackIdx + 1) {
       const { jwplayerPlaylistChange } = this.props;
-      jwplayerPlaylistChange({ newTrackIndex: index });
+      jwplayerPlaylistChange(incomingTrackIdx + 1);
     }
   }
 
@@ -227,15 +214,19 @@ class ArchiveAudioPlayer extends Component {
    * This updates internal state & then tells jwplayer/Play8 to start playing track
    *
    * @param { Object } stateToUpdate
-   * @param { number } stateToUpdate.playerPlaylistIndex - Track index to play. *Required
+   * @param { number } stateToUpdate.trackNumber - Track index to play. *Required
    * @param { * } stateToUpdate[param] - optional states to update
+   * @param { boolean } playTrack - 
    */
-  playTrack(stateToUpdate) {
-    const { playerPlaylistIndex } = stateToUpdate;
+  updateAndPlayTrack(stateToUpdate, playTrack = true) {
+    const { trackNumber } = stateToUpdate;
     const { player } = this.state;
-
+    console.log('~~~~ updateAndPlayTrack - stateToUpdate, playTrack: ', stateToUpdate, playTrack);
     this.setState({ ...stateToUpdate, trackStarting: true }, () => {
-      player.playN(playerPlaylistIndex);
+      if (playTrack) {
+        const playlistIndex = trackNumber - 1 || 0;
+        player.playN(playlistIndex);
+      }
     });
   }
 

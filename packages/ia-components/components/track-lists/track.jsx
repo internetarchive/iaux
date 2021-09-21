@@ -95,7 +95,7 @@ const OneTrack = ({
   return (
     <button
       type="button"
-      data-track-number={trackNumber}
+      data-track-number={trackNumber || 0}
       className={trackButtonClass}
       onClick={onSelected}
       data-event-click-tracking="TrackList|Item"
@@ -123,7 +123,8 @@ OneTrack.propTypes = {
     PropTypes.string,
     PropTypes.array
   ]),
-  albumName: PropTypes.string
+  albumName: PropTypes.string,
+  trackIdx: PropTypes.number
 };
 
 export default OneTrack;
