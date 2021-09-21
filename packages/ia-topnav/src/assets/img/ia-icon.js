@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html } from 'lit';
 import './icons';
 
 class IAIcon extends LitElement {
@@ -15,13 +15,27 @@ class IAIcon extends LitElement {
 
   static get icons() {
     return {
-      audio: html`<icon-audio></icon-audio>`,
-      ellipses: html`<icon-ellipses></icon-ellipses>`,
-      images: html`<icon-images></icon-images>`,
-      software: html`<icon-software></icon-software>`,
-      texts: html`<icon-texts></icon-texts>`,
-      video: html`<icon-video></icon-video>`,
-      web: html`<icon-web></icon-web>`,
+      audio: html`
+        <icon-audio></icon-audio>
+      `,
+      ellipses: html`
+        <icon-ellipses></icon-ellipses>
+      `,
+      images: html`
+        <icon-images></icon-images>
+      `,
+      software: html`
+        <icon-software></icon-software>
+      `,
+      texts: html`
+        <icon-texts></icon-texts>
+      `,
+      video: html`
+        <icon-video></icon-video>
+      `,
+      web: html`
+        <icon-web></icon-web>
+      `,
     };
   }
 

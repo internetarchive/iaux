@@ -1,4 +1,4 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 
 export const subnavListCSS = css`
   h4 {
@@ -31,7 +31,7 @@ export const subnavListCSS = css`
     }
 
     li {
-      padding-bottom: .5rem;
+      padding-bottom: 0.5rem;
     }
 
     li + li {

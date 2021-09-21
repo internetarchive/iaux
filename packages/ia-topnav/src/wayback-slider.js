@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import './wayback-search';
 import TrackedElement from './tracked-element';
 import './save-page-form';
@@ -43,9 +43,20 @@ class WaybackSlider extends TrackedElement {
   }
 
   linkList(linkType, eventPrefix) {
-    return this[linkType].map(link => html`<li>
-      <a href=${formatUrl(link.url, this.baseHost)} @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(`${eventPrefix}${link.title}`)}" target=${link.external ? '_blank' : ''} rel=${link.external ? 'noreferrer noopener' : ''}>${link.title}</a>
-    </li>`);
+    return this[linkType].map(
+      link => html`
+        <li>
+          <a
+            href=${formatUrl(link.url, this.baseHost)}
+            @click=${this.trackClick}
+            data-event-click-tracking="${this.analyticsEvent(`${eventPrefix}${link.title}`)}"
+            target=${link.external ? '_blank' : ''}
+            rel=${link.external ? 'noreferrer noopener' : ''}
+            >${link.title}</a
+          >
+        </li>
+      `,
+    );
   }
 
   analyticsEvent(title) {
@@ -58,7 +69,8 @@ class WaybackSlider extends TrackedElement {
         <wayback-search
           .baseHost=${this.baseHost}
           waybackPagesArchived=${this.config.waybackPagesArchived}
-          .queryHandler=${queryHandler}></wayback-search>
+          .queryHandler=${queryHandler}
+        ></wayback-search>
         <div class="link-lists">
           <div>
             <h4>Mobile Apps</h4>

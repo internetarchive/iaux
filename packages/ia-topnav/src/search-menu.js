@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import searchMenuCSS from './styles/search-menu';
 import formatUrl from './lib/formatUrl';
@@ -34,11 +34,13 @@ class SearchMenu extends TrackedElement {
   }
 
   searchInChanged(e) {
-    this.dispatchEvent(new CustomEvent('searchInChanged', {
-      detail: {
-        searchIn: e.target.value
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent('searchInChanged', {
+        detail: {
+          searchIn: e.target.value,
+        },
+      }),
+    );
   }
 
   get searchTypesTemplate() {
@@ -58,7 +60,7 @@ class SearchMenu extends TrackedElement {
       },
       {
         label: 'radio transcripts',
-        value: 'RADIO'
+        value: 'RADIO',
       },
       {
         label: 'archived websites',
@@ -70,7 +72,14 @@ class SearchMenu extends TrackedElement {
       }
       return html`
         <label @click="${this.selectSearchType}">
-          <input form="nav-search" type="radio" name="sin" value="${value}" ?checked=${isDefault} @change=${this.searchInChanged} />
+          <input
+            form="nav-search"
+            type="radio"
+            name="sin"
+            value="${value}"
+            ?checked=${isDefault}
+            @change=${this.searchInChanged}
+          />
           Search ${label}
         </label>
       `;

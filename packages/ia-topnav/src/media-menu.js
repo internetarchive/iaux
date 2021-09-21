@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html } from 'lit';
 
 import './media-button';
 import mediaMenuCSS from './styles/media-menu';
@@ -79,11 +79,7 @@ class MediaMenu extends LitElement {
 
   get mediaMenuOptionsTemplate() {
     const buttons = menuSelection.map(({
-      icon,
-      menu,
-      label,
-      href,
-      followable,
+      icon, menu, label, href, followable
     }) => {
       const selected = this.selectedMenuOption === menu;
       return html`

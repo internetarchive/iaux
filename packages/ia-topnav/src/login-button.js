@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import loginButtonCSS from './styles/login-button';
@@ -47,13 +47,15 @@ class LoginButton extends TrackedElement {
     e.preventDefault();
     this.trackClick(e);
     this.dropdownTabIndex = this.menuOpened ? '' : '-1';
-    this.dispatchEvent(new CustomEvent('menuToggled', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        menuName: 'login'
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent('menuToggled', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          menuName: 'login',
+        },
+      }),
+    );
   }
 
   render() {
@@ -67,9 +69,9 @@ class LoginButton extends TrackedElement {
           ${icons.user}
         </a>
         <span>
-        <a href="${this.signupPath}">Sign up</a>
-        |
-        <a href="${this.loginPath}">Log in</a>
+          <a href="${this.signupPath}">Sign up</a>
+          |
+          <a href="${this.loginPath}">Log in</a>
         </span>
       </div>
     `;

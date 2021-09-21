@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import savePageFormCSS from './styles/save-page-form';
 
@@ -10,14 +10,14 @@ class SavePageForm extends TrackedElement {
   static get properties() {
     return {
       config: { type: Object },
-      inputValid: { type: Boolean }
+      inputValid: { type: Boolean },
     };
   }
 
   constructor() {
     super();
     this.config = {
-      eventCategory: ''
+      eventCategory: '',
     };
     this.inputValid = true;
   }
@@ -41,7 +41,12 @@ class SavePageForm extends TrackedElement {
 
   render() {
     return html`
-      <form action="//web.archive.org/save" method="post" data-event-submit-tracking="${this.config.eventCategory}|SavePageSubmit" @submit=${this.validateURL}>
+      <form
+        action="//web.archive.org/save"
+        method="post"
+        data-event-submit-tracking="${this.config.eventCategory}|SavePageSubmit"
+        @submit=${this.validateURL}
+      >
         <h3>Save Page Now</h3>
         <p>Capture a web page as it appears now for use as a trusted citation in the future.</p>
         <div>

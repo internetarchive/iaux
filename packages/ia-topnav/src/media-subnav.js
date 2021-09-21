@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import './wayback-slider';
 import './more-slider';
@@ -30,14 +30,22 @@ class MediaSubnav extends TrackedElement {
     // Begin properties not monitored by LitElement
     this.links = MediaSubnav.defaultLinks;
     this.templates = {
-      web: () => html`<wayback-slider
-        .baseHost=${this.baseHost}
-        .config=${this.config}
-        .archiveItLinks=${this.menuItems.archiveItLinks}
-        .browserExtensionsLinks=${this.menuItems.browserExtensionsLinks}
-        .mobileAppsLinks=${this.menuItems.mobileAppsLinks}
-      ></wayback-slider>`,
-      more: () => html`<more-slider .baseHost=${this.baseHost} .config=${this.config} .menuItems=${this.menuItems}></more-slider>`,
+      web: () => html`
+        <wayback-slider
+          .baseHost=${this.baseHost}
+          .config=${this.config}
+          .archiveItLinks=${this.menuItems.archiveItLinks}
+          .browserExtensionsLinks=${this.menuItems.browserExtensionsLinks}
+          .mobileAppsLinks=${this.menuItems.mobileAppsLinks}
+        ></wayback-slider>
+      `,
+      more: () => html`
+          <more-slider
+            .baseHost=${this.baseHost}
+            .config=${this.config}
+            .menuItems=${this.menuItems}
+          ></more-slider>
+        `,
     };
   }
 
@@ -57,19 +65,31 @@ class MediaSubnav extends TrackedElement {
   }
 
   get iconLinks() {
-    return this.links.iconLinks.map(link => (
-      html`
-        <a href="${formatUrl(link.url, this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(link.title)}"><img src="${link.icon}" />${link.title}</a>
-      `
-    ));
+    return this.links.iconLinks.map(
+      link => html`
+          <a
+            href="${formatUrl(link.url, this.baseHost)}"
+            @click=${this.trackClick}
+            data-event-click-tracking="${this.analyticsEvent(link.title)}"
+            ><img src="${link.icon}" />${link.title}</a
+          >
+        `,
+    );
   }
 
   renderLinks(category) {
-    return this.links[category].map(link => (
-      html`
-        <li><a href="${formatUrl(link.url, this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(link.title)}">${link.title}</a></li>
-      `
-    ));
+    return this.links[category].map(
+      link => html`
+          <li>
+            <a
+              href="${formatUrl(link.url, this.baseHost)}"
+              @click=${this.trackClick}
+              data-event-click-tracking="${this.analyticsEvent(link.title)}"
+              >${link.title}</a
+            >
+          </li>
+        `,
+    );
   }
 
   render() {

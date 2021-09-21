@@ -1,10 +1,10 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 
 export default css`
   ul {
     position: relative;
     z-index: 3;
-    padding: .8rem 0;
+    padding: 0.8rem 0;
     margin: 0;
     font-size: 1.2rem;
     text-transform: uppercase;

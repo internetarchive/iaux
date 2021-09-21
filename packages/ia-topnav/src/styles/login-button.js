@@ -1,4 +1,4 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 
 export default css`
   .dropdown-toggle {
@@ -50,7 +50,7 @@ export default css`
 
   @media (min-width: 890px) {
     .logged-out-toolbar {
-      transform: translateY(-.5rem);
+      transform: translateY(-0.5rem);
     }
 
     .active {

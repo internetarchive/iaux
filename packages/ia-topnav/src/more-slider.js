@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import toSentenceCase from './lib/toSentenceCase';
 import moreSliderCSS from './styles/more-slider';
@@ -24,7 +24,18 @@ class MoreSlider extends TrackedElement {
   render() {
     return html`
       <ul>
-        ${this.menuItems.map(item => html`<li><a @click=${this.trackClick} href=${formatUrl(item.url, this.baseHost)} data-event-click-tracking="${this.analyticsEvent(item.title)}">${item.title}</a></li>`)}
+        ${this.menuItems.map(
+    item => html`
+              <li>
+                <a
+                  @click=${this.trackClick}
+                  href=${formatUrl(item.url, this.baseHost)}
+                  data-event-click-tracking="${this.analyticsEvent(item.title)}"
+                  >${item.title}</a
+                >
+              </li>
+            `,
+  )}
       </ul>
     `;
   }

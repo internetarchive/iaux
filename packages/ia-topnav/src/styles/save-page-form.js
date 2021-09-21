@@ -1,28 +1,28 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 
 export default css`
   div {
     display: grid;
     grid-template-columns: 1fr auto;
-    grid-column-gap: .8rem;
+    grid-column-gap: 0.8rem;
     margin: 0;
     padding: 0;
     border: none;
   }
 
-  input[type="text"] {
+  input[type='text'] {
     width: 100%;
     height: 30px;
     box-sizing: border-box;
     border: 1px solid var(--savePageInputBorder);
-    border-radius: .5rem;
+    border-radius: 0.5rem;
   }
 
-  input[type="submit"] {
+  input[type='submit'] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    padding: .4rem .8rem;
+    padding: 0.4rem 0.8rem;
     font: normal 1.3rem var(--themeFontFamily);
     text-transform: uppercase;
     color: var(--savePageSubmitText);
@@ -34,7 +34,7 @@ export default css`
 
   .error {
     display: none;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
     font-weight: bold;
     color: var(--savePageErrorText);
   }

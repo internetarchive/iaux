@@ -1,5 +1,5 @@
-import { nothing } from 'lit-html';
-import { html } from 'lit-element';
+import { nothing, html } from 'lit';
+
 import TrackedElement from './tracked-element';
 import navSearchCSS from './styles/nav-search';
 import icons from './assets/img/icons';
@@ -61,17 +61,23 @@ class NavSearch extends TrackedElement {
     if (this.openMenu === 'search') {
       return;
     }
-    this.dispatchEvent(new CustomEvent('menuToggled', {
-      detail: {
-        menuName: 'search'
-      },
-      composed: true,
-      bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('menuToggled', {
+        detail: {
+          menuName: 'search',
+        },
+        composed: true,
+        bubbles: true,
+      }),
+    );
   }
 
   get searchInsideInput() {
-    return this.searchIn ? html`<input type='hidden' name='sin' value='${this.searchIn}' />` : nothing;
+    return this.searchIn
+      ? html`
+          <input type="hidden" name="sin" value="${this.searchIn}" />
+        `
+      : nothing;
   }
 
   render() {

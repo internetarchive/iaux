@@ -1,5 +1,4 @@
-import { html } from 'lit-element';
-import { nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import TrackedElement from './tracked-element';
 import desktopSubnavCSS from './styles/desktop-subnav';
 import icons from './assets/img/icons';
@@ -18,18 +17,22 @@ class DesktopSubnav extends TrackedElement {
   }
 
   get listItems() {
-    return this.menuItems ? this.menuItems.map(link => (
-      html`
-        <li>
-          <a class="${link.title.toLowerCase()}" href="${formatUrl(link.url, this.baseHost)}">${link.title}${DesktopSubnav.iconFor(link.title)}</a>
-        </li>
-      `
-    )) : nothing;
+    return this.menuItems
+      ? this.menuItems.map(
+        link => html`
+              <li>
+                <a class="${link.title.toLowerCase()}" href="${formatUrl(link.url, this.baseHost)}"
+                  >${link.title}${DesktopSubnav.iconFor(link.title)}</a
+                >
+              </li>
+            `,
+      )
+      : nothing;
   }
 
   static iconFor(title) {
     const subnavIcons = {
-      Donate: icons.donate
+      Donate: icons.donate,
     };
     return subnavIcons[title] ? subnavIcons[title] : html``;
   }

@@ -1,4 +1,4 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 
 export default css`
   a {
@@ -91,10 +91,9 @@ export default css`
       color: inherit;
     }
 
-
     .web:after {
       display: none;
-      content: "web";
+      content: 'web';
     }
     .donate,
     .more {

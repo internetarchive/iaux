@@ -1,4 +1,4 @@
-import { svg } from 'lit-html';
+import { svg } from 'lit';
 
 export default svg`
   <svg class="ia-wordmark stacked" height="30" viewBox="0 0 95 30" width="95" xmlns="http://www.w3.org/2000/svg">

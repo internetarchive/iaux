@@ -1,4 +1,4 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 
 export default css`
   form {
@@ -11,14 +11,14 @@ export default css`
   }
 
   fieldset {
-    padding: .5rem;
+    padding: 0.5rem;
     border-radius: 5px;
     box-shadow: none;
   }
 
   input {
     padding-left: 3rem;
-    margin-top: .3rem;
+    margin-top: 0.3rem;
     font-size: 1.4rem;
     border-color: #bca38e;
     background: #fff;

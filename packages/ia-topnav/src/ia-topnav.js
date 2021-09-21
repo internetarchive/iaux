@@ -1,5 +1,4 @@
-import { LitElement, html } from 'lit-element';
-import { nothing } from 'lit-html';
+import { LitElement, html, nothing } from 'lit';
 
 import './primary-nav';
 import './user-menu';
@@ -101,19 +100,23 @@ export default class IATopNav extends LitElement {
   }
 
   trackClick({ detail }) {
-    this.dispatchEvent(new CustomEvent('analyticsClick', {
-      bubbles: true,
-      composed: true,
-      detail,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('analyticsClick', {
+        bubbles: true,
+        composed: true,
+        detail,
+      }),
+    );
   }
 
   trackSubmit({ detail }) {
-    this.dispatchEvent(new CustomEvent('analyticsSubmit', {
-      bubbles: true,
-      composed: true,
-      detail,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('analyticsSubmit', {
+        bubbles: true,
+        composed: true,
+        detail,
+      }),
+    );
   }
 
   mediaTypeSelected({ detail }) {

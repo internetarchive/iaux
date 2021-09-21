@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import toSentenceCase from './lib/toSentenceCase';
@@ -51,23 +51,27 @@ class MediaButton extends TrackedElement {
   }
 
   dispatchMenuToggledEvent() {
-    this.dispatchEvent(new CustomEvent('menuToggled', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        menuName: 'media'
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent('menuToggled', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          menuName: 'media',
+        },
+      }),
+    );
   }
 
   dispatchMediaTypeSelectedEvent() {
-    this.dispatchEvent(new CustomEvent('mediaTypeSelected', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        mediatype: this.mediatype
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent('mediaTypeSelected', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          mediatype: this.mediatype,
+        },
+      }),
+    );
   }
 
   get buttonClass() {

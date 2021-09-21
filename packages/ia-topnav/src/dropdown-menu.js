@@ -1,5 +1,4 @@
-import { html } from 'lit-element';
-import { nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import TrackedElement from './tracked-element';
 import dropdownMenuCSS from './styles/dropdown-menu';
 import formatUrl from './lib/formatUrl';
@@ -41,23 +40,34 @@ class DropdownMenu extends TrackedElement {
   }
 
   static get dropdownDivider() {
-    return html`<li role="presentation" class="divider"></li>`;
+    return html`
+      <li role="presentation" class="divider"></li>
+    `;
   }
 
   dropdownSection(submenu) {
-    return submenu.map(item => (
-      html`
+    return submenu.map(
+      item => html`
         <li>${item.url ? this.dropdownLink(item) : DropdownMenu.dropdownText(item)}</li>
-      `
-    ));
+      `,
+    );
   }
 
   dropdownLink(link) {
-    return html`<a href="${formatUrl(link.url, this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a>`;
+    return html`
+      <a
+        href="${formatUrl(link.url, this.baseHost)}"
+        @click=${this.trackClick}
+        data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}"
+        >${link.title}</a
+      >
+    `;
   }
 
   static dropdownText(item) {
-    return html`<span class="info-item">${item.title}</span>`;
+    return html`
+      <span class="info-item">${item.title}</span>
+    `;
   }
 
   get menuClass() {
