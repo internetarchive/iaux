@@ -229,8 +229,9 @@ export default class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
-          >${this.secondLogoSlot}</primary-nav
         >
+          ${this.secondLogoSlot}
+        </primary-nav>
         <media-slider
           .baseHost=${this.baseHost}
           .config=${this.config}
