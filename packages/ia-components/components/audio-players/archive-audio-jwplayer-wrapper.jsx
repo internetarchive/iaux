@@ -1,9 +1,11 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /**
  * IA Audio Player
  * Uses global: Play class (IA JWPlayer wrapper), jwplayer
+ * uses 0 index so it will always be off by -1 when relating to `trackNumber`
  *
  * It will display photo if given, and will overlay the media player at the base of the photo.
  *
@@ -18,6 +20,7 @@ class ArchiveAudioPlayer extends Component {
     this.state = {
       player: null,
       jwplayerInstance: null,
+      /** Track Numbers start at 1, 0 = album (unsupported in IA player) */
       trackNumber: null,
       playlistLoadCount: 0,
       playerReady: false,
@@ -38,7 +41,7 @@ class ArchiveAudioPlayer extends Component {
    */
   componentDidMount() {
     const {
-      jwplayerInfo, jwplayerID, backgroundPhoto, onRegistrationComplete
+      jwplayerInfo, jwplayerID, backgroundPhoto, onRegistrationComplete, jwplayerStartingPoint
     } = this.props;
     const { jwplayerPlaylist, identifier } = jwplayerInfo;
     if (!jwplayerPlaylist.length) return;
@@ -58,16 +61,25 @@ class ArchiveAudioPlayer extends Component {
         /**
          * Capture if player starts on track N+1
          */
-        const trackNumber = jwplayerInstance.getPlaylistIndex();
+        const trackIdx = jwplayerInstance.getPlaylistIndex();
+        const trackNumber = trackIdx + 1;
         this.setState({ trackNumber, jwplayerInstance }, () => {
-          console.log("onReady - jwplayerStartingPoint - ", this.props?.jwplayerStartingPoint);
-          this.props?.jwplayerStartingPoint(trackNumber + 1);
+          if (jwplayerStartingPoint) {
+            /**
+             * tell main app to start here
+             * so 3rd party players can start there as well
+             */
+            this.setState({ startingOnTrack: trackNumber }, () => {
+              jwplayerStartingPoint(trackNumber);
+            });
+          }
 
-          this.state.jwplayerInstance.on('complete', (e) => {
+          /* Player state to respond to its playback states */
+          this.state.jwplayerInstance.on('complete', () => {
             this.setState({ trackStarting: false, playerEverStarted: true });
           });
 
-          this.state.jwplayerInstance.on('paused', (e) => {
+          this.state.jwplayerInstance.on('paused', () => {
             this.setState({ trackStarting: false, playerEverStarted: true });
           });
         });
@@ -95,23 +107,26 @@ class ArchiveAudioPlayer extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { sourceData: { index: incomingTrackNum = null } } = this.props;
     const {
-      playerReady, playlistLoadCount, playerEverStarted, jwplayerInstance, trackNumber, startingOnTrack, trackStarting
+      playerReady, playlistLoadCount, playerEverStarted, jwplayerInstance, trackNumber, trackStarting
     } = this.state;
     const { sourceData: prevSourceData } = prevProps;
     const { index: prevIndex } = prevSourceData;
-    const idxN = parseInt(incomingTrackNum);
+    const trackN = parseInt(incomingTrackNum, 10);
+    const isNowMainPlayer = !prevSourceData.hasOwnProperty('index') && trackN;
     const unsupportedAlbumView = incomingTrackNum === 0; // 0 = album for 3d party players
 
-    if (!jwplayerInstance || Number.isNaN(idxN) || (idxN < 0) || unsupportedAlbumView) return;
-
-    const isNowMainPlayer = !prevSourceData.hasOwnProperty('index') && idxN;
-
-    if (isNowMainPlayer) {
-      // do not autoplay this track any longer
+    if (!jwplayerInstance
+      || unsupportedAlbumView
+      || Number.isNaN(trackN)
+      || (trackN < 0)
+      || isNowMainPlayer
+    ) {
       return;
     }
 
-    if (!playerReady && playlistLoadCount === this.maxPlaylistLoadsUntilPlayerIsReady) {
+    const iaPlayerisReady = playlistLoadCount === this.maxPlaylistLoadsUntilPlayerIsReady;
+    if (!playerReady && iaPlayerisReady) {
+      /** IA player starting, let's tell main app where we are starting */
       this.updateAndPlayTrack({
         playerReady: true,
         trackNumber: incomingTrackNum,
@@ -120,9 +135,10 @@ class ArchiveAudioPlayer extends Component {
     }
 
     if (!prevState.playerReady && playerReady) {
-      // Play8 w/ JWP is now ready & at rest.
+      /** Play8 w/ JWP is now ready & at rest, we can also rest */
       return;
     }
+
     const playerStatus = jwplayerInstance.getState();
     const incomingTrackChange = incomingTrackNum > prevIndex || (trackNumber !== incomingTrackNum);
     const isOnSameTrack = trackNumber === incomingTrackNum;
@@ -130,37 +146,26 @@ class ArchiveAudioPlayer extends Component {
 
     if (!playerEverStarted) {
       // First song to play
-      this.updateAndPlayTrack({ trackNumber: incomingTrackNum, playerEverStarted: true, playerReady: true  });
+      this.updateAndPlayTrack({ trackNumber: incomingTrackNum, playerEverStarted: true, playerReady: true });
       return;
     }
 
     const trackStarted = !prevState.trackStarting && trackStarting;
     const trackEnded = prevState.trackStarting && !trackStarting;
-    if (unsupportedAlbumView || trackStarted || trackEnded) {
-      console.log('album || trackStarted || trackEnded -- album, prevState.trackStarting, trackStarting: ', album, prevState.trackStarting, trackStarting);
+
+    if (trackStarted || trackEnded) {
+      /** we are inbetween track playing */
       return;
     }
 
-    console.log('***** just conna play incomingTrack', {
-      autoplaying,
-      playerStatus,
-      trackStarting,
-      trackNumber,
-      incomingTrackNum,
-      isOnSameTrack,
-      sourceData: this.props.sourceData
-    });
-
     if (autoplaying) {
-      // just update pointer as play continues
-      console.log('autoplaying --- ', incomingTrackNum);
+      /** update track pointer as play continues */
       this.updateAndPlayTrack({ trackNumber: incomingTrackNum }, false);
       return;
     }
 
     const trackChange = incomingTrackNum !== trackNumber;
     if (trackChange) {
-      console.log("*** DID UPDATE - incomingTrackNum", {incomingTrackNum, trackNumber});
       this.updateAndPlayTrack({ trackNumber: incomingTrackNum });
     }
   }
@@ -174,6 +179,7 @@ class ArchiveAudioPlayer extends Component {
       trackNumber,
       playlistLoadCount,
     } = this.state;
+    const { jwplayerStartingPoint } = this.props;
     const callCount = playlistLoadCount + 1;
     const newState = { playlistLoadCount: callCount };
 
@@ -185,12 +191,12 @@ class ArchiveAudioPlayer extends Component {
     if (callCount === this.maxPlaylistLoadsUntilPlayerIsReady) {
       // finally, Play8 class is ready.
       this.setState({ ...newState, startingOnTrack: incomingTrackIdx }, () => {
-        this.props?.jwplayerStartingPoint(incomingTrackIdx + 1);
+        if (jwplayerStartingPoint) {
+          jwplayerStartingPoint(incomingTrackIdx + 1);
+        }
       });
       return;
     }
-
-    console.log(' **** onPlaylistItemCB end of ', { trackNumber, incomingTrackIdx, event });
 
     if (trackNumber !== incomingTrackIdx + 1) {
       const { jwplayerPlaylistChange } = this.props;
@@ -216,12 +222,11 @@ class ArchiveAudioPlayer extends Component {
    * @param { Object } stateToUpdate
    * @param { number } stateToUpdate.trackNumber - Track index to play. *Required
    * @param { * } stateToUpdate[param] - optional states to update
-   * @param { boolean } playTrack - 
+   * @param { boolean } playTrack -
    */
   updateAndPlayTrack(stateToUpdate, playTrack = true) {
     const { trackNumber } = stateToUpdate;
     const { player } = this.state;
-    console.log('~~~~ updateAndPlayTrack - stateToUpdate, playTrack: ', stateToUpdate, playTrack);
     this.setState({ ...stateToUpdate, trackStarting: true }, () => {
       if (playTrack) {
         const playlistIndex = trackNumber - 1 || 0;
@@ -252,7 +257,8 @@ ArchiveAudioPlayer.defaultProps = {
   jwplayerInfo: {},
   sourceData: null,
   onRegistrationComplete: null,
-  style: ''
+  style: '',
+  jwplayerStartingPoint: null
 };
 
 ArchiveAudioPlayer.propTypes = {
@@ -268,6 +274,7 @@ ArchiveAudioPlayer.propTypes = {
     index: PropTypes.number
   }),
   onRegistrationComplete: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
   style: PropTypes.object
 };
 

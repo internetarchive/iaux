@@ -19,7 +19,6 @@ const TheatreTrackList = (props) => {
   const trackNumberToHighlight = selectedTrack === null ? 0 : selectedTrack;
 
   const itemToViewClass = `[data-track-number="${trackNumberToHighlight}"]`;
-  console.log('TRACK LIST ', { trackNumberToHighlight, selectedTrack, itemToViewClass });
   return (
     <div className="audio-track-list">
       <FlexboxPagination
