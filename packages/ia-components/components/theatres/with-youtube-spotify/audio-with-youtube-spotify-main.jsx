@@ -172,7 +172,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       }
     });
     audioSource = trackInfo || head(tracklistToShow);
-    console.log('!!!! audo source', audioSource);
     return audioSource || {};
   }
 
@@ -185,7 +184,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    */
   getTrackToHighlight(audioSource) {
     const { trackSelected, trackStartingPoint } = this.state;
-    console.log('^^^^^ getTrackToHighlight', { audioSource, trackSelected, trackStartingPoint });
     if (parseInt(audioSource.index, 10) >= 0) {
       // has available track number to refer to, archive player
       return audioSource.index;

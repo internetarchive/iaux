@@ -1,3 +1,4 @@
+/* global Play */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -5,10 +6,12 @@ import PropTypes from 'prop-types';
 /**
  * IA Audio Player
  * Uses global: Play class (IA JWPlayer wrapper), jwplayer
- * uses 0 index so it will always be off by -1 when relating to `trackNumber`
  *
  * It will display photo if given, and will overlay the media player at the base of the photo.
  *
+ * Usage notes:
+ * - We directly interact with Play8's Play class, we only listen to JWP.
+ * - uses 0 index so it will always be off by -1 when relating to `trackNumber`
  */
 class ArchiveAudioPlayer extends Component {
   constructor(props) {
@@ -49,7 +52,7 @@ class ArchiveAudioPlayer extends Component {
     const waveformer = backgroundPhoto
       ? {}
       : { waveformer: 'jw-holder' };
-    // We are using IA custom global Player class to instatiate the player
+    // Load IA Player & tack on JWP listeners
     const baseConfig = {
       so: true,
       audio: true,
@@ -74,7 +77,7 @@ class ArchiveAudioPlayer extends Component {
             });
           }
 
-          /* Player state to respond to its playback states */
+          /* JWP listeners to track player states */
           this.state.jwplayerInstance.on('complete', () => {
             this.setState({ trackStarting: false, playerEverStarted: true });
           });
@@ -102,7 +105,13 @@ class ArchiveAudioPlayer extends Component {
   }
 
   /**
-   * Check if track index has changed. If so, then play that track
+   * We track when:
+   * - Play8 is loaded
+   * - track is playing
+   * - autoplay is happening
+   * - to change next track
+   *
+   * @inheritdoc
    */
   componentDidUpdate(prevProps, prevState) {
     const { sourceData: { index: incomingTrackNum = null } } = this.props;
@@ -141,12 +150,15 @@ class ArchiveAudioPlayer extends Component {
 
     const playerStatus = jwplayerInstance.getState();
     const incomingTrackChange = incomingTrackNum > prevIndex || (trackNumber !== incomingTrackNum);
-    const isOnSameTrack = trackNumber === incomingTrackNum;
     const autoplaying = incomingTrackChange && (playerStatus === 'idle');
 
     if (!playerEverStarted) {
       // First song to play
-      this.updateAndPlayTrack({ trackNumber: incomingTrackNum, playerEverStarted: true, playerReady: true });
+      this.updateAndPlayTrack({
+        trackNumber: incomingTrackNum,
+        playerEverStarted: true,
+        playerReady: true
+      });
       return;
     }
 
@@ -171,8 +183,12 @@ class ArchiveAudioPlayer extends Component {
   }
 
   /**
-   * Event Handler that fires when JWPlayer starts a new track (eg: controlbar or auto-advance)
-   */
+   * Event Handler that fires when JWPlayer starts a new track
+   * (eg: controlbar or auto-advance, player starting on track N+1)
+   *
+   * @param { object } jwplayer - instance
+   * @param { event } event - incoming track info
+  */
   onPlaylistItemCB(jwplayer, event) {
     const { index: incomingTrackIdx } = event;
     const {
@@ -229,15 +245,14 @@ class ArchiveAudioPlayer extends Component {
     const { player } = this.state;
     this.setState({ ...stateToUpdate, trackStarting: true }, () => {
       if (playTrack) {
-        const playlistIndex = trackNumber - 1 || 0;
-        player.playN(playlistIndex);
+        const trackIdx = trackNumber - 1 || 0;
+        player.playN(trackIdx);
       }
     });
   }
 
   render() {
     const { jwplayerID, style } = this.props;
-
     return (
       <div className="ia-player-wrapper" style={style}>
         <div className="iaux-player-wrapper">
