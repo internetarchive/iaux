@@ -149,7 +149,7 @@ class ArchiveAudioPlayer extends Component {
     }
 
     const playerStatus = jwplayerInstance.getState();
-    const incomingTrackChange = incomingTrackNum > prevIndex || (trackNumber !== incomingTrackNum);
+    const incomingTrackChange = (incomingTrackNum > prevIndex) || (trackNumber !== incomingTrackNum);
     const autoplaying = incomingTrackChange && (playerStatus === 'idle');
 
     if (!playerEverStarted) {
