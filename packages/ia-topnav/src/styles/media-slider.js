@@ -1,14 +1,19 @@
 import { css } from 'lit-element';
 
 export default css`
+  .media-slider-container {
+    position: relative;
+  }
+
   .overflow-clip {
     display: none;
     position: absolute;
-    top: 4rem;
+    top: 3rem;
     right: 0;
-    left: 4rem;
-    height: 368px;
-    overflow-x: hidden;
+    left: 0;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.2s ease;
   }
 
   .information-menu {
@@ -31,15 +36,18 @@ export default css`
     padding: 1rem;
   }
 
+  @media (max-width: 889px) {
+    .overflow-clip.open {
+      display: block;
+      height: 367px;
+      left: 4rem;
+      top: 0;
+    }
+  }
+
   @media (min-width: 890px) {
     .overflow-clip {
       display: block;
-      top: 0;
-      left: 0;
-      height: auto;
-      overflow-x: visible;
-      transform: translate(0, -100%);
-      transition: transform .2s ease;
     }
 
     .information-menu {
@@ -49,12 +57,13 @@ export default css`
       min-height: 21rem;
       background: var(--mediaSliderDesktopBg);
       transform: translate(0, -100%);
-      transition: transform .2s ease;
+      transition: transform 0.2s ease;
     }
 
     .overflow-clip.open {
-      transform: translate(0, 8rem);
+      height: 22rem;
     }
+
     .information-menu.open {
       transform: translate(0, 0);
     }

@@ -16,7 +16,7 @@ export default css`
   }
   .search {
     padding-top: 0;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
   .search svg {
     position: relative;
@@ -30,9 +30,9 @@ export default css`
     display: flex;
     position: absolute;
     top: 0;
-    right: 5rem;
+    right: 4rem;
     bottom: 0;
-    left: 5rem;
+    left: 4rem;
     z-index: 3;
     padding: 0.5rem 0.2rem;
     border-radius: 1rem 1rem 0 0;
@@ -51,7 +51,7 @@ export default css`
     display: -ms-flexbox;
     display: flex;
     width: 100%;
-    margin: 0 .5rem;
+    margin: 0 0.5rem;
   }
   .search-activated .search {
     height: 100%;
@@ -83,7 +83,7 @@ export default css`
     }
   }
   .fade-in {
-    animation: fade-in .2s forwards;
+    animation: fade-in 0.2s forwards;
   }
 
   @media (min-width: 890px) {
@@ -101,7 +101,7 @@ export default css`
     .search-activated {
       display: block;
       position: static;
-      padding: 1.2rem .2rem;
+      padding: 1.2rem 0.2rem;
       background: transparent;
     }
 

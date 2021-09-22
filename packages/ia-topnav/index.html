@@ -26,6 +26,10 @@
       dt {
         font-size: 1.4rem;
       }
+      main {
+        padding: 0 2rem;
+        font-size: 1.4rem;
+      }
 
       .anniv-logo-link {
         display: flex;
@@ -40,6 +44,16 @@
       .anniv-logo-link svg .fill-color {
         fill: var(--primaryTextColor, #fff);
       }
+
+      .fake-banner {
+        background-color: lightblue;
+        height: 0;
+        transition: height 0.2s ease;
+      }
+
+      .fake-banner.open {
+        height: 20rem;
+      }
   }
     </style>
   </head>
@@ -49,7 +63,8 @@
       When passing in a search query through html attributes, base64 encode them.
       This is not needed when setting the search query with lit-element bindings.
     -->
-    <ia-topnav searchQuery="J2Zvbyc=">
+    <div class="fake-banner"></div>
+    <ia-topnav searchQuery="Zm9v">
       <div slot="opt-sec-logo">
         <a class="anniv-logo-link" href="https://anniversary.archive.org" title="Go to cool page">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114.6 36.87">
@@ -107,6 +122,11 @@
           <dd>
             <button id="show-logo2">Show 2nd logo</button>
             <button id="hide-logo2">Hide 2nd logo</button>
+          </dd>
+          <dt>Banner Space</dt>
+          <dd>
+            <button id="show-banner">Add Banner</button>
+            <button id="hide-banner">Hide Banner</button>
           </dd>
         </dl>
       </fieldset>
@@ -216,6 +236,16 @@
       hideLogo2.addEventListener('click', () => {
         topnav.secondIdentitySlotMode = '';
       })
+
+  const showBanner = document.querySelector('#show-banner');
+  showBanner.addEventListener('click', () => {
+    document.querySelector('.fake-banner').classList.add('open');
+  })
+
+  const hideBanner = document.querySelector('#hide-banner');
+  hideBanner.addEventListener('click', () => {
+    document.querySelector('.fake-banner').classList.remove('open');
+  })
     </script>
   </body>
 </html>

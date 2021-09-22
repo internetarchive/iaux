@@ -34,6 +34,7 @@ describe('<media-menu>', () => {
     mediaMenu.mediaMenuAnimate = true;
     await mediaMenu.updateComplete;
 
-    expect(mediaMenu.shadowRoot.querySelector('nav').classList.contains('closed')).to.be.true;
+    expect(mediaMenu.shadowRoot.querySelector('.media-menu-container').classList.contains('closed'))
+      .to.be.true;
   });
 });

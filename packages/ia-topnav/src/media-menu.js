@@ -113,15 +113,19 @@ class MediaMenu extends LitElement {
 
   render() {
     return html`
-      <nav
-        class="media-menu tx-slide ${this.menuClass}"
-        aria-hidden="${!this.menuOpened}"
-        aria-expanded="${this.menuOpened}"
-      >
-        <div class="menu-group">
-          ${this.mediaMenuOptionsTemplate}
+      <div class="media-menu-container ${this.menuClass}">
+        <div class="overflow-clip">
+          <nav
+            class="media-menu"
+            aria-hidden="${!this.menuOpened}"
+            aria-expanded="${this.menuOpened}"
+          >
+            <div class="menu-group">
+              ${this.mediaMenuOptionsTemplate}
+            </div>
+          </nav>
         </div>
-      </nav>
+      </div>
     `;
   }
 }

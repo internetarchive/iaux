@@ -43,15 +43,17 @@ class MediaSlider extends LitElement {
     const sliderDetailsClass = this.mediaSliderOpen ? 'open' : 'closed';
 
     return html`
-      <div class="overflow-clip ${sliderDetailsClass}">
-        <div class="information-menu ${sliderDetailsClass}">
-          <div class="info-box">
-            <media-subnav
-              .baseHost=${this.baseHost}
-              .config=${this.config}
-              .menu=${this.selectedMenuOption}
-              .menuItems=${this.selectedMenuItems}
-            ></media-subnav>
+      <div class="media-slider-container">
+        <div class="overflow-clip ${sliderDetailsClass}">
+          <div class="information-menu ${sliderDetailsClass}">
+            <div class="info-box">
+              <media-subnav
+                .baseHost=${this.baseHost}
+                .config=${this.config}
+                .menu=${this.selectedMenuOption}
+                .menuItems=${this.selectedMenuItems}
+              ></media-subnav>
+            </div>
           </div>
         </div>
       </div>

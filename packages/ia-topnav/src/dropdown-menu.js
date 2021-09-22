@@ -81,15 +81,17 @@ class DropdownMenu extends TrackedElement {
 
   render() {
     return html`
-      <nav
-        class="${this.menuClass}"
-        aria-hidden="${this.ariaHidden}"
-        aria-expanded="${this.ariaExpanded}"
-      >
-        <ul>
-          ${this.dropdownItems}
-        </ul>
-      </nav>
+      <div class="nav-container">
+        <nav
+          class="${this.menuClass}"
+          aria-hidden="${this.ariaHidden}"
+          aria-expanded="${this.ariaExpanded}"
+        >
+          <ul>
+            ${this.dropdownItems}
+          </ul>
+        </nav>
+      </div>
     `;
   }
 }

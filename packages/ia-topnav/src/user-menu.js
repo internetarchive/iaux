@@ -23,16 +23,18 @@ class UserMenu extends DropdownMenu {
 
   render() {
     return html`
-      <nav
-        class="${this.menuClass}"
-        aria-hidden="${this.ariaHidden}"
-        aria-expanded="${this.ariaExpanded}"
-      >
-        <h3>${this.screenName}</h3>
-        <ul>
-          ${this.dropdownItems}
-        </ul>
-      </nav>
+      <div class="nav-container">
+        <nav
+          class="${this.menuClass}"
+          aria-hidden="${this.ariaHidden}"
+          aria-expanded="${this.ariaExpanded}"
+        >
+          <h3>${this.screenName}</h3>
+          <ul>
+            ${this.dropdownItems}
+          </ul>
+        </nav>
+      </div>
     `;
   }
 }
