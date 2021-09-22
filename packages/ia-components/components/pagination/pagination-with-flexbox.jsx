@@ -125,10 +125,9 @@ class Paginator extends Component {
       const isColumn = viewport.className === 'flexbox-pagination column';
       if (!isColumn && (numberOfPages.length <= 1)) return;
 
-      let itemToView = null;
+      const itemToView = viewport.querySelector('.selected.track');
       if (scrollItemIntoView) {
         // focus on item but keep page position
-        itemToView = viewport.querySelector(itemInViewClass);
         if (itemToView) {
           const currentX = window.pageXOffset;
           const currentY = window.pageYOffset;
@@ -136,7 +135,7 @@ class Paginator extends Component {
           window.scrollTo(currentX, currentY);
         }
       }
-      const viewportFlush = scrollItemIntoView
+      const viewportFlush = scrollItemIntoView && itemToView
         ? (itemToView.clientWidth + itemToView.offsetLeft)
         : viewport.scrollLeft;
       const pageToShow = getPageToShow({ currentPage, viewportFlush, scrollThresholds });
