@@ -6,7 +6,7 @@ export default css`
   }
 
   form {
-    max-width: 600px;
+
   }
 
   p {
@@ -29,6 +29,7 @@ export default css`
     border-radius: 7px;
     background-color: #fcf5e6;
     box-shadow: 3px 3px 0 0 #c3ad97;
+    max-width: 600px;
   }
 
   label {
@@ -81,6 +82,26 @@ export default css`
 
   input:focus + svg {
     display: none;
+  }
+
+  .slot-open {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .slot-open fieldset {
+    margin: unset;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .slot {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
   }
 
   @media (min-width: 890px) {

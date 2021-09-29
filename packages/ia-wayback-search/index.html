@@ -41,7 +41,21 @@
         waybackPagesArchived="32 trillion pages"
         .baseHost=${'https://archive.org'}
         .queryHandler=${queryHandler}
-      ></ia-wayback-search>`, document.getElementById('root'));
+        ></ia-wayback-search>
+        <ia-wayback-search
+          waybackPagesArchived="32 trillion pages"
+          waybackHost="https://archive.org"
+          .queryHandler=${queryHandler}
+          ?openSlot=${true}
+        >
+          <div slot="optional-branding">
+            <img
+              src="https://archive.org/download/ia-25-wf/wf-banner-button.png"
+              style="width: 100%; max-height: 75px;display: block;"
+            />
+          </div>
+        </ia-wayback-search>
+      `, document.getElementById('root'));
 
       const wbSearch = document.querySelector('ia-wayback-search');
 

@@ -1,4 +1,5 @@
 import { html, LitElement } from 'lit-element';
+import { nothing } from 'lit-html';
 import waybackSearchCSS from './styles/wayback-search';
 import searchIcon from './icon-search';
 import logo from './logo';
@@ -13,12 +14,14 @@ class WaybackSearch extends LitElement {
       baseHost: { type: String },
       queryHandler: { type: Object },
       waybackPagesArchived: { type: String },
+      openSlot: { type: Boolean },
     };
   }
 
   constructor() {
     super();
     this.waybackPagesArchived = '';
+    this.openSlot = false;
   }
 
   handleSubmit(e) {
@@ -44,9 +47,14 @@ class WaybackSearch extends LitElement {
     this.dispatchEvent(new CustomEvent('waybackMachineLogoLink'));
   }
 
+  get slotBlock() {
+    return html` <div class="slot"><slot name="optional-branding"></slot></div>`;
+  }
+
   render() {
+    const slotClass = this.openSlot ? 'slot-open' : '';
     return html`
-      <form action="" method="post" @submit=${this.handleSubmit}>
+      <form action="" method="POST" @submit=${this.handleSubmit}>
         <p>
           Search the history of over ${this.waybackPagesArchived}
           <a
@@ -57,18 +65,21 @@ class WaybackSearch extends LitElement {
           >
           on the Internet.
         </p>
-        <fieldset>
-          <a
-            @click=${this.emitWaybackMachineLogoLinkClicked}
-            data-event-click-tracking="TopNav|WaybackMachineLogoLink"
-            href=${`${this.baseHost}/web/`}
-            >${logo}</a>
-          <label for="url">Search the Wayback Machine</label>
-          <div class="search-field">
-            <input type="text" name="url" id="url" placeholder="enter URL or keywords" />
-            ${searchIcon}
-          </div>
-        </fieldset>
+        <div class=${slotClass}>
+          <fieldset>
+            <a
+              @click=${this.emitWaybackMachineLogoLinkClicked}
+              data-event-click-tracking="TopNav|WaybackMachineLogoLink"
+              href=${`${this.baseHost}/web/`}
+              >${logo}</a>
+            <label for="url">Search the Wayback Machine</label>
+            <div class="search-field">
+              <input type="text" name="url" id="url" placeholder="enter URL or keywords" />
+              ${searchIcon}
+            </div>
+          </fieldset>
+          ${this.openSlot ? this.slotBlock : nothing}
+        </div>
       </form>
     `;
   }

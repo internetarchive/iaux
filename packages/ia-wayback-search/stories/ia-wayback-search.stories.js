@@ -38,5 +38,13 @@ storiesOf('<ia-wayback-search>', module)
         waybackPagesArchived="32 trillion pages"
         waybackHost="archive.org"
       ></ia-wayback-search>
+      <ia-wayback-search
+        waybackPagesArchived="32 trillion pages"
+        waybackHost="archive.org"
+      >
+        <div slot="optional-branding">
+          <img src="https://archive.org/download/ia-25-wf/wf-wb-search-square.png">
+        </div>
+      </ia-wayback-search>
     `
   ));
