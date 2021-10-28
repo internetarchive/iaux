@@ -59,7 +59,7 @@ describe('Music Player - parse tracklist by source', () => {
       expect(firstTrack.formattedLength).toEqual(albumSampleStub.tracks[0].sampleMP3.length);
       // sample track length has NOT been set, it is by seconds.  we will format
       expect(secondTrack.formattedLength).not.toBe(albumSampleStub.tracks[1].sampleMP3.length);
-      expect(secondTrack.formattedLength).toEqual('0:23');
+      expect(secondTrack.formattedLength).toEqual('00:23');
     });
   });
 });

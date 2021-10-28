@@ -9,7 +9,13 @@ const formatTime = (lengthInSeconds) => {
   const seconds = ((lengthInMS % 60000) / 1000).toFixed(0); // becomes a string, thanks JS math
   const extraMinute = seconds === '60';
   const secondsDisplay = extraMinute ? '00' : (seconds < 10 ? '0' : '') + seconds;
-  const minutesDisplay = extraMinute ? minutes + 1 : minutes;
+  let minutesDisplay = minutes;
+  if (!minutesDisplay) {
+    minutesDisplay = '00';
+  }
+  if (extraMinute) {
+    minutesDisplay = minutes + 1;
+  }
   return `${minutesDisplay}:${secondsDisplay}`;
 };
 
