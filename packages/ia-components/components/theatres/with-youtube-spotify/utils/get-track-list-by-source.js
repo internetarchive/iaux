@@ -30,11 +30,15 @@ const getTrackListBySource = (albumData, sourceToPlay) => {
         const {
           sampleMP3, title = '', creator = '', artist = ''
         } = track;
-        const trackDetails = { title, creator, artist };
+        const { length } = sampleMP3;
+        const trackLengthFormatted = length.indexOf(':') > 0;
+        const formattedLength = !trackLengthFormatted ? formatTime(length) : length;
+        const trackDetails = {
+          title, creator, artist, formattedLength
+        };
         const trackNumber = index + 1;
         return Object.assign({}, sampleMP3, { trackNumber, ...trackDetails });
       });
-
       return sampleMP3s;
     }
 
