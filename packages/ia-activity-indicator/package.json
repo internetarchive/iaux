@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-activity-indicator",
-  "version": "0.0.1",
+  "version": "0.0.2-alpha.1",
   "description": "Webcomponent ia-activity-indicator following open-wc recommendations",
   "author": "ia-activity-indicator",
   "license": "MIT",
