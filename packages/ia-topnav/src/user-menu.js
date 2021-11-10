@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import DropdownMenu from './dropdown-menu';
 import userMenuCSS from './styles/user-menu';
 

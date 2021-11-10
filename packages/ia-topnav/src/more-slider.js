@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import toSentenceCase from './lib/toSentenceCase';
 import moreSliderCSS from './styles/more-slider';

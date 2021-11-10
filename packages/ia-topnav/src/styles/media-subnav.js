@@ -1,4 +1,4 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 import { subnavListCSS } from './base';
 
 export default [subnavListCSS, css`

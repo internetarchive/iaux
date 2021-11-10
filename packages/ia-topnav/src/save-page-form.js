@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import savePageFormCSS from './styles/save-page-form';
 

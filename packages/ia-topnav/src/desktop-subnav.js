@@ -1,5 +1,4 @@
-import { html } from 'lit-element';
-import { nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import TrackedElement from './tracked-element';
 import desktopSubnavCSS from './styles/desktop-subnav';
 import icons from './assets/img/icons';

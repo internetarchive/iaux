@@ -1,5 +1,4 @@
-import { LitElement, html } from 'lit-element';
-import { nothing } from 'lit-html';
+import { LitElement, html, nothing } from 'lit';
 
 import './primary-nav';
 import './user-menu';

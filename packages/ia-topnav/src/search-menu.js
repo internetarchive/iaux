@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import searchMenuCSS from './styles/search-menu';
 import formatUrl from './lib/formatUrl';

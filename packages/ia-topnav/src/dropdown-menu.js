@@ -1,5 +1,4 @@
-import { html } from 'lit-element';
-import { nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import TrackedElement from './tracked-element';
 import dropdownMenuCSS from './styles/dropdown-menu';
 import formatUrl from './lib/formatUrl';

@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import loginButtonCSS from './styles/login-button';
