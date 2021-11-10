@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit-element';
+import { html, LitElement } from 'lit';
 import waybackSearchCSS from './styles/wayback-search';
 import searchIcon from './icon-search';
 import logo from './logo';
