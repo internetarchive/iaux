@@ -1,4 +1,4 @@
-import { html, css } from 'lit-element';
+import { html, css } from 'lit';
 import Icon from './icon';
 
 class User extends Icon {

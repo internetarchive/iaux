@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-wayback-search",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Wayback search form component",
   "license": "AGPL-3.0-only",
   "main": "index.js",
@@ -28,7 +28,7 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
-    "lit-element": "^2.2.1"
+    "lit": "^2.0.2"
   },
   "devDependencies": {
     "@open-wc/demoing-storybook": "^0.3.0",

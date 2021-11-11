@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html } from 'lit';
 
 import './media-button';
 import mediaMenuCSS from './styles/media-menu';

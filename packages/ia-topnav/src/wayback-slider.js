@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import './wayback-search';
 import TrackedElement from './tracked-element';
 import './save-page-form';

@@ -1,5 +1,5 @@
-import { nothing } from 'lit-html';
-import { html } from 'lit-element';
+import { nothing, html } from 'lit';
+
 import TrackedElement from './tracked-element';
 import navSearchCSS from './styles/nav-search';
 import icons from './assets/img/icons';
