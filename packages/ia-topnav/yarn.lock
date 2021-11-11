@@ -885,7 +885,7 @@
 
 "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.3.1":
   version "7.16.3"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.3.tgz#b86f0db02a04187a3c17caa77de69840165d42d5"
+  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.16.3.tgz"
   integrity sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==
   dependencies:
     regenerator-runtime "^0.13.4"
@@ -1082,10 +1082,10 @@
   resolved "https://registry.npmjs.org/@icons/material/-/material-0.2.4.tgz"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@internetarchive/ia-wayback-search@0.2.2-alpha.1":
-  version "0.2.2-alpha.1"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-wayback-search/-/ia-wayback-search-0.2.2-alpha.1.tgz#c25b3455f28e50b29bdfa25f8610e538965a7a62"
-  integrity sha512-fBLt0K6MponRPYJ7lq7UQHhc+B5slBrEd1Y+kJKSjBGpK3g6HJso/eZwE2+Ue4oxDJKSMeJ5/64jP2FQg3Rxcg==
+"@internetarchive/ia-wayback-search@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-wayback-search/-/ia-wayback-search-0.2.2.tgz#42b00f7cb02064f60a1b5dd6c272c195004358a7"
+  integrity sha512-904TWLQOMRAtt4QcDd/B1DMJIW3c0UixETtzHVOIBbYtvoAHu04o5MN9vC+GCmNQx0V3s8MGb1/TuDk7R4cXTQ==
   dependencies:
     lit "^2.0.2"
 
@@ -9497,7 +9497,7 @@ lit-html@^2.0.0:
 
 lit@^2.0.2:
   version "2.0.2"
-  resolved "https://registry.yarnpkg.com/lit/-/lit-2.0.2.tgz#5e6f422924e0732258629fb379556b6d23f7179c"
+  resolved "https://registry.npmjs.org/lit/-/lit-2.0.2.tgz"
   integrity sha512-hKA/1YaSB+P+DvKWuR2q1Xzy/iayhNrJ3aveD0OQ9CKn6wUjsdnF/7LavDOJsKP/K5jzW/kXsuduPgRvTFrFJw==
   dependencies:
     "@lit/reactive-element" "^1.0.0"

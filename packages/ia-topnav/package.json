@@ -29,7 +29,7 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
-    "@internetarchive/ia-wayback-search": "0.2.2-alpha.1",
+    "@internetarchive/ia-wayback-search": "^0.2.2",
     "lit": "^2.0.2"
   },
   "devDependencies": {
