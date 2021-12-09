@@ -3,6 +3,7 @@
 @audio-player-channel-label-no-display: 600px;
 
 .audio-with-youtube-spotify {
+  color-scheme: dark;
   padding: .5rem;
   overflow: hidden;
   color: @f-white;
@@ -54,7 +55,7 @@
 
   @media (max-width: @audio-player-tablet-max-width) {
     .media-section {
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
 
     .channel-controls {
@@ -79,7 +80,7 @@
     -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: repeat(12, 1fr);
     grid-auto-rows: minmax(100px, auto);
-    grid-template-areas: "md md md md md md hd hd hd hd hd hd" "md md md md md md hd hd hd hd hd hd" "md md md md md md hd hd hd hd hd hd";
+    grid-template-areas: "md md md md md md md hd hd hd hd hd" "md md md md md md md hd hd hd hd hd" "md md md md md md md hd hd hd hd hd";
 
     .media-section {
       -ms-grid-row: 1;
@@ -101,19 +102,12 @@
     padding-bottom: 1rem;
 
     .media-section {
-      max-width: 40rem;
-      margin-right: 2rem;
-      margin-left: 1rem;
-      margin-bottom: 1rem;
+      margin: 1rem;
     }
 
     .playlist-section {
       padding-right: 1rem;
 
-    }
-
-    .channel-controls {
-      display: inline;
     }
   }
 
@@ -151,7 +145,7 @@
   }
 
   @media(min-width: @audio-player-widescreen-min-width) {
-    grid-template-areas: "md md md md hd hd hd hd hd hd hd hd" "md md md md hd hd hd hd hd hd hd hd" "md md md md hd hd hd hd hd hd hd hd";
+    grid-template-areas: "md md md md md hd hd hd hd hd hd hd" "md md md md md hd hd hd hd hd hd hd" "md md md md md hd hd hd hd hd hd hd";
 
     .media-section {
       -ms-grid-row: 1;
@@ -180,8 +174,6 @@
   }
 
   @media (min-width: @audio-player-extra-widescreen-min-width) {
-    grid-template-areas: "md md md hd hd hd hd hd hd hd hd hd" "md md md hd hd hd hd hd hd hd hd hd" "md md md hd hd hd hd hd hd hd hd hd";
-
     .media-section {
       -ms-grid-row: 1;
       -ms-grid-row-span: 3;
@@ -247,7 +239,6 @@
         overflow: hidden;
         color: #fff;
         opacity: 0.5;
-        float: left; // for safari alignment
         img {
           height: 2rem;
         }
