@@ -3,6 +3,8 @@
 @audio-player-channel-label-no-display: 600px;
 
 .audio-with-youtube-spotify {
+  max-height: inherit;
+  display: flex;
   color-scheme: dark;
   padding: .5rem;
   overflow: hidden;
@@ -24,7 +26,7 @@
   }
 
   .playlist-section {
-    margin-top: 2rem;
+    margin-top: 1rem;
     padding-bottom: 2rem;
     overflow-y: auto;
   }
@@ -32,7 +34,6 @@
   @media (max-width: @audio-player-channel-label-no-display)   {
     .channel-controls {
       .option {
-        width: 25%;
         text-align: center;
       }
       .channel-label {
@@ -41,13 +42,13 @@
     }
   }
   @media (max-width: @audio-player-mobile-max-width) {
+    display: block;
     // Channel labels only show logos at mobile view
     .channel-controls {
       .selector__radio-group {
         min-width: 25rem;
       }
       .option {
-        width: 25%;
         text-align: center;
       }
     }
@@ -65,7 +66,7 @@
       text-align: center;
     }
     .playlist-section {
-      max-height: 30rem;
+      max-height: 20rem;
 
       .page-buttons,
       .pagination-arrow {
@@ -80,9 +81,12 @@
     -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: repeat(12, 1fr);
     grid-auto-rows: minmax(100px, auto);
-    grid-template-areas: "md md md md md md md hd hd hd hd hd" "md md md md md md md hd hd hd hd hd" "md md md md md md md hd hd hd hd hd";
+    grid-template-areas: "md md md md md md md hd hd hd hd hd";
 
     .media-section {
+      display: inline-block;
+      width: 49%;
+
       -ms-grid-row: 1;
       -ms-grid-row-span: 3;
       -ms-grid-column: 1;
@@ -91,6 +95,8 @@
     }
 
     .grid-right {
+      display: inline-block;
+      width: 48%;
       -ms-grid-row: 1;
       -ms-grid-row-span: 3;
       -ms-grid-column: 7;
@@ -120,7 +126,10 @@
     }
 
     .playlist-section {
-      height: 35rem;
+      max-height: 98%;
+      overflow: auto;
+      // height: 42rem;
+      // height: 35rem;
 
       .pagination-arrow,
       .page-buttons {
@@ -145,23 +154,28 @@
   }
 
   @media(min-width: @audio-player-widescreen-min-width) {
-    grid-template-areas: "md md md md md hd hd hd hd hd hd hd" "md md md md md hd hd hd hd hd hd hd" "md md md md md hd hd hd hd hd hd hd";
+    grid-template-areas: "md md md md md hd hd hd hd hd hd hd";
 
     .media-section {
-      -ms-grid-row: 1;
-      -ms-grid-row-span: 3;
-      -ms-grid-column: 1;
-      -ms-grid-column-span: 4;
+      // -ms-grid-row: 1;
+      // -ms-grid-row-span: 3;
+      // -ms-grid-column: 1;
+      // -ms-grid-column-span: 4;
+      margin: 0;
+      width: 31%;
     }
     .grid-right {
-      -ms-grid-row: 1;
-      -ms-grid-row-span: 3;
-      -ms-grid-column: 5;
-      -ms-grid-column-span: 8;
+      width: 67%;
+
+      // -ms-grid-row: 1;
+      // -ms-grid-row-span: 3;
+      // -ms-grid-column: 5;
+      // -ms-grid-column-span: 8;
     }
     .playlist-section {
       .flexbox-pagination {
-        height: 35rem;
+        height: 42rem;
+        // height: 35rem;
         float: unset;
 
         &.column {
@@ -174,6 +188,7 @@
   }
 
   @media (min-width: @audio-player-extra-widescreen-min-width) {
+    // may not need anymore
     .media-section {
       -ms-grid-row: 1;
       -ms-grid-row-span: 3;

@@ -131,7 +131,7 @@ class Paginator extends Component {
         if (itemToView) {
           const currentX = window.pageXOffset;
           const currentY = window.pageYOffset;
-          itemToView.focus();
+          itemToView.focus({ preventScroll: true });
           window.scrollTo(currentX, currentY);
         }
       }

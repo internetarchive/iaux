@@ -21,8 +21,13 @@
     }
 
     .background-photo {
-      min-height: 20rem;
-      max-height: 40rem;
+      max-height: 500px;
+      // min-height: 20rem;
+      // max-height: 40rem;
+
+      @media (max-width: @audio-player-tablet-max-width) {
+        max-height: 25rem;  // pair w #BookReader height
+      }
     }
 
     .no-photo {
@@ -112,6 +117,13 @@
 
 .bookreader-wrapper #BookReader {
   height: 440px;
+  @media (max-width: @audio-player-tablet-max-width) {
+    max-height: 345px;  // pair w .background-photo height
+  }
+}
+
+.bookreader-wrapper #BookReader.fullscreenActive {
+  max-height: unset;
 }
 
 /* BookReader */
