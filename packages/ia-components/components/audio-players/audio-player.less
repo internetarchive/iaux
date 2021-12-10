@@ -4,7 +4,6 @@
   margin: auto;
 
   .content-window {
-    height: 440px;
     border-bottom: none;
     border-top: .1rem solid;
     border-left: .1rem solid;
@@ -15,19 +14,11 @@
 
     .background-photo,
     .no-photo {
+      object-fit: contain;
       display: block;
       margin: auto;
       max-width: 100%;
-    }
-
-    .background-photo {
-      max-height: 500px;
-      // min-height: 20rem;
-      // max-height: 40rem;
-
-      @media (max-width: @audio-player-tablet-max-width) {
-        max-height: 25rem;  // pair w #BookReader height
-      }
+      max-height: 100%;
     }
 
     .no-photo {
@@ -104,26 +95,3 @@
   }
 }
 
-/* BookReader */
-.BRfullscreenActive .bookreader-wrapper item-navigator {
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: black;
-}
-
-.bookreader-wrapper #BookReader {
-  height: 440px;
-  @media (max-width: @audio-player-tablet-max-width) {
-    max-height: 345px;  // pair w .background-photo height
-  }
-}
-
-.bookreader-wrapper #BookReader.fullscreenActive {
-  max-height: unset;
-}
-
-/* BookReader */
