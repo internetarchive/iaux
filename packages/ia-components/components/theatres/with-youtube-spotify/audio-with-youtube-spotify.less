@@ -2,6 +2,12 @@
 
 @audio-player-channel-label-no-display: 600px;
 
+@jwp-height: 45px;
+@jwp-height-w-waveform: 140px;
+
+@content-window-height-mobile: 300px;
+@content-window-height-desktop: 400px;
+
 /* BookReader */
 .BRfullscreenActive .bookreader-wrapper item-navigator {
   position: fixed;
@@ -71,10 +77,14 @@
   @media (max-width: @audio-player-tablet-max-width) {
     .content-window,
     #BookReader {
-      height: 300px;
+      height: @content-window-height-mobile;
     }
     .content-window .album-cover {
-      height: calc(300px - 45px); // 45px is the height of the player controls
+      height: calc(@content-window-height-mobile - @jwp-height); // 45px is the height of the player controls
+    }
+
+    .content-window .album-cover.no-cover {
+      height: calc(@content-window-height-mobile - @jwp-height-w-waveform); // 140px is the height of the player controls w/ waveform
     }
 
     .media-section {
@@ -98,21 +108,20 @@
   }
 
   @media (min-width: @audio-player-desktop-min-width)  {
-  border: 1px solid red;
   display: flex;
   min-height: 450px;
 
     .content-window,
     #BookReader {
-      height: 400px;
+      height: @content-window-height-desktop;
     }
 
     .content-window .album-cover {
-      height: calc(400px - 45px); // 45px is the height of the player controls
+      height: calc(@content-window-height-desktop - @jwp-height);
     }
 
     .content-window .album-cover.no-cover {
-      height: calc(400px - 140px); // 140px is the height of the player controls w/ waveform
+      height: calc(@content-window-height-desktop - @jwp-height-w-waveform);
     }
 
     .media-section {
@@ -182,33 +191,12 @@
     }
     .playlist-section {
       .flexbox-pagination {
-        height: 400px;
+        height: calc(@content-window-height-desktop - 50px);
         float: unset;
 
         &.column {
           > * {
             width: 49%;
-          }
-        }
-      }
-    }
-  }
-
-  @media (min-width: @audio-player-extra-widescreen-min-width) {
-    // may not need anymore
-    .media-section {
-
-    }
-
-    .grid-right {
-
-    }
-
-    .playlist-section {
-      .flexbox-pagination {
-        &.column {
-          > * {
-            width: 32.5%;
           }
         }
       }
@@ -268,27 +256,6 @@
           width: 100%;
         }
       }
-    }
-  }
-
-  .bookreader-wrapper {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0.1px 0 0 0;
-    overflow: hidden;
-    background-color: black;
-    
-    ia-bookreader {
-      display: block;
-      position: relative;
-      height: inherit;
-      width: inherit;
-    }
-
-    #liner-notes {
-      border: 1px solid green;
-      min-height: 400px;
     }
   }
 }
