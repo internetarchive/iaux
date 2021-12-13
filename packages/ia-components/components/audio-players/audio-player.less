@@ -25,7 +25,11 @@
       font-size: 10rem;
       text-align: center;
       padding-top: 14%;
-      height: 20rem;
+      height: inherit;
+
+      @media screen and (max-width: @audio-player-tablet-max-width) {
+        padding-top: 5%;
+      }
     }
 
     & .BRprogresspopup {
