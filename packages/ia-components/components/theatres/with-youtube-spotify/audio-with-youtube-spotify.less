@@ -9,8 +9,9 @@
 @content-window-height-desktop: 400px;
 
 /* BookReader */
-.BRfullscreenActive .bookreader-wrapper item-navigator {
-  position: fixed;
+.BRfullscreenActive .bookreader-wrapper item-navigator,
+.BRfullscreenActive .bookreader-wrapper.liner-notes {
+  position: fixed !important;
   z-index: 1;
   left: 0;
   top: 0;
@@ -18,6 +19,7 @@
   bottom: 0;
   background-color: black;
 }
+
 .bookreader-wrapper #BookReader.fullscreenActive {
   max-height: unset;
 }
