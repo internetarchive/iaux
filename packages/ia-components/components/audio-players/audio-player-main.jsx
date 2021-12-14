@@ -175,11 +175,11 @@ export default class TheatreAudioPlayer extends Component {
     const { backgroundPhoto, playlist } = this.props;
     const hasTracks = !!playlist.length;
     const mediaPlayerClass = hasTracks && backgroundPhoto ? 'no-waveform' : 'with-waveform';
-
+    const noAlbumCoverClass = backgroundPhoto ? '' : 'no-cover';
     return (
       <section className="theatre__audio-player">
         <div className="content-window">
-          <div className="album-cover">
+          <div className={`album-cover ${noAlbumCoverClass}`}>
             {drawBackgroundPhoto(this.props)}
           </div>
           <div className={`media-player ${mediaPlayerClass}`}>

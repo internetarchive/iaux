@@ -2,9 +2,33 @@
 
 @audio-player-channel-label-no-display: 600px;
 
+@jwp-height: 45px;
+@jwp-height-w-waveform: 140px;
+
+@content-window-height-mobile: 300px;
+@content-window-height-desktop: 400px;
+
+/* BookReader */
+.BRfullscreenActive .bookreader-wrapper item-navigator,
+.BRfullscreenActive .bookreader-wrapper.liner-notes {
+  position: fixed !important;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+}
+
+.bookreader-wrapper #BookReader.fullscreenActive {
+  max-height: unset;
+}
+/* BookReader */
+
 .audio-with-youtube-spotify {
+  max-height: inherit;
+  color-scheme: dark;
   padding: .5rem;
-  overflow: hidden;
   color: @f-white;
 
   .submenu {
@@ -23,7 +47,7 @@
   }
 
   .playlist-section {
-    margin-top: 2rem;
+    margin-top: 1rem;
     padding-bottom: 2rem;
     overflow-y: auto;
   }
@@ -31,7 +55,6 @@
   @media (max-width: @audio-player-channel-label-no-display)   {
     .channel-controls {
       .option {
-        width: 25%;
         text-align: center;
       }
       .channel-label {
@@ -40,21 +63,30 @@
     }
   }
   @media (max-width: @audio-player-mobile-max-width) {
+    display: block;
     // Channel labels only show logos at mobile view
     .channel-controls {
-      .selector__radio-group {
-        min-width: 25rem;
-      }
       .option {
-        width: 25%;
         text-align: center;
       }
     }
   }
 
   @media (max-width: @audio-player-tablet-max-width) {
+    .content-window,
+    #BookReader {
+      height: @content-window-height-mobile;
+    }
+    .content-window .album-cover {
+      height: calc(@content-window-height-mobile - @jwp-height); // 45px is the height of the player controls
+    }
+
+    .content-window .album-cover.no-cover {
+      height: calc(@content-window-height-mobile - @jwp-height-w-waveform); // 140px is the height of the player controls w/ waveform
+    }
+
     .media-section {
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
 
     .channel-controls {
@@ -64,7 +96,7 @@
       text-align: center;
     }
     .playlist-section {
-      max-height: 30rem;
+      max-height: 170px;
 
       .page-buttons,
       .pagination-arrow {
@@ -73,47 +105,43 @@
     }
   }
 
-  @media (min-width: @audio-player-desktop-min-width) {
-    display: -ms-grid;
-    display: grid;
-    -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-columns: repeat(12, 1fr);
-    grid-auto-rows: minmax(100px, auto);
-    grid-template-areas: "md md md md md md hd hd hd hd hd hd" "md md md md md md hd hd hd hd hd hd" "md md md md md md hd hd hd hd hd hd";
+  @media (min-width: @audio-player-desktop-min-width)  {
+  display: flex;
+  min-height: 450px;
+
+    .content-window,
+    #BookReader {
+      height: @content-window-height-desktop;
+    }
+
+    .content-window .album-cover {
+      height: calc(@content-window-height-desktop - @jwp-height);
+    }
+
+    .content-window .album-cover.no-cover {
+      height: calc(@content-window-height-desktop - @jwp-height-w-waveform);
+    }
 
     .media-section {
-      -ms-grid-row: 1;
-      -ms-grid-row-span: 3;
-      -ms-grid-column: 1;
-      -ms-grid-column-span: 6;
-      grid-area: md;
+      display: inline-block;
+      width: 51%;
     }
 
     .grid-right {
-      -ms-grid-row: 1;
-      -ms-grid-row-span: 3;
-      -ms-grid-column: 7;
-      -ms-grid-column-span: 6;
-      grid-area: hd;
+      display: inline-block;
+      width: 47%;
     }
 
     padding-left: 1rem;
     padding-bottom: 1rem;
 
     .media-section {
-      max-width: 40rem;
-      margin-right: 2rem;
-      margin-left: 1rem;
-      margin-bottom: 1rem;
+      margin: 1rem;
     }
 
     .playlist-section {
       padding-right: 1rem;
 
-    }
-
-    .channel-controls {
-      display: inline;
     }
   }
 
@@ -126,7 +154,8 @@
     }
 
     .playlist-section {
-      height: 35rem;
+      max-height: 90%;
+      overflow: auto;
 
       .pagination-arrow,
       .page-buttons {
@@ -143,7 +172,6 @@
 
   @media (max-width: @audio-player-desktop-max-width) {
     .playlist-section {
-
       .flexbox-pagination {
         flex-wrap: nowrap;
       }
@@ -151,56 +179,22 @@
   }
 
   @media(min-width: @audio-player-widescreen-min-width) {
-    grid-template-areas: "md md md md hd hd hd hd hd hd hd hd" "md md md md hd hd hd hd hd hd hd hd" "md md md md hd hd hd hd hd hd hd hd";
-
     .media-section {
-      -ms-grid-row: 1;
-      -ms-grid-row-span: 3;
-      -ms-grid-column: 1;
-      -ms-grid-column-span: 4;
+      margin: 0;
+      width: 40%;
     }
     .grid-right {
-      -ms-grid-row: 1;
-      -ms-grid-row-span: 3;
-      -ms-grid-column: 5;
-      -ms-grid-column-span: 8;
+      width: 58%;
+      margin-left: 1%;
     }
     .playlist-section {
       .flexbox-pagination {
-        height: 35rem;
+        height: calc(@content-window-height-desktop - 50px);
         float: unset;
 
         &.column {
           > * {
             width: 49%;
-          }
-        }
-      }
-    }
-  }
-
-  @media (min-width: @audio-player-extra-widescreen-min-width) {
-    grid-template-areas: "md md md hd hd hd hd hd hd hd hd hd" "md md md hd hd hd hd hd hd hd hd hd" "md md md hd hd hd hd hd hd hd hd hd";
-
-    .media-section {
-      -ms-grid-row: 1;
-      -ms-grid-row-span: 3;
-      -ms-grid-column: 1;
-      -ms-grid-column-span: 3;
-    }
-
-    .grid-right {
-      -ms-grid-row: 1;
-      -ms-grid-row-span: 3;
-      -ms-grid-column: 4;
-      -ms-grid-column-span: 9;
-    }
-
-    .playlist-section {
-      .flexbox-pagination {
-        &.column {
-          > * {
-            width: 32.5%;
           }
         }
       }
@@ -247,7 +241,6 @@
         overflow: hidden;
         color: #fff;
         opacity: 0.5;
-        float: left; // for safari alignment
         img {
           height: 2rem;
         }
@@ -261,27 +254,6 @@
           width: 100%;
         }
       }
-    }
-  }
-
-  .bookreader-wrapper {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0.1px 0 0 0;
-    overflow: hidden;
-    background-color: black;
-    
-    ia-bookreader {
-      display: block;
-      position: relative;
-      height: inherit;
-      width: inherit;
-    }
-
-    #liner-notes {
-      border: 1px solid green;
-      min-height: 400px;
     }
   }
 }

@@ -3,20 +3,7 @@
 .theatre__audio-player {
   margin: auto;
 
-  @media (min-width: 500px) and (max-width: 599px) {
-    width: 90%;
-  }
-
-  @media (min-width: 600px) and (max-width: 767px) {
-    width: 60%;
-  }
-
-  @media (min-width: 768px) {
-    max-width: 400px;
-  }
-
   .content-window {
-    height: 440px;
     border-bottom: none;
     border-top: .1rem solid;
     border-left: .1rem solid;
@@ -27,21 +14,22 @@
 
     .background-photo,
     .no-photo {
+      object-fit: contain;
       display: block;
       margin: auto;
       max-width: 100%;
-    }
-
-    .background-photo {
-      min-height: 20rem;
-      max-height: 40rem;
+      max-height: 100%;
     }
 
     .no-photo {
       font-size: 10rem;
       text-align: center;
       padding-top: 14%;
-      height: 20rem;
+      height: inherit;
+
+      @media screen and (max-width: @audio-player-tablet-max-width) {
+        padding-top: 5%;
+      }
     }
 
     & .BRprogresspopup {
@@ -111,19 +99,3 @@
   }
 }
 
-/* BookReader */
-.BRfullscreenActive .bookreader-wrapper item-navigator {
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: black;
-}
-
-.bookreader-wrapper #BookReader {
-  height: 440px;
-}
-
-/* BookReader */
