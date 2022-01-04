@@ -41,23 +41,24 @@ const archiveDerivedAlbumParser = ({ fileDirectoryPrefix, files, itemIdentifier 
     const fileToSkip = `${itemIdentifier}.mp3`; // phantom audio file to map to full album
     const isAudioFile = isValidAudioFile(currentFileName);
     const isItemImageFile = isOriginal && isValidImageFile(currentFileName);
+    const isThumbnail = !!currentFileName.match(/__ia_thumb.jpg/g);
+
     // skip unneeded files
-    if ((!isOriginal && !isAudioFile) || (fileToSkip === currentFileName)) return neededItems;
+    if (isThumbnail || (!isOriginal && !isAudioFile) || (fileToSkip === currentFileName)) return neededItems;
 
     if (isItemImageFile) {
       itemPhoto = `${fileDirectoryPrefix}${encodeURIComponent(currentFileName)}`;
-
       const isFormatItemImage = !!currentFileName.match(/_itemimage./g); // can be jpg, png
       const isDesignatedFirstImage = !!currentFileName.match(/IMG_00001.jpg/g);
       const actualFirstImage = !!currentFileName.match(/IMG_0001.jpg/g);
       if (isDesignatedFirstImage) {
         itemPhotoCandidates.designated = itemPhoto;
-      }
-      if (actualFirstImage) {
+      } else if (actualFirstImage) {
         itemPhotoCandidates.actual = itemPhoto;
-      }
-      if (isFormatItemImage) {
+      } else if (isFormatItemImage) {
         itemPhotoCandidates.formattedAsFirst = itemPhoto;
+      } else {
+        itemPhotoCandidates.actual = itemPhoto;
       }
     }
 

@@ -39,10 +39,11 @@ const archiveDefaultAlbumParser = ({ fileDirectoryPrefix, files }) => {
     const isOriginal = source === 'original';
     const isAudioFile = isValidAudioFile(currentFileName);
     const isItemImageFile = isOriginal && isValidImageFile(currentFileName);
-
+    const isThumbnail = !!currentFileName.match(/__ia_thumb.jpg/g);
     // skip unneeded files
-    if (!isOriginal && !isAudioFile) return neededItems;
+    if (isThumbnail || (!isOriginal && !isAudioFile)) return neededItems;
 
+    console.log('*** looking for images ***', { isItemImageFile, isOriginal, currentFileName });
     if (isItemImageFile) {
       itemPhoto = `${fileDirectoryPrefix}${encodeURIComponent(currentFileName)}`;
 
@@ -52,12 +53,12 @@ const archiveDefaultAlbumParser = ({ fileDirectoryPrefix, files }) => {
 
       if (isDesignatedFirstImage) {
         itemPhotoCandidates.designated = itemPhoto;
-      }
-      if (actualFirstImage) {
+      } else if (actualFirstImage) {
         itemPhotoCandidates.actual = itemPhoto;
-      }
-      if (isFormatItemImage) {
+      } else if (isFormatItemImage) {
         itemPhotoCandidates.formattedAsFirst = itemPhoto;
+      } else {
+        itemPhotoCandidates.actual = itemPhoto;
       }
     }
 
