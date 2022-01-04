@@ -1,3 +1,28 @@
+/* demo style */
+table#examples {
+  border-collapse: collapse;
+  table-layout: auto;
+  width: 100%;
+
+  thead {
+    background-color: peachpuff;
+  }
+
+  td {
+    vertical-align: middle;
+    border-bottom: 1px solid black;
+  }
+
+  tr:nth-child(even) {
+    background-color: lightyellow;
+  }
+}
+
+#liner-notes-list {
+  overflow-x: auto;
+}
+
+/* end */
 .theatre__wrap {
   color: #fff;
 }
@@ -6,7 +31,7 @@
 .theatre__wrap {
   background-color: black;
   position: relative;
-  min-height: 400px;
+  height: calc(100vh - 200px);
 }
 .theatre__wrap #flag-overlay {
   display: none;
