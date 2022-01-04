@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import albumData from '../../data-for-stories/album-78-w-one-image';
 
-import albumData from '../../data-for-stories/album-private-with-spotify-youtube';
+// import albumData from '../../data-for-stories/album-private-with-spotify-youtube';
 import AudioPlayerWithYoutubeSpotify from './audio-with-youtube-spotify-main';
 import './audio-with-youtube-spotify.less';
 
@@ -184,7 +185,8 @@ class DataHydrator extends Component {
                         >
                           Show
                         </button>
-                        <a className="btn btn-link" href="https://archive.org/details/${id}">Details</a>
+                        <a className="btn btn-link" target="_blank" href="https://archive.org/metadata/${id}">Metadata</a>
+                        <a className="btn btn-link" target="_blank" href="https://archive.org/details/${id}">Details</a>
                       </td>
                       <td>
                         {id}
