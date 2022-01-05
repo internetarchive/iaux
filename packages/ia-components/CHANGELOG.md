@@ -1,3 +1,5 @@
+# 0.0.14
+liner notes - use default item image as cover image @iisa
 # 0.0.10
 liner notes has `baseHost` param @iisa
 # 0.0.9
