@@ -39,7 +39,7 @@ const archiveDefaultAlbumParser = ({ fileDirectoryPrefix, files }) => {
     const isOriginal = source === 'original';
     const isAudioFile = isValidAudioFile(currentFileName);
     const isItemImageFile = isOriginal && isValidImageFile(currentFileName);
-    const isThumbnail = !!currentFileName.match(/__ia_thumb.jpg/g);
+    const isThumbnail = !!currentFileName.match(/__ia_thumb.jpg$/g);
     // skip unneeded files
     if (isThumbnail || (!isOriginal && !isAudioFile)) return neededItems;
 

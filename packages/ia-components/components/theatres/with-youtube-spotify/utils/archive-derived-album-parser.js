@@ -41,7 +41,7 @@ const archiveDerivedAlbumParser = ({ fileDirectoryPrefix, files, itemIdentifier 
     const fileToSkip = `${itemIdentifier}.mp3`; // phantom audio file to map to full album
     const isAudioFile = isValidAudioFile(currentFileName);
     const isItemImageFile = isOriginal && isValidImageFile(currentFileName);
-    const isThumbnail = !!currentFileName.match(/__ia_thumb.jpg/g);
+    const isThumbnail = !!currentFileName.match(/__ia_thumb.jpg$/g);
 
     // skip unneeded files
     if (isThumbnail || (!isOriginal && !isAudioFile) || (fileToSkip === currentFileName)) return neededItems;
