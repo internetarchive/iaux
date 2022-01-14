@@ -348,7 +348,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
       identifier,
     };
     const jwplayerID = identifier.replace(/[^a-zA-Z\d]/g, '');
-    const displayChannelSelector = !!externalSources.length; // make it actual boolean so it won't display
     const audioSource = this.getAudioSourceInfoToPlay();
     const trackToHighlight = this.getTrackToHighlight(audioSource);
     const contentBoxTabs = {
@@ -385,9 +384,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
           />
         </section>
         <div className="grid-right">
-          {
-          displayChannelSelector
-          && (
           <section className="channel-controls">
             <h4 className="title">Play from: </h4>
             <HorizontalRadioGroup
@@ -399,8 +395,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
               dataEventCategory="Audio-Player"
             />
           </section>
-          )
-        }
           <section className="playlist-section">
             <TheatreTrackList
               tracks={tracklistToShow}
