@@ -43,7 +43,6 @@ const archiveDefaultAlbumParser = ({ fileDirectoryPrefix, files }) => {
     // skip unneeded files
     if (isThumbnail || (!isOriginal && !isAudioFile)) return neededItems;
 
-    console.log('*** looking for images ***', { isItemImageFile, isOriginal, currentFileName });
     if (isItemImageFile) {
       itemPhoto = `${fileDirectoryPrefix}${encodeURIComponent(currentFileName)}`;
 
