@@ -74,6 +74,7 @@ export default class BookReaderWrapper extends Component {
       showToolbar: false,
       onePage: { autofit: 'height' }, // options: auto, width, height
       enableFSLogoShortcut: true,
+      enableBookmarks: true,
       enablePageResume: false,
       enableTtsPlugin: false,
       enableUrlPlugin: false,
