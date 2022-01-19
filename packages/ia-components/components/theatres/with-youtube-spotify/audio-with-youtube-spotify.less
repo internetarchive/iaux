@@ -9,7 +9,7 @@
 @content-window-height-desktop: 400px;
 
 /* BookReader */
-.BRfullscreenActive .bookreader-wrapper item-navigator,
+.BRfullscreenActive .bookreader-wrapper ia-bookreader,
 .BRfullscreenActive .bookreader-wrapper.liner-notes {
   position: fixed !important;
   z-index: 1;
@@ -20,8 +20,19 @@
   background-color: black;
 }
 
+.liner-notes #BookReader {
+  min-height: unset;
+}
+
 .bookreader-wrapper #BookReader.fullscreenActive {
+  height: inherit;
   max-height: unset;
+}
+
+.bookreader-wrapper ia-bookreader div[slot],
+.bookreader-wrapper ia-bookreader div[slot] > * {
+  display: block;
+  height: 100%;
 }
 /* BookReader */
 
