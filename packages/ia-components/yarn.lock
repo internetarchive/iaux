@@ -1271,10 +1271,10 @@
   "resolved" "https://registry.npmjs.org/@icons/material/-/material-0.2.4.tgz"
   "version" "0.2.4"
 
-"@internetarchive/bookreader@^5.0.0-30-a":
-  "integrity" "sha512-ftIo0T6NMhLHQJ1WOAYyjoG179+8P5EdQixjXTs+m3AyXBe+gRYhRLZe9Yr+WXmu59wp9lr24zt6m0o+222HcQ=="
-  "resolved" "https://registry.npmjs.org/@internetarchive/bookreader/-/bookreader-5.0.0-30-a.tgz"
-  "version" "5.0.0-30-a"
+"@internetarchive/bookreader@^5.0.0-30-c":
+  "integrity" "sha512-kWfD7TOzCE4tyC2Dq0AbYT4rZotn1PkAb8Viwr9LsMJw4569Qdw3fwb8xmjQNAaLtvRIBjiom+N+KFuYX1uYTA=="
+  "resolved" "https://registry.npmjs.org/@internetarchive/bookreader/-/bookreader-5.0.0-30-c.tgz"
+  "version" "5.0.0-30-c"
   dependencies:
     "@internetarchive/ia-activity-indicator" "^0.0.1"
     "@internetarchive/ia-item-navigator" "0.0.4-3"
