@@ -224,7 +224,7 @@ TheatreAudioPlayer.propTypes = {
   customSourceLabels: PropTypes.object,
   linerNotes: PropTypes.object,
   playlist: PropTypes.array.isRequired,
-  albumMetadata: PropTypes.string,
+  albumMetadata: PropTypes.object,
   userSignedIn: PropTypes.bool,
   baseHost: PropTypes.string
 };
