@@ -61,7 +61,7 @@ export default class BookReaderWrapper extends Component {
       setTimeout(() => {
         this.bookreader.resize();
         this.bookreader.jumpToIndex(0);
-      }, 250);
+      }, 500);
     });
   }
 
