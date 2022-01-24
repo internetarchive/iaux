@@ -81,7 +81,7 @@ const linerNotesPages = [
   ]
 ];
 
-const linerNotes = {
+export const linerNotes = {
   data: {
     data: {
       streamOnly: false,

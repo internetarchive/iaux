@@ -321,12 +321,11 @@ class AudioPlayerWithYoutubeSpotify extends Component {
 
   render() {
     const {
-      jwplayerPlaylist, linerNotes, albumMetadataStr, userSignedIn, baseHost
+      jwplayerPlaylist, linerNotes, albumMetadata, userSignedIn, baseHost
     } = this.props;
     const { tracklistToShow, channelToPlay, albumData } = this.state;
     const {
       albumMetadaToDisplay,
-      externalSources = [],
       itemPhoto,
       externalSourcesDisplayValues,
       playSamples,
@@ -371,7 +370,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             sourceData={audioSource}
             customSourceLabels={contentBoxTabs}
             linerNotes={linerNotes}
-            albumMetadataStr={albumMetadataStr}
+            albumMetadata={albumMetadata}
             userSignedIn={userSignedIn}
             baseHost={baseHost}
             jwplayerPlaylistChange={this.jwplayerPlaylistChange}
@@ -419,14 +418,13 @@ AudioPlayerWithYoutubeSpotify.defaultProps = {
   playFullIAAudio: false,
   linerNotes: null,
   userSignedIn: false,
-  albumMetadataStr: '',
   albumMetadata: null,
   baseHost: 'archive.org'
 };
 
 AudioPlayerWithYoutubeSpotify.propTypes = {
   albumMetadata: PropTypes.object.isRequired,
-  albumMetadataStr: PropTypes.string,
+  albumMetadata: PropTypes.object,
   jwplayerPlaylist: PropTypes.array,
   playFullIAAudio: PropTypes.bool,
   linerNotes: PropTypes.object,

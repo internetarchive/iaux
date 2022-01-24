@@ -1,3 +1,5 @@
+import { linerNotes } from './album-private-with-spotify-youtube';
+
 const itemInfo = {
   created: 1641325767,
   d1: 'ia902303.us.archive.org',
@@ -55,5 +57,5 @@ const jwplayerPlaylist = [{
 export default {
   itemInfo,
   jwplayerPlaylist,
-  linerNotes: []
+  linerNotes
 };

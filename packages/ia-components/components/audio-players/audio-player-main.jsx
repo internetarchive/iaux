@@ -136,7 +136,7 @@ export default class TheatreAudioPlayer extends Component {
    */
   showLinerNotes() {
     const {
-      linerNotes, userSignedIn, albumMetadataStr, baseHost
+      linerNotes, userSignedIn, albumMetadata, baseHost
     } = this.props;
     const { mediaSource } = this.state;
 
@@ -153,7 +153,7 @@ export default class TheatreAudioPlayer extends Component {
           options={{ ...linerNotes.data.brOptions }}
           userSignedIn={userSignedIn}
           baseHost={baseHost}
-          item={albumMetadataStr}
+          item={albumMetadata}
           style={{
             position: 'absolute',
             top: 0,
@@ -202,7 +202,7 @@ TheatreAudioPlayer.defaultProps = {
   photoAltTag: '',
   urlExtensions: '',
   linerNotes: null,
-  albumMetadataStr: '',
+  albumMetadata: null,
   userSignedIn: false,
   baseHost: ''
 };
@@ -224,7 +224,7 @@ TheatreAudioPlayer.propTypes = {
   customSourceLabels: PropTypes.object,
   linerNotes: PropTypes.object,
   playlist: PropTypes.array.isRequired,
-  albumMetadataStr: PropTypes.string,
+  albumMetadata: PropTypes.object,
   userSignedIn: PropTypes.bool,
   baseHost: PropTypes.string
 };

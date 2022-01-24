@@ -30,6 +30,7 @@ export default class BookReaderWrapper extends Component {
   constructor(props) {
     super(props);
     this.BookReaderRef = React.createRef();
+    this.iaBookreaderRef = React.createRef();
     this.bookreader = {};
 
     this.bindEventListeners = this.bindEventListeners.bind(this);
@@ -42,21 +43,25 @@ export default class BookReaderWrapper extends Component {
     this.loadBookReader();
   }
 
+  componentDidUpdate() {
+    // eslint-disable-next-line react/destructuring-assignment
+    if (this.props.item && !this.iaBookreader.item) {
+      // eslint-disable-next-line react/destructuring-assignment
+      this.iaBookreader.item = this.props.item;
+    }
+  }
+
+  get iaBookreader() {
+    return this.iaBookreaderRef.current;
+  }
+
   bindEventListeners() {
     window.addEventListener('BrBookNav:PostInit', () => {
       this.bookreader.init();
       setTimeout(() => {
         this.bookreader.resize();
         this.bookreader.jumpToIndex(0);
-      }, 250);
-    });
-
-    window.addEventListener('BookReader:fullscreenToggled', () => {
-      if (!this.bookreader.isFullscreen()) {
-        setTimeout(() => {
-          this.bookreader.resize();
-        }, 300);
-      }
+      }, 500); /* wait for bookreader & its main container styles to load */
     });
   }
 
@@ -68,7 +73,8 @@ export default class BookReaderWrapper extends Component {
       el: `#${this.BookReaderRef.current.id}`,
       showToolbar: false,
       onePage: { autofit: 'height' }, // options: auto, width, height
-      ui: 'full',
+      enableFSLogoShortcut: true,
+      enableBookmarks: true,
       enablePageResume: false,
       enableTtsPlugin: false,
       enableUrlPlugin: false,
@@ -77,7 +83,6 @@ export default class BookReaderWrapper extends Component {
       searchInsideUrl: '/fulltext/inside.php',
       initialSearchTerm: null,
       imagesBaseURL: '/bookreader/BookReader/images/',
-      useSrcSet: false,
       defaultStartLeaf: 0,
       titleLeaf: 0,
       /**
@@ -110,19 +115,18 @@ export default class BookReaderWrapper extends Component {
   }
 
   render() {
-    const { userSignedIn, item, baseHost } = this.props;
-    const base64item = btoa(item);
+    const { userSignedIn, baseHost } = this.props;
     return (
       <section className="bookreader-wrapper liner-notes" {...this.props}>
-        <item-navigator
-          baseHost={baseHost}
-          itemtype="bookreader"
-          signedIn={userSignedIn}
-          item={base64item}
-          class="focus-on-child-only"
+        <ia-bookreader
+          signedin={userSignedIn}
+          basehost={baseHost}
+          ref={this.iaBookreaderRef}
         >
-          <div slot="bookreader" id="BookReader" className="BookReader" ref={this.BookReaderRef} />
-        </item-navigator>
+          <div slot="main">
+            <div id="BookReader" className="BookReader" ref={this.BookReaderRef} />
+          </div>
+        </ia-bookreader>
       </section>
 
     );
