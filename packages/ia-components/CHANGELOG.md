@@ -1,3 +1,6 @@
+# 0.0.16
+liner notes - use `ia-bookreader` @iisa
+
 # 0.0.15
 liner notes - show webamp all the time @iisa
 # 0.0.14
