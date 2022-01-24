@@ -1,3 +1,6 @@
+# 0.0.17
+liner notes - update bookreader to 5.0.0-31 @iisa
+
 # 0.0.16
 liner notes - use `ia-bookreader` @iisa
 
