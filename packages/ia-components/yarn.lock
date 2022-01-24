@@ -1271,13 +1271,13 @@
   "resolved" "https://registry.npmjs.org/@icons/material/-/material-0.2.4.tgz"
   "version" "0.2.4"
 
-"@internetarchive/bookreader@^5.0.0-30-c":
-  "integrity" "sha512-kWfD7TOzCE4tyC2Dq0AbYT4rZotn1PkAb8Viwr9LsMJw4569Qdw3fwb8xmjQNAaLtvRIBjiom+N+KFuYX1uYTA=="
-  "resolved" "https://registry.npmjs.org/@internetarchive/bookreader/-/bookreader-5.0.0-30-c.tgz"
-  "version" "5.0.0-30-c"
+"@internetarchive/bookreader@^5.0.0-30":
+  "integrity" "sha512-l/HkN6QMGtpI/i9+aHsmK34BE2nAYKcFb+pNMCnj9rw7YqZ4xNPRBN/gO76dthaQshaRifbOqapvuUBaDH6e5Q=="
+  "resolved" "https://registry.npmjs.org/@internetarchive/bookreader/-/bookreader-5.0.0-30.tgz"
+  "version" "5.0.0-30"
   dependencies:
     "@internetarchive/ia-activity-indicator" "^0.0.1"
-    "@internetarchive/ia-item-navigator" "0.0.4-3"
+    "@internetarchive/ia-item-navigator" "^0.0.4"
     "@internetarchive/ia-menu-slider" "^1.1.1"
     "@internetarchive/ia-sharing-options" "^0.1.4"
     "@internetarchive/icon-bookmark" "^1.1.3"
@@ -1295,9 +1295,9 @@
     "lit-html" "^1.3.0"
 
 "@internetarchive/field-parsers@^0.1.0":
-  "integrity" "sha512-6ByLemKZvCMJrDglC1Om5bkTT7pB/5Lq0uKkGzb4sO88+lTDy6pqbGGw6VGEe6gAYgyDKiTlNUyUoTzF5brq3Q=="
-  "resolved" "https://registry.npmjs.org/@internetarchive/field-parsers/-/field-parsers-0.1.0.tgz"
-  "version" "0.1.0"
+  "integrity" "sha512-yPkH/m1a15V0tnewQutK3RQJgSwe9RoMdTuzgUxGgZtDXX8Tw+MFcvTpvZQjEo3ZgyL9sNLr2Lv+KiSAsZ9OOg=="
+  "resolved" "https://registry.npmjs.org/@internetarchive/field-parsers/-/field-parsers-0.1.1.tgz"
+  "version" "0.1.1"
 
 "@internetarchive/ia-activity-indicator@^0.0.1", "@internetarchive/ia-activity-indicator@0.0.1":
   "integrity" "sha512-+l7p1v4QuojgvQwFaIVnHOq9WfeARv9+jBbY/xmj6S8v1QTxW8+OwOkx8GaNuLN57e09uYTlo+EPP7BScOc+tA=="
@@ -1307,10 +1307,10 @@
     "lit-element" "^2.2.1"
     "lit-html" "^1.1.2"
 
-"@internetarchive/ia-item-navigator@0.0.4-3":
-  "integrity" "sha512-gl71CsOFxb94MiEQebGKnztUz3OV8aZZKAUiPEfgD6CrhxfOWRnIdlr4IYx/frMjkXOsLCoEnqv+lEPfmej5ZQ=="
-  "resolved" "https://registry.npmjs.org/@internetarchive/ia-item-navigator/-/ia-item-navigator-0.0.4-3.tgz"
-  "version" "0.0.4-3"
+"@internetarchive/ia-item-navigator@^0.0.4":
+  "integrity" "sha512-O2CkSQ4TI3GAyEtY7JZW4p+BOd3oYg633h9z6P9EXS2fE1C0wKT72+LTZ9ZQU0R0VGZguYm9yhbc3hdAisyMiA=="
+  "resolved" "https://registry.npmjs.org/@internetarchive/ia-item-navigator/-/ia-item-navigator-0.0.4.tgz"
+  "version" "0.0.4"
   dependencies:
     "@internetarchive/ia-menu-slider" "^1.1.2"
     "@internetarchive/ia-sharing-options" "^0.1.4"

@@ -45,7 +45,7 @@
     "webpack": "^5.26.3"
   },
   "dependencies": {
-    "@internetarchive/bookreader": "^5.0.0-30-c",
+    "@internetarchive/bookreader": "^5.0.0-30",
     "@stratumn/canonicaljson": "^1.0.3",
     "debug": "^4.1.1",
     "lodash": "^4.17.19",
