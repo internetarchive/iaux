@@ -123,7 +123,7 @@ export default class BookReaderWrapper extends Component {
           basehost={baseHost}
           ref={this.iaBookreaderRef}
         >
-          <div slot="theater-main">
+          <div slot="main">
             <div id="BookReader" className="BookReader" ref={this.BookReaderRef} />
           </div>
         </ia-bookreader>
