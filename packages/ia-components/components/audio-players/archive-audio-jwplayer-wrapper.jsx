@@ -133,13 +133,17 @@ class ArchiveAudioPlayer extends Component {
       return;
     }
 
+    const playerStatus = jwplayerInstance.getState();
+    const incomingTrackChange = (incomingTrackNum > prevIndex) || (trackNumber !== incomingTrackNum);
+    const autoplaying = incomingTrackChange && (playerStatus === 'idle');
+
     const iaPlayerisReady = playlistLoadCount === this.maxPlaylistLoadsUntilPlayerIsReady;
     if (!playerReady && iaPlayerisReady) {
       /** IA player starting, let's tell main app where we are starting */
       this.updateAndPlayTrack({
         playerReady: true,
         trackNumber: incomingTrackNum,
-      });
+      }, !autoplaying);
       return;
     }
 
@@ -147,10 +151,6 @@ class ArchiveAudioPlayer extends Component {
       /** Play8 w/ JWP is now ready & at rest, we can also rest */
       return;
     }
-
-    const playerStatus = jwplayerInstance.getState();
-    const incomingTrackChange = (incomingTrackNum > prevIndex) || (trackNumber !== incomingTrackNum);
-    const autoplaying = incomingTrackChange && (playerStatus === 'idle');
 
     if (!playerEverStarted) {
       // First song to play
