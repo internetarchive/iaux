@@ -27,7 +27,7 @@ class MediaSlider extends LitElement {
   }
 
   shouldUpdate() {
-    const scrollPane = this.shadowRoot.querySelector('.information-menu');
+    const scrollPane = this.shadowRoot ? this.shadowRoot.querySelector('.information-menu') : null;
 
     if (scrollPane) {
       scrollPane.scrollTop = 0;
