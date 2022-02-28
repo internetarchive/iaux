@@ -41,6 +41,13 @@ export default class BookReaderWrapper extends Component {
 
   componentDidMount() {
     this.loadBookReader();
+    const { userSignedIn } = this.props;
+    if (userSignedIn) {
+      const iaBr = this.iaBookreaderRef.current;
+      if (iaBr.setAttribute) {
+        iaBr.setAttribute('signedIn', '');
+      }
+    }
   }
 
   componentDidUpdate() {
@@ -115,11 +122,10 @@ export default class BookReaderWrapper extends Component {
   }
 
   render() {
-    const { userSignedIn, baseHost } = this.props;
+    const { baseHost } = this.props;
     return (
       <section className="bookreader-wrapper liner-notes" {...this.props}>
         <ia-bookreader
-          signedin={userSignedIn}
           basehost={baseHost}
           ref={this.iaBookreaderRef}
         >
