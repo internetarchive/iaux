@@ -478,7 +478,7 @@ const web = {
     external: true,
   }],
   browserExtensionsLinks: [{
-    url: 'https://chrome.google.com/webstore/detail/save-to-the-wayback-machi/eebpioaailbjojmdbmlpomfgijnlcemk?hl=en',
+    url: 'https://chrome.google.com/webstore/detail/wayback-machine/fpnmgdkabkmnadcjpehmlllkndpkmiak',
     title: 'Chrome',
     external: true,
   }, {
@@ -488,6 +488,10 @@ const web = {
   }, {
     url: 'https://apps.apple.com/us/app/wayback-machine/id1472432422?mt=12',
     title: 'Safari',
+    external: true,
+  }, {
+    url: 'https://microsoftedge.microsoft.com/addons/detail/wayback-machine/kjmickeoogghaimmomagaghnogelpcpn?hl=en-US',
+    title: 'Edge',
     external: true,
   }],
   archiveItLinks: [{
