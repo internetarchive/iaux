@@ -1,3 +1,6 @@
+# 0.0.19
+liner notes - fix autoplay @iisa
+
 # 0.0.18
 liner notes - update autoplay notion + update dependencies @iisa
 
