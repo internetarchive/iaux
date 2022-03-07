@@ -85,6 +85,14 @@ class ArchiveAudioPlayer extends Component {
           this.state.jwplayerInstance.on('paused', () => {
             this.setState({ trackStarting: false, playerEverStarted: true });
           });
+
+          this.state.jwplayerInstance.on('play', () => {
+            // patron hits Play triangle on JWP
+            const thisTrackNumber = jwplayerInstance.getPlaylistIndex();
+            this.setState({
+              trackStarting: true, playerEverStarted: true, trackNumber: thisTrackNumber + 1
+            });
+          });
         });
       },
     };
@@ -124,19 +132,19 @@ class ArchiveAudioPlayer extends Component {
     const isNowMainPlayer = !prevSourceData.hasOwnProperty('index') && trackN;
     const unsupportedAlbumView = incomingTrackNum === 0; // 0 = album for 3d party players
 
-    if (!jwplayerInstance
-      || unsupportedAlbumView
-      || Number.isNaN(trackN)
-      || (trackN < 0)
-      || isNowMainPlayer
-    ) {
+    if (!jwplayerInstance || unsupportedAlbumView) {
+      return;
+    }
+
+    if (Number.isNaN(trackN) || (trackN < 0) || isNowMainPlayer) {
       return;
     }
 
     const playerStatus = jwplayerInstance.getState();
+    const jwpTrackIndex = jwplayerInstance.getPlaylistIndex();
     const jwpPlayingOnColdLoad = prevIndex === null && incomingTrackNum >= 1;
     const incomingTrackChange = !jwpPlayingOnColdLoad && (incomingTrackNum > prevIndex) || (trackNumber !== incomingTrackNum);
-    const autoplaying = incomingTrackChange && (playerStatus === 'idle');
+    const autoplaying = incomingTrackChange && (playerStatus === 'idle') && (jwpTrackIndex + 1 === incomingTrackNum);
 
     const iaPlayerisReady = playlistLoadCount === this.maxPlaylistLoadsUntilPlayerIsReady;
     if (!playerReady && iaPlayerisReady) {
