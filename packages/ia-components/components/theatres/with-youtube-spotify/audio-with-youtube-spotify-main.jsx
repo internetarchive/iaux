@@ -123,14 +123,43 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     };
   }
 
+  channelSelectorClickEvents(e) {
+    console.log('channelSelectorClickEvents', e);
+    const channelSelected = e.detail.channel;
+    debugger;
+  }
+
+  componentDidMount() {
+    // get channel seelctor
+    const channelSelector = document.querySelector('channel-selector');
+    // add spotify, youtube, add click event
+    // note selected
+    const options = this.getSelectableChannels();
+    const { albumData } = this.state;
+    console.log('component did mount, channel-selector', { options, channelSelector, samples: albumData.playSamples });
+
+    channelSelector.samples = albumData.playSamples || false;
+    channelSelector.spotify = options.find(option => option.value === 'spotify');
+    channelSelector.youtube = options.find(option => option.value === 'youtube');
+
+    channelSelector.addEventListener('channelChange', this.onChannelSelect);
+  }
+
   /**
    * Callback every time user selects a channel
    */
   onChannelSelect(event) {
     const { albumData, channelToPlay: currentSource } = this.state;
-    const newSource = event.target.value;
+    const newSource = event.detail.channel;
 
-    if (currentSource === newSource) return;
+    console.log('*** onChannelSelect', { newSource, currentSource });
+
+    if (window.archive_analytics) {
+      const label = `Channel-${newSource}`;
+      window.archive_analytics.sendEvent('Audio-Player', label);
+    }
+
+    if (currentSource === newSource || newSource === 'youtube') return;
 
     // if source has changed, then update source state & tracklisting
     const tracklistToShow = getTrackListBySource(albumData, newSource);
@@ -240,6 +269,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
         value: channel,
         label: getChannelLabelToDisplay({ channel, labelValue, title: `play ${labelValue}` }),
         clickTrackValue: `Audio-Player|Channel-${labelValue}`,
+        labelValue,
       };
     });
 
@@ -363,6 +393,9 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     };
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
+        <div class="channel-selector">
+          <channel-selector></channel-selector>
+        </div>
         <section className="media-section">
           <TheatreAudioPlayer
             source={channelToPlay}
@@ -382,18 +415,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             playlist={tracklistToShow}
           />
         </section>
-        <div className="grid-right">
-          <section className="channel-controls">
-            <h4 className="title">Play from: </h4>
-            <HorizontalRadioGroup
-              options={this.getSelectableChannels()}
-              onChange={this.onChannelSelect}
-              name="audio-source"
-              selectedValue={channelToPlay}
-              wrapperStyle="rounded"
-              dataEventCategory="Audio-Player"
-            />
-          </section>
+        <div className="playlist-area">
           <section className="playlist-section">
             <TheatreTrackList
               tracks={tracklistToShow}

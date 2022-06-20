@@ -96,9 +96,9 @@
       height: calc(@content-window-height-mobile - @jwp-height-w-waveform); // 140px is the height of the player controls w/ waveform
     }
 
-    .media-section {
-      margin-bottom: 1rem;
-    }
+    // .media-section {
+    //   margin-bottom: 1rem;
+    // }
 
     .channel-controls {
       margin-left: auto;
@@ -117,8 +117,29 @@
   }
 
   @media (min-width: @audio-player-desktop-min-width)  {
-  display: flex;
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  grid-template-rows: 0.2fr;
+  grid-template-areas:
+      "image channel-selector"
+      "image player";
+  gap: 0px 20px;
+  margin: 10px 30px;
+
+  // display: flex;
   min-height: 450px;
+
+    .media-section {
+      grid-area: image / image / image / image;
+    }
+
+    .channel-selector {
+      grid-area: channel-selector / channel-selector / channel-selector / channel-selector;
+    }
+
+    .playlist-area {
+      grid-area: player / player / player / player;
+    }
 
     .content-window,
     #BookReader {
@@ -133,22 +154,22 @@
       height: calc(@content-window-height-desktop - @jwp-height-w-waveform);
     }
 
-    .media-section {
-      display: inline-block;
-      width: 51%;
-    }
+    // .media-section {
+    //   display: inline-block;
+    //   width: 51%;
+    // }
 
-    .grid-right {
-      display: inline-block;
-      width: 47%;
-    }
+    // .grid-right {
+    //   display: inline-block;
+    //   width: 47%;
+    // }
 
     padding-left: 1rem;
     padding-bottom: 1rem;
 
-    .media-section {
-      margin: 1rem;
-    }
+    // .media-section {
+    //   margin: 1rem;
+    // }
 
     .playlist-section {
       padding-right: 1rem;
@@ -190,14 +211,14 @@
   }
 
   @media(min-width: @audio-player-widescreen-min-width) {
-    .media-section {
-      margin: 0;
-      width: 40%;
-    }
-    .grid-right {
-      width: 58%;
-      margin-left: 1%;
-    }
+    // .media-section {
+    //   margin: 0;
+    //   width: 40%;
+    // }
+    // .grid-right {
+    //   width: 58%;
+    //   margin-left: 1%;
+    // }
     .playlist-section {
       .flexbox-pagination {
         height: calc(@content-window-height-desktop - 50px);
@@ -251,7 +272,7 @@
         display: inline-block;
         overflow: hidden;
         color: #fff;
-        opacity: 0.5;
+        // opacity: 0.5;
         img {
           height: 2rem;
         }

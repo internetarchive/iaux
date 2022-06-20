@@ -58,6 +58,7 @@ const HorizontalRadioGroup = ({
       </div>
     );
   });
+
   return (
     <div className={`selector__radio-group ${wrapperStyle}`}>
       { formattedInputs }
