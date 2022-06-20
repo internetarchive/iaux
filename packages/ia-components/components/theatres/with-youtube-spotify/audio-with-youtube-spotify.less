@@ -1,7 +1,5 @@
 @import '../../../variables.less';
 
-@audio-player-channel-label-no-display: 600px;
-
 @jwp-height: 45px;
 @jwp-height-w-waveform: 140px;
 
@@ -63,16 +61,12 @@
     overflow-y: auto;
   }
 
-  @media (max-width: @audio-player-channel-label-no-display)   {
-    .channel-controls {
-      .option {
-        text-align: center;
-      }
-      .channel-label {
-        display: none;
-      }
+  @media (max-width: 767px) {
+    .playlist-section {
+      max-height: 170px;
     }
   }
+
   @media (max-width: 859px) {
     display: block;
 
@@ -95,9 +89,12 @@
     .channel-selector {
       padding-bottom: 5px;
     }
-  }
 
-  @media (min-width: 501px) and (max-width: 859px) {
+    channel-selector,
+    channel-selector:focus {
+      outline: none;
+    }
+
     .channel-controls {
       margin-left: auto;
       margin-right: auto;
@@ -105,8 +102,6 @@
       text-align: center;
     }
     .playlist-section {
-      max-height: 170px;
-
       .page-buttons,
       .pagination-arrow {
         display: none;
@@ -156,20 +151,22 @@
 
     .playlist-section {
       padding-right: 1rem;
-
-    }
-  }
-
-  @media (min-width: @audio-player-desktop-min-width) {
-    .playlist-section {
-      max-height: 400px;
     }
   }
 
   @media (min-width: @audio-player-desktop-min-width) and (max-width: @audio-player-desktop-max-width) {
     .playlist-section {
       max-height: 400px;
+    }
+  }
+
+  @media (max-width: @audio-player-desktop-max-width) {
+    .playlist-section {
       overflow: auto;
+
+      .flexbox-pagination {
+        flex-wrap: nowrap;
+      }
 
       .pagination-arrow,
       .page-buttons {
@@ -184,17 +181,10 @@
     }
   }
 
-  @media (max-width: @audio-player-desktop-max-width) {
-    .playlist-section {
-      .flexbox-pagination {
-        flex-wrap: nowrap;
-      }
-    }
-  }
-
   @media(min-width: @audio-player-widescreen-min-width) {
     .playlist-section {
       .flexbox-pagination {
+        height: calc(@content-window-height-desktop - 50px);
         float: unset;
 
         &.column {
