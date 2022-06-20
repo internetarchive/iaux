@@ -1,3 +1,5 @@
+/* eslint-disable react/self-closing-comp */ /** for web component */
+/* eslint-disable react/forbid-prop-types */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { find, flatten, head } from 'lodash';
@@ -9,7 +11,6 @@ import YoutubeIcon from '../../svgs/youtube-logo-icon';
 import SpotifyIcon from '../../svgs/spotify-logo-icon';
 import ArchiveIcon from '../../svgs/ia-logo-white-icon';
 import BookletIcon from '../../svgs/icon-booklet';
-import HorizontalRadioGroup from '../../selectors/horizontal-radio-group/horizontal-radio-group';
 import TheatreAudioPlayer from '../../audio-players/audio-player-main';
 import TheatreTrackList from '../../track-lists/track-list';
 
@@ -123,20 +124,11 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     };
   }
 
-  channelSelectorClickEvents(e) {
-    console.log('channelSelectorClickEvents', e);
-    const channelSelected = e.detail.channel;
-    debugger;
-  }
-
   componentDidMount() {
-    // get channel seelctor
+    /** Set up <channel-selector> with available channels */
     const channelSelector = document.querySelector('channel-selector');
-    // add spotify, youtube, add click event
-    // note selected
     const options = this.getSelectableChannels();
     const { albumData } = this.state;
-    console.log('component did mount, channel-selector', { options, channelSelector, samples: albumData.playSamples });
 
     channelSelector.samples = albumData.playSamples || false;
     channelSelector.spotify = options.find(option => option.value === 'spotify');
@@ -151,8 +143,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
   onChannelSelect(event) {
     const { albumData, channelToPlay: currentSource } = this.state;
     const newSource = event.detail.channel;
-
-    console.log('*** onChannelSelect', { newSource, currentSource });
 
     if (window.archive_analytics) {
       const label = `Channel-${newSource}`;
@@ -393,7 +383,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     };
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
-        <div class="channel-selector">
+        <div className="channel-selector">
           <channel-selector></channel-selector>
         </div>
         <section className="media-section">
@@ -445,7 +435,6 @@ AudioPlayerWithYoutubeSpotify.defaultProps = {
 };
 
 AudioPlayerWithYoutubeSpotify.propTypes = {
-  albumMetadata: PropTypes.object.isRequired,
   albumMetadata: PropTypes.object,
   jwplayerPlaylist: PropTypes.array,
   playFullIAAudio: PropTypes.bool,
