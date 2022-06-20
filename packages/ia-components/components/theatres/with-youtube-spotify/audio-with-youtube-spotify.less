@@ -73,17 +73,9 @@
       }
     }
   }
-  @media (max-width: @audio-player-mobile-max-width) {
+  @media (max-width: 859px) {
     display: block;
-    // Channel labels only show logos at mobile view
-    .channel-controls {
-      .option {
-        text-align: center;
-      }
-    }
-  }
 
-  @media (max-width: @audio-player-tablet-max-width) {
     .content-window,
     #BookReader {
       height: @content-window-height-mobile;
@@ -96,10 +88,16 @@
       height: calc(@content-window-height-mobile - @jwp-height-w-waveform); // 140px is the height of the player controls w/ waveform
     }
 
-    // .media-section {
-    //   margin-bottom: 1rem;
-    // }
+    .media-section {
+      margin: auto 50px;
+    }
 
+    .channel-selector {
+      padding-bottom: 5px;
+    }
+  }
+
+  @media (min-width: 501px) and (max-width: 859px) {
     .channel-controls {
       margin-left: auto;
       margin-right: auto;
@@ -116,7 +114,7 @@
     }
   }
 
-  @media (min-width: @audio-player-desktop-min-width)  {
+  @media (min-width: 860px)  {
   display: grid;
   grid-template-columns: 0.7fr 1.3fr;
   grid-template-rows: 0.2fr;
@@ -126,7 +124,6 @@
   gap: 0px 20px;
   margin: 10px 30px;
 
-  // display: flex;
   min-height: 450px;
 
     .media-section {

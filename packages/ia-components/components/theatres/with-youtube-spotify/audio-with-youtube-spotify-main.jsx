@@ -142,14 +142,18 @@ class AudioPlayerWithYoutubeSpotify extends Component {
    */
   onChannelSelect(event) {
     const { albumData, channelToPlay: currentSource } = this.state;
-    const newSource = event.detail.channel;
+    let newSource = event.detail.channel;
+
+    if (newSource === 'ia') {
+      newSource = 'archive';
+    }
 
     if (window.archive_analytics) {
       const label = `Channel-${newSource}`;
-      window.archive_analytics.sendEvent('Audio-Player', label);
+      window.archive_analytics.send_event('Audio-Player', label);
     }
 
-    if (currentSource === newSource || newSource === 'youtube') return;
+    if (currentSource === newSource || newSource === 'webamp') return;
 
     // if source has changed, then update source state & tracklisting
     const tracklistToShow = getTrackListBySource(albumData, newSource);
@@ -259,7 +263,6 @@ class AudioPlayerWithYoutubeSpotify extends Component {
         value: channel,
         label: getChannelLabelToDisplay({ channel, labelValue, title: `play ${labelValue}` }),
         clickTrackValue: `Audio-Player|Channel-${labelValue}`,
-        labelValue,
       };
     });
 
@@ -384,7 +387,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
         <div className="channel-selector">
-          <channel-selector></channel-selector>
+          <channel-selector className="focus-on-child-only"></channel-selector>
         </div>
         <section className="media-section">
           <TheatreAudioPlayer
