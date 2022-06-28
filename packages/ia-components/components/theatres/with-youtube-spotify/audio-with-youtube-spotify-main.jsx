@@ -1,3 +1,5 @@
+/* eslint-disable react/self-closing-comp */ /** for web component */
+/* eslint-disable react/forbid-prop-types */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { find, flatten, head } from 'lodash';
@@ -9,7 +11,6 @@ import YoutubeIcon from '../../svgs/youtube-logo-icon';
 import SpotifyIcon from '../../svgs/spotify-logo-icon';
 import ArchiveIcon from '../../svgs/ia-logo-white-icon';
 import BookletIcon from '../../svgs/icon-booklet';
-import HorizontalRadioGroup from '../../selectors/horizontal-radio-group/horizontal-radio-group';
 import TheatreAudioPlayer from '../../audio-players/audio-player-main';
 import TheatreTrackList from '../../track-lists/track-list';
 
@@ -123,14 +124,36 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     };
   }
 
+  componentDidMount() {
+    /** Set up <channel-selector> with available channels */
+    const channelSelector = document.querySelector('channel-selector');
+    const options = this.getSelectableChannels();
+    const { albumData } = this.state;
+
+    channelSelector.samples = albumData.playSamples || false;
+    channelSelector.spotify = options.find(option => option.value === 'spotify');
+    channelSelector.youtube = options.find(option => option.value === 'youtube');
+
+    channelSelector.addEventListener('channelChange', this.onChannelSelect);
+  }
+
   /**
    * Callback every time user selects a channel
    */
   onChannelSelect(event) {
     const { albumData, channelToPlay: currentSource } = this.state;
-    const newSource = event.target.value;
+    let newSource = event.detail.channel;
 
-    if (currentSource === newSource) return;
+    if (newSource === 'ia') {
+      newSource = 'archive';
+    }
+
+    if (window.archive_analytics) {
+      const label = `Channel-${newSource}`;
+      window.archive_analytics.send_event('Audio-Player', label);
+    }
+
+    if (currentSource === newSource || newSource === 'webamp') return;
 
     // if source has changed, then update source state & tracklisting
     const tracklistToShow = getTrackListBySource(albumData, newSource);
@@ -363,6 +386,9 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     };
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
+        <div className="channel-selector">
+          <channel-selector className="focus-on-child-only"></channel-selector>
+        </div>
         <section className="media-section">
           <TheatreAudioPlayer
             source={channelToPlay}
@@ -382,18 +408,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
             playlist={tracklistToShow}
           />
         </section>
-        <div className="grid-right">
-          <section className="channel-controls">
-            <h4 className="title">Play from: </h4>
-            <HorizontalRadioGroup
-              options={this.getSelectableChannels()}
-              onChange={this.onChannelSelect}
-              name="audio-source"
-              selectedValue={channelToPlay}
-              wrapperStyle="rounded"
-              dataEventCategory="Audio-Player"
-            />
-          </section>
+        <div className="playlist-area">
           <section className="playlist-section">
             <TheatreTrackList
               tracks={tracklistToShow}
@@ -423,7 +438,6 @@ AudioPlayerWithYoutubeSpotify.defaultProps = {
 };
 
 AudioPlayerWithYoutubeSpotify.propTypes = {
-  albumMetadata: PropTypes.object.isRequired,
   albumMetadata: PropTypes.object,
   jwplayerPlaylist: PropTypes.array,
   playFullIAAudio: PropTypes.bool,

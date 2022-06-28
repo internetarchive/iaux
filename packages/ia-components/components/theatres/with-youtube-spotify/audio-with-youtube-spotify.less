@@ -1,7 +1,5 @@
 @import '../../../variables.less';
 
-@audio-player-channel-label-no-display: 600px;
-
 @jwp-height: 45px;
 @jwp-height-w-waveform: 140px;
 
@@ -63,27 +61,15 @@
     overflow-y: auto;
   }
 
-  @media (max-width: @audio-player-channel-label-no-display)   {
-    .channel-controls {
-      .option {
-        text-align: center;
-      }
-      .channel-label {
-        display: none;
-      }
-    }
-  }
-  @media (max-width: @audio-player-mobile-max-width) {
-    display: block;
-    // Channel labels only show logos at mobile view
-    .channel-controls {
-      .option {
-        text-align: center;
-      }
+  @media (max-width: 767px) {
+    .playlist-section {
+      max-height: 170px;
     }
   }
 
-  @media (max-width: @audio-player-tablet-max-width) {
+  @media (max-width: 859px) {
+    display: block;
+
     .content-window,
     #BookReader {
       height: @content-window-height-mobile;
@@ -97,7 +83,16 @@
     }
 
     .media-section {
-      margin-bottom: 1rem;
+      margin: auto 50px;
+    }
+
+    .channel-selector {
+      padding-bottom: 5px;
+    }
+
+    channel-selector,
+    channel-selector:focus {
+      outline: none;
     }
 
     .channel-controls {
@@ -107,8 +102,6 @@
       text-align: center;
     }
     .playlist-section {
-      max-height: 170px;
-
       .page-buttons,
       .pagination-arrow {
         display: none;
@@ -116,9 +109,29 @@
     }
   }
 
-  @media (min-width: @audio-player-desktop-min-width)  {
-  display: flex;
+  @media (min-width: 860px)  {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  grid-template-rows: 0.2fr;
+  grid-template-areas:
+      "image channel-selector"
+      "image player";
+  gap: 0px 20px;
+  margin: 10px 30px;
+
   min-height: 450px;
+
+    .media-section {
+      grid-area: image / image / image / image;
+    }
+
+    .channel-selector {
+      grid-area: channel-selector / channel-selector / channel-selector / channel-selector;
+    }
+
+    .playlist-area {
+      grid-area: player / player / player / player;
+    }
 
     .content-window,
     #BookReader {
@@ -133,40 +146,27 @@
       height: calc(@content-window-height-desktop - @jwp-height-w-waveform);
     }
 
-    .media-section {
-      display: inline-block;
-      width: 51%;
-    }
-
-    .grid-right {
-      display: inline-block;
-      width: 47%;
-    }
-
     padding-left: 1rem;
     padding-bottom: 1rem;
 
-    .media-section {
-      margin: 1rem;
-    }
-
     .playlist-section {
       padding-right: 1rem;
-
     }
   }
 
   @media (min-width: @audio-player-desktop-min-width) and (max-width: @audio-player-desktop-max-width) {
-    
-    .channel-controls {
-      .channel-label {
-        display: none;
-      }
-    }
-
     .playlist-section {
-      max-height: 90%;
+      max-height: 400px;
+    }
+  }
+
+  @media (max-width: @audio-player-desktop-max-width) {
+    .playlist-section {
       overflow: auto;
+
+      .flexbox-pagination {
+        flex-wrap: nowrap;
+      }
 
       .pagination-arrow,
       .page-buttons {
@@ -181,23 +181,7 @@
     }
   }
 
-  @media (max-width: @audio-player-desktop-max-width) {
-    .playlist-section {
-      .flexbox-pagination {
-        flex-wrap: nowrap;
-      }
-    }
-  }
-
   @media(min-width: @audio-player-widescreen-min-width) {
-    .media-section {
-      margin: 0;
-      width: 40%;
-    }
-    .grid-right {
-      width: 58%;
-      margin-left: 1%;
-    }
     .playlist-section {
       .flexbox-pagination {
         height: calc(@content-window-height-desktop - 50px);
@@ -231,40 +215,6 @@
       margin-right: 1rem;
       vertical-align: top;
       margin-top: .6rem;
-    }
-  }
-
-  .selector__radio-group {
-    width: inherit;
-
-    .option {
-      padding: 0.5rem 1rem 0;
-
-      label {
-        margin-bottom: 0;
-      }
-
-      .webamp-link {
-        &:hover {
-          text-decoration: none;
-        }
-        display: inline-block;
-        overflow: hidden;
-        color: #fff;
-        opacity: 0.5;
-        img {
-          height: 2rem;
-        }
-        .channel-label {
-          margin-top: .1rem;
-        }
-
-        @media (max-width: @audio-player-mobile-max-width) {
-          text-align: center;
-          display: block;
-          width: 100%;
-        }
-      }
     }
   }
 }

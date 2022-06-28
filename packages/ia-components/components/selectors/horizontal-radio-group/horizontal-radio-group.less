@@ -18,9 +18,9 @@
       margin-top: -.1rem;
       margin-right: .5rem;
       opacity: .5;
+      padding-top: .5rem;
 
       &.selected {
-        padding-top: .5rem;
         opacity: 1;
       }
 
@@ -51,11 +51,7 @@
     // the radio set should look like a button group
     // with only one "on" at a given time
     display: none;
-    + label {
-      > span {
-        opacity: 0.5;
-      }
-    }
+
     &:checked {
       + label {
         > span {
