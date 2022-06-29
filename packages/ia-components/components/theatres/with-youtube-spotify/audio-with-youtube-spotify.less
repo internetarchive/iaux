@@ -82,10 +82,6 @@
       height: calc(@content-window-height-mobile - @jwp-height-w-waveform); // 140px is the height of the player controls w/ waveform
     }
 
-    .media-section {
-      margin: auto 50px;
-    }
-
     .channel-selector {
       padding-bottom: 5px;
     }
@@ -109,9 +105,34 @@
     }
   }
 
-  @media (min-width: 860px)  {
+
+  @media (min-width: @audio-player-desktop-min-width) and (max-width: @audio-player-desktop-max-width) {
+    grid-template-columns: 1fr 1fr;
+
+    .playlist-section {
+      max-height: 400px;
+    }
+  }
+
+  @media(min-width: @audio-player-widescreen-min-width) {
+    grid-template-columns: 0.7fr 1.3fr;
+
+    .playlist-section {
+      .flexbox-pagination {
+        height: calc(@content-window-height-desktop - 50px);
+        float: unset;
+
+        &.column {
+          > * {
+            width: 49%;
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: @audio-player-desktop-min-width)  {
   display: grid;
-  grid-template-columns: 0.7fr 1.3fr;
   grid-template-rows: 0.2fr;
   grid-template-areas:
       "image channel-selector"
@@ -122,15 +143,15 @@
   min-height: 450px;
 
     .media-section {
-      grid-area: image / image / image / image;
+      grid-area: image / image;
     }
 
     .channel-selector {
-      grid-area: channel-selector / channel-selector / channel-selector / channel-selector;
+      grid-area: channel-selector / channel-selector;
     }
 
     .playlist-area {
-      grid-area: player / player / player / player;
+      grid-area: player / player;
     }
 
     .content-window,
@@ -151,12 +172,6 @@
 
     .playlist-section {
       padding-right: 1rem;
-    }
-  }
-
-  @media (min-width: @audio-player-desktop-min-width) and (max-width: @audio-player-desktop-max-width) {
-    .playlist-section {
-      max-height: 400px;
     }
   }
 
@@ -181,20 +196,7 @@
     }
   }
 
-  @media(min-width: @audio-player-widescreen-min-width) {
-    .playlist-section {
-      .flexbox-pagination {
-        height: calc(@content-window-height-desktop - 50px);
-        float: unset;
 
-        &.column {
-          > * {
-            width: 49%;
-          }
-        }
-      }
-    }
-  }
 
   .channel-controls .channel-icon,
   .tabs .channel-icon {
