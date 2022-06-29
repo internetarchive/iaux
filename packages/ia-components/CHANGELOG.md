@@ -1,3 +1,6 @@
+# 0.0.21
+liner notes - update grid view so bookreader controls are not squished @iisa\
+
 # 0.0.20
 liner notes - new channel selector & start deprecation @iisa
 
