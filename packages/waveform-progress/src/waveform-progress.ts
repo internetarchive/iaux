@@ -4,12 +4,11 @@ import {
   LitElement,
   html,
   css,
-  customElement,
-  property,
   PropertyValues,
   TemplateResult,
   CSSResult,
-} from 'lit-element';
+} from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import ZoneOfSilence from './models/zone-of-silence';
 
 @customElement('waveform-progress')

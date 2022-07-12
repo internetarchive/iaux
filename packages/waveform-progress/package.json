@@ -36,10 +36,6 @@
     "storybook": "start-storybook -p 9001",
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
-  "dependencies": {
-    "lit-element": "^2.2.1",
-    "lit-html": "^1.0.0"
-  },
   "devDependencies": {
     "@open-wc/demoing-storybook": "^0.3.0",
     "@open-wc/eslint-config": "^1.0.0",
@@ -84,5 +80,8 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "dependencies": {
+    "lit": "^2.2.7"
   }
 }
