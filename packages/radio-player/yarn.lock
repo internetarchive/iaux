@@ -851,10 +851,10 @@
   dependencies:
     lit "^2.2.2"
 
-"@internetarchive/playback-controls@0.0.2-a5":
-  version "0.0.2-a5"
-  resolved "https://registry.yarnpkg.com/@internetarchive/playback-controls/-/playback-controls-0.0.2-a5.tgz#6562b7d632c6e35bdea9ad2aa97d88a062661649"
-  integrity sha512-gsPHLSy2+aMeJQz0jFI+sPbx7YtlD6J0Cyqd19qRjH2IxHKjvrZgimkcpaM8q11kZUWVnfSnk0K0Fr77SsRqgg==
+"@internetarchive/playback-controls@0.0.2-a6":
+  version "0.0.2-a6"
+  resolved "https://registry.yarnpkg.com/@internetarchive/playback-controls/-/playback-controls-0.0.2-a6.tgz#504dd5ee6daa2de1aa2f4c8070e9ebc089637caf"
+  integrity sha512-7gQsrMOp+8E8ZuBShhDupE4qSnSLNCji47TFLbyKTw2Ml95I/tRS9WcJpDJBIVho8WaE9RnrA5hfexfl7oUxLA==
   dependencies:
     lit "^2.2.7"
 
