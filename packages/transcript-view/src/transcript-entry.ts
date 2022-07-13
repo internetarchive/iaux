@@ -1,10 +1,5 @@
-import {
-  LitElement,
-  html,
-  customElement,
-  property,
-  TemplateResult,
-} from 'lit-element';
+import { LitElement, html, TemplateResult } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import TranscriptEntryConfig from './models/transcript-entry-config';
 
 @customElement('transcript-entry')

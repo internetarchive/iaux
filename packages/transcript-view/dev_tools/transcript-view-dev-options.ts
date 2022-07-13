@@ -1,12 +1,5 @@
-import {
-  LitElement,
-  html,
-  css,
-  customElement,
-  property,
-  TemplateResult,
-  CSSResult,
-} from 'lit-element';
+import { LitElement, html, css, TemplateResult, CSSResult } from 'lit';
+import { customElement, property } from 'lit/decorators';
 
 import './search-results-switcher';
 
