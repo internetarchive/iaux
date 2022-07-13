@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@internetarchive/lazy-loader-service": "^0.1.0",
-    "lit-element": "^2.2.1"
+    "lit": "^2.2.7"
   },
   "devDependencies": {
     "@open-wc/demoing-storybook": "^0.3.0",
