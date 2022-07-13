@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/radio-player",
-  "version": "0.0.2",
+  "version": "0.0.3-a1",
   "description": "A Radio Player LitElement.",
   "license": "AGPL-3.0-only",
   "main": "index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/expandable-search-bar",
-  "version": "0.0.1",
+  "version": "0.0.2-a1",
   "description": "An expandable Search Bar.",
   "license": "AGPL-3.0-only",
   "main": "index.js",
