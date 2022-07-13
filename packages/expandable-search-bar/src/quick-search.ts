@@ -1,12 +1,7 @@
-import {
-  LitElement,
-  html,
-  css,
-  customElement,
-  property,
-  CSSResult,
-  TemplateResult,
-} from 'lit-element';
+/* eslint-disable lit-a11y/anchor-is-valid */
+/* eslint-disable lit-a11y/click-events-have-key-events */
+import { LitElement, html, css, CSSResult, TemplateResult } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
 import QuickSearchEntry from './models/quick-search-entry';
 
