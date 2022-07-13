@@ -21,9 +21,9 @@
   </style>
 
   <script type="module">
-    import { html, render } from 'lit-html';
+    import { html, render } from 'lit';
     import ZoneOfSilence from '../lib/models/zone-of-silence.js';
-    import WaveFormProgress from '../lib/waveform-progress.js';
+    import '../lib/waveform-progress.js';
 
     const defaultPercent = 27;
 
@@ -33,6 +33,27 @@
     const zone4 = new ZoneOfSilence(78, 85);
 
     const zonesOfSilence = [zone1, zone2, zone3, zone4];
+
+    let percent;
+    let slider;
+    let waveform;
+
+    function userDraggedWaveform(e) {
+      slider.value = e.detail.value;
+      percent.innerHTML = Math.round(e.detail.value);
+    }
+
+    function interactivityChanged(e) {
+      waveform.interactive = e.target.checked;
+    }
+
+    function toggleZonesOfSilence(e) {
+      if (e.target.checked) {
+        waveform.zonesOfSilence = zonesOfSilence;
+      } else {
+        waveform.zonesOfSilence = [];
+      }
+    }
 
     render(
       html`
@@ -63,31 +84,14 @@
       document.querySelector('#demo')
     );
 
-    const waveform = document.getElementById('waveform');
-    const slider = document.getElementById('slider');
-    const percent = document.getElementById('percent');
+    waveform = document.getElementById('waveform');
+    slider = document.getElementById('slider');
+    percent = document.getElementById('percent');
 
     slider.addEventListener('input', (e) => {
       waveform.percentComplete = e.target.value;
       percent.innerHTML = e.target.value;
     });
-
-    function userDraggedWaveform(e) {
-      slider.value = e.detail.value;
-      percent.innerHTML = Math.round(e.detail.value);
-    }
-
-    function interactivityChanged(e) {
-      waveform.interactive = e.target.checked;
-    }
-
-    function toggleZonesOfSilence(e) {
-      if (e.target.checked) {
-        waveform.zonesOfSilence = zonesOfSilence;
-      } else {
-        waveform.zonesOfSilence = [];
-      }
-    }
   </script>
 </body>
 </html>
