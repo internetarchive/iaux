@@ -1,13 +1,20 @@
+/* eslint-disable import/no-duplicates */
+/* eslint-disable @typescript-eslint/no-inferrable-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable lit/no-value-attribute */
+/* eslint-disable arrow-body-style */
 import {
   LitElement,
   html,
   css,
-  customElement,
-  property,
   PropertyValues,
   TemplateResult,
   CSSResult,
-} from 'lit-element';
+} from 'lit';
+import {
+  customElement,
+  property,
+} from 'lit/decorators.js';
 
 import './section-marker';
 import { SectionMarker, SectionMarkerMode } from './section-marker';
