@@ -1,15 +1,7 @@
 /* eslint-disable import/no-duplicates */
 
-import {
-  LitElement,
-  html,
-  css,
-  customElement,
-  property,
-  PropertyValues,
-  TemplateResult,
-  CSSResult,
-} from 'lit-element';
+import { LitElement, html, css, PropertyValues, TemplateResult, CSSResult } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
 import './transcript-entry';
 import TranscriptEntry from './transcript-entry';
@@ -47,14 +39,21 @@ export default class TranscriptView extends LitElement {
       <div class="container">
         ${this.showContextZones ? this.contextZoneDevTemplates : ''}
 
-        <div class="scroll-container" id="scroll-container" @wheel=${this.didScroll} @touchmove=${this.didScroll}>
+        <div
+          class="scroll-container"
+          id="scroll-container"
+          @wheel=${this.didScroll}
+          @touchmove=${this.didScroll}
+        >
           <div class="col time">
             ${this.timeDisplayTemplate}
           </div>
 
           <div class="col">
             ${this.autoScrollButtonTemplate}
-            ${this.transcriptEntries.map((entry: TranscriptEntryConfig) => this.transcriptEntryTemplate(entry),)}
+            ${this.transcriptEntries.map((entry: TranscriptEntryConfig) =>
+              this.transcriptEntryTemplate(entry),
+            )}
           </div>
         </div>
       </div>
@@ -90,8 +89,8 @@ export default class TranscriptView extends LitElement {
   }
 
   private transcriptEntryTemplate(entry: TranscriptEntryConfig): TemplateResult {
-    const active = this.currentEntries.find((currentEntry) => currentEntry.id === entry.id)
-      !== undefined;
+    const active =
+      this.currentEntries.find(currentEntry => currentEntry.id === entry.id) !== undefined;
     const selected = entry.searchMatchIndex === this.selectedSearchResultIndex;
     const isSearchResult = entry.searchMatchIndex !== undefined;
     const isMusicEntry = entry.isMusic;
@@ -309,7 +308,8 @@ export default class TranscriptView extends LitElement {
 
     const activeEntries = entries.filter(
       // eslint-disable-next-line max-len
-      (entry: TranscriptEntryConfig) => this.currentTime >= entry.start && this.currentTime <= entry.end,
+      (entry: TranscriptEntryConfig) =>
+        this.currentTime >= entry.start && this.currentTime <= entry.end,
     );
 
     // this method gets called for every time update, which happens several times per second, but
@@ -340,9 +340,8 @@ export default class TranscriptView extends LitElement {
    */
   private entryArraysMatch(
     entryArrayA: TranscriptEntryConfig[],
-    entryArrayB: TranscriptEntryConfig[]
+    entryArrayB: TranscriptEntryConfig[],
   ): boolean {
-
     if (entryArrayA.length !== entryArrayB.length) {
       return false;
     }
@@ -409,8 +408,8 @@ export default class TranscriptView extends LitElement {
 
   private elementForIdentifier(identifier: number): HTMLElement | null {
     return (
-      this.shadowRoot
-      && this.shadowRoot.querySelector(`transcript-entry[data-identifier="${identifier}"]`)
+      this.shadowRoot &&
+      this.shadowRoot.querySelector(`transcript-entry[data-identifier="${identifier}"]`)
     );
   }
 
@@ -453,14 +452,15 @@ export default class TranscriptView extends LitElement {
 
   private get activeTranscriptEntry(): HTMLElement | null {
     return (
-      this.shadowRoot
-      && (this.shadowRoot.querySelector('transcript-entry[isActive]') as HTMLElement)
+      this.shadowRoot &&
+      (this.shadowRoot.querySelector('transcript-entry[isActive]') as HTMLElement)
     );
   }
 
   private get selectedSearchResult(): HTMLElement | null {
-    const selectedResult = this.shadowRoot
-      && this.shadowRoot.querySelector(
+    const selectedResult =
+      this.shadowRoot &&
+      this.shadowRoot.querySelector(
         `transcript-entry[data-search-result-index="${this.selectedSearchResultIndex}"]`,
       );
     return selectedResult as HTMLElement;
@@ -505,11 +505,12 @@ export default class TranscriptView extends LitElement {
     // if the active entry is above the top context area or below the bottom of the focus area,
     // scroll it to the top of the focus area
     if (
-      activeEntryRect.bottom > scrollContainerRect.top + focusBottom
-      || activeEntryRect.top < scrollContainerRect.top
+      activeEntryRect.bottom > scrollContainerRect.top + focusBottom ||
+      activeEntryRect.top < scrollContainerRect.top
     ) {
       // eslint-disable-next-line max-len
-      const newTargetScrollPos = activeEntryRect.top - scrollContainerRect.top + scrollView.scrollTop - topContextHeight;
+      const newTargetScrollPos =
+        activeEntryRect.top - scrollContainerRect.top + scrollView.scrollTop - topContextHeight;
       this.scrollToOffsetWithDuration(newTargetScrollPos, 1);
     }
   }
