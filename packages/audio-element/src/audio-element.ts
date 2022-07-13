@@ -1,11 +1,6 @@
-import {
-  LitElement,
-  html,
-  customElement,
-  property,
-  TemplateResult,
-  PropertyValues,
-} from 'lit-element';
+/* eslint-disable operator-assignment */
+import { LitElement, html, TemplateResult, PropertyValues } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import AudioSource from './models/audio-source';
 
 @customElement('audio-element')
