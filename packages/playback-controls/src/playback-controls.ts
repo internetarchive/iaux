@@ -64,7 +64,7 @@ export default class PlaybackControls extends LitElement {
     `;
   }
 
-  get playPauseButtonImage() {
+  get playPauseButtonImage(): TemplateResult {
     var image = playImage;
     switch (this.playbackMode) {
       case PlaybackMode.playing:
