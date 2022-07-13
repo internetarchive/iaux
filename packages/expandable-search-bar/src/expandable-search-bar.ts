@@ -1,13 +1,5 @@
-import {
-  LitElement,
-  html,
-  css,
-  customElement,
-  property,
-  CSSResult,
-  TemplateResult,
-  PropertyValues,
-} from 'lit-element';
+import { LitElement, html, css, CSSResult, TemplateResult, PropertyValues } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
 import magnifyingGlassIcon from './assets/img/magnifying-glass';
 import disclosureTriangleIcon from './assets/img/disclosure';
@@ -56,7 +48,7 @@ export default class ExpandableSearchBar extends LitElement {
             id="search-input"
             type="text"
             placeholder="Search"
-            value=${this.searchTerm}
+            .value=${this.searchTerm}
             @keyup=${this.inputChanged}
           />
           <div class="clear-search-container endcap">

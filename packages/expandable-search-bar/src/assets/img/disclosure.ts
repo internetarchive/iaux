@@ -1,4 +1,4 @@
-import { html } from 'lit-html';
+import { html } from 'lit';
 
 const image = html`
   <svg height="9" viewBox="0 0 19 9" width="19" xmlns="http://www.w3.org/2000/svg">

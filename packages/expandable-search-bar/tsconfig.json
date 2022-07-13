@@ -7,7 +7,7 @@
     "sourceMap": true,
     "outDir": "./lib",
     "declaration": true,
-    "strict": true
+    "strict": true,
   },
   "include": [
     "src/**/*.ts",
@@ -16,6 +16,6 @@
   ],
   "exclude": [
     "node_modules/!(@open-wc)",
-    "node_modules/!(@types)"
+    "node_modules/!(@types)",
   ]
 }
