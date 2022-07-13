@@ -2,12 +2,16 @@ import {
   LitElement,
   html,
   css,
-  customElement,
-  property,
-  PropertyValues,
   TemplateResult,
   CSSResult,
-} from 'lit-element';
+} from 'lit';
+import {
+  customElement,
+  property,
+} from 'lit/decorators.js';
+
+import prevSectionImage from './assets/img/previous-section-marker';
+import nextSectionImage from './assets/img/next-section-marker';
 
 enum SectionMarkerMode {
   left = 'left',
@@ -15,9 +19,6 @@ enum SectionMarkerMode {
   both = 'both',
   neither = 'neither',
 }
-
-import prevSectionImage from './assets/img/previous-section-marker';
-import nextSectionImage from './assets/img/next-section-marker';
 
 @customElement('section-marker')
 class SectionMarker extends LitElement {
