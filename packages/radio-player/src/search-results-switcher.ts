@@ -2,13 +2,14 @@ import {
   LitElement,
   html,
   css,
-  customElement,
-  property,
   CSSResult,
   TemplateResult,
   PropertyValues,
-} from 'lit-element';
-
+} from 'lit';
+import {
+  customElement,
+  property,
+} from 'lit/decorators.js';
 import leftImage from './assets/img/left';
 import rightImage from './assets/img/right';
 
