@@ -3,12 +3,14 @@ import {
   LitElement,
   html,
   css,
-  customElement,
-  property,
   CSSResult,
   TemplateResult,
   PropertyValues,
-} from 'lit-element';
+} from 'lit';
+import {
+  customElement,
+  property,
+} from 'lit/decorators.js';
 import { AudioElement, AudioSource } from '@internetarchive/audio-element';
 import {
   TranscriptConfig,
@@ -265,7 +267,7 @@ export default class RadioPlayer extends LitElement {
    */
   private get collectionLogoTemplate(): TemplateResult {
     return html`
-      <img class="collection-logo" src=${this.logoUrl} />
+      <img class="collection-logo" src=${this.logoUrl} alt="collection logo" />
     `;
   }
 

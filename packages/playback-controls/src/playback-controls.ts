@@ -1,4 +1,5 @@
-import { LitElement, html, css, customElement, property, TemplateResult } from 'lit-element';
+import { LitElement, html, css, TemplateResult } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { PlaybackMode } from './playback-mode';
 
 import nextSectionImage from './assets/img/next-section';

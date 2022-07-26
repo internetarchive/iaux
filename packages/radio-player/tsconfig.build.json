@@ -2,6 +2,6 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "allowJs": false,
-    "checkJs": false
+    "checkJs": false,
   }
 }

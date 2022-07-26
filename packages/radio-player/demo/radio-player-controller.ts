@@ -2,11 +2,13 @@
 import {
   LitElement,
   html,
-  customElement,
   TemplateResult,
-  property,
   PropertyValues,
-} from 'lit-element';
+} from 'lit';
+import {
+  customElement,
+  property,
+} from 'lit/decorators.js';
 
 import { AudioSource } from '@internetarchive/audio-element';
 import { TranscriptConfig, TranscriptEntryConfig } from '@internetarchive/transcript-view';
