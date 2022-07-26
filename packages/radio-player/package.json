@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/radio-player",
-  "version": "0.0.3-a1",
+  "version": "0.0.3",
   "description": "A Radio Player LitElement.",
   "license": "AGPL-3.0-only",
   "main": "index.js",
@@ -34,13 +34,13 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
-    "@internetarchive/audio-element": "^0.0.2-a1",
-    "@internetarchive/expandable-search-bar": "^0.0.2-a1",
+    "@internetarchive/audio-element": "^0.0.2",
+    "@internetarchive/expandable-search-bar": "^0.0.2",
     "@internetarchive/ia-activity-indicator": "^0.0.3",
-    "@internetarchive/playback-controls": "0.0.2-a6",
-    "@internetarchive/scrubber-bar": "^0.0.2-a1",
-    "@internetarchive/transcript-view": "^0.0.3-a1",
-    "@internetarchive/waveform-progress": "^0.0.2-a1",
+    "@internetarchive/playback-controls": "0.0.2",
+    "@internetarchive/scrubber-bar": "^0.0.2",
+    "@internetarchive/transcript-view": "^0.0.3",
+    "@internetarchive/waveform-progress": "^0.0.2",
     "lit": "^2.2.7"
   },
   "devDependencies": {
