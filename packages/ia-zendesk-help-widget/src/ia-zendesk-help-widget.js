@@ -1,4 +1,4 @@
-import { html, css, LitElement } from 'lit-element';
+import { html, css, LitElement } from 'lit';
 import { LazyLoaderService } from '@internetarchive/lazy-loader-service';
 import loaderIcon from './assets/icon-loader';
 import questionIcon from './assets/icon-question';
