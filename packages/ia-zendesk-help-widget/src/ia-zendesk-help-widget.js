@@ -27,7 +27,7 @@ class ZenDeskHelpWidget extends LitElement {
     // load third-party script
     const lazyLoaderService = new LazyLoaderService();
     await lazyLoaderService.loadScript({
-      attributes: [{ key: 'id', value: 'ze-snippet' }],
+      attributes: { id: 'ze-snippet' },
       src: this.widgetSrc,
     });
 
