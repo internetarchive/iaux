@@ -144,6 +144,11 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const { albumData, channelToPlay: currentSource } = this.state;
     let newSource = event.detail.channel;
 
+    if (newSource === 'beta') {
+      // handle cookie setting at IA level
+      return;
+    }
+
     if (newSource === 'ia') {
       newSource = 'archive';
     }
@@ -387,7 +392,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
         <div className="channel-selector">
-          <channel-selector className="focus-on-child-only"></channel-selector>
+          <channel-selector beta className="focus-on-child-only"></channel-selector>
         </div>
         <section className="media-section">
           <TheatreAudioPlayer

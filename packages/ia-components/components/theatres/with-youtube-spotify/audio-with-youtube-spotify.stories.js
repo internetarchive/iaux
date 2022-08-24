@@ -73,6 +73,15 @@ class DataHydrator extends Component {
     this.fetchData = this.fetchData.bind(this);
     this.getItem = this.getItem.bind(this);
     this.updateItem = this.updateItem.bind(this);
+    this.loadMusicComponent();
+  }
+
+  async loadMusicComponent() {
+    const script = document.createElement('script');
+    script.src = 'https://esm.archive.org/@internetarchive/ia-music-player/dist/index.js';
+    script.async = true;
+    script.type = 'module';
+    document.body.appendChild(script);
   }
 
   getItem(event) {
