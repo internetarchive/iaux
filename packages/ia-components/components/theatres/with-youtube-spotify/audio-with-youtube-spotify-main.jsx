@@ -144,6 +144,11 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     const { albumData, channelToPlay: currentSource } = this.state;
     let newSource = event.detail.channel;
 
+    if (newSource === 'beta') {
+      // handle cookie setting at IA level
+      return;
+    }
+
     if (newSource === 'ia') {
       newSource = 'archive';
     }
