@@ -392,7 +392,7 @@ class AudioPlayerWithYoutubeSpotify extends Component {
     return (
       <div className="theatre__wrap audio-with-youtube-spotify">
         <div className="channel-selector">
-          <channel-selector beta className="focus-on-child-only"></channel-selector>
+          <channel-selector className="focus-on-child-only"></channel-selector>
         </div>
         <section className="media-section">
           <TheatreAudioPlayer
