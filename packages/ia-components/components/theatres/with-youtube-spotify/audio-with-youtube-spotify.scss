@@ -75,11 +75,11 @@ $content-window-height-desktop: 400px;
       height: $content-window-height-mobile;
     }
     .content-window .album-cover {
-      height: calc($content-window-height-mobile - $jwp-height); // 45px is the height of the player controls
+      height: calc(#{$content-window-height-mobile} - #{$jwp-height}); // 45px is the height of the player controls
     }
 
     .content-window .album-cover.no-cover {
-      height: calc($content-window-height-mobile - $jwp-height-w-waveform); // 140px is the height of the player controls w/ waveform
+      height: calc(#{$content-window-height-mobile} - #${$jwp-height-w-waveform}); // 140px is the height of the player controls w/ waveform
     }
 
     .channel-selector {
@@ -119,7 +119,7 @@ $content-window-height-desktop: 400px;
 
     .playlist-section {
       .flexbox-pagination {
-        height: calc($content-window-height-desktop - 50px);
+        height: calc(#{$content-window-height-desktop} - 50px);
         float: unset;
 
         &.column {
@@ -160,11 +160,11 @@ $content-window-height-desktop: 400px;
     }
 
     .content-window .album-cover {
-      height: calc($content-window-height-desktop - $jwp-height);
+      height: calc(#{$content-window-height-desktop} - #{$jwp-height});
     }
 
     .content-window .album-cover.no-cover {
-      height: calc($content-window-height-desktop - $jwp-height-w-waveform);
+      height: calc(#{$content-window-height-desktop} - #{$jwp-height-w-waveform});
     }
 
     padding-left: 1rem;
