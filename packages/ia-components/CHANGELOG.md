@@ -1,3 +1,5 @@
+# 0.0.23
+liner notes - sass style files @traceypooh
 # 0.0.21
 liner notes - update grid view so bookreader controls are not squished @iisa\
 
