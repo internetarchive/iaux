@@ -1,3 +1,6 @@
+# 0.0.24
+liner notes - sass style files fixes @traceypooh
+
 # 0.0.23
 liner notes - sass style files @traceypooh
 # 0.0.21
