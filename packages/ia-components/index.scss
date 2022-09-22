@@ -1,0 +1,10 @@
+// Add your component's less file here.
+// This will be the entrypoint for Petabox less imports
+
+@import './components/theatres/with-youtube-spotify/audio-with-youtube-spotify.scss';
+@import './components/track-lists/track-list.scss';
+@import './components/audio-players/audio-player.scss';
+@import './components/audio-players/youtube-player.scss';
+@import './components/selectors/horizontal-radio-group/horizontal-radio-group.scss';
+@import './components/pagination/pagination.scss';
+@import './components/language-select/language-select.scss';
