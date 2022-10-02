@@ -16,7 +16,7 @@ class MediaSubnav extends TrackedElement {
       baseHost: { type: String },
       config: { type: Object },
       menu: { type: String },
-      menuItems: { type: Array },
+      menuItems: { type: Object },
     };
   }
 
@@ -25,20 +25,10 @@ class MediaSubnav extends TrackedElement {
 
     this.config = {};
     this.menu = '';
-    this.menuItems = [];
+    this.menuItems = {};
 
     // Begin properties not monitored by LitElement
     this.links = MediaSubnav.defaultLinks;
-    this.templates = {
-      web: () => html`<wayback-slider
-        .baseHost=${this.baseHost}
-        .config=${this.config}
-        .archiveItLinks=${this.menuItems.archiveItLinks}
-        .browserExtensionsLinks=${this.menuItems.browserExtensionsLinks}
-        .mobileAppsLinks=${this.menuItems.mobileAppsLinks}
-      ></wayback-slider>`,
-      more: () => html`<more-slider .baseHost=${this.baseHost} .config=${this.config} .menuItems=${this.menuItems}></more-slider>`,
-    };
   }
 
   shouldUpdate() {
@@ -73,14 +63,29 @@ class MediaSubnav extends TrackedElement {
   }
 
   render() {
-    const template = this.templates[this.menu];
-
     if (!this.menu) {
       return html``;
     }
 
-    if (template) {
-      return template();
+    if (this.menuItems) {
+      this.links = this.menuItems;
+    }
+
+    if (this.menu === 'web') {
+      return html`
+        <wayback-slider
+          .baseHost=${this.baseHost}
+          .config=${this.config}
+          .archiveItLinks=${this.menuItems.archiveItLinks}
+          .browserExtensionsLinks=${this.menuItems.browserExtensionsLinks}
+          .mobileAppsLinks=${this.menuItems.mobileAppsLinks}
+        ></wayback-slider>`;
+    }
+
+    if (this.menu === 'more') {
+      return html`
+        <more-slider .baseHost=${this.baseHost} .config=${this.config} .menuItems=${this.menuItems}>
+        </more-slider>`;
     }
 
     return html`

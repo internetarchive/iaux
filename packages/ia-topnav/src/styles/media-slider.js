@@ -32,6 +32,10 @@ export default css`
     display: block;
   }
 
+  .hidden {
+    display: none;
+  }
+
   .info-box {
     padding: 1rem;
   }
