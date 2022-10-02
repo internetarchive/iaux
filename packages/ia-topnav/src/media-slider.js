@@ -86,6 +86,13 @@ class MediaSlider extends LitElement {
                 menu="web"
                 .menuItems=${this.menus.web}
               ></media-subnav>
+              <media-subnav
+                .baseHost=${this.baseHost}
+                .config=${this.config}
+                class="${this.selectedMenuOption === 'more' ? '' : 'hidden'}"
+                menu="more"
+                .menuItems=${this.menus.more}
+              ></media-subnav>
             </div>
           </div>
         </div>

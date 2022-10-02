@@ -58,6 +58,10 @@ export default css`
     font-family: var(--themeFontFamily);
   }
 
+  primary-nav:focus {
+    outline: none !important;
+  }
+
   #close-layer {
     display: none;
     position: fixed;
