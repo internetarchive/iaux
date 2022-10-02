@@ -1,8 +1,8 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html } from 'https://offshoot.ux.archive.org/lit.js';
 
-import './media-button';
-import mediaMenuCSS from './styles/media-menu';
-import formatUrl from './lib/formatUrl';
+import './media-button.js';
+import mediaMenuCSS from './styles/media-menu.js';
+import formatUrl from './lib/formatUrl.js';
 
 const menuSelection = [
   {

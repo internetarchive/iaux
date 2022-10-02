@@ -1,5 +1,5 @@
-import { html, css } from 'lit';
-import Icon from './icon';
+import { html, css } from 'https://offshoot.ux.archive.org/lit.js';
+import Icon from './icon.js';
 
 class User extends Icon {
   static get styles() {

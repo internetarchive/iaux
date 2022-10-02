@@ -1,5 +1,5 @@
-import { css } from 'lit';
-import { subnavListCSS } from './base';
+import { css } from 'https://offshoot.ux.archive.org/lit.js';
+import { subnavListCSS } from './base.js';
 
 export default [subnavListCSS, css`
   @media (min-width: 890px) {

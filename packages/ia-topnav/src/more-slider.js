@@ -1,8 +1,8 @@
-import { html } from 'lit';
-import TrackedElement from './tracked-element';
-import toSentenceCase from './lib/toSentenceCase';
-import moreSliderCSS from './styles/more-slider';
-import formatUrl from './lib/formatUrl';
+import { html } from 'https://offshoot.ux.archive.org/lit.js';
+import TrackedElement from './tracked-element.js';
+import toSentenceCase from './lib/toSentenceCase.js';
+import moreSliderCSS from './styles/more-slider.js';
+import formatUrl from './lib/formatUrl.js';
 
 class MoreSlider extends TrackedElement {
   static get properties() {

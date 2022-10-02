@@ -1,6 +1,6 @@
-import { html, css } from 'lit';
-import Icon from './icon';
-import icons from './icons';
+import { html, css } from 'https://offshoot.ux.archive.org/lit.js';
+import Icon from './icon.js';
+import icons from './icons.js';
 
 class HamBurger extends Icon {
   static get styles() {

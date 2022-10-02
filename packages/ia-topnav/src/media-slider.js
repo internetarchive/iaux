@@ -1,6 +1,6 @@
-import { LitElement, html } from 'lit';
-import './media-subnav';
-import mediaSliderCSS from './styles/media-slider';
+import { LitElement, html } from 'https://offshoot.ux.archive.org/lit.js';
+import './media-subnav.js';
+import mediaSliderCSS from './styles/media-slider.js';
 
 class MediaSlider extends LitElement {
   static get styles() {

@@ -1,4 +1,4 @@
-import { prodHost } from '../constants';
+import { prodHost } from '../constants.js';
 
 const baseHost = prodHost;
 

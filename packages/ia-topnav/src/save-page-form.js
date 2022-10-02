@@ -1,6 +1,6 @@
-import { html } from 'lit';
-import TrackedElement from './tracked-element';
-import savePageFormCSS from './styles/save-page-form';
+import { html } from 'https://offshoot.ux.archive.org/lit.js';
+import TrackedElement from './tracked-element.js';
+import savePageFormCSS from './styles/save-page-form.js';
 
 class SavePageForm extends TrackedElement {
   static get styles() {

@@ -1,4 +1,4 @@
-import { css } from 'lit';
+import { css } from 'https://offshoot.ux.archive.org/lit.js';
 
 export default css`
   :host {

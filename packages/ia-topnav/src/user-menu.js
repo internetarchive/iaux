@@ -1,6 +1,6 @@
-import { html } from 'lit';
-import DropdownMenu from './dropdown-menu';
-import userMenuCSS from './styles/user-menu';
+import { html } from 'https://offshoot.ux.archive.org/lit.js';
+import DropdownMenu from './dropdown-menu.js';
+import userMenuCSS from './styles/user-menu.js';
 
 class UserMenu extends DropdownMenu {
   static get styles() {

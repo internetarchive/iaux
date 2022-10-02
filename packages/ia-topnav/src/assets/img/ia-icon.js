@@ -1,5 +1,5 @@
-import { LitElement, html } from 'lit';
-import './icons';
+import { LitElement, html } from 'https://offshoot.ux.archive.org/lit.js';
+import './icons.js';
 
 class IAIcon extends LitElement {
   constructor() {

@@ -1,10 +1,10 @@
-import { html } from 'lit';
-import TrackedElement from './tracked-element';
-import './wayback-slider';
-import './more-slider';
-import mediaSubnavCSS from './styles/media-subnav';
-import toSentenceCase from './lib/toSentenceCase';
-import formatUrl from './lib/formatUrl';
+import { html } from 'https://offshoot.ux.archive.org/lit.js';
+import TrackedElement from './tracked-element.js';
+import './wayback-slider.js';
+import './more-slider.js';
+import mediaSubnavCSS from './styles/media-subnav.js';
+import toSentenceCase from './lib/toSentenceCase.js';
+import formatUrl from './lib/formatUrl.js';
 
 class MediaSubnav extends TrackedElement {
   static get styles() {

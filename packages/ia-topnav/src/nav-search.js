@@ -1,9 +1,9 @@
-import { nothing, html } from 'lit';
+import { nothing, html } from 'https://offshoot.ux.archive.org/lit.js';
 
-import TrackedElement from './tracked-element';
-import navSearchCSS from './styles/nav-search';
-import icons from './assets/img/icons';
-import formatUrl from './lib/formatUrl';
+import TrackedElement from './tracked-element.js';
+import navSearchCSS from './styles/nav-search.js';
+import icons from './assets/img/icons.js';
+import formatUrl from './lib/formatUrl.js';
 
 class NavSearch extends TrackedElement {
   static get styles() {

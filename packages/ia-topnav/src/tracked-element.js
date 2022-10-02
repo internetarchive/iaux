@@ -1,4 +1,4 @@
-import { LitElement } from 'lit';
+import { LitElement } from 'https://offshoot.ux.archive.org/lit.js';
 
 class TrackedElement extends LitElement {
   trackClick(e) {

@@ -1,7 +1,7 @@
-import { html, LitElement } from 'lit';
-import waybackSearchCSS from './styles/wayback-search';
-import searchIcon from './icon-search';
-import logo from './logo';
+import { html, LitElement } from 'https://offshoot.ux.archive.org/lit.js';
+import waybackSearchCSS from './styles/wayback-search.js';
+import searchIcon from './icon-search.js';
+import logo from './logo.js';
 
 class WaybackSearch extends LitElement {
   static get styles() {

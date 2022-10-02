@@ -1,13 +1,13 @@
-import { LitElement, html, nothing } from 'lit';
+import { LitElement, html, nothing } from 'https://offshoot.ux.archive.org/lit.js';
 
-import './primary-nav';
-import './user-menu';
-import './search-menu';
-import './media-slider';
-import './desktop-subnav';
-import './dropdown-menu';
-import './signed-out-dropdown';
-import iaTopNavCSS from './styles/ia-topnav';
+import './primary-nav.js';
+import './user-menu.js';
+import './search-menu.js';
+import './media-slider.js';
+import './desktop-subnav.js';
+import './dropdown-menu.js';
+import './signed-out-dropdown.js';
+import iaTopNavCSS from './styles/ia-topnav.js';
 
 export default class IATopNav extends LitElement {
   static get styles() {

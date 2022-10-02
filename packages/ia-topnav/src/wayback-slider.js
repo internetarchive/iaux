@@ -1,11 +1,11 @@
-import { html } from 'lit';
-import './wayback-search';
-import TrackedElement from './tracked-element';
-import './save-page-form';
-import queryHandler from './lib/query-handler';
-import waybackSliderCSS from './styles/wayback-slider';
-import toSentenceCase from './lib/toSentenceCase';
-import formatUrl from './lib/formatUrl';
+import { html } from 'https://offshoot.ux.archive.org/lit.js';
+import './wayback-search.js';
+import TrackedElement from './tracked-element.js';
+import './save-page-form.js';
+import queryHandler from './lib/query-handler.js';
+import waybackSliderCSS from './styles/wayback-slider.js';
+import toSentenceCase from './lib/toSentenceCase.js';
+import formatUrl from './lib/formatUrl.js';
 
 class WaybackSlider extends TrackedElement {
   static get styles() {
