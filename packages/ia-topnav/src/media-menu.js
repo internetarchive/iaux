@@ -116,7 +116,7 @@ class MediaMenu extends LitElement {
       <div class="media-menu-container ${this.menuClass}">
         <div class="overflow-clip">
           <nav
-            class="media-menu"
+            class="media-menu-inner"
             aria-hidden="${!this.menuOpened}"
             aria-expanded="${this.menuOpened}"
           >

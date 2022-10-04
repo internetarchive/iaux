@@ -5,7 +5,7 @@ export default css`
     outline: none;
   }
 
-  .media-menu {
+  .media-menu-inner {
     z-index: -1;
     top: -40rem;
     background-color: var(--mediaMenuBg);
@@ -27,12 +27,12 @@ export default css`
       position: relative;
     }
 
-    .media-menu {
+    .media-menu-inner {
       position: absolute;
       width: 100%;
     }
 
-    .open .media-menu {
+    .open .media-menu-inner {
       top: 0;
     }
 
@@ -55,7 +55,7 @@ export default css`
 
   /* Desktop view styles */
   @media (min-width: 890px) {
-    .media-menu {
+    .media-menu-inner {
       display: inline-block;
       position: static;
       width: auto;

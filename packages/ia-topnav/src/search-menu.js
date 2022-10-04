@@ -94,7 +94,7 @@ class SearchMenu extends TrackedElement {
     return html`
       <div class="menu-wrapper">
         <div
-          class="search-menu tx-slide ${this.menuClass}"
+          class="search-menu-inner tx-slide ${this.menuClass}"
           aria-hidden="${searchMenuHidden}"
           aria-expanded="${searchMenuExpanded}"
         >
