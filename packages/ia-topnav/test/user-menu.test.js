@@ -1,6 +1,8 @@
 import { html, fixture, expect } from '@open-wc/testing';
 import '../src/user-menu';
-import { user as userMenu } from '../src/data/menus';
+import { buildTopNavMenus } from '../../src/data/menus.js';
+
+const userMenu = buildTopNavMenus().user;
 
 const component = html`<user-menu></user-menu>`;
 

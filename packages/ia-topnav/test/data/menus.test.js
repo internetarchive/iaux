@@ -1,5 +1,5 @@
 import { expect } from '@open-wc/testing';
-import * as menus from '../../src/data/menus';
+import { buildTopNavMenus } from '../../src/data/menus.js';
 
 describe('Menu data', () => {
   it('returns a collection for each media category', () => {
@@ -12,6 +12,7 @@ describe('Menu data', () => {
       'user',
       'more',
     ].forEach((category) => {
+      const menus = buildTopNavMenus();
       expect(menus[category]).to.not.be.undefined;
     });
   });

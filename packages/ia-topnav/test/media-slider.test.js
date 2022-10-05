@@ -1,7 +1,9 @@
 import { html, fixture, expect } from '@open-wc/testing';
 
 import '../src/media-slider';
-import { texts } from '../src/data/menus';
+import { buildTopNavMenus } from '../../src/data/menus.js';
+
+const texts = buildTopNavMenus().texts;
 
 const component = (mediaSliderOpen, selectedMenuOption) => (
   html`<media-slider

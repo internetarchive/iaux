@@ -8,6 +8,7 @@ import './desktop-subnav.js';
 import './dropdown-menu.js';
 import './signed-out-dropdown.js';
 import iaTopNavCSS from './styles/ia-topnav.js';
+import { buildTopNavMenus, defaultTopNavConfig } from './data/menus.js';
 
 export default class IATopNav extends LitElement {
   static get styles() {
@@ -61,14 +62,23 @@ export default class IATopNav extends LitElement {
     this.mediaBaseHost = 'https://archive.org';
     this.userProfileImagePath = '/services/img/user/profile';
     this.userProfileLastModified = '';
-    this.config = {};
+    this.config = defaultTopNavConfig;
     this.hideSearch = false;
     this.mediaSliderOpen = false;
-    this.menus = {};
+    this.username = this.getAttribute('username')
+    this.menus = buildTopNavMenus(this.username, !this.baseHost);
     this.openMenu = '';
     this.searchIn = '';
     this.selectedMenuOption = '';
     this.secondIdentitySlotMode = '';
+  }
+
+  updated(props) {
+    if (props.has('username') || props.has('baseHost')) {
+      if (!location?.host?.startsWith('archive.org'))
+        console.warn('nav updated')
+      this.menus = buildTopNavMenus(this.username, !this.baseHost);
+    }
   }
 
   menuToggled({ detail }) {

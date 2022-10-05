@@ -10,6 +10,11 @@ yarn add @internetarchive/ia-topnav
 
 ## Usage
 
+@see [demo.html](demo.html) for the simplest example with all the defaults
+
+It shows a dynamic change of the logged in user name -- and how it will re-paint the menus.
+
+
 ```js
 // ia-top-nav.js
 import IATopNav from '@internetarchive/ia-topnav';
@@ -83,36 +88,23 @@ export default IATopNav;
   `mediaBaseHost` is the base host for media like the profile picture if it's not relative
 
   NOTE:
-  When passing in the `config`, `menus`, and `searchQuery` attributes from HTML, not LitElement bindings,
+  When passing in the `searchQuery` attribute from HTML, not LitElement bindings,
   you must base64 the value to account for any special characters.
 -->
 <ia-topnav
   baseHost="https://archive.org"
   mediaBaseHost="https://archive.org"
-  config=${config}
-  menus=${menus}
   hideSearch=${true}
   username="shaneriley"
-  screenName="really_long_screen_name_that_may_be_truncated_on_mobile"
+  screenName="long_screen_name_that_gets_truncated"
   searchQuery="J2Zvbyc="
 ></ia-topnav>
 ```
 
-**Config object:**
 
-```js
-{
-  eventCategory: "MobileTopNav", // Google Analytics event category
-  waybackPagesArchived: "425 billion", // Copy to display for number of pages archived at the top of the Wayback search form
-  uploadURL: 'https://archive.org/create', // Full URL to upload path. Differs on Petabox if user is admin && in category page
-  hiddenSearchOptions: [], // Array of strings representing the values of options that should be hidden from search options
-}
-```
+**Menus object:**
 
-*Menus object:**
-
-Please see [src/data/menus.js](the example menu objects) for an example of a
-valid `menus` property.
+Please see [src/data/menus.js](the menu objects) for our valid `menus` property.
 
 # Development
 
