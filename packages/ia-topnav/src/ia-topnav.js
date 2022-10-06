@@ -75,8 +75,6 @@ export default class IATopNav extends LitElement {
 
   updated(props) {
     if (props.has('username') || props.has('baseHost')) {
-      if (!location?.host?.startsWith('archive.org'))
-        console.warn('nav updated')
       this.menus = buildTopNavMenus(this.username, !this.baseHost);
     }
   }

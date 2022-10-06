@@ -1,6 +1,4 @@
-# \<ia-topnav>
-
-The top navigation menu for archive.org
+# The top navigation menu component for archive.org
 
 ## Installation
 

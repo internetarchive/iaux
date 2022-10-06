@@ -32,7 +32,7 @@ describe('<search-menu>', () => {
     el.searchMenuAnimate = true;
     await el.updateComplete;
 
-    expect(el.shadowRoot.querySelector('.search-menu').classList.contains('closed')).to.be.true;
+    expect(el.shadowRoot.querySelector('.search-menu-inner').classList.contains('closed')).to.be.true;
   });
 
   it('omits rendering of an option when hiddenSearchOptions has a value', async () => {
