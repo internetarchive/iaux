@@ -5,6 +5,7 @@
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
@@ -16,37 +17,27 @@
     "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
     "lint": "npm run lint:eslint",
     "format": "npm run format:eslint && npm run format:prettier",
-    "test": "karma start --coverage",
-    "test:watch": "karma start --auto-watch=true --single-run=false",
-    "test:update-snapshots": "karma start --update-snapshots",
-    "test:prune-snapshots": "karma start --prune-snapshots",
-    "test:compatibility": "karma start --compatibility all --coverage",
-    "test:compatibility:watch": "karma start --compatibility all --auto-watch=true --single-run=false",
-    "test:bs": "karma start karma.bs.config.js --compatibility all --coverage",
+    "test": "ulimit -v unlimited;  web-test-runner  test/**/*.test.js --node-resolve --coverage --puppeteer",
     "site:build": "npm run storybook:build",
     "storybook": "start-storybook -p 9001",
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
-  "dependencies": {
-    "lit": "^2.0.2"
-  },
   "devDependencies": {
-    "@open-wc/demoing-storybook": "^0.3.0",
-    "@open-wc/eslint-config": "^1.0.0",
-    "@open-wc/polyfills-loader": "^0.2.1",
-    "@open-wc/prettier-config": "^0.1.10",
-    "@open-wc/testing": "^2.0.0",
-    "@open-wc/testing-karma": "^3.4.0",
-    "@open-wc/testing-karma-bs": "^1.0.0",
-    "@storybook/react": "^5.1.11",
-    "es-dev-server": "^1.42.0",
-    "eslint": "^6.1.0",
-    "eslint-plugin-lit": "^0.5.0",
+    "@open-wc/demoing-storybook": "^2.4.7",
+    "@open-wc/eslint-config": "^8.0.2",
+    "@open-wc/polyfills-loader": "^0.3.3",
+    "@open-wc/prettier-config": "^1.1.0",
+    "@open-wc/testing": "^3.1.6",
+    "@storybook/react": "^6.5.12",
+    "@web/test-runner": "^0.14.0",
+    "@web/test-runner-puppeteer": "^0.10.5",
+    "es-dev-server": "^2.1.0",
+    "eslint": "^8.24.0",
+    "eslint-plugin-lit": "^1.6.1",
     "gulp": "^4.0.2",
-    "husky": "^4.2.3",
-    "lint-staged": "^8.0.0",
-    "sinon": "^9.0.0",
-    "webpack-merge": "^4.1.5"
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "sinon": "^14.0.1"
   },
   "husky": {
     "hooks": {
