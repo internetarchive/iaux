@@ -349,10 +349,6 @@ export const buildTopNavMenus = (userid = '___USERID___', local_links = true) =>
           url: `${prefix}/details/biodiversity`,
         },
         {
-          title: 'IJCIET - IAEME',
-          url: `${prefix}/details/IAEMEIJCIET`,
-        },
-        {
           title: 'Books by Language',
           url: `${prefix}/details/booksbylanguage`,
         },
