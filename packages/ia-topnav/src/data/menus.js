@@ -13,7 +13,7 @@ export const defaultTopNavConfig = {
 };
 
 // eslint-disable-next-line arrow-body-style
-export const buildTopNavMenus = (userid = '___USERID___', local_links = true) => { // xxxn gg menus.js and update
+export const buildTopNavMenus = (userid = '___USERID___', local_links = true) => {
   const prefix = local_links ? '' : 'https://archive.org'
   return {
     audio: {

@@ -45,6 +45,8 @@ class WaybackSearch extends LitElement {
   }
 
   render() {
+    this.waybackPagesArchived = this.getAttribute('waybackPagesArchived') ?? ''
+
     return html`
       <form action="" method="post" @submit=${this.handleSubmit}>
         <p>
