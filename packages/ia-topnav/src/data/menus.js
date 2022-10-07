@@ -1,19 +1,30 @@
 
-
 export const defaultTopNavConfig = {
-  // Full URL to upload path. Differs on Petabox if user is admin && in category page, eg:
-  // uploadURL: 'https://archive.org/create',
-  uploadURL: '/create', // xxxn
   // Google Analytics event category
   eventCategory: 'TopNav',
-  // Copy to display for number of pages archived at the top of the Wayback search form
-  waybackPagesArchived: '741 billion',
   // Array of strings representing the values of options that should be hidden from search options
   hiddenSearchOptions: [],
+  // Default value, if more accurate value is not passed in to `buildTopNavMenus()`
+  waybackPagesArchived: '740 billion',
 };
 
-// eslint-disable-next-line arrow-body-style
-export const buildTopNavMenus = (userid = '___USERID___', localLinks = true) => {
+
+/**
+ * Creates archive.org top navigation configuration
+ * @param { string } userid archive.org account (immutable) userid
+ * @param { boolean } localLinks passing in false will ensure all links begin: https://archive.org
+ * @param { string } waybackPagesArchived label readable 'how many pages in WayBack machine?'
+ *                                        If you don't pass in something, you'll get the potentially
+ *                                        older/less accurate version.  Otherwise,
+ *                                        @see waybackPagesArchivedFN() (below) (please cache it)
+ *                                        for a live service accurate count result.
+ * @returns { object }
+ */
+export function buildTopNavMenus(userid = '___USERID___', localLinks = true, waybackPagesArchived = '') {
+  if (waybackPagesArchived)
+    defaultTopNavConfig.waybackPagesArchived = waybackPagesArchived // update to more accurate val
+
+
   const prefix = localLinks ? '' : 'https://archive.org'
   return {
     audio: {
@@ -562,3 +573,30 @@ export const buildTopNavMenus = (userid = '___USERID___', localLinks = true) => 
     ],
   };
 };
+
+
+let waybackPagesArchivedCached
+
+/**
+ * Fetches accurate count of number of pages in WayBack Machine
+ * @returns { string }
+ */
+export async function waybackPagesArchivedFN() {
+  if (waybackPagesArchivedCached)
+    return waybackPagesArchivedCached;
+
+  const counts = await (await fetch('https://archive.org/services/offshoot/home-page/mediacounts.php')).json();
+  if (counts.success) {
+    let label = ''
+    let n = parseInt(counts.value.counts.web, 10);
+    if (n > 1000) { n /= 1000; label = 'thousand'; }
+    if (n > 1000) { n /= 1000; label = 'million'; }
+    if (n > 1000) { n /= 1000; label = 'billion'; }
+    if (n > 1000) { n /= 1000; label = 'trillion'; }
+    waybackPagesArchivedCached = `${Math.round(n)} ${label}`
+  } else {
+    waybackPagesArchivedCached = '741 billion';
+  }
+
+  return waybackPagesArchivedCached;
+}

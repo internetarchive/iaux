@@ -14,13 +14,6 @@ export interface IATopNavConfig {
   waybackPagesArchived: string;
 
   /**
-   * Full URL to upload path. Differs on Petabox if user is admin && in category page
-   *
-   * ie. 'https://archive.org/create'
-   */
-  uploadURL: string;
-
-  /**
    * Array of strings representing the values of options that should be hidden from search options
    */
   hiddenSearchOptions: [];
@@ -103,4 +96,10 @@ export declare class IATopNav extends LitElement {
   userProfileImagePath?: string;
   userProfileLastModified?: string;
   menus: IATopNavMenuConfig;
+  /**
+   * Copy to display for number of pages archived at the top of the Wayback search form
+   *
+   * ie. "425 billion"
+   */
+  waybackPagesArchived?: string;
 }

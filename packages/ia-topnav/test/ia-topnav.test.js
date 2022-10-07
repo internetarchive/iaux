@@ -226,16 +226,6 @@ describe('<ia-topnav>', () => {
     expect(logoLink.getAttribute('href')).to.match(/\/\/archive\.org/);
   });
 
-  it('uses uploadURL to render upload link', async () => {
-    const el = await fixture(container({ config: { uploadURL: 'https://archive.org/create' } }));
-    const uploadLink = el
-      .shadowRoot
-      .querySelector('primary-nav')
-      .shadowRoot
-      .querySelector('.upload');
-    expect(uploadLink.getAttribute('href')).to.match(/archive\.org\/create/);
-  });
-
   describe('sets localLinks properly', async () => {
     it('uses localLinks to archive.org links on common child components', async () => {
       const el = await fixture(container({ localLinks: false }));

@@ -179,7 +179,7 @@ class PrimaryNav extends TrackedElement {
           ${this.secondLogoSlot}
         </div>
         ${this.searchMenu}
-        <a href="${formatUrl(this.config.uploadURL, this.baseHost)}" class="upload">
+        <a href="${formatUrl('/create', this.baseHost)}" class="upload">
           ${icons.upload}
           <span>Upload</span>
         </a>

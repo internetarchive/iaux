@@ -22,6 +22,8 @@ export default class IATopNav extends LitElement {
     return {
       // we default to fully-qualified `https://archive.org` urls in nav, set to false for relatives
       localLinks: Boolean,
+      // @see `data/menus.js` for a description:
+      waybackPagesArchived: String,
       // the base host is for navigation, so may be empty for relative links
       baseHost: { type: String },
       // the media base host is the base host for images, such as the profile picture
@@ -74,19 +76,22 @@ export default class IATopNav extends LitElement {
   }
 
   updated(props) {
-    if (props.has('username') || props.has('localLinks') || props.has('baseHost'))
+    if (props.has('username') || props.has('localLinks') || props.has('baseHost') ||
+        props.has('waybackPagesArchived')) {
       this.menuSetup();
+    }
   }
 
   menuSetup() {
     this.localLinks = this.getAttribute('localLinks') !== 'false' && this.getAttribute('localLinks') !== false;
     this.username = this.getAttribute('username')
+    this.waybackPagesArchived = this.getAttribute('waybackPagesArchived') ?? ''
 
     // ensure we update other components that use `baseHost`
     this.baseHost = this.localLinks ? '' : 'https://archive.org';
 
     // re/build the nav
-    this.menus = buildTopNavMenus(this.username, this.localLinks);
+    this.menus = buildTopNavMenus(this.username, this.localLinks, this.waybackPagesArchived);
   }
 
   menuToggled({ detail }) {
