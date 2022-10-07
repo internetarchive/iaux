@@ -87,6 +87,7 @@ export interface IATopNavMenuConfig {
 export type IATopNavSecondIdentitySlotMode = 'allow' | '';
 
 export declare class IATopNav extends LitElement {
+  localLinks?: boolean;
   baseHost?: string;
   config?: IATopNavConfig;
   hideSearch?: boolean;

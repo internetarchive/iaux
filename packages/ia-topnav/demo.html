@@ -1,10 +1,35 @@
 <link rel="stylesheet" href="https://archive.org/includes/build/css/archive.min.css">
 
-<ia-topnav username="tracey_pooh"></ia-topnav>
+<ia-topnav></ia-topnav>
+
+
+<center>
 
 <h1>demo</h1>
 
+
+<button onclick="document.querySelector('ia-topnav').setAttribute('username', 'brewster')">
+  switch username to brewster
+</button>
+<br>
+<button onclick="document.querySelector('ia-topnav').removeAttribute('username')">
+  switch to un-logged-in
+</button>
+
+
+<hr>
+
+
+<button onclick="document.querySelector('ia-topnav').setAttribute('localLinks', false)">
+  switch localLinks false (change to https://archive.org)
+</button>
+<br>
+<button onclick="document.querySelector('ia-topnav').removeAttribute('localLinks')">
+  switch to localLinks (default, change links to start with /)
+</button>
+
+
+
 <script type="module" src="./src/ia-topnav.js"></script>
-<script type="module">
-  document.querySelector('ia-topnav').setAttribute('username', 'brewster')
-</script>
+
+</center>

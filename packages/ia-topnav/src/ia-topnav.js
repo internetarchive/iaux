@@ -20,6 +20,8 @@ export default class IATopNav extends LitElement {
   // so Typescript can find them
   static get properties() {
     return {
+      // we default to fully-qualified `https://archive.org` urls in nav, set to false for relatives
+      localLinks: Boolean,
       // the base host is for navigation, so may be empty for relative links
       baseHost: { type: String },
       // the media base host is the base host for images, such as the profile picture
@@ -58,15 +60,13 @@ export default class IATopNav extends LitElement {
 
   constructor() {
     super();
-    this.baseHost = 'https://archive.org';
+    this.menuSetup();
     this.mediaBaseHost = 'https://archive.org';
     this.userProfileImagePath = '/services/img/user/profile';
     this.userProfileLastModified = '';
     this.config = defaultTopNavConfig;
     this.hideSearch = false;
     this.mediaSliderOpen = false;
-    this.username = this.getAttribute('username')
-    this.menus = buildTopNavMenus(this.username, !this.baseHost);
     this.openMenu = '';
     this.searchIn = '';
     this.selectedMenuOption = '';
@@ -74,9 +74,19 @@ export default class IATopNav extends LitElement {
   }
 
   updated(props) {
-    if (props.has('username') || props.has('baseHost')) {
-      this.menus = buildTopNavMenus(this.username, !this.baseHost);
-    }
+    if (props.has('username') || props.has('localLinks') || props.has('baseHost'))
+      this.menuSetup();
+  }
+
+  menuSetup() {
+    this.localLinks = this.getAttribute('localLinks') !== 'false' && this.getAttribute('localLinks') !== false;
+    this.username = this.getAttribute('username')
+
+    // ensure we update other components that use `baseHost`
+    this.baseHost = this.localLinks ? '' : 'https://archive.org';
+
+    // re/build the nav
+    this.menus = buildTopNavMenus(this.username, this.localLinks);
   }
 
   menuToggled({ detail }) {
