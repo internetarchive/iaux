@@ -1,8 +1,8 @@
-import { html, nothing } from 'lit';
-import TrackedElement from './tracked-element';
-import desktopSubnavCSS from './styles/desktop-subnav';
-import icons from './assets/img/icons';
-import formatUrl from './lib/formatUrl';
+import { html, nothing } from 'https://offshoot.ux.archive.org/lit.js';
+import TrackedElement from './tracked-element.js';
+import desktopSubnavCSS from './styles/desktop-subnav.js';
+import icons from './assets/img/icons.js';
+import formatUrl from './lib/formatUrl.js';
 
 class DesktopSubnav extends TrackedElement {
   static get styles() {

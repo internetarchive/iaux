@@ -1,13 +1,14 @@
 import { html, fixture, expect } from '@open-wc/testing';
 import '../src/user-menu';
-import { user as userMenu } from '../src/data/menus';
+import { buildTopNavMenus } from '../../src/data/menus.js';
 
 const component = html`<user-menu></user-menu>`;
+const component2 = html`<user-menu screenName="brewster"></user-menu>`;
 
 describe('<user-menu>', () => {
-  it('does not render admin links for default users', async () => {
+  it('does not render admin links for logged out users', async () => {
     const el = await fixture(component);
-    el.menuItems = userMenu({});
+    el.menuItems = buildTopNavMenus().user;
 
     await el.updateComplete;
 
@@ -15,34 +16,18 @@ describe('<user-menu>', () => {
     expect(el.shadowRoot.querySelectorAll('.divider').length).to.equal(0);
   });
 
-  it('does not render admin links for privileged users when not viewing an item', async () => {
-    const el = await fixture(component);
-    el.config = {
-      biblio: 'https://some-url.com',
-      identifier: false,
-      isAdmin: true,
-      uploader: 'bar-uploader@baz.org',
-    };
-    el.menuItems = userMenu(el.config);
+  it('does not render admin links for logged in users', async () => {
+    // NOTE: top-nav never renders admin links now -- that's been delegated to dynamic JS insertion
+    // in petabox tree (since it's only relevant there).
+    const el = await fixture(component2);
+    el.menuItems = buildTopNavMenus('brewster_userid').user;
 
     await el.updateComplete;
 
     expect(el.shadowRoot.querySelectorAll('li').length).to.be.gt(0);
     expect(el.shadowRoot.querySelectorAll('.divider').length).to.equal(0);
-  });
 
-  it('renders admin links for privileged users when viewing an editable item', async () => {
-    const el = await fixture(component);
-    el.config = {
-      biblio: 'https://some-url.com',
-      identifier: 'foo',
-      isAdmin: true,
-      uploader: 'bar-uploader@baz.org',
-    };
-    el.menuItems = userMenu(el.config);
-
-    await el.updateComplete;
-
-    expect(el.shadowRoot.querySelectorAll('.divider').length).to.be.gt(0);
+    expect(el.shadowRoot.querySelectorAll('h3').length).to.equal(1);
+    expect(el.shadowRoot.querySelector('h3').innerText).to.equal('brewster');
   });
 });

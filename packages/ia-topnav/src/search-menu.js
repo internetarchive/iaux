@@ -1,7 +1,7 @@
-import { html } from 'lit';
-import TrackedElement from './tracked-element';
-import searchMenuCSS from './styles/search-menu';
-import formatUrl from './lib/formatUrl';
+import { html } from 'https://offshoot.ux.archive.org/lit.js';
+import TrackedElement from './tracked-element.js';
+import searchMenuCSS from './styles/search-menu.js';
+import formatUrl from './lib/formatUrl.js';
 
 class SearchMenu extends TrackedElement {
   static get styles() {
@@ -94,7 +94,7 @@ class SearchMenu extends TrackedElement {
     return html`
       <div class="menu-wrapper">
         <div
-          class="search-menu tx-slide ${this.menuClass}"
+          class="search-menu-inner tx-slide ${this.menuClass}"
           aria-hidden="${searchMenuHidden}"
           aria-expanded="${searchMenuExpanded}"
         >

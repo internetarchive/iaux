@@ -1,7 +1,7 @@
-import { html, nothing } from 'lit';
-import TrackedElement from './tracked-element';
-import dropdownMenuCSS from './styles/dropdown-menu';
-import formatUrl from './lib/formatUrl';
+import { html, nothing } from 'https://offshoot.ux.archive.org/lit.js';
+import TrackedElement from './tracked-element.js';
+import dropdownMenuCSS from './styles/dropdown-menu.js';
+import formatUrl from './lib/formatUrl.js';
 
 class DropdownMenu extends TrackedElement {
   static get styles() {

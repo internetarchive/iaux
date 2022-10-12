@@ -1,8 +1,8 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html } from 'https://offshoot.ux.archive.org/lit.js';
 
-import './media-button';
-import mediaMenuCSS from './styles/media-menu';
-import formatUrl from './lib/formatUrl';
+import './media-button.js';
+import mediaMenuCSS from './styles/media-menu.js';
+import formatUrl from './lib/formatUrl.js';
 
 const menuSelection = [
   {
@@ -116,7 +116,7 @@ class MediaMenu extends LitElement {
       <div class="media-menu-container ${this.menuClass}">
         <div class="overflow-clip">
           <nav
-            class="media-menu"
+            class="media-menu-inner"
             aria-hidden="${!this.menuOpened}"
             aria-expanded="${this.menuOpened}"
           >

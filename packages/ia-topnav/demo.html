@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="https://archive.org/includes/build/css/archive.min.css">
+
+<ia-topnav></ia-topnav>
+
+
+<center>
+
+<h1>demo</h1>
+
+
+<button onclick="document.querySelector('ia-topnav').setAttribute('username', 'brewster')">
+  switch username to brewster
+</button>
+<br>
+<button onclick="document.querySelector('ia-topnav').removeAttribute('username')">
+  switch to un-logged-in
+</button>
+
+
+<hr>
+
+
+<button onclick="document.querySelector('ia-topnav').setAttribute('localLinks', false)">
+  switch localLinks false (change to https://archive.org)
+</button>
+<br>
+<button onclick="document.querySelector('ia-topnav').removeAttribute('localLinks')">
+  switch to localLinks (default, change links to start with /)
+</button>
+
+
+<hr>
+<button onclick="document.querySelector('ia-topnav').setAttribute('waybackPagesArchived', 'many, MAAAANNNY')">
+  change WB pages count
+</button>
+
+
+
+<script type="module" src="./src/ia-topnav.js"></script>
+
+</center>

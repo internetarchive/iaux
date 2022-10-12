@@ -1,6 +1,6 @@
-import { LitElement, html } from 'lit';
-import './media-subnav';
-import mediaSliderCSS from './styles/media-slider';
+import { LitElement, html } from 'https://offshoot.ux.archive.org/lit.js';
+import './media-subnav.js';
+import mediaSliderCSS from './styles/media-slider.js';
 
 class MediaSlider extends LitElement {
   static get styles() {
@@ -35,9 +35,6 @@ class MediaSlider extends LitElement {
     return true;
   }
 
-  get selectedMenuItems() {
-    return this.menus[this.selectedMenuOption];
-  }
 
   render() {
     const sliderDetailsClass = this.mediaSliderOpen ? 'open' : 'closed';
@@ -50,8 +47,51 @@ class MediaSlider extends LitElement {
               <media-subnav
                 .baseHost=${this.baseHost}
                 .config=${this.config}
-                .menu=${this.selectedMenuOption}
-                .menuItems=${this.selectedMenuItems}
+                class="${this.selectedMenuOption === 'audio' ? '' : 'hidden'}"
+                menu="audio"
+                .menuItems=${this.menus.audio}
+              ></media-subnav>
+              <media-subnav
+                .baseHost=${this.baseHost}
+                .config=${this.config}
+                class="${this.selectedMenuOption === 'images' ? '' : 'hidden'}"
+                menu="images"
+                .menuItems=${this.menus.images}
+              ></media-subnav>
+              <media-subnav
+                .baseHost=${this.baseHost}
+                .config=${this.config}
+                class="${this.selectedMenuOption === 'software' ? '' : 'hidden'}"
+                menu="software"
+                .menuItems=${this.menus.software}
+              ></media-subnav>
+              <media-subnav
+                .baseHost=${this.baseHost}
+                .config=${this.config}
+                class="${this.selectedMenuOption === 'texts' ? '' : 'hidden'}"
+                menu="texts"
+                .menuItems=${this.menus.texts}
+              ></media-subnav>
+              <media-subnav
+                .baseHost=${this.baseHost}
+                .config=${this.config}
+                class="${this.selectedMenuOption === 'video' ? '' : 'hidden'}"
+                menu="video"
+                .menuItems=${this.menus.video}
+              ></media-subnav>
+              <media-subnav
+                .baseHost=${this.baseHost}
+                .config=${this.config}
+                class="${this.selectedMenuOption === 'web' ? '' : 'hidden'}"
+                menu="web"
+                .menuItems=${this.menus.web}
+              ></media-subnav>
+              <media-subnav
+                .baseHost=${this.baseHost}
+                .config=${this.config}
+                class="${this.selectedMenuOption === 'more' ? '' : 'hidden'}"
+                menu="more"
+                .menuItems=${this.menus.more}
               ></media-subnav>
             </div>
           </div>

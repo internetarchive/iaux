@@ -13,13 +13,13 @@ const container = ({
   username = '',
   screenName = '',
   config = {},
-  baseHost = '',
+  localLinks = true,
   secondIdentitySlotMode = ''
 } = {}) => (
   html`<ia-topnav
     .screenName=${screenName}
-    .username=${username}
-    .baseHost=${baseHost}
+    username=${username}
+    localLinks=${localLinks}
     .config=${config}
     .secondIdentitySlotMode=${secondIdentitySlotMode}
   ></ia-topnav>`
@@ -216,46 +216,36 @@ describe('<ia-topnav>', () => {
     expect(el.openMenu).to.equal('user');
   });
 
-  it('uses baseHost to render logo link to homepage', async () => {
-    const el = await fixture(container({ baseHost: 'archive.org' }));
+  it('uses localLinks for archive.org logo link', async () => {
+    const el = await fixture(container({ localLinks: false }));
     const logoLink = el
       .shadowRoot
       .querySelector('primary-nav')
       .shadowRoot
       .querySelector('.link-home');
-    expect(logoLink.getAttribute('href')).to.match(/archive\.org/);
+    expect(logoLink.getAttribute('href')).to.match(/\/\/archive\.org/);
   });
 
-  it('uses uploadURL to render upload link', async () => {
-    const el = await fixture(container({ config: { uploadURL: 'https://archive.org/create' } }));
-    const uploadLink = el
-      .shadowRoot
-      .querySelector('primary-nav')
-      .shadowRoot
-      .querySelector('.upload');
-    expect(uploadLink.getAttribute('href')).to.match(/archive\.org\/create/);
-  });
-
-  describe('sets baseHost properly', async () => {
-    it('sets the baseHost on the common child components', async () => {
-      const el = await fixture(container({ baseHost: 'foo.org' }));
+  describe('sets localLinks properly', async () => {
+    it('uses localLinks to archive.org links on common child components', async () => {
+      const el = await fixture(container({ localLinks: false }));
       const componentSelectors = ['primary-nav', 'media-slider', 'desktop-subnav', 'search-menu'];
       componentSelectors.forEach((selector) => {
         const component = el.shadowRoot.querySelector(selector);
-        expect(component.baseHost).to.equal('foo.org');
+        expect(component.baseHost).to.equal('https://archive.org');
       });
     });
 
-    it('sets the baseHost on the signed out dropdown', async () => {
-      const el = await fixture(container({ baseHost: 'foo.org' }));
+    it('uses localLinks to archive.org links on the signed out dropdown', async () => {
+      const el = await fixture(container({ localLinks: false }));
       const signedOutDropdown = el.shadowRoot.querySelector('signed-out-dropdown');
-      expect(signedOutDropdown.baseHost).to.equal('foo.org');
+      expect(signedOutDropdown.baseHost).to.equal('https://archive.org');
     });
 
-    it('sets the baseHost on the user dropdown', async () => {
-      const el = await fixture(container({ username: 'foo', baseHost: 'foo.org' }));
+    it('uses localLinks to archive.org links on the user dropdown', async () => {
+      const el = await fixture(container({ username: 'foo', localLinks: false }));
       const signedOutDropdown = el.shadowRoot.querySelector('user-menu');
-      expect(signedOutDropdown.baseHost).to.equal('foo.org');
+      expect(signedOutDropdown.baseHost).to.equal('https://archive.org');
     });
   });
 
@@ -263,7 +253,7 @@ describe('<ia-topnav>', () => {
     describe('slot for <primary-nav>', () => {
       it('opens a slot with `secondIdentitySlotMode`', async () => {
         const el = await fixture(container({
-          baseHost: 'archive.org',
+          localLinks: false,
           username: 'boop',
           screenName: 'somesuperlongscreenname',
           secondIdentitySlotMode: 'allow'

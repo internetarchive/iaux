@@ -1,14 +1,14 @@
-import { html, nothing } from 'lit';
-import TrackedElement from './tracked-element';
-import icons from './assets/img/icons';
-import './assets/img/hamburger';
-import './login-button';
-import './nav-search';
-import './media-menu';
-import logoWordmarkStacked from './assets/img/wordmark-stacked';
-import primaryNavCSS from './styles/primary-nav';
-import locationHandler from './lib/location-handler';
-import formatUrl from './lib/formatUrl';
+import { html, nothing } from 'https://offshoot.ux.archive.org/lit.js';
+import TrackedElement from './tracked-element.js';
+import icons from './assets/img/icons.js';
+import './assets/img/hamburger.js';
+import './login-button.js';
+import './nav-search.js';
+import './media-menu.js';
+import logoWordmarkStacked from './assets/img/wordmark-stacked.js';
+import primaryNavCSS from './styles/primary-nav.js';
+import locationHandler from './lib/location-handler.js';
+import formatUrl from './lib/formatUrl.js';
 
 class PrimaryNav extends TrackedElement {
   static get styles() {
@@ -179,7 +179,7 @@ class PrimaryNav extends TrackedElement {
           ${this.secondLogoSlot}
         </div>
         ${this.searchMenu}
-        <a href="${formatUrl(this.config.uploadURL, this.baseHost)}" class="upload">
+        <a href="${formatUrl('/create', this.baseHost)}" class="upload">
           ${icons.upload}
           <span>Upload</span>
         </a>

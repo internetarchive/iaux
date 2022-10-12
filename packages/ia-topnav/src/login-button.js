@@ -1,8 +1,8 @@
-import { html } from 'lit';
-import TrackedElement from './tracked-element';
-import icons from './assets/img/icons';
-import loginButtonCSS from './styles/login-button';
-import formatUrl from './lib/formatUrl';
+import { html } from 'https://offshoot.ux.archive.org/lit.js';
+import TrackedElement from './tracked-element.js';
+import icons from './assets/img/icons.js';
+import loginButtonCSS from './styles/login-button.js';
+import formatUrl from './lib/formatUrl.js';
 
 class LoginButton extends TrackedElement {
   static get styles() {

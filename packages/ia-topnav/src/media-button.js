@@ -1,8 +1,8 @@
-import { html } from 'lit';
-import TrackedElement from './tracked-element';
-import icons from './assets/img/icons';
-import toSentenceCase from './lib/toSentenceCase';
-import mediaButtonCSS from './styles/media-button';
+import { html } from 'https://offshoot.ux.archive.org/lit.js';
+import TrackedElement from './tracked-element.js';
+import icons from './assets/img/icons.js';
+import toSentenceCase from './lib/toSentenceCase.js';
+import mediaButtonCSS from './styles/media-button.js';
 
 class MediaButton extends TrackedElement {
   static get styles() {

@@ -5,8 +5,8 @@ import {
   oneEvent
 } from '@open-wc/testing';
 import sinon from 'sinon';
+import '../src/ia-wayback-search.js';
 
-import '../src/ia-wayback-search';
 
 const component = (properties = {
   waybackPagesArchived: '32 trillion pages'

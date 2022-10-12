@@ -1,4 +1,4 @@
-import { css } from 'lit';
+import { css } from 'https://offshoot.ux.archive.org/lit.js';
 
 export default css`
   :host {
@@ -56,6 +56,10 @@ export default css`
     color: var(--primaryTextColor);
     font-size: 2rem;
     font-family: var(--themeFontFamily);
+  }
+
+  primary-nav:focus {
+    outline: none !important;
   }
 
   #close-layer {

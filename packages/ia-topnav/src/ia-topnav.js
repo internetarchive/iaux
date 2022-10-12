@@ -1,13 +1,14 @@
-import { LitElement, html, nothing } from 'lit';
+import { LitElement, html, nothing } from 'https://offshoot.ux.archive.org/lit.js';
 
-import './primary-nav';
-import './user-menu';
-import './search-menu';
-import './media-slider';
-import './desktop-subnav';
-import './dropdown-menu';
-import './signed-out-dropdown';
-import iaTopNavCSS from './styles/ia-topnav';
+import './primary-nav.js';
+import './user-menu.js';
+import './search-menu.js';
+import './media-slider.js';
+import './desktop-subnav.js';
+import './dropdown-menu.js';
+import './signed-out-dropdown.js';
+import iaTopNavCSS from './styles/ia-topnav.js';
+import { buildTopNavMenus, defaultTopNavConfig } from './data/menus.js';
 
 export default class IATopNav extends LitElement {
   static get styles() {
@@ -19,6 +20,10 @@ export default class IATopNav extends LitElement {
   // so Typescript can find them
   static get properties() {
     return {
+      // we default to fully-qualified `https://archive.org` urls in nav, set to false for relatives
+      localLinks: Boolean,
+      // @see `data/menus.js` for a description:
+      waybackPagesArchived: String,
       // the base host is for navigation, so may be empty for relative links
       baseHost: { type: String },
       // the media base host is the base host for images, such as the profile picture
@@ -57,18 +62,36 @@ export default class IATopNav extends LitElement {
 
   constructor() {
     super();
-    this.baseHost = 'https://archive.org';
+    this.menuSetup();
     this.mediaBaseHost = 'https://archive.org';
     this.userProfileImagePath = '/services/img/user/profile';
     this.userProfileLastModified = '';
-    this.config = {};
+    this.config = defaultTopNavConfig;
     this.hideSearch = false;
     this.mediaSliderOpen = false;
-    this.menus = {};
     this.openMenu = '';
     this.searchIn = '';
     this.selectedMenuOption = '';
     this.secondIdentitySlotMode = '';
+  }
+
+  updated(props) {
+    if (props.has('username') || props.has('localLinks') || props.has('baseHost') ||
+        props.has('waybackPagesArchived')) {
+      this.menuSetup();
+    }
+  }
+
+  menuSetup() {
+    this.localLinks = this.getAttribute('localLinks') !== 'false' && this.getAttribute('localLinks') !== false;
+    this.username = this.getAttribute('username')
+    this.waybackPagesArchived = this.getAttribute('waybackPagesArchived') ?? ''
+
+    // ensure we update other components that use `baseHost`
+    this.baseHost = this.localLinks ? '' : 'https://archive.org';
+
+    // re/build the nav
+    this.menus = buildTopNavMenus(this.username, this.localLinks, this.waybackPagesArchived);
   }
 
   menuToggled({ detail }) {

@@ -1,4 +1,4 @@
-import { css } from 'lit';
+import { css } from 'https://offshoot.ux.archive.org/lit.js';
 
 export default css`
   :host {
@@ -15,7 +15,7 @@ export default css`
     outline-width: 0.16rem;
     outline-style: auto;
   }
-  .search-menu {
+  .search-menu-inner {
     position: absolute;
     right: 0;
     left: 0;
@@ -50,7 +50,7 @@ export default css`
   }
 
   @media (min-width: 890px) {
-    .search-menu {
+    .search-menu-inner {
       overflow: visible;
       right: 2rem;
       left: auto;
@@ -64,7 +64,7 @@ export default css`
       box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.15);
     }
 
-    .search-menu:after {
+    .search-menu-inner:after {
       position: absolute;
       right: 7px;
       top: -7px;

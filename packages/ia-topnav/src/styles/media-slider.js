@@ -1,4 +1,4 @@
-import { css } from 'lit';
+import { css } from 'https://offshoot.ux.archive.org/lit.js';
 
 export default css`
   .media-slider-container {
@@ -30,6 +30,10 @@ export default css`
 
   .open {
     display: block;
+  }
+
+  .hidden {
+    display: none;
   }
 
   .info-box {
