@@ -24,7 +24,7 @@
     "storybook:build": "build-storybook -o _site -s storybook-static"
   },
   "dependencies": {
-    "@internetarchive/ia-wayback-search": "^0.2.2"
+    "@internetarchive/ia-wayback-search": "^0.2.3"
   },
   "devDependencies": {
     "@open-wc/demoing-storybook": "^2.4.7",
