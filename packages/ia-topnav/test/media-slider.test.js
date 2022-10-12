@@ -20,11 +20,25 @@ describe('<media-slider>', () => {
     expect(mediaSlider.selectedMenuOption).to.equal('');
   });
 
-  it('renders a media subnav when media type selected', async () => {
+  it('renders a media subnav when texts selected', async () => {
     const mediaSlider = await fixture(component(false, 'texts'));
     const menuHeading = mediaSlider.shadowRoot.querySelector('media-subnav[menu=texts]').shadowRoot.querySelector('h3');
 
     expect(menuHeading.innerText).to.equal(menus.texts.heading);
+  });
+
+  it('renders a media subnav when audio selected', async () => {
+    const mediaSlider = await fixture(component(false, 'audio'));
+    const menuHeading = mediaSlider.shadowRoot.querySelector('media-subnav[menu=audio]').shadowRoot.querySelector('h3');
+
+    expect(menuHeading.innerText).to.equal(menus.audio.heading);
+  });
+
+  it('renders a media subnav when video selected', async () => {
+    const mediaSlider = await fixture(component(false, 'video'));
+    const menuHeading = mediaSlider.shadowRoot.querySelector('media-subnav[menu=video]').shadowRoot.querySelector('h3');
+
+    expect(menuHeading.innerText).to.equal(menus.video.heading);
   });
 
   it('renders the Wayback component when web menu selected', async () => {
