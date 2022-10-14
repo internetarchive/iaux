@@ -1,3 +1,4 @@
+// @see https://git.archive.org/www/offshoot/-/blob/main/guides/update-top-nav.md
 
 export const defaultTopNavConfig = {
   // Google Analytics event category

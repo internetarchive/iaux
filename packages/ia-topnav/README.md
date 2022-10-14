@@ -1,5 +1,7 @@
 # The top navigation menu component for archive.org
 
+## Update guide
+https://git.archive.org/www/offshoot/-/blob/main/guides/update-top-nav.md
 ## Installation
 
 ```bash
