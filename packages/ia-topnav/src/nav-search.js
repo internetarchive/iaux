@@ -29,6 +29,9 @@ class NavSearch extends TrackedElement {
     this.open = false;
     this.openMenu = '';
     this.searchIn = '';
+    this.inSearchBeta = false;
+
+    this.initSearchBetaOptIn();
   }
 
   updated() {
@@ -36,6 +39,14 @@ class NavSearch extends TrackedElement {
       this.shadowRoot.querySelector('[name=query]').focus();
     }
     return true;
+  }
+
+  initSearchBetaOptIn() {
+    try {
+      this.inSearchBeta = JSON.parse(window.localStorage?.getItem('SearchBeta-opt-in'));
+    } catch (err) {
+      // This is fine, as the key may simply not exist
+    }
   }
 
   search(e) {
@@ -74,6 +85,10 @@ class NavSearch extends TrackedElement {
     return this.searchIn ? html`<input type='hidden' name='sin' value='${this.searchIn}' />` : nothing;
   }
 
+  get searchEndpoint() {
+    return this.inSearchBeta ? '/search' : '/search.php';
+  }
+
   render() {
     const searchMenuClass = this.open ? 'flex' : 'search-inactive';
 
@@ -82,7 +97,7 @@ class NavSearch extends TrackedElement {
         <form
           id="nav-search"
           class="highlight"
-          action=${formatUrl('/search.php', this.baseHost)}
+          action=${formatUrl(this.searchEndpoint, this.baseHost)}
           method="get"
           @submit=${this.search}
           data-event-submit-tracking="${this.config.eventCategory}|NavSearchSubmit"
