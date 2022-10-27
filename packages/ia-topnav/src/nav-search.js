@@ -42,11 +42,7 @@ class NavSearch extends TrackedElement {
   }
 
   initSearchBetaOptIn() {
-    try {
-      this.inSearchBeta = JSON.parse(window.localStorage?.getItem('SearchBeta-opt-in'));
-    } catch (err) {
-      // This is fine, as the key may simply not exist
-    }
+    this.inSearchBeta = !!window.localStorage?.getItem('SearchBeta-opt-in');
   }
 
   search(e) {
