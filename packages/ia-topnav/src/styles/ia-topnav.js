@@ -58,6 +58,10 @@ export default css`
     font-family: var(--themeFontFamily);
   }
 
+  input {
+    color: var(--grey13);
+  }
+
   primary-nav:focus {
     outline: none !important;
   }
