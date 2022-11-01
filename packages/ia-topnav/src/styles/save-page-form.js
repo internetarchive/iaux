@@ -16,6 +16,7 @@ export default css`
     box-sizing: border-box;
     border: 1px solid var(--savePageInputBorder);
     border-radius: .5rem;
+    color: var(--grey13);
   }
 
   input[type="submit"] {
