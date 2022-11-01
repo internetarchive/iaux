@@ -44,7 +44,7 @@ class SearchMenu extends TrackedElement {
   get searchTypesTemplate() {
     const searchTypes = [
       {
-        label: 'Metadata',
+        label: 'metadata',
         value: '',
         isDefault: true,
       },
@@ -61,7 +61,7 @@ class SearchMenu extends TrackedElement {
         value: 'RADIO'
       },
       {
-        label: 'archived websites',
+        label: 'archived web sites',
         value: 'WEB',
       },
     ].map(({ value, label, isDefault }) => {
