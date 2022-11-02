@@ -2,15 +2,10 @@ import {
   storiesOf,
   html,
   withKnobs,
-  color,
-  text,
-  boolean,
-  number,
-  withClassPropertiesKnobs,
+  text
 } from '@open-wc/demoing-storybook';
 
-import RadioPlayer from '../lib/src/expandable-search-bar';
-import TranscriptEntryConfig from '../lib/src/models/transcript-entry-config';
+import TranscriptEntryConfig from '../../transcript-view/lib/src/models/transcript-entry-config';
 import transcript from './transcript';
 
 const convertedTranscript = transcript.map((entry) => {
