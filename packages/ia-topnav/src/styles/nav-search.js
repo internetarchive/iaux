@@ -1,6 +1,10 @@
 import { css } from 'https://offshoot.ux.archive.org/lit.js';
 
 export default css`
+  input[type="text"] {
+    color: var(--grey13);
+  }
+
   input:focus {
     outline: none;
   }
