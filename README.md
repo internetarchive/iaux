@@ -87,7 +87,7 @@ This will provide a step-by-step prompt, where you can decide whether this is a 
 This is structured so that there is compatibility with the upstream Archive.org codebase.
 
 #### Base rules:
-- Use `less` instead of `scss`
+- Use `less` instead of `scss`.
 - Do not import other asset types into js code. E.g. do NOT do `import 'styles.less'`. Instead, create a separate `less` file, e.g. `styles.less` alongside the JavaScript code, and this will be imported into the petabox's `archive.less` at integration time.
 
 #### JS Styleguide
