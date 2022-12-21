@@ -2,7 +2,7 @@ import { css } from 'https://offshoot.ux.archive.org/lit.js';
 
 export default css`
   :host {
-    --topOffset: 1200px;
+    --topOffset: -800px;
   }
 
   .menu-wrapper {
@@ -33,10 +33,10 @@ export default css`
   .initial,
   .closed {
     top: var(--topOffset);
+    display: none;
   }
   .closed {
     transition-duration: 0.2s;
-    z-index: -1;
   }
 
   label,
