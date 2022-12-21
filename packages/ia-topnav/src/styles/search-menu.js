@@ -33,6 +33,7 @@ export default css`
   .initial,
   .closed {
     top: var(--topOffset);
+    display: none;
   }
   .closed {
     transition-duration: 0.2s;
