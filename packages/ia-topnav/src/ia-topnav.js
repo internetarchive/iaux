@@ -85,6 +85,7 @@ export default class IATopNav extends LitElement {
   menuSetup() {
     this.localLinks = this.getAttribute('localLinks') !== 'false' && this.getAttribute('localLinks') !== false;
     this.username = this.getAttribute('username')
+    this.screenName = this.username; // set screenName when username changes to display
     this.waybackPagesArchived = this.getAttribute('waybackPagesArchived') ?? ''
 
     // ensure we update other components that use `baseHost`
