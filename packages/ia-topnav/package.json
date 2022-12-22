@@ -18,10 +18,7 @@
     "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
     "lint": "npm run lint:eslint",
     "format": "npm run format:eslint && npm run format:prettier",
-    "test": "ulimit -v unlimited;  web-test-runner  'test/**/*.test.js' --node-resolve --coverage --puppeteer",
-    "site:build": "npm run storybook:build",
-    "storybook": "start-storybook -p 9001",
-    "storybook:build": "build-storybook -o _site -s storybook-static"
+    "test": "ulimit -v unlimited;  web-test-runner  'test/**/*.test.js' --node-resolve --coverage --puppeteer"
   },
   "dependencies": {
     "@internetarchive/ia-wayback-search": "^0.2.3"
@@ -60,6 +57,5 @@
       "eslint-config-prettier"
     ]
   },
-  "prettier": "@open-wc/prettier-config",
-  "gitHead": "5de5e1e871f061f14838886d0bb5de5035e1cafd"
+  "prettier": "@open-wc/prettier-config"
 }
