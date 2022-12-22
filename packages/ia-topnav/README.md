@@ -12,6 +12,8 @@ yarn add @internetarchive/ia-topnav
 
 @see [demo.html](demo.html) for the simplest example with all the defaults
 
+`yarn start` => open demo: `http://localhost:8000/demo.html`
+
 It shows a dynamic change of the logged in user name -- and how it will re-paint the menus.
 
 
@@ -119,6 +121,7 @@ yarn install
 ```bash
 yarn start  // start development server and typescript compiler
 ```
+then open demo - http://localhost:8000/demo.html
 
 ## Testing
 
@@ -130,12 +133,6 @@ yarn test
 
 ```bash
 yarn test:bs
-```
-
-## Demoing using storybook
-
-```bash
-yarn storybook
 ```
 
 ## Linting
