@@ -82,6 +82,8 @@ export default IATopNav;
     --savePageSubmitText: var(--white);
     --savePageInputBorder: var(--grey60);
     --savePageErrorText: var(--errorYellow);
+
+    --topOffset: -1500px;
   }
 </style>
 
