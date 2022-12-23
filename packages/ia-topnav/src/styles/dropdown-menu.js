@@ -1,10 +1,6 @@
 import { css } from 'https://offshoot.ux.archive.org/lit.js';
 
 export default css`
-  :host {
-    --topOffset: -1500px;
-  }
-
   .nav-container {
     position: relative;
   }
@@ -23,7 +19,7 @@ export default css`
 
   .initial,
   .closed {
-    top: var(--topOffset);
+    top: var(--topOffset, -1500px);
   }
 
   .closed {

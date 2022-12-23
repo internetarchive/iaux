@@ -1,10 +1,6 @@
 import { css } from 'https://offshoot.ux.archive.org/lit.js';
 
 export default css`
-  :host {
-    --topOffset: -800px;
-  }
-
   .menu-wrapper {
     position: relative;
   }
@@ -32,8 +28,7 @@ export default css`
   }
   .initial,
   .closed {
-    top: var(--topOffset);
-    display: none;
+    top: var(--topOffset, -1500px);
   }
   .closed {
     transition-duration: 0.2s;
