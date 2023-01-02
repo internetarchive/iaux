@@ -28,7 +28,7 @@
     "lit": "^2.2.2"
   },
   "devDependencies": {
-    "@open-wc/demoing-storybook": "^1.0.1",
+    "@open-wc/demoing-storybook": "^2.4.7",
     "@open-wc/eslint-config": "^2.0.0",
     "@open-wc/prettier-config": "^0.1.10",
     "@open-wc/testing": "^2.0.0",
