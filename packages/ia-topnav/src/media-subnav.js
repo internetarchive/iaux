@@ -49,7 +49,7 @@ class MediaSubnav extends TrackedElement {
   get iconLinks() {
     return this.links.iconLinks.map(link => (
       html`
-        <a href="${formatUrl(link.url, this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(link.title)}"><img src="${link.icon}" />${link.title}</a>
+        <a href="${formatUrl(link.url, this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.analyticsEvent(link.title)}"><img src="${link.icon}" loading="lazy" />${link.title}</a>
       `
     ));
   }
