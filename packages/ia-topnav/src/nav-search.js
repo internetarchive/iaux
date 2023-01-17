@@ -42,7 +42,8 @@ class NavSearch extends TrackedElement {
   }
 
   initSearchBetaOptIn() {
-    this.inSearchBeta = !!window.localStorage?.getItem('SearchBeta-opt-in');
+    this.inSearchBeta = !!window.localStorage?.getItem('SearchBeta-opt-in') ||
+      !!window.localStorage?.getItem('SearchBeta-launched');
   }
 
   search(e) {
