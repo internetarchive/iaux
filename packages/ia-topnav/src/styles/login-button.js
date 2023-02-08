@@ -1,4 +1,4 @@
-import { css } from 'https://offshoot.ux.archive.org/lit.js';
+import { css } from 'https://offshoot.prod.archive.org/lit.js';
 
 export default css`
   .dropdown-toggle {

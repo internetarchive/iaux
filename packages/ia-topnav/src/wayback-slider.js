@@ -1,4 +1,4 @@
-import { html } from 'https://offshoot.ux.archive.org/lit.js';
+import { html } from 'https://offshoot.prod.archive.org/lit.js';
 import './wayback-search.js';
 import TrackedElement from './tracked-element.js';
 import './save-page-form.js';
