@@ -1,4 +1,4 @@
-import { html, css } from 'https://offshoot.ux.archive.org/lit.js';
+import { html, css } from 'https://offshoot.prod.archive.org/lit.js';
 import Icon from './icon.js';
 
 class User extends Icon {

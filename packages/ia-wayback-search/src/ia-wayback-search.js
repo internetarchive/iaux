@@ -1,4 +1,4 @@
-import { html, LitElement } from 'https://offshoot.ux.archive.org/lit.js';
+import { html, LitElement } from 'https://offshoot.prod.archive.org/lit.js';
 import waybackSearchCSS from './styles/wayback-search.js';
 import searchIcon from './icon-search.js';
 import logo from './logo.js';

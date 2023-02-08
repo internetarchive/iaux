@@ -1,4 +1,4 @@
-import { html, nothing } from 'https://offshoot.ux.archive.org/lit.js';
+import { html, nothing } from 'https://offshoot.prod.archive.org/lit.js';
 import TrackedElement from './tracked-element.js';
 import icons from './assets/img/icons.js';
 import './assets/img/hamburger.js';
