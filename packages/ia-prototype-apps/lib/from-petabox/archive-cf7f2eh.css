@@ -10755,6 +10755,7 @@ body.ia-module.tiles .row > .tilebars .results .item-ia {
     margin-left: -1px;
     max-height: 250px;
     background-color: white;
+    object-fit: cover;
   }
   body.ia-module.tiles .item-ia.posrel {
     position: relative;
@@ -11217,6 +11218,7 @@ body.ia-module.tiles .row > .tilebars .results .item-ia {
     margin-left: -1px;
     max-height: 208.33333333px;
     background-color: white;
+    object-fit: cover;
   }
   body.ia-module.tiles .item-ia.posrel {
     position: relative;
