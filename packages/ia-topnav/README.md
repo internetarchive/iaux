@@ -10,9 +10,9 @@ yarn add @internetarchive/ia-topnav
 
 ## Usage
 
-@see [demo.html](demo.html) for the simplest example with all the defaults
+@see [www/index.html](www/index.html) for the simplest example with all the defaults
 
-`yarn start` => open demo: `http://localhost:8000/demo.html`
+`yarn start` => open demo: `http://localhost:8000/www/index.html`
 
 It shows a dynamic change of the logged in user name -- and how it will re-paint the menus.
 
@@ -123,7 +123,7 @@ yarn install
 ```bash
 yarn start  // start development server and typescript compiler
 ```
-then open demo - http://localhost:8000/demo.html
+then open demo - http://localhost:8000/www/index.html
 
 ## Testing
 
