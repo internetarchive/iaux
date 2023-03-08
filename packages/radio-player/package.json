@@ -36,7 +36,7 @@
   "dependencies": {
     "@internetarchive/audio-element": "^0.0.2",
     "@internetarchive/expandable-search-bar": "^0.0.2",
-    "@internetarchive/ia-activity-indicator": "^0.0.3",
+    "@internetarchive/ia-activity-indicator": "^0.0.4",
     "@internetarchive/playback-controls": "0.0.2",
     "@internetarchive/scrubber-bar": "^0.0.2",
     "@internetarchive/transcript-view": "^0.0.3",
