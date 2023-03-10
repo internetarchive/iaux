@@ -55,7 +55,6 @@ export default class IATopNav extends LitElement {
       selectedMenuOption: { type: String },
       username: { type: String },
       userProfileImagePath: { type: String },
-      userProfileLastModified: { type: String },
       secondIdentitySlotMode: { type: String },
     };
   }
@@ -65,7 +64,6 @@ export default class IATopNav extends LitElement {
     this.menuSetup();
     this.mediaBaseHost = 'https://archive.org';
     this.userProfileImagePath = '/services/img/user/profile';
-    this.userProfileLastModified = '';
     this.config = defaultTopNavConfig;
     this.hideSearch = false;
     this.mediaSliderOpen = false;
@@ -245,7 +243,6 @@ export default class IATopNav extends LitElement {
           .selectedMenuOption=${this.selectedMenuOption}
           .username=${this.username}
           .userProfileImagePath=${this.userProfileImagePath}
-          .userProfileLastModified=${this.userProfileLastModified}
           ?hideSearch=${this.hideSearch}
           @mediaTypeSelected=${this.mediaTypeSelected}
           @toggleSearchMenu=${this.toggleSearchMenu}

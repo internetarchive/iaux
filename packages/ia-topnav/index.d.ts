@@ -94,7 +94,6 @@ export declare class IATopNav extends LitElement {
   selectedMenuOption?: string;
   username?: string;
   userProfileImagePath?: string;
-  userProfileLastModified?: string;
   menus: IATopNavMenuConfig;
   /**
    * Copy to display for number of pages archived at the top of the Wayback search form
