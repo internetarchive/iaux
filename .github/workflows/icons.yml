@@ -17,9 +17,9 @@ jobs:
         node-version: 19.x
 
     - name: Install dependencies
-      working-directory: packages/icons
+      working-directory: packages/ia-icon
       run: npm install
 
     - name: Run tests
-      working-directory: packages/icons
+      working-directory: packages/ia-icon
       run: npx eslint
