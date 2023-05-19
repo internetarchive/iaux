@@ -17,18 +17,22 @@
 
   <script type="module">
     import { html, render } from 'lit';
-    import '../dist/src/component/ia-pic-uploader.js';
+    import '../dist/src/ia-pic-uploader.js';
 
     render(
       html`
-      <ia-pic-uploader
-        previewImg=""
-        identifier="@456787643456"
-        type="full"
-      ></ia-pic-uploader>
+      <ia-pic-uploader></ia-pic-uploader>
       `,
       document.querySelector('#demo')
     );
+
+    const iaPicUploader = document.querySelector('ia-pic-uploader');
+
+    iaPicUploader.previewImg = "" ;
+    iaPicUploader.identifier = '@453344354534';
+    iaPicUploader.endpoint = 'https://archive.org/';
+    iaPicUploader.type = 'full';
+
   </script>
 </body>
 </html>

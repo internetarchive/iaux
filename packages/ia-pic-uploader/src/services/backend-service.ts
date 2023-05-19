@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /**
  * Helper to call loan service
  * @param {Object} options
@@ -8,23 +6,20 @@ export async function BackendServiceHandler(options: any) {
   const option = {
     action: null,
     identifier: '',
+    getParam: '',
+    endpoint: 'http://localhost/index.php',
     ...options,
   };
-  console.log(options);
-  
-  let baseHost = `http://localhost/demo/index.php?submit=1&identifier=${
-    option.identifier
-  }&fname=${encodeURIComponent(options.fname)}`;
-  console.log(baseHost);
+
+  let baseHost = `${option.endpoint}?${option.getParam}`;
 
   const location = window?.location;
 
   if (location?.pathname === '/demo/') baseHost = `/demo/`;
 
   let response = {};
-  let formData = new FormData();
+  const formData = new FormData();
   formData.append('action', option.action);
-  formData.append('identifier', option.identifier);
   formData.append('identifier', option.identifier);
 
   try {
@@ -33,6 +28,7 @@ export async function BackendServiceHandler(options: any) {
       method: 'POST',
       body: formData,
     })
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       .then(async response => {
         /**
          * return success response for /demo/ server...
@@ -55,12 +51,14 @@ export async function BackendServiceHandler(options: any) {
          * The response is a Response instance.
          * You parse the data into a useable format using `.json()`
          */
-        return await response.json();
+        return response.json();
       })
       .then(async data => {
         response = data;
       });
-  } catch (error) {}
+  } catch (error) {
+    /* empty */
+  }
 
   return response;
 }

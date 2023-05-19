@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable lit/attribute-value-entities */
 import { html, css, LitElement, CSSResultGroup } from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
 import type { FilesModel } from './models';
@@ -7,28 +7,32 @@ import { BackendServiceHandler } from './services/backend-service';
 import '@internetarchive/ia-activity-indicator/ia-activity-indicator';
 
 @customElement('ia-pic-uploader')
-export class IAPicUploader extends LitElement { 
+export class IAPicUploader extends LitElement {
   @property({ type: String }) previewImg = '';
-  
+
   @property({ type: String }) identifier = '';
 
-  @property({ type: String }) type? = 'compact' ;
+  @property({ type: String }) endpoint = '';
 
-  /**
-   * determine if need to show loading indicator on buttons
-   * @private
-   * @type {boolean}
-   * @memberof IAUXAccountSettings
-   */
+  @property({ type: String }) type? = 'compact';
+
   @state() private showLoadingIndicator?: boolean;
 
   @state() showDropper: boolean = false;
-  // @state() extendedVersion: boolean = false;
+
+  /**
+   * For file Error.
+   */
+  @state({}) fileError = '';
 
   @query('#drop-region') private dropRegion?: HTMLDivElement;
+
   @query('#upload-region') private uploadRegion?: HTMLDivElement;
+
   @query('#save-file') private saveFile?: HTMLFormElement;
+
   @query('#self-submit-form') private selfSubmitEle?: HTMLDivElement;
+
   @query('#file-selector') private fileSelector?: HTMLFormElement;
 
   bindEvents() {
@@ -47,7 +51,6 @@ export class IAPicUploader extends LitElement {
       false
     );
 
-   
     this.fileSelector?.addEventListener('change', () => {
       const { files } = this.fileSelector!;
       this.handleFiles(files);
@@ -55,21 +58,22 @@ export class IAPicUploader extends LitElement {
   }
 
   async handleSaveFile(e: Event) {
-    this.showLoadingIndicator = true; 
+    this.showLoadingIndicator = true;
 
     const form = e.target as HTMLFormElement;
 
     // get file name
-    const fname = (form.elements[0] as HTMLFormElement).files[0].name;
-    
+    const fileName = (form.elements[0] as HTMLFormElement).files[0].name;
+
     e.preventDefault();
     e.stopPropagation();
 
     const response = await BackendServiceHandler({
       action: 'save-file',
+      endpoint: this.endpoint,
       identifier: this.identifier,
-      fname: fname,
-    });    
+      getParam: `submit=1&identifier=${this.identifier}&fname=${fileName}`,
+    });
 
     setTimeout(() => {
       this.showLoadingIndicator = false;
@@ -91,7 +95,7 @@ export class IAPicUploader extends LitElement {
     return html`
       <div class="profile-section">
         <div id="drop-region" class="image-preview">
-          <img src="${this.previewImg}" />
+          <img alt="" src="${this.previewImg}" />
         </div>
         <div class="overlay-icon">+</div>
         ${this.type === 'full' ? this.selfSubmitForm : ''}
@@ -140,15 +144,28 @@ export class IAPicUploader extends LitElement {
         id="self-submit-form"
         class="self-submit-form ${this.showDropper ? 'visible' : 'hidden'}"
       >
-        <button class="close-button" @click=${() => (this.showDropper = false)}>
+        <button
+          class="close-button"
+          @click=${() => {
+            this.showDropper = false;
+          }}
+        >
           X
         </button>
-        <div class="image-preview" @click=${ () => this.fileSelector?.click()}></div>
+        <div
+          class="image-preview"
+          @keyup=""
+          @click=${() => {
+            this.fileSelector?.click();
+          }}
+        ></div>
+        <span>${this.fileError}</span>
         <form
           method="post"
           id="save-file"
           enctype="multipart/form-data"
-          action="/services/post-file.php?submit=1&identifier=${this.identifier}"
+          action="/services/post-file.php?submit=1&identifier=${this
+            .identifier}"
         >
           <input
             id="file-selector"
@@ -157,12 +174,11 @@ export class IAPicUploader extends LitElement {
             accept="image/*"
             style="display: none;"
           />
-          <input type="hidden" name="identifier" value="${this.identifier}" />
+          <input type="hidden" name="identifier" .value="${this.identifier}" />
           <button
             id="save-button"
             type="submit"
             name="submit"
-            id="save-button"
             style="display: inline-block;"
             class=${this.showLoadingIndicator ? 'pointer-none' : ''}
           >
@@ -170,15 +186,15 @@ export class IAPicUploader extends LitElement {
               ? this.loadingIndicatorTemplate
               : 'Save'}
           </button>
-          </form>
-          </div>
-        `;
+        </form>
+      </div>
+    `;
   }
 
-  async submitForm(e: Event) {
+  async submitForm() {
     const response = await BackendServiceHandler({
       action: 'email-available',
-      identifier: 'this.identifier',      
+      identifier: 'this.identifier',
     });
 
     return response;
@@ -194,12 +210,12 @@ export class IAPicUploader extends LitElement {
       img.src = e.target?.result as string;
     };
 
-    if (this.type === "full") {
+    if (this.type === 'full') {
       this.selfSubmitEle!.className = 'visible';
-      var preview = this.selfSubmitEle?.querySelector('.image-preview');
+      const preview = this.selfSubmitEle?.querySelector('.image-preview');
       preview?.appendChild(img);
     } else {
-      this.dropRegion?.appendChild(img)
+      this.dropRegion?.appendChild(img);
     }
 
     // read the image...
@@ -209,15 +225,18 @@ export class IAPicUploader extends LitElement {
   validateImage(image: File) {
     // check the type
     const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+    // check the size more than 1024|1MB
+    const maxSizeInBytes = 1024 * 1024;
+
+    this.fileError = '';
+
     if (validTypes.indexOf(image.type) === -1) {
-      alert('Invalid File Type');
+      this.fileError = 'dont have valid type';
       return false;
     }
-
-    // check the size
-    const maxSizeInBytes = 10e6; // 10MB
     if (image.size > maxSizeInBytes) {
-      alert('File too large');
+      this.fileError = 'dont allowed to upload more than 1024KB';
       return false;
     }
 
@@ -225,36 +244,33 @@ export class IAPicUploader extends LitElement {
   }
 
   async handleFiles(files: FilesModel | any) {
-    if(files.length){
+    if (files.length) {
       // remove previews preview images
       if (this.type === 'full') {
-        const imagePreview = this.selfSubmitEle?.querySelector('.image-preview');
-      while (
-        imagePreview?.firstChild &&
-        imagePreview.removeChild(imagePreview.firstChild)
-      );
-    } else {
-      while (
-        this.dropRegion?.firstChild &&
-        this.dropRegion.removeChild(this.dropRegion.firstChild)
+        const imagePreview =
+          this.selfSubmitEle?.querySelector('.image-preview');
+        while (
+          imagePreview?.firstChild &&
+          imagePreview.removeChild(imagePreview.firstChild)
+        );
+      } else {
+        while (
+          this.dropRegion?.firstChild &&
+          this.dropRegion.removeChild(this.dropRegion.firstChild)
         );
       }
     }
 
     if (this.fileSelector) this.fileSelector.files = files;
 
-    if (!files) return;
-
-    for (let i = 0, len = files.length; i < len; i++) {
-      if (this.validateImage(files[i]))
-        await this.previewAnduploadImage(files[i]);
+    if (files.length && this.validateImage(files[0])) {
+      this.previewAnduploadImage(files[0]);
     }
   }
 
   handleDrop(event: any) {
     this.preventDefault(event);
-    
-    
+
     const files = event?.dataTransfer?.files;
     if (files.length) {
       this.handleFiles(files);
@@ -270,10 +286,12 @@ export class IAPicUploader extends LitElement {
         margin-right: 10px;
         position: relative;
       }
+
       .profile-section {
-        border-radius:100%
+        border-radius: 100%;
       }
-        .profile-section. {
+
+      .profile-section. {
         background-color: #fff;
         border-radius: 50%;
         box-shadow: 0 0 35px rgb(0 0 0 / 5%);
@@ -284,36 +302,41 @@ export class IAPicUploader extends LitElement {
         background-image: url(https://i.ebayimg.com/images/g/LpwAAOSwhcJWF1UM/s-l500.jpg);
         background-size: cover;
       }
-      .image-preview{
-        border-radius:100%;
+
+      .image-preview {
+        border-radius: 100%;
       }
+
       .image-preview:hover img {
         box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
         border-radius: 100%;
         opacity: 0.5;
       }
+
       .overlay-icon {
         position: absolute;
         top: 50%;
         left: 50%;
-        border-radius:100%;
-        height:29px;
+        border-radius: 100%;
+        height: 29px;
         width: 29px;
         transform: translate(-50%, -50%);
         font-size: 25px;
-        background:white;
+        background: white;
         text-align: center;
         display: none;
       }
+
       .profile-section:hover .overlay-icon {
         display: block;
         z-index: 1;
       }
+
       .overlay-icon i {
         font-size: 22px;
       }
-      .image-preview img,
-      .image-preview1 img {
+
+      .image-preview img {
         height: 120px;
         width: 120px;
         border-radius: 100%;
@@ -328,16 +351,6 @@ export class IAPicUploader extends LitElement {
         overflow: hidden;
         background-image: url(https://i.ebayimg.com/images/g/LpwAAOSwhcJWF1UM/s-l500.jpg);
         background-size: cover;
-      }
-      .image-preview1 {
-        display: inline-block;
-        position: relative;
-      }
-      .image-preview1 img {
-        border-radius: 100%;
-        height: 120px;
-        width: 120px;
-        background: inherit;
       }
 
       #self-submit-form {
@@ -354,6 +367,7 @@ export class IAPicUploader extends LitElement {
         border-radius: 5px;
         justify-items: center;
       }
+
       #file-dropper {
         opacity: 0.9;
         filter: alpha(opacity=90);
@@ -380,11 +394,35 @@ export class IAPicUploader extends LitElement {
       #file-selector {
         display: none;
       }
-
       .close-button {
         position: absolute;
         right: 0;
         top: 0;
+      }
+
+      button,
+      input[type='submit'],
+      .delete-button {
+        margin-right: 5px;
+        background: #000;
+        border: 1px solid gray;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        max-height: 3.7rem;
+      }
+
+      #save-button {
+        width: 80px;
+      }
+
+      ia-activity-indicator {
+        display: inline-block;
+        width: 20px;
+        color: white;
+        --activityIndicatorLoadingRingColor: #fff;
+        --activityIndicatorLoadingDotColor: #fff;
       }
     `;
   }
