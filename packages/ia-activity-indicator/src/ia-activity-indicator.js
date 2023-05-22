@@ -164,5 +164,6 @@ class IAActivityIndicator extends LitElement {
     `;
   }
 }
+window.customElements.define('ia-activity-indicator', IAActivityIndicator);
 
 export { IAActivityIndicator, IAActivityIndicatorMode };
