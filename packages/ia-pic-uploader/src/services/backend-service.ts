@@ -6,45 +6,42 @@ export async function BackendServiceHandler(options: any) {
   const option = {
     action: null,
     identifier: '',
+    file: null,
     getParam: '',
-    endpoint: 'http://localhost/index.php',
+    endpoint: '',
+    headers: {},
+    callback() {},
     ...options,
   };
 
+  let finalResponse = {};
   let baseHost = `${option.endpoint}?${option.getParam}`;
 
   const location = window?.location;
-
   if (location?.pathname === '/demo/') baseHost = `/demo/`;
-
-  let response = {};
-  const formData = new FormData();
-  formData.append('action', option.action);
-  formData.append('identifier', option.identifier);
 
   try {
     await fetch(baseHost, {
       mode: 'no-cors',
       method: 'POST',
-      body: formData,
+      headers: option.headers,
+      body: option.file ?? null,
     })
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      .then(async response => {
+      // eslint-disable-next-line consistent-return
+      .then(response => {
+        console.log('response', response);
         /**
          * return success response for /demo/ server...
          */
-        if (option.action === 'screenname-available1') {
-          return {
-            status: false,
-            error: 'This screen name is already being used by another user.',
-          };
+
+        if (option.action === 'save-file' && response.status === 200) {
+          console.log('option.callback(response)');
+          option.callback(response);
+          // return { status: true, msg: 'saved successfully' };
         }
 
-        /**
-         * return success response for /demo/ server...
-         */
-        // if (baseHost == '/demo/1' || baseHost == '/demo/') {
-        //   return { status: true, message: 'data has been saved!' };
+        // if (option.action === 'verify-upload') {
+        //   return { status: true, msg: 'verified successfully' };
         // }
 
         /**
@@ -54,11 +51,19 @@ export async function BackendServiceHandler(options: any) {
         return response.json();
       })
       .then(async data => {
-        response = data;
+        console.log('data', data);
+
+        if (option.action === 'save-file') {
+          console.log(
+            'file saved, metadata call started to verify is picture is upadated!'
+          );
+        }
+
+        finalResponse = data;
+        // option.callback(data);
       });
   } catch (error) {
-    /* empty */
+    console.log(error);
   }
-
-  return response;
+  return finalResponse;
 }

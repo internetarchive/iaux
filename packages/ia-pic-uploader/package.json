@@ -1,11 +1,11 @@
 {
   "name": "@internetarchive/ia-pic-uploader",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha18",
   "description": "A Web Component for Picture upload.",
   "license": "AGPL-3.0-only",
   "author": "Internet Archive",
-  "main": "index.js",
-  "module": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
     "prepare": "rimraf dist && tsc",

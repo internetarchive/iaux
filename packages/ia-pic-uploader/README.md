@@ -2,19 +2,19 @@
 
 # Internet Archive Typescript WebComponent Template
 
-This is a base template for creating Typescript WebComponents. It is based off of the [Open WebComponents generator](https://open-wc.org/docs/development/generator/) with some IA-specific customizations and some development niceities.
+This is the Profile Pic Uploader Component for Internet Archive website.
+
 
 ## Usage
+```ts
+import '@internetarchive/ia-pic-uploader';
+
+<ia-pic-uploader>
+</ia-pic-uploader>
+```
 
 1. Click the "Use this Template" button in GitHub to create a new repository based on this one.
 2. Clone your new repo and update the things below:
-
-### Things to update in your copy
-1. Remove this section
-2. Search for the strings `ia-pic-uploader` and `IAPicUploader` and those are most of the spots that need to be updated.
-3. `README.md` (this file). Update the readme in general, but also the badge URLs
-4. `package.json` Update the name and description
-5. Rename the `ia-pic-uploader.ts` and its associated `.test` file
 
 ## Local Demo with `web-dev-server`
 ```bash
