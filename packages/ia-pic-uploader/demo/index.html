@@ -7,8 +7,15 @@
       font-size: 10px; /* This is to match petabox's base font size */
     }
 
-    body {
-      background: #fafafa;
+    #demo {
+      margin: 100px;
+      display: flex;
+      justify-items: center;
+      align-items: center;
+      font-size: 14px;
+    }
+    .select-message {
+      display: none;
     }
   </style>
 </head>
@@ -21,7 +28,11 @@
 
     render(
       html`
-      <ia-pic-uploader></ia-pic-uploader>
+        <ia-pic-uploader></ia-pic-uploader>
+        <div class="select-message">
+          Drop a new image onto<br />your picture here or<br />
+          <a href="#" id="upload-region">select an image to upload</a>
+        </div>
       `,
       document.querySelector('#demo')
     );
@@ -30,9 +41,8 @@
 
     iaPicUploader.identifier = '@453344354534';
     iaPicUploader.endpoint = 'http://localhost/index.php';
-    iaPicUploader.previewImg = "" ;
+    iaPicUploader.picture = './demo/default-preview.jpg' ;
     iaPicUploader.type = 'full';
-
   </script>
 </body>
 </html>

@@ -1,28 +1,59 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
-/* eslint-disable lit/attribute-value-entities */
-import { html, css, LitElement, CSSResultGroup } from 'lit';
+import { html, css, LitElement, CSSResultGroup, nothing } from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
 import type { FilesModel } from './models';
 import { BackendServiceHandler } from './services/backend-service';
-
 import '@internetarchive/ia-activity-indicator/ia-activity-indicator';
 
 @customElement('ia-pic-uploader')
 export class IAPicUploader extends LitElement {
+  /**
+   * user identifier
+   *
+   * @memberof IAPicUploader
+   */
   @property({ type: String }) identifier = '';
 
+  /**
+   * endpoint where picture will be uploaded
+   *
+   * @memberof IAPicUploader
+   */
   @property({ type: String }) endpoint = '/services/post-file.php';
 
-  @property({ type: String }) previewImg = '';
+  /**
+   * existing user profile picture
+   *
+   * @memberof IAPicUploader
+   */
+  @property({ type: String }) picture = '';
 
+  /**
+   * version of the uploader
+   * - full version will be used on my-uploads page
+   * - compact version will be used on account setting page
+   *
+   * @memberof IAPicUploader
+   */
   @property({ type: String }) type? = 'compact';
 
+  /**
+   * determine if need to show ia-activity-indicator
+   *
+   * @private
+   * @type {boolean}
+   * @memberof IAPicUploader
+   */
   @state() private showLoadingIndicator?: boolean;
 
-  @state() showDropper: boolean = false;
-
+  /**
+   * display message/error/warning on self submit form
+   *
+   * @type {string}
+   * @memberof IAPicUploader
+   */
   @state() fileError: string = '';
+
+  @state() showDropper: boolean = false;
 
   @query('#drop-region') private dropRegion?: HTMLDivElement;
 
@@ -30,106 +61,20 @@ export class IAPicUploader extends LitElement {
 
   @query('#save-file') private saveFile?: HTMLFormElement;
 
-  @query('#self-submit-form') private selfSubmitEle?: HTMLDivElement;
+  @query('.self-submit-form') private selfSubmitEle?: HTMLDivElement;
 
-  @query('#file-selector') private fileSelector?: HTMLFormElement;
+  @query('.file-selector') private fileSelector?: HTMLFormElement;
 
   firstUpdated() {
     this.renderInput();
     this.bindEvents();
   }
 
-  bindEvents() {
-    this.dropRegion?.addEventListener('dragenter', this.preventDefault, false);
-    this.dropRegion?.addEventListener('dragleave', this.preventDefault, false);
-    this.dropRegion?.addEventListener('dragover', this.preventDefault, false);
-    this.dropRegion?.addEventListener(
-      'drop',
-      this.handleDrop.bind(this),
-      false
-    );
-
-    this.saveFile?.addEventListener(
-      'submit',
-      this.handleSaveFile.bind(this),
-      false
-    );
-
-    this.fileSelector?.addEventListener('change', () => {
-      const { files } = this.fileSelector!;
-      this.handleFiles(files);
-    });
-  }
-
-  preventDefault(e: Event) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  async handleSaveFile(event: Event) {
-    await this.preventDefault(event);
-    this.showLoadingIndicator = true;
-
-    console.log('handleSaveFile()');
-    // get input file
-    const inputFile = this.fileSelector?.files[0];
-
-    const response = await BackendServiceHandler({
-      action: 'save-file',
-      identifier: this.identifier,
-      file: inputFile,
-      getParam: `submit=1&identifier=${
-        this.identifier
-      }&fname=${encodeURIComponent(inputFile.name)}`,
-      endpoint: this.endpoint,
-      headers: { 'Content-type': 'multipart/form-data; charset=UTF-8' },
-      callback: () => {
-        this.metadataAPIExecution();
-      },
-    });
-    return response;
-  }
-
-  metadataAPIExecution() {
-    console.log('metadataAPIExecution()');
-
-    const now = Math.round(Date.now() / 1000); // like unix time()
-    const metadataApiInterval = setInterval(async () => {
-      const res = BackendServiceHandler({
-        action: 'verify-upload',
-        endpoint: `/metadata/${this.identifier}?rand=${Math.random()}`,
-      });
-      console.log(res);
-      res.then((json: any) => {
-        console.log(json);
-
-        const waitCount =
-          json.pending_tasks && json.tasks ? json.tasks.length : 0;
-        if (!waitCount) {
-          if (json.item_last_updated < now) {
-            this.fileError = 'waiting for your tasks to queue';
-          } else {
-            console.log('task(s) done!');
-            clearInterval(metadataApiInterval);
-            this.fileError = 'reloading page with your image';
-            window.location.reload();
-          }
-        } else {
-          const errored = json.tasks.filter(
-            (e: any) => e.wait_admin === 2
-          ).length;
-          if (errored) {
-            this.fileError =
-              'status task failure -- an admin will need to resolve';
-            clearInterval(metadataApiInterval);
-          } else {
-            this.fileError = `waiting for your ${waitCount} tasks to finish`;
-          }
-        }
-      });
-    }, 2000);
-  }
-
+  /**
+   * render input[type=file] on existing picture where user can click or drop a image
+   *
+   * @memberof IAPicUploader
+   */
   renderInput() {
     // open file selector when clicked on the drop region
     const fakeInput = document.createElement('input');
@@ -147,14 +92,70 @@ export class IAPicUploader extends LitElement {
 
     fakeInput.addEventListener('change', () => {
       const { files } = fakeInput;
-      this.handleFiles(files);
+      this.handleSelectedFiles(files);
     });
   }
 
-  previewAnduploadImage(image: File) {
+  /**
+   * bind some events for picture uploader
+   *
+   * @memberof IAPicUploader
+   */
+  bindEvents() {
+    this.dropRegion?.addEventListener('dragenter', this.preventDefault, false);
+    this.dropRegion?.addEventListener('dragleave', this.preventDefault, false);
+    this.dropRegion?.addEventListener('dragover', this.preventDefault, false);
+
+    // execute when user drop image
+    this.dropRegion?.addEventListener(
+      'drop',
+      this.handleDropImage.bind(this),
+      false
+    );
+
+    // execute when submit to save picture
+    this.saveFile?.addEventListener(
+      'submit',
+      this.handleSaveFile.bind(this),
+      false
+    );
+
+    // execute when user change picture
+    this.fileSelector?.addEventListener('change', () => {
+      const { files } = this.fileSelector!;
+      this.handleSelectedFiles(files);
+    });
+  }
+
+  preventDefault(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  /**
+   * execute when user drop image on input[type=file]
+   * @param event
+   */
+  handleDropImage(event: DragEvent) {
+    this.preventDefault(event);
+
+    const files = event?.dataTransfer?.files;
+    if (files?.length) {
+      this.handleSelectedFiles(files);
+    }
+  }
+
+  /**
+   * display selected picture for preview
+   *
+   * @param {File} image
+   * @memberof IAPicUploader
+   */
+  previewImage(image: File) {
     this.showDropper = true;
 
     const img = document.createElement('img');
+    img.alt = 'profile picture';
 
     const reader = new FileReader();
     reader.onload = e => {
@@ -162,7 +163,6 @@ export class IAPicUploader extends LitElement {
     };
 
     if (this.type === 'full') {
-      this.selfSubmitEle!.className = 'visible';
       const preview = this.selfSubmitEle?.querySelector('.image-preview');
       preview?.appendChild(img);
     } else {
@@ -173,28 +173,42 @@ export class IAPicUploader extends LitElement {
     reader.readAsDataURL(image);
   }
 
-  validateImage(image: File) {
+  /**
+   * validate the selected file extension and size
+   *
+   * @param {File} image
+   * @return {Boolean}
+   * @memberof IAPicUploader
+   */
+  validateImage(image: File): boolean {
+    this.fileError = '';
+
     // check the type
     const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
-    // check the size more than 1024|1MB
-    const maxSizeInBytes = 1024 * 1024;
-
-    this.fileError = '';
+    // check the size more than 5MB
+    const maxSizeInBytes = 5 * 1024 * 1024;
 
     if (validTypes.indexOf(image.type) === -1) {
-      this.fileError = 'dont have valid type';
+      this.fileError = 'invalid image';
       return false;
     }
+
     if (image.size > maxSizeInBytes) {
-      this.fileError = 'dont allowed to upload more than 1024KB';
+      this.fileError = 'not allowed to upload large image';
       return false;
     }
 
     return true;
   }
 
-  async handleFiles(files: FilesModel | any) {
+  /**
+   * validate and preview selected image
+   *
+   * @param {(FilesModel | any)} files
+   * @memberof IAPicUploader
+   */
+  async handleSelectedFiles(files: FilesModel | any) {
     if (files.length && this.validateImage(files[0])) {
       // remove previews preview images
       if (this.type === 'full') {
@@ -210,22 +224,79 @@ export class IAPicUploader extends LitElement {
           this.dropRegion.removeChild(this.dropRegion.firstChild)
         );
       }
+
+      this.previewImage(files[0]);
     }
 
     if (this.fileSelector) this.fileSelector.files = files;
-
-    if (files.length && this.validateImage(files[0])) {
-      this.previewAnduploadImage(files[0]);
-    }
   }
 
-  handleDrop(event: any) {
+  /**
+   * upload image on petabox server using API
+   *
+   * @param {Event} event
+   * @memberof IAPicUploader
+   */
+  async handleSaveFile(event: Event) {
     this.preventDefault(event);
+    this.showLoadingIndicator = true;
 
-    const files = event?.dataTransfer?.files;
-    if (files.length) {
-      this.handleFiles(files);
-    }
+    // get input file
+    const inputFile = this.fileSelector?.files[0];
+    const getParams = `identifier=${this.identifier}&fname=${encodeURIComponent(
+      inputFile.name
+    )}&submit=1`;
+
+    await BackendServiceHandler({
+      action: 'save-file',
+      identifier: this.identifier,
+      file: inputFile,
+      getParam: getParams,
+      endpoint: this.endpoint,
+      headers: { 'Content-type': 'multipart/form-data; charset=UTF-8' },
+      callback: async () => {
+        await this.metadataAPIExecution();
+      },
+    });
+  }
+
+  /**
+   * after upload, verify using metadata API if successfully uploaded or not
+   *
+   * @memberof IAPicUploader
+   */
+  metadataAPIExecution() {
+    const now = Math.round(Date.now() / 1000); // like unix time()
+
+    const metadataApiInterval = setInterval(async () => {
+      const res = BackendServiceHandler({
+        action: 'verify-upload',
+        endpoint: `/metadata/${this.identifier}?rand=${Math.random()}`,
+      });
+      res.then((json: any) => {
+        const waitCount =
+          json.pending_tasks && json.tasks ? json.tasks.length : 0;
+        if (waitCount) {
+          const adminError = json.tasks.filter(
+            (e: any) => e.wait_admin === 2
+          ).length;
+          if (adminError) {
+            this.fileError =
+              'status task failure -- an admin will need to resolve';
+            clearInterval(metadataApiInterval);
+          } else {
+            this.fileError = `waiting for your ${waitCount} tasks to finish`;
+          }
+        } else if (json.item_last_updated < now) {
+          this.fileError = 'waiting for your tasks to queue';
+        } else {
+          console.log('task(s) done!');
+          clearInterval(metadataApiInterval);
+          this.fileError = 'reloading page with your image';
+          window.location.reload();
+        }
+      });
+    }, 200000);
   }
 
   get loadingIndicatorTemplate() {
@@ -235,12 +306,13 @@ export class IAPicUploader extends LitElement {
     ></ia-activity-indicator>`;
   }
 
-  get selfSubmitForm() {
+  get selfSubmitFormTemplate() {
+    const formAction = encodeURIComponent(
+      `${this.endpoint}?identifier=${this.identifier}&submit=1`
+    );
+
     return html`
-      <div
-        id="self-submit-form"
-        class="self-submit-form ${this.showDropper ? 'visible' : 'hidden'}"
-      >
+      <div class="self-submit-form ${!this.showDropper ? 'hidden' : ''}">
         <button
           class="close-button"
           @click=${() => {
@@ -261,17 +333,17 @@ export class IAPicUploader extends LitElement {
           method="post"
           id="save-file"
           enctype="multipart/form-data"
-          action="${this.endpoint}?submit=1&identifier=${this.identifier}"
+          action="${formAction}"
         >
           <input
-            id="file-selector"
+            class="file-selector"
             name="file"
             type="file"
             accept="image/*"
             style="display: none;"
           />
           <input type="hidden" name="identifier" .value="${this.identifier}" />
-          <input
+          <button
             id="file-submit"
             type="submit"
             name="submit"
@@ -279,42 +351,45 @@ export class IAPicUploader extends LitElement {
             class="btn btn-success ${this.showLoadingIndicator
               ? 'pointer-none'
               : ''}"
-          />
+          >
+            ${this.showLoadingIndicator
+              ? this.loadingIndicatorTemplate
+              : 'Save'}
+          </button>
         </form>
       </div>
     `;
   }
 
-  render() {
-    let selectRegion;
-
-    if (this.type !== 'full') {
-      selectRegion = html`
-        <div id="select-region">
-          <input
-            id="file-selector"
-            name="file"
-            type="file"
-            accept="image/*"
-            style="display: none;"
-          />
-          <div class="select-message">
-            Drop a new image onto<br />your picture here or<br />
-            <a href="#" id="upload-region">select an image to upload</a>
-          </div>
+  get getSelectFileTemplate() {
+    return html`
+      <div class="select-region">
+        <input
+          class="file-selector"
+          name="file"
+          type="file"
+          accept="image/*"
+          style="display: none;"
+        />
+        <div class="select-message">
+          Drop a new image onto<br />your picture here or<br />
+          <a href="#" id="upload-region">select an image to upload</a>
         </div>
-      `;
-    }
+      </div>
+    `;
+  }
 
+  render() {
     return html`
       <div class="profile-section">
         <div id="drop-region" class="image-preview">
-          <img alt="" src="${this.previewImg}" />
+          <img alt="user profile" src="${this.picture}" />
         </div>
         <div class="overlay-icon">+</div>
-        ${this.type === 'full' ? this.selfSubmitForm : ''}
+        ${this.type === 'full' ? this.selfSubmitFormTemplate : nothing}
       </div>
-      ${selectRegion}
+
+      ${this.type === 'compact' ? this.getSelectFileTemplate : nothing}
     `;
   }
 
@@ -322,9 +397,11 @@ export class IAPicUploader extends LitElement {
     return css`
       :host {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;
       }
+
       .profile-section,
-      #select-region {
+      .select-region {
         display: inline-block;
         vertical-align: middle;
         margin-right: 10px;
@@ -335,13 +412,32 @@ export class IAPicUploader extends LitElement {
         border-radius: 100%;
       }
 
+      .profile-section:hover .overlay-icon {
+        display: block;
+        z-index: 1;
+      }
+
       .image-preview {
         border-radius: 100%;
+        height: fit-content;
+      }
+
+      .image-preview img {
+        height: 120px;
+        width: 120px;
+        background-size: cover;
+        background-color: #000;
+        border-radius: 50%;
+        box-shadow: rgb(0 0 0 / 5%) 0px 0px 35px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease 0s;
+        position: relative;
+        overflow: hidden;
       }
 
       .image-preview:hover img {
         box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
-        border-radius: 100%;
         opacity: 0.5;
       }
 
@@ -361,35 +457,12 @@ export class IAPicUploader extends LitElement {
         line-height: 15px;
       }
 
-      .profile-section:hover .overlay-icon {
-        display: block;
-        z-index: 1;
-      }
-
-      .image-preview img {
-        height: 120px;
-        width: 120px;
-        border-radius: 100%;
-        background-size: cover;
-        background-color: rgb(255, 255, 255);
-        border-radius: 50%;
-        box-shadow: rgb(0 0 0 / 5%) 0px 0px 35px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease 0s;
-        position: relative;
-        overflow: hidden;
-        background-image: url(https://i.ebayimg.com/images/g/LpwAAOSwhcJWF1UM/s-l500.jpg);
-        background-size: cover;
-      }
-
-      #self-submit-form {
+      .self-submit-form {
         background: rgb(188, 195, 197);
         position: absolute;
         top: -14px;
         width: 150px;
         display: grid;
-        height: 250px;
         padding: 11px;
         justify-content: center;
         z-index: 2;
@@ -402,30 +475,32 @@ export class IAPicUploader extends LitElement {
       .hidden {
         display: none !important;
       }
-      .visible {
-        display: block;
-      }
 
-      #file-selector {
+      .file-selector {
         display: none;
       }
+
       .close-button {
         position: absolute;
         right: 0;
         top: 0;
       }
 
+      .pointer-none {
+        pointer-events: none;
+      }
+
       button,
       input[type='submit'],
       .delete-button {
-        margin-right: 5px;
-        background: #000;
+        width: 100px;
+        background: rgb(0, 0, 0);
         border: 1px solid gray;
         color: white;
         padding: 10px;
         border-radius: 5px;
         cursor: pointer;
-        max-height: 3.7rem;
+        max-height: 3.8rem;
       }
 
       .close-button {
@@ -439,32 +514,25 @@ export class IAPicUploader extends LitElement {
         border-radius: 100%;
       }
 
-      #save-button {
-        width: 80px;
-      }
-
       .file-error {
-        font-size: 14px;
         text-align: center;
         display: block;
         text-overflow: ellipsis;
         word-wrap: unset;
         overflow: hidden;
         height: 30px;
-        line-height: 15px;
+        line-height: 17px;
         color: #000;
+        margin: 10px 0;
       }
 
       ia-activity-indicator {
         display: inline-block;
         width: 20px;
         color: white;
+        margin: -2px;
         --activityIndicatorLoadingRingColor: #fff;
         --activityIndicatorLoadingDotColor: #fff;
-      }
-
-      .pointer-none {
-        pointer-events: none;
       }
     `;
   }

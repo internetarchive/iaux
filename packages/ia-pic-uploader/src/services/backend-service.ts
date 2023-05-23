@@ -30,6 +30,7 @@ export async function BackendServiceHandler(options: any) {
       // eslint-disable-next-line consistent-return
       .then(response => {
         console.log('response', response);
+
         /**
          * return success response for /demo/ server...
          */
@@ -37,7 +38,6 @@ export async function BackendServiceHandler(options: any) {
         if (option.action === 'save-file' && response.status === 200) {
           console.log('option.callback(response)');
           option.callback(response);
-          // return { status: true, msg: 'saved successfully' };
         }
 
         // if (option.action === 'verify-upload') {
@@ -60,7 +60,6 @@ export async function BackendServiceHandler(options: any) {
         }
 
         finalResponse = data;
-        // option.callback(data);
       });
   } catch (error) {
     console.log(error);
