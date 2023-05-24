@@ -255,6 +255,7 @@ export class IAPicUploader extends LitElement {
       endpoint: this.endpoint,
       headers: { 'Content-type': 'multipart/form-data; charset=UTF-8' },
       callback: async () => {
+        console.log('callback invoked!');
         await this.metadataAPIExecution();
       },
     });
@@ -276,6 +277,7 @@ export class IAPicUploader extends LitElement {
       res.then((json: any) => {
         const waitCount =
           json.pending_tasks && json.tasks ? json.tasks.length : 0;
+
         if (waitCount) {
           const adminError = json.tasks.filter(
             (e: any) => e.wait_admin === 2
@@ -287,16 +289,18 @@ export class IAPicUploader extends LitElement {
           } else {
             this.fileError = `waiting for your ${waitCount} tasks to finish`;
           }
-        } else if (json.item_last_updated < now) {
-          this.fileError = 'waiting for your tasks to queue';
         } else {
-          console.log('task(s) done!');
-          clearInterval(metadataApiInterval);
-          this.fileError = 'reloading page with your image';
-          window.location.reload();
+          if (json.item_last_updated < now) {
+            this.fileError = 'waiting for your tasks to queue';
+          } else {
+            console.log('task(s) done!');
+            clearInterval(metadataApiInterval);
+            this.fileError = 'reloading page with your image';
+            window.location.reload();
+          }
         }
       });
-    }, 200000);
+    }, 2000);
   }
 
   get loadingIndicatorTemplate() {

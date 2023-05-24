@@ -27,7 +27,6 @@ export async function BackendServiceHandler(options: any) {
       headers: option.headers,
       body: option.file ?? null,
     })
-      // eslint-disable-next-line consistent-return
       .then(response => {
         console.log('response', response);
 
@@ -50,7 +49,7 @@ export async function BackendServiceHandler(options: any) {
          */
         return response.json();
       })
-      .then(async data => {
+      .then(data => {
         console.log('data', data);
 
         if (option.action === 'save-file') {
