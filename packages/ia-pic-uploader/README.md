@@ -4,17 +4,54 @@
 
 This is the Profile Pic Uploader Component for Internet Archive website.
 
+## Installation
+```bash
+yarn add @internetarchive/ia-pic-uploader
+```
 
-## Usage
+## Usage of ia-pic-uploader
 ```ts
 import '@internetarchive/ia-pic-uploader';
 
+
+<div id="demo"></div>
+
 <ia-pic-uploader>
 </ia-pic-uploader>
-```
 
-1. Click the "Use this Template" button in GitHub to create a new repository based on this one.
-2. Clone your new repo and update the things below:
+<script type="module">
+    import { html, render } from 'lit';
+    import '../dist/src/ia-pic-uploader.js';
+
+    render(
+      html`
+        <ia-pic-uploader></ia-pic-uploader>
+        <div class="select-message">
+          Drop a new image onto<br />your picture here or<br />
+          <a href="#" id="upload-region">select an image to upload</a>
+        </div>
+      `,
+      document.querySelector('#demo')
+    );
+
+    const iaPicUploader = document.querySelector('ia-pic-uploader');
+
+    iaPicUploader.identifier = 'naturalhistoryof00unse_4111';
+    iaPicUploader.endpoint = 'https://www-neeraj.archive.org/services/post-file.php';
+    iaPicUploader.picture = './demo/default-preview.jpg' ;
+    iaPicUploader.type = 'full'; // full|compact
+  </script>
+```
+## Variants 
+
+1. <ia-pic-uploader type="full"></ia-pic-uploader>
+2. <ia-pic-uploader type="compact"></ia-pic-uploader>
+
+## Attribute 
+1. **identifier** - User identifier.
+2. **endpoint** - Endpoint of form submition in case of full variant.
+3. **picture** - User profile picture.
+4. **type** - Web component type full | compact.
 
 ## Local Demo with `web-dev-server`
 ```bash

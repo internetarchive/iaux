@@ -1,6 +1,7 @@
 import { html, css, LitElement, CSSResultGroup, nothing } from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
 import type { FilesModel } from './models';
+import iaButtonStyle from './style/ia-button-style';
 import { BackendServiceHandler } from './services/backend-service';
 import '@internetarchive/ia-activity-indicator/ia-activity-indicator';
 
@@ -46,18 +47,28 @@ export class IAPicUploader extends LitElement {
   @state() private showLoadingIndicator?: boolean;
 
   /**
-   * display message/error/warning on self submit form
+   * display task's message/error/warning on self submit form
    *
    * @type {string}
    * @memberof IAPicUploader
    */
-  @state() fileError: string = '';
+  @state() taskStatus: string = '';
+
+  /**
+   * display file Validation Error on self submit form
+   *
+   * @type {string}
+   * @memberof IAPicUploader
+   */
+  @state() fileValidationError: string = '';
 
   @state() showDropper: boolean = false;
 
   @query('#drop-region') private dropRegion?: HTMLDivElement;
 
   @query('#upload-region') private uploadRegion?: HTMLDivElement;
+
+  @query('.profile-section') private profileSection?: HTMLDivElement;
 
   @query('#save-file') private saveFile?: HTMLFormElement;
 
@@ -82,6 +93,10 @@ export class IAPicUploader extends LitElement {
     fakeInput.accept = 'image/*';
     fakeInput.multiple = false;
 
+    this.profileSection?.addEventListener('mouseenter', () => {
+      this.profileSection?.classList.add('hover-class');
+    });
+
     this.dropRegion?.addEventListener('click', () => {
       fakeInput.click();
     });
@@ -102,12 +117,29 @@ export class IAPicUploader extends LitElement {
    * @memberof IAPicUploader
    */
   bindEvents() {
+    window.addEventListener(
+      'dragover',
+      e => {
+        this.selfSubmitEle?.classList.remove('hidden');
+        this.selfSubmitEle?.classList.add('drag-over');
+        this.preventDefault(e);
+      },
+      false
+    );
+
     this.dropRegion?.addEventListener('dragenter', this.preventDefault, false);
     this.dropRegion?.addEventListener('dragleave', this.preventDefault, false);
     this.dropRegion?.addEventListener('dragover', this.preventDefault, false);
 
     // execute when user drop image
     this.dropRegion?.addEventListener(
+      'drop',
+      this.handleDropImage.bind(this),
+      false
+    );
+
+    // execute when uer drop image with ia-pic-uploader type version
+    this.selfSubmitEle?.addEventListener(
       'drop',
       this.handleDropImage.bind(this),
       false
@@ -125,6 +157,11 @@ export class IAPicUploader extends LitElement {
       const { files } = this.fileSelector!;
       this.handleSelectedFiles(files);
     });
+
+    document?.addEventListener('saveProfileAvatar', (e: Event) => {
+      console.log(e);
+      this.handleSaveFile(e);
+    });
   }
 
   preventDefault(e: Event) {
@@ -138,10 +175,13 @@ export class IAPicUploader extends LitElement {
    */
   handleDropImage(event: DragEvent) {
     this.preventDefault(event);
+    this.selfSubmitEle?.classList.remove('drag-over');
 
-    const files = event?.dataTransfer?.files;
-    if (files?.length) {
-      this.handleSelectedFiles(files);
+    if (!this.showLoadingIndicator) {
+      const files = event?.dataTransfer?.files;
+      if (files?.length) {
+        this.handleSelectedFiles(files);
+      }
     }
   }
 
@@ -153,8 +193,14 @@ export class IAPicUploader extends LitElement {
    */
   previewImage(image: File) {
     this.showDropper = true;
+    let img: HTMLImageElement;
 
-    const img = document.createElement('img');
+    if (this.type === 'full') {
+      img = document.createElement('img');
+    } else {
+      img = this.dropRegion?.querySelector('img') as HTMLImageElement;
+    }
+
     img.alt = 'profile picture';
 
     const reader = new FileReader();
@@ -165,8 +211,6 @@ export class IAPicUploader extends LitElement {
     if (this.type === 'full') {
       const preview = this.selfSubmitEle?.querySelector('.image-preview');
       preview?.appendChild(img);
-    } else {
-      this.dropRegion?.appendChild(img);
     }
 
     // read the image...
@@ -181,7 +225,7 @@ export class IAPicUploader extends LitElement {
    * @memberof IAPicUploader
    */
   validateImage(image: File): boolean {
-    this.fileError = '';
+    this.fileValidationError = '';
 
     // check the type
     const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -190,12 +234,12 @@ export class IAPicUploader extends LitElement {
     const maxSizeInBytes = 5 * 1024 * 1024;
 
     if (validTypes.indexOf(image.type) === -1) {
-      this.fileError = 'invalid image';
+      this.fileValidationError = 'file must be  format of JPEG or PNG or GIF.';
       return false;
     }
 
     if (image.size > maxSizeInBytes) {
-      this.fileError = 'not allowed to upload large image';
+      this.fileValidationError = 'file size must be less than 5MB.';
       return false;
     }
 
@@ -209,25 +253,28 @@ export class IAPicUploader extends LitElement {
    * @memberof IAPicUploader
    */
   async handleSelectedFiles(files: FilesModel | any) {
+    const imagePreview = this.selfSubmitEle?.querySelector('.image-preview');
+
+    if (this.type === 'full') {
+      this.selfSubmitEle?.classList.remove('hidden');
+    }
+
     if (files.length && this.validateImage(files[0])) {
       // remove previews preview images
       if (this.type === 'full') {
-        const imagePreview =
-          this.selfSubmitEle?.querySelector('.image-preview');
         while (
           imagePreview?.firstChild &&
           imagePreview.removeChild(imagePreview.firstChild)
         );
-      } else {
-        while (
-          this.dropRegion?.firstChild &&
-          this.dropRegion.removeChild(this.dropRegion.firstChild)
-        );
       }
-
       this.previewImage(files[0]);
+    } else {
+      if (!files.length) this.cancelFile();
+      while (
+        imagePreview?.firstChild &&
+        imagePreview.removeChild(imagePreview.firstChild)
+      );
     }
-
     if (this.fileSelector) this.fileSelector.files = files;
   }
 
@@ -240,7 +287,7 @@ export class IAPicUploader extends LitElement {
   async handleSaveFile(event: Event) {
     this.preventDefault(event);
     this.showLoadingIndicator = true;
-
+    
     // get input file
     const inputFile = this.fileSelector?.files[0];
     const getParams = `identifier=${this.identifier}&fname=${encodeURIComponent(
@@ -255,8 +302,8 @@ export class IAPicUploader extends LitElement {
       endpoint: this.endpoint,
       headers: { 'Content-type': 'multipart/form-data; charset=UTF-8' },
       callback: async () => {
-        console.log('callback invoked!');
-        await this.metadataAPIExecution();
+        console.log('callback invoked!', this.type);
+        if (this.type === 'full') await this.metadataAPIExecution();
       },
     });
   }
@@ -283,26 +330,50 @@ export class IAPicUploader extends LitElement {
             (e: any) => e.wait_admin === 2
           ).length;
           if (adminError) {
-            this.fileError =
+            this.taskStatus =
               'status task failure -- an admin will need to resolve';
             clearInterval(metadataApiInterval);
           } else {
-            this.fileError = `waiting for your ${waitCount} tasks to finish`;
+            this.taskStatus = `waiting for your ${waitCount} tasks to finish`;
           }
+        } else if (json.item_last_updated < now) {
+          this.taskStatus = 'waiting for your tasks to queue';
         } else {
-          if (json.item_last_updated < now) {
-            this.fileError = 'waiting for your tasks to queue';
-          } else {
-            console.log('task(s) done!');
-            clearInterval(metadataApiInterval);
-            this.fileError = 'reloading page with your image';
-            window.location.reload();
-          }
+          console.log('task(s) done!');
+          clearInterval(metadataApiInterval);
+          this.taskStatus = 'reloading page with your image';
+          window.location.reload();
         }
       });
     }, 2000);
   }
 
+  /**
+   * fuction to handel closing functionalities
+   */
+  cancelFile() {
+    const imagePreview = this.selfSubmitEle?.querySelector('.image-preview');
+
+    //  clear file input
+    if (this.fileSelector) this.fileSelector.value = '';
+
+    this.showDropper = false;
+    this.showLoadingIndicator = false;
+    this.fileValidationError = '';
+
+    this.selfSubmitEle?.classList.add('hidden');
+    this.profileSection?.classList.remove('hover-class');
+
+    while (
+      imagePreview?.firstChild &&
+      imagePreview.removeChild(imagePreview.firstChild)
+    );
+  }
+
+  /**
+   * function to render loader indicator
+   * @returns {HTMLElement} | <ia-activity-indicator>
+   */
   get loadingIndicatorTemplate() {
     return html` <ia-activity-indicator
       mode="processing"
@@ -310,29 +381,66 @@ export class IAPicUploader extends LitElement {
     ></ia-activity-indicator>`;
   }
 
+  /**
+   * function to render self submit form template
+   * @returns {HTMLElement}
+   */
   get selfSubmitFormTemplate() {
     const formAction = encodeURIComponent(
       `${this.endpoint}?identifier=${this.identifier}&submit=1`
     );
 
     return html`
-      <div class="self-submit-form ${!this.showDropper ? 'hidden' : ''}">
+      <div class="self-submit-form hidden">
         <button
-          class="close-button"
+          class="close-button ia-button 
+          ${(!this.showDropper && this.fileValidationError === '') ||
+          this.showLoadingIndicator
+            ? 'hidden'
+            : ''}
+          ${this.showLoadingIndicator ? 'pointer-none' : ''}"
           @click=${() => {
-            this.showDropper = false;
+            this.cancelFile();
           }}
         >
-          X
+          &#10060;
         </button>
         <div
-          class="image-preview"
+          class="plusIcon ${this.showLoadingIndicator ? 'pointer-none' : ''}"
           @keyup=""
           @click=${() => {
-            this.fileSelector?.click();
+            this.dropRegion?.click();
           }}
-        ></div>
-        <span class="file-error">${this.fileError}</span>
+        >
+          <span>&#43;</span>
+        </div>
+        <span
+          class="drag-text ${this.showLoadingIndicator ? 'pointer-none' : ''}"
+          @keyup=""
+          @click=${() => {
+            this.dropRegion?.click();
+          }}
+          >${this.taskStatus
+            ? this.taskStatus
+            : 'Drag & Drop an image file here or'}</span
+        >
+        <button
+          id="file-picker"
+          @click=${() => {
+            this.dropRegion?.click();
+          }}
+          class="ia-button primary ${this.showLoadingIndicator
+            ? 'pointer-none hidden'
+            : ''}"
+        >
+          Pick image to upload
+        </button>
+        <div
+          class="validationErrorDiv"
+          style="display:${this.fileValidationError === '' ? 'none' : 'block'}"
+        >
+          <span class="fileValidationError">${this.fileValidationError}</span>
+        </div>
         <form
           method="post"
           id="save-file"
@@ -352,19 +460,35 @@ export class IAPicUploader extends LitElement {
             type="submit"
             name="submit"
             value="SUBMIT"
-            class="btn btn-success ${this.showLoadingIndicator
+            class="ia-button
+            ${!this.showDropper || this.fileValidationError !== ''
+              ? 'hidden'
+              : ''}
+            ${this.fileValidationError || this.showLoadingIndicator
               ? 'pointer-none'
               : ''}"
           >
             ${this.showLoadingIndicator
               ? this.loadingIndicatorTemplate
-              : 'Save'}
+              : 'Submit'}
           </button>
         </form>
+        <div
+          class="image-preview full-preview 
+          ${this.showLoadingIndicator ? 'pointer-none' : ''}"
+          @keyup=""
+          @click=${() => {
+            this.dropRegion?.click();
+          }}
+        ></div>
       </div>
     `;
   }
 
+  /**
+   * function that render html template for compact version
+   * @returns {HTMLElement}
+   */
   get getSelectFileTemplate() {
     return html`
       <div class="select-region">
@@ -383,25 +507,53 @@ export class IAPicUploader extends LitElement {
     `;
   }
 
+  /**
+   * function that render html for overlay form compact version
+   * @returns {HTMLElement}
+   */
+  get getOverlayIcon() {
+    return html`
+      <div
+        class="overlay-icon ${this.showLoadingIndicator ? 'show-overlay': ''}"
+        @keyup=""
+        @click=${() => {
+          this.dropRegion?.click();
+        }}
+      >${this.showLoadingIndicator
+        ? this.loadingIndicatorTemplate:'+'}
+       
+      </div>
+    `;
+  }
+
   render() {
     return html`
-      <div class="profile-section">
-        <div id="drop-region" class="image-preview">
+      <div class="profile-section hover-class">
+        ${this.type === 'compact' ? this.getOverlayIcon : nothing}
+        <div
+          id="drop-region"
+          class="image-preview ${this.type === 'full' ? 'full-preview' : ''}"
+        >
           <img alt="user profile" src="${this.picture}" />
         </div>
-        <div class="overlay-icon">+</div>
         ${this.type === 'full' ? this.selfSubmitFormTemplate : nothing}
       </div>
-
       ${this.type === 'compact' ? this.getSelectFileTemplate : nothing}
     `;
   }
 
   static get styles(): CSSResultGroup {
     return css`
+      ${iaButtonStyle}
+
       :host {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 14px;
+      }
+
+      a,
+      a:hover,
+      a:focus {
+        color: #4b64ff;
       }
 
       .profile-section,
@@ -410,27 +562,42 @@ export class IAPicUploader extends LitElement {
         vertical-align: middle;
         margin-right: 10px;
         position: relative;
+        font-size: 1.4rem;
       }
 
       .profile-section {
         border-radius: 100%;
+        width: 120px;
+        height: 120px;
       }
 
       .profile-section:hover .overlay-icon {
         display: block;
         z-index: 1;
       }
+      
+      .show-overlay {
+        display: block !important;
+        z-index: 1;
+        background: none !important;
+      }
+      .show-overlay + .image-preview img {
+        box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
+        opacity: 0.2;
+      }
+
+      .hover-class:hover .self-submit-form {
+        display: block;
+      }
 
       .image-preview {
         border-radius: 100%;
-        height: fit-content;
       }
 
       .image-preview img {
         height: 120px;
         width: 120px;
         background-size: cover;
-        background-color: #000;
         border-radius: 50%;
         box-shadow: rgb(0 0 0 / 5%) 0px 0px 35px;
         text-align: center;
@@ -440,6 +607,7 @@ export class IAPicUploader extends LitElement {
         overflow: hidden;
       }
 
+      .overlay-icon:hover + .image-preview img,
       .image-preview:hover img {
         box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
         opacity: 0.5;
@@ -453,90 +621,153 @@ export class IAPicUploader extends LitElement {
         transform: translate(-50%, -50%);
         background: white;
         text-align: center;
-        color: black;
-        font-size: 20px;
+        color: rgb(158 150 150);
+        cursor: pointer;
+        font-size: 2rem;
+        font-weight: bold;
         display: none;
         padding: 5px;
-        width: 16px;
-        line-height: 15px;
+        min-width: 16px;
+        line-height: 1.5rem;
+      }
+
+      .full-preview img {
+        cursor: default;
+        border-radius: 0% !important;
       }
 
       .self-submit-form {
-        background: rgb(188, 195, 197);
+        box-sizing: border-box;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background: white;
+        border: 4px solid #ccc;
+        border-radius: 10px;
         position: absolute;
         top: -14px;
-        width: 150px;
-        display: grid;
+        left: -40px;
+        width: 200px;
         padding: 11px;
+        text-align: center;
         justify-content: center;
         z-index: 2;
-        border: 3px solid rgb(204, 204, 204);
-        border-radius: 5px;
         justify-items: center;
-        left: -29px;
-      }
-
-      .hidden {
-        display: none !important;
-      }
-
-      .file-selector {
-        display: none;
       }
 
       .close-button {
         position: absolute;
-        right: 0;
-        top: 0;
+        right: 10px;
+        top: 10px;
+        height: 26px;
+        width: 22px;
+        padding: 0;
+        margin: 0;
+        border: none;
+        color: red;
+        font-size: 1rem;
+        justify-content: center;
+        background: white;
+      }
+
+      .self-submit-form.drag-over {
+        border: 4px dashed #ccc;
+      }
+
+      .self-submit-form .drag-text {
+        font-weight: bold;
+        font-size: 1.2rem;
+        cursor: default;
+        color: #000;
+        text-align: center;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .plusIcon {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+
+      .plusIcon span {
+        cursor: default;
+        height: 40px;
+        width: 40px;
+        color: #fff;
+        background-size: cover;
+        background-color: #aaa;
+        border-radius: 50%;
+        font-size: 3rem;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .hidden {
+        display: none;
       }
 
       .pointer-none {
         pointer-events: none;
       }
 
-      button,
-      input[type='submit'],
-      .delete-button {
-        width: 100px;
-        background: rgb(0, 0, 0);
-        border: 1px solid gray;
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-        cursor: pointer;
-        max-height: 3.8rem;
+      #file-picker {
+        margin: 2px auto;
+        padding: 0 1rem;
+        font-size: 1.2rem;
       }
 
-      .close-button {
-        position: absolute;
-        right: 0px;
-        top: 0px;
-        height: 20px;
-        width: 20px;
-        padding: 0;
-        margin: 0;
-        border-radius: 100%;
+      #file-submit {
+        font-size: 1.2rem;
+        padding: 0 1rem;
+        margin: 4px auto;
+        background-color: #5cb85c;
+        justify-content: center;
+        width: 8rem;
+        border-color: #4cae4c;
+        text-transform: uppercase;
       }
 
-      .file-error {
+      #file-submit:hover {
+        background-color: #47a447;
+        border-color: #398439;
+      }
+
+      .validationErrorDiv {
+        margin: 5px 0;
+      }
+
+      .validationErrorDiv .fileValidationError {
         text-align: center;
-        display: block;
-        text-overflow: ellipsis;
         word-wrap: unset;
         overflow: hidden;
-        height: 30px;
-        line-height: 17px;
-        color: #000;
-        margin: 10px 0;
+        line-height: 1.4rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #f00;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
       }
 
-      ia-activity-indicator {
+      .self-submit-form ia-activity-indicator {
         display: inline-block;
         width: 20px;
         color: white;
         margin: -2px;
-        --activityIndicatorLoadingRingColor: #fff;
-        --activityIndicatorLoadingDotColor: #fff;
+        --activityIndicatorLoadingRingColor: #000;
+        --activityIndicatorLoadingDotColor: #000;
+      }
+
+      .show-overlay ia-activity-indicator {
+        display: inline-block;
+        width: 25px;
+        color: white;
+        margin-top: 2px;
+        --activityIndicatorLoadingRingColor: #000;
+        --activityIndicatorLoadingDotColor: #000;
       }
     `;
   }

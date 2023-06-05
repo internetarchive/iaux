@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-pic-uploader",
-  "version": "0.0.1-alpha23",
+  "version": "0.0.1-alpha29",
   "description": "A Web Component for Picture upload.",
   "license": "AGPL-3.0-only",
   "author": "Internet Archive",
@@ -8,12 +8,12 @@
   "module": "dist/index.js",
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "prepare": "rimraf dist && tsc",
+    "prepare": "rimraf dist && tsc && yarn run build",
     "build": "tsc",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "circular": "madge --circular --extensions ts .",
-    "test": "tsc && yarn run lint && yarn run circular && wtr --coverage",
+    "test": "yarn format && tsc && yarn run lint && yarn run circular && wtr --coverage",
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
     "ghpages:build": "rimraf ghpages && yarn run prepare && vite build",
     "ghpages:publish": "yarn run ghpages:prepare -e $(git branch --show-current)",

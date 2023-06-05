@@ -13,6 +13,8 @@ export async function BackendServiceHandler(options: any) {
     callback() {},
     ...options,
   };
+  console.log(option);
+  
 
   let finalResponse = {};
   let baseHost = `${option.endpoint}?${option.getParam}`;
@@ -27,6 +29,7 @@ export async function BackendServiceHandler(options: any) {
       headers: option.headers,
       body: option.file ?? null,
     })
+      // eslint-disable-next-line consistent-return
       .then(response => {
         console.log('response', response);
 
@@ -47,7 +50,9 @@ export async function BackendServiceHandler(options: any) {
          * The response is a Response instance.
          * You parse the data into a useable format using `.json()`
          */
-        return response.json();
+        if(response.status !== 0){
+          return response.json();
+        }
       })
       .then(data => {
         console.log('data', data);

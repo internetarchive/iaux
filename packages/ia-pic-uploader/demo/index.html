@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <style>
     html {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: 10px; /* This is to match petabox's base font size */
     }
 
@@ -14,8 +15,16 @@
       align-items: center;
       font-size: 14px;
     }
+
     .select-message {
       display: none;
+    }
+
+    ia-pic-uploader:focus {
+      outline: none;
+    }
+    ia-pic-uploader:focus-visible {
+      outline: none;
     }
   </style>
 </head>
@@ -28,6 +37,9 @@
 
     render(
       html`
+        <button @click=${() => { document.dispatchEvent(new CustomEvent('saveProfileAvatar', {
+          detail: { 'op': 'save it' }
+        })) }}>Send Dummy Event</button>
         <ia-pic-uploader></ia-pic-uploader>
         <div class="select-message">
           Drop a new image onto<br />your picture here or<br />
