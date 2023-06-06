@@ -216,6 +216,8 @@ export class IAPicUploader extends LitElement {
 
     // read the image...
     reader.readAsDataURL(image);
+
+    this.dispatchEvent(new Event('fileChanged'));
   }
 
   /**
@@ -307,6 +309,8 @@ export class IAPicUploader extends LitElement {
         if (this.type === 'full') await this.metadataAPIExecution();
       },
     });
+
+    this.dispatchEvent(new Event('fileUploaded'));
     this.showLoadingIndicator = false;
   }
 
