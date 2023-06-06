@@ -159,8 +159,9 @@ export class IAPicUploader extends LitElement {
     });
 
     document?.addEventListener('saveProfileAvatar', (e: Event) => {
-      console.log(e);
-      this.handleSaveFile(e);
+      if (this.fileSelector?.files.length) {
+        this.handleSaveFile(e);
+      }
     });
   }
 
@@ -209,7 +210,7 @@ export class IAPicUploader extends LitElement {
     };
 
     if (this.type === 'full') {
-      const preview = this.selfSubmitEle?.querySelector('.image-preview');
+      const preview = this.selfSubmitEle?.querySelector('.full-preview');
       preview?.appendChild(img);
     }
 
@@ -267,7 +268,8 @@ export class IAPicUploader extends LitElement {
           imagePreview.removeChild(imagePreview.firstChild)
         );
       }
-      this.previewImage(files[0]);
+      await this.previewImage(files[0]);
+      if (this.fileSelector) this.fileSelector.files = files;
     } else {
       if (!files.length) this.cancelFile();
       while (
@@ -275,7 +277,6 @@ export class IAPicUploader extends LitElement {
         imagePreview.removeChild(imagePreview.firstChild)
       );
     }
-    if (this.fileSelector) this.fileSelector.files = files;
   }
 
   /**
@@ -287,7 +288,7 @@ export class IAPicUploader extends LitElement {
   async handleSaveFile(event: Event) {
     this.preventDefault(event);
     this.showLoadingIndicator = true;
-    
+
     // get input file
     const inputFile = this.fileSelector?.files[0];
     const getParams = `identifier=${this.identifier}&fname=${encodeURIComponent(
@@ -306,6 +307,7 @@ export class IAPicUploader extends LitElement {
         if (this.type === 'full') await this.metadataAPIExecution();
       },
     });
+    this.showLoadingIndicator = false;
   }
 
   /**
@@ -501,7 +503,12 @@ export class IAPicUploader extends LitElement {
         />
         <div class="select-message">
           Drop a new image onto<br />your picture here or<br />
-          <a href="#" id="upload-region">select an image to upload</a>
+          <a
+            href="#"
+            id="upload-region"
+            class="${this.showLoadingIndicator ? 'pointer-none' : ''}"
+            >select an image to upload</a
+          >
         </div>
       </div>
     `;
@@ -514,14 +521,15 @@ export class IAPicUploader extends LitElement {
   get getOverlayIcon() {
     return html`
       <div
-        class="overlay-icon ${this.showLoadingIndicator ? 'show-overlay': ''}"
+        class="overlay-icon ${this.showLoadingIndicator
+          ? 'show-overlay pointer-none'
+          : ''}"
         @keyup=""
         @click=${() => {
           this.dropRegion?.click();
         }}
-      >${this.showLoadingIndicator
-        ? this.loadingIndicatorTemplate:'+'}
-       
+      >
+        ${this.showLoadingIndicator ? this.loadingIndicatorTemplate : '+'}
       </div>
     `;
   }
@@ -532,7 +540,9 @@ export class IAPicUploader extends LitElement {
         ${this.type === 'compact' ? this.getOverlayIcon : nothing}
         <div
           id="drop-region"
-          class="image-preview ${this.type === 'full' ? 'full-preview' : ''}"
+          class="image-preview 
+            ${this.type === 'full' ? 'full-preview' : ''}
+            ${this.showLoadingIndicator ? 'pointer-none' : ''}"
         >
           <img alt="user profile" src="${this.picture}" />
         </div>
@@ -575,7 +585,7 @@ export class IAPicUploader extends LitElement {
         display: block;
         z-index: 1;
       }
-      
+
       .show-overlay {
         display: block !important;
         z-index: 1;
