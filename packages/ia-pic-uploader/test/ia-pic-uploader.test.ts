@@ -1,12 +1,7 @@
 import { expect, fixture } from '@open-wc/testing';
-// import Sinon from 'sinon';
 import { html } from 'lit';
 import type { IAPicUploader } from '../src/ia-pic-uploader';
 import '../src/ia-pic-uploader';
-
-// afterEach(() => {
-//   Sinon.restore();
-// });
 
 const container = ({
   identifier = '@453344354534',
@@ -119,6 +114,7 @@ describe('check file validation function', () => {
       type: 'image/jpeg',
       lastModified: new Date().getTime(),
     });
+
     await el.updateComplete;
     expect(el.validateImage(fileData)).to.true;
   });
@@ -136,6 +132,7 @@ describe('check file validation function', () => {
       type: 'image/svg',
       lastModified: new Date().getTime(),
     });
+
     el.validateImage(fileData);
     await el.updateComplete;
     expect(el.fileValidationError).to.equal(
@@ -166,7 +163,7 @@ describe('check file validation function', () => {
 });
 
 describe('test previewImage function', () => {
-  it('check funtionality one by one', async () => {
+  it('check funtionality one by one for full variant', async () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
@@ -175,15 +172,98 @@ describe('test previewImage function', () => {
         type: 'full',
       })
     );
+    const fullPreview = el.shadowRoot?.querySelector('.full-preview');
     const fileData = {
-      0: new File([new ArrayBuffer(5242881)], 'image.jpeg', {
+      0: new File([new ArrayBuffer(5242881)], 'image123.jpeg', {
         type: 'image/jpeg',
         lastModified: new Date().getTime(),
       }),
     };
+
+    expect(fullPreview?.firstChild).to.be.empty;
+
+    el.previewImage(fileData[0]);
+    await el.updateComplete;
+    expect(fullPreview?.firstChild).to.exist;
+    expect(el.showDropper).to.true;
+  });
+
+  it('check funtionality one by one for full variant', async () => {
+    const el = await fixture<IAPicUploader>(
+      container({
+        identifier: '@453344354534',
+        endpoint: 'http://localhost/index.php',
+        picture: './demo/default-preview.jpg',
+        type: 'compact',
+      })
+    );
+    const fileData = {
+      0: new File([new ArrayBuffer(5242881)], 'image123.jpeg', {
+        type: 'image/jpeg',
+        lastModified: new Date().getTime(),
+      }),
+    };
+
     el.previewImage(fileData[0]);
     await el.updateComplete;
     expect(el.showDropper).to.true;
+  });
+});
+
+describe('test handleDropImage Function', () => {
+  it('check drop event for full variant', async () => {
+    const el = await fixture<IAPicUploader>(
+      container({
+        identifier: '@453344354534',
+        endpoint: 'http://localhost/index.php',
+        picture: './demo/default-preview.jpg',
+        type: 'full',
+      })
+    );
+    const selfSubmitEle = el.shadowRoot?.querySelector(
+      '.profile-section .self-submit-form'
+    );
+
+    window.dispatchEvent(new DragEvent('dragover'));
+    await el.updateComplete;
+    expect(selfSubmitEle?.classList.contains('drag-over')).to.true;
+
+    selfSubmitEle?.dispatchEvent(new DragEvent('drop'));
+    await el.updateComplete;
+    expect(selfSubmitEle?.classList.contains('drag-over')).to.false;
+  });
+
+  it('Check for drop on dropRegion', async () => {
+    const el = await fixture<IAPicUploader>(
+      container({
+        identifier: '@453344354534',
+        endpoint: 'http://localhost/index.php',
+        picture: './demo/default-preview.jpg',
+        type: 'compact',
+      })
+    );
+    const dropRegion = el.shadowRoot?.querySelector('#drop-region');
+    dropRegion?.dispatchEvent(new DragEvent('drop'));
+  });
+});
+
+describe('test loadingIndicatorTemplate function', () => {
+  it('check function return ', async () => {
+    const el = await fixture<IAPicUploader>(
+      container({
+        identifier: '@453344354534',
+        endpoint: 'http://localhost/index.php',
+        picture: './demo/default-preview.jpg',
+        type: 'full',
+      })
+    );
+    const loaderReturn = el.loadingIndicatorTemplate;
+    await el.updateComplete;
+
+    expect(loaderReturn.strings[0]).to.be.contain(`<ia-activity-indicator
+      mode="processing"
+      class="go-button-loading-icon"
+    ></ia-activity-indicator>`);
   });
 });
 
@@ -197,58 +277,15 @@ describe('test handleSelectedFiles function', () => {
         type: 'full',
       })
     );
-    // const selfSubmitEle = el.shadowRoot?.querySelector(
-    //   '.profile-section .self-submit-form'
-    // );
     const fileData = {
       0: new File(['asdfafs'], 'image1.jpeg', {
         type: 'image/jpeg',
         lastModified: new Date().getTime(),
       }),
     };
+
     el.handleSelectedFiles(fileData);
-    el.previewImage(fileData[0]);
-
     await el.updateComplete;
-    // expect(selfSubmitEle?.classList.contains('hidden')).to.false;
-
-    // const img = selfSubmitEle?.querySelector(
-    //   '.full-preview img'
-    // ) as HTMLImageElement;
-    // console.log(img);
-    // expect(img.src).to.contain('image1');
+    expect(el.validateImage(fileData[0])).to.equal(true);
   });
 });
-
-// describe('check file select event', () => {
-//   it('check file selector', async () => {
-//     const el = await fixture<IAPicUploader>(
-//       container({
-//         identifier: '@453344354534',
-//         endpoint: 'http://localhost/index.php',
-//         picture: './demo/default-preview.jpg',
-//         type: 'full',
-//       })
-//     );
-
-//     const selfSubmitForm = el.shadowRoot?.querySelector('.self-submit-form');
-//     const fileSelector = selfSubmitForm?.querySelector(
-//       '.file-selector'
-//     ) as HTMLFormElement;
-//     const fileList = new File(['hello image'], 'test-file.png', {
-//       type: 'image/png',
-//     });
-//     await el.updateComplete;
-
-//     const dataTransfer = new DataTransfer();
-
-//     dataTransfer.items.add(fileList);
-//     fileSelector.files = dataTransfer.files;
-//     fileSelector?.dispatchEvent(new InputEvent('change'));
-
-//     await el.updateComplete;
-
-//     console.log(dataTransfer.files);
-//     console.log(fileSelector.files);
-//   });
-// });

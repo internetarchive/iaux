@@ -38,6 +38,13 @@ export class IAPicUploader extends LitElement {
   @property({ type: String }) type? = 'compact';
 
   /**
+   * check user can authenticated
+   *
+   * @memberof IAPicUploader
+   */
+  @property({ type: Boolean }) lookingAtMyAccount? = true;
+
+  /**
    * determine if need to show ia-activity-indicator
    *
    * @private
@@ -78,7 +85,7 @@ export class IAPicUploader extends LitElement {
 
   firstUpdated() {
     this.renderInput();
-    this.bindEvents();
+    if (this.lookingAtMyAccount) this.bindEvents();
   }
 
   /**
@@ -290,6 +297,7 @@ export class IAPicUploader extends LitElement {
   async handleSaveFile(event: Event) {
     this.preventDefault(event);
     this.showLoadingIndicator = true;
+    this.selfSubmitEle?.classList.add('vertical-center');
 
     // get input file
     const inputFile = this.fileSelector?.files[0];
@@ -311,7 +319,10 @@ export class IAPicUploader extends LitElement {
     });
 
     this.dispatchEvent(new Event('fileUploaded'));
-    this.showLoadingIndicator = false;
+    if (this.type === 'compact') this.showLoadingIndicator = false;
+
+    //  clear file input
+    if (this.fileSelector) this.fileSelector.value = '';
   }
 
   /**
@@ -387,6 +398,18 @@ export class IAPicUploader extends LitElement {
     ></ia-activity-indicator>`;
   }
 
+  get plusIconTemplate() {
+    return html`<div
+      class="plusIcon ${this.showLoadingIndicator ? 'pointer-none' : ''}"
+      @keyup=""
+      @click=${() => {
+        this.dropRegion?.click();
+      }}
+    >
+      <span>&#43;</span>
+    </div>`;
+  }
+
   /**
    * function to render self submit form template
    * @returns {HTMLElement}
@@ -397,7 +420,10 @@ export class IAPicUploader extends LitElement {
     );
 
     return html`
-      <div class="self-submit-form hidden">
+      <div
+        class="self-submit-form hidden
+      "
+      >
         <button
           class="close-button ia-button 
           ${(!this.showDropper && this.fileValidationError === '') ||
@@ -411,15 +437,9 @@ export class IAPicUploader extends LitElement {
         >
           &#10060;
         </button>
-        <div
-          class="plusIcon ${this.showLoadingIndicator ? 'pointer-none' : ''}"
-          @keyup=""
-          @click=${() => {
-            this.dropRegion?.click();
-          }}
-        >
-          <span>&#43;</span>
-        </div>
+        ${this.showLoadingIndicator
+          ? this.loadingIndicatorTemplate
+          : this.plusIconTemplate}
         <span
           class="drag-text ${this.showLoadingIndicator ? 'pointer-none' : ''}"
           @keyup=""
@@ -471,7 +491,7 @@ export class IAPicUploader extends LitElement {
               ? 'hidden'
               : ''}
             ${this.fileValidationError || this.showLoadingIndicator
-              ? 'pointer-none'
+              ? 'pointer-none hidden'
               : ''}"
           >
             ${this.showLoadingIndicator
@@ -481,7 +501,7 @@ export class IAPicUploader extends LitElement {
         </form>
         <div
           class="image-preview full-preview 
-          ${this.showLoadingIndicator ? 'pointer-none' : ''}"
+          ${this.showLoadingIndicator ? 'pointer-none hidden' : ''}"
           @keyup=""
           @click=${() => {
             this.dropRegion?.click();
@@ -540,7 +560,11 @@ export class IAPicUploader extends LitElement {
 
   render() {
     return html`
-      <div class="profile-section hover-class">
+      <div
+        class="profile-section hover-class 
+        ${!this.lookingAtMyAccount ? 'pointer-none' : ''}
+      "
+      >
         ${this.type === 'compact' ? this.getOverlayIcon : nothing}
         <div
           id="drop-region"
@@ -605,12 +629,15 @@ export class IAPicUploader extends LitElement {
       }
 
       .image-preview {
+        text-align: center;
         border-radius: 100%;
       }
 
       .image-preview img {
         height: 120px;
         width: 120px;
+        max-height: 120px;
+        max-width: 120px;
         background-size: cover;
         border-radius: 50%;
         box-shadow: rgb(0 0 0 / 5%) 0px 0px 35px;
@@ -647,14 +674,19 @@ export class IAPicUploader extends LitElement {
 
       .full-preview img {
         cursor: default;
+        width: auto;
+        height: 100%;
         border-radius: 0% !important;
+      }
+
+      .vertical-center {
+        top: 20px !important;
       }
 
       .self-submit-form {
         box-sizing: border-box;
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         background: white;
-        border: 4px solid #ccc;
+        border: 3px solid #ccc;
         border-radius: 10px;
         position: absolute;
         top: -14px;
@@ -667,23 +699,21 @@ export class IAPicUploader extends LitElement {
         justify-items: center;
       }
 
+      .self-submit-form .full-preview img {
+        height: auto;
+      }
+
       .close-button {
         position: absolute;
         right: 10px;
-        top: 10px;
-        height: 26px;
-        width: 22px;
-        padding: 0;
-        margin: 0;
+        padding: 5px;
         border: none;
-        color: red;
         font-size: 1rem;
-        justify-content: center;
         background: white;
       }
 
       .self-submit-form.drag-over {
-        border: 4px dashed #ccc;
+        border: 3px dashed #ccc;
       }
 
       .self-submit-form .drag-text {
@@ -712,7 +742,7 @@ export class IAPicUploader extends LitElement {
         background-size: cover;
         background-color: #aaa;
         border-radius: 50%;
-        font-size: 3rem;
+        font-size: 4rem;
         font-weight: bold;
         display: flex;
         justify-content: center;
@@ -770,7 +800,7 @@ export class IAPicUploader extends LitElement {
         display: inline-block;
         width: 20px;
         color: white;
-        margin: -2px;
+        margin-top: 2px;
         --activityIndicatorLoadingRingColor: #000;
         --activityIndicatorLoadingDotColor: #000;
       }

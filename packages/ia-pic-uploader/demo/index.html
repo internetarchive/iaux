@@ -53,8 +53,15 @@
 
     iaPicUploader.identifier = '@453344354534';
     iaPicUploader.endpoint = 'http://localhost/index.php';
+    iaPicUploader.lookingAtMyAccount = 'true' ;
     iaPicUploader.picture = './demo/default-preview.jpg' ;
-    iaPicUploader.type = 'compact';
+    iaPicUploader.type = 'full';
+    iaPicUploader.addEventListener('fileChanged', (e) => {
+      console.log(e);
+    }); 
+    iaPicUploader.addEventListener('fileUploaded', (e) => {
+      console.log(e);
+    });
   </script>
 </body>
 </html>
