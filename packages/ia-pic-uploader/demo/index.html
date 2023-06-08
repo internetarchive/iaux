@@ -23,8 +23,15 @@
     ia-pic-uploader:focus {
       outline: none;
     }
+
     ia-pic-uploader:focus-visible {
       outline: none;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      justify-content: center;
     }
   </style>
 </head>
@@ -37,31 +44,37 @@
 
     render(
       html`
-        <button @click=${() => { document.dispatchEvent(new CustomEvent('saveProfileAvatar', {
-          detail: { 'op': 'save it' }
-        })) }}>Send Dummy Event</button>
-        <ia-pic-uploader></ia-pic-uploader>
-        <div class="select-message">
-          Drop a new image onto<br />your picture here or<br />
-          <a href="#" id="upload-region">select an image to upload</a>
-        </div>
+        <div class="container">
+          <div class="full">
+            <ia-pic-uploader id="full"></ia-pic-uploader>
+          </div>
+          <div class="compact">
+            <button @click=${() => { document.dispatchEvent(new CustomEvent('saveProfileAvatar', {
+              detail: { 'op': 'save it' }
+            })) }}>Send Dummy Event</button>
+            <ia-pic-uploader id="compact"></ia-pic-uploader>
+          </div>
+        <div>
+
       `,
       document.querySelector('#demo')
     );
 
-    const iaPicUploader = document.querySelector('ia-pic-uploader');
+    const iaPicFull = document.querySelector('#full');
 
-    iaPicUploader.identifier = '@453344354534';
-    iaPicUploader.endpoint = 'http://localhost/index.php';
-    iaPicUploader.lookingAtMyAccount = 'true' ;
-    iaPicUploader.picture = './demo/default-preview.jpg' ;
-    iaPicUploader.type = 'full';
-    iaPicUploader.addEventListener('fileChanged', (e) => {
-      console.log(e);
-    }); 
-    iaPicUploader.addEventListener('fileUploaded', (e) => {
-      console.log(e);
-    });
+    iaPicFull.identifier = '@453344354534';
+    iaPicFull.endpoint = 'http://localhost/index.php';
+    iaPicFull.lookingAtMyAccount = 'true' ;
+    iaPicFull.picture = './demo/default-preview.jpg' ;
+    iaPicFull.type = 'full';
+
+    const iaPicCompact = document.querySelector('#compact');
+
+    iaPicCompact.identifier = '@453344354534';
+    iaPicCompact.endpoint = 'http://localhost/index.php';
+    iaPicCompact.lookingAtMyAccount = 'true' ;
+    iaPicCompact.picture = './demo/default-preview.jpg' ;
+    iaPicCompact.type = 'compact';
   </script>
 </body>
 </html>

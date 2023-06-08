@@ -563,6 +563,7 @@ export class IAPicUploader extends LitElement {
       <div
         class="profile-section hover-class 
         ${!this.lookingAtMyAccount ? 'pointer-none' : ''}
+        ${this.type === 'full' ? 'adjust-full' : ''}
       "
       >
         ${this.type === 'compact' ? this.getOverlayIcon : nothing}
@@ -588,6 +589,11 @@ export class IAPicUploader extends LitElement {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       }
 
+      :host *:focus ,
+      :host *:focus-visible {
+        outline: none;
+      }
+
       a,
       a:hover,
       a:focus {
@@ -605,8 +611,18 @@ export class IAPicUploader extends LitElement {
 
       .profile-section {
         border-radius: 100%;
-        width: 120px;
-        height: 120px;
+        width: fit-content;
+        height: fit-content;
+      }
+
+      .adjust-full {
+        text-align: left;
+        width: 100%;
+      }
+
+      .profile-section > .full-preview img{
+        width: 100px;
+        height: 100px;
       }
 
       .profile-section:hover .overlay-icon {
@@ -619,6 +635,7 @@ export class IAPicUploader extends LitElement {
         z-index: 1;
         background: none !important;
       }
+
       .show-overlay + .image-preview img {
         box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
         opacity: 0.2;
