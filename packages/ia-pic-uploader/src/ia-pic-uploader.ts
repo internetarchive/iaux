@@ -589,7 +589,7 @@ export class IAPicUploader extends LitElement {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       }
 
-      :host *:focus ,
+      :host *:focus,
       :host *:focus-visible {
         outline: none;
       }
@@ -620,7 +620,7 @@ export class IAPicUploader extends LitElement {
         width: 100%;
       }
 
-      .profile-section > .full-preview img{
+      .profile-section > .full-preview img {
         width: 100px;
         height: 100px;
       }
