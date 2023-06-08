@@ -1,1 +1,0 @@
-Note the CSS file had to have URLS replaced with absolute URLS in order for Parcel to process them.
