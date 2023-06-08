@@ -38,11 +38,11 @@ export class IAPicUploader extends LitElement {
   @property({ type: String }) type? = 'compact';
 
   /**
-   * check user can authenticated
+   * check user is looking at it's our account
    *
    * @memberof IAPicUploader
    */
-  @property({ type: Boolean }) lookingAtMyAccount? = true;
+  @property({ type: Boolean }) lookingAtMyAccount? = false;
 
   /**
    * determine if need to show ia-activity-indicator
@@ -646,7 +646,6 @@ export class IAPicUploader extends LitElement {
       }
 
       .image-preview {
-        text-align: center;
         border-radius: 100%;
       }
 
@@ -697,7 +696,7 @@ export class IAPicUploader extends LitElement {
       }
 
       .vertical-center {
-        top: 20px !important;
+        top: 10px !important;
       }
 
       .self-submit-form {
@@ -707,7 +706,7 @@ export class IAPicUploader extends LitElement {
         border-radius: 10px;
         position: absolute;
         top: -14px;
-        left: -40px;
+        left: -50px;
         width: 200px;
         padding: 11px;
         text-align: center;
