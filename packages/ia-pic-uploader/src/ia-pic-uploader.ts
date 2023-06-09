@@ -621,8 +621,8 @@ export class IAPicUploader extends LitElement {
       }
 
       .profile-section > .full-preview img {
-        width: 100px;
-        height: 100px;
+        max-height: 100px;
+        max-width: 200px;
       }
 
       .profile-section:hover .overlay-icon {
