@@ -21,6 +21,7 @@ const warningButtonBorderColor = css`#ec7939`;
 
 export default css`
   .ia-button {
+    height: 3.5rem;
     min-height: 3rem;
     cursor: pointer;
     color: ${whiteColor};

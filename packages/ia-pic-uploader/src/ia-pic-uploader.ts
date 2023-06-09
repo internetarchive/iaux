@@ -617,7 +617,7 @@ export class IAPicUploader extends LitElement {
 
       .adjust-full {
         text-align: left;
-        width: 100%;
+        width: fit-content;
       }
 
       .profile-section > .full-preview img {
@@ -706,7 +706,8 @@ export class IAPicUploader extends LitElement {
         border-radius: 10px;
         position: absolute;
         top: -14px;
-        left: -50px;
+        left: 50%;
+        transform: translate(-50%, 0);
         width: 200px;
         padding: 11px;
         text-align: center;
@@ -776,18 +777,15 @@ export class IAPicUploader extends LitElement {
       #file-picker {
         margin: 2px auto;
         padding: 0 1rem;
-        font-size: 1.2rem;
       }
 
       #file-submit {
-        font-size: 1.2rem;
         padding: 0 1rem;
         margin: 4px auto;
         background-color: #5cb85c;
         justify-content: center;
         width: 8rem;
         border-color: #4cae4c;
-        text-transform: uppercase;
       }
 
       #file-submit:hover {

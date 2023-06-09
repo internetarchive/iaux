@@ -13,13 +13,15 @@ export async function BackendServiceHandler(options: any) {
     callback() {},
     ...options,
   };
-  console.log(option);
 
   let finalResponse = {};
-  let baseHost = `${option.endpoint}?${option.getParam}`;
-
+  let baseHost = '';
   const location = window?.location;
-  if (location?.pathname === '/demo/') baseHost = `/demo/`;
+  if (location?.pathname === '/demo') {
+    baseHost = `/demo/`;
+  } else {
+    baseHost = `${option.endpoint}?${option.getParam}`;
+  }
 
   try {
     await fetch(baseHost, {
@@ -35,15 +37,16 @@ export async function BackendServiceHandler(options: any) {
         /**
          * return success response for /demo/ server...
          */
-
-        if (option.action === 'save-file' && response.status === 200) {
-          console.log('option.callback(response)');
-          option.callback(response);
+        if (baseHost === '/demo/' && option.action === 'verify-upload') {
+          return {
+            success: true,
+            item_last_updated: 1,
+          };
         }
 
-        // if (option.action === 'verify-upload') {
-        //   return { status: true, msg: 'verified successfully' };
-        // }
+        if (option.action === 'save-file' && response.status === 200) {
+          option.callback(response);
+        }
 
         /**
          * The response is a Response instance.
