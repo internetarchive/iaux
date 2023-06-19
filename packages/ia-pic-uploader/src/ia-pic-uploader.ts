@@ -612,6 +612,7 @@ export class IAPicUploader extends LitElement {
       .profile-section {
         border-radius: 100%;
         width: fit-content;
+        line-height: normal;
         height: fit-content;
       }
 
