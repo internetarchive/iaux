@@ -1,0 +1,38 @@
+# This workflow will generate the static page under `pr` subdirectory inside the `gh-pages` branch
+
+# This workflow will run every time there's a PR opened, reopened, synchronize, or closed
+
+name: Deploy PR previews
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+concurrency: preview-${{ github.ref }}
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Install and Build
+        run: |
+          yarn install
+          yarn ghpages:build
+
+      # Reference: https://github.com/rossjrw/pr-preview-action
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./ghpages/
+          umbrella-dir: pr

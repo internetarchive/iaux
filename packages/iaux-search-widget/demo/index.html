@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    html {
+      font-size: 10px; /* This is to match petabox's base font size */
+    }
+        </style>
+</head>
+<body>
+  <button id="btn">Advanced Option</button>
+  <!-- <iaux-search-main></iaux-search-main> -->
+  <script type="module" src="../dist/src/components/iaux-search-widget.js">
+  </script>
+
+  <script>
+    let param = decodeURIComponent(window.location.search);
+    param = new URLSearchParams(param).get("query") ;
+    console.log(param)
+    
+    let searchComponent = document.querySelector('iaux-search-widget');
+    if (!searchComponent) {
+      searchComponent = document.createElement("iaux-search-widget");
+    }
+    searchComponent.queryParam = param
+    
+    // append to document
+    document.body.appendChild(searchComponent)
+    
+    const btn = document.querySelector('#btn');
+    btn.addEventListener('click', () => {
+      searchComponent.open = !searchComponent.open;
+    })
+  </script>
+</body>
+</html>
