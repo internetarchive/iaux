@@ -17,7 +17,7 @@ export async function BackendServiceHandler(options: any) {
   let finalResponse = {};
   let baseHost = '';
   const location = window?.location;
-  if (location?.pathname === '/demo') {
+  if (location?.pathname === '/demo/') {
     baseHost = `/demo/`;
   } else {
     baseHost = `${option.endpoint}?${option.getParam}`;

@@ -48,13 +48,13 @@
     import '../dist/src/ia-pic-uploader.js';
     // <ia-pic-uploader lookingAtMyAccount type="full" picture = './demo/default-preview.jpg' id="full"></ia-pic-uploader>
     // <ia-pic-uploader lookingAtMyAccount type="full" picture = './demo/image1.jpeg' id="full"></ia-pic-uploader>
-    // <ia-pic-uploader lookingAtMyAccount type="full" picture = './demo/img2.jpg' id="full"></ia-pic-uploader>
-
+    // <ia-pic-uploader lookingAtMyAccount type="full" picture = '/demo/img2.jpg' id="full"></ia-pic-uploader>
+    
     render(
       html`
-        <div class="container">
-          <div class="full">
-            <ia-pic-uploader lookingAtMyAccount id="full"></ia-pic-uploader>
+      <div class="container">
+        <div class="full">
+          <ia-pic-uploader lookingAtMyAccount id="full"></ia-pic-uploader>
           </div>
           <div class="compact">
             <button @click=${() => { document.dispatchEvent(new CustomEvent('saveProfileAvatar', {
