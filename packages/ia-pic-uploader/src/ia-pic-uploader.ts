@@ -298,6 +298,7 @@ export class IAPicUploader extends LitElement {
     this.preventDefault(event);
     this.showLoadingIndicator = true;
     this.selfSubmitEle?.classList.add('vertical-center');
+    this.taskStatus = 'waiting for your tasks to queue';
 
     // get input file
     const inputFile = this.fileSelector?.files[0];
