@@ -1,6 +1,5 @@
 import { html, css, LitElement, CSSResultGroup, nothing } from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
-import type { FilesModel } from './models';
 import iaButtonStyle from './style/ia-button-style';
 import { BackendServiceHandler } from './services/backend-service';
 import '@internetarchive/ia-activity-indicator/ia-activity-indicator';
@@ -45,6 +44,24 @@ export class IAPicUploader extends LitElement {
   @property({ type: Boolean }) lookingAtMyAccount? = false;
 
   /**
+   * max file size in MB
+   *
+   * @memberof IAPicUploader
+   */
+  @property({ type: Number }) maxFileSizeInMB = 8;
+
+  /**
+   * determine valid file types
+   *
+   * @memberof IAPicUploader
+   */
+  @property({ type: Number }) validFileTypes: String[] = [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+  ];
+
+  /**
    * determine if need to show ia-activity-indicator
    *
    * @private
@@ -83,7 +100,13 @@ export class IAPicUploader extends LitElement {
 
   @query('.file-selector') private fileSelector?: HTMLFormElement;
 
+  private fileTypeMessage: string =
+    'file required format of JPEG or PNG or GIF.';
+
+  private fileSizeMessage: string = '';
+
   firstUpdated() {
+    this.fileSizeMessage = `file is over ${this.maxFileSizeInMB}MB in size.`;
     this.renderInput();
     if (this.lookingAtMyAccount) this.bindEvents();
   }
@@ -114,7 +137,7 @@ export class IAPicUploader extends LitElement {
 
     fakeInput.addEventListener('change', () => {
       const { files } = fakeInput;
-      this.handleSelectedFiles(files);
+      this.handleSelectedFiles(files as FileList);
     });
   }
 
@@ -238,18 +261,18 @@ export class IAPicUploader extends LitElement {
     this.fileValidationError = '';
 
     // check the type
-    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const validTypes = this.validFileTypes;
 
-    // check the size more than 5MB
-    const maxSizeInBytes = 5 * 1024 * 1024;
+    // check the size more than given max file size
+    const maxSizeInBytes = (this.maxFileSizeInMB as number) * 1024 * 1024;
 
     if (validTypes.indexOf(image.type) === -1) {
-      this.fileValidationError = 'file must be  format of JPEG or PNG or GIF.';
+      this.fileValidationError = this.fileTypeMessage;
       return false;
     }
 
     if (image.size > maxSizeInBytes) {
-      this.fileValidationError = 'file size must be less than 5MB.';
+      this.fileValidationError = this.fileSizeMessage;
       return false;
     }
 
@@ -259,10 +282,10 @@ export class IAPicUploader extends LitElement {
   /**
    * validate and preview selected image
    *
-   * @param {(FilesModel | any)} files
+   * @param {FileList} files
    * @memberof IAPicUploader
    */
-  async handleSelectedFiles(files: FilesModel | any) {
+  async handleSelectedFiles(files: FileList) {
     const imagePreview = this.selfSubmitEle?.querySelector('.image-preview');
 
     if (this.type === 'full') {
@@ -463,8 +486,9 @@ export class IAPicUploader extends LitElement {
           Pick image to upload
         </button>
         <div
-          class="validationErrorDiv"
-          style="display:${this.fileValidationError === '' ? 'none' : 'block'}"
+          class="validationErrorDiv ${this.fileValidationError === ''
+            ? 'hidden'
+            : ''}"
         >
           <span class="fileValidationError">${this.fileValidationError}</span>
         </div>
@@ -516,7 +540,7 @@ export class IAPicUploader extends LitElement {
    * function that render html template for compact version
    * @returns {HTMLElement}
    */
-  get getSelectFileTemplate() {
+  get selectFileTemplate() {
     return html`
       <div class="select-region">
         <input
@@ -543,7 +567,7 @@ export class IAPicUploader extends LitElement {
    * function that render html for overlay form compact version
    * @returns {HTMLElement}
    */
-  get getOverlayIcon() {
+  get overlayIcon() {
     return html`
       <div
         class="overlay-icon ${this.showLoadingIndicator
@@ -567,7 +591,7 @@ export class IAPicUploader extends LitElement {
         ${this.type === 'full' ? 'adjust-full' : ''}
       "
       >
-        ${this.type === 'compact' ? this.getOverlayIcon : nothing}
+        ${this.type === 'compact' ? this.overlayIcon : nothing}
         <div
           id="drop-region"
           class="image-preview 
@@ -578,7 +602,7 @@ export class IAPicUploader extends LitElement {
         </div>
         ${this.type === 'full' ? this.selfSubmitFormTemplate : nothing}
       </div>
-      ${this.type === 'compact' ? this.getSelectFileTemplate : nothing}
+      ${this.type === 'compact' ? this.selectFileTemplate : nothing}
     `;
   }
 

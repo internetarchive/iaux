@@ -37,6 +37,8 @@ import '@internetarchive/ia-pic-uploader';
     iaPicUploader.picture = './demo/default-preview.jpg' ;
     iaPicUploader.type = 'full'; // full|compact
     iaPicUploader.lookingAtMyAccount = true;
+    iaPicUploader.maxFileSizeInMB = 4; //
+    iaPicUploader.validFileTypes = ['image/jpeg','image/png','image/gif'];
   </script>
 ```
 ## Variants 
@@ -50,6 +52,8 @@ import '@internetarchive/ia-pic-uploader';
 3. **picture** - User profile picture. 
 4. **type** - Web component type full | compact.
 5. **lookingAtMyAccount** - User looking at it's own account
+6. **maxFilesSizeInMB** - File's max-size
+7. **validFileTypes** - File's valid types
 
 ## Local Demo with `web-dev-server`
 ```bash

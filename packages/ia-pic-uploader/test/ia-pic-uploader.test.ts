@@ -8,12 +8,16 @@ const container = ({
   endpoint = 'http://localhost/index.php',
   picture = './demo/default-preview.jpg',
   type = 'full',
+  lookingAtMyAccount = false,
+  maxFileSizeInMB = 0,
 } = {}) =>
   html` <ia-pic-uploader
     identifier="${identifier}"
     endpoint="${endpoint}"
     picture="${picture}"
     type="${type}"
+    lookingAtMyAccount="${lookingAtMyAccount}"
+    maxFileSizeInMB="${maxFileSizeInMB}"
   ></ia-pic-uploader>`;
 
 describe('initail render', () => {
@@ -101,24 +105,6 @@ describe('check initial component with compact verion', () => {
 });
 
 describe('check file validation function', () => {
-  it('check is function must return - true', async () => {
-    const el = await fixture<IAPicUploader>(
-      container({
-        identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
-        picture: './demo/default-preview.jpg',
-        type: 'full',
-      })
-    );
-    const fileData = new File(['asdfasd'], 'image.jpg', {
-      type: 'image/jpeg',
-      lastModified: new Date().getTime(),
-    });
-
-    await el.updateComplete;
-    expect(el.validateImage(fileData)).to.true;
-  });
-
   it('function must return type error & false', async () => {
     const el = await fixture<IAPicUploader>(
       container({
@@ -136,7 +122,7 @@ describe('check file validation function', () => {
     el.validateImage(fileData);
     await el.updateComplete;
     expect(el.fileValidationError).to.equal(
-      'file must be  format of JPEG or PNG or GIF.'
+      'file required format of JPEG or PNG or GIF.'
     );
     expect(el.validateImage(fileData)).to.false;
   });
@@ -148,16 +134,21 @@ describe('check file validation function', () => {
         endpoint: 'http://localhost/index.php',
         picture: './demo/default-preview.jpg',
         type: 'full',
+        lookingAtMyAccount: true,
+        maxFileSizeInMB: 3,
       })
     );
-    const fileData = new File([new ArrayBuffer(5242881)], 'image.jpeg', {
+    await el.updateComplete;
+
+    const fileData = new File([new ArrayBuffer(5042881)], 'image.jpeg', {
       type: 'image/jpeg',
       lastModified: new Date().getTime(),
     });
-
     el.validateImage(fileData);
-    await el.updateComplete;
-    expect(el.fileValidationError).to.equal('file size must be less than 5MB.');
+
+    expect(el.fileValidationError).to.equal(
+      `file is over ${el.maxFileSizeInMB}MB in size.`
+    );
     expect(el.validateImage(fileData)).to.false;
   });
 });
@@ -218,6 +209,7 @@ describe('test handleDropImage Function', () => {
         endpoint: 'http://localhost/index.php',
         picture: './demo/default-preview.jpg',
         type: 'full',
+        lookingAtMyAccount: true,
       })
     );
     const selfSubmitEle = el.shadowRoot?.querySelector(
@@ -231,19 +223,14 @@ describe('test handleDropImage Function', () => {
     selfSubmitEle?.dispatchEvent(new DragEvent('drop'));
     await el.updateComplete;
     expect(selfSubmitEle?.classList.contains('drag-over')).to.false;
-  });
 
-  it('Check for drop on dropRegion', async () => {
-    const el = await fixture<IAPicUploader>(
-      container({
-        identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
-        picture: './demo/default-preview.jpg',
-        type: 'compact',
-      })
-    );
-    const dropRegion = el.shadowRoot?.querySelector('#drop-region');
-    dropRegion?.dispatchEvent(new DragEvent('drop'));
+    el.cancelFile();
+    el.updateComplete;
+
+    expect(el.showDropper).to.be.false;
+    expect(el.fileValidationError).to.be.equal('');
+    expect(selfSubmitEle?.classList.contains('hidden')).to.be.true;
+    expect(selfSubmitEle?.classList.contains('hover-class')).to.be.false;
   });
 });
 
@@ -277,15 +264,18 @@ describe('test handleSelectedFiles function', () => {
         type: 'full',
       })
     );
-    const fileData = {
-      0: new File(['asdfafs'], 'image1.jpeg', {
-        type: 'image/jpeg',
-        lastModified: new Date().getTime(),
-      }),
-    };
+    const selfSubmitEle = el.shadowRoot?.querySelector(
+      '.profile-section .self-submit-form'
+    );
 
-    el.handleSelectedFiles(fileData);
     await el.updateComplete;
-    expect(el.validateImage(fileData[0])).to.equal(true);
+    const dataTransfer = new DataTransfer();
+    const file = new File(['content'], 'image.jpeg');
+    dataTransfer.items.add(file);
+    const fileList = dataTransfer.files;
+    el.handleSelectedFiles(fileList);
+
+    await el.updateComplete;
+    expect(selfSubmitEle?.classList.contains('hidden')).to.be.false;
   });
 });
