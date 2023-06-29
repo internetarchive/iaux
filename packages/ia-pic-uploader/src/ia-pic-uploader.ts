@@ -3,6 +3,7 @@ import { property, customElement, state, query } from 'lit/decorators.js';
 import iaButtonStyle from './style/ia-button-style';
 import { BackendServiceHandler } from './services/backend-service';
 import '@internetarchive/ia-activity-indicator/ia-activity-indicator';
+import log from './services/log';
 
 @customElement('ia-pic-uploader')
 export class IAPicUploader extends LitElement {
@@ -100,13 +101,12 @@ export class IAPicUploader extends LitElement {
 
   @query('.file-selector') private fileSelector?: HTMLFormElement;
 
-  private fileTypeMessage: string =
-    'file required format of JPEG or PNG or GIF.';
+  private fileTypeMessage: string = 'Image file must be a JPEG, PNG, or GIF.';
 
   private fileSizeMessage: string = '';
 
   firstUpdated() {
-    this.fileSizeMessage = `file is over ${this.maxFileSizeInMB}MB in size.`;
+    this.fileSizeMessage = `Image file must be less than ${this.maxFileSizeInMB}MB.`;
     this.renderInput();
     if (this.lookingAtMyAccount) this.bindEvents();
   }
@@ -337,7 +337,7 @@ export class IAPicUploader extends LitElement {
       endpoint: this.endpoint,
       headers: { 'Content-type': 'multipart/form-data; charset=UTF-8' },
       callback: async () => {
-        console.log('callback invoked!', this.type);
+        log('callback invoked!', this.type);
         if (this.type === 'full') await this.metadataAPIExecution();
       },
     });
@@ -380,7 +380,7 @@ export class IAPicUploader extends LitElement {
         } else if (json.item_last_updated < now) {
           this.taskStatus = 'waiting for your tasks to queue';
         } else {
-          console.log('task(s) done!');
+          log('task(s) done!');
           clearInterval(metadataApiInterval);
           this.taskStatus = 'reloading page with your image';
           window.location.reload();
