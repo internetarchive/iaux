@@ -1,4 +1,4 @@
-import { html, css, LitElement, CSSResultGroup, nothing } from 'lit';
+import { html, css, LitElement, CSSResultGroup, nothing, svg } from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
 import iaButtonStyle from './style/ia-button-style';
 import { BackendServiceHandler } from './services/backend-service';
@@ -95,6 +95,10 @@ export class IAPicUploader extends LitElement {
 
   @query('.profile-section') private profileSection?: HTMLDivElement;
 
+  @query('.overlay') private overlay?: HTMLDivElement;
+
+  @query('#plus-svg') private plusSVG?: HTMLDivElement;
+
   @query('#save-file') private saveFile?: HTMLFormElement;
 
   @query('.self-submit-form') private selfSubmitEle?: HTMLDivElement;
@@ -124,7 +128,7 @@ export class IAPicUploader extends LitElement {
     fakeInput.multiple = false;
 
     this.profileSection?.addEventListener('mouseenter', () => {
-      this.profileSection?.classList.add('hover-class');
+      this.profileSection?.classList.add('profile-hover');
     });
 
     this.dropRegion?.addEventListener('click', () => {
@@ -150,9 +154,20 @@ export class IAPicUploader extends LitElement {
     window.addEventListener(
       'dragover',
       e => {
+        this.preventDefault(e);
         this.selfSubmitEle?.classList.remove('hidden');
         this.selfSubmitEle?.classList.add('drag-over');
+        this.overlay?.classList.add('window-drag-over');
+      },
+      false
+    );
+
+    window.addEventListener(
+      'drop',
+      e => {
         this.preventDefault(e);
+        this.overlay?.classList.remove('window-drag-over');
+        this.cancelFile();
       },
       false
     );
@@ -161,18 +176,13 @@ export class IAPicUploader extends LitElement {
     this.dropRegion?.addEventListener('dragleave', this.preventDefault, false);
     this.dropRegion?.addEventListener('dragover', this.preventDefault, false);
 
-    // execute when user drop image
-    this.dropRegion?.addEventListener(
-      'drop',
-      this.handleDropImage.bind(this),
-      false
-    );
-
-    // execute when uer drop image with ia-pic-uploader type version
-    this.selfSubmitEle?.addEventListener(
-      'drop',
-      this.handleDropImage.bind(this),
-      false
+    [this.overlay, this.plusSVG, this.dropRegion, this.selfSubmitEle].forEach(
+      element =>
+        element?.addEventListener(
+          'drop',
+          this.handleDropImage.bind(this),
+          false
+        )
     );
 
     // execute when submit to save picture
@@ -246,8 +256,6 @@ export class IAPicUploader extends LitElement {
 
     // read the image...
     reader.readAsDataURL(image);
-
-    this.dispatchEvent(new Event('fileChanged'));
   }
 
   /**
@@ -287,6 +295,7 @@ export class IAPicUploader extends LitElement {
    */
   async handleSelectedFiles(files: FileList) {
     const imagePreview = this.selfSubmitEle?.querySelector('.image-preview');
+    this.overlay?.classList.remove('window-drag-over');
 
     if (this.type === 'full') {
       this.selfSubmitEle?.classList.remove('hidden');
@@ -309,6 +318,19 @@ export class IAPicUploader extends LitElement {
         imagePreview.removeChild(imagePreview.firstChild)
       );
     }
+
+    /**
+     * dispatch events to iaux-account-settings
+     * - if valid file is selected, hasChanged: true
+     * - if file is invalid, error: [error message]
+     */
+    this.dispatchEvent(
+      new CustomEvent('fileChanged', {
+        detail: {
+          error: this.fileValidationError ?? '',
+        },
+      })
+    );
   }
 
   /**
@@ -403,7 +425,7 @@ export class IAPicUploader extends LitElement {
     this.fileValidationError = '';
 
     this.selfSubmitEle?.classList.add('hidden');
-    this.profileSection?.classList.remove('hover-class');
+    this.profileSection?.classList.remove('profile-hover');
 
     while (
       imagePreview?.firstChild &&
@@ -424,13 +446,13 @@ export class IAPicUploader extends LitElement {
 
   get plusIconTemplate() {
     return html`<div
-      class="plusIcon ${this.showLoadingIndicator ? 'pointer-none' : ''}"
+      class="plus-icon ${this.showLoadingIndicator ? 'pointer-none' : ''}"
       @keyup=""
       @click=${() => {
         this.dropRegion?.click();
       }}
     >
-      <span>&#43;</span>
+      ${this.getPlusIcon(34, 34, '#969696', '#fff')}
     </div>`;
   }
 
@@ -485,13 +507,7 @@ export class IAPicUploader extends LitElement {
         >
           Pick image to upload
         </button>
-        <div
-          class="validationErrorDiv ${this.fileValidationError === ''
-            ? 'hidden'
-            : ''}"
-        >
-          <span class="fileValidationError">${this.fileValidationError}</span>
-        </div>
+        <span class="error">${this.fileValidationError}</span>
         <form
           method="post"
           id="save-file"
@@ -560,6 +576,31 @@ export class IAPicUploader extends LitElement {
           >
         </div>
       </div>
+      <span class="error">${this.fileValidationError}</span>
+    `;
+  }
+
+  /**
+   * return plus icon
+   * @param { Number } height | svg height
+   * @param { Number } width | svg width
+   * @param { String } fill | svg fill color
+   * @param { String } stroke | svg plus stroke color
+   *
+   * @returns {SVGAElement}
+   */
+  getPlusIcon(height: number, width: number, fill: string, stroke: string) {
+    return svg`
+    <svg id="plus-svg" width="${width}" height="${height}" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="10" cy="10" r="10" fill="${fill}"/>
+      <mask id="path-2-inside-1_207_4" fill="white">
+        <path d="M9 4H11V16H9V4Z"/>
+        <path d="M4 11V9H16V11H4Z"/>
+      </mask>
+      <path d="M9 4H11V16H9V4Z" fill="${stroke}"/>
+      <path d="M4 11V9H16V11H4Z" fill="${stroke}"/>
+      <path d="M9 4V1H6V4H9ZM11 4H14V1H11V4ZM11 16V19H14V16H11ZM9 16H6V19H9V16ZM4 11H1V14H4V11ZM4 9V6H1V9H4ZM16 9H19V6H16V9ZM16 11V14H19V11H16ZM9 7H11V1H9V7ZM8 4V16H14V4H8ZM11 13H9V19H11V13ZM12 16V4H6V16H12ZM7 11V9H1V11H7ZM4 12H16V6H4V12ZM13 9V11H19V9H13ZM16 8H4V14H16V8Z" fill="${stroke}" mask="url(#path-2-inside-1_207_4)"/>
+    </svg>
     `;
   }
 
@@ -567,10 +608,10 @@ export class IAPicUploader extends LitElement {
    * function that render html for overlay form compact version
    * @returns {HTMLElement}
    */
-  get overlayIcon() {
+  get overlayTemplate() {
     return html`
       <div
-        class="overlay-icon ${this.showLoadingIndicator
+        class="overlay ${this.showLoadingIndicator
           ? 'show-overlay pointer-none'
           : ''}"
         @keyup=""
@@ -578,7 +619,9 @@ export class IAPicUploader extends LitElement {
           this.dropRegion?.click();
         }}
       >
-        ${this.showLoadingIndicator ? this.loadingIndicatorTemplate : '+'}
+        ${this.showLoadingIndicator
+          ? this.loadingIndicatorTemplate
+          : this.getPlusIcon(25, 25, '#fff', '#333')}
       </div>
     `;
   }
@@ -586,12 +629,12 @@ export class IAPicUploader extends LitElement {
   render() {
     return html`
       <div
-        class="profile-section hover-class 
+        class="profile-section profile-hover 
         ${!this.lookingAtMyAccount ? 'pointer-none' : ''}
         ${this.type === 'full' ? 'adjust-full' : ''}
       "
       >
-        ${this.type === 'compact' ? this.overlayIcon : nothing}
+        ${this.type === 'compact' ? this.overlayTemplate : nothing}
         <div
           id="drop-region"
           class="image-preview 
@@ -642,7 +685,6 @@ export class IAPicUploader extends LitElement {
       }
 
       .adjust-full {
-        text-align: left;
         width: fit-content;
       }
 
@@ -651,7 +693,7 @@ export class IAPicUploader extends LitElement {
         max-width: 200px;
       }
 
-      .profile-section:hover .overlay-icon {
+      .profile-section:hover .overlay {
         display: block;
         z-index: 1;
       }
@@ -667,7 +709,7 @@ export class IAPicUploader extends LitElement {
         opacity: 0.2;
       }
 
-      .hover-class:hover .self-submit-form {
+      .profile-hover:hover .self-submit-form {
         display: block;
       }
 
@@ -690,21 +732,20 @@ export class IAPicUploader extends LitElement {
         overflow: hidden;
       }
 
-      .overlay-icon:hover + .image-preview img,
+      .overlay:hover + .image-preview img,
+      .overlay.window-drag-over + .image-preview img,
       .image-preview:hover img {
         box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
         opacity: 0.5;
       }
 
-      .overlay-icon {
+      .overlay {
         position: absolute;
         top: 50%;
         left: 50%;
         border-radius: 100%;
         transform: translate(-50%, -50%);
-        background: white;
         text-align: center;
-        color: rgb(158 150 150);
         cursor: pointer;
         font-size: 2rem;
         font-weight: bold;
@@ -771,25 +812,15 @@ export class IAPicUploader extends LitElement {
         overflow: hidden;
       }
 
-      .plusIcon {
+      .window-drag-over {
+        display: block;
+        z-index: 1;
+      }
+
+      .plus-icon {
         display: flex;
         justify-content: center;
         margin-bottom: 10px;
-      }
-
-      .plusIcon span {
-        cursor: default;
-        height: 40px;
-        width: 40px;
-        color: #fff;
-        background-size: cover;
-        background-color: #aaa;
-        border-radius: 50%;
-        font-size: 4rem;
-        font-weight: bold;
-        display: flex;
-        justify-content: center;
-        align-items: center;
       }
 
       .hidden {
@@ -819,20 +850,14 @@ export class IAPicUploader extends LitElement {
         border-color: #398439;
       }
 
-      .validationErrorDiv {
-        margin: 5px 0;
-      }
-
-      .validationErrorDiv .fileValidationError {
-        text-align: center;
-        word-wrap: unset;
+      .error {
+        margin: 3px 0px;
+        font-size: 1.2rem;
+        color: #bb0505;
         overflow: hidden;
-        line-height: 1.4rem;
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #f00;
+        word-wrap: unset;
         display: -webkit-box;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
       }
 

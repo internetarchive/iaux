@@ -41,7 +41,7 @@
     }
 
     .full, .compact {
-      padding: 50px;
+      padding: 25px 50px;
       border: 1px solid black;
       margin: 20px;
     }
@@ -59,11 +59,21 @@
       <div class="container">
         <div class="full">
           <h3>It will be used at My Uploads page</h3>
-          <ia-pic-uploader lookingAtMyAccount id="full"></ia-pic-uploader>
+          <ia-pic-uploader 
+            lookingAtMyAccount 
+            maxFileSizeInMB=3 
+            id="full"
+          >
+          </ia-pic-uploader>
         </div>
         <div class="compact">
           <h3>It will be used at new account settings page</h3>
-          <ia-pic-uploader lookingAtMyAccount id="compact"></ia-pic-uploader>
+          <ia-pic-uploader 
+            lookingAtMyAccount 
+            maxFileSizeInMB=3 
+            id="compact"
+          >
+          </ia-pic-uploader>
         </div>
       <div>
       `,
@@ -79,6 +89,13 @@
     const iaPicCompact = document.querySelector('#compact');
     iaPicCompact.identifier = '@453344354534';
     iaPicCompact.picture = '/demo/default-preview.jpg' ;
+    iaPicCompact.addEventListener('fileChanged',(e) => {
+      console.log('called hasErrorFiled()!')
+      console.log(e.detail)
+    });
+    iaPicCompact.addEventListener('fileUploaded',() => {
+      console.log('file Uploaded')
+    });
   </script>
 </body>
 </html>
