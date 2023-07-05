@@ -1,4 +1,4 @@
-import { html, css, LitElement, CSSResultGroup, nothing, svg } from 'lit';
+import { html, css, LitElement, CSSResultGroup, nothing } from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
 import iaButtonStyle from './style/ia-button-style';
 import { BackendServiceHandler } from './services/backend-service';
@@ -98,7 +98,7 @@ export class IAPicUploader extends LitElement {
 
   @query('.overlay') private overlay?: HTMLDivElement;
 
-  @query('#plus-svg') private plusSVG?: HTMLDivElement;
+  @query('.plus-png') private plusIcon?: HTMLDivElement;
 
   @query('#save-file') private saveFile?: HTMLFormElement;
 
@@ -197,7 +197,7 @@ export class IAPicUploader extends LitElement {
       }
     });
 
-    [this.overlay, this.plusSVG, this.dropRegion, this.selfSubmitEle].forEach(
+    [this.overlay, this.plusIcon, this.dropRegion, this.selfSubmitEle].forEach(
       element =>
         element?.addEventListener(
           'drop',
@@ -458,18 +458,6 @@ export class IAPicUploader extends LitElement {
     ></ia-activity-indicator>`;
   }
 
-  get plusIconTemplate() {
-    return html`<div
-      class="plus-icon ${this.showLoadingIndicator ? 'pointer-none' : ''}"
-      @keyup=""
-      @click=${() => {
-        this.dropRegion?.click();
-      }}
-    >
-      ${this.getPlusIcon(34, 34, '#969696', '#fff')}
-    </div>`;
-  }
-
   /**
    * function to render self submit form template
    * @returns {HTMLElement}
@@ -480,10 +468,7 @@ export class IAPicUploader extends LitElement {
     );
 
     return html`
-      <div
-        class="self-submit-form hidden
-      "
-      >
+      <div class="self-submit-form hidden">
         <button
           class="close-button ia-button 
           ${(!this.showDropper && this.fileValidationError === '') ||
@@ -499,7 +484,11 @@ export class IAPicUploader extends LitElement {
         </button>
         ${this.showLoadingIndicator
           ? this.loadingIndicatorTemplate
-          : this.plusIconTemplate}
+          : html`<img
+              class="plus-png plus-icon-full"
+              alt=""
+              src="../src/assets/for-full.png"
+            />`}
         <span
           class="drag-text ${this.showLoadingIndicator ? 'pointer-none' : ''}"
           @keyup=""
@@ -595,29 +584,6 @@ export class IAPicUploader extends LitElement {
   }
 
   /**
-   * return plus icon
-   * @param { Number } height | svg height
-   * @param { Number } width | svg width
-   * @param { String } fill | svg fill color
-   * @param { String } stroke | svg plus stroke color
-   *
-   * @returns {SVGAElement}
-   */
-  getPlusIcon(height: number, width: number, fill: string, stroke: string) {
-    return svg`
-    <svg id="plus-svg" width="${width}" height="${height}" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="10" cy="10" r="10" fill="${fill}"/>
-      <mask id="path-2-inside-1_207_4" fill="white">
-        <path d="M9 4H11V16H9V4Z"/>
-        <path d="M4 11V9H16V11H4Z"/>
-      </mask>
-      <path d="M9 4H11V16H9V4Z" fill="${stroke}"/>
-      <path d="M4 11V9H16V11H4Z" fill="${stroke}"/>
-    </svg>
-    `;
-  }
-
-  /**
    * function that render html for overlay form compact version
    * @returns {HTMLElement}
    */
@@ -634,7 +600,11 @@ export class IAPicUploader extends LitElement {
       >
         ${this.showLoadingIndicator
           ? this.loadingIndicatorTemplate
-          : this.getPlusIcon(25, 25, '#fff', '#333')}
+          : html`<img
+              class="plus-png plus-icon-compact"
+              alt=""
+              src="../src/assets/for-compact.png"
+            />`}
       </div>
     `;
   }
@@ -830,12 +800,6 @@ export class IAPicUploader extends LitElement {
         z-index: 1;
       }
 
-      .plus-icon {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 10px;
-      }
-
       .hidden {
         display: none;
       }
@@ -872,6 +836,14 @@ export class IAPicUploader extends LitElement {
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
+      }
+
+      .plus-icon-compact {
+        width: 25px;
+      }
+
+      .plus-icon-full {
+        width: 35px;
       }
 
       .self-submit-form ia-activity-indicator {
