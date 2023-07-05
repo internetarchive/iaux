@@ -1,3 +1,5 @@
+import log from './log';
+
 /**
  * Helper to call loan service
  * @param {Object} options
@@ -32,7 +34,7 @@ export async function BackendServiceHandler(options: any) {
     })
       // eslint-disable-next-line consistent-return
       .then(response => {
-        console.log('response', response);
+        log('response', response);
 
         /**
          * return success response for /demo/ server...
@@ -46,6 +48,7 @@ export async function BackendServiceHandler(options: any) {
 
         if (option.action === 'save-file' && response.status === 200) {
           option.callback(response);
+          return {};
         }
 
         /**
@@ -57,10 +60,10 @@ export async function BackendServiceHandler(options: any) {
         }
       })
       .then(data => {
-        console.log('data', data);
+        log('data', data);
 
         if (option.action === 'save-file') {
-          console.log(
+          log(
             'file saved, metadata call started to verify is picture is upadated!'
           );
         }
@@ -68,7 +71,7 @@ export async function BackendServiceHandler(options: any) {
         finalResponse = data;
       });
   } catch (error) {
-    console.log(error);
+    log(error);
   }
   return finalResponse;
 }

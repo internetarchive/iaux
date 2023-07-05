@@ -75,7 +75,7 @@ describe('check initial self submit form is located', () => {
 
     expect(selfSubmitEle).to.exist;
     expect(selfSubmitEle?.classList.contains('hidden'));
-    expect(selfSubmitEle?.querySelector('.plusIcon')).to.exist;
+    expect(selfSubmitEle?.querySelector('.plus-icon')).to.exist;
     expect(selfSubmitEle?.querySelector('.drag-text')).to.exist;
     expect(selfSubmitEle?.querySelector('#save-file')).to.exist;
     expect(selfSubmitEle?.querySelector('#file-picker')).to.exist;
@@ -122,7 +122,7 @@ describe('check file validation function', () => {
     el.validateImage(fileData);
     await el.updateComplete;
     expect(el.fileValidationError).to.equal(
-      'file required format of JPEG or PNG or GIF.'
+      'Image file must be a JPEG, PNG, or GIF.'
     );
     expect(el.validateImage(fileData)).to.false;
   });
@@ -147,7 +147,7 @@ describe('check file validation function', () => {
     el.validateImage(fileData);
 
     expect(el.fileValidationError).to.equal(
-      `file is over ${el.maxFileSizeInMB}MB in size.`
+      `Image file must be less than ${el.maxFileSizeInMB}MB.`
     );
     expect(el.validateImage(fileData)).to.false;
   });
@@ -230,7 +230,7 @@ describe('test handleDropImage Function', () => {
     expect(el.showDropper).to.be.false;
     expect(el.fileValidationError).to.be.equal('');
     expect(selfSubmitEle?.classList.contains('hidden')).to.be.true;
-    expect(selfSubmitEle?.classList.contains('hover-class')).to.be.false;
+    expect(selfSubmitEle?.classList.contains('profile-hover')).to.be.false;
   });
 });
 
