@@ -48,6 +48,7 @@ export async function BackendServiceHandler(options: any) {
 
         if (option.action === 'save-file' && response.status === 200) {
           option.callback(response);
+          return {};
         }
 
         /**
