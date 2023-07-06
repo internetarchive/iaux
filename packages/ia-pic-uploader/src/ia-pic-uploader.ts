@@ -1,4 +1,4 @@
-import { html, css, LitElement, CSSResultGroup, nothing } from 'lit';
+import { html, css, LitElement, CSSResultGroup, nothing, svg } from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
 import iaButtonStyle from './style/ia-button-style';
 import { BackendServiceHandler } from './services/backend-service';
@@ -98,7 +98,7 @@ export class IAPicUploader extends LitElement {
 
   @query('.overlay') private overlay?: HTMLDivElement;
 
-  @query('.plus-png') private plusIcon?: HTMLDivElement;
+  @query('.plus-icon') private plusIcon?: HTMLDivElement;
 
   @query('#save-file') private saveFile?: HTMLFormElement;
 
@@ -171,6 +171,7 @@ export class IAPicUploader extends LitElement {
 
   drop(e: DragEvent) {
     this.preventDefault(e);
+    this.selfSubmitEle?.classList.remove('drag-over');
     this.overlay?.classList.remove('window-drag-over');
     if (!this.showLoadingIndicator) this.cancelFile();
   }
@@ -197,13 +198,8 @@ export class IAPicUploader extends LitElement {
       }
     });
 
-    [this.overlay, this.plusIcon, this.dropRegion, this.selfSubmitEle].forEach(
-      element =>
-        element?.addEventListener(
-          'drop',
-          this.handleDropImage.bind(this),
-          false
-        )
+    [this.overlay, this.dropRegion, this.selfSubmitEle].forEach(element =>
+      element?.addEventListener('drop', this.handleDropImage.bind(this), false)
     );
 
     // execute when submit to save picture
@@ -484,11 +480,7 @@ export class IAPicUploader extends LitElement {
         </button>
         ${this.showLoadingIndicator
           ? this.loadingIndicatorTemplate
-          : html`<img
-              class="plus-png plus-icon-full"
-              alt=""
-              src="../src/assets/for-full.png"
-            />`}
+          : this.plusSVGTemplate(35, 35, '#969696', '#fff')}
         <span
           class="drag-text ${this.showLoadingIndicator ? 'pointer-none' : ''}"
           @keyup=""
@@ -600,12 +592,33 @@ export class IAPicUploader extends LitElement {
       >
         ${this.showLoadingIndicator
           ? this.loadingIndicatorTemplate
-          : html`<img
-              class="plus-png plus-icon-compact"
-              alt=""
-              src="../src/assets/for-compact.png"
-            />`}
+          : this.plusSVGTemplate(25, 25, '#fff', '#333333')}
       </div>
+    `;
+  }
+
+  /**
+   *  Render svg plus
+   * 
+   * @param {number} height | height for svg 
+   * @param {number} width  | width for svg
+   * @param {string} fill | fill color
+   * @param {string} stroke | stroke color
+   * @returns {SVGAElement}
+   */
+  plusSVGTemplate(height: number, width: number, fill: string, stroke: string) {
+    return svg`<svg 
+      class="plus-icon"  
+      width="${width}" 
+      height="${height}" 
+      viewBox="0 0 26 26" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="12.8137" cy="13.3699" r="12.5" fill="${fill}"/>
+      <path d="M11.3137 5.36987H14.3137V21.3699H11.3137V5.36987Z" fill="${stroke}"/>
+      <path d="M4.56366 14.8699V11.8699H21.0637V14.8699H4.56366Z" fill="${stroke}"/>
+    </svg>
     `;
   }
 
@@ -766,6 +779,10 @@ export class IAPicUploader extends LitElement {
         justify-items: center;
       }
 
+      .plus-icon {
+        pointer-events: none;
+      }
+
       .self-submit-form .full-preview img {
         height: auto;
       }
@@ -836,14 +853,6 @@ export class IAPicUploader extends LitElement {
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
-      }
-
-      .plus-icon-compact {
-        width: 25px;
-      }
-
-      .plus-icon-full {
-        width: 35px;
       }
 
       .self-submit-form ia-activity-indicator {

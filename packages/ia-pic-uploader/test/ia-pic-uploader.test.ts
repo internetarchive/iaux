@@ -75,7 +75,7 @@ describe('check initial self submit form is located', () => {
 
     expect(selfSubmitEle).to.exist;
     expect(selfSubmitEle?.classList.contains('hidden'));
-    expect(selfSubmitEle?.querySelector('.plus-png')).to.exist;
+    expect(selfSubmitEle?.querySelector('.plus-icon')).to.exist;
     expect(selfSubmitEle?.querySelector('.drag-text')).to.exist;
     expect(selfSubmitEle?.querySelector('#save-file')).to.exist;
     expect(selfSubmitEle?.querySelector('#file-picker')).to.exist;
