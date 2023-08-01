@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export default css`
+export const iaSearchWidgetCss = css`
   * {
     box-sizing: border-box;
   }
@@ -37,15 +37,23 @@ export default css`
   }
 
   /* Full-width input fields */
-  input[type='text'],
-  input[type='password'],
-  input[type='checkbox'],
   select {
-    padding: 10px 5px;
-    margin: 5px;
+    width: 24%;
+  }
+  input[type="text"], input[type="email"], input[type="password"] {
+    width: 50%;
+  }
+  .form-field {
     display: inline-block;
-    border: none;
-    background: #f1f1f1;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    background-color: rgb(255, 255, 255);
+    background-image: none;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px inset;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
   }
 
   input[type='text']:focus,
@@ -86,9 +94,8 @@ export default css`
     box-shadow: #afafaf 4px 4px 15px;
   }
 
-  .anim {
+  .visible {
     opacity: 1;
-    top: 20px;
     display: block;
   }
 

@@ -1,6 +1,6 @@
 {
-  "name": "@internetarchive/iaux-search-widget",
-  "version": "0.0.1",
+  "name": "@internetarchive/ia-search-widget",
+  "version": "0.0.1-alpha4",
   "description": "The iaux-search-widget for make advanced search query.",
   "license": "AGPL-3.0-only",
   "author": "Internet Archive",
@@ -21,6 +21,10 @@
     "ghpages:generate": "gh-pages -t -d ghpages -m \"Build for $(git log --pretty=format:\"%h %an %ai %s\" -n1) [skip ci]\""
   },
   "types": "dist/index.d.ts",
+  "dependencies": {
+    "@lit-labs/motion": "^1.0.3",
+    "lit": "^2.7.5"
+  },
   "devDependencies": {
     "@open-wc/eslint-config": "^9.0.0",
     "@open-wc/testing": "^3.1.6",
@@ -91,10 +95,5 @@
       "prettier --write",
       "git add"
     ]
-  },
-  "dependencies": {
-    "@lit-labs/motion": "^1.0.3",
-    "advanced-search-query": "^5.1.1",
-    "lit": "^2.7.5"
   }
 }

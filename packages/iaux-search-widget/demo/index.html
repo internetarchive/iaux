@@ -6,31 +6,58 @@
     html {
       font-size: 10px; /* This is to match petabox's base font size */
     }
-        </style>
+    
+    .container {
+      margin: 0 50px;
+      position: relative;
+    }
+
+    #btn {
+      margin: 50px;
+    }
+    .iaux-search-widget {
+      position: absolute;
+      left: 0;
+    }
+  </style>
+ 
 </head>
 <body>
+  <script type="module" src="../dist/src/components/iaux-search-widget.js"></script>
+
   <button id="btn">Advanced Option</button>
-  <!-- <iaux-search-main></iaux-search-main> -->
-  <script type="module" src="../dist/src/components/iaux-search-widget.js">
-  </script>
+
+  <div class="container">
+    <iaux-search-widget class="iaux-search-widget"></iaux-search-widget>
+  </div>
 
   <script>
     let param = decodeURIComponent(window.location.search);
     param = new URLSearchParams(param).get("query") ;
-    console.log(param)
+
+    // param = 'title%3A"hello+world"+AND+creator%3A"hello"+AND+mediatype%3A"audio"';
+
     
     let searchComponent = document.querySelector('iaux-search-widget');
     if (!searchComponent) {
       searchComponent = document.createElement("iaux-search-widget");
     }
     searchComponent.queryParam = param
-    
-    // append to document
-    document.body.appendChild(searchComponent)
-    
+    searchComponent.open = false;
+
     const btn = document.querySelector('#btn');
     btn.addEventListener('click', () => {
       searchComponent.open = !searchComponent.open;
+    })
+
+    // searchWidgetClosed
+    searchComponent.addEventListener('searchWidgetClosed', (e) => {
+      searchComponent.open = false;
+      console.log('searchClosed', e);
+    });
+
+    searchComponent.addEventListener('searchWidgetApplied', (e) => {
+      console.log('searchApplied', e);
     })
   </script>
 </body>

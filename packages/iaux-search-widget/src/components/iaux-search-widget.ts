@@ -9,7 +9,8 @@ import {
   searchFieldOption,
   years,
 } from '../core/config/dropdown-fields';
-import iauxSearchWidgetCss from '../style/css/iaux-search-widget.css';
+import { iaSearchWidgetCss } from '../styles/css/ia-search-widget';
+import { IAButtonStyles } from '../styles/css/ia-buttons';
 
 @customElement('iaux-search-widget')
 export class IauxSearchWidget extends LitElement {
@@ -32,7 +33,7 @@ export class IauxSearchWidget extends LitElement {
 
   @property({ type: Array }) searchCondition = searchFieldCondition;
 
-  @property({ type: Array }) open = false;
+  @property({ type: Boolean }) open = false;
 
   @property({ type: HTMLDivElement })
   searchContainer!: HTMLDivElement;
@@ -61,7 +62,15 @@ export class IauxSearchWidget extends LitElement {
     if (!this.parasedQuery.length) return;
 
     const queryParam = encodeURIComponent(this.searchQuery);
-    window.location.href = `?query=${queryParam}`;
+    // window.location.href = `?query=${queryParam}`;
+
+    // For non-redirect cases, we want to perform a search on the current page
+    const event = new CustomEvent('searchWidgetApplied', {
+      detail: queryParam,
+    });
+    this.dispatchEvent(event);
+
+    this.closeSearchContainer()
   }
 
   /**
@@ -216,7 +225,7 @@ export class IauxSearchWidget extends LitElement {
    * @returns {HTMLOptionElement}
    */
   getSearchCondition(isNegated?: string) {
-    return `<select class="select-condition">${this.searchCondition.map(
+    return `<select class="select-condition form-field">${this.searchCondition.map(
       item =>
         `<option value="${item[1]}" ${
           item[1] === isNegated ? 'selected' : ''
@@ -242,7 +251,7 @@ export class IauxSearchWidget extends LitElement {
 
     let inputFieldType = '';
     if (key === 'mediatype') {
-      inputFieldType = `<select class="select-value">
+      inputFieldType = `<select class="select-value form-field">
       <option value = 'none'>Select MediaType</option>${this.getOption(
         this.mediaTypeOption,
         value
@@ -251,15 +260,16 @@ export class IauxSearchWidget extends LitElement {
       inputFieldType = `
       <input 
         type="text" 
-        class="select-value" 
+        class="select-value form-field" 
         value="${value || ''}" 
-        placeholder="Please enter search query"
+        placeholder="Enter value"
        />`;
     }
 
     field.innerHTML = `<div>
-        <select class="select-field" >
-        ${this.getOption(this.searchField, key)}
+        <select class="select-field form-field" >
+          <option>Select field</option>
+          ${this.getOption(this.searchField, key)}
         </select>
         ${this.getSearchCondition(isNegated)}
         ${inputFieldType}
@@ -287,18 +297,18 @@ export class IauxSearchWidget extends LitElement {
     field.classList.add('flex');
 
     field.innerHTML = `<div>
-      <select class="select-field" >
+      <select class="select-field form-field" >
         ${this.getOption(this.searchField, key)}
       </select>
-      <select class="select-year" id="year" name="year">
+      <select class="select-year form-field" id="year" name="year">
         <option value="none">year</option>
         ${this.getOption(this.year, splitValue[0]?.trim())}
       </select>
-      <select class="select-month" id="month" name="month">
+      <select class="select-month form-field" id="month" name="month">
         <option value="none">month</option>
         ${this.getOption(this.months, splitValue[1]?.trim())}
       </select>
-      <select class="select-date" id="date" name="date">
+      <select class="select-date form-field" id="date" name="date">
         <option value="none">date</option>
         ${this.getOption(this.date, splitValue[2]?.trim())}
       </select>
@@ -319,10 +329,27 @@ export class IauxSearchWidget extends LitElement {
   get actionButton() {
     return `
       <div>
-        <button class="add-field">&#43;</button>
-        <button class="delete-field">Delete</button>
+        <button class="add-field ia-button primary">&#43;</button>
+        <button class="delete-field ia-button danger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12px" height="12"><path d="M 10 2 L 9 3 L 3 3 L 3 5 L 21 5 L 21 3 L 15 3 L 14 2 L 10 2 z M 4.3652344 7 L 6.0683594 22 L 17.931641 22 L 19.634766 7 L 4.3652344 7 z"></path></svg></button>
       </div>
     `;
+  }
+
+  closeSearchContainer() {
+    // this.open = false;
+    this.dispatchEvent(new Event('searchWidgetClosed'));
+  }
+
+  get closeButton() {
+    return html`
+    <button class="close-button ia-button"
+      @click=${() => {
+        this.closeSearchContainer();
+      }}
+    >
+      &#10060;
+    </button>`
   }
 
   /**
@@ -356,7 +383,7 @@ export class IauxSearchWidget extends LitElement {
     }
 
     field.innerHTML = `<div class="range">
-      <select class="select-field" >
+      <select class="select-field form-field" >
         ${this.getOption(this.searchField, key)}
       </select>
       <div>
@@ -377,15 +404,15 @@ export class IauxSearchWidget extends LitElement {
         </div>
         <div class="flex">
           <h4>TO</h4>
-          <select class="select-year-to" id="yearTo" name="yearTo">
+          <select class="select-year-to form-field" id="yearTo" name="yearTo">
             <option value="none">year</option>
             ${this.getOption(this.year, yearTo?.trim())}
           </select>
-          <select class="select-month-to" id="monthTos" name="monthTos">
+          <select class="select-month-to form-field" id="monthTos" name="monthTos">
             <option value="none">month</option>
             ${this.getOption(this.months, monthTo?.trim())}
           </select>
-          <select class="select-date-to" id="dateTo" name="dateTo">
+          <select class="select-date-to form-field" id="dateTo" name="dateTo">
             <option value="none">date</option>
             ${this.getOption(this.date, dateTo?.trim())}
           </select>
@@ -438,21 +465,42 @@ export class IauxSearchWidget extends LitElement {
 
   render() {
     return html` <div
-      class="search-main ${this.open ? 'anim' : ''}"
+      class="search-main ${this.open ? 'visible' : ''}"
       ${animate()}
     >
+      ${this.closeButton}
       <h3>${this.queryParam}</h3>
       <div id="search-field-container">
         <h2>Select Fields</h2>
       </div>
       <div class="btn-section">
-        <button class="cancel-btn">Cancel</button>
-        <button id="apply-btn" @click="${this.formSubmit}">Apply</button>
+        <button style="display: none" class="cancel-btn ia-button danger">Cancel</button>
+        <button id="apply-btn" class="ia-button primary" @click="${this.formSubmit}">Apply</button>
       </div>
     </div>`;
   }
 
   static styles = css`
-    ${iauxSearchWidgetCss}
+    ${iaSearchWidgetCss}
+    ${IAButtonStyles}
+    :host {
+      position: absolute;
+      right: 0;
+      z-index: 1;
+    }
+    .close-button {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      padding: 5px;
+      border: none;
+      font-size: 1rem;
+      background: white;
+    }
+
+    .ia-button {
+      display: inline;
+      margin: 10px 0;
+    }
   `;
 }

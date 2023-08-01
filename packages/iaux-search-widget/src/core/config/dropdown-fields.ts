@@ -1,6 +1,5 @@
 // search field data
 export const searchFieldOption: string[] = [
-  'name',
   'creator',
   'title',
   'description',
@@ -12,7 +11,7 @@ export const searchFieldOption: string[] = [
 
 export const searchFieldCondition: string[][] = [
   ['contains', 'true'],
-  ['is not contains', 'false'],
+  ['does not contains', 'false'],
 ];
 
 export const years: string[] = [
