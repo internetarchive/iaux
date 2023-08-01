@@ -162,7 +162,7 @@ export default css`
 
     nav {
       display: block;
-      z-index: 2;
+      z-index: 3;
       height: 5rem;
       padding-right: 1.5rem;
     }
