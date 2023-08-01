@@ -8,7 +8,7 @@ export default css`
   nav {
     position: absolute;
     right: 0;
-    z-index: 2;
+    z-index: 3;
     overflow: hidden;
     font-size: 1.6rem;
     background-color: var(--dropdownMenuBg);
