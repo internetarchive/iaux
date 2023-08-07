@@ -6,6 +6,7 @@
  */
 const log =
   location.hostname === 'localhost' ||
+  location.hostname === 'local.archive.org' ||
   location.host.match(/^(www|cat)-[a-z0-9]+\.archive\.org$/) ||
   location.host.match(/\.code\.archive\.org$/) ||
   location.host.match(/\.dev\.archive\.org$/) ||

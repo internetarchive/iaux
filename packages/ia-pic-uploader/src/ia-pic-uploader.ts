@@ -393,7 +393,7 @@ export class IAPicUploader extends LitElement {
     const metadataApiInterval = setInterval(async () => {
       const res = BackendServiceHandler({
         action: 'verify-upload',
-        endpoint: `/metadata/${this.identifier}?rand=${Math.random()}`,
+        endpoint: `https://archive.org/metadata/${this.identifier}?rand=${Math.random()}`,
       });
       res.then((json: any) => {
         const waitCount =
@@ -775,7 +775,7 @@ export class IAPicUploader extends LitElement {
         padding: 11px;
         text-align: center;
         justify-content: center;
-        z-index: 2;
+        z-index: 3;
         justify-items: center;
       }
 
