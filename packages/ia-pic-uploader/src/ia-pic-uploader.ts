@@ -466,7 +466,7 @@ export class IAPicUploader extends LitElement {
     return html`
       <div class="self-submit-form hidden">
         <button
-          class="close-button ia-button 
+          class="close-button 
           ${(!this.showDropper && this.fileValidationError === '') ||
           this.showLoadingIndicator
             ? 'hidden'
@@ -651,6 +651,7 @@ export class IAPicUploader extends LitElement {
 
       :host {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        display: inline-block;
       }
 
       :host *:focus,
@@ -720,7 +721,6 @@ export class IAPicUploader extends LitElement {
         max-width: 120px;
         background-size: cover;
         border-radius: 50%;
-        box-shadow: rgb(0 0 0 / 5%) 0px 0px 35px;
         text-align: center;
         cursor: pointer;
         transition: all 0.3s ease 0s;
@@ -733,6 +733,7 @@ export class IAPicUploader extends LitElement {
       .image-preview:hover img {
         box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
         opacity: 0.5;
+        cursor: pointer;
       }
 
       .overlay {
@@ -779,6 +780,12 @@ export class IAPicUploader extends LitElement {
         justify-items: center;
       }
 
+      @media(max-width: 1350px) {
+        .self-submit-form {
+          left: 100%;
+        }
+      }
+
       .plus-icon {
         pointer-events: none;
       }
@@ -789,11 +796,15 @@ export class IAPicUploader extends LitElement {
 
       .close-button {
         position: absolute;
-        right: 10px;
+        right: 5px;
+        top: 5px;
         padding: 5px;
         border: none;
         font-size: 1rem;
         background: white;
+      }
+      .close-button:hover {
+        cursor: pointer;
       }
 
       .self-submit-form.drag-over {
@@ -810,6 +821,7 @@ export class IAPicUploader extends LitElement {
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        margin-bottom: 15px;
       }
 
       .window-drag-over {

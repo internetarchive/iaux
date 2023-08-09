@@ -61,8 +61,6 @@ export async function BackendServiceHandler(options: any) {
         }
       })
       .then(data => {
-        log('data', data);
-
         if (option.action === 'save-file') {
           log(
             'file saved, metadata call started to verify is picture is upadated!'

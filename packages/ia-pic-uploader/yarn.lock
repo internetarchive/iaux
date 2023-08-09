@@ -240,10 +240,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@internetarchive/ia-activity-indicator@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-activity-indicator/-/ia-activity-indicator-0.0.5.tgz#30236b407255abf614809e617186a682f4b8a47f"
-  integrity sha512-FR0E/SH5PeTKaOZ02zBBi5cbT5Y56/5YlajHm8G40MKTSrMrAZ01vEA18n4cqlFnYqez9GiakJKOwjBORIOBtA==
+"@internetarchive/ia-activity-indicator@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-activity-indicator/-/ia-activity-indicator-0.0.4.tgz#22fa19b072e4084799cf4c71ab73e4973c2670c3"
+  integrity sha512-nJFs3uAnPyDLqtkEVV4vMD1dli+eOyovd5rY/un9nOahu2elTHOHrIfNH0YvBkLXR7C9GVCeI9H8BD8BXq+rhg==
   dependencies:
     lit "^2.2.2"
 
