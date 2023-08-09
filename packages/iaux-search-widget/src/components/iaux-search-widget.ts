@@ -91,7 +91,8 @@ export class IauxSearchWidget extends LitElement {
     }
     const arr = this.queryParam.split(/AND|OR/);
 
-    arr.forEach(data => {
+    arr.forEach((data) => {
+      console.log(data);
       const str = data.split(':');
       let key: string = str[0]?.trim();
       const isNegated: string = key[0] === '-' ? 'false' : 'true';
@@ -99,9 +100,9 @@ export class IauxSearchWidget extends LitElement {
       const value = str[1]?.trim().replace(/[[\]"'()/]/g, '');
 
       if (str.length === 2 && this.searchField.includes(key)) {
+        console.log(value);
         if (key === 'date') {
           if (/TO/.test(value)) {
-            // console.log(value);
             this.addDateRangeSearchField(value);
           } else {
             this.addDateSearchField(value);
@@ -110,6 +111,7 @@ export class IauxSearchWidget extends LitElement {
           this.addSearchField(key, isNegated, value);
         }
       } else {
+        console.log('default field')
         this.setParasedQueryString(`(${key})`);
         this.addSearchField();
       }
@@ -266,14 +268,13 @@ export class IauxSearchWidget extends LitElement {
        />`;
     }
 
-    field.innerHTML = `<div>
+    field.innerHTML = `
         <select class="select-field form-field" >
           <option>Select field</option>
           ${this.getOption(this.searchField, key)}
         </select>
         ${this.getSearchCondition(isNegated)}
         ${inputFieldType}
-      </div>
       ${this.actionButton}
     `;
 
@@ -337,7 +338,7 @@ export class IauxSearchWidget extends LitElement {
   }
 
   closeSearchContainer() {
-    // this.open = false;
+    this.open = false;
     this.dispatchEvent(new Event('searchWidgetClosed'));
   }
 
@@ -386,7 +387,6 @@ export class IauxSearchWidget extends LitElement {
       <select class="select-field form-field" >
         ${this.getOption(this.searchField, key)}
       </select>
-      <div>
         <div class="flex">
           <h4>FROM</h4>
           <select class="select-year-from" id="yearFrom" name="yearFrom">
@@ -417,7 +417,6 @@ export class IauxSearchWidget extends LitElement {
             ${this.getOption(this.date, dateTo?.trim())}
           </select>
         </div>
-      </div>
     </div>
     ${this.actionButton}
     `;
@@ -448,9 +447,6 @@ export class IauxSearchWidget extends LitElement {
       } else if (selectFieldValue === 'mediatype') {
         this.deleteSearchField(field);
         this.addSearchField(selectFieldValue);
-      } else {
-        this.deleteSearchField(field);
-        this.addSearchField(selectFieldValue);
       }
     });
 
@@ -464,10 +460,7 @@ export class IauxSearchWidget extends LitElement {
   }
 
   render() {
-    return html` <div
-      class="search-main ${this.open ? 'visible' : ''}"
-      ${animate()}
-    >
+    return html` <div class="search-main ${this.open ? 'visible' : ''}">
       ${this.closeButton}
       <h3>${this.queryParam}</h3>
       <div id="search-field-container">

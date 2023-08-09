@@ -157,5 +157,5 @@ export const mediaTypeOption: string[] = [
   'image',
   'movies',
   'web',
-  'text',
+  'texts',
 ];

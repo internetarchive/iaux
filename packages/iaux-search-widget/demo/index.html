@@ -28,7 +28,7 @@
   <button id="btn">Advanced Option</button>
 
   <div class="container">
-    <iaux-search-widget class="iaux-search-widget"></iaux-search-widget>
+    <iaux-search-widget open class="iaux-search-widget"></iaux-search-widget>
   </div>
 
   <script>
@@ -43,7 +43,7 @@
       searchComponent = document.createElement("iaux-search-widget");
     }
     searchComponent.queryParam = param
-    searchComponent.open = false;
+    searchComponent.open = true;
 
     const btn = document.querySelector('#btn');
     btn.addEventListener('click', () => {

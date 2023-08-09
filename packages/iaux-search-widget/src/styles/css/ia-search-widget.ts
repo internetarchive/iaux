@@ -37,11 +37,15 @@ export const iaSearchWidgetCss = css`
   }
 
   /* Full-width input fields */
-  select {
-    width: 24%;
+  .select-condition {
+    width: 20%;
   }
+  .select-value {
+    width: 43%;
+  }
+
   input[type="text"], input[type="email"], input[type="password"] {
-    width: 50%;
+    // width: 49%;
   }
   .form-field {
     display: inline-block;
@@ -81,7 +85,7 @@ export const iaSearchWidgetCss = css`
   .search-main {
     position: relative;
     box-sizing: border-box;
-    padding: 25px;
+    padding: 15px;
     color: var(--iaux-search-widget-text-color, #000);
     width: 600px;
     margin: 0 auto;

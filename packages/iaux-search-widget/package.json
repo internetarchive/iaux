@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-search-widget",
-  "version": "0.0.1-alpha4",
+  "version": "0.0.1-alpha5",
   "description": "The iaux-search-widget for make advanced search query.",
   "license": "AGPL-3.0-only",
   "author": "Internet Archive",
