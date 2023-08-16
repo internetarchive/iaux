@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import log from './log';
 
 /**
@@ -27,7 +29,6 @@ export async function BackendServiceHandler(options: any) {
 
   try {
     await fetch(baseHost, {
-      mode: 'no-cors',
       method: 'POST',
       headers: option.headers,
       body: option.file ?? null,
@@ -60,8 +61,6 @@ export async function BackendServiceHandler(options: any) {
         }
       })
       .then(data => {
-        log('data', data);
-
         if (option.action === 'save-file') {
           log(
             'file saved, metadata call started to verify is picture is upadated!'
