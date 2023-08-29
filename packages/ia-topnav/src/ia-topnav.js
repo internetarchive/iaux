@@ -43,6 +43,7 @@ export default class IATopNav extends LitElement {
       /** Identifier for the item or collection currently being viewed */
       itemIdentifier: { type: String },
       mediaSliderOpen: { type: Boolean },
+      suppressAdminLinks: { type: Boolean },
       menus: {
         type: Object,
         converter(value) {
@@ -73,6 +74,7 @@ export default class IATopNav extends LitElement {
     this.config = defaultTopNavConfig;
     this.hideSearch = false;
     this.mediaSliderOpen = false;
+    this.suppressAdminLinks = false;
     this.openMenu = '';
     this.searchIn = '';
     this.selectedMenuOption = '';
@@ -220,13 +222,13 @@ export default class IATopNav extends LitElement {
    */
   get userMenuItems() {
     const basicItems = this.menus.user;
-    
+
     let adminItems = this.menus.userAdmin;
     if (this.canManageFlags) {
       adminItems = adminItems.concat(this.menus.userAdminFlags);
     }
 
-    return this.admin
+    return this.admin && !this.suppressAdminLinks
       ? [basicItems, adminItems]
       : basicItems;
   }
