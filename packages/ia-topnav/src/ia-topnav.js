@@ -43,7 +43,6 @@ export default class IATopNav extends LitElement {
       /** Identifier for the item or collection currently being viewed */
       itemIdentifier: { type: String },
       mediaSliderOpen: { type: Boolean },
-      suppressAdminLinks: { type: Boolean },
       menus: {
         type: Object,
         converter(value) {
@@ -74,7 +73,6 @@ export default class IATopNav extends LitElement {
     this.config = defaultTopNavConfig;
     this.hideSearch = false;
     this.mediaSliderOpen = false;
-    this.suppressAdminLinks = false;
     this.openMenu = '';
     this.searchIn = '';
     this.selectedMenuOption = '';
