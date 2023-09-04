@@ -228,7 +228,7 @@ export default class IATopNav extends LitElement {
       adminItems = adminItems.concat(this.menus.userAdminFlags);
     }
 
-    return this.admin && !this.suppressAdminLinks
+    return this.itemIdentifier && this.admin
       ? [basicItems, adminItems]
       : basicItems;
   }
