@@ -220,13 +220,13 @@ export default class IATopNav extends LitElement {
    */
   get userMenuItems() {
     const basicItems = this.menus.user;
-    
+
     let adminItems = this.menus.userAdmin;
     if (this.canManageFlags) {
       adminItems = adminItems.concat(this.menus.userAdminFlags);
     }
 
-    return this.admin
+    return this.itemIdentifier && this.admin
       ? [basicItems, adminItems]
       : basicItems;
   }
