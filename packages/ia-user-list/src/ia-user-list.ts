@@ -1,12 +1,13 @@
+/* eslint-disable no-undef */
+/* eslint-disable lit/no-value-attribute */
 import { html, css, LitElement } from 'lit';
 import { property, customElement, query } from 'lit-element/decorators.js';
 
 import type { listDataModel } from './models';
-import IAButtonStyles from './style/ia-button'
+import IAButtonStyles from './style/ia-button';
 
 @customElement('ia-user-list')
 export class IAUserList extends LitElement {
-
   /**
    * contains list information
    *
@@ -28,7 +29,7 @@ export class IAUserList extends LitElement {
    * @memberof IAUserList
    */
   @query('#list-id') private listId: HTMLInputElement;
-  
+
   /**
    * @private
    * @type {HTMLInputElement}
@@ -65,14 +66,16 @@ export class IAUserList extends LitElement {
       });
 
       const response = await fetch(this.apiURL, requestInit);
-      console.log('response', response)
-  
-      this.dispatchEvent(new CustomEvent('listDetailsSaved', {
-        detail: {
-          inputData: requestInit,
-          outputData: response
-        }
-      }));
+      console.log('response', response);
+
+      this.dispatchEvent(
+        new CustomEvent('listDetailsSaved', {
+          detail: {
+            inputData: requestInit,
+            outputData: response,
+          },
+        })
+      );
     } catch (error) {
       console.log('error', error);
     }
@@ -89,22 +92,43 @@ export class IAUserList extends LitElement {
       <section class="new-list">
         <form @submit=${this.saveListDetails}>
           <div class="field">
-            <input type="hidden" value="${this.listData.identifier}" id="list-id" />
+            <input type="hidden" id="list-id" .value=${this.listData?.listId} />
             <label for="list-name">List name*</label>
-            <input type="text" id="list-name" placeholder="Silver age comics are the best" value=${this.listData?.list_name} required />
+            <input
+              type="text"
+              id="list-name"
+              placeholder="Silver age comics are the best"
+              value=${this.listData?.listName}
+              required
+            />
           </div>
           <div class="field">
             <label for="list-description">Description</label>
-            <textarea id="list-description" placeholder="Great comics from the silver age of 1970">${this.listData?.description}</textarea>
+            <textarea
+              id="list-description"
+              placeholder="Great comics from the silver age of 1970"
+            >
+${this.listData?.description}</textarea
+            >
           </div>
           <div class="field">
             <label for="list-private">Private list</label>
-            <input type="checkbox" id="list-private" .checked="${this.listData.private}" />
+            <input
+              type="checkbox"
+              id="list-private"
+              checked="${this.listData?.private}"
+            />
           </div>
           <div class="footer field">
-            <button class="ia-button dark" @click=${(event: Event) => {
-              this.emitCloseModalEvent(event);
-            }}>Cancel</button>
+            <button
+              class="ia-button dark"
+              id="cancel"
+              @click=${(event: Event) => {
+                this.emitCloseModalEvent(event);
+              }}
+            >
+              Cancel
+            </button>
             <button class="ia-button primary">Save</button>
           </div>
         </form>
@@ -134,16 +158,18 @@ export class IAUserList extends LitElement {
         margin-right: 10px;
       }
 
-      input[type=text], textarea {
+      input[type='text'],
+      textarea {
         line-height: 25px;
         padding: 2px;
         border-radius: 5px;
         width: 270px;
         font-family: inherit;
         font-size: inherit;
+        resize: none;
       }
 
-      input[type=checkbox] {
+      input[type='checkbox'] {
         margin: 0;
       }
 
@@ -158,6 +184,6 @@ export class IAUserList extends LitElement {
         padding: 0 15px;
         height: 3.5rem;
       }
-    `
+    `,
   ];
 }

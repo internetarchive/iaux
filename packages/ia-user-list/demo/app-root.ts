@@ -1,5 +1,5 @@
 import { html, css, LitElement } from 'lit';
-import { customElement, query, state } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 
 // import '@internetarchive/modal-manager';
 import { ModalConfig, ModalManager } from '@internetarchive/modal-manager';
@@ -8,41 +8,52 @@ import '../src/ia-user-list';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {
-
   @state() private modalManager: ModalManager;
 
   private listData = {
-    identifier: 'hello',
-    list_name: 'my first list',
+    listId: 'hello',
+    listName: 'my first list',
     description: 'my first list description',
-    private: true, 
+    private: true,
   };
 
   render() {
     return html`
       <fieldset class="dev-tools">
-        <legend>Dev testing new/edit user list</legend>
+        <legend>Dev tools of user list settings</legend>
         <modal-manager></modal-manager>
 
-        <button @click=${() => {
-          this.showUserListSettingModal('new');
-        }}>Add new</button>
+        <button
+          @click=${() => {
+            this.showUserListSettingModal('new');
+          }}
+        >
+          Add new
+        </button>
 
-        <button @click=${() => {
-          this.showUserListSettingModal('edit')
-        }}>Edit me</button>
+        <button
+          @click=${() => {
+            this.showUserListSettingModal('edit');
+          }}
+        >
+          Edit me
+        </button>
 
-        <pre id="response-data" class="hidden">
-        </pre>
+        <pre id="response-data" class="hidden"></pre>
       </fieldset>
-      `;
+    `;
   }
 
   private async showUserListSettingModal(op: string) {
-    this.modalManager = this.shadowRoot?.querySelector('modal-manager') as ModalManager;
+    this.modalManager = this.shadowRoot?.querySelector(
+      'modal-manager'
+    ) as ModalManager;
     this.modalManager?.setAttribute('id', 'create-user-list-modal');
 
-    const data = op === 'edit' ? this.listData : {};
+    const data =
+      op === 'edit'
+        ? this.listData
+        : {};
     const config = new ModalConfig({
       title: html`List settings`,
       headerColor: '#194880',
@@ -59,8 +70,7 @@ export class AppRoot extends LitElement {
           this.modalManager.closeModal();
         }}
         @listDetailsSaved=${(e: CustomEvent) => {
-          console.log(e.detail)
-          this.shadowRoot!.querySelector('#response-data')!.innerHTML = e.detail.inputData;
+          console.log(e.detail);
           this.modalManager.closeModal();
         }}
       ></ia-user-list>
@@ -94,6 +104,7 @@ export class AppRoot extends LitElement {
       text-align: center;
       width: 400px;
       margin: 40px auto;
+      padding: 20px;
     }
 
     .dev-tools button {

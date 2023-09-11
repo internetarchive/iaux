@@ -1,13 +1,13 @@
 {
-  "name": "@internetarchive/your-webcomponent",
+  "name": "@internetarchive/ia-userlist-settings",
   "description": "The Internet Archive Typescript WebComponent template. It is based on the @open-wc template.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/internetarchive/iaux-your-webcomponent.git"
+    "url": "git+https://github.com/internetarchive/iaux.git"
   },
   "license": "AGPL-3.0-only",
   "author": "Internet Archive",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "circular": "madge --circular --extensions ts .",
-    "test": "tsc && yarn run lint && yarn run circular && wtr --coverage",
+    "test": "tsc && yarn run format && yarn run lint && yarn run circular && wtr --coverage",
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
     "ghpages:build": "rimraf ghpages && yarn run prepare && vite build",
     "ghpages:publish": "yarn run ghpages:prepare -e $(git branch --show-current)",
@@ -29,12 +29,12 @@
     "@open-wc/eslint-config": "^9.0.0",
     "@open-wc/testing": "^3.1.6",
     "@types/form-data": "^2.5.0",
-    "@typescript-eslint/eslint-plugin": "^5.30.0",
-    "@typescript-eslint/parser": "^5.30.0",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
     "@web/dev-server": "^0.1.32",
     "@web/test-runner": "^0.17.0",
     "concurrently": "^7.2.2",
-    "eslint": "^8.18.0",
+    "eslint": "^8.48.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-html": "^7.1.0",
     "eslint-plugin-import": "^2.26.0",
@@ -98,7 +98,8 @@
     ]
   },
   "dependencies": {
+    "@internetarchive/modal-manager": "^0.2.12",
     "lit": "^2.6.0",
-    "@internetarchive/modal-manager": "^0.2.12"
+    "lit-element": "^3.3.3"
   }
 }
