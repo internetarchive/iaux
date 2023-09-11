@@ -1,10 +1,7 @@
 import { html, css, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-
-// import '@internetarchive/modal-manager';
 import { ModalConfig, ModalManager } from '@internetarchive/modal-manager';
 import '../src/ia-user-list';
-// import { ModalManagerInterface } from '../../../../iaux-modal-manager/dist/src/modal-manager-interface';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {

@@ -1,17 +1,13 @@
 /* eslint-disable */
+
 import {
   html,
   fixture,
   expect,
-  aTimeout,
-  elementUpdated,
-  oneEvent,
-  nextFrame,
 } from '@open-wc/testing';
 
 import type { IAUserList } from '../src/ia-user-list';
 import '../src/ia-user-list';
-// import { aTimeout } from '@open-wc/testing';
 
 describe('IAUserList', () => {
   it('has defined fields rendered', async () => {
