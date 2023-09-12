@@ -8,10 +8,13 @@
 *.njsproj
 *.sln
 *.sw?
+*.editorrconfig
+
 
 ## npm
 /node_modules/
 /npm-debug.log
+package-lock.json
 
 ## testing
 /coverage/
@@ -24,12 +27,10 @@
 /dist/
 /out-tsc/
 /build/
-ghpages
 dist
 dist-ssr
 *.local
 
-storybook-static
 
 # Logs
 logs

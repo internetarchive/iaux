@@ -1,6 +1,6 @@
 {
-  "name": "@internetarchive/ia-userlist-settings",
-  "description": "The Internet Archive Typescript WebComponent template. It is based on the @open-wc template.",
+  "name": "@internetarchive/iaux-userlist-settings",
+  "description": "Typescript component to add/edit user lists",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/internetarchive/iaux.git"
@@ -18,11 +18,7 @@
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "circular": "madge --circular --extensions ts .",
     "test": "tsc && yarn run format && yarn run lint && yarn run circular && wtr --coverage",
-    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
-    "ghpages:build": "rimraf ghpages && yarn run prepare && vite build",
-    "ghpages:publish": "yarn run ghpages:prepare -e $(git branch --show-current)",
-    "ghpages:prepare": "yarn run ghpages:build && touch ghpages/.nojekyll && yarn run ghpages:generate",
-    "ghpages:generate": "gh-pages -t -d ghpages -m \"Build for $(git log --pretty=format:\"%h %an %ai %s\" -n1) [skip ci]\""
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
   },
   "types": "dist/index.d.ts",
   "devDependencies": {
@@ -42,16 +38,13 @@
     "eslint-plugin-lit-a11y": "^4.0.0",
     "eslint-plugin-no-only-tests": "^3.1.0",
     "eslint-plugin-wc": "^1.3.2",
-    "gh-pages": "^6.0.0",
-    "husky": "^8.0.0",
     "madge": "^6.0.0",
     "prettier": "^2.7.1",
     "rimraf": "^5.0.0",
     "sinon": "^15.0.0",
     "ts-lit-plugin": "^1.0.5",
     "tslib": "^2.4.0",
-    "typescript": "^4.7.4",
-    "vite": "^4.0.0"
+    "typescript": "^4.7.4"
   },
   "publishConfig": {
     "access": "public"

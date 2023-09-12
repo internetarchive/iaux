@@ -1,4 +1,4 @@
-export type listDataModel = {
+export type listInfoModel = {
   listId: string;
   listName: string;
   description: string;

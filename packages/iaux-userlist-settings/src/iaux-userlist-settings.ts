@@ -3,54 +3,34 @@
 
 import { html, css, LitElement } from 'lit';
 import { property, customElement, query } from 'lit-element/decorators.js';
-
-import type { listDataModel } from './models';
 import IAButtonStyles from './style/ia-button';
 
-@customElement('ia-user-list')
-export class IAUserList extends LitElement {
+export type UserListInfo = {
+  id: string;
+  name: string;
+  description: string;
+  private: boolean;
+};
+
+@customElement('iaux-userlist-settings')
+export class IAUXUserListSettings extends LitElement {
   /**
-   * contains list information
-   *
-   * @type {UserModel}
-   * @memberof IAUserList
+   * contains userlist information
    */
-  @property({ type: Object }) listData: listDataModel;
+  @property({ type: Object }) listInfo: UserListInfo;
 
   /**
-   * base api URL for user list service
-   *
-   * @memberof IAUserList
+   * base api URL for userlist service
    */
-  @property({ type: String }) apiURL: string;
+  @property({ type: String }) baseAPIUrl: string = 'archive.org';
 
-  /**
-   * @private
-   * @type {HTMLInputElement}
-   * @memberof IAUserList
-   */
-  @query('#list-id') private listId: HTMLInputElement;
+  @query('#id') private listId: HTMLInputElement;
 
-  /**
-   * @private
-   * @type {HTMLInputElement}
-   * @memberof IAUserList
-   */
-  @query('#list-name') private listName: HTMLInputElement;
+  @query('#name') private listName: HTMLInputElement;
 
-  /**
-   * @private
-   * @type {HTMLInputElement}
-   * @memberof IAUserList
-   */
-  @query('#list-description') private listDescription: HTMLInputElement;
+  @query('#description') private listDescription: HTMLInputElement;
 
-  /**
-   * @private
-   * @type {HTMLInputElement}
-   * @memberof IAUserList
-   */
-  @query('#list-private') private listPrivate: HTMLInputElement;
+  @query('#private') private listPrivate: HTMLInputElement;
 
   private async saveListDetails(event: Event) {
     event.preventDefault();
@@ -60,13 +40,13 @@ export class IAUserList extends LitElement {
       requestInit.credentials = 'include';
       requestInit.method = 'PUT';
       requestInit.body = JSON.stringify({
-        listId: this.listId.value,
-        listName: this.listName.value,
-        listDescription: this.listDescription.value,
-        listPrivate: this.listPrivate.checked,
+        id: this.listId.value,
+        name: this.listName.value,
+        description: this.listDescription.value,
+        private: this.listPrivate.checked,
       });
 
-      const response = await fetch(this.apiURL, requestInit);
+      const response = await fetch(this.baseAPIUrl, requestInit);
       console.log('response', response);
 
       this.dispatchEvent(
@@ -82,51 +62,46 @@ export class IAUserList extends LitElement {
     }
   }
 
-  private emitCloseModalEvent(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
+  private emitCloseModalEvent() {
     this.dispatchEvent(new Event('listModalClosed'));
   }
 
   render() {
     return html`
       <section class="new-list">
-        <form @submit=${this.saveListDetails}>
+        <form id="user-list-form" @submit=${this.saveListDetails}>
           <div class="field">
-            <input type="hidden" id="list-id" .value=${this.listData?.listId} />
-            <label for="list-name">List name*</label>
+            <input type="hidden" id="id" .value=${this.listInfo?.id} />
+            <label for="name">List name*</label>
             <input
               type="text"
-              id="list-name"
+              id="name"
               placeholder="Silver age comics are the best"
-              value=${this.listData?.listName}
+              value=${this.listInfo?.name}
               required
             />
           </div>
           <div class="field">
-            <label for="list-description">Description</label>
+            <label for="description">Description</label>
             <textarea
-              id="list-description"
+              id="description"
               placeholder="Great comics from the silver age of 1970"
-            >
-${this.listData?.description}</textarea
-            >
+              .value=${this.listInfo?.description ?? ''}
+            ></textarea>
           </div>
           <div class="field">
-            <label for="list-private">Private list</label>
+            <label for="private">Private list</label>
             <input
               type="checkbox"
-              id="list-private"
-              checked="${this.listData?.private}"
+              id="private"
+              .checked="${this.listInfo?.private}"
             />
           </div>
           <div class="footer field">
             <button
               class="ia-button dark"
               id="cancel"
-              @click=${(event: Event) => {
-                this.emitCloseModalEvent(event);
-              }}
+              @click=${this.emitCloseModalEvent}
             >
               Cancel
             </button>
@@ -171,7 +146,12 @@ ${this.listData?.description}</textarea
       }
 
       input[type='checkbox'] {
+        cursor: pointer;
         margin: 0;
+      }
+
+      label[for='private'] {
+        cursor: pointer;
       }
 
       .footer {

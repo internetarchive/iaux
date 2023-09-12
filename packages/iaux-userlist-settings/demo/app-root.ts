@@ -1,15 +1,15 @@
 import { html, css, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { ModalConfig, ModalManager } from '@internetarchive/modal-manager';
-import '../src/ia-user-list';
+import '../src/iaux-userlist-settings';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {
   @state() private modalManager: ModalManager;
 
-  private listData = {
-    listId: 'hello',
-    listName: 'my first list',
+  private listInfo = {
+    id: 'hello',
+    name: 'my first list',
     description: 'my first list description',
     private: true,
   };
@@ -47,22 +47,20 @@ export class AppRoot extends LitElement {
     ) as ModalManager;
     this.modalManager?.setAttribute('id', 'create-user-list-modal');
 
-    const data =
-      op === 'edit'
-        ? this.listData
-        : {};
+    const data = op === 'edit' ? this.listInfo : {};
+
     const config = new ModalConfig({
       title: html`List settings`,
       headerColor: '#194880',
       showCloseButton: true,
       showHeaderLogo: false,
-      closeOnBackdropClick: false,
+      closeOnBackdropClick: true,
     });
 
     const customModalContent = html`
-      <ia-user-list
-        .listData=${data}
-        .apiURL=${'http://localhost:8000/demo'}
+      <iaux-userlist-settings
+        .listInfo=${data}
+        .baseAPIUrl=${'http://localhost:8000/demo'}
         @listModalClosed=${() => {
           this.modalManager.closeModal();
         }}
@@ -70,7 +68,7 @@ export class AppRoot extends LitElement {
           console.log(e.detail);
           this.modalManager.closeModal();
         }}
-      ></ia-user-list>
+      ></iaux-userlist-settings>
     `;
     await this.modalManager.showModal({ config, customModalContent });
   }
