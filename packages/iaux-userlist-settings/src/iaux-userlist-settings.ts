@@ -76,7 +76,6 @@ export class IAUXUserListSettings extends LitElement {
             <input
               type="text"
               id="name"
-              placeholder="Silver age comics are the best"
               value=${this.listInfo?.name}
               required
             />
@@ -85,7 +84,6 @@ export class IAUXUserListSettings extends LitElement {
             <label for="description">Description</label>
             <textarea
               id="description"
-              placeholder="Great comics from the silver age of 1970"
               .value=${this.listInfo?.description ?? ''}
             ></textarea>
           </div>

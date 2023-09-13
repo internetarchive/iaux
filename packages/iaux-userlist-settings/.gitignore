@@ -8,7 +8,7 @@
 *.njsproj
 *.sln
 *.sw?
-*.editorrconfig
+*.editorconfig
 
 
 ## npm

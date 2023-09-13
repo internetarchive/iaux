@@ -108,37 +108,4 @@ describe('IAUXUserListSettings', () => {
     expect(event.type).to.equal(customEventName);
     expect(event.target).to.equal(el);
   });
-
-  it('save userlist details', async () => {
-    const el = await fixture<IAUXUserListSettings>(
-      html`<iaux-userlist-settings></iaux-userlist-settings>`
-    );
-    await el.updateComplete;
-
-    const listForm = el.shadowRoot?.querySelector(
-      '#user-list-form'
-    ) as HTMLFormElement;
-
-    listForm.submit();
-
-    // Define a custom event name
-    // const customEventName = 'listModalClosed';
-
-    // Listen for the custom event on the custom element
-    // let customEventFired = false;
-    // el.addEventListener(customEventName, () => {
-    //   customEventFired = true;
-    // });
-
-    // Use oneEvent to listen for the custom event
-    // const customEvent = oneEvent(el, customEventName);
-    // listForm?.submit();
-
-    // Wait for the custom event to be dispatched and captured
-    // const event = await customEvent;
-
-    // expect(customEventFired).to.be.true;
-    // expect(event.type).to.equal(customEventName);
-    // expect(event.target).to.equal(el);
-  });
 });
