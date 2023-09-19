@@ -117,30 +117,36 @@ export class IAUXUserListSettings extends LitElement {
         display: block;
         padding: 15px 0 0 0;
         font-size: 14px;
+        position: relative;
       }
 
       .field {
         margin-bottom: 10px;
         display: flex;
-        align-items: baseline;
+        align-items: center;
       }
 
       label {
         display: inline-block;
         width: 85px;
-        text-align: right;
+        text-align: left;
         margin-right: 10px;
       }
 
       input[type='text'],
       textarea {
-        line-height: 25px;
-        padding: 2px;
+        line-height: 20px;
+        padding: 5px;
         border-radius: 5px;
         width: 270px;
         font-family: inherit;
         font-size: inherit;
         resize: none;
+        border-style: solid; 
+        outline: none;
+        border-radius: 4px;
+        border-width: 1px;
+        border-color: #999;
       }
 
       input[type='checkbox'] {
