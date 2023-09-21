@@ -7,11 +7,11 @@ import '../src/iaux-userlist-settings';
 export class AppRoot extends LitElement {
   @state() private modalManager: ModalManager;
 
-  private listInfo = {
+  private userList = {
     id: 'hello',
-    name: 'my first list',
+    list_name: 'my first list',
     description: 'my first list description',
-    private: true,
+    is_private: true,
   };
 
   get plugIcon(): SVGTemplateResult {
@@ -79,7 +79,7 @@ export class AppRoot extends LitElement {
     ) as ModalManager;
     this.modalManager?.setAttribute('id', 'create-user-list-modal');
 
-    const data = op === 'edit' ? this.listInfo : {};
+    const data = op === 'edit' ? this.userList : {};
 
     const config = new ModalConfig({
       title: html`List settings`,
@@ -91,7 +91,7 @@ export class AppRoot extends LitElement {
 
     const customModalContent = html`
       <iaux-userlist-settings
-        .listInfo=${data}
+        .userList=${data}
         .baseAPIUrl=${'http://localhost:8000/demo'}
         @listModalClosed=${() => {
           this.modalManager.closeModal();
