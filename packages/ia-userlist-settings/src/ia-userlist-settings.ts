@@ -15,7 +15,7 @@ export interface UserListModel {
 }
 
 @customElement('iaux-userlist-settings')
-export class IAUXUserListSettings extends LitElement {
+export class IAUserListSettings extends LitElement {
   /**
    * contains userlist information
    */
@@ -37,19 +37,24 @@ export class IAUXUserListSettings extends LitElement {
   private async saveListDetails(event: Event) {
     event.preventDefault();
 
+    let HttpMethod = 'POST';
+    if (this.listId.value !== 'undefined') {
+      HttpMethod = 'PATCH';
+      this.baseAPIUrl = `${this.baseAPIUrl}/${this.listId.value}`;
+    }
+
     try {
       const requestInit: RequestInit = {};
       requestInit.credentials = 'include';
-      requestInit.method = 'PUT';
+      requestInit.method = HttpMethod;
       requestInit.body = JSON.stringify({
         id: this.listId.value,
-        name: this.listName.value,
+        list_name: this.listName.value,
         description: this.listDescription.value,
-        private: this.listPrivate.checked,
+        is_private: this.listPrivate.checked,
       });
 
       const response = await fetch(this.baseAPIUrl, requestInit);
-      console.log('response', response);
 
       this.dispatchEvent(
         new CustomEvent('userListSaved', {
@@ -61,7 +66,7 @@ export class IAUXUserListSettings extends LitElement {
       );
     } catch (error) {
       this.dispatchEvent(
-        new CustomEvent('userListSavedError', {
+        new CustomEvent('userListError', {
           detail: { error },
         })
       );
@@ -150,7 +155,7 @@ export class IAUXUserListSettings extends LitElement {
         font-family: inherit;
         font-size: inherit;
         resize: none;
-        border-style: solid; 
+        border-style: solid;
         outline: none;
         border-radius: 4px;
         border-width: 1px;

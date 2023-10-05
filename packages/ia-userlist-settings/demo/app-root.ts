@@ -1,7 +1,7 @@
 import { html, css, LitElement, svg, SVGTemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { ModalConfig, ModalManager } from '@internetarchive/modal-manager';
-import '../src/iaux-userlist-settings';
+import '../src/ia-userlist-settings';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {
@@ -36,7 +36,8 @@ export class AppRoot extends LitElement {
         <legend>Dev tools of user list settings</legend>
         <modal-manager></modal-manager>
 
-        <label>Add button on userlists dropdown on profile page
+        <label
+          >Add button on userlists dropdown on profile page
           <button
             type="button"
             class="add-new-list"
@@ -47,7 +48,8 @@ export class AppRoot extends LitElement {
           </button>
         </label>
 
-        <label>Edit button on userlist banner on profile page
+        <label
+          >Edit button on userlist banner on profile page
           <button
             type="button"
             class="add-new-list"
@@ -58,7 +60,8 @@ export class AppRoot extends LitElement {
           </button>
         </label>
 
-        <label>Add button on /details page on petabox size
+        <label
+          >Add button on /details page on petabox size
           <button
             type="button"
             class="add-new-list"
@@ -92,7 +95,7 @@ export class AppRoot extends LitElement {
     const customModalContent = html`
       <iaux-userlist-settings
         .userList=${data}
-        .baseAPIUrl=${'http://localhost:8000/demo'}
+        .baseAPIUrl=${'https://ia-petabox-webdev-6421-user-list-servive-phase-2.archive.org/services/users/me/lists'}
         @listModalClosed=${() => {
           this.modalManager.closeModal();
         }}

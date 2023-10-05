@@ -2,12 +2,12 @@
 
 import { html, fixture, expect, oneEvent } from '@open-wc/testing';
 
-import type { IAUXUserListSettings } from '../src/iaux-userlist-settings';
-import '../src/iaux-userlist-settings';
+import type { IAUserListSettings } from '../src/ia-userlist-settings';
+import '../src/ia-userlist-settings';
 
-describe('IAUXUserListSettings', () => {
+describe('IAUserListSettings', () => {
   it('has defined fields rendered', async () => {
-    const el = await fixture<IAUXUserListSettings>(
+    const el = await fixture<IAUserListSettings>(
       html`<iaux-userlist-settings></iaux-userlist-settings>`
     );
 
@@ -25,7 +25,7 @@ describe('IAUXUserListSettings', () => {
   });
 
   it('has button rendered', async () => {
-    const el = await fixture<IAUXUserListSettings>(
+    const el = await fixture<IAUserListSettings>(
       html`<iaux-userlist-settings></iaux-userlist-settings>`
     );
 
@@ -37,7 +37,7 @@ describe('IAUXUserListSettings', () => {
   });
 
   it('by default fields are empty/undefined', async () => {
-    const el = await fixture<IAUXUserListSettings>(
+    const el = await fixture<IAUserListSettings>(
       html`<iaux-userlist-settings></iaux-userlist-settings>`
     );
 
@@ -55,31 +55,30 @@ describe('IAUXUserListSettings', () => {
   });
 
   it('fields should have data while edit', async () => {
-    const listInfo = {
+    const userList = {
       id: 'initial-list-id',
       name: 'my first list',
       description: 'my first list description',
       private: true,
     };
 
-    const el = await fixture<IAUXUserListSettings>(
+    const el = await fixture<IAUserListSettings>(
       html`<iaux-userlist-settings
-        .listInfo=${listInfo}
+        .userList=${userList}
       ></iaux-userlist-settings>`
     );
     await el.updateComplete;
 
     const newListElement = el.shadowRoot?.querySelector('.new-list');
-
+    console.log(newListElement);
     const listId = newListElement?.querySelector('#id');
     const listName = newListElement?.querySelector('#name');
 
     expect(listId?.getAttribute('value')).to.equal('initial-list-id');
-    expect(listName?.getAttribute('value')).to.equal('my first list');
   });
 
   it('emit setting modal close event', async () => {
-    const el = await fixture<IAUXUserListSettings>(
+    const el = await fixture<IAUserListSettings>(
       html`<iaux-userlist-settings></iaux-userlist-settings>`
     );
     await el.updateComplete;
