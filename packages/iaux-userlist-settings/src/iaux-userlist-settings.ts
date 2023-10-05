@@ -37,15 +37,21 @@ export class IAUXUserListSettings extends LitElement {
   private async saveListDetails(event: Event) {
     event.preventDefault();
 
+    let HttpMethod = 'POST';
+    if (this.listId.value !== 'undefined') {
+      HttpMethod = 'PATCH';
+      this.baseAPIUrl = this.baseAPIUrl + '/' + this.listId.value;
+    }
+
     try {
       const requestInit: RequestInit = {};
       requestInit.credentials = 'include';
-      requestInit.method = 'PUT';
+      requestInit.method = HttpMethod
       requestInit.body = JSON.stringify({
         id: this.listId.value,
-        name: this.listName.value,
+        list_name: this.listName.value,
         description: this.listDescription.value,
-        private: this.listPrivate.checked,
+        is_private: this.listPrivate.checked,
       });
 
       const response = await fetch(this.baseAPIUrl, requestInit);
@@ -61,7 +67,7 @@ export class IAUXUserListSettings extends LitElement {
       );
     } catch (error) {
       this.dispatchEvent(
-        new CustomEvent('userListSavedError', {
+        new CustomEvent('userListError', {
           detail: { error },
         })
       );

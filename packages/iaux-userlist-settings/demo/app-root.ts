@@ -92,7 +92,7 @@ export class AppRoot extends LitElement {
     const customModalContent = html`
       <iaux-userlist-settings
         .userList=${data}
-        .baseAPIUrl=${'http://localhost:8000/demo'}
+        .baseAPIUrl=${'https://ia-petabox-webdev-6421-user-list-servive-phase-2.archive.org/services/users/me/lists'}
         @listModalClosed=${() => {
           this.modalManager.closeModal();
         }}
