@@ -15,7 +15,7 @@ export interface UserListModel {
 }
 
 @customElement('iaux-userlist-settings')
-export class IAUXUserListSettings extends LitElement {
+export class IAUserListSettings extends LitElement {
   /**
    * contains userlist information
    */
@@ -40,13 +40,13 @@ export class IAUXUserListSettings extends LitElement {
     let HttpMethod = 'POST';
     if (this.listId.value !== 'undefined') {
       HttpMethod = 'PATCH';
-      this.baseAPIUrl = this.baseAPIUrl + '/' + this.listId.value;
+      this.baseAPIUrl = `${this.baseAPIUrl}/${this.listId.value}`;
     }
 
     try {
       const requestInit: RequestInit = {};
       requestInit.credentials = 'include';
-      requestInit.method = HttpMethod
+      requestInit.method = HttpMethod;
       requestInit.body = JSON.stringify({
         id: this.listId.value,
         list_name: this.listName.value,
@@ -55,7 +55,6 @@ export class IAUXUserListSettings extends LitElement {
       });
 
       const response = await fetch(this.baseAPIUrl, requestInit);
-      console.log('response', response);
 
       this.dispatchEvent(
         new CustomEvent('userListSaved', {
@@ -156,7 +155,7 @@ export class IAUXUserListSettings extends LitElement {
         font-family: inherit;
         font-size: inherit;
         resize: none;
-        border-style: solid; 
+        border-style: solid;
         outline: none;
         border-radius: 4px;
         border-width: 1px;
