@@ -57,8 +57,8 @@ export class IAUserListSettings extends LitElement {
 
       if (response.success) {
         this.dispatchEvent(
-          new CustomEvent('userListSaved', {
-            detail: response,
+          new CustomEvent<UserList>('userListSaved', {
+            detail: response.success,
           })
         );
       } else {
@@ -75,7 +75,7 @@ export class IAUserListSettings extends LitElement {
   }
 
   private emitCloseModalEvent() {
-    this.dispatchEvent(new Event('listModalClosed'));
+    this.dispatchEvent(new CustomEvent('listModalClosed'));
   }
 
   render() {
