@@ -2,8 +2,8 @@
 
 import { html, fixture, expect, oneEvent } from '@open-wc/testing';
 
-import type { IAUserListSettings } from '../src/ia-userlist-settings';
-import '../src/ia-userlist-settings';
+import type { IAUserListSettings } from '../src/ia-user-list-settings';
+import '../src/ia-user-list-settings';
 
 describe('IAUserListSettings', () => {
   it('has defined fields rendered', async () => {
