@@ -96,7 +96,7 @@ export class UserListsService implements UserListsServiceInterface {
   }
 
   /** @inheritdoc */
-  async fetchAllListsForUser(
+  async fetchListsForUser(
     userId: string,
   ): Promise<Result<UserList[], UserListsError>> {
     // If we are fetching lists for the currently logged-in user, we use 'me' in place of
@@ -129,21 +129,31 @@ export class UserListsService implements UserListsServiceInterface {
     );
   }
 
-  /** @inheritdoc */
   async fetchListMembers(
     userId: string,
     listId: string,
-  ): Promise<Result<SearchResult[], Error>> {
-    const list = await this.fetchList(userId, listId);
+  ): Promise<Result<UserListMember[], UserListsError>> {
+    const listResult = await this.fetchList(userId, listId);
+    if (!listResult.success) return listResult as Result<never, UserListsError>;
 
-    if (!list.success) return list as Result<never, UserListsError>;
-
-    const { members } = list.success;
+    const { members } = listResult.success;
     if (!members) {
       // The response must contain a members array -- otherwise the response is malformed.
       throw UserListsService.getErrorResult(UserListsErrorReason.BAD_RESPONSE);
     }
 
+    return { success: members };
+  }
+
+  /** @inheritdoc */
+  async fetchListMemberSearchResults(
+    userId: string,
+    listId: string,
+  ): Promise<Result<SearchResult[], Error>> {
+    const membersResult = await this.fetchListMembers(userId, listId);
+    if (!membersResult.success) return membersResult as Result<never, UserListsError>;
+    
+    const members = membersResult.success;
     if (members.length === 0) return { success: [] };
 
     const identifiersQuery = `identifier:(${members

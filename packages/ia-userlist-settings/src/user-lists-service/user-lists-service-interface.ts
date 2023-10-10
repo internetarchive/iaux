@@ -18,14 +18,15 @@ export interface UserListsServiceInterface {
    *
    * @param userId The ID of the user to fetch lists for (e.g., `@brewster`)
    */
-  fetchAllListsForUser(
+  fetchListsForUser(
     userId: string,
   ): Promise<Result<UserList[], UserListsError>>;
 
   /**
    * Fetches a specific user list, including the list metadata and the array of list
    * members. Note that the list members returned include only the basic information
-   * kept in the user lists store, not the full item metadata. For that, use `fetchListMembers`.
+   * kept in the user lists store, not the full item metadata.
+   * For that, use `fetchListMemberSearchResults`.
    *
    * @param userId The ID of the user whose list should be fetched
    * @param listId The ID of the list to fetch (with respect to the given user)
@@ -47,8 +48,8 @@ export interface UserListsServiceInterface {
   ): Promise<Result<UserList[], UserListsError>>;
 
   /**
-   * Fetches an array of SearchResults representing all of the members of the
-   * given user list, prepared for rendering on tiles.
+   * Fetches an array of UserListMembers representing all of the members of the
+   * given user list.
    *
    * @param userId The ID of the user whose list members should be fetched
    * @param listId The ID of the list to fetch (with respect to the given user)
@@ -56,7 +57,19 @@ export interface UserListsServiceInterface {
   fetchListMembers(
     userId: string,
     listId: string,
-  ): Promise<Result<SearchResult[], Error>>; // hits PPS via SearchService
+  ): Promise<Result<UserListMember[], UserListsError>>;
+
+  /**
+   * Fetches an array of SearchResults representing all of the members of the
+   * given user list, prepared for rendering on tiles.
+   *
+   * @param userId The ID of the user whose list members should be fetched
+   * @param listId The ID of the list to fetch (with respect to the given user)
+   */
+  fetchListMemberSearchResults(
+    userId: string,
+    listId: string,
+  ): Promise<Result<SearchResult[], Error>>;
 
   /**
    * Creates a new User List with the given options.

@@ -28,6 +28,8 @@ export interface UserList {
   count: number;
   /** The array of members within this list (not always present) */
   members?: UserListMember[];
+  /** Whether this list contains the queried item (only present on item-specific requests) */
+  item_is_member?: boolean;
 }
 
 /** Options that can be specified when creating or editing a list */
