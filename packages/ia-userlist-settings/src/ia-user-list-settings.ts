@@ -109,13 +109,14 @@ export class IAUserListSettings extends LitElement {
           </div>
           <div class="footer field">
             <button
+              type="button"
               class="ia-button dark"
               id="cancel"
               @click=${this.emitCloseModalEvent}
             >
               Cancel
             </button>
-            <button class="ia-button primary">Save</button>
+            <button type="submit" class="ia-button primary">Save</button>
           </div>
         </form>
       </section>
