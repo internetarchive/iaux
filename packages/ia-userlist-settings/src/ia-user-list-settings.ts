@@ -4,6 +4,10 @@
 import { html, css, LitElement, TemplateResult } from 'lit';
 import { property, customElement, query } from 'lit-element/decorators.js';
 import IAButtonStyles from './style/ia-button';
+import { UserListsService } from './user-lists-service/user-lists-service';
+import { UserListsError } from './user-lists-service/user-lists-error';
+import { Result } from '@internetarchive/result-type';
+import { UserList, UserListOptions } from './user-lists-service/models';
 
 export interface UserListModel {
   id?: string;
@@ -22,9 +26,9 @@ export class IAUserListSettings extends LitElement {
   @property({ type: Object }) userList?: UserListModel;
 
   /**
-   * base api URL for userlist service
+   * User lists service to use for creating/updating lists
    */
-  @property({ type: String }) baseAPIUrl: string = 'archive.org';
+  @property({ type: Object }) userListsService: UserListsService;
 
   @query('#id') private listId: HTMLInputElement;
 
@@ -37,33 +41,29 @@ export class IAUserListSettings extends LitElement {
   private async saveListDetails(event: Event) {
     event.preventDefault();
 
-    let HttpMethod = 'POST';
-    if (this.listId.value !== 'undefined') {
-      HttpMethod = 'PATCH';
-      this.baseAPIUrl = `${this.baseAPIUrl}/${this.listId.value}`;
-    }
-
     try {
-      const requestInit: RequestInit = {};
-      requestInit.credentials = 'include';
-      requestInit.method = HttpMethod;
-      requestInit.body = JSON.stringify({
-        id: this.listId.value,
+      const userListData: UserListOptions = {
         list_name: this.listName.value,
         description: this.listDescription.value,
         is_private: this.listPrivate.checked,
-      });
+      };
 
-      const response = await fetch(this.baseAPIUrl, requestInit);
+      let response: Result<UserList, UserListsError>;
+      if (this.userList?.id) {
+        response = await this.userListsService?.updateList(this.userList.id, userListData);
+      } else {
+        response = await this.userListsService?.createList(userListData);
+      }
 
-      this.dispatchEvent(
-        new CustomEvent('userListSaved', {
-          detail: {
-            inputData: requestInit,
-            outputData: response,
-          },
-        })
-      );
+      if (response.success) {
+        this.dispatchEvent(
+          new CustomEvent<UserList>('userListSaved', {
+            detail: response.success,
+          })
+        );
+      } else {
+        throw response.error;
+      }
     } catch (error) {
       this.dispatchEvent(
         new CustomEvent('userListError', {
@@ -75,7 +75,7 @@ export class IAUserListSettings extends LitElement {
   }
 
   private emitCloseModalEvent() {
-    this.dispatchEvent(new Event('listModalClosed'));
+    this.dispatchEvent(new CustomEvent('listModalClosed'));
   }
 
   render() {
@@ -109,13 +109,14 @@ export class IAUserListSettings extends LitElement {
           </div>
           <div class="footer field">
             <button
+              type="button"
               class="ia-button dark"
               id="cancel"
               @click=${this.emitCloseModalEvent}
             >
               Cancel
             </button>
-            <button class="ia-button primary">Save</button>
+            <button type="submit" class="ia-button primary">Save</button>
           </div>
         </form>
       </section>
