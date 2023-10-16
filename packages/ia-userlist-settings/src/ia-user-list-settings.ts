@@ -3,10 +3,10 @@
 
 import { html, css, LitElement, TemplateResult } from 'lit';
 import { property, customElement, query } from 'lit-element/decorators.js';
+import { Result } from '@internetarchive/result-type';
 import IAButtonStyles from './style/ia-button';
 import { UserListsService } from './user-lists-service/user-lists-service';
 import { UserListsError } from './user-lists-service/user-lists-error';
-import { Result } from '@internetarchive/result-type';
 import { UserList, UserListOptions } from './user-lists-service/models';
 
 export interface UserListModel {
@@ -50,7 +50,10 @@ export class IAUserListSettings extends LitElement {
 
       let response: Result<UserList, UserListsError>;
       if (this.userList?.id) {
-        response = await this.userListsService?.updateList(this.userList.id, userListData);
+        response = await this.userListsService?.updateList(
+          this.userList.id,
+          userListData
+        );
       } else {
         response = await this.userListsService?.createList(userListData);
       }

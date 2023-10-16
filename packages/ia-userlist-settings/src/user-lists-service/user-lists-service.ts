@@ -4,6 +4,7 @@ import {
   SearchResult,
   SearchServiceInterface,
 } from '@internetarchive/search-service';
+import type { UserServiceInterface } from '@internetarchive/user-service';
 import type { UserListsServiceInterface } from './user-lists-service-interface';
 import type {
   UserList,
@@ -12,7 +13,6 @@ import type {
   UserListOptions,
 } from './models';
 import { UserListsErrorReason, UserListsError } from './user-lists-error';
-import type { UserServiceInterface } from '@internetarchive/user-service';
 
 /** Required shape of the fetch handler provided to the service */
 interface FetchHandlerInterface {
@@ -21,8 +21,8 @@ interface FetchHandlerInterface {
     options?: {
       includeCredentials?: boolean;
       method?: string;
-      body?: BodyInit;
-    },
+      body?: BodyInit; // eslint-disable-line
+    }
   ): Promise<T>;
 }
 
@@ -44,8 +44,11 @@ export class UserListsService implements UserListsServiceInterface {
   private static readonly DEFAULT_BASE_URL = 'https://archive.org';
 
   private fetchHandler: FetchHandlerInterface;
+
   private searchService: SearchServiceInterface;
+
   private userService: UserServiceInterface;
+
   private baseUrl: string;
 
   constructor({
@@ -63,33 +66,30 @@ export class UserListsService implements UserListsServiceInterface {
   private async fetchEndpoint<T>(
     url: string,
     method?: string,
-    body?: BodyInit,
+    body?: BodyInit // eslint-disable-line
   ): Promise<Result<T, UserListsError>> {
     try {
-      const fetchResult: BackendServiceResponse<T> = await this.fetchHandler.fetchApiResponse(
-        url,
-        {
+      const fetchResult: BackendServiceResponse<T> =
+        await this.fetchHandler.fetchApiResponse(url, {
           method,
           body,
           includeCredentials: true,
-        },
-      );
+        });
 
       if (fetchResult.success) {
         return { success: fetchResult.value };
-      } else {
-        return {
-          error: UserListsService.getErrorResult(
-            UserListsErrorReason.LIST_NOT_FOUND, // TODO determine the real reason
-            fetchResult.error,
-          ),
-        };
       }
+      return {
+        error: UserListsService.getErrorResult(
+          UserListsErrorReason.LIST_NOT_FOUND, // TODO determine the real reason
+          fetchResult.error
+        ),
+      };
     } catch (err) {
       return {
         error: UserListsService.getErrorResult(
           UserListsErrorReason.NETWORK,
-          err,
+          err
         ),
       };
     }
@@ -97,7 +97,7 @@ export class UserListsService implements UserListsServiceInterface {
 
   /** @inheritdoc */
   async fetchListsForUser(
-    userId: string,
+    userId: string
   ): Promise<Result<UserList[], UserListsError>> {
     // If we are fetching lists for the currently logged-in user, we use 'me' in place of
     // their userid, to better preserve privacy.
@@ -106,32 +106,32 @@ export class UserListsService implements UserListsServiceInterface {
       loggedInUser?.itemname === userId ? 'me' : userId;
 
     return this.fetchEndpoint<UserList[]>(
-      `${this.baseUrl}/services/users/${deidentifiedUserId}/lists`,
+      `${this.baseUrl}/services/users/${deidentifiedUserId}/lists`
     );
   }
 
   /** @inheritdoc */
   async fetchList(
     userId: string,
-    listId: string,
+    listId: string
   ): Promise<Result<UserList, UserListsError>> {
     return this.fetchEndpoint<UserList>(
-      `${this.baseUrl}/services/users/${userId}/lists/${listId}`,
+      `${this.baseUrl}/services/users/${userId}/lists/${listId}`
     );
   }
 
   /** @inheritdoc */
   async fetchOwnListsContainingItem(
-    itemId: string,
+    itemId: string
   ): Promise<Result<UserList[], UserListsError>> {
     return this.fetchEndpoint<UserList[]>(
-      `${this.baseUrl}/services/users/me/lists?item=${itemId}`,
+      `${this.baseUrl}/services/users/me/lists?item=${itemId}`
     );
   }
 
   async fetchListMembers(
     userId: string,
-    listId: string,
+    listId: string
   ): Promise<Result<UserListMember[], UserListsError>> {
     const listResult = await this.fetchList(userId, listId);
     if (!listResult.success) return listResult as Result<never, UserListsError>;
@@ -148,16 +148,17 @@ export class UserListsService implements UserListsServiceInterface {
   /** @inheritdoc */
   async fetchListMemberSearchResults(
     userId: string,
-    listId: string,
+    listId: string
   ): Promise<Result<SearchResult[], Error>> {
     const membersResult = await this.fetchListMembers(userId, listId);
-    if (!membersResult.success) return membersResult as Result<never, UserListsError>;
-    
+    if (!membersResult.success)
+      return membersResult as Result<never, UserListsError>;
+
     const members = membersResult.success;
     if (members.length === 0) return { success: [] };
 
     const identifiersQuery = `identifier:(${members
-      .map((m) => m.identifier)
+      .map(m => m.identifier)
       .join(' OR ')})`;
 
     const searchResponse = await this.searchService.search(
@@ -166,36 +167,35 @@ export class UserListsService implements UserListsServiceInterface {
         rows: members.length,
         aggregations: { omit: true },
       },
-      SearchType.METADATA,
+      SearchType.METADATA
     );
 
     if (searchResponse.success) {
       return { success: searchResponse.success.response.results };
-    } else {
-      return { error: searchResponse.error };
     }
+    return { error: searchResponse.error };
   }
 
   /** @inheritdoc */
   async createList(
-    options: UserListOptions,
+    options: UserListOptions
   ): Promise<Result<UserList, UserListsError>> {
     return this.fetchEndpoint<UserList>(
       `${this.baseUrl}/services/users/me/lists`,
       'POST',
-      JSON.stringify(options),
+      JSON.stringify(options)
     );
   }
 
   /** @inheritdoc */
   async updateList(
     listId: string,
-    options: Partial<UserListOptions>,
+    options: Partial<UserListOptions>
   ): Promise<Result<UserList, UserListsError>> {
     return this.fetchEndpoint<UserList>(
       `${this.baseUrl}/services/users/me/lists/${listId}`,
       'PATCH',
-      JSON.stringify(options),
+      JSON.stringify(options)
     );
   }
 
@@ -203,30 +203,30 @@ export class UserListsService implements UserListsServiceInterface {
   async deleteList(listId: string): Promise<Result<boolean, UserListsError>> {
     return this.fetchEndpoint<boolean>(
       `${this.baseUrl}/services/users/me/lists/${listId}`,
-      'DELETE',
+      'DELETE'
     );
   }
 
   /** @inheritdoc */
   async addMemberToList(
     listId: string,
-    options: UserListMemberOptions,
+    options: UserListMemberOptions
   ): Promise<Result<UserListMember, UserListsError>> {
     return this.fetchEndpoint<UserListMember>(
       `${this.baseUrl}/services/users/me/lists/${listId}/members`,
       'POST',
-      JSON.stringify(options),
+      JSON.stringify(options)
     );
   }
 
   /** @inheritdoc */
   async removeMemberFromList(
     listId: string,
-    memberId: string,
+    memberId: string
   ): Promise<Result<boolean, UserListsError>> {
     return this.fetchEndpoint<boolean>(
       `${this.baseUrl}/services/users/me/lists/${listId}/members/${memberId}`,
-      'DELETE',
+      'DELETE'
     );
   }
 
