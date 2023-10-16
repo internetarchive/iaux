@@ -13,7 +13,7 @@ export class UserListsError extends Error {
   constructor(
     public reason: UserListsErrorReason,
     message?: string,
-    options?: any,
+    options?: any
   ) {
     // Note that `reason` is an additional property of this subclass, not recognized by the Error superclass.
     // @ts-ignore (to permit the second argument, which is well-supported but tsc dislikes for some reason)
