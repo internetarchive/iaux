@@ -54,6 +54,7 @@ export default css`
     cursor: not-allowed;
     background-color: ${disabledButtonFillColor};
     border: 1px solid ${disabledButtonBorderColor};
+    pointer-events: none;
   }
   .ia-button.transparent {
     background-color: transparent;

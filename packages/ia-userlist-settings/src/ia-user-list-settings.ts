@@ -2,12 +2,19 @@
 /* eslint-disable lit/no-value-attribute */
 
 import { html, css, LitElement, TemplateResult } from 'lit';
-import { property, customElement, query } from 'lit-element/decorators.js';
+
+import {
+  property,
+  customElement,
+  query,
+  state,
+} from 'lit-element/decorators.js';
 import { Result } from '@internetarchive/result-type';
 import IAButtonStyles from './style/ia-button';
 import { UserListsService } from './user-lists-service/user-lists-service';
 import { UserListsError } from './user-lists-service/user-lists-error';
 import { UserList, UserListOptions } from './user-lists-service/models';
+import log from './util/log';
 
 export interface UserListModel {
   id?: string;
@@ -38,10 +45,13 @@ export class IAUserListSettings extends LitElement {
 
   @query('#private') private listPrivate: HTMLInputElement;
 
+  @state() private disableSaveButton = false;
+
   private async saveListDetails(event: Event) {
     event.preventDefault();
 
     try {
+      this.disableSaveButton = true;
       const userListData: UserListOptions = {
         list_name: this.listName.value,
         description: this.listDescription.value,
@@ -58,22 +68,25 @@ export class IAUserListSettings extends LitElement {
         response = await this.userListsService?.createList(userListData);
       }
 
-      if (response.success) {
+      if (response?.success) {
         this.dispatchEvent(
           new CustomEvent<UserList>('userListSaved', {
             detail: response.success,
           })
         );
       } else {
+        this.disableSaveButton = false;
+        log('error', response.error);
         throw response.error;
       }
     } catch (error) {
+      this.disableSaveButton = false;
       this.dispatchEvent(
         new CustomEvent('userListError', {
           detail: { error },
         })
       );
-      console.log('error', error);
+      log('error', error);
     }
   }
 
@@ -119,7 +132,13 @@ export class IAUserListSettings extends LitElement {
             >
               Cancel
             </button>
-            <button type="submit" class="ia-button primary">Save</button>
+            <button
+              type="submit"
+              class="ia-button primary"
+              ?disabled=${this.disableSaveButton}
+            >
+              Save
+            </button>
           </div>
         </form>
       </section>

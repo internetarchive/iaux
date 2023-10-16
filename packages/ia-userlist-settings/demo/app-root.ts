@@ -97,15 +97,25 @@ export class AppRoot extends LitElement {
         .userList=${data}
         .baseAPIUrl=${'https://ia-petabox-webdev-6421-user-list-servive-phase-2.archive.org/services/users/me/lists'}
         @listModalClosed=${() => {
-          this.modalManager.closeModal();
+          this.closeModal();
         }}
         @listDetailsSaved=${(e: CustomEvent) => {
           console.log(e.detail);
-          this.modalManager.closeModal();
+          this.closeModal();
         }}
       ></iaux-userlist-settings>
     `;
     await this.modalManager.showModal({ config, customModalContent });
+  }
+
+  private closeModal() {
+    this.modalManager?.showModal({
+      config: new ModalConfig(),
+      customModalContent: html``,
+    });
+    this.modalManager?.closeModal();
+    this.modalManager?.removeAttribute('class');
+    this.modalManager?.removeAttribute('id');
   }
 
   static styles = css`
