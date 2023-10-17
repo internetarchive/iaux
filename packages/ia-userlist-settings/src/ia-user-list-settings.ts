@@ -40,6 +40,8 @@ export class IAUserListSettings extends LitElement {
 
   private async saveListDetails(event: Event) {
     event.preventDefault();
+    const submitButton = (event.target as HTMLElement)?.querySelector('button#save-list-settings');
+    submitButton?.setAttribute('disabled', 'true');
 
     try {
       const userListData: UserListOptions = {
@@ -74,11 +76,13 @@ export class IAUserListSettings extends LitElement {
         })
       );
       console.log('error', error);
+      submitButton?.removeAttribute('disabled');
     }
   }
 
-  private emitCloseModalEvent() {
-    this.dispatchEvent(new CustomEvent('listModalClosed'));
+  private emitCloseModalEvent(e: Event) {
+    e.preventDefault();
+    this.dispatchEvent(new Event('listModalClosed'));
   }
 
   render() {
@@ -119,7 +123,7 @@ export class IAUserListSettings extends LitElement {
             >
               Cancel
             </button>
-            <button type="submit" class="ia-button primary">Save</button>
+            <button type="submit" id="save-list-settings" class="ia-button primary">Save</button>
           </div>
         </form>
       </section>
