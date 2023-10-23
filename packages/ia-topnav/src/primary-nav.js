@@ -79,9 +79,23 @@ class PrimaryNav extends TrackedElement {
     );
   }
 
+  get isRTL() {
+    const ltrChars = 'A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF'+'\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF';
+    const rtlChars = '\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC';
+    const rtlCheck = new RegExp('^[^'+ltrChars+']*['+rtlChars+']');
+
+    return rtlCheck.test(this.screenName);
+  }
+
   get truncatedScreenName() {
-    if (this.screenName && this.screenName.length > 10) {
-      return `${this.screenName.substr(0, 9)}…`;
+    if (this.screenName && [...this.screenName].length > 10) {
+      // Works with RTL and Unicode
+      const truncated  = [...this.screenName].slice(0, 9).join('');
+      if (this.isRTL) {
+        return `…${truncated}`;
+      } else {
+        return `${truncated}…`;
+      }
     }
     return this.screenName;
   }
