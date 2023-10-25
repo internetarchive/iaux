@@ -12,8 +12,8 @@ yarn add @internetarchive/ia-topnav
 
 @see [www/index.html](www/index.html) for the simplest example with all the defaults
 
-`yarn start` - runs local server in Demo directory is in `/www` folder
-`yarn start` => open demo: `http://localhost:8000/www/index.html`
+`npm|yarn start` - runs local server in Demo directory which is in `/www` folder
+`npm|yarn start` => open demo: `http://localhost:8000/www/index.html`
 
 It shows a dynamic change of the logged in user name -- and how it will re-paint the menus.
 
