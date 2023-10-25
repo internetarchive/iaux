@@ -11,7 +11,7 @@
     "access": "public"
   },
   "scripts": {
-    "start": "es-dev-server --app-index ./index.html --node-resolve --watch --open",
+    "start": "cd ../../www/ && web-dev-server --app-index ./index.html --node-resolve --watch --open",
     "lint:eslint": "eslint --ext .js . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .js . --fix --ignore-path .gitignore",
     "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
@@ -30,9 +30,9 @@
     "@open-wc/prettier-config": "^1.1.0",
     "@open-wc/testing": "^3.1.6",
     "@storybook/react": "^6.5.12",
+    "@web/dev-server": "^0.3.6",
     "@web/test-runner": "^0.14.0",
     "@web/test-runner-puppeteer": "^0.10.5",
-    "es-dev-server": "^2.1.0",
     "eslint": "^8.24.0",
     "eslint-plugin-lit": "^1.6.1",
     "gulp": "^4.0.2",
