@@ -11,7 +11,7 @@
     "access": "public"
   },
   "scripts": {
-    "start": "cd ../../www && web-dev-server --app-index ./index.html --node-resolve --watch --open",
+    "start": "cd ../../www/ && web-dev-server --app-index ./index.html --node-resolve --watch --open",
     "lint:eslint": "eslint --ext .js . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .js . --fix --ignore-path .gitignore",
     "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
