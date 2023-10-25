@@ -44,8 +44,9 @@ https://modern-web.dev/docs/test-runner/overview/
 
 ## Structure
 
+
 * index.js - main component export
-* index.html - file opened when running `yarn start`
+* `yarn start` - runs local server in Demo directory is in `/www` folder
 * /src/wayback-search.js - main component definition
 * /stories - Storybook setup
 * /test - unit tests
