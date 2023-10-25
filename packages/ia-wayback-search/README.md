@@ -46,7 +46,10 @@ https://modern-web.dev/docs/test-runner/overview/
 
 
 * index.js - main component export
-* `npm|yarn start` - runs local server in Demo directory which is in `/www` folder
+* Demo app is in another directory: `/www/index.html`
+  * `npm|yarn start` - runs local server in Demo directory which is in `/www` folder
+  * you can also just use your preferred server
+  * open demo: `http://localhost:8000/www/index.html`
 * /src/wayback-search.js - main component definition
 * /stories - Storybook setup
 * /test - unit tests
