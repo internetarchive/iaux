@@ -541,6 +541,11 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         analyticsEvent: 'UserFavorites',
       },
       {
+        url: `${prefix}/details/@me?tab=lists`,
+        title: 'My lists',
+        analyticsEvent: 'UserLists',
+      },
+      {
         url: `${prefix}/details/@${userid}/web-archive`,
         title: 'My web archives',
         analyticsEvent: 'UserWebArchive',
