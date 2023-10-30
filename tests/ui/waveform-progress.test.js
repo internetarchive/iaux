@@ -2,8 +2,8 @@ import {
   html, fixture, expect, oneEvent
 } from '@open-wc/testing';
 
-import '../index';
-import ZoneOfSilence from '../lib/models/zone-of-silence.js';
+import '../../src/ui/waveform-progress/index';
+import ZoneOfSilence from '../../src/ui/waveform-progress/index';
 
 describe('Waveform Progress', () => {
   it('defaults percentage to 0', async () => {
@@ -24,7 +24,7 @@ describe('Waveform Progress', () => {
 
   it('has the draggable cover if `interactive` is true', async () => {
     const el = await fixture(html`
-      <waveform-progress interactive=true></waveform-progress>
+      <waveform-progress interactive></waveform-progress>
     `);
     const dragCover = el.shadowRoot.getElementById('dragcover');
     expect(dragCover).to.exist;
@@ -32,7 +32,7 @@ describe('Waveform Progress', () => {
 
   it('does not update from external source if user is interacting', async () => {
     const el = await fixture(html`
-      <waveform-progress interactive=true style="width: 120px; height: 50px"></waveform-progress>
+      <waveform-progress interactive style="width: 120px; height: 50px"></waveform-progress>
     `);
 
     expect(el.percentComplete).to.equal(0);
@@ -71,7 +71,7 @@ describe('Waveform Progress', () => {
 
   it('emits a `valuechange` event as soon as the mousedown event happens', async () => {
     const el = await fixture(html`
-      <waveform-progress interactive=true style="width: 120px; height: 50px"></waveform-progress>
+      <waveform-progress interactive style="width: 120px; height: 50px"></waveform-progress>
     `);
     const dragCover = el.shadowRoot.getElementById('dragcover');
 
@@ -87,7 +87,7 @@ describe('Waveform Progress', () => {
 
   it('can be updated from an external source after the user has finished interacting', async () => {
     const el = await fixture(html`
-      <waveform-progress interactive=true style="width: 100px; height: 50px"></waveform-progress>
+      <waveform-progress interactive style="width: 100px; height: 50px"></waveform-progress>
     `);
 
     const dragCover = el.shadowRoot.getElementById('dragcover');
