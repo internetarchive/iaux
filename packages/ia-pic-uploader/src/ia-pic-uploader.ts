@@ -31,7 +31,7 @@ export class IAPicUploader extends LitElement {
 
   /**
    * version of the uploader
-   * - full version will be used on my-uploads page
+   * - full version will be used on collection/profile page
    * - compact version will be used on account setting page
    *
    * @memberof IAPicUploader
@@ -646,6 +646,10 @@ export class IAPicUploader extends LitElement {
   }
 
   static get styles(): CSSResultGroup {
+    /* these variable being used for full version */
+    const imgMaxHeight = css`var(--imgMaxHeight, 100px)`;
+    const imgMaxwidth = css`var(--imgMaxWidth, 200px)`;
+
     return css`
       ${iaButtonStyle}
 
@@ -686,8 +690,8 @@ export class IAPicUploader extends LitElement {
       }
 
       .profile-section > .full-preview img {
-        max-height: 100px;
-        max-width: 200px;
+        max-height: ${imgMaxHeight};
+        max-width: ${imgMaxwidth};
       }
 
       .profile-section:hover .overlay {
