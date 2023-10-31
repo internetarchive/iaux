@@ -17,8 +17,12 @@
 <h1>demo</h1>
 
 
-<button onclick="document.querySelector('ia-topnav').setAttribute('username', 'brewster')">
+<button onclick="document.querySelector('ia-topnav').setAttribute('screenname', 'brewster'); document.querySelector('ia-topnav').setAttribute('username', '@brewster')">
   switch username to brewster
+</button>
+<br>
+<button onclick="document.querySelector('ia-topnav').setAttribute('screenname', 'a😊b😊c😊d😊e😊f😊g😊h😊i😊'); document.querySelector('ia-topnav').setAttribute('username', '@test')">
+  switch username to a😊b😊c😊d😊e😊f😊g😊h😊i😊
 </button>
 <br>
 <button onclick="document.querySelector('ia-topnav').removeAttribute('username')">
