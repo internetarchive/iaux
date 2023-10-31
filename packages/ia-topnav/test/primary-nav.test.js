@@ -56,6 +56,30 @@ describe('<primary-nav>', () => {
     expect(usernameSpan.innerText).to.equal('somesuper…');
   });
 
+  it('truncates a long screen name with extended characters', async () => {
+    const el = await fixture(component({
+      baseHost: 'archive.org',
+      username: '@foo',
+      screenName: 'a😊b😊c😊d😊😊😊😊😊😊😊😊',
+    }));
+
+    const usernameSpan = el.shadowRoot.querySelector('.username');
+
+    expect(usernameSpan.innerText).to.equal('a😊b😊c😊d😊😊…');
+  });
+
+  it('truncates a long screen name with RTL extended characters', async () => {
+    const el = await fixture(component({
+      baseHost: 'archive.org',
+      username: '@foo',
+      screenName: ' الدكتور محمالدكتور محمد العجوز',
+    }));
+
+    const usernameSpan = el.shadowRoot.querySelector('.username');
+
+    expect(usernameSpan.innerText).to.equal('… الدكتور ');
+  });
+
   it('opens a slot with `secondIdentitySlotMode`', async () => {
     const el = await fixture(component({
       baseHost: 'archive.org',

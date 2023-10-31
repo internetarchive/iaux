@@ -4,6 +4,7 @@
 https://git.archive.org/www/offshoot/-/blob/main/guides/update-top-nav.md
 ## Installation
 
+## Add to your project
 ```bash
 yarn add @internetarchive/ia-topnav
 ```
