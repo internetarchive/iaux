@@ -1,5 +1,5 @@
-
-{  "name": "@internetarchive/iaux",
+{
+  "name": "@internetarchive/iaux",
   "description": "Internet Archive's web components & their friends",
   "repository": {
     "type": "git",
@@ -8,10 +8,10 @@
   "license": "AGPL-3.0-only",
   "author": "Internet Archive",
   "version": "0.0.0",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "index.js",
+  "module": "index.js",
   "scripts": {
-    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+    "start": "tsc -b && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
     "prepare": "rimraf dist && tsc && husky install",
     "build": "tsc",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
@@ -25,8 +25,11 @@
     "ghpages:generate": "gh-pages -t -d ghpages -m \"Build for $(git log --pretty=format:\"%h %an %ai %s\" -n1) [skip ci]\""
   },
   "types": "dist/index.d.ts",
+  "dependencies": {
+    "lit": "^2.6.0"
+  },
   "devDependencies": {
-    "@open-wc/eslint-config": "^9.0.0",
+    "@open-wc/eslint-config": "^12.0.1",
     "@open-wc/testing": "^3.1.6",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
@@ -95,8 +98,5 @@
       "prettier --write",
       "git add"
     ]
-  },
-  "dependencies": {
-    "lit": "^2.6.0"
   }
 }
