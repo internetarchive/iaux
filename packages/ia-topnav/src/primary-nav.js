@@ -79,11 +79,9 @@ class PrimaryNav extends TrackedElement {
     );
   }
 
-  get truncatedScreenName() {
-    if (this.screenName && this.screenName.length > 10) {
-      return `${this.screenName.substr(0, 9)}…`;
-    }
-    return this.screenName;
+  // collapse multipile code point combining characters to "combined" form
+  get normalizedScreenName() {
+    return this.screenName.normalize('NFC');
   }
 
   get userIcon() {
@@ -99,9 +97,9 @@ class PrimaryNav extends TrackedElement {
       >
         <img
           src="${this.mediaBaseHost}${this.userProfileImagePath}"
-          alt="${this.username}"
+          alt="${this.screenName}"
         />
-        <span class="username">${this.truncatedScreenName}</span>
+        <span class="screen-name" dir="auto">${this.normalizedScreenName}</span>
       </button>
     `;
   }

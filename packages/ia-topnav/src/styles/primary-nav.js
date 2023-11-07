@@ -103,7 +103,7 @@ export default css`
     justify-self: end;
   }
 
-  .username {
+  .screen-name {
     display: none;
     font-size: 1.3rem;
     vertical-align: middle;
@@ -243,8 +243,13 @@ export default css`
   }
 
   @media (min-width: 990px) {
-    .username {
+    .screen-name {
       display: inline-block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 200px;
+      min-width: 40px;
     }
 
     .upload span {
