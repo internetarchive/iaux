@@ -248,8 +248,7 @@ export default css`
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      max-width: 200px;
-      min-width: 40px;
+      max-width: 165px;
     }
 
     .upload span {

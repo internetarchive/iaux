@@ -79,11 +79,6 @@ class PrimaryNav extends TrackedElement {
     );
   }
 
-  // collapse multipile code point combining characters to "combined" form
-  get normalizedScreenName() {
-    return this.screenName.normalize('NFC');
-  }
-
   get userIcon() {
     const userMenuClass = this.openMenu === 'user' ? 'active' : '';
     const userMenuToolTip = this.openMenu === 'user' ? 'Close user menu' : 'Expand user menu';
@@ -99,7 +94,7 @@ class PrimaryNav extends TrackedElement {
           src="${this.mediaBaseHost}${this.userProfileImagePath}"
           alt="${this.screenName}"
         />
-        <span class="screen-name" dir="auto">${this.normalizedScreenName}</span>
+        <span class="screen-name" dir="auto">${this.screenName}</span>
       </button>
     `;
   }
