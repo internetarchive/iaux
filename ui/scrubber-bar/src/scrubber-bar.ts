@@ -14,7 +14,7 @@ import {
 import {
   customElement,
   property,
-} from 'lit/decorators.js';
+} from 'lit/decorators';
 
 import './section-marker';
 import { SectionMarker, SectionMarkerMode } from './section-marker';

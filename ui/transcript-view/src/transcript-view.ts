@@ -1,7 +1,7 @@
 /* eslint-disable import/no-duplicates */
 
 import { LitElement, html, css, PropertyValues, TemplateResult, CSSResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators';
 
 import './transcript-entry';
 import TranscriptEntry from './transcript-entry';

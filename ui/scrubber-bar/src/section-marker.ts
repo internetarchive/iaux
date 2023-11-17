@@ -8,7 +8,7 @@ import {
 import {
   customElement,
   property,
-} from 'lit/decorators.js';
+} from 'lit/decorators';
 
 import prevSectionImage from './assets/img/previous-section-marker';
 import nextSectionImage from './assets/img/next-section-marker';
