@@ -1,6 +1,6 @@
 {
   "name": "@iaux/icon",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "type": "module",
   "license": "AGPL-3.0-only",
   "publishConfig": {

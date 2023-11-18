@@ -32,6 +32,7 @@ echo '<script type="module" src="../src/index.js"></script>' >> test/all.html
 
 for SVG in svg/*.svg; do
   BASENAME=$(basename $SVG .svg)
+  BASENAME_CAMEL=$(echo "$BASENAME" |perl -pe 's/-([a-z])/uc($1)/ge')
   OUT=src/${BASENAME}.js
   echo "generating $SVG => $OUT"
 
@@ -56,7 +57,7 @@ EOF
   # add the icon to the default export of all icons, if someone does:
   #   import 'https://esm.archive.org/@iaux/icon'
   #   import { share, twitter } from 'https://esm.archive.org/@iaux/icon'
-  echo "export { default as '${BASENAME}' } from './${BASENAME}.js'" >> src/index.js
+  echo "export { default as ${BASENAME_CAMEL} } from './${BASENAME}.js';" >> src/index.js
 
 
   # add the icon to the test pages
