@@ -1,8 +1,13 @@
 # IA Icons
 
-This repo builds JS source, tests, and test pages, from a subdirectory of svg files:
+Lit WebComponent small SVG based archive.org icons.
+
+This repo builds JS sources, tests, and test pages, from a subdirectory of svg files:
 
 [svg/](svg/)
+
+
+## Importing
 
 Each `.svg` source file can then be individually imported via JS/TS like:
 ```js
@@ -16,9 +21,29 @@ You can use in markup with the lit / web components definition like:
 ```
 
 Each icon `.js` file defines an `<ia-icon>` `LitElement` web component.
+---
 
-## Demo Page
-**[test/](test/)**
+You can also import *all* icons at once like:
+```js
+import { share, twitter } from 'https://esm.archive.org/@iaux/icon'
+```
+-OR-
+
+```html
+<ia-icon-video></ia-icon-video>
+<script type="module" src="https://esm.archive.org/@iaux/icon"></script>
+```
+---
+
+
+## Demo Pages
+
+- [test/](test/)
+- [test/all.html](test/all.html)
+- [test/live-single.html](test/live-single.html)
+- [test/live-all.html](live-all.html)
+---
+
 
 ## Updating
 
@@ -32,4 +57,3 @@ You can add a new (or change an existing) `.svg` file in the [svg/](svg/) subdir
 
 Running the [bin/build.sh](bin/build.sh) script will automatically create (or update)
 the relevant JS and test files.
-

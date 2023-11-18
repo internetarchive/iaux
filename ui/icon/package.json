@@ -8,7 +8,8 @@
   },
   "scripts": {
     "lint": "npx eslint .",
-    "prepublish": "npm run lint  &&  cp src/*.js .",
+    "build": "./bin/build.sh",
+    "prepublish": "npm run build  &&  npm run lint  &&  cp src/*.js .",
     "postpublish": "rm *.js"
   },
   "devDependencies": {
