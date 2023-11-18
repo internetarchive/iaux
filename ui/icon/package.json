@@ -1,5 +1,6 @@
 {
-  "name": "@internetarchive/ia-icons",
+  "name": "ia/icon",
+  "version": "0.0.1",
   "type": "module",
   "license": "AGPL-3.0-only",
   "devDependencies": {
