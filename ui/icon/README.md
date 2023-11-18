@@ -57,3 +57,19 @@ You can add a new (or change an existing) `.svg` file in the [svg/](svg/) subdir
 
 Running the [bin/build.sh](bin/build.sh) script will automatically create (or update)
 the relevant JS and test files.
+
+## Publishing
+
+When ready to publish an update, `cd` to this directory and:
+```sh
+npm version
+# note ^ version
+# edit package.json to a newer version
+
+npm run prepubish
+# make sure all runs ok
+
+npm publish
+
+# you should git commit & push package.json and anything else now
+```
