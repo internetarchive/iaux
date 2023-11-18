@@ -1,6 +1,6 @@
 {
   "name": "@iaux/icon",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "license": "AGPL-3.0-only",
   "publishConfig": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "lint": "npx eslint .",
-    "prepublish": "npx lint  &&  cp src/*.js .",
+    "prepublish": "npm run lint  &&  cp src/*.js .",
     "postpublish": "rm *.js"
   },
   "devDependencies": {
