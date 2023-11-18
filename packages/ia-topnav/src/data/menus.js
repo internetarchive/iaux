@@ -19,9 +19,10 @@ export const defaultTopNavConfig = {
  *                                        older/less accurate version.  Otherwise,
  *                                        @see waybackPagesArchivedFN() (below) (please cache it)
  *                                        for a live service accurate count result.
+ * @param { string } itemIdentifier The current item being viewed, to populate admin menu items
  * @returns { object }
  */
-export function buildTopNavMenus(userid = '___USERID___', localLinks = true, waybackPagesArchived = '') {
+export function buildTopNavMenus(userid = '___USERID___', localLinks = true, waybackPagesArchived = '', itemIdentifier = '') {
   if (waybackPagesArchived)
     defaultTopNavConfig.waybackPagesArchived = waybackPagesArchived // update to more accurate val
 
@@ -558,6 +559,61 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         url: `${prefix}/account/logout`,
         title: 'Log out',
         analyticsEvent: 'UserLogOut',
+      },
+    ],
+    userAdmin: [
+      {
+        title: 'ADMINS:',
+      },
+      {
+        title: 'item:',
+      },
+      {
+        url: `${prefix}/editxml/${itemIdentifier}`,
+        title: 'edit xml',
+        analyticsEvent: 'AdminUserEditXML',
+      },
+      {
+        url: `${prefix}/edit.php?redir=1&identifier=${itemIdentifier}`,
+        title: 'edit files',
+        analyticsEvent: 'AdminUserEditFiles',
+      },
+      {
+        url: `${prefix}/download/${itemIdentifier}/`,
+        title: 'download',
+        analyticsEvent: 'AdminUserDownload',
+      },
+      {
+        url: `${prefix}/metadata/${itemIdentifier}/`,
+        title: 'metadata',
+        analyticsEvent: 'AdminUserMetadata',
+      },
+      {
+        url: `https://catalogd.archive.org/history/${itemIdentifier}`,
+        title: 'history',
+        analyticsEvent: 'AdminUserHistory',
+      },
+      {
+        url: `${prefix}/manage/${itemIdentifier}`,
+        title: 'manage',
+        analyticsEvent: 'AdminUserManager',
+      },
+      {
+        url: `${prefix}/manage/${itemIdentifier}#make_dark`,
+        title: 'curate',
+        analyticsEvent: 'AdminUserCurate',
+      },
+      {
+        url: `${prefix}/manage/${itemIdentifier}#modify_xml`,
+        title: 'modify xml',
+        analyticsEvent: 'AdminUserModifyXML',
+      },
+    ],
+    userAdminFlags: [
+      {
+        url: `${prefix}/services/flags/admin.php?identifier=${itemIdentifier}`,
+        title: 'manage flags',
+        analyticsEvent: 'AdminUserManageFlags',
       },
     ],
     signedOut: [

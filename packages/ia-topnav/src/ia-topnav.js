@@ -29,6 +29,10 @@ export default class IATopNav extends LitElement {
       // the media base host is the base host for images, such as the profile picture
       // which may not be hosted locally
       mediaBaseHost: { type: String },
+      /** Whether the user has privs to edit all items */
+      admin: { type: Boolean },
+      /** Whether the user has privs to manage item flags */
+      canManageFlags: { type: Boolean },
       config: {
         type: Object,
         converter(value) {
@@ -36,6 +40,8 @@ export default class IATopNav extends LitElement {
         },
       },
       hideSearch: { type: Boolean },
+      /** Identifier for the item or collection currently being viewed */
+      itemIdentifier: { type: String },
       mediaSliderOpen: { type: Boolean },
       menus: {
         type: Object,
@@ -75,7 +81,7 @@ export default class IATopNav extends LitElement {
 
   updated(props) {
     if (props.has('username') || props.has('localLinks') || props.has('baseHost') ||
-        props.has('waybackPagesArchived')) {
+        props.has('waybackPagesArchived') || props.has('itemIdentifier')) {
       this.menuSetup();
     }
   }
@@ -90,7 +96,7 @@ export default class IATopNav extends LitElement {
     this.baseHost = this.localLinks ? '' : 'https://archive.org';
 
     // re/build the nav
-    this.menus = buildTopNavMenus(this.username, this.localLinks, this.waybackPagesArchived);
+    this.menus = buildTopNavMenus(this.username, this.localLinks, this.waybackPagesArchived, this.itemIdentifier);
   }
 
   menuToggled({ detail }) {
@@ -207,8 +213,22 @@ export default class IATopNav extends LitElement {
     return this.menus.signedOut;
   }
 
+  /**
+   * Most users just get the basic menu items.
+   * For users with `/items` priv, additional admin menu items are included too.
+   * Having the `/flags` priv adds a further admin item for managing flags.
+   */
   get userMenuItems() {
-    return this.menus.user;
+    const basicItems = this.menus.user;
+
+    let adminItems = this.menus.userAdmin;
+    if (this.canManageFlags) {
+      adminItems = adminItems.concat(this.menus.userAdminFlags);
+    }
+
+    return this.itemIdentifier && this.admin
+      ? [basicItems, adminItems]
+      : basicItems;
   }
 
   get desktopSubnavMenuItems() {
@@ -226,6 +246,10 @@ export default class IATopNav extends LitElement {
           <slot name="opt-sec-logo-mobile" slot="opt-sec-logo-mobile"></slot>
         `
       : nothing;
+  }
+
+  get separatorTemplate() {
+    return html`<li class="divider" role="presentation"></li>`;
   }
 
   render() {

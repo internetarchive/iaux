@@ -15,7 +15,7 @@ export default css`
     position: absolute;
     right: 0;
     left: 0;
-    z-index: 2;
+    z-index: 3;
     padding: 0 4.5rem;
     font-size: 1.6rem;
     background-color: var(--searchMenuBg);

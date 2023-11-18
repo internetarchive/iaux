@@ -1,0 +1,100 @@
+{
+  "name": "@internetarchive/ia-pic-uploader",
+  "version": "0.1.8",
+  "description": "A Web Component for Picture upload.",
+  "license": "AGPL-3.0-only",
+  "author": "Internet Archive",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "scripts": {
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+    "prepare": "rimraf dist && tsc && yarn run build",
+    "build": "tsc",
+    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
+    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
+    "circular": "madge --circular --extensions ts .",
+    "test": "yarn format && tsc && yarn run lint && yarn run circular && wtr --coverage",
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
+    "ghpages:build": "rimraf ghpages && yarn run prepare && vite build",
+    "ghpages:publish": "yarn run ghpages:prepare -e $(git branch --show-current)",
+    "ghpages:prepare": "yarn run ghpages:build && touch ghpages/.nojekyll && yarn run ghpages:generate",
+    "ghpages:generate": "gh-pages -t -d ghpages -m \"Build for $(git log --pretty=format:\"%h %an %ai %s\" -n1) [skip ci]\""
+  },
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "@open-wc/eslint-config": "^9.0.0",
+    "@open-wc/testing": "^3.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "@types/express": "^4.17.9",
+    "@types/express-serve-static-core": "^4.17.21",
+    "@web/dev-server": "^0.1.32",
+    "@web/test-runner": "^0.15.0",
+    "concurrently": "^7.2.2",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-html": "^7.1.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-lit": "^1.7.2",
+    "eslint-plugin-lit-a11y": "^2.3.0",
+    "eslint-plugin-no-only-tests": "^3.1.0",
+    "eslint-plugin-wc": "^1.3.2",
+    "gh-pages": "^5.0.0",
+    "madge": "^6.0.0",
+    "prettier": "^2.7.1",
+    "rimraf": "^4.0.0",
+    "sinon": "^15.0.0",
+    "ts-lit-plugin": "^1.2.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.4",
+    "vite": "^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "@open-wc",
+      "prettier"
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error"
+      ],
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": [
+        "error"
+      ],
+      "class-methods-use-this": "off",
+      "import/no-unresolved": "off",
+      "import/extensions": [
+        "off",
+        "ignorePackages",
+        {
+          "js": "never",
+          "ts": "never"
+        }
+      ]
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@internetarchive/ia-activity-indicator": "^0.0.4",
+    "lit": "^2.7.4"
+  }
+}
