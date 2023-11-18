@@ -62,9 +62,7 @@ the relevant JS and test files.
 
 When ready to publish an update, `cd` to this directory and:
 ```sh
-npm version
-# note ^ version
-# edit package.json to a newer version
+npm version patch
 
 npm run prepubish
 # make sure all runs ok
