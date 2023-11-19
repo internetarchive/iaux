@@ -22,4 +22,4 @@ jobs:
 
     - name: Run tests
       working-directory: ui/icon
-      run: npx eslint
+      run: npx eslint .
