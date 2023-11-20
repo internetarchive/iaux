@@ -17,17 +17,24 @@
 <h1>demo</h1>
 
 
-<button onclick="document.querySelector('ia-topnav').setAttribute('username', 'brewster')">
+<button onclick="document.querySelector('ia-topnav').setAttribute('screenname', 'brewster'); document.querySelector('ia-topnav').setAttribute('username', '@brewster')">
   switch username to brewster
 </button>
+<br>
+<button onclick="document.querySelector('ia-topnav').setAttribute('screenname', 'a😊b😊c😊d😊e😊f😊g😊h😊i😊'); document.querySelector('ia-topnav').setAttribute('username', '@test')">
+  switch username to a😊b😊c😊d😊e😊f😊g😊h😊i😊
+</button>
+<br>
+<button onclick="document.querySelector('ia-topnav').setAttribute('screenname', 'الدكتور محمالدكتور محمد العجوز محمالدكتور محمد العجوز'); document.querySelector('ia-topnav').setAttribute('username', '@test')">
+  switch username to محمالدكتور محمد العجوز الدكتور محمالدكتور محمد العجوز
+</button>
+<br>
 <br>
 <button onclick="document.querySelector('ia-topnav').removeAttribute('username')">
   switch to un-logged-in
 </button>
 
-
 <hr>
-
 
 <button onclick="document.querySelector('ia-topnav').setAttribute('localLinks', false)">
   switch localLinks false (change to https://archive.org)

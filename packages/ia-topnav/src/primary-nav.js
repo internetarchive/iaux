@@ -79,13 +79,6 @@ class PrimaryNav extends TrackedElement {
     );
   }
 
-  get truncatedScreenName() {
-    if (this.screenName && this.screenName.length > 10) {
-      return `${this.screenName.substr(0, 9)}…`;
-    }
-    return this.screenName;
-  }
-
   get userIcon() {
     const userMenuClass = this.openMenu === 'user' ? 'active' : '';
     const userMenuToolTip = this.openMenu === 'user' ? 'Close user menu' : 'Expand user menu';
@@ -99,9 +92,9 @@ class PrimaryNav extends TrackedElement {
       >
         <img
           src="${this.mediaBaseHost}${this.userProfileImagePath}"
-          alt="${this.username}"
+          alt="${this.screenName}"
         />
-        <span class="username">${this.truncatedScreenName}</span>
+        <span class="screen-name" dir="auto">${this.screenName}</span>
       </button>
     `;
   }
