@@ -12,9 +12,9 @@ export default css`
     display: -ms-grid;
     display: grid;
     height: 4rem;
-    grid-template-areas: 'hamburger empty search user';
-    -ms-grid-columns: 4rem minmax(1rem, 100%) 4.3rem 4rem;
-    grid-template-columns: 4rem auto 4.3rem 4rem;
+    grid-template-areas: 'hamburger empty heart search user';
+    -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4.3rem 4rem;
+    grid-template-columns: 4rem auto 4rem 4.3rem 4rem;
     -ms-grid-rows: 100%;
     grid-template-rows: 100%;
     background: var(--primaryNavBg);
@@ -62,9 +62,36 @@ export default css`
     padding: 0;
   }
 
-  .search-trigger {
+  .mobile-donate-link {
     -ms-grid-row: 1;
     -ms-grid-column: 3;
+    grid-area: heart;
+    position: relative;
+    padding: 0;
+    z-index: 1;
+    width: 100%;
+    text-align: right;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+  .mobile-donate-link .fill-color {
+    fill: rgb(255, 0, 0);
+  }
+  .mobile-donate-link .label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+
+.search-trigger {
+    -ms-grid-row: 1;
+    -ms-grid-column: 4;
     grid-area: search;
     position: relative;
     padding: 0;
@@ -95,7 +122,7 @@ export default css`
 
   .user-info {
     -ms-grid-row: 1;
-    -ms-grid-column: 4;
+    -ms-grid-column: 5;
     grid-area: user;
     -ms-grid-row-align: stretch;
     align-self: stretch;
@@ -181,7 +208,8 @@ export default css`
     }
 
     .hamburger,
-    .search-trigger {
+    .search-trigger,
+    .mobile-donate-link {
       display: none;
     }
 

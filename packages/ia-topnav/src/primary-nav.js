@@ -142,6 +142,17 @@ class PrimaryNav extends TrackedElement {
     `;
   }
 
+  get mobileDonateHeart() {
+    return html`
+      <a class="mobile-donate-link" href=${formatUrl('/donate/?origin=iawww-mbhrt', this.baseHost)}>
+        <span class="icon ${this.iconClass}">
+        ${icons.donate}
+      </span>
+      <span class="label">"Donate to the archive"</span>
+      </a>
+    `;
+  }
+
   get secondLogoSlot() {
     return this.allowSecondaryIcon
       ? html`
@@ -170,6 +181,7 @@ class PrimaryNav extends TrackedElement {
           >
           ${this.secondLogoSlot}
         </div>
+        ${this.mobileDonateHeart}
         ${this.searchMenu}
         <a href="${formatUrl('/create', this.baseHost)}" class="upload">
           ${icons.upload}
