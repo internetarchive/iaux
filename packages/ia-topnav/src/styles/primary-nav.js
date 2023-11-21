@@ -11,10 +11,10 @@ export default css`
     position: relative;
     display: -ms-grid;
     display: grid;
-    height: 4rem;
+    height: 40px;
     grid-template-areas: 'hamburger empty heart search user';
-    -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4.3rem 4rem;
-    grid-template-columns: 4rem auto 4rem 4.3rem 4rem;
+    -ms-grid-columns: 40px minmax(1rem, 100%) 40px 40px 40px;
+    grid-template-columns: 40px auto 40px 40px 40px;
     -ms-grid-rows: 100%;
     grid-template-rows: 100%;
     background: var(--primaryNavBg);
@@ -23,8 +23,8 @@ export default css`
 
   nav.hide-search {
     grid-template-areas: 'hamburger empty heart user';
-    -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4rem;
-    grid-template-columns: 4rem auto 4rem 4rem;
+    -ms-grid-columns: 40px minmax(1rem, 100%) 40px 40px;
+    grid-template-columns: 40px auto 40px 40px;
   }
 
   button {
@@ -80,6 +80,12 @@ export default css`
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+  }
+  .mobile-donate-link svg {
+    height: 50px;
+    width: 50px;
+    margin-top: -5px;
+    margin-left: -5px;
   }
   .mobile-donate-link .fill-color {
     fill: rgb(255, 0, 0);
