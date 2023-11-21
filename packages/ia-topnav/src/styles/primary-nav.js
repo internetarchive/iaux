@@ -21,6 +21,12 @@ export default css`
     border-bottom: 1px solid var(--primaryNavBottomBorder);
   }
 
+  nav.hide-search {
+    grid-template-areas: 'hamburger empty heart user';
+    -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4rem;
+    grid-template-columns: 4rem auto 4rem 4rem;
+  }
+
   button {
     background: none;
     color: inherit;

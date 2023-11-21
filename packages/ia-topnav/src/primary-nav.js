@@ -169,7 +169,7 @@ class PrimaryNav extends TrackedElement {
   render() {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
-      <nav>
+      <nav class=${this.hideSearch ? 'hide-search' : nothing}>
         <div class=${`branding ${this.secondLogoClass}`}>
           <a
             href=${formatUrl('/', this.baseHost)}
