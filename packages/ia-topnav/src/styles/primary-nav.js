@@ -11,14 +11,20 @@ export default css`
     position: relative;
     display: -ms-grid;
     display: grid;
-    height: 4rem;
-    grid-template-areas: 'hamburger empty search user';
-    -ms-grid-columns: 4rem minmax(1rem, 100%) 4.3rem 4rem;
-    grid-template-columns: 4rem auto 4.3rem 4rem;
+    height: 40px;
+    grid-template-areas: 'hamburger empty heart search user';
+    -ms-grid-columns: 40px minmax(1rem, 100%) 40px 40px 40px;
+    grid-template-columns: 40px auto 40px 40px 40px;
     -ms-grid-rows: 100%;
     grid-template-rows: 100%;
     background: var(--primaryNavBg);
     border-bottom: 1px solid var(--primaryNavBottomBorder);
+  }
+
+  nav.hide-search {
+    grid-template-areas: 'hamburger empty heart user';
+    -ms-grid-columns: 40px minmax(1rem, 100%) 40px 40px;
+    grid-template-columns: 40px auto 40px 40px;
   }
 
   button {
@@ -62,9 +68,42 @@ export default css`
     padding: 0;
   }
 
-  .search-trigger {
+  .mobile-donate-link {
     -ms-grid-row: 1;
     -ms-grid-column: 3;
+    grid-area: heart;
+    position: relative;
+    padding: 0;
+    z-index: 1;
+    width: 100%;
+    text-align: right;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+  .mobile-donate-link svg {
+    height: 50px;
+    width: 50px;
+    margin-top: -5px;
+    margin-left: -5px;
+  }
+  .mobile-donate-link .fill-color {
+    fill: rgb(255, 0, 0);
+  }
+  .mobile-donate-link .label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+
+.search-trigger {
+    -ms-grid-row: 1;
+    -ms-grid-column: 4;
     grid-area: search;
     position: relative;
     padding: 0;
@@ -95,7 +134,7 @@ export default css`
 
   .user-info {
     -ms-grid-row: 1;
-    -ms-grid-column: 4;
+    -ms-grid-column: 5;
     grid-area: user;
     -ms-grid-row-align: stretch;
     align-self: stretch;
@@ -181,7 +220,8 @@ export default css`
     }
 
     .hamburger,
-    .search-trigger {
+    .search-trigger,
+    .mobile-donate-link {
       display: none;
     }
 
