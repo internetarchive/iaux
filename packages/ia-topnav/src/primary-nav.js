@@ -145,7 +145,7 @@ class PrimaryNav extends TrackedElement {
   get mobileDonateHeart() {
     return html`
       <a class="mobile-donate-link" href=${formatUrl('/donate/?origin=iawww-mbhrt', this.baseHost)}>
-        <span class="icon ${this.iconClass}">
+        <span class="icon">
         ${icons.donate}
       </span>
       <span class="label">"Donate to the archive"</span>
