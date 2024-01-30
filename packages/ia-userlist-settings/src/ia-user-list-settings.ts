@@ -1,7 +1,4 @@
-/* eslint-disable no-undef */
-/* eslint-disable lit/no-value-attribute */
-
-import { html, css, LitElement, TemplateResult } from 'lit';
+import { html, css, LitElement } from 'lit';
 import { property, customElement, query } from 'lit-element/decorators.js';
 import { Result } from '@internetarchive/result-type';
 import IAButtonStyles from './style/ia-button';
@@ -11,8 +8,8 @@ import { UserList, UserListOptions } from './user-lists-service/models';
 
 export interface UserListModel {
   id?: string;
-  list_name: string | TemplateResult;
-  description?: string | TemplateResult;
+  list_name: string;
+  description?: string;
   is_private?: boolean;
   date_created?: Date;
   date_updated?: Date;
@@ -44,6 +41,8 @@ export class IAUserListSettings extends LitElement {
       'button#save-list-settings'
     );
     submitButton?.setAttribute('disabled', 'true');
+
+    this.dispatchEvent(new Event('userListSaving'));
 
     try {
       const userListData: UserListOptions = {
@@ -77,6 +76,7 @@ export class IAUserListSettings extends LitElement {
           detail: { error },
         })
       );
+      // eslint-disable-next-line no-console
       console.log('error', error);
       submitButton?.removeAttribute('disabled');
     }
@@ -92,12 +92,12 @@ export class IAUserListSettings extends LitElement {
       <section class="new-list">
         <form id="user-list-form" @submit=${this.saveListDetails}>
           <div class="field">
-            <input type="hidden" id="id" .value=${this.userList?.id} />
+            <input type="hidden" id="id" .value=${this.userList?.id ?? ''} />
             <label for="name">List name*</label>
             <input
               type="text"
               id="name"
-              value=${this.userList?.list_name}
+              .value=${this.userList?.list_name ?? ''}
               required
             />
           </div>
@@ -113,7 +113,7 @@ export class IAUserListSettings extends LitElement {
             <input
               type="checkbox"
               id="private"
-              .checked="${this.userList?.is_private}"
+              .checked="${this.userList?.is_private ?? false}"
             />
           </div>
           <div class="footer field">
