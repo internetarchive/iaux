@@ -43,15 +43,19 @@ describe('IAUserListSettings', () => {
 
     const newListElement = el.shadowRoot?.querySelector('.new-list');
 
-    const listId = newListElement?.querySelector('#id');
-    const listName = newListElement?.querySelector('#name');
-    const listDesc = newListElement?.querySelector('#description');
-    const listPrivate = newListElement?.querySelector('#private');
+    const listId = newListElement?.querySelector('#id') as HTMLInputElement;
+    const listName = newListElement?.querySelector('#name') as HTMLInputElement;
+    const listDesc = newListElement?.querySelector(
+      '#description'
+    ) as HTMLInputElement;
+    const listPrivate = newListElement?.querySelector(
+      '#private'
+    ) as HTMLInputElement;
 
-    expect(listId?.textContent).to.equal('');
-    expect(listName?.textContent).to.equal('');
-    expect(listDesc?.textContent).to.equal('');
-    expect(listPrivate?.textContent).to.equal('');
+    expect(listId?.value).to.equal('');
+    expect(listName?.value).to.equal('');
+    expect(listDesc?.value).to.equal('');
+    expect(listPrivate?.checked).to.be.false;
   });
 
   it('fields should have data while edit', async () => {
@@ -71,10 +75,19 @@ describe('IAUserListSettings', () => {
 
     const newListElement = el.shadowRoot?.querySelector('.new-list');
     console.log(newListElement);
-    const listId = newListElement?.querySelector('#id');
-    const listName = newListElement?.querySelector('#name');
+    const listId = newListElement?.querySelector('#id') as HTMLInputElement;
+    const listName = newListElement?.querySelector('#name') as HTMLInputElement;
+    const listDesc = newListElement?.querySelector(
+      '#description'
+    ) as HTMLInputElement;
+    const listPrivate = newListElement?.querySelector(
+      '#private'
+    ) as HTMLInputElement;
 
-    expect(listId?.getAttribute('value')).to.equal('initial-list-id');
+    expect(listId?.value).to.equal(userList.id);
+    // expect(listName?.value).to.equal(userList.name);
+    expect(listDesc?.value).to.equal(userList.description);
+    expect(listPrivate?.checked).to.be.true;
   });
 
   it('emit setting modal close event', async () => {
