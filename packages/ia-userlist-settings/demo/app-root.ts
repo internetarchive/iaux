@@ -100,6 +100,7 @@ export class AppRoot extends LitElement {
           this.modalManager.closeModal();
         }}
         @listDetailsSaved=${(e: CustomEvent) => {
+          // eslint-disable-next-line no-console
           console.log(e.detail);
           this.modalManager.closeModal();
         }}
