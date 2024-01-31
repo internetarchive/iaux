@@ -119,11 +119,7 @@ describe('IAUserListSettings', () => {
     });
 
     // Use oneEvent to listen for the custom event
-<<<<<<< HEAD
-    const customEvent = oneEvent(el, customEventName, true);
-=======
     const customEvent = oneEvent(el, customEventName, false);
->>>>>>> af7c176 (Fix data test)
     cancelButton?.click();
 
     // Wait for the custom event to be dispatched and captured
