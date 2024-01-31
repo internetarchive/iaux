@@ -1,5 +1,5 @@
 import { html, css, LitElement } from 'lit';
-import { property, customElement, query } from 'lit-element/decorators.js';
+import { property, customElement, query } from 'lit/decorators.js';
 import { Result } from '@internetarchive/result-type';
 import IAButtonStyles from './style/ia-button';
 import { UserListsService } from './user-lists-service/user-lists-service';
