@@ -2,7 +2,10 @@
 
 import { html, fixture, expect, oneEvent } from '@open-wc/testing';
 
-import type { IAUserListSettings } from '../src/ia-user-list-settings';
+import type {
+  IAUserListSettings,
+  UserListModel,
+} from '../src/ia-user-list-settings';
 import '../src/ia-user-list-settings';
 
 describe('IAUserListSettings', () => {
@@ -59,22 +62,22 @@ describe('IAUserListSettings', () => {
   });
 
   it('fields should have data while edit', async () => {
-    const userList = {
+    const el = await fixture<IAUserListSettings>(
+      html`<iaux-userlist-settings></iaux-userlist-settings>`
+    );
+
+    const userList: UserListModel = {
       id: 'initial-list-id',
-      name: 'my first list',
+      list_name: 'my first list',
       description: 'my first list description',
-      private: true,
+      is_private: true,
     };
 
-    const el = await fixture<IAUserListSettings>(
-      html`<iaux-userlist-settings
-        .userList=${userList}
-      ></iaux-userlist-settings>`
-    );
+    el.userList = userList;
+
     await el.updateComplete;
 
     const newListElement = el.shadowRoot?.querySelector('.new-list');
-    console.log(newListElement);
     const listId = newListElement?.querySelector('#id') as HTMLInputElement;
     const listName = newListElement?.querySelector('#name') as HTMLInputElement;
     const listDesc = newListElement?.querySelector(
@@ -84,17 +87,23 @@ describe('IAUserListSettings', () => {
       '#private'
     ) as HTMLInputElement;
 
-    expect(listId?.value).to.equal(userList.id);
-    // expect(listName?.value).to.equal(userList.name);
-    expect(listDesc?.value).to.equal(userList.description);
-    expect(listPrivate?.checked).to.be.true;
+    expect(listId.value).to.equal(userList.id);
+    expect(listName.value).to.equal(userList.list_name);
+    expect(listDesc.value).to.equal(userList.description);
+    expect(listPrivate.checked).to.be.true;
+    /**
+     * The log below shows the value attribute of id="id"
+     * but not of the name and discription input fields
+     * using property expression .value=${...}
+     * But the value attribute is set correctly and tests pass.
+     */
+    // console.log(newListElement);
   });
 
   it('emit setting modal close event', async () => {
     const el = await fixture<IAUserListSettings>(
       html`<iaux-userlist-settings></iaux-userlist-settings>`
     );
-    await el.updateComplete;
 
     const cancelButton = el.shadowRoot?.querySelector(
       '#cancel'
@@ -110,7 +119,11 @@ describe('IAUserListSettings', () => {
     });
 
     // Use oneEvent to listen for the custom event
+<<<<<<< HEAD
     const customEvent = oneEvent(el, customEventName, true);
+=======
+    const customEvent = oneEvent(el, customEventName, false);
+>>>>>>> af7c176 (Fix data test)
     cancelButton?.click();
 
     // Wait for the custom event to be dispatched and captured
