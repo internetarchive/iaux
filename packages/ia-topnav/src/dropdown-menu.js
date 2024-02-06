@@ -1,7 +1,9 @@
 import { html, nothing } from 'https://offshoot.prod.archive.org/lit.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import TrackedElement from './tracked-element.js';
 import dropdownMenuCSS from './styles/dropdown-menu.js';
 import formatUrl from './lib/formatUrl.js';
+import icons from './assets/img/icons.js';
 
 class DropdownMenu extends TrackedElement {
   static get styles() {
@@ -52,7 +54,7 @@ class DropdownMenu extends TrackedElement {
   }
 
   dropdownLink(link) {
-    return html`<a href="${formatUrl(link.url, this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a>`;
+    return html`<a href="${formatUrl(link.url, this.baseHost)}" class="${ifDefined(link.class)}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.class ? icons.uploadUnpadded : nothing} ${link.title}</a>`;
   }
 
   static dropdownText(item) {

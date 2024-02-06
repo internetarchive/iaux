@@ -67,6 +67,16 @@ export default css`
     color: var(--dropdownMenuInfoItem);
   }
 
+  a.mobile {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+  a.mobile svg {
+    fill: #fff;
+    margin-right: 10px;
+  }
+
   @media (min-width: 890px) {
     nav {
       overflow: visible;
@@ -134,6 +144,10 @@ export default css`
     .open {
       opacity: 1;
       overflow: visible;
+    }
+    
+    a.mobile {
+      display: none;
     }
   }
 `;

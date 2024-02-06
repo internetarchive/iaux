@@ -524,6 +524,7 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         url: `${prefix}/create`,
         title: 'Upload files',
         analyticsEvent: 'UserUpload',
+        class: 'mobile',
       },
       {
         url: `${prefix}/details/@${userid}`,
@@ -539,6 +540,16 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         url: `${prefix}/details/fav-${userid}`,
         title: 'My favorites',
         analyticsEvent: 'UserFavorites',
+      },
+      {
+        url: `${prefix}/details/@${userid}?tab=lists`,
+        title: 'My lists',
+        analyticsEvent: 'UserLists',
+      },
+      {
+        url: `${prefix}/details/@${userid}?tab=collections`,
+        title: 'My collections',
+        analyticsEvent: 'UserCollections',
       },
       {
         url: `${prefix}/details/@${userid}/web-archive`,
