@@ -524,6 +524,7 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         url: `${prefix}/create`,
         title: 'Upload files',
         analyticsEvent: 'UserUpload',
+        class: 'mobile',
       },
       {
         url: `${prefix}/details/@${userid}`,
