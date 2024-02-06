@@ -54,7 +54,7 @@ class DropdownMenu extends TrackedElement {
   }
 
   dropdownLink(link) {
-    return html`<a href="${formatUrl(link.url, this.baseHost)}" class="${ifDefined(link.class)}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.class ? icons.uploadUnpadded : nothing} ${link.title}</a>`;
+    return html`<a href="${formatUrl(link.url, this.baseHost)}" class="${ifDefined(link.class)}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.class === 'mobile-upload' ? icons.uploadUnpadded : nothing} ${link.title}</a>`;
   }
 
   static dropdownText(item) {

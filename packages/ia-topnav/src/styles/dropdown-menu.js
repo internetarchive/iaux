@@ -67,12 +67,12 @@ export default css`
     color: var(--dropdownMenuInfoItem);
   }
 
-  a.mobile {
+  a.mobile-upload {
     display: flex;
     justify-content: left;
     align-items: center;
   }
-  a.mobile svg {
+  a.mobile-upload svg {
     fill: #fff;
     margin-right: 10px;
   }
@@ -145,8 +145,8 @@ export default css`
       opacity: 1;
       overflow: visible;
     }
-    
-    a.mobile {
+
+    a.mobile-upload {
       display: none;
     }
   }
