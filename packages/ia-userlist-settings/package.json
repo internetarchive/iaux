@@ -22,7 +22,8 @@
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "circular": "madge --circular --extensions ts .",
     "test": "tsc && yarn run format && yarn run lint && yarn run circular && wtr --coverage",
-    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
+    "publish:alpha": "npm run test && npm run prepare && npm version prerelease --preid alpha && npm publish --tag alpha"
   },
   "types": "dist/index.d.ts",
   "dependencies": {
