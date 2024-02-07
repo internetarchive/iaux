@@ -10,7 +10,6 @@ class WaybackSearch extends LitElement {
 
   static get properties() {
     return {
-      baseHost: { type: String },
       queryHandler: { type: Object },
       waybackPagesArchived: { type: String },
     };
@@ -63,7 +62,7 @@ class WaybackSearch extends LitElement {
           <a
             @click=${this.emitWaybackMachineLogoLinkClicked}
             data-event-click-tracking="TopNav|WaybackMachineLogoLink"
-            href=${`${this.baseHost}/web/`}
+            href="https://web.archive.org"
             >${logo}</a>
           <label for="url">Search the Wayback Machine</label>
           <div class="search-field">

@@ -8,7 +8,7 @@ const menuSelection = [
   {
     icon: 'web',
     menu: 'web',
-    href: '/web/',
+    href: 'https://web.archive.org',
     label: 'Wayback Machine',
   },
   {
