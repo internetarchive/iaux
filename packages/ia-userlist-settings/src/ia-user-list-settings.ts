@@ -40,7 +40,9 @@ export class IAUserListSettings extends LitElement {
 
   private async saveListDetails(event: Event) {
     event.preventDefault();
-    const submitButton = (event.target as HTMLElement)?.querySelector('button#save-list-settings');
+    const submitButton = (event.target as HTMLElement)?.querySelector(
+      'button#save-list-settings'
+    );
     submitButton?.setAttribute('disabled', 'true');
 
     try {
@@ -123,7 +125,13 @@ export class IAUserListSettings extends LitElement {
             >
               Cancel
             </button>
-            <button type="submit" id="save-list-settings" class="ia-button primary">Save</button>
+            <button
+              type="submit"
+              id="save-list-settings"
+              class="ia-button primary"
+            >
+              Save
+            </button>
           </div>
         </form>
       </section>
