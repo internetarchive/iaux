@@ -223,8 +223,8 @@ export class UserListsService implements UserListsServiceInterface {
   async removeMemberFromList(
     listId: string,
     memberId: string
-  ): Promise<Result<boolean, UserListsError>> {
-    return this.fetchEndpoint<boolean>(
+  ): Promise<Result<UserList, UserListsError>> {
+    return this.fetchEndpoint<UserList>(
       `${this.baseUrl}/services/users/me/lists/${listId}/members/${memberId}`,
       'DELETE'
     );
