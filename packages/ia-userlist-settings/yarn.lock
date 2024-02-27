@@ -147,10 +147,10 @@
   dependencies:
     lit "^2.0.2"
 
-"@internetarchive/modal-manager@0.3.3-alpha.1":
-  version "0.3.3-alpha.1"
-  resolved "https://registry.npmjs.org/@internetarchive/modal-manager/-/modal-manager-0.3.3-alpha.1.tgz#09f38bcf93a6af82d018ea06d0d19b3ebe268e04"
-  integrity sha512-Xu5oTb8/1F+1GxGiT+E0EoOvxTMFLO2Qdc5KZbDdNVA/su8Ag0ix1NGsii4QqNsTN/4jMle3AcKoY+mRsDK4xg==
+"@internetarchive/modal-manager@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.npmjs.org/@internetarchive/modal-manager/-/modal-manager-0.3.4.tgz#53c657db37a628ee94b70bb782a348b5da8aea76"
+  integrity sha512-fcAxBPgcG4Q1thBNRI+FCiglgQTEMyMmzv7DZNpQiM5RAOvkQrsdlwpB4ewqO7KiyCGWBoSHGCL2pbiVMeaIPg==
   dependencies:
     "@internetarchive/ia-activity-indicator" "^0.0.4"
     "@internetarchive/icon-close" "^1.3.4"
