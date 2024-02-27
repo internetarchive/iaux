@@ -1,7 +1,4 @@
 package.json
-lerna.json
 /.git
-packages/*/node_modules
-packages/*/lib
-packages/*/dist
-packages/*/build
+node_modules
+dist

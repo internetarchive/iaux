@@ -1,16 +1,102 @@
 {
-  "dependencies": {
-    "polymer-cli": "^1.9.11"
+  "name": "@internetarchive/iaux",
+  "description": "Internet Archive's web components & their friends",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/internetarchive/iaux.git"
   },
-  "name": "iaux",
   "license": "AGPL-3.0-only",
+  "author": "Internet Archive",
+  "version": "0.0.0",
+  "main": "index.js",
+  "module": "index.js",
+  "scripts": {
+    "start": "tsc -b && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+    "prepare": "rimraf dist && tsc && husky install",
+    "build": "tsc",
+    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
+    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
+    "circular": "madge --circular --extensions ts .",
+    "test": "tsc && yarn run lint && yarn run circular && wtr --coverage",
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
+    "ghpages:build": "rimraf ghpages && yarn run prepare && vite build",
+    "ghpages:publish": "yarn run ghpages:prepare -e $(git branch --show-current)",
+    "ghpages:prepare": "yarn run ghpages:build && touch ghpages/.nojekyll && yarn run ghpages:generate",
+    "ghpages:generate": "gh-pages -t -d ghpages -m \"Build for $(git log --pretty=format:\"%h %an %ai %s\" -n1) [skip ci]\""
+  },
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "lit": "^2.6.0"
+  },
   "devDependencies": {
-    "eslint": "^5.12.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^22.1.3",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.12.3"
+    "@open-wc/eslint-config": "^12.0.1",
+    "@open-wc/testing": "^3.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "@web/dev-server": "^0.3.0",
+    "@web/test-runner": "^0.17.0",
+    "concurrently": "^8.0.0",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-html": "^7.1.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-lit": "^1.7.2",
+    "eslint-plugin-lit-a11y": "^4.0.0",
+    "eslint-plugin-no-only-tests": "^3.1.0",
+    "eslint-plugin-wc": "^1.3.2",
+    "gh-pages": "^6.0.0",
+    "husky": "^8.0.0",
+    "madge": "^6.0.0",
+    "prettier": "^2.7.1",
+    "rimraf": "^5.0.0",
+    "sinon": "^15.0.0",
+    "ts-lit-plugin": "^1.2.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.4",
+    "vite": "^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "@open-wc",
+      "prettier"
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error"
+      ],
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": [
+        "error"
+      ],
+      "class-methods-use-this": "off",
+      "import/no-unresolved": "off",
+      "import/extensions": [
+        "off",
+        "ignorePackages",
+        {
+          "js": "never",
+          "ts": "never"
+        }
+      ]
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
   }
 }
