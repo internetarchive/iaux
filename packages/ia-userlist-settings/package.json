@@ -19,7 +19,7 @@
     "circular": "madge --circular --extensions ts .",
     "test": "tsc && yarn run format && yarn run lint && yarn run circular && wtr --coverage",
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
-    "publish:alpha": "npm run test && npm run prepare && npm version prerelease --preid alpha && npm publish --tag alpha"
+    "publish:alpha": "npm run test && npm run prepare && npm version prerelease --preid alpha --no-git-tag-version && npm publish --tag alpha"
   },
   "types": "dist/index.d.ts",
   "dependencies": {
