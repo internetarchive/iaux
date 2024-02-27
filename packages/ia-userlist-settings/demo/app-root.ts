@@ -94,12 +94,13 @@ export class AppRoot extends LitElement {
 
     const customModalContent = html`
       <iaux-userlist-settings
-        .userList=${data}
-        .baseAPIUrl=${'https://ia-petabox-webdev-6421-user-list-servive-phase-2.archive.org/services/users/me/lists'}
+        ?.userList=${data}
+        .baseAPIUrl=${''}
         @listModalClosed=${() => {
           this.modalManager.closeModal();
         }}
         @listDetailsSaved=${(e: CustomEvent) => {
+          // eslint-disable-next-line no-console
           console.log(e.detail);
           this.modalManager.closeModal();
         }}
