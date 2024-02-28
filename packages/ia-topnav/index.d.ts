@@ -17,6 +17,11 @@ export interface IATopNavConfig {
    * Array of strings representing the values of options that should be hidden from search options
    */
   hiddenSearchOptions: [];
+
+  /**
+   * Map from dropdown item ids to any callout text that should be applied beside them
+   */
+  callouts?: Record<string, string>;
 }
 
 export interface IATopNavLink {

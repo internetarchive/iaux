@@ -531,7 +531,7 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         analyticsEvent: 'UserLibrary',
       },
       {
-        url: `${prefix}/details/@${userid}?tab=loans`,
+        url: `${prefix}/details/@${userid}/loans`,
         title: 'My loans',
         analyticsEvent: 'UserLoans',
       },
@@ -539,6 +539,16 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         url: `${prefix}/details/fav-${userid}`,
         title: 'My favorites',
         analyticsEvent: 'UserFavorites',
+      },
+      {
+        url: `${prefix}/details/@${userid}/lists`,
+        title: 'My lists',
+        analyticsEvent: 'UserLists',
+      },
+      {
+        url: `${prefix}/details/@${userid}/collections`,
+        title: 'My collections',
+        analyticsEvent: 'UserCollections',
       },
       {
         url: `${prefix}/details/@${userid}/web-archive`,
