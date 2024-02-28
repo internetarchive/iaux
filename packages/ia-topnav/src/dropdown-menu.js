@@ -59,7 +59,7 @@ class DropdownMenu extends TrackedElement {
       data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}"
       aria-label=${`New feature: ${link.title}`}>
         ${link.title}
-        ${calloutText ? html`<span class="callout">${calloutText}</span>` : nothing}
+        ${calloutText ? html`<span class="callout" aria-hidden="true">${calloutText}</span>` : nothing}
     </a>`;
   }
 
