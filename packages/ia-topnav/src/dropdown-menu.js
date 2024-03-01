@@ -52,7 +52,15 @@ class DropdownMenu extends TrackedElement {
   }
 
   dropdownLink(link) {
-    return html`<a href="${formatUrl(link.url, this.baseHost)}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.title}</a>`;
+    const calloutText = this.config.callouts?.[link.title];
+    return html`<a
+      href="${formatUrl(link.url, this.baseHost)}"
+      @click=${this.trackClick}
+      data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}"
+      aria-label=${`New feature: ${link.title}`}>
+        ${link.title}
+        ${calloutText ? html`<span class="callout" aria-hidden="true">${calloutText}</span>` : nothing}
+    </a>`;
   }
 
   static dropdownText(item) {
