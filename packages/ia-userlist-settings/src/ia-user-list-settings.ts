@@ -1,3 +1,4 @@
+/* eslint-disable lit-a11y/no-autofocus */
 import { html, css, LitElement } from 'lit';
 import { property, customElement, query } from 'lit/decorators.js';
 import { Result } from '@internetarchive/result-type';
@@ -88,6 +89,9 @@ export class IAUserListSettings extends LitElement {
   }
 
   render() {
+    // NOTE: start of file: lit-a11y/no-autofocus
+    // Remove if autofocus is not needed
+    // autofocus is not recommended for accessibility
     return html`
       <section class="new-list">
         <form id="user-list-form" @submit=${this.saveListDetails}>
@@ -99,6 +103,7 @@ export class IAUserListSettings extends LitElement {
               id="name"
               .value=${this.userList?.list_name ?? ''}
               required
+              autofocus
             />
           </div>
           <div class="field">
