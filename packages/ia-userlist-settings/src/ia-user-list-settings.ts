@@ -103,7 +103,6 @@ export class IAUserListSettings extends LitElement {
               id="name"
               .value=${this.userList?.list_name ?? ''}
               required
-              autofocus
             />
           </div>
           <div class="field">
@@ -177,7 +176,7 @@ export class IAUserListSettings extends LitElement {
         font-size: inherit;
         resize: none;
         border-style: solid;
-        outline: none;
+        outline: revert;
         border-radius: 4px;
         border-width: 1px;
         border-color: #999;
