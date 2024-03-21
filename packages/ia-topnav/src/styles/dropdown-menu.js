@@ -76,13 +76,13 @@ export default css`
     color: #2c2c2c;
     font-size: 1.4rem;
     font-weight: bold;
-  
+  }
+
   a.mobile-upload {
     display: flex;
     justify-content: left;
     align-items: center;
-  }
-  
+  }  
   a.mobile-upload svg {
     fill: #fff;
     margin-right: 10px;

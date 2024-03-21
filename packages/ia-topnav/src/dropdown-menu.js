@@ -60,8 +60,8 @@ class DropdownMenu extends TrackedElement {
       class="${ifDefined(link.class)}"
       @click=${this.trackClick}
       data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}"
-      ${link.class === 'mobile-upload' ? icons.uploadUnpadded : nothing}
       aria-label=${calloutText ? `New feature: ${link.title}` : nothing}>
+        ${link.class === 'mobile-upload' ? icons.uploadUnpadded : nothing}
         ${link.title}
         ${calloutText ? html`<span class="callout" aria-hidden="true">${calloutText}</span>` : nothing}
     </a>`;
