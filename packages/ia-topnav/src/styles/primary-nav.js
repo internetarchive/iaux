@@ -201,7 +201,6 @@ export default css`
 
     nav {
       display: block;
-      z-index: 3;
       height: 5rem;
       padding-right: 1.5rem;
     }
@@ -274,6 +273,8 @@ export default css`
     nav-search {
       float: right;
       margin-left: 1rem;
+      z-index: 4;
+      position: inherit;
     }
 
     login-button {
