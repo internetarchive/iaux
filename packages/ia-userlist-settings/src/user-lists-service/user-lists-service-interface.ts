@@ -113,13 +113,14 @@ export interface UserListsServiceInterface {
   ): Promise<Result<UserListMember, UserListsError>>;
 
   /**
-   * Removes the given member from the given User List.
+   * Removes the given member/members from the given User List. You may pass comma separated members.
    * @param listId The id of the list to remove a member from.
    * @param memberId The id of the member within the specified list that should be removed.
-   * @returns A boolean indicator of success; if true, the list member was removed successfully.
+   * @returns A Result object containing the remaining UserListMember if successful,
+   * or an error otherwise.
    */
   removeMemberFromList(
     listId: string,
     memberId: string
-  ): Promise<Result<boolean, UserListsError>>;
+  ): Promise<Result<UserList, UserListsError>>;
 }

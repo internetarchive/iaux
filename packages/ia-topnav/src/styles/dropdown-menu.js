@@ -67,11 +67,22 @@ export default css`
     color: var(--dropdownMenuInfoItem);
   }
 
+  .callout {
+    position: absolute;
+    margin-left: 10px;
+    padding: 0 5px;
+    border-radius: 2px;
+    background: #fee257;
+    color: #2c2c2c;
+    font-size: 1.4rem;
+    font-weight: bold;
+  
   a.mobile-upload {
     display: flex;
     justify-content: left;
     align-items: center;
   }
+  
   a.mobile-upload svg {
     fill: #fff;
     margin-right: 10px;

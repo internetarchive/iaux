@@ -54,7 +54,17 @@ class DropdownMenu extends TrackedElement {
   }
 
   dropdownLink(link) {
-    return html`<a href="${formatUrl(link.url, this.baseHost)}" class="${ifDefined(link.class)}" @click=${this.trackClick} data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}">${link.class === 'mobile-upload' ? icons.uploadUnpadded : nothing} ${link.title}</a>`;
+    const calloutText = this.config.callouts?.[link.title];
+    return html`<a
+      href="${formatUrl(link.url, this.baseHost)}"
+      class="${ifDefined(link.class)}"
+      @click=${this.trackClick}
+      data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}"
+      ${link.class === 'mobile-upload' ? icons.uploadUnpadded : nothing}
+      aria-label=${calloutText ? `New feature: ${link.title}` : nothing}>
+        ${link.title}
+        ${calloutText ? html`<span class="callout" aria-hidden="true">${calloutText}</span>` : nothing}
+    </a>`;
   }
 
   static dropdownText(item) {

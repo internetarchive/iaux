@@ -33,6 +33,7 @@ baseAPIUrl: { type: String }, // api URL for user lists
 ## CustomEvents
 ```html
 @listModalClosed // dispatch when modal is closed
+@userListSaving // dispatch when list is saving
 @userListSaved // dispatch list is saved successfully
 @userListError // dispatch when an error occured while saving list
 ```
