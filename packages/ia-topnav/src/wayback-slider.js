@@ -56,7 +56,6 @@ class WaybackSlider extends TrackedElement {
     return html`
       <div class="grid">
         <wayback-search
-          .baseHost=${this.baseHost}
           waybackPagesArchived=${this.config.waybackPagesArchived}
           .queryHandler=${queryHandler}></wayback-search>
         <div class="link-lists">

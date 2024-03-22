@@ -10,10 +10,9 @@ import '../src/ia-wayback-search.js';
 
 const component = (properties = {
   waybackPagesArchived: '32 trillion pages'
-}, baseHost = 'archive.org') => (
+}) => (
   html`
     <ia-wayback-search
-      .baseHost=${baseHost}
       waybackPagesArchived=${properties.waybackPagesArchived}
     ></ia-wayback-search>
   `
