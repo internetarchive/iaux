@@ -4,7 +4,6 @@
 
 ```html
 <ia-wayback-search
-  .baseHost=${'archive.org'}
   waybackPagesArchived="32 trillion pages"
 ></ia-wayback-search>
 ```
@@ -20,7 +19,6 @@ document.querySelector('ia-wayback-search').locationHandler = {
 ### Properties:
 
 ```js
-baseHost: { type: String }, // host used to build the logo href attribute
 locationHandler: { type: Function }, // function called when form submitted. @param url string
 waybackPagesArchived: { type: String }, // Pages archived message, e.g. "428 billion pages"
 ```

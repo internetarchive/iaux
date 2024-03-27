@@ -69,7 +69,7 @@ export default css`
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 0;
+    z-index: 3;
   }
   #close-layer.visible {
     display: block;
@@ -77,12 +77,14 @@ export default css`
 
   .topnav {
     position: relative;
-    z-index: 3;
   }
 
   @media (max-width: 889px) {
     desktop-subnav {
       display: none;
+    }
+    .topnav {
+      z-index: 4;
     }
   }
 `;
