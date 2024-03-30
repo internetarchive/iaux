@@ -3,7 +3,6 @@ import { css } from 'https://offshoot.prod.archive.org/lit.js';
 export default css`
   .nav-container {
     position: relative;
-    z-index: 4;
   }
 
   nav {
