@@ -37,7 +37,7 @@ export default css`
     right: 4rem;
     bottom: 0;
     left: 4rem;
-    z-index: 4;
+    z-index: 3;
     padding: 0.5rem 0.2rem;
     border-radius: 1rem 1rem 0 0;
     background: var(--searchActiveBg);
