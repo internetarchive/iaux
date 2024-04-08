@@ -1,5 +1,4 @@
 import { html, nothing } from 'https://offshoot.prod.archive.org/lit.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import TrackedElement from './tracked-element.js';
 import dropdownMenuCSS from './styles/dropdown-menu.js';
 import formatUrl from './lib/formatUrl.js';
@@ -57,7 +56,7 @@ class DropdownMenu extends TrackedElement {
     const calloutText = this.config.callouts?.[link.title];
     return html`<a
       href="${formatUrl(link.url, this.baseHost)}"
-      class="${ifDefined(link.class)}"
+      class="${link.class}"
       @click=${this.trackClick}
       data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}"
       aria-label=${calloutText ? `New feature: ${link.title}` : nothing}>
