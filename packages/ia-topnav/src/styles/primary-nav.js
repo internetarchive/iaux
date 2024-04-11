@@ -11,10 +11,10 @@ export default css`
     position: relative;
     display: -ms-grid;
     display: grid;
-    height: 40px;
+    height: 4rem;
     grid-template-areas: 'hamburger empty heart search user';
-    -ms-grid-columns: 40px minmax(1rem, 100%) 40px 40px 40px;
-    grid-template-columns: 40px auto 40px 40px 40px;
+    -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4rem 4rem;
+    grid-template-columns: 4rem auto 5rem 4rem 4rem;
     -ms-grid-rows: 100%;
     grid-template-rows: 100%;
     background: var(--primaryNavBg);
@@ -23,10 +23,22 @@ export default css`
 
   nav.hide-search {
     grid-template-areas: 'hamburger empty heart user';
-    -ms-grid-columns: 40px minmax(1rem, 100%) 40px 40px;
-    grid-template-columns: 40px auto 40px 40px;
+    -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4rem;
+    grid-template-columns: 4rem auto 5rem 4rem;
   }
 
+  .right-side-section {
+    display: flex;
+    user-select: none;
+    align-items: center;
+  }
+  .right-side-item1 {
+    padding: 0;
+  }
+  .right-side-item1 svg1 {
+    height: 4rem;
+    width: 4rem;
+  }
   button {
     background: none;
     color: inherit;
@@ -56,6 +68,14 @@ export default css`
     grid-column-end: user-end;
   }
 
+  .ia-logo {
+    height: 3rem;
+    width: 3rem;
+  }
+  .ia-wordmark {
+    height: 3rem;
+    width: 9.5rem;
+  }
   .ia-logo,
   .ia-wordmark {
     margin-right: 5px;
@@ -67,55 +87,39 @@ export default css`
     grid-area: hamburger;
     padding: 0;
   }
-
-  .mobile-donate-link {
-    -ms-grid-row: 1;
-    -ms-grid-column: 3;
-    grid-area: heart;
-    position: relative;
-    padding: 0;
-    z-index: 1;
-    width: 100%;
-    text-align: right;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
+  .hamburger svg {
+    height: 4rem;
+    width: 4rem;
+    fill: var(--activeColor);
   }
+
   .mobile-donate-link svg {
-    height: 50px;
-    width: 50px;
-    margin-top: -5px;
-    margin-left: -5px;
+    height: 5rem;
+    width: 5rem;
   }
   .mobile-donate-link .fill-color {
     fill: rgb(255, 0, 0);
   }
-  .mobile-donate-link .label {
+
+  .sr-only {
     position: absolute;
     width: 1px;
     height: 1px;
-    padding: 0;
     margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    border: 0;
-  }
-
-.search-trigger {
-    -ms-grid-row: 1;
-    -ms-grid-column: 4;
-    grid-area: search;
-    position: relative;
     padding: 0;
-    z-index: 1;
-    width: 100%;
-    text-align: right;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
+    border: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip: rect(1px, 1px, 1px, 1px);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    user-select: none;
   }
 
-  .search-trigger .fill-color {
+  .mobile-search-trigger {
+    padding: 0;
+  }
+  .mobile-search-trigger .fill-color {
     fill: var(--iconFill);
   }
 
@@ -132,14 +136,9 @@ export default css`
     display: none;
   }
 
-  .user-info {
-    -ms-grid-row: 1;
-    -ms-grid-column: 5;
-    grid-area: user;
-    -ms-grid-row-align: stretch;
-    align-self: stretch;
-    -ms-grid-column-align: end;
-    justify-self: end;
+  .upload svg {
+    height: 3rem;
+    width: 3rem; 
   }
 
   .screen-name {
@@ -150,9 +149,8 @@ export default css`
   }
 
   .user-menu {
-    height: 100%;
-    padding: 0.5rem 1rem;
     color: var(--lightTextColor);
+    padding: 0.5rem;
   }
 
   .user-menu:hover {
@@ -166,8 +164,8 @@ export default css`
 
   .user-menu img {
     display: block;
-    width: 30px;
-    height: 30px;
+    width: 3rem;
+    height: 3rem;
   }
 
   .link-home {
@@ -195,10 +193,16 @@ export default css`
 
   @media (min-width: 890px) {
     :host {
-      --userIconWidth: 32px;
-      --userIconHeight: 32px;
+      --userIconWidth: 3.2rem;
+      --userIconHeight: 3.2rem;
     }
 
+    .right-side-section {
+      display: contents;
+    }
+    .right-side-item1 {
+      padding: 0.5rem 0rem;
+    }
     nav {
       display: block;
       z-index: 3;
@@ -220,18 +224,23 @@ export default css`
     }
 
     .hamburger,
-    .search-trigger,
+    .mobile-search-trigger,
     .mobile-donate-link {
       display: none;
     }
 
     .user-info {
       float: right;
-      padding-top: 1rem;
+    }
+
+    .user-info .user-menu img {
+      height: 3rem;
+      width: 3rem;
+      margin-right: 0.5rem;
     }
 
     .user-menu {
-      padding-top: 0;
+      padding: 1rem;
     }
 
     .user-menu.active {
@@ -241,12 +250,13 @@ export default css`
     .user-menu img {
       display: inline-block;
       vertical-align: middle;
+      margin-right: 0.5rem;
     }
 
     .upload {
       display: block;
+      padding: 1rem 0.5rem;
       float: right;
-      margin-top: 1rem;
       font-size: 1.4rem;
       text-transform: uppercase;
       text-decoration: none;
@@ -259,8 +269,6 @@ export default css`
     }
 
     .upload svg {
-      width: 32px;
-      height: 32px;
       vertical-align: middle;
       fill: var(--iconFill);
     }

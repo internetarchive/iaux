@@ -1,7 +1,6 @@
 import { html, nothing } from 'https://offshoot.prod.archive.org/lit.js';
 import TrackedElement from './tracked-element.js';
 import icons from './assets/img/icons.js';
-import './assets/img/hamburger.js';
 import './login-button.js';
 import './nav-search.js';
 import './media-menu.js';
@@ -124,7 +123,7 @@ class PrimaryNav extends TrackedElement {
 
     return html`
       <button
-        class="search-trigger"
+        class="mobile-search-trigger"
         @click="${this.toggleSearchMenu}"
         data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen"
       >
@@ -145,12 +144,23 @@ class PrimaryNav extends TrackedElement {
   get mobileDonateHeart() {
     return html`
       <a class="mobile-donate-link" href=${formatUrl('/donate/?origin=iawww-mbhrt', this.baseHost)}>
-        <span class="icon">
         ${icons.donate}
-      </span>
-      <span class="label">"Donate to the archive"</span>
+        <span class="sr-only">"Donate to the archive"</span>
       </a>
     `;
+  }
+
+  get uploadButtonTemplate() {
+    return html`<a href="${formatUrl('/create', this.baseHost)}" class="upload">
+      ${icons.upload}
+      <span>Upload</span>
+    </a>`;
+  }
+
+  get userStateTemplate() {
+    return html`<div class="user-info">
+      ${this.username ? this.userIcon : this.loginIcon}
+    </div>`;
   }
 
   get secondLogoSlot() {
@@ -181,14 +191,12 @@ class PrimaryNav extends TrackedElement {
           >
           ${this.secondLogoSlot}
         </div>
-        ${this.mobileDonateHeart}
-        ${this.searchMenu}
-        <a href="${formatUrl('/create', this.baseHost)}" class="upload">
-          ${icons.upload}
-          <span>Upload</span>
-        </a>
-        <div class="user-info">
-          ${this.username ? this.userIcon : this.loginIcon}
+
+        <div class="right-side-section">
+          ${this.mobileDonateHeart}
+          ${this.searchMenu}
+          ${this.uploadButtonTemplate}
+          ${this.userStateTemplate}
         </div>
         <media-menu
           .baseHost=${this.baseHost}
@@ -205,7 +213,7 @@ class PrimaryNav extends TrackedElement {
           data-event-click-tracking="${this.config.eventCategory}|NavHamburger"
           title="Open main menu"
         >
-          <icon-hamburger ?active=${this.openMenu === 'media'}></icon-hamburger>
+          ${this.openMenu === 'media' ? icons.close : icons.hamburger}
         </button>
       </nav>
     `;

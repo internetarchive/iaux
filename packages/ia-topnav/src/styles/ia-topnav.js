@@ -54,7 +54,6 @@ export default css`
     --savePageErrorText: var(--errorYellow);
 
     color: var(--primaryTextColor);
-    font-size: 2rem;
     font-family: var(--themeFontFamily);
   }
 

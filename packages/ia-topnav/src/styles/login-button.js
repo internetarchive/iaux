@@ -4,11 +4,14 @@ export default css`
   .dropdown-toggle {
     display: block;
     height: 4rem;
-    font-size: 1.6rem;
     text-transform: uppercase;
-    text-decoration: none;
     color: var(--grey80);
     cursor: pointer;
+  }
+
+  .dropdown-toggle svg {
+    height: 4rem;
+    width: 4rem;
   }
 
   .dropdown-toggle .fill-color {
@@ -50,7 +53,7 @@ export default css`
 
   @media (min-width: 890px) {
     .logged-out-toolbar {
-      transform: translateY(-.5rem);
+      padding: 0.5rem;
     }
 
     .active {

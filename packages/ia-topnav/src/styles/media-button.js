@@ -33,8 +33,6 @@ export default css`
 
   .menu-item > .icon {
     display: inline-flex;
-    width: 42px;
-    height: 42px;
     vertical-align: middle;
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -42,6 +40,11 @@ export default css`
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+  }
+
+  .menu-item > .icon > svg {
+    height: 4rem;
+    width: 4rem;
   }
 
   .menu-item.selected .icon {
@@ -61,7 +64,7 @@ export default css`
     fill: #f00;
   }
 
-  @media (min-width: 890px) {
+  @media (min-width: 55.62rem) {
     .menu-item {
       width: auto;
       height: 5rem;
@@ -90,7 +93,6 @@ export default css`
       text-transform: uppercase;
       color: inherit;
     }
-
 
     .web:after {
       display: none;
@@ -140,7 +142,7 @@ export default css`
     }
   }
 
-  @media (min-width: 1300px) {
+  @media (min-width: 81.25rem) {
     .label,
     .web:after {
       display: inline;
