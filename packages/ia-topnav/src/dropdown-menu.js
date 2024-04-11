@@ -2,6 +2,7 @@ import { html, nothing } from 'https://offshoot.prod.archive.org/lit.js';
 import TrackedElement from './tracked-element.js';
 import dropdownMenuCSS from './styles/dropdown-menu.js';
 import formatUrl from './lib/formatUrl.js';
+import icons from './assets/img/icons.js';
 
 class DropdownMenu extends TrackedElement {
   static get styles() {
@@ -55,9 +56,11 @@ class DropdownMenu extends TrackedElement {
     const calloutText = this.config.callouts?.[link.title];
     return html`<a
       href="${formatUrl(link.url, this.baseHost)}"
+      class="${link.class}"
       @click=${this.trackClick}
       data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}"
       aria-label=${calloutText ? `New feature: ${link.title}` : nothing}>
+        ${link.class === 'mobile-upload' ? icons.uploadUnpadded : nothing}
         ${link.title}
         ${calloutText ? html`<span class="callout" aria-hidden="true">${calloutText}</span>` : nothing}
     </a>`;
