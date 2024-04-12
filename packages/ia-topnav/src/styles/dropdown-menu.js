@@ -78,6 +78,16 @@ export default css`
     font-weight: bold;
   }
 
+  a.mobile-upload {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }  
+  a.mobile-upload svg {
+    fill: var(--white);
+    margin-right: 10px;
+  }
+
   @media (min-width: 890px) {
     nav {
       overflow: visible;
@@ -98,7 +108,7 @@ export default css`
       width: 12px;
       height: 7px;
       box-sizing: border-box;
-      color: #fff;
+      color: var(--white);
       content: '';
       border-bottom: 7px solid currentColor;
       border-left: 6px solid transparent;
@@ -145,6 +155,10 @@ export default css`
     .open {
       opacity: 1;
       overflow: visible;
+    }
+
+    a.mobile-upload {
+      display: none;
     }
   }
 `;

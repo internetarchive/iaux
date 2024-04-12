@@ -9,6 +9,7 @@ import search from './icon-search.js';
 import software from './icon-software.js';
 import texts from './icon-texts.js';
 import upload from './icon-upload.js';
+import uploadUnpadded from './icon-upload-unpadded.js';
 import user from './icon-user.js';
 import video from './icon-video.js';
 import web from './icon-web.js';
@@ -25,6 +26,7 @@ export default {
   software,
   texts,
   upload,
+  uploadUnpadded,
   user,
   video,
   web,
