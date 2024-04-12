@@ -32,13 +32,6 @@ export default css`
     user-select: none;
     align-items: center;
   }
-  .right-side-item1 {
-    padding: 0;
-  }
-  .right-side-item1 svg1 {
-    height: 4rem;
-    width: 4rem;
-  }
   button {
     background: none;
     color: inherit;
@@ -200,9 +193,7 @@ export default css`
     .right-side-section {
       display: contents;
     }
-    .right-side-item1 {
-      padding: 0.5rem 0rem;
-    }
+
     nav {
       display: block;
       z-index: 3;

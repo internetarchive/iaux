@@ -68,7 +68,8 @@ export default css`
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 0;
+    z-index: 3;
+    background: green;
   }
   #close-layer.visible {
     display: block;
@@ -76,7 +77,7 @@ export default css`
 
   .topnav {
     position: relative;
-    z-index: 3;
+    z-index: 4;
   }
 
   @media (max-width: 889px) {
