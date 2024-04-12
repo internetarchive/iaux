@@ -69,7 +69,6 @@ export default css`
     bottom: 0;
     left: 0;
     z-index: 3;
-    background: green;
   }
   #close-layer.visible {
     display: block;
