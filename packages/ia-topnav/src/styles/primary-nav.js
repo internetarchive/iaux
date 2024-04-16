@@ -151,14 +151,13 @@ export default css`
 
   .screen-name {
     display: none;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+    padding-left: 0.5rem;
     vertical-align: middle;
     text-transform: uppercase;
   }
 
   .user-menu {
-    height: 100%;
-    padding: 0.5rem 1rem;
     color: var(--lightTextColor);
   }
 
@@ -173,8 +172,8 @@ export default css`
 
   .user-menu img {
     display: block;
-    width: 30px;
-    height: 30px;
+    width: 3rem;
+    height: 3rem;
   }
 
   .link-home {
@@ -234,11 +233,7 @@ export default css`
 
     .user-info {
       float: right;
-      padding-top: 1rem;
-    }
-
-    .user-menu {
-      padding-top: 0;
+      margin-top: 1rem;
     }
 
     .user-menu.active {
