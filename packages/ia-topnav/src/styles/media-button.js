@@ -33,8 +33,6 @@ export default css`
 
   .menu-item > .icon {
     display: inline-flex;
-    width: 42px;
-    height: 42px;
     vertical-align: middle;
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -42,6 +40,10 @@ export default css`
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+  }
+  .menu-item > .icon > svg {
+    height: 4rem;  
+    width: 4rem;  
   }
 
   .menu-item.selected .icon {

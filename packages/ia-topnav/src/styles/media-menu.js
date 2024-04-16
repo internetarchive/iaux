@@ -56,7 +56,7 @@ export default css`
   /* Desktop view styles */
   @media (min-width: 890px) {
     .media-menu-inner {
-      display: inline-block;
+      display: block;
       position: static;
       width: auto;
       height: 5rem;

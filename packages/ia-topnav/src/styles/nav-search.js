@@ -24,8 +24,6 @@ export default css`
   }
   .search svg {
     position: relative;
-    top: -5px;
-    right: -3px;
     fill: var(--activeSearchColor);
   }
   .search-activated {
@@ -64,6 +62,10 @@ export default css`
     -ms-flex-item-align: center;
     -ms-grid-row-align: center;
     align-self: center;
+  }
+  .search-activated .search svg {
+    height: 3rem;
+    width: 3rem;
   }
   .search-activated .search-field {
     width: 100%;
@@ -127,8 +129,8 @@ export default css`
     }
 
     .search-activated .search svg {
-      width: 28px;
-      height: 28px;
+      width: 2.8rem;
+      height: 2.8rem;
     }
   }
 `;

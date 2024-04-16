@@ -20,6 +20,10 @@ export default css`
   .dropdown-toggle:hover .fill-color {
     fill: var(--linkHoverColor);
   }
+  .dropdown-toggle svg {
+    height: 4rem;
+    width: 4rem;
+  }
 
   .active {
     border-radius: 1rem 1rem 0 0;
@@ -61,7 +65,6 @@ export default css`
       display: inline-block;
       vertical-align: middle;
     }
-
     span {
       display: inline;
       vertical-align: middle;

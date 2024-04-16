@@ -59,6 +59,13 @@ export default css`
   .ia-logo,
   .ia-wordmark {
     margin-right: 5px;
+    height: 3rem;
+  }
+  .ia-logo {
+    width: 2.7rem;
+  }
+  .ia-wordmark {
+    width: 9.5rem;
   }
 
   .hamburger {
@@ -101,7 +108,7 @@ export default css`
     border: 0;
   }
 
-.search-trigger {
+  .search-trigger {
     -ms-grid-row: 1;
     -ms-grid-column: 4;
     grid-area: search;
@@ -259,8 +266,8 @@ export default css`
     }
 
     .upload svg {
-      width: 32px;
-      height: 32px;
+      width: 3.2rem;
+      height: 3.2rem;
       vertical-align: middle;
       fill: var(--iconFill);
     }
