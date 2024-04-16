@@ -54,7 +54,7 @@ export default css`
   }
 
   /* Desktop view styles */
-  @media (min-width: 55.625rem) {
+  @media (min-width: 890px) {
     .media-menu-inner {
       display: block;
       position: static;

@@ -64,7 +64,7 @@ export default css`
     fill: #f00;
   }
 
-  @media (min-width: 55.62rem) {
+  @media (min-width: 890px) {
     .menu-item {
       width: auto;
       height: 5rem;
@@ -142,7 +142,7 @@ export default css`
     }
   }
 
-  @media (min-width: 81.25rem) {
+  @media (min-width: 1300px) {
     .label,
     .web:after {
       display: inline;

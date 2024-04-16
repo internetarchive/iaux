@@ -63,7 +63,8 @@ export default css`
 
   .ia-logo {
     height: 3rem;
-    width: 3rem;
+    width: 2.7rem;
+    display: inline-block;
   }
   .ia-wordmark {
     height: 3rem;
@@ -162,7 +163,6 @@ export default css`
   }
 
   .link-home {
-    display: flex;
     text-decoration: none;
   }
 
@@ -221,7 +221,11 @@ export default css`
     }
 
     .user-info {
+      display: block;
       float: right;
+      padding: 1rem;
+      margin-right: 1rem;
+      vertical-align: middle;
     }
 
     .user-info .user-menu img {
@@ -230,9 +234,6 @@ export default css`
       margin-right: 0.5rem;
     }
 
-    .user-menu {
-      padding: 1rem;
-    }
 
     .user-menu.active {
       background: transparent;
@@ -275,10 +276,6 @@ export default css`
       margin-left: 1rem;
     }
 
-    login-button {
-      display: block;
-      margin-right: 1rem;
-    }
   }
 
   @media (min-width: 990px) {

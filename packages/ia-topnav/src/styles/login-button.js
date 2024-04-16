@@ -54,6 +54,7 @@ export default css`
   @media (min-width: 890px) {
     .logged-out-toolbar {
       padding: 0.5rem;
+      vertical-align: middle;
     }
 
     .active {
@@ -63,6 +64,11 @@ export default css`
     .dropdown-toggle {
       display: inline-block;
       vertical-align: middle;
+    }
+
+    .dropdown-toggle svg {
+      height: 3rem;
+      width: 3rem;
     }
 
     span {
