@@ -159,6 +159,7 @@ export default css`
 
   .user-menu {
     color: var(--lightTextColor);
+    height: 100%;
   }
 
   .user-menu:hover {
