@@ -89,12 +89,14 @@ class PrimaryNav extends TrackedElement {
         title="${userMenuToolTip}"
         @click="${this.toggleUserMenu}"
         data-event-click-tracking="${this.config.eventCategory}|NavUserMenu"
+        aria-label="User Menu"
+        tabindex="-1"
       >
         <img
           src="${this.mediaBaseHost}${this.userProfileImagePath}"
           alt="${this.screenName}"
         />
-        <span class="screen-name" dir="auto">${this.screenName}</span>
+        <span class="screen-name" dir="auto" tabindex="1">${this.screenName}</span>
       </button>
     `;
   }
@@ -107,6 +109,7 @@ class PrimaryNav extends TrackedElement {
         .dropdownOpen=${this.signedOutMenuOpen}
         .openMenu=${this.openMenu}
         @signedOutMenuToggled=${this.signedOutMenuToggled}
+        tabindex="1"
       ></login-button>
     `;
   }
@@ -127,6 +130,8 @@ class PrimaryNav extends TrackedElement {
         class="search-trigger"
         @click="${this.toggleSearchMenu}"
         data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen"
+        aria-label="Open search"
+        tabindex="-1"
       >
         ${icons.search}
       </button>
@@ -144,7 +149,12 @@ class PrimaryNav extends TrackedElement {
 
   get mobileDonateHeart() {
     return html`
-      <a class="mobile-donate-link" href=${formatUrl('/donate/?origin=iawww-mbhrt', this.baseHost)}>
+      <a
+        class="mobile-donate-link"
+        role="link"
+        aria-label="Donate to the archive"
+        href=${formatUrl('/donate/?origin=iawww-mbhrt', this.baseHost)}
+      >
         <span class="icon">
         ${icons.donate}
       </span>
@@ -169,21 +179,30 @@ class PrimaryNav extends TrackedElement {
   render() {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
-      <nav class=${this.hideSearch ? 'hide-search' : nothing}>
+      <nav role="navigation" class=${this.hideSearch ? 'hide-search' : nothing}>
         <div class=${`branding ${this.secondLogoClass}`}>
           <a
+            role="link"
+            aria-label="Go home"
             href=${formatUrl('/', this.baseHost)}
             @click=${this.trackClick}
             data-event-click-tracking="${this.config.eventCategory}|NavHome"
             title="Go home"
             class="link-home"
+            tabindex="-1"
             >${icons.iaLogo}${logoWordmarkStacked}</a
           >
           ${this.secondLogoSlot}
         </div>
         ${this.mobileDonateHeart}
         ${this.searchMenu}
-        <a href="${formatUrl('/create', this.baseHost)}" class="upload">
+        <a
+          role="link"
+          href="${formatUrl('/create', this.baseHost)}"
+          class="upload"
+          aria-label="Upload" 
+          tabindex="2"
+        >
           ${icons.upload}
           <span>Upload</span>
         </a>
@@ -201,9 +220,9 @@ class PrimaryNav extends TrackedElement {
         <button
           class="hamburger"
           @click="${this.toggleMediaMenu}"
-          tabindex="1"
           data-event-click-tracking="${this.config.eventCategory}|NavHamburger"
           title="Open main menu"
+          aria-label="Open main menu"
         >
           <icon-hamburger ?active=${this.openMenu === 'media'}></icon-hamburger>
         </button>

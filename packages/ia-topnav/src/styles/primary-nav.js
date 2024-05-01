@@ -148,10 +148,15 @@ export default css`
     vertical-align: middle;
     text-transform: uppercase;
   }
+  .screen-name:focus,
+  .screen-name:focus-visible {
+    color: var(--linkHoverColor);
+    outline: none;
+  }
 
   .user-menu {
     height: 100%;
-    padding: 0.5rem 1rem;
+    padding: 0 1rem;
     color: var(--lightTextColor);
   }
 
@@ -227,7 +232,8 @@ export default css`
 
     .user-info {
       float: right;
-      padding-top: 1rem;
+      padding-top: 0;
+      height: 100%;
     }
 
     .user-menu {

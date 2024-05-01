@@ -291,7 +291,7 @@ export default class IATopNav extends LitElement {
         .openMenu=${this.openMenu}
         tabindex="${this.searchMenuTabIndex}"
         ?hideSearch=${this.hideSearch}
-        @searchInChanged=${this.searchInChanged}
+        @searchInChanged1=${this.searchInChanged}
         @trackClick=${this.trackClick}
         @trackSubmit=${this.trackSubmit}
       ></search-menu>

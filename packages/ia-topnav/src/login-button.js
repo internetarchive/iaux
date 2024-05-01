@@ -59,17 +59,17 @@ class LoginButton extends TrackedElement {
   render() {
     return html`
       <div class="logged-out-toolbar">
-        <a
+        <button
           class="${this.avatarClass}"
           @click=${this.toggleDropdown}
           data-event-click-tracking="${this.analyticsEvent}"
         >
           ${icons.user}
-        </a>
+        </button>
         <span>
-        <a href="${this.signupPath}">Sign up</a>
+        <a tabindex="0" href="${this.signupPath}">Sign up</a>
         |
-        <a href="${this.loginPath}">Log in</a>
+        <a tabindex="0" href="${this.loginPath}">Log in</a>
         </span>
       </div>
     `;

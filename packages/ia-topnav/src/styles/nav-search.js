@@ -24,8 +24,6 @@ export default css`
   }
   .search svg {
     position: relative;
-    top: -5px;
-    right: -3px;
     fill: var(--activeSearchColor);
   }
   .search-activated {

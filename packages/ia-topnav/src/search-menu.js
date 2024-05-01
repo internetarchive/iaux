@@ -70,7 +70,7 @@ class SearchMenu extends TrackedElement {
       }
       return html`
         <label @click="${this.selectSearchType}">
-          <input form="nav-search" type="radio" name="sin" value="${value}" ?checked=${isDefault} @change=${this.searchInChanged} />
+          <input form="nav-search" type="radio" name="sin" value="${value}" ?checked=${isDefault} @change=${this.searchInChanged} tabindex="3" />
           Search ${label}
         </label>
       `;

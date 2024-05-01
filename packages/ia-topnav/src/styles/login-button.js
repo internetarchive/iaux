@@ -1,9 +1,14 @@
 import { css } from 'https://offshoot.prod.archive.org/lit.js';
 
 export default css`
+  .logged-out-toolbar a:focus,
+  .logged-out-toolbar a:focus-visible {
+    color: var(--linkHoverColor);
+    outline: none;
+  }
   .dropdown-toggle {
     display: block;
-    height: 4rem;
+    height: 100%;
     font-size: 1.6rem;
     text-transform: uppercase;
     text-decoration: none;
@@ -21,6 +26,13 @@ export default css`
     fill: var(--linkHoverColor);
   }
 
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+  }
   .active {
     border-radius: 1rem 1rem 0 0;
     background: var(--activeButtonBg);
@@ -49,7 +61,7 @@ export default css`
   }
 
   @media (min-width: 890px) {
-    .logged-out-toolbar {
+    .logged-out-toolbar1 {
       transform: translateY(-.5rem);
     }
 
