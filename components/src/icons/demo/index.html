@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="ia-icon.js"></script>
+    <script type="module" src="src/icon-donate.js"></script>
+    <title>IA SVG Icons</title>
+    <style>
+      html {
+        font: normal 10px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 10px;
+        --iconWidth: 40px;
+        --iconHeight: 40px;
+      }
+      body {
+        margin: 0;
+        padding: 0 2rem;
+      }
+
+      h3 {
+        font-size: 2rem;
+      }
+
+      ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+        grid-gap: 1rem;
+        padding: 0;
+        list-style: none;
+      }
+
+      li {
+        padding: 1.5rem 0;
+        border: 2px solid #ccc;
+        text-align: center;
+      }
+
+      li:hover {
+        color: #f0f0f0;
+        background: #222;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      icon-donate {
+        width: 40px;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="module">
+      </script>
+    <script type="module">
+      import {render, html} from 'https://cdn.jsdelivr.net/npm/lit@3.1.3/+esm';
+
+      // import { render, html } from '';
+
+      const listItems = () => [
+    'advance',
+    'applePay',
+    'audio',
+    'calendar',
+    'calendarBlank',
+    'close',
+    'closeCircle',
+    'collapseSidebar',
+    'creditCard',
+    'donate',
+    'download',
+    'editPencil',
+    'ellipses',
+    'email',
+    'facebook',
+    'googlePay',
+    'iaLogo',
+    'images',
+    'link',
+    'localePin',
+    'lock',
+    'magnifyMinus',
+    'magnifyPlus',
+    'paypal',
+    'pinterest',
+    'search',
+    'share',
+    'software',
+    'sortAscending',
+    'sortDescending',
+    'texts',
+    'toc',
+    'tumblr',
+    'twitter',
+    'upload',
+    'user',
+    'venmo',
+    'video',
+    'visualAdjustment',
+    'volumes',
+    'web',
+    'info',
+  ].map((name) => {
+    const color = `rgb(${~~(Math.random() * 256)}, ${~~(Math.random() * 256)}, ${~~(Math.random() * 256)})`;
+    return html`
+      <li>
+        <ia-icon icon=${name} style="--iconFillColor: ${color}; --iconStrokeColor: ${color};"></ia-icon>
+        <p>${name}</p>
+      </li>
+    `;
+  });
+
+      render(html`
+        <h3>Icons using ${"<ia-icon>"}</h3>
+        <ul>
+          ${listItems()}
+        </ul>
+        <h3>Icon created by extending IAIcon</h3>
+        <icon-donate></icon-donate>
+      `, document.body);
+    </script>
+  </body>
+</html>
