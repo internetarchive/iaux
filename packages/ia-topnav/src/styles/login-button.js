@@ -3,14 +3,13 @@ import { css } from 'https://offshoot.prod.archive.org/lit.js';
 export default css`
   .dropdown-toggle {
     display: block;
-    height: 4rem;
     text-transform: uppercase;
     color: var(--grey80);
     cursor: pointer;
   }
 
   .dropdown-toggle svg {
-    height: 4rem;
+    height: 100%;
     width: 4rem;
   }
 
@@ -53,7 +52,7 @@ export default css`
 
   @media (min-width: 890px) {
     .logged-out-toolbar {
-      padding: 0.5rem;
+      padding: 1rem 0.5rem;
       vertical-align: middle;
     }
 
@@ -69,6 +68,7 @@ export default css`
     .dropdown-toggle svg {
       height: 3rem;
       width: 3rem;
+      display: block;
     }
 
     span {

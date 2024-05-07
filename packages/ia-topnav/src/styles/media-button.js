@@ -142,7 +142,7 @@ export default css`
     }
   }
 
-  @media (min-width: 1300px) {
+  @media (min-width: 1200px) {
     .label,
     .web:after {
       display: inline;

@@ -14,7 +14,7 @@ export default css`
     height: 4rem;
     grid-template-areas: 'hamburger empty heart search user';
     -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4rem 4rem;
-    grid-template-columns: 4rem auto 5rem 4rem 4rem;
+    grid-template-columns: 4rem auto 4rem 4rem 4rem;
     -ms-grid-rows: 100%;
     grid-template-rows: 100%;
     background: var(--primaryNavBg);
@@ -30,7 +30,6 @@ export default css`
   .right-side-section {
     display: flex;
     user-select: none;
-    align-items: center;
   }
   button {
     background: none;
@@ -88,8 +87,8 @@ export default css`
   }
 
   .mobile-donate-link svg {
-    height: 5rem;
-    width: 5rem;
+    height: 4rem;
+    width: 4rem;
   }
   .mobile-donate-link .fill-color {
     fill: rgb(255, 0, 0);
@@ -112,6 +111,10 @@ export default css`
 
   .mobile-search-trigger {
     padding: 0;
+  }
+  .mobile-search-trigger svg {
+    height: 4rem;
+    width: 4rem;
   }
   .mobile-search-trigger .fill-color {
     fill: var(--iconFill);
@@ -145,6 +148,7 @@ export default css`
   .user-menu {
     color: var(--lightTextColor);
     padding: 0.5rem;
+    height: 100%;
   }
 
   .user-menu:hover {
@@ -164,6 +168,7 @@ export default css`
 
   .link-home {
     text-decoration: none;
+    display: inline-flex;
   }
 
   @media only screen and (min-width: 890px) and (max-device-width: 905px) {
@@ -196,7 +201,7 @@ export default css`
 
     nav {
       display: block;
-      z-index: 3;
+      z-index: 4;
       height: 5rem;
       padding-right: 1.5rem;
     }
@@ -223,8 +228,6 @@ export default css`
     .user-info {
       display: block;
       float: right;
-      padding: 1rem;
-      margin-right: 1rem;
       vertical-align: middle;
     }
 
