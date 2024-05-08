@@ -24,7 +24,7 @@ export default css`
   nav.hide-search {
     grid-template-areas: 'hamburger empty heart user';
     -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4rem;
-    grid-template-columns: 4rem auto 5rem 4rem;
+    grid-template-columns: 4rem auto 4rem 4rem;
   }
 
   .right-side-section {
@@ -229,6 +229,7 @@ export default css`
       display: block;
       float: right;
       vertical-align: middle;
+      height: 100%;
     }
 
     .user-info .user-menu img {
@@ -237,7 +238,9 @@ export default css`
       margin-right: 0.5rem;
     }
 
-
+    .user-menu {
+      padding: 1rem 0.5rem;
+    }
     .user-menu.active {
       background: transparent;
     }
