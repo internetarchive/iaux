@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="https://archive.org/includes/build/css/archive.min.css">
+<style>
+  html {
+    font-size: 10px;
+    /* font-size: 15px; */
+    /* font-size: 20px; */
+  }
+</style>
+<script type="importmap">
+  {
+    "imports": {
+      "@internetarchive/ia-wayback-search": "../ia-wayback-search/src/ia-wayback-search.js"
+    }
+  }
+</script>
+
+<ia-wayback-search></ia-wayback-search>
+<script type="module" src="./src/ia-wayback-search.js"></script>
+
+<script type="module">
+  import { html, render } from './node_modules/lit-html/lit-html.js';
+
+  const queryHandler = {
+    performQuery: (query) => window.location = `https://web.archive.org/web/*/${query}`
+  };
+
+  render(html`<ia-wayback-search
+    waybackPagesArchived="32 trillion pages"
+    .queryHandler=${queryHandler}
+  ></ia-wayback-search>`, document.getElementById('root'));
+
+  const wbSearch = document.querySelector('ia-wayback-search');
+
+  wbSearch.addEventListener('waybackSearchSubmitted', ({ detail }) => {
+    console.log(`waybackSearchSubmitted: ${detail.query}`);
+  });
+  wbSearch.addEventListener('waybackMachineStatsLinkClicked', ({ detail }) => {
+    console.log('waybackMachineStatsLinkClicked event');
+  });
+  wbSearch.addEventListener('waybackMachineLogoLink', ({ detail }) => {
+    console.log('waybackMachineLogoLink event');
+  });
+</script>
