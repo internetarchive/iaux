@@ -7,7 +7,7 @@ export default css`
   }
 
   .menu-item {
-    display: inline-flex;
+    display: inline-block;
     width: 100%;
     padding: 0;
     font-size: 1.6rem;
@@ -69,6 +69,7 @@ export default css`
       width: auto;
       height: 5rem;
       color: var(--mediaLabelDesktopColor);
+      display: inline-flex;
     }
     .menu-item:hover,
     .menu-item:active,

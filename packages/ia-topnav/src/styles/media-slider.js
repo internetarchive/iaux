@@ -22,7 +22,7 @@ export default css`
     right: 0;
     left: 0;
     padding: 0;
-    height: 36.8rem;
+    height: 31.9rem;
     overflow-x: hidden;
     font-size: 1.4rem;
     background: var(--mediaSliderBg);
@@ -43,7 +43,7 @@ export default css`
   @media (max-width: 889px) {
     .overflow-clip.open {
       display: block;
-      height: 36.7rem;
+      height: 35.8rem;
       left: 4rem;
       top: 0;
     }
