@@ -71,8 +71,8 @@ export default css`
     position: absolute;
     top: 2px;
     left: 3px;
-    width: 24px;
-    height: 24px;
+    width: 2.4rem;
+    height: 2.4rem;
   }
 
   .search-field .fill-color {
@@ -115,8 +115,8 @@ export default css`
     }
 
     .search-field svg {
-      width: 28px;
-      height: 28px;
+      width: 2.8rem;
+      height: 2.8rem;
     }
 
     .search-field .fill-color {
