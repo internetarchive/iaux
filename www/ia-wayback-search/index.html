@@ -1,43 +1,57 @@
-<link rel="stylesheet" href="https://archive.org/includes/build/css/archive.min.css">
-<style>
-  html {
-    font-size: 10px;
-    /* font-size: 15px; */
-    /* font-size: 20px; */
-  }
-</style>
-<script type="importmap">
-  {
-    "imports": {
-      "@internetarchive/ia-wayback-search": "../ia-wayback-search/src/ia-wayback-search.js"
-    }
-  }
-</script>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="./src/ia-wayback-search.js"></script>
+    <title>Wayback Search</title>
+    <style>
+      html {
+        font-size: 10px;
+      }
+      body {
+        margin: 0;
+        padding: 2rem;
+        --white: #fff;
+        --grey20: #333;
+        --grey80: #ccc;
+        color: var(--white);
+        background: var(--grey20);
+      }
+      ia-wayback-search {
+        --activeColor: var(--white);
+        --iconFill: var(--grey60);
+        --desktopSearchIconFill: var(--grey20);
+        --themeFontFamily: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      }
+    </style>
+  </head>
 
-<ia-wayback-search></ia-wayback-search>
-<script type="module" src="./src/ia-wayback-search.js"></script>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import { html, render } from 'https://offshoot.prod.archive.org/lit.js';
 
-<script type="module">
-  import { html, render } from './node_modules/lit-html/lit-html.js';
+      const queryHandler = {
+        performQuery: (query) => window.location = `https://web.archive.org/web/*/${query}`
+      };
 
-  const queryHandler = {
-    performQuery: (query) => window.location = `https://web.archive.org/web/*/${query}`
-  };
+      render(html`<ia-wayback-search
+        waybackPagesArchived="32 trillion pages"
+        .queryHandler=${queryHandler}
+      ></ia-wayback-search>`, document.getElementById('root'));
 
-  render(html`<ia-wayback-search
-    waybackPagesArchived="32 trillion pages"
-    .queryHandler=${queryHandler}
-  ></ia-wayback-search>`, document.getElementById('root'));
+      const wbSearch = document.querySelector('ia-wayback-search');
 
-  const wbSearch = document.querySelector('ia-wayback-search');
-
-  wbSearch.addEventListener('waybackSearchSubmitted', ({ detail }) => {
-    console.log(`waybackSearchSubmitted: ${detail.query}`);
-  });
-  wbSearch.addEventListener('waybackMachineStatsLinkClicked', ({ detail }) => {
-    console.log('waybackMachineStatsLinkClicked event');
-  });
-  wbSearch.addEventListener('waybackMachineLogoLink', ({ detail }) => {
-    console.log('waybackMachineLogoLink event');
-  });
-</script>
+      wbSearch.addEventListener('waybackSearchSubmitted', ({ detail }) => {
+        console.log(`waybackSearchSubmitted: ${detail.query}`);
+      });
+      wbSearch.addEventListener('waybackMachineStatsLinkClicked', ({ detail }) => {
+        console.log('waybackMachineStatsLinkClicked event');
+      });
+      wbSearch.addEventListener('waybackMachineLogoLink', ({ detail }) => {
+        console.log('waybackMachineLogoLink event');
+      });
+    </script>
+  </body>
+</html>
