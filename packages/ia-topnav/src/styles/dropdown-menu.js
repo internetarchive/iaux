@@ -82,10 +82,12 @@ export default css`
     display: flex;
     justify-content: left;
     align-items: center;
-  }  
+  }
   a.mobile-upload svg {
     fill: var(--white);
     margin-right: 10px;
+    height: 1.4rem;
+    width: 1.4rem;
   }
 
   @media (min-width: 890px) {
