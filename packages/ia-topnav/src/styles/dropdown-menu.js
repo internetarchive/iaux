@@ -85,7 +85,7 @@ export default css`
   }
   a.mobile-upload svg {
     fill: var(--white);
-    margin-right: 10px;
+    margin-right: 1rem;
     height: 1.4rem;
     width: 1.4rem;
   }
