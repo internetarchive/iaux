@@ -86,6 +86,13 @@ export default class IATopNav extends LitElement {
     }
   }
 
+  firstUpdated() {
+    // close open menu on `esc` click 
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') this.closeMenus();
+    }, false);
+  }
+
   menuSetup() {
     this.localLinks = this.getAttribute('localLinks') !== 'false' && this.getAttribute('localLinks') !== false;
     this.username = this.getAttribute('username')

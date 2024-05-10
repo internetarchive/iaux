@@ -24,8 +24,6 @@ export default css`
   }
   .search svg {
     position: relative;
-    top: -5px;
-    right: -3px;
     fill: var(--activeSearchColor);
   }
   .search-activated {
@@ -65,6 +63,10 @@ export default css`
     -ms-grid-row-align: center;
     align-self: center;
   }
+  .search-activated .search svg {
+    height: 3rem;
+    width: 3rem;
+  }
   .search-activated .search-field {
     width: 100%;
     height: 100%;
@@ -93,8 +95,8 @@ export default css`
   @media (min-width: 890px) {
     .search svg {
       display: inline;
-      width: 28px;
-      height: 28px;
+      width: 2.8rem;
+      height: 2.8rem;
       vertical-align: -14px;
     }
     .search path {
@@ -105,7 +107,7 @@ export default css`
     .search-activated {
       display: block;
       position: static;
-      padding: 1.2rem 0.2rem;
+      padding: 1.1rem 0.2rem;
       background: transparent;
     }
 
@@ -127,8 +129,8 @@ export default css`
     }
 
     .search-activated .search svg {
-      width: 28px;
-      height: 28px;
+      width: 2.8rem;
+      height: 2.8rem;
     }
   }
 `;

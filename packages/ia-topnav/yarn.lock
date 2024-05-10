@@ -1512,10 +1512,10 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@internetarchive/ia-wayback-search@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-wayback-search/-/ia-wayback-search-0.2.4.tgz#0456a8351cdfdcad5f861fe2936c5d51eb1c6c58"
-  integrity sha512-sdNvSdRB8y1uVqJZfI2UIV6jtPiZI/0jL1sDBs5hD9nMekBVCl/Dm+3LXUcHr0gpPZjS+0cke2+W5CQR7ecksQ==
+"@internetarchive/ia-wayback-search@0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-wayback-search/-/ia-wayback-search-0.2.5.tgz#c29a904541c2da5d9f525c0a748085df8d61efca"
+  integrity sha512-JW0rrJKvJiJW5PUTFmgLvvOp2NKD2ZQOKYVsuG+MsOqqB4zNMSAMmCTemb4uOc9LY1Em+Cgs0+p2XS9fXO6DAg==
 
 "@istanbuljs/schema@^0.1.2", "@istanbuljs/schema@^0.1.3":
   version "0.1.3"

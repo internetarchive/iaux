@@ -12,11 +12,12 @@ export default css`
 
   input[type="text"] {
     width: 100%;
-    height: 30px;
+    height: 3rem;
     box-sizing: border-box;
     border: 1px solid var(--savePageInputBorder);
     border-radius: .5rem;
     color: var(--grey13);
+    font-size: inherit;
   }
 
   input[type="submit"] {

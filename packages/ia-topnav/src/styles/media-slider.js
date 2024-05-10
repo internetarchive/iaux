@@ -22,7 +22,7 @@ export default css`
     right: 0;
     left: 0;
     padding: 0;
-    height: 368px;
+    height: 31.9rem;
     overflow-x: hidden;
     font-size: 1.4rem;
     background: var(--mediaSliderBg);
@@ -43,7 +43,7 @@ export default css`
   @media (max-width: 889px) {
     .overflow-clip.open {
       display: block;
-      height: 367px;
+      height: 35.8rem;
       left: 4rem;
       top: 0;
     }
@@ -73,7 +73,7 @@ export default css`
     }
 
     .info-box {
-      max-width: 1000px;
+      max-width: 100rem;
       padding: 1.5rem 0;
       margin: 0 auto;
     }

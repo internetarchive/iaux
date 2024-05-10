@@ -1,6 +1,8 @@
 import audio from './icon-audio.js';
 import close from './icon-close.js';
+import hamburger from './icon-hamburger.js';
 import donate from './icon-donate.js';
+import donateUnpadded from './icon-donate-unpadded.js';
 import ellipses from './icon-ellipses.js';
 import iaLogo from './icon-ia-logo.js';
 import images from './icon-images.js';
@@ -16,7 +18,9 @@ import web from './icon-web.js';
 export default {
   audio,
   close,
+  hamburger,
   donate,
+  donateUnpadded,
   ellipses,
   iaLogo,
   images,

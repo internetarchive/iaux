@@ -29,9 +29,9 @@ export default css`
   }
 
   .donate svg {
-    width: 16px;
-    height: 16px;
-    vertical-align: -4px;
+    width: 1.6rem;
+    height: 1.6rem;
+    vertical-align: top;
     fill: #f00;
   }
 `;

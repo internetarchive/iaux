@@ -27,7 +27,7 @@ export default [subnavListCSS, css`
 
   .icon-links a {
     display: inline-block;
-    width: 120px;
+    width: 12rem;
     margin-bottom: 1.5rem;
     overflow: hidden;
     white-space: nowrap;
@@ -67,7 +67,7 @@ export default [subnavListCSS, css`
 
     .icon-links a {
       padding-top: 3.5rem;
-      max-width: 160px;
+      max-width: 16rem;
     }
 
     .links {

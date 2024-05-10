@@ -21,7 +21,7 @@
     "test": "ulimit -v unlimited;  web-test-runner  'test/**/*.test.js' --node-resolve --coverage --puppeteer"
   },
   "dependencies": {
-    "@internetarchive/ia-wayback-search": "^0.2.4"
+    "@internetarchive/ia-wayback-search": "0.2.5"
   },
   "devDependencies": {
     "@open-wc/demoing-storybook": "^2.4.7",

@@ -8,7 +8,7 @@ export default css`
   nav {
     position: absolute;
     right: 0;
-    z-index: 3;
+    z-index: 4;
     overflow: hidden;
     font-size: 1.6rem;
     background-color: var(--dropdownMenuBg);
@@ -82,10 +82,12 @@ export default css`
     display: flex;
     justify-content: left;
     align-items: center;
-  }  
+  }
   a.mobile-upload svg {
     fill: var(--white);
-    margin-right: 10px;
+    margin-right: 1rem;
+    height: 1.4rem;
+    width: 1.4rem;
   }
 
   @media (min-width: 890px) {
