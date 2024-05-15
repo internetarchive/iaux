@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <style>
+    audio-element {
+      height: 10rem;
+      width: 100%;
+      --fillColor: #3272b6;
+      --zoneOfSilenceColor: orange;
+    }
+  </style>
+
+  <script type="module">
+    import { html, render } from 'lit';
+    import AudioSource from '../src/models/audio-source.js';
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    import AudioElement from '../src/audio-element.js';
+
+    const arrowOgg = new AudioSource('./arrow.ogg', 'audio/ogg');
+    const arrowMp3 = new AudioSource('./arrow.mp3', 'audio/mpeg');
+
+    const springOgg = new AudioSource('./spring.ogg', 'audio/ogg');
+    const springMp3 = new AudioSource('./spring.mp3', 'audio/mpeg');
+
+    const arrowSources = [arrowOgg, arrowMp3];
+    const springSources = [springOgg, springMp3];
+
+    render(
+      html`
+        <audio-element
+          sources=${JSON.stringify(arrowSources)}
+          @durationchange=${durationchanged}
+          @timeupdate=${timeupdate}
+        ></audio-element>
+
+        <div>
+          <button @click=${play}>Play</button>
+          <button @click=${pause}>Pause</button>
+          <button @click=${forward10}>Seek Forward 10s</button>
+          <button @click=${back10}>Seek Back 10s</button>
+        </div>
+
+        <div>
+          <button @click=${playArrow}>Play Arrow</button>
+          <button @click=${playSpring}>Play Spring</button>
+          <button @click=${playVoiceOfAmerica}>Play Voice of America</button>
+        </div>
+
+        <div>
+          Volume: <input type="range" min="0" max="100" value="100" step="1" @input=${changeVolume}> <span id="volume-value">100</span>%
+        </div>
+
+        <div>
+          Playback Rate: <input type="range" min="0.1" max="3" value="1" step="0.001" @input=${changePlaybackRate}> <span id="playback-rate">1</span>x
+        </div>
+
+        <div>
+          Seek: <input type="range" min="0" max="100" value="0" step="0.1" @input=${seek} id="seek-bar"> <span id="current-time">0</span>s
+        </div>
+      `,
+      document.querySelector('#demo')
+    );
+
+    function play() {
+      const audioElement = document.querySelector('audio-element');
+      audioElement.play()
+    }
+
+    function pause() {
+      const audioElement = document.querySelector('audio-element');
+      audioElement.pause()
+    }
+
+    function forward10() {
+      const audioElement = document.querySelector('audio-element');
+      audioElement.seekBy(10);
+    }
+
+    function back10() {
+      const audioElement = document.querySelector('audio-element');
+      audioElement.seekBy(-10);
+    }
+
+    function playArrow() {
+      const audioElement = document.querySelector('audio-element');
+      audioElement.sources = arrowSources;
+      audioElement.load();
+      audioElement.play();
+    }
+
+    function playSpring() {
+      const audioElement = document.querySelector('audio-element');
+      audioElement.sources = springSources;
+      audioElement.load();
+      audioElement.play();
+    }
+
+    function playVoiceOfAmerica() {
+      const audioElement = document.querySelector('audio-element');
+      const voaMp3 = new AudioSource(
+        'http://archive.org/download/VOA_Global_English_20170803_190000/VOA_Global_English_20170803_190000.mp3',
+        'audio/mpeg');
+      audioElement.sources = [voaMp3];
+      audioElement.load();
+      audioElement.play();
+    }
+
+    function changeVolume(e) {
+      const audioElement = document.querySelector('audio-element');
+      const volumeValue = document.getElementById('volume-value');
+      audioElement.volume = e.target.value / 100;
+      volumeValue.innerText = Math.round(e.target.value);
+    }
+
+    function changePlaybackRate(e) {
+      const audioElement = document.querySelector('audio-element');
+      const playbackRate = document.getElementById('playback-rate');
+      audioElement.playbackRate = e.target.value;
+      playbackRate.innerText = e.target.value;
+    }
+
+    function durationchanged(e) {
+      const seekBar = document.getElementById('seek-bar');
+      const currentTime = document.getElementById('current-time');
+      seekBar.max = e.detail.duration;
+    }
+
+    function timeupdate(e) {
+      const seekBar = document.getElementById('seek-bar');
+      const currentTime = document.getElementById('current-time');
+      seekBar.value = e.detail.currentTime;
+      currentTime.innerText = e.detail.currentTime;
+    }
+
+    function seek(e) {
+      const audioElement = document.querySelector('audio-element');
+      const currentTime = document.getElementById('current-time');
+      audioElement.seekTo(e.target.value);
+      currentTime.innerText = e.target.value;
+    }
+</script>
+</body>
+</html>
