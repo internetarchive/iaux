@@ -37,7 +37,7 @@ export default css`
     color: #000;
     box-sizing: border-box;
     border: 1px solid #000;
-    border-radius: 2rem;
+    border-radius: 7px;
     background: #fff;
   }
 
