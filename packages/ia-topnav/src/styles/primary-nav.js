@@ -109,14 +109,14 @@ export default css`
     user-select: none;
   }
 
-  .mobile-search-trigger {
+  .search-trigger {
     padding: 0;
   }
-  .mobile-search-trigger svg {
+  .search-trigger svg {
     height: 4rem;
     width: 4rem;
   }
-  .mobile-search-trigger .fill-color {
+  .search-trigger .fill-color {
     fill: var(--iconFill);
   }
 
@@ -220,7 +220,7 @@ export default css`
     }
 
     .hamburger,
-    .mobile-search-trigger,
+    .search-trigger,
     .mobile-donate-link {
       display: none;
     }
