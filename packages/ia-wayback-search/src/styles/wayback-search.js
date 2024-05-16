@@ -34,11 +34,11 @@ export default css`
     height: 3rem;
     padding: 0.5rem 1rem 0.5rem 2.5rem;
     font: normal 1.2rem/1.5 var(--themeFontFamily);
-    color: #858585;
+    color: #000;
     box-sizing: border-box;
-    border: 1px solid var(--grey80);
+    border: 1px solid #000;
     border-radius: 2rem;
-    background: #eee;
+    background: #fff;
   }
 
   .search-background {
