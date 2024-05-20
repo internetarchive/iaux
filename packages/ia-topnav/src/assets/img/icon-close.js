@@ -2,8 +2,8 @@ import { html } from 'https://offshoot.prod.archive.org/lit.js';
 
 export default html`
   <svg
-    width="40px"
-    height="40px"
+    width="40"
+    height="40"
     viewBox="0 0 40 40"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
