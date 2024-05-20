@@ -40,7 +40,7 @@ describe('<primary-nav>', () => {
       hideSearch: true,
     }));
 
-    expect(el.shadowRoot.querySelector('.mobile-search-trigger')).to.equal(null);
+    expect(el.shadowRoot.querySelector('.search-trigger')).to.equal(null);
     expect(el.shadowRoot.querySelector('nav-search')).to.equal(null);
   });
 

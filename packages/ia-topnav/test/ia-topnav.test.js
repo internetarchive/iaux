@@ -198,7 +198,7 @@ describe('<ia-topnav>', () => {
 
   it('toggles search menu when search toggle button clicked', async () => {
     const el = await fixture(container());
-    el.shadowRoot.querySelector('primary-nav').shadowRoot.querySelector('.mobile-search-trigger').click();
+    el.shadowRoot.querySelector('primary-nav').shadowRoot.querySelector('.search-trigger').click();
     await el.updateComplete;
 
     expect(el.openMenu).to.equal('search');

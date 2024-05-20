@@ -1,6 +1,7 @@
 import { html, nothing } from 'https://offshoot.prod.archive.org/lit.js';
 import TrackedElement from './tracked-element.js';
 import icons from './assets/img/icons.js';
+import './assets/img/hamburger.js';
 import './login-button.js';
 import './nav-search.js';
 import './media-menu.js';
@@ -123,7 +124,7 @@ class PrimaryNav extends TrackedElement {
 
     return html`
       <button
-        class="mobile-search-trigger"
+        class="search-trigger"
         @click="${this.toggleSearchMenu}"
         data-event-click-tracking="${this.config.eventCategory}|NavSearchOpen"
       >
@@ -213,7 +214,7 @@ class PrimaryNav extends TrackedElement {
           data-event-click-tracking="${this.config.eventCategory}|NavHamburger"
           title="Open main menu"
         >
-          ${this.openMenu === 'media' ? icons.close : icons.hamburger}
+          <icon-hamburger ?active=${this.openMenu === 'media'}></icon-hamburger>
         </button>
       </nav>
     `;
