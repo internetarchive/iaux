@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <title>Multi-state Bookmark Icon</title>
+  <style>
+    :root {
+      --iconFillColor: #fff;
+      --iconStrokeColor: #fff;
+      --iconWidth: 40px;
+      --iconHeight: 40px;
+    }
+
+    html {
+      font: normal 10px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      font-size: 1.4rem;
+      color: #fff;
+      background: #181818;
+    }
+
+    ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(auto, 90px));
+      grid-gap: 1rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    li {
+      padding: 1.5rem 2rem;
+      text-align: center;
+      border: 2px solid #fff;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit';
+    import '../icon-bookmark.js';
+
+    render(
+      html`
+        <ul>
+          <li>
+            <icon-bookmark></icon-bookmark>
+            solid
+          </li>
+          <li>
+            <icon-bookmark state="hollow"></icon-bookmark>
+            hollow
+          </li>
+          <li>
+            <icon-bookmark state="plus"></icon-bookmark>
+            plus
+          </li>
+          <li>
+            <icon-bookmark state="minus"></icon-bookmark>
+            minus
+          </li>
+        </ul>
+      `,
+      document.querySelector('#demo')
+    );
+  </script>
+</body>
+</html>
