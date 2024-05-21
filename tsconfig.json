@@ -22,5 +22,6 @@
       }
     ]
   },
-  "include": ["**.ts", "../vite.config.d.ts"],
+  "include": ["**.ts", "../vite.config.d.ts", "**/**/*.ts"],
+  "exclude": ["node_modules", "packages"]
 }

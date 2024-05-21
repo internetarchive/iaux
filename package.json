@@ -8,11 +8,12 @@
   "license": "AGPL-3.0-only",
   "author": "Internet Archive",
   "version": "0.0.0",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "index.js",
+  "module": "index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prepack": "npmignore --auto",
-    "start": "tsc && npm run copy-js-into-dist && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
     "copy-js-into-dist": "mkdir -p dist/src/icons && cp -r src/icons dist/src/icons/",
     "prepare": "rimraf dist && tsc && husky install",
     "build": "tsc",
@@ -26,7 +27,6 @@
     "ghpages:prepare": "yarn run ghpages:build && touch ghpages/.nojekyll && yarn run ghpages:generate",
     "ghpages:generate": "gh-pages -t -d ghpages -m \"Build for $(git log --pretty=format:\"%h %an %ai %s\" -n1) [skip ci]\""
   },
-  "types": "dist/index.d.ts",
   "devDependencies": {
     "@open-wc/eslint-config": "^9.0.0",
     "@open-wc/testing": "^4.0.0",
