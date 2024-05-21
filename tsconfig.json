@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    // "allowJs": true,
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "lib": ["es2017", "dom"],
+    "strict": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "rootDir": "./",
+    "declaration": true,
+    "importsNotUsedAsValues": "error",
+    "plugins": [
+      {
+        "name": "ts-lit-plugin"
+      }
+    ]
+  },
+  "include": ["**.ts", "../vite.config.d.ts"],
+}
