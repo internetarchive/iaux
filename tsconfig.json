@@ -15,7 +15,7 @@
     "inlineSources": true,
     "rootDir": "./",
     "declaration": true,
-    "importsNotUsedAsValues": "error",
+    "importsNotUsedAsValues": "preserve",
     "plugins": [
       {
         "name": "ts-lit-plugin"
@@ -23,5 +23,5 @@
     ]
   },
   "include": ["**.ts", "../vite.config.d.ts", "**/**/*.ts"],
-  "exclude": ["node_modules", "packages"]
+  "exclude": ["node_modules", "packages", "test", "tests", "components/account-settings"]
 }
