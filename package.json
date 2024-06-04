@@ -14,9 +14,9 @@
   "scripts": {
     "prepack": "npmignore --auto",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "copy-js-into-dist": "mkdir -p dist/src/icons && cp -r src/icons dist/src/icons/",
     "prepare": "rimraf dist && tsc && husky install",
     "build": "tsc",
+    "clean-ts": "tsc --build --clean",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "circular": "madge --circular --extensions ts .",
