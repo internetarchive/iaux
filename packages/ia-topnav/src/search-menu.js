@@ -30,36 +30,33 @@ class SearchMenu extends TrackedElement {
   }
 
   firstUpdated() {
-    this.shadowRoot.addEventListener('keydown', (e) => {
-      const searchTypes = this.shadowRoot.querySelectorAll('.search-menu-inner label input[type=radio]');
-      const length = searchTypes.length - 1;
-
-      // Prevent the default scrolling behavior for Home and End keys
-      if (e.key === 'Home' || e.key === 'End') {
-        e.preventDefault();
-      }
-
-      // early return if searchTypes not found
-      if (!length) return;
-
-      const searchTypeHandler = (index) => {
-        const searchType = searchTypes[index];
-        searchType.checked = true;
-        searchType.dispatchEvent(new Event('change'));
-        searchType.focus();
-      };
-
-      if (e.key === 'Home') {
-        searchTypeHandler(0);
-      } else if (e.key === 'End') {
-        searchTypeHandler(length);
-      }
-    });
+    this.shadowRoot.addEventListener('keydown', e => this.handleKeyDownEvent(e));
   }
 
   disconnectedCallback() {
     // Clean up event listener when the element is removed
-    this.shadowRoot.removeEventListener('keydown');
+    this.shadowRoot.removeEventListener('keydown', e => this.handleKeyDownEvent(e));
+  }
+
+  handleKeyDownEvent(e) {
+    const searchTypes = this.shadowRoot.querySelectorAll('.search-menu-inner label input[type=radio]');
+
+    const length = searchTypes.length - 1;
+    if (!length) return;
+
+    const searchTypeHandler = (index) => {
+      e.preventDefault();
+      const searchType = searchTypes[index];
+      searchType.checked = true;
+      searchType.dispatchEvent(new Event('change'));
+      searchType.focus();
+    };
+
+    if (e.key === 'Home') {
+      searchTypeHandler(0);
+    } else if (e.key === 'End') {
+      searchTypeHandler(length);
+    }
   }
 
   selectSearchType(e) {
