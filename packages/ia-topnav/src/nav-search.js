@@ -98,7 +98,19 @@ class NavSearch extends TrackedElement {
             class="search-field"
             placeholder="Search"
             autocomplete="off"
+            tabindex="2"
             @focus=${this.toggleSearchMenu}
+            @blur=${(e) => {
+              if (e.relatedTarget?.tagName !== 'SEARCH-MENU') {
+                this.dispatchEvent(new CustomEvent('menuToggled', {
+                  detail: {
+                    menuName: 'search'
+                  },
+                  composed: true,
+                  bubbles: true,
+                }));
+              }
+            }}
             value=${this.searchQuery || ''}
           />
           ${this.searchInsideInput}

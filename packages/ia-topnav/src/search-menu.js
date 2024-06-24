@@ -30,9 +30,14 @@ class SearchMenu extends TrackedElement {
   }
 
   firstUpdated() {
-    this.shadowRoot.addEventListener('keyup', (e) => {
+    this.shadowRoot.addEventListener('keydown', (e) => {
       const searchTypes = this.shadowRoot.querySelectorAll('.search-menu-inner label input[type=radio]');
       const length = searchTypes.length - 1;
+
+      // Prevent the default scrolling behavior for Home and End keys
+      if (e.key === 'Home' || e.key === 'End') {
+        e.preventDefault();
+      }
 
       // early return if searchTypes not found
       if (!length) return;
@@ -50,6 +55,11 @@ class SearchMenu extends TrackedElement {
         searchTypeHandler(length);
       }
     });
+  }
+
+  disconnectedCallback() {
+    // Clean up event listener when the element is removed
+    this.shadowRoot.removeEventListener('keydown');
   }
 
   selectSearchType(e) {

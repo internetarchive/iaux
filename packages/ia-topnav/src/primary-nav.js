@@ -87,6 +87,7 @@ class PrimaryNav extends TrackedElement {
       <button
         class="user-menu ${userMenuClass}"
         title="${userMenuToolTip}"
+        tabindex="-1"
         @click="${this.toggleUserMenu}"
         data-event-click-tracking="${this.config.eventCategory}|NavUserMenu"
       >
@@ -106,8 +107,8 @@ class PrimaryNav extends TrackedElement {
         .config=${this.config}
         .dropdownOpen=${this.signedOutMenuOpen}
         .openMenu=${this.openMenu}
-        @signedOutMenuToggled=${this.signedOutMenuToggled}
         tabindex="-1"
+        @signedOutMenuToggled=${this.signedOutMenuToggled}
       ></login-button>
     `;
   }
@@ -156,12 +157,7 @@ class PrimaryNav extends TrackedElement {
     return html`
       <a href="${formatUrl('/create', this.baseHost)}"
         class="upload"
-        tabindex="1"
-        @focus=${(e) => {
-          if (e.relatedTarget !== null) {
-            this.toggleSearchMenu(e)
-          }
-        }}>
+        tabindex="1">
       ${icons.upload}
       <span>Upload</span>
     </a>`;
