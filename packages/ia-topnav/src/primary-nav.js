@@ -157,7 +157,9 @@ class PrimaryNav extends TrackedElement {
     return html`
       <a href="${formatUrl('/create', this.baseHost)}"
         class="upload"
-        tabindex="1">
+        tabindex="1"
+        @focus=${this.toggleMediaMenu}
+      >
       ${icons.upload}
       <span>Upload</span>
     </a>`;
