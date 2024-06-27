@@ -50,7 +50,7 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         },
         {
           title: 'This Just In',
-          url: `${prefix}/search.php?query=mediatype:audio&sort=-publicdate`,
+          url: `${prefix}/search?query=mediatype:audio&sort=-publicdate`,
         },
         {
           title: 'Grateful Dead',
@@ -121,7 +121,7 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         },
         {
           title: 'This Just In',
-          url: `${prefix}/search.php?query=mediatype:image&sort=-publicdate`,
+          url: `${prefix}/search?query=mediatype:image&sort=-publicdate`,
         },
         {
           title: 'Flickr Commons',
@@ -214,7 +214,7 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         },
         {
           title: 'This Just In',
-          url: `${prefix}/search.php?query=mediatype:software&sort=-publicdate`,
+          url: `${prefix}/search?query=mediatype:software&sort=-publicdate`,
         },
         {
           title: 'Old School Emulation',
@@ -317,7 +317,7 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         },
         {
           title: 'This Just In',
-          url: `${prefix}/search.php?query=mediatype:texts&sort=-publicdate`,
+          url: `${prefix}/search?query=mediatype:texts&sort=-publicdate`,
         },
         {
           title: 'Smithsonian Libraries',
@@ -445,7 +445,7 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         },
         {
           title: 'This Just In',
-          url: `${prefix}/search.php?query=mediatype:movies&sort=-publicdate`,
+          url: `${prefix}/search?query=mediatype:movies&sort=-publicdate`,
         },
         {
           title: 'Prelinger Archives',
