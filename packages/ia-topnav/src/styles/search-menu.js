@@ -89,6 +89,8 @@ export default css`
 
     label {
       padding: 0;
+      font-weight: normal;
+      margin: 0;
     }
 
     label + label {
