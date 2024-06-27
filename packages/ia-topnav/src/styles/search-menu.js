@@ -43,6 +43,9 @@ export default css`
   .advanced-search {
     text-decoration: none;
     color: var(--linkColor);
+    line-height: normal;
+    padding: 0.5rem;
+    margin-top: 5px;
   }
 
   @media (min-width: 890px) {
@@ -86,6 +89,8 @@ export default css`
 
     label {
       padding: 0;
+      font-weight: normal;
+      margin: 0;
     }
 
     label + label {

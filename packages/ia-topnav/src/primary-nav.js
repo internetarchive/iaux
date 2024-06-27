@@ -87,6 +87,7 @@ class PrimaryNav extends TrackedElement {
       <button
         class="user-menu ${userMenuClass}"
         title="${userMenuToolTip}"
+        tabindex="-1"
         @click="${this.toggleUserMenu}"
         data-event-click-tracking="${this.config.eventCategory}|NavUserMenu"
       >
@@ -106,6 +107,7 @@ class PrimaryNav extends TrackedElement {
         .config=${this.config}
         .dropdownOpen=${this.signedOutMenuOpen}
         .openMenu=${this.openMenu}
+        tabindex="-1"
         @signedOutMenuToggled=${this.signedOutMenuToggled}
       ></login-button>
     `;
@@ -152,7 +154,12 @@ class PrimaryNav extends TrackedElement {
   }
 
   get uploadButtonTemplate() {
-    return html`<a href="${formatUrl('/create', this.baseHost)}" class="upload">
+    return html`
+      <a href="${formatUrl('/create', this.baseHost)}"
+        class="upload"
+        tabindex="1"
+        @focus=${this.toggleMediaMenu}
+      >
       ${icons.upload}
       <span>Upload</span>
     </a>`;
@@ -188,6 +195,7 @@ class PrimaryNav extends TrackedElement {
             data-event-click-tracking="${this.config.eventCategory}|NavHome"
             title="Go home"
             class="link-home"
+            tabindex="-1"
             >${icons.iaLogo}${logoWordmarkStacked}</a
           >
           ${this.secondLogoSlot}

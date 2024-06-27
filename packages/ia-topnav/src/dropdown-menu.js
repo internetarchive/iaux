@@ -57,6 +57,7 @@ class DropdownMenu extends TrackedElement {
     return html`<a
       href="${formatUrl(link.url, this.baseHost)}"
       class="${link.class}"
+      tabindex="${this.open ? '' : '-1'}"
       @click=${this.trackClick}
       data-event-click-tracking="${this.config.eventCategory}|Nav${link.analyticsEvent}"
       aria-label=${calloutText ? `New feature: ${link.title}` : nothing}>

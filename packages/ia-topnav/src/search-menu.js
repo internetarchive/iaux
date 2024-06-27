@@ -29,6 +29,36 @@ class SearchMenu extends TrackedElement {
     this.selectedSearchType = '';
   }
 
+  firstUpdated() {
+    this.shadowRoot.addEventListener('keydown', e => this.handleKeyDownEvent(e));
+  }
+
+  disconnectedCallback() {
+    // Clean up event listener when the element is removed
+    this.shadowRoot.removeEventListener('keydown', e => this.handleKeyDownEvent(e));
+  }
+
+  handleKeyDownEvent(e) {
+    const searchTypes = this.shadowRoot.querySelectorAll('.search-menu-inner label input[type=radio]');
+
+    const length = searchTypes.length - 1;
+    if (!length) return;
+
+    const searchTypeHandler = (index) => {
+      e.preventDefault();
+      const searchType = searchTypes[index];
+      searchType.checked = true;
+      searchType.dispatchEvent(new Event('change'));
+      searchType.focus();
+    };
+
+    if (e.key === 'Home') {
+      searchTypeHandler(0);
+    } else if (e.key === 'End') {
+      searchTypeHandler(length);
+    }
+  }
+
   selectSearchType(e) {
     this.selectedSearchType = e.target.value;
   }
@@ -70,7 +100,7 @@ class SearchMenu extends TrackedElement {
       }
       return html`
         <label @click="${this.selectSearchType}">
-          <input form="nav-search" type="radio" name="sin" value="${value}" ?checked=${isDefault} @change=${this.searchInChanged} />
+          <input tabindex="3" form="nav-search" type="radio" name="sin" value="${value}" ?checked=${isDefault} @change=${this.searchInChanged} />
           Search ${label}
         </label>
       `;
@@ -104,6 +134,7 @@ class SearchMenu extends TrackedElement {
             href="${formatUrl('/advancedsearch.php', this.baseHost)}"
             @click=${this.trackClick}
             data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch"
+            tabindex="4"
             >Advanced Search</a
           >
         </div>

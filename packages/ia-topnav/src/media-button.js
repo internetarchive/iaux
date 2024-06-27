@@ -103,6 +103,7 @@ class MediaButton extends TrackedElement {
         @click=${this.followable ? this.trackClick : this.onClick}
         data-event-click-tracking="${this.analyticsEvent}"
         title="${this.tooltipPrefix} ${this.mediatype} menu"
+        tabindex="${this.openMenu === 'media' ? '' : '-1'}"
       >
         ${this.menuItem}
       </a>

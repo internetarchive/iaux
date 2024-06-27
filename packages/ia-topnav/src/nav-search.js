@@ -34,13 +34,6 @@ class NavSearch extends TrackedElement {
     this.initSearchBetaOptIn();
   }
 
-  updated() {
-    if (this.open) {
-      this.shadowRoot.querySelector('[name=query]').focus();
-    }
-    return true;
-  }
-
   initSearchBetaOptIn() {
     this.inSearchBeta = !!window.localStorage?.getItem('SearchBeta-opt-in') ||
       !!window.localStorage?.getItem('SearchBeta-launched');
@@ -105,13 +98,15 @@ class NavSearch extends TrackedElement {
             class="search-field"
             placeholder="Search"
             autocomplete="off"
-            @focus=${this.toggleSearchMenu}
+            tabindex="2"
             value=${this.searchQuery || ''}
+            @focus=${this.toggleSearchMenu}
           />
           ${this.searchInsideInput}
           <button
             type="submit"
             class="search"
+            tabindex="-1"
             data-event-click-tracking="${this.config.eventCategory}|NavSearchClose"
           >
             ${icons.search}

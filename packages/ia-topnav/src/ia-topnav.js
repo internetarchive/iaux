@@ -305,6 +305,7 @@ export default class IATopNav extends LitElement {
       <desktop-subnav
         .baseHost=${this.baseHost}
         .menuItems=${this.desktopSubnavMenuItems}
+        @focus=${this.closeMenus}
       ></desktop-subnav>
       <div id="close-layer" class="${this.closeLayerClass}" @click=${this.closeMenus}></div>
     `;
