@@ -29,9 +29,6 @@ class NavSearch extends TrackedElement {
     this.open = false;
     this.openMenu = '';
     this.searchIn = '';
-    this.inSearchBeta = false;
-
-    this.initSearchBetaOptIn();
   }
 
   updated() {
@@ -39,11 +36,6 @@ class NavSearch extends TrackedElement {
       this.shadowRoot.querySelector('[name=query]').focus();
     }
     return true;
-  }
-
-  initSearchBetaOptIn() {
-    this.inSearchBeta = !!window.localStorage?.getItem('SearchBeta-opt-in') ||
-      !!window.localStorage?.getItem('SearchBeta-launched');
   }
 
   search(e) {
@@ -83,7 +75,7 @@ class NavSearch extends TrackedElement {
   }
 
   get searchEndpoint() {
-    return this.inSearchBeta ? '/search' : '/search.php';
+    return '/search';
   }
 
   render() {
