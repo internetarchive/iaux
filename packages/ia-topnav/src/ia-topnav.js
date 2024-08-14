@@ -62,6 +62,7 @@ export default class IATopNav extends LitElement {
       username: { type: String },
       userProfileImagePath: { type: String },
       secondIdentitySlotMode: { type: String },
+      currentTab: { type: Object },
     };
   }
 
@@ -77,11 +78,12 @@ export default class IATopNav extends LitElement {
     this.searchIn = '';
     this.selectedMenuOption = '';
     this.secondIdentitySlotMode = '';
+    this.currentTab = {};
   }
 
   updated(props) {
     if (props.has('username') || props.has('localLinks') || props.has('baseHost') ||
-        props.has('waybackPagesArchived') || props.has('itemIdentifier')) {
+      props.has('waybackPagesArchived') || props.has('itemIdentifier')) {
       this.menuSetup();
     }
   }
@@ -199,6 +201,7 @@ export default class IATopNav extends LitElement {
         tabindex="${this.userMenuTabIndex}"
         @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
+        @moveFocusToOthers=${(e) => this.currentTab = e.detail}
       ></user-menu>
     `;
   }
@@ -274,6 +277,7 @@ export default class IATopNav extends LitElement {
           .selectedMenuOption=${this.selectedMenuOption}
           .username=${this.username}
           .userProfileImagePath=${this.userProfileImagePath}
+          .currentTab=${this.currentTab}
           ?hideSearch=${this.hideSearch}
           @mediaTypeSelected=${this.mediaTypeSelected}
           @toggleSearchMenu=${this.toggleSearchMenu}
@@ -289,6 +293,8 @@ export default class IATopNav extends LitElement {
           .selectedMenuOption=${this.selectedMenuOption}
           .mediaSliderOpen=${this.mediaSliderOpen}
           .menus=${this.menus}
+          tabindex="${this.mediaSliderOpen ? '1' : ''}"
+          @moveFocusToOthers=${(e) => this.currentTab = e.detail}
         ></media-slider>
       </div>
       ${this.username ? this.userMenu : this.signedOutDropdown}

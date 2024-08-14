@@ -67,6 +67,7 @@ class MediaMenu extends LitElement {
       config: { type: Object },
       openMenu: { type: String },
       selectedMenuOption: { type: String },
+      currentTab: { type: Object },
     };
   }
 
@@ -75,6 +76,25 @@ class MediaMenu extends LitElement {
     this.config = {};
     this.openMenu = '';
     this.selectedMenuOption = '';
+    this.currentTab = {};
+  }
+
+  updated(props) {
+    if (props.has('currentTab')) {
+      const mediaButtons = Array.from(this.shadowRoot.querySelectorAll('media-button'));
+
+      mediaButtons.map((button, index) => {
+        const linkItem = button.shadowRoot.querySelector('a.menu-item');
+        if (linkItem) {
+          if (linkItem.classList.contains(`${this.selectedMenuOption}`)) {
+            linkItem.classList.remove('selected');
+            linkItem.blur();
+
+            mediaButtons[this.currentTab.moveTo === 'next' ? index + 1 : index - 1].shadowRoot.querySelector('a.menu-item').focus();
+          }
+        }
+      });
+    }
   }
 
   get mediaMenuOptionsTemplate() {
@@ -96,6 +116,7 @@ class MediaMenu extends LitElement {
           .mediatype=${menu}
           .openMenu=${this.openMenu}
           .selected=${selected}
+          .selectedMenuOption=${this.selectedMenuOption}
           data-mediatype="${menu}"
         ></media-button>
       `;
@@ -117,7 +138,6 @@ class MediaMenu extends LitElement {
         <div class="overflow-clip">
           <nav
             class="media-menu-inner"
-            aria-hidden="${!this.menuOpened}"
             aria-expanded="${this.menuOpened}"
           >
             <div class="menu-group">

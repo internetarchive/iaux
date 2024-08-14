@@ -92,6 +92,7 @@ export default css`
 
   @media (min-width: 890px) {
     nav {
+      display: flex;
       overflow: visible;
       top: 0;
       left: auto;
@@ -146,6 +147,7 @@ export default css`
     a:focus {
       color: var(--linkHoverColor);
       background: var(--linkColor);
+      outline: none;
     }
 
     .initial,

@@ -9,8 +9,7 @@ export default css`
 
   nav {
     position: relative;
-    display: -ms-grid;
-    display: grid;
+    display: flex;
     height: 4rem;
     grid-template-areas: 'hamburger empty heart search user';
     -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4rem 4rem;
@@ -29,6 +28,7 @@ export default css`
 
   .right-side-section {
     display: flex;
+    margin-left: auto;
     user-select: none;
   }
   button {
@@ -86,6 +86,9 @@ export default css`
     fill: var(--activeColor);
   }
 
+  .mobile-donate-link {
+    display: inline-block;
+  }
   .mobile-donate-link svg {
     height: 4rem;
     width: 4rem;
@@ -151,7 +154,8 @@ export default css`
     height: 100%;
   }
 
-  .user-menu:hover {
+  .user-menu:hover,
+  .user-menu:focus {
     color: var(--linkHoverColor);
   }
 
@@ -187,6 +191,13 @@ export default css`
     slot[name='opt-sec-logo'] {
       display: none;
     }
+
+    .right-side-section {
+      display: initial;
+    }
+    .right-side-section .user-info {
+      float: right;
+    }
   }
 
   @media (min-width: 890px) {
@@ -195,12 +206,8 @@ export default css`
       --userIconHeight: 3.2rem;
     }
 
-    .right-side-section {
-      display: contents;
-    }
-
     nav {
-      display: block;
+      display: flex;
       z-index: 4;
       height: 5rem;
       padding-right: 1.5rem;

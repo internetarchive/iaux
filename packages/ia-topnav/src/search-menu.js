@@ -100,7 +100,7 @@ class SearchMenu extends TrackedElement {
       }
       return html`
         <label @click="${this.selectSearchType}">
-          <input tabindex="3" form="nav-search" type="radio" name="sin" value="${value}" ?checked=${isDefault} @change=${this.searchInChanged} />
+          <input form="nav-search" type="radio" name="sin" value="${value}" ?checked=${isDefault} @change=${this.searchInChanged} />
           Search ${label}
         </label>
       `;
@@ -134,7 +134,6 @@ class SearchMenu extends TrackedElement {
             href="${formatUrl('/advancedsearch.php', this.baseHost)}"
             @click=${this.trackClick}
             data-event-click-tracking="${this.config.eventCategory}|NavAdvancedSearch"
-            tabindex="4"
             >Advanced Search</a
           >
         </div>

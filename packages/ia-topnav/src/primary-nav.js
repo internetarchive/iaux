@@ -31,6 +31,7 @@ class PrimaryNav extends TrackedElement {
       userMenuOpen: { type: Boolean },
       username: { type: String },
       userProfileImagePath: { type: String },
+      currentTab: { type: Object },
     };
   }
 
@@ -44,6 +45,7 @@ class PrimaryNav extends TrackedElement {
     this.userMenuOpen = false;
     this.mediaBaseHost = 'https://archive.org';
     this.secondIdentitySlotMode = '';
+    this.currentTab = {};
   }
 
   toggleMediaMenu(e) {
@@ -79,6 +81,27 @@ class PrimaryNav extends TrackedElement {
     );
   }
 
+  updated(props) {
+    const { currentTab } = this;
+    console.log(currentTab)
+    const isUserMenuTab = currentTab && currentTab.mediatype === 'usermenu';
+    if (props.has('currentTab')) {
+      if (isUserMenuTab) {
+        console.log('inside-user-menu');
+        const focusElement = currentTab.moveTo === 'next'
+          ? this.shadowRoot.querySelector('a.upload')
+          : this.shadowRoot.querySelector('.user-menu');
+
+        if (focusElement) {
+          focusElement.focus();
+        }
+      } else if (this.currentTab.moveTo === 'next') {
+        console.log('inside-media-menu');
+        this.shadowRoot.querySelector('.user-menu').focus();
+      }
+    }
+  }
+
   get userIcon() {
     const userMenuClass = this.openMenu === 'user' ? 'active' : '';
     const userMenuToolTip = this.openMenu === 'user' ? 'Close user menu' : 'Expand user menu';
@@ -87,7 +110,6 @@ class PrimaryNav extends TrackedElement {
       <button
         class="user-menu ${userMenuClass}"
         title="${userMenuToolTip}"
-        tabindex="-1"
         @click="${this.toggleUserMenu}"
         data-event-click-tracking="${this.config.eventCategory}|NavUserMenu"
       >
@@ -107,7 +129,6 @@ class PrimaryNav extends TrackedElement {
         .config=${this.config}
         .dropdownOpen=${this.signedOutMenuOpen}
         .openMenu=${this.openMenu}
-        tabindex="-1"
         @signedOutMenuToggled=${this.signedOutMenuToggled}
       ></login-button>
     `;
@@ -157,7 +178,6 @@ class PrimaryNav extends TrackedElement {
     return html`
       <a href="${formatUrl('/create', this.baseHost)}"
         class="upload"
-        tabindex="1"
         @focus=${this.toggleMediaMenu}
       >
       ${icons.upload}
@@ -188,6 +208,15 @@ class PrimaryNav extends TrackedElement {
     const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
       <nav class=${this.hideSearch ? 'hide-search' : nothing}>
+        <button
+          class="hamburger"
+          @click="${this.toggleMediaMenu}"
+          data-event-click-tracking="${this.config.eventCategory}|NavHamburger"
+          title="Open main menu"
+        >
+          <icon-hamburger ?active=${this.openMenu === 'media'}></icon-hamburger>
+        </button>
+
         <div class=${`branding ${this.secondLogoClass}`}>
           <a
             href=${formatUrl('/', this.baseHost)}
@@ -200,30 +229,20 @@ class PrimaryNav extends TrackedElement {
           >
           ${this.secondLogoSlot}
         </div>
-
-        <div class="right-side-section">
-          ${this.mobileDonateHeart}
-          ${this.searchMenu}
-          ${this.uploadButtonTemplate}
-          ${this.userStateTemplate}
-        </div>
         <media-menu
           .baseHost=${this.baseHost}
           .config=${this.config}
           ?mediaMenuAnimate="${this.mediaMenuAnimate}"
-          tabindex="${mediaMenuTabIndex}"
           .selectedMenuOption=${this.selectedMenuOption}
           .openMenu=${this.openMenu}
+          .currentTab=${this.currentTab}
         ></media-menu>
-        <button
-          class="hamburger"
-          @click="${this.toggleMediaMenu}"
-          tabindex="1"
-          data-event-click-tracking="${this.config.eventCategory}|NavHamburger"
-          title="Open main menu"
-        >
-          <icon-hamburger ?active=${this.openMenu === 'media'}></icon-hamburger>
-        </button>
+        <div class="right-side-section">
+          ${this.mobileDonateHeart}
+          ${this.userStateTemplate}
+          ${this.uploadButtonTemplate}
+          ${this.searchMenu}
+        </div>
       </nav>
     `;
   }

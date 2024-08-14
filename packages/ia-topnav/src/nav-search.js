@@ -98,7 +98,6 @@ class NavSearch extends TrackedElement {
             class="search-field"
             placeholder="Search"
             autocomplete="off"
-            tabindex="2"
             value=${this.searchQuery || ''}
             @focus=${this.toggleSearchMenu}
           />
