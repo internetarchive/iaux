@@ -83,11 +83,9 @@ class PrimaryNav extends TrackedElement {
 
   updated(props) {
     const { currentTab } = this;
-    console.log(currentTab)
     const isUserMenuTab = currentTab && currentTab.mediatype === 'usermenu';
     if (props.has('currentTab')) {
       if (isUserMenuTab) {
-        console.log('inside-user-menu');
         const focusElement = currentTab.moveTo === 'next'
           ? this.shadowRoot.querySelector('a.upload')
           : this.shadowRoot.querySelector('.user-menu');
@@ -96,7 +94,6 @@ class PrimaryNav extends TrackedElement {
           focusElement.focus();
         }
       } else if (this.currentTab.moveTo === 'next') {
-        console.log('inside-media-menu');
         this.shadowRoot.querySelector('.user-menu').focus();
       }
     }
@@ -224,7 +221,6 @@ class PrimaryNav extends TrackedElement {
             data-event-click-tracking="${this.config.eventCategory}|NavHome"
             title="Go home"
             class="link-home"
-            tabindex="-1"
             >${icons.iaLogo}${logoWordmarkStacked}</a
           >
           ${this.secondLogoSlot}

@@ -1,6 +1,3 @@
-
-
-
 export default class KeyboardNavigation {
   /**
    * Constructor for the KeyboardNavigation class.
@@ -30,17 +27,19 @@ export default class KeyboardNavigation {
    * @returns {HTMLElement[]} An array of focusable elements.
    */
   getFocusableElements() {
-    const focusableTagSelectors = 'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])';
+    const focusableTagSelectors = 'a[href], button, input, [tabindex]:not([tabindex="-1"])';
     const isDisabledOrHidden = el => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden');
 
     let elements;
     if (this.menuOption === 'web') {
+      // wayback focusable elements
       const waybackSlider = this.elementsContainer.querySelector('wayback-slider').shadowRoot;
       const waybackSearch = waybackSlider.querySelector('wayback-search');
       const waybackSearchElements = Array.from(waybackSearch.shadowRoot.querySelectorAll(focusableTagSelectors));
 
       const normalElements = Array.from(waybackSlider.querySelectorAll(focusableTagSelectors));
 
+      // wayback save-form focusable elements
       const savePageForm = waybackSlider.querySelector('save-page-form');
       const savePageFormElements = Array.from(savePageForm.shadowRoot.querySelectorAll(focusableTagSelectors));
 
@@ -101,7 +100,6 @@ export default class KeyboardNavigation {
    * @param {KeyboardEvent} event - The keyboard event object.
    */
   handleTabKey(event) {
-    console.log(this)
     if (this.menuOption) {
       const isShiftPressed = event.shiftKey;
       this.focusNextMenuItem(isShiftPressed);
@@ -117,7 +115,7 @@ export default class KeyboardNavigation {
    */
   focusNextMenuItem(isPrevious = false) {
     this.elementsContainer.dispatchEvent(
-      new CustomEvent('moveFocusToOthers', {
+      new CustomEvent('focusToNext', {
         bubbles: true,
         composed: true,
         detail: {

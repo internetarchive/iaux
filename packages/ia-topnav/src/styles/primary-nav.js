@@ -2,7 +2,6 @@ import { css } from 'https://offshoot.prod.archive.org/lit.js';
 
 export default css`
   button:focus,
-  a:focus,
   input:focus {
     outline: none;
   }
@@ -157,6 +156,7 @@ export default css`
   .user-menu:hover,
   .user-menu:focus {
     color: var(--linkHoverColor);
+    outline: none;
   }
 
   .user-menu.active {
@@ -173,6 +173,10 @@ export default css`
   .link-home {
     text-decoration: none;
     display: inline-flex;
+  }
+  a.link-home:focus,
+  a.link-home:focus-visible {
+    outline-offset: 1px;
   }
 
   @media only screen and (min-width: 890px) and (max-device-width: 905px) {
@@ -215,10 +219,6 @@ export default css`
 
     slot[name='opt-sec-logo-mobile'] {
       display: none;
-    }
-
-    .branding {
-      margin-top: 1rem;
     }
 
     .ia-logo,
@@ -271,6 +271,9 @@ export default css`
     .upload:focus,
     .upload:hover {
       color: var(--linkHoverColor);
+    }
+    .upload:focus-visible {
+      outline: none;
     }
 
     .upload svg {

@@ -201,7 +201,7 @@ export default class IATopNav extends LitElement {
         tabindex="${this.userMenuTabIndex}"
         @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
-        @moveFocusToOthers=${(e) => this.currentTab = e.detail}
+        @focusToNext=${(e) => this.currentTab = e.detail}
       ></user-menu>
     `;
   }
@@ -293,8 +293,8 @@ export default class IATopNav extends LitElement {
           .selectedMenuOption=${this.selectedMenuOption}
           .mediaSliderOpen=${this.mediaSliderOpen}
           .menus=${this.menus}
-          tabindex="${this.mediaSliderOpen ? '1' : ''}"
-          @moveFocusToOthers=${(e) => this.currentTab = e.detail}
+          tabindex="${this.mediaSliderOpen ? '1' : '-1'}"
+          @focusToNext=${(e) => this.currentTab = e.detail}
         ></media-slider>
       </div>
       ${this.username ? this.userMenu : this.signedOutDropdown}
