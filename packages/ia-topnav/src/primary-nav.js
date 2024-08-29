@@ -86,9 +86,14 @@ class PrimaryNav extends TrackedElement {
     const isUserMenuTab = currentTab && currentTab.mediatype === 'usermenu';
     if (props.has('currentTab')) {
       if (isUserMenuTab) {
+        const mediaButtons = Array.from(this.shadowRoot.querySelector('media-menu').shadowRoot.querySelectorAll('media-button'));
+        const lastMediaButton = mediaButtons.filter(element => {
+          return element.shadowRoot.querySelector('a').classList.contains('images')
+        });
+
         const focusElement = currentTab.moveTo === 'next'
           ? this.shadowRoot.querySelector('a.upload')
-          : this.shadowRoot.querySelector('.user-menu');
+          : lastMediaButton[0]?.shadowRoot.querySelector('a.menu-item');
 
         if (focusElement) {
           focusElement.focus();
