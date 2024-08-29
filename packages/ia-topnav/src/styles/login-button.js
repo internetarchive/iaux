@@ -42,6 +42,7 @@ export default css`
   span a {
     color: inherit;
     text-decoration: none;
+    outline: 0;
   }
 
   a:hover,

@@ -99,7 +99,11 @@ class PrimaryNav extends TrackedElement {
           focusElement.focus();
         }
       } else if (this.currentTab.moveTo === 'next') {
-        this.shadowRoot.querySelector('.user-menu').focus();
+        if (this.shadowRoot.querySelector('.user-menu')) {
+          this.shadowRoot.querySelector('.user-menu').focus();
+        } else {
+          this.shadowRoot.querySelector('login-button').shadowRoot.querySelectorAll('span a')[0]?.focus();
+        }
       }
     }
   }
