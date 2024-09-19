@@ -91,7 +91,10 @@ export default class IATopNav extends LitElement {
   firstUpdated() {
     // close open menu on `esc` click 
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') this.closeMenus();
+      if (e.key === 'Escape') {
+        this.openMenu = '';
+        this.mediaSliderOpen = false;
+      }
     }, false);
   }
 
@@ -201,7 +204,7 @@ export default class IATopNav extends LitElement {
         tabindex="${this.userMenuTabIndex}"
         @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
-        @focusToNext=${(e) => this.currentTab = e.detail}
+        @focusToOtherMenuItem=${(e) => this.currentTab = e.detail}
       ></user-menu>
     `;
   }
@@ -294,7 +297,7 @@ export default class IATopNav extends LitElement {
           .mediaSliderOpen=${this.mediaSliderOpen}
           .menus=${this.menus}
           tabindex="${this.mediaSliderOpen ? '1' : '-1'}"
-          @focusToNext=${(e) => this.currentTab = e.detail}
+          @focusToOtherMenuItem=${(e) => this.currentTab = e.detail}
         ></media-slider>
       </div>
       ${this.username ? this.userMenu : this.signedOutDropdown}

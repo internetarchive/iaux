@@ -153,8 +153,8 @@ export default css`
     height: 100%;
   }
 
-  .user-menu:hover,
-  .user-menu:focus {
+  button.user-menu:hover,
+  button.user-menu:focus {
     color: var(--linkHoverColor);
     outline: none;
   }

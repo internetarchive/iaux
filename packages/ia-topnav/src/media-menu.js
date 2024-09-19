@@ -90,7 +90,8 @@ class MediaMenu extends LitElement {
             linkItem.classList.remove('selected');
             linkItem.blur();
 
-            mediaButtons[this.currentTab.moveTo === 'next' ? index + 1 : index - 1].shadowRoot.querySelector('a.menu-item').focus();
+            const newFocusIndex = this.currentTab.moveTo === 'next' ? index + 1 : index - 1;
+            mediaButtons[newFocusIndex].shadowRoot.querySelector('a.menu-item').focus();
           }
         }
       });

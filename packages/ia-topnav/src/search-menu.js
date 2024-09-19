@@ -114,7 +114,7 @@ class SearchMenu extends TrackedElement {
   }
 
   render() {
-    const searchMenuHidden = Boolean(!this.searchMenuOpen).toString();
+    const searchMenuHidden = Boolean(!this.openMenu).toString();
     const searchMenuExpanded = Boolean(this.searchMenuOpen).toString();
 
     if (this.hideSearch) {

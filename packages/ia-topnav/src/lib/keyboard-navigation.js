@@ -69,7 +69,7 @@ export default class KeyboardNavigation {
   }
 
   /**
-   * Handles arrow key events and focuses the next or previous element.
+   * Handles arrow key events and focuses the next or previous element for topnav sub-nav and usermenu
    * @param {string} key - The key that was pressed ('ArrowDown', 'ArrowRight', 'ArrowUp', or 'ArrowLeft').
    */
   handleArrowKey(key) {
@@ -102,7 +102,7 @@ export default class KeyboardNavigation {
   handleTabKey(event) {
     if (this.menuOption) {
       const isShiftPressed = event.shiftKey;
-      this.focusNextMenuItem(isShiftPressed);
+      this.focusToOtherMenuItems(isShiftPressed);
     }
 
     this.focusableElements[this.focusedIndex]?.blur();
@@ -110,12 +110,12 @@ export default class KeyboardNavigation {
   }
 
   /**
-   * Focuses the next or previous menu item based on the provided flag.
+   * Focuses the other parent menu items based on the provided flag.
    * @param {boolean} isPrevious - A flag indicating whether to focus the previous menu item.
    */
-  focusNextMenuItem(isPrevious = false) {
+  focusToOtherMenuItems(isPrevious = false) {
     this.elementsContainer.dispatchEvent(
-      new CustomEvent('focusToNext', {
+      new CustomEvent('focusToOtherMenuItem', {
         bubbles: true,
         composed: true,
         detail: {

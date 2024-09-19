@@ -10,6 +10,7 @@ export default css`
     outline-color: var(--linkColor);
     outline-width: 0.16rem;
     outline-style: auto;
+    outline-offset: 2px;
   }
   .search-menu-inner {
     position: absolute;
