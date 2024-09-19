@@ -15,7 +15,7 @@ const menuSelection = [
     icon: 'texts',
     menu: 'texts',
     href: '/details/texts',
-    label: 'Books',
+    label: 'Texts',
   },
   {
     icon: 'video',

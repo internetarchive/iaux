@@ -293,24 +293,20 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
       ],
     },
     texts: {
-      heading: 'Books',
+      heading: 'Texts',
       iconLinks: [
-        {
-          title: 'Books to Borrow',
-          icon: `${prefix}/images/book-lend.png`,
-          url: `${prefix}/details/inlibrary`,
-        },
         {
           title: 'Open Library',
           icon: `${prefix}/images/widgetOL.png`,
           url: 'https://openlibrary.org/',
         },
+        {
+          title: 'American Libraries',
+          icon: `${prefix}/services/img/americana`,
+          url: `${prefix}/details/americana`,
+        },
       ],
       featuredLinks: [
-        {
-          title: 'All Books',
-          url: `${prefix}/details/books`,
-        },
         {
           title: 'All Texts',
           url: `${prefix}/details/texts`,
