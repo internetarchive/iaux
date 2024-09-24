@@ -1,6 +1,7 @@
 import { html } from 'https://offshoot.prod.archive.org/lit.js';
 import DropdownMenu from './dropdown-menu.js';
 import userMenuCSS from './styles/user-menu.js';
+import KeyboardNavigation from './lib/keyboard-navigation.js';
 
 class UserMenu extends DropdownMenu {
   static get styles() {
@@ -19,6 +20,19 @@ class UserMenu extends DropdownMenu {
   constructor() {
     super();
     this.username = '';
+  }
+
+  updated(props) {
+    if (props.has('open') && this.open) {
+      const container = this.shadowRoot?.querySelector('.nav-container');
+
+      if (container) {
+        const keyboardNavigation = new KeyboardNavigation(container, 'usermenu');
+        this.addEventListener('keydown', keyboardNavigation.handleKeyDown);
+        this.removeEventListener('keydown', this.previousKeydownListener);
+        this.previousKeydownListener = keyboardNavigation.handleKeyDown;
+      }
+    }
   }
 
   render() {

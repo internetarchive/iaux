@@ -1,6 +1,7 @@
 import { LitElement, html } from 'https://offshoot.prod.archive.org/lit.js';
 import './media-subnav.js';
 import mediaSliderCSS from './styles/media-slider.js';
+import KeyboardNavigation from './lib/keyboard-navigation.js';
 
 class MediaSlider extends LitElement {
   static get styles() {
@@ -26,6 +27,19 @@ class MediaSlider extends LitElement {
     this.selectedMenuOption = 'texts';
   }
 
+  updated(props) {
+    if (props.has('selectedMenuOption') && this.selectedMenuOption) {
+      const container = this.shadowRoot?.querySelector('.has-focused')?.shadowRoot;
+  
+      if (container) {
+        const keyboardNavigation = new KeyboardNavigation(container, this.selectedMenuOption);
+        this.addEventListener('keydown', keyboardNavigation.handleKeyDown);
+        this.removeEventListener('keydown', this.previousKeydownListener);
+        this.previousKeydownListener = keyboardNavigation.handleKeyDown;
+      }
+    }
+  }
+
   shouldUpdate() {
     const scrollPane = this.shadowRoot ? this.shadowRoot.querySelector('.information-menu') : null;
 
@@ -47,49 +61,49 @@ class MediaSlider extends LitElement {
               <media-subnav
                 .baseHost=${this.baseHost}
                 .config=${this.config}
-                class="${this.selectedMenuOption === 'audio' ? '' : 'hidden'}"
+                class="${this.selectedMenuOption === 'audio' ? 'has-focused' : 'hidden'}"
                 menu="audio"
                 .menuItems=${this.menus.audio}
               ></media-subnav>
               <media-subnav
                 .baseHost=${this.baseHost}
                 .config=${this.config}
-                class="${this.selectedMenuOption === 'images' ? '' : 'hidden'}"
+                class="${this.selectedMenuOption === 'images' ? 'has-focused' : 'hidden'}"
                 menu="images"
                 .menuItems=${this.menus.images}
               ></media-subnav>
               <media-subnav
                 .baseHost=${this.baseHost}
                 .config=${this.config}
-                class="${this.selectedMenuOption === 'software' ? '' : 'hidden'}"
+                class="${this.selectedMenuOption === 'software' ? 'has-focused' : 'hidden'}"
                 menu="software"
                 .menuItems=${this.menus.software}
               ></media-subnav>
               <media-subnav
                 .baseHost=${this.baseHost}
                 .config=${this.config}
-                class="${this.selectedMenuOption === 'texts' ? '' : 'hidden'}"
+                class="${this.selectedMenuOption === 'texts' ? 'has-focused' : 'hidden'}"
                 menu="texts"
                 .menuItems=${this.menus.texts}
               ></media-subnav>
               <media-subnav
                 .baseHost=${this.baseHost}
                 .config=${this.config}
-                class="${this.selectedMenuOption === 'video' ? '' : 'hidden'}"
+                class="${this.selectedMenuOption === 'video' ? 'has-focused' : 'hidden'}"
                 menu="video"
                 .menuItems=${this.menus.video}
               ></media-subnav>
               <media-subnav
                 .baseHost=${this.baseHost}
                 .config=${this.config}
-                class="${this.selectedMenuOption === 'web' ? '' : 'hidden'}"
+                class="${this.selectedMenuOption === 'web' ? 'has-focused' : 'hidden'}"
                 menu="web"
                 .menuItems=${this.menus.web}
               ></media-subnav>
               <media-subnav
                 .baseHost=${this.baseHost}
                 .config=${this.config}
-                class="${this.selectedMenuOption === 'more' ? '' : 'hidden'}"
+                class="${this.selectedMenuOption === 'more' ? 'has-focused' : 'hidden'}"
                 menu="more"
                 .menuItems=${this.menus.more}
               ></media-subnav>

@@ -23,10 +23,6 @@ export default css`
 
   /* Mobile view styles */
   @media (max-width: 889px) {
-    .media-menu-container {
-      position: relative;
-    }
-
     .media-menu-inner {
       position: absolute;
       width: 100%;
@@ -39,7 +35,7 @@ export default css`
     .overflow-clip {
       position: absolute;
       z-index: -1; /** needs to be under the navigation, otherwise it intercepts clicks */
-      top: 0;
+      top: 4rem;
       left: 0;
       height: 0;
       width: 100%;

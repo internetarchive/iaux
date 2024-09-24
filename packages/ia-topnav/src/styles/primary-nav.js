@@ -2,15 +2,13 @@ import { css } from 'https://offshoot.prod.archive.org/lit.js';
 
 export default css`
   button:focus,
-  a:focus,
   input:focus {
     outline: none;
   }
 
   nav {
     position: relative;
-    display: -ms-grid;
-    display: grid;
+    display: flex;
     height: 4rem;
     grid-template-areas: 'hamburger empty heart search user';
     -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4rem 4rem;
@@ -29,6 +27,7 @@ export default css`
 
   .right-side-section {
     display: flex;
+    margin-left: auto;
     user-select: none;
   }
   button {
@@ -42,6 +41,7 @@ export default css`
   .branding {
     position: static;
     float: left;
+    margin: 0 !important;
     padding: 0 5px 0 10px;
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
@@ -86,6 +86,9 @@ export default css`
     fill: var(--activeColor);
   }
 
+  .mobile-donate-link {
+    display: inline-block;
+  }
   .mobile-donate-link svg {
     height: 4rem;
     width: 4rem;
@@ -151,8 +154,10 @@ export default css`
     height: 100%;
   }
 
-  .user-menu:hover {
+  button.user-menu:hover,
+  button.user-menu:focus {
     color: var(--linkHoverColor);
+    outline: none;
   }
 
   .user-menu.active {
@@ -169,6 +174,10 @@ export default css`
   .link-home {
     text-decoration: none;
     display: inline-flex;
+  }
+  a.link-home:focus,
+  a.link-home:focus-visible {
+    outline-offset: 1px;
   }
 
   @media only screen and (min-width: 890px) and (max-device-width: 905px) {
@@ -187,6 +196,13 @@ export default css`
     slot[name='opt-sec-logo'] {
       display: none;
     }
+
+    .right-side-section {
+      display: initial;
+    }
+    .right-side-section .user-info {
+      float: right;
+    }
   }
 
   @media (min-width: 890px) {
@@ -195,12 +211,8 @@ export default css`
       --userIconHeight: 3.2rem;
     }
 
-    .right-side-section {
-      display: contents;
-    }
-
     nav {
-      display: block;
+      display: flex;
       z-index: 4;
       height: 5rem;
       padding-right: 1.5rem;
@@ -208,10 +220,6 @@ export default css`
 
     slot[name='opt-sec-logo-mobile'] {
       display: none;
-    }
-
-    .branding {
-      margin-top: 1rem;
     }
 
     .ia-logo,
@@ -264,6 +272,9 @@ export default css`
     .upload:focus,
     .upload:hover {
       color: var(--linkHoverColor);
+    }
+    .upload:focus-visible {
+      outline: none;
     }
 
     .upload svg {

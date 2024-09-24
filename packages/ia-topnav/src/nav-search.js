@@ -25,17 +25,10 @@ class NavSearch extends TrackedElement {
   constructor() {
     super();
     this.config = {};
-    this.locationHandler = () => {};
+    this.locationHandler = () => { };
     this.open = false;
     this.openMenu = '';
     this.searchIn = '';
-  }
-
-  updated() {
-    if (this.open) {
-      this.shadowRoot.querySelector('[name=query]').focus();
-    }
-    return true;
   }
 
   search(e) {
@@ -97,13 +90,14 @@ class NavSearch extends TrackedElement {
             class="search-field"
             placeholder="Search"
             autocomplete="off"
-            @focus=${this.toggleSearchMenu}
             value=${this.searchQuery || ''}
+            @focus=${this.toggleSearchMenu}
           />
           ${this.searchInsideInput}
           <button
             type="submit"
             class="search"
+            tabindex="-1"
             data-event-click-tracking="${this.config.eventCategory}|NavSearchClose"
           >
             ${icons.search}

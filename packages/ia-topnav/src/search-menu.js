@@ -29,6 +29,36 @@ class SearchMenu extends TrackedElement {
     this.selectedSearchType = '';
   }
 
+  firstUpdated() {
+    this.shadowRoot.addEventListener('keydown', e => this.handleKeyDownEvent(e));
+  }
+
+  disconnectedCallback() {
+    // Clean up event listener when the element is removed
+    this.shadowRoot.removeEventListener('keydown', e => this.handleKeyDownEvent(e));
+  }
+
+  handleKeyDownEvent(e) {
+    const searchTypes = this.shadowRoot.querySelectorAll('.search-menu-inner label input[type=radio]');
+
+    const length = searchTypes.length - 1;
+    if (!length) return;
+
+    const searchTypeHandler = (index) => {
+      e.preventDefault();
+      const searchType = searchTypes[index];
+      searchType.checked = true;
+      searchType.dispatchEvent(new Event('change'));
+      searchType.focus();
+    };
+
+    if (e.key === 'Home') {
+      searchTypeHandler(0);
+    } else if (e.key === 'End') {
+      searchTypeHandler(length);
+    }
+  }
+
   selectSearchType(e) {
     this.selectedSearchType = e.target.value;
   }
@@ -84,7 +114,7 @@ class SearchMenu extends TrackedElement {
   }
 
   render() {
-    const searchMenuHidden = Boolean(!this.searchMenuOpen).toString();
+    const searchMenuHidden = Boolean(!this.openMenu).toString();
     const searchMenuExpanded = Boolean(this.searchMenuOpen).toString();
 
     if (this.hideSearch) {
