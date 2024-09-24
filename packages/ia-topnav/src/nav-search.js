@@ -25,18 +25,10 @@ class NavSearch extends TrackedElement {
   constructor() {
     super();
     this.config = {};
-    this.locationHandler = () => {};
+    this.locationHandler = () => { };
     this.open = false;
     this.openMenu = '';
     this.searchIn = '';
-    this.inSearchBeta = false;
-
-    this.initSearchBetaOptIn();
-  }
-
-  initSearchBetaOptIn() {
-    this.inSearchBeta = !!window.localStorage?.getItem('SearchBeta-opt-in') ||
-      !!window.localStorage?.getItem('SearchBeta-launched');
   }
 
   search(e) {
@@ -76,7 +68,7 @@ class NavSearch extends TrackedElement {
   }
 
   get searchEndpoint() {
-    return this.inSearchBeta ? '/search' : '/search.php';
+    return '/search';
   }
 
   render() {

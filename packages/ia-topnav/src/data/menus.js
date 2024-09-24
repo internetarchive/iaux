@@ -49,10 +49,6 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
           url: `${prefix}/details/audio`,
         },
         {
-          title: 'This Just In',
-          url: `${prefix}/search.php?query=mediatype:audio&sort=-publicdate`,
-        },
-        {
           title: 'Grateful Dead',
           url: `${prefix}/details/GratefulDead`,
         },
@@ -118,10 +114,6 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         {
           title: 'All Images',
           url: `${prefix}/details/image`,
-        },
-        {
-          title: 'This Just In',
-          url: `${prefix}/search.php?query=mediatype:image&sort=-publicdate`,
         },
         {
           title: 'Flickr Commons',
@@ -213,10 +205,6 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
           url: `${prefix}/details/software`,
         },
         {
-          title: 'This Just In',
-          url: `${prefix}/search.php?query=mediatype:software&sort=-publicdate`,
-        },
-        {
           title: 'Old School Emulation',
           url: `${prefix}/details/tosec`,
         },
@@ -293,31 +281,23 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
       ],
     },
     texts: {
-      heading: 'Books',
+      heading: 'Texts',
       iconLinks: [
-        {
-          title: 'Books to Borrow',
-          icon: `${prefix}/images/book-lend.png`,
-          url: `${prefix}/details/inlibrary`,
-        },
         {
           title: 'Open Library',
           icon: `${prefix}/images/widgetOL.png`,
           url: 'https://openlibrary.org/',
         },
+        {
+          title: 'American Libraries',
+          icon: `${prefix}/services/img/americana`,
+          url: `${prefix}/details/americana`,
+        },
       ],
       featuredLinks: [
         {
-          title: 'All Books',
-          url: `${prefix}/details/books`,
-        },
-        {
           title: 'All Texts',
           url: `${prefix}/details/texts`,
-        },
-        {
-          title: 'This Just In',
-          url: `${prefix}/search.php?query=mediatype:texts&sort=-publicdate`,
         },
         {
           title: 'Smithsonian Libraries',
@@ -442,10 +422,6 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
         {
           title: 'All Video',
           url: `${prefix}/details/movies`,
-        },
-        {
-          title: 'This Just In',
-          url: `${prefix}/search.php?query=mediatype:movies&sort=-publicdate`,
         },
         {
           title: 'Prelinger Archives',
