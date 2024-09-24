@@ -41,6 +41,7 @@ export default css`
   .branding {
     position: static;
     float: left;
+    margin: 0 !important;
     padding: 0 5px 0 10px;
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);

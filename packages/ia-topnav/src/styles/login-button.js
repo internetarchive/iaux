@@ -48,7 +48,9 @@ export default css`
   a:hover,
   a:active,
   a:focus {
-    color: var(--linkHoverColor);
+    color: var(--linkHoverColor) !important;
+    outline: none !important;
+    outline-offset: inherit !important;
   }
 
   @media (min-width: 890px) {
