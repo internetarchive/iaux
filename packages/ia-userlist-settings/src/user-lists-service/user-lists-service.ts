@@ -70,7 +70,7 @@ export class UserListsService implements UserListsServiceInterface {
     url: string,
     method?: string,
     body?: BodyInit, // eslint-disable-line
-    headers?: HeadersInit, // eslint-disable-line
+    headers?: HeadersInit // eslint-disable-line
   ): Promise<Result<T, UserListsError>> {
     try {
       const fetchResult: BackendServiceResponse<T> =
@@ -189,7 +189,7 @@ export class UserListsService implements UserListsServiceInterface {
       `${this.baseUrl}/services/users/me/lists`,
       'POST',
       JSON.stringify(options),
-      { 'Content-Type': JSON_CONTENT_TYPE },
+      { 'Content-Type': JSON_CONTENT_TYPE }
     );
   }
 
@@ -202,7 +202,7 @@ export class UserListsService implements UserListsServiceInterface {
       `${this.baseUrl}/services/users/me/lists/${listId}`,
       'PATCH',
       JSON.stringify(options),
-      { 'Content-Type': JSON_CONTENT_TYPE },
+      { 'Content-Type': JSON_CONTENT_TYPE }
     );
   }
 
@@ -223,7 +223,7 @@ export class UserListsService implements UserListsServiceInterface {
       `${this.baseUrl}/services/users/me/lists/${listId}/members`,
       'POST',
       JSON.stringify(options),
-      { 'Content-Type': JSON_CONTENT_TYPE },
+      { 'Content-Type': JSON_CONTENT_TYPE }
     );
   }
 
