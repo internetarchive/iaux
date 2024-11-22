@@ -22,6 +22,7 @@ interface FetchHandlerInterface {
       includeCredentials?: boolean;
       method?: string;
       body?: BodyInit; // eslint-disable-line
+      headers?: HeadersInit; // eslint-disable-line
     }
   ): Promise<T>;
 }
@@ -38,6 +39,8 @@ type UserListsServiceConstructorOptions = {
   userService: UserServiceInterface;
   baseUrl?: string;
 };
+
+const JSON_CONTENT_TYPE = 'application/json; charset=utf-8';
 
 /** Service for fetching forum posts */
 export class UserListsService implements UserListsServiceInterface {
@@ -66,13 +69,15 @@ export class UserListsService implements UserListsServiceInterface {
   private async fetchEndpoint<T>(
     url: string,
     method?: string,
-    body?: BodyInit // eslint-disable-line
+    body?: BodyInit, // eslint-disable-line
+    headers?: HeadersInit, // eslint-disable-line
   ): Promise<Result<T, UserListsError>> {
     try {
       const fetchResult: BackendServiceResponse<T> =
         await this.fetchHandler.fetchApiResponse(url, {
           method,
           body,
+          headers,
           includeCredentials: true,
         });
 
@@ -183,7 +188,8 @@ export class UserListsService implements UserListsServiceInterface {
     return this.fetchEndpoint<UserList>(
       `${this.baseUrl}/services/users/me/lists`,
       'POST',
-      JSON.stringify(options)
+      JSON.stringify(options),
+      { 'Content-Type': JSON_CONTENT_TYPE },
     );
   }
 
@@ -195,7 +201,8 @@ export class UserListsService implements UserListsServiceInterface {
     return this.fetchEndpoint<UserList>(
       `${this.baseUrl}/services/users/me/lists/${listId}`,
       'PATCH',
-      JSON.stringify(options)
+      JSON.stringify(options),
+      { 'Content-Type': JSON_CONTENT_TYPE },
     );
   }
 
@@ -215,7 +222,8 @@ export class UserListsService implements UserListsServiceInterface {
     return this.fetchEndpoint<UserListMember>(
       `${this.baseUrl}/services/users/me/lists/${listId}/members`,
       'POST',
-      JSON.stringify(options)
+      JSON.stringify(options),
+      { 'Content-Type': JSON_CONTENT_TYPE },
     );
   }
 
