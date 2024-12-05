@@ -170,19 +170,19 @@ export function buildTopNavMenus(userid = '___USERID___', localLinks = true, way
       },
       {
         title: 'Contact',
-        url: `${prefix}/about/contact.php`,
+        url: `${prefix}/about/contact`,
       },
       {
         title: 'Jobs',
-        url: `${prefix}/about/jobs.php`,
+        url: `${prefix}/about/jobs`,
       },
       {
         title: 'Volunteer',
-        url: `${prefix}/about/volunteerpositions.php`,
+        url: `${prefix}/about/volunteer-positions`,
       },
       {
         title: 'People',
-        url: `${prefix}/about/bios.php`,
+        url: `${prefix}/about/bios`,
       },
     ],
     software: {
