@@ -1,6 +1,6 @@
 import { html, fixture, expect } from '@open-wc/testing';
 
-import '../src/ia-activity-indicator.js';
+import '../ia-activity-indicator.js';
 import { IAActivityIndicatorMode } from '../index.js';
 
 describe('IA Activity Indicator', () => {
