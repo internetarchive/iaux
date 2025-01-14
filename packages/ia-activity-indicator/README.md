@@ -12,7 +12,7 @@ yarn add @internetarchive/ia-activity-indicator
 ## Usage
 ```html
 <script type="module">
-  import '@internetarchive/ia-activity-indicator/ia-activity-indicator';
+  import '@internetarchive/ia-activity-indicator';
 </script>
 
 <style>
