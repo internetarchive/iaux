@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-activity-indicator",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Webcomponent ia-activity-indicator following open-wc recommendations",
   "author": "ia-activity-indicator",
   "license": "MIT",
@@ -8,8 +8,7 @@
   "module": "index.js",
   "files": [
     "src/**/*",
-    "index.js",
-    "ia-activity-indicator.js"
+    "index.js"
   ],
   "scripts": {
     "start": "es-dev-server --app-index demo/index.html --node-resolve --open --watch",
