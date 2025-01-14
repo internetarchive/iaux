@@ -8,7 +8,8 @@
   "module": "index.js",
   "files": [
     "src/**/*",
-    "index.js"
+    "index.js",
+    "ia-activity-indicator.js"
   ],
   "scripts": {
     "start": "es-dev-server --app-index demo/index.html --node-resolve --open --watch",
