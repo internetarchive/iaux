@@ -58,18 +58,18 @@ class WaybackSearch extends LitElement {
           >
           on the Internet.
         </p>
-        <fieldset>
+        <div class="search-background">
           <a
             @click=${this.emitWaybackMachineLogoLinkClicked}
             data-event-click-tracking="TopNav|WaybackMachineLogoLink"
             href="https://web.archive.org"
+            aria-label="Wayback Machine homepage"
             >${logo}</a>
-          <label for="url">Search the Wayback Machine</label>
           <div class="search-field">
-            <input type="text" name="url" id="url" placeholder="enter URL or keywords" />
+            <input type="text" name="url" id="url" placeholder="enter URL or keywords" aria-label="Search the Wayback Machine"/>
             ${searchIcon}
           </div>
-        </fieldset>
+        </div>
       </form>
     `;
   }
