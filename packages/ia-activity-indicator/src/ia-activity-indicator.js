@@ -1,11 +1,11 @@
 import { LitElement, html, css } from 'lit';
 
-const IAActivityIndicatorMode = Object.freeze({
+export const IAActivityIndicatorMode = Object.freeze({
   processing: 'processing',
   complete: 'complete',
 });
 
-class IAActivityIndicator extends LitElement {
+export class IAActivityIndicator extends LitElement {
   static get properties() {
     return {
       mode: { type: String },
@@ -165,4 +165,4 @@ class IAActivityIndicator extends LitElement {
   }
 }
 
-export { IAActivityIndicator, IAActivityIndicatorMode };
+window.customElements.define('ia-activity-indicator', IAActivityIndicator);
