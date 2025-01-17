@@ -8,67 +8,11 @@
     body {
       font-family: sans-serif;
     }
-    ia-activity-indicator {
-      width: 100px;
-      height: 100px;
-      display: block;
-      --activityIndicatorLoadingDotColor: #999;
-      --activityIndicatorLoadingRingColor: #999;
-      --activityIndicatorCheckmarkColor: purple;
-      --activityIndicatorCompletedRingColor: purple;
-    }
   </style>
 </head>
 <body>
-  <div id="demo">
-  </div>
+  <app-root></app-root>
+  <script type="module" src="../dist/demo/app-root.js"></script>
 
-  <script type="module">
-    import { html, render } from 'lit';
-    import '../index.js';
-    import { IAActivityIndicatorMode } from '../index.js';
-
-    let mode = IAActivityIndicatorMode.processing;
-
-    function toggleMode() {
-      mode = mode === IAActivityIndicatorMode.processing ? IAActivityIndicatorMode.complete : IAActivityIndicatorMode.processing;
-      document.querySelector('ia-activity-indicator').mode = mode;
-    }
-
-    function changeActivityRingColor(e) {
-      const el = document.querySelector('ia-activity-indicator');
-      el.style.cssText += `--activityIndicatorLoadingRingColor: ${e.target.value}`;
-    }
-
-    function changeActivityDotsColor(e) {
-      const el = document.querySelector('ia-activity-indicator');
-      el.style.cssText += `--activityIndicatorLoadingDotColor: ${e.target.value}`;
-    }
-
-    function changeCompletedRingColor(e) {
-      const el = document.querySelector('ia-activity-indicator');
-      el.style.cssText += `--activityIndicatorCompletedRingColor: ${e.target.value}`;
-    }
-
-    function changeCompletedCheckColor(e) {
-      const el = document.querySelector('ia-activity-indicator');
-      el.style.cssText += `--activityIndicatorCheckmarkColor: ${e.target.value}`;
-    }
-
-    render(
-      html`
-        <ia-activity-indicator>
-        </ia-activity-indicator>
-
-        <p><input type="button" value="Toggle" @click=${toggleMode} /></p>
-
-        <p>Activity Ring Color: <input type="text" value="#999" @change=${changeActivityRingColor} /></p>
-        <p>Activity Dots Color: <input type="text" value="#999" @change=${changeActivityDotsColor} /></p>
-        <p>Complete Ring Color: <input type="text" value="purple" @change=${changeCompletedRingColor} /></p>
-        <p>Complete Check Color: <input type="text" value="purple" @change=${changeCompletedCheckColor} /></p>
-        `,
-      document.querySelector('#demo')
-    );
-</script>
 </body>
 </html>
