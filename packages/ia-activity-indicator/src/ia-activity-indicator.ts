@@ -1,11 +1,12 @@
 import { LitElement, html, css, CSSResult, TemplateResult } from 'lit';
-import { property } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
-export const IAActivityIndicatorMode = Object.freeze({
-  processing: 'processing',
-  complete: 'complete',
-});
+export enum IAActivityIndicatorMode {
+  processing = 'processing',
+  complete = 'complete',
+}
 
+@customElement('ia-activity-indicator')
 export class IAActivityIndicator extends LitElement {
   @property({ type: String }) mode: 'processing' | 'complete' = 'processing';
 
@@ -156,5 +157,3 @@ export class IAActivityIndicator extends LitElement {
     `;
   }
 }
-
-window.customElements.define('ia-activity-indicator', IAActivityIndicator);
