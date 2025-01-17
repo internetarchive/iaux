@@ -1,4 +1,5 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, CSSResult, TemplateResult } from 'lit';
+import { property } from 'lit/decorators.js';
 
 export const IAActivityIndicatorMode = Object.freeze({
   processing: 'processing',
@@ -6,18 +7,9 @@ export const IAActivityIndicatorMode = Object.freeze({
 });
 
 export class IAActivityIndicator extends LitElement {
-  static get properties() {
-    return {
-      mode: { type: String },
-    };
-  }
+  @property({ type: String }) mode: 'processing' | 'complete' = 'processing';
 
-  constructor() {
-    super();
-    this.mode = IAActivityIndicatorMode.processing;
-  }
-
-  render() {
+  render(): TemplateResult {
     return html`
       <div class="${this.mode}">
         <svg
@@ -70,7 +62,7 @@ export class IAActivityIndicator extends LitElement {
     `;
   }
 
-  static get styles() {
+  static get styles(): CSSResult {
     const checkmarkColorCss = css`var(--activityIndicatorCheckmarkColor, #31A481)`;
     const completedRingColorCss = css`var(--activityIndicatorCompletedRingColor, #31A481)`;
     const loadingRingColorCss = css`var(--activityIndicatorLoadingRingColor, #333333)`;
