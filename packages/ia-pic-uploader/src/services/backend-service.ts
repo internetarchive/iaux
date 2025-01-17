@@ -4,9 +4,7 @@ import log from './log';
  * Helper to call loan service
  * @param {Object} options
  */
-export async function BackendServiceHandler(
-  options: any,
-): Promise<Record<string, any>> {
+export async function BackendServiceHandler(options: any): Promise<any> {
   const option = {
     action: null,
     identifier: '',

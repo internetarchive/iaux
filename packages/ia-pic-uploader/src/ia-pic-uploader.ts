@@ -392,8 +392,9 @@ export class IAPicUploader extends LitElement {
     const metadataApiInterval = setInterval(async () => {
       const res = BackendServiceHandler({
         action: 'verify-upload',
-        endpoint: `https://archive.org/metadata/${this.identifier
-          }?rand=${Math.random()}`,
+        endpoint: `https://archive.org/metadata/${
+          this.identifier
+        }?rand=${Math.random()}`,
       });
       res.then((json: any) => {
         const waitCount =
@@ -483,7 +484,7 @@ export class IAPicUploader extends LitElement {
           : this.plusSVGTemplate(35, 35, '#969696', '#fff')}
         <span
           class="drag-text ${this.showLoadingIndicator ? 'pointer-none' : ''}"
-          @keyup=${() => { }}
+          @keyup=${() => {}}
           @click=${() => {
             this.dropRegion?.click();
           }}
@@ -538,7 +539,7 @@ export class IAPicUploader extends LitElement {
         <div
           class="image-preview full-preview
           ${this.showLoadingIndicator ? 'pointer-none hidden' : ''}"
-          @keyup=${() => { }}
+          @keyup=${() => {}}
           @click=${() => {
             this.dropRegion?.click();
           }}
