@@ -1,4 +1,4 @@
-import { LitElement, html, css, CSSResult, TemplateResult } from 'lit';
+import { css, CSSResult, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 export enum IAActivityIndicatorMode {
