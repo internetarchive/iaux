@@ -1,12 +1,12 @@
-/* eslint-disable */
-
 import log from './log';
 
 /**
  * Helper to call loan service
  * @param {Object} options
  */
-export async function BackendServiceHandler(options: any) {
+export async function BackendServiceHandler(
+  options: any,
+): Promise<Record<string, any>> {
   const option = {
     action: null,
     identifier: '',
@@ -33,7 +33,6 @@ export async function BackendServiceHandler(options: any) {
       headers: option.headers,
       body: option.file ?? null,
     })
-      // eslint-disable-next-line consistent-return
       .then(response => {
         log('response', response);
 
@@ -63,7 +62,7 @@ export async function BackendServiceHandler(options: any) {
       .then(data => {
         if (option.action === 'save-file') {
           log(
-            'file saved, metadata call started to verify is picture is upadated!'
+            'file saved, metadata call started to verify is picture is upadated!',
           );
         }
 
