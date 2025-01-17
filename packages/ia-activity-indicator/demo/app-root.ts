@@ -12,7 +12,7 @@ export class AppRoot extends LitElement {
     return html`
       <ia-activity-indicator></ia-activity-indicator>
 
-      <p><input type="button" value="Toggle" @click=${this.toggleMode} /></p>
+      <p><input type="button" value="Toggle State" @click=${this.toggleMode} /></p>
 
       <p>
         Activity Ring Color:
