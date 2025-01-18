@@ -1,5 +1,5 @@
 import { LitElement, html, css, TemplateResult, CSSResult } from 'lit';
-import { customElement, property } from 'lit/decorators';
+import { customElement, property } from 'lit/decorators.js';
 
 import './search-results-switcher';
 
