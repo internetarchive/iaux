@@ -36,10 +36,10 @@
   "dependencies": {
     "@internetarchive/audio-element": "^0.0.2",
     "@internetarchive/expandable-search-bar": "^0.0.2",
-    "@internetarchive/ia-activity-indicator": "^0.0.4",
+    "@internetarchive/ia-activity-indicator": "^0.0.6",
     "@internetarchive/playback-controls": "0.0.2",
     "@internetarchive/scrubber-bar": "^0.0.2",
-    "@internetarchive/transcript-view": "^0.0.3",
+    "@internetarchive/transcript-view": "0.0.4-alpha.1",
     "@internetarchive/waveform-progress": "^0.0.2",
     "lit": "^2.2.7"
   },
