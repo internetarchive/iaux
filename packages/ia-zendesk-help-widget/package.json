@@ -32,14 +32,14 @@
     "lit": "^2.2.7"
   },
   "devDependencies": {
-    "@open-wc/demoing-storybook": "^0.3.0",
+    "@open-wc/demoing-storybook": "^2.4.7",
     "@open-wc/eslint-config": "^1.0.0",
     "@open-wc/polyfills-loader": "^0.2.1",
     "@open-wc/prettier-config": "^0.1.10",
     "@open-wc/testing": "^2.0.0",
     "@open-wc/testing-karma": "^3.4.0",
     "@open-wc/testing-karma-bs": "^1.0.0",
-    "@storybook/react": "^5.1.11",
+    "@storybook/react": "^6.5.13",
     "es-dev-server": "^1.42.0",
     "eslint": "^6.1.0",
     "eslint-plugin-lit": "^0.5.0",
