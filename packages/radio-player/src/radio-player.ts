@@ -1,39 +1,35 @@
 /* eslint-disable import/no-duplicates */
-import {
-  LitElement,
-  html,
-  css,
-  CSSResult,
-  TemplateResult,
-  PropertyValues,
-} from 'lit';
-import {
-  customElement,
-  property,
-} from 'lit/decorators.js';
 import { AudioElement, AudioSource } from '@internetarchive/audio-element';
+import '@internetarchive/expandable-search-bar';
+import { QuickSearchEntry } from '@internetarchive/expandable-search-bar';
+import '@internetarchive/ia-activity-indicator';
+import '@internetarchive/playback-controls';
+import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-controls';
+import '@internetarchive/scrubber-bar';
 import {
   TranscriptConfig,
   TranscriptEntryConfig,
   TranscriptView,
 } from '@internetarchive/transcript-view';
-
 import '@internetarchive/waveform-progress';
-import '@internetarchive/playback-controls';
-import '@internetarchive/scrubber-bar';
-
-import { QuickSearchEntry } from '@internetarchive/expandable-search-bar';
-import '@internetarchive/expandable-search-bar';
-import '@internetarchive/ia-activity-indicator/ia-activity-indicator';
-
-import './search-results-switcher';
-
 import { ZoneOfSilence } from '@internetarchive/waveform-progress';
-import { PlaybackControls, PlaybackMode } from '@internetarchive/playback-controls';
-import SearchResultsSwitcher from './search-results-switcher';
+import {
+  css,
+  CSSResult,
+  html,
+  LitElement,
+  PropertyValues,
+  TemplateResult,
+} from 'lit';
+import {
+  customElement,
+  property,
+} from 'lit/decorators.js';
 import MusicZone from './models/music-zone';
 import RadioPlayerConfig from './models/radio-player-config';
 import { SearchHandlerInterface } from './search-handler/search-handler-interface';
+import './search-results-switcher';
+import SearchResultsSwitcher from './search-results-switcher';
 
 /**
  * A Radio Player element to play back transcribed audio.
