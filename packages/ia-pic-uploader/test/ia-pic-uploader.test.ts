@@ -16,7 +16,7 @@ const container = ({
     endpoint="${endpoint}"
     picture="${picture}"
     type="${type}"
-    lookingAtMyAccount="${lookingAtMyAccount}"
+    ?lookingAtMyAccount=${lookingAtMyAccount}
     maxFileSizeInMB="${maxFileSizeInMB}"
   ></ia-pic-uploader>`;
 
@@ -28,7 +28,7 @@ describe('initail render', () => {
         endpoint: 'http://localhost/index.php',
         picture: './demo/default-preview.jpg',
         type: 'full',
-      })
+      }),
     );
 
     expect(el.getAttribute('identifier')).to.equal('@453344354534');
@@ -46,12 +46,12 @@ describe('check default img render', () => {
         endpoint: 'http://localhost/index.php',
         picture: './demo/default-preview.jpg',
         type: 'full',
-      })
+      }),
     );
     await el.updateComplete;
 
     const img = el.shadowRoot?.querySelector(
-      '.profile-section .image-preview img'
+      '.profile-section .image-preview img',
     ) as HTMLImageElement;
     expect(img.src).to.contain(`default-preview.jpg`);
   });
@@ -65,12 +65,12 @@ describe('check initial self submit form is located', () => {
         endpoint: 'http://localhost/index.php',
         picture: './demo/default-preview.jpg',
         type: 'full',
-      })
+      }),
     );
     await el.updateComplete;
 
     const selfSubmitEle = el.shadowRoot?.querySelector(
-      '.profile-section .self-submit-form'
+      '.profile-section .self-submit-form',
     );
 
     expect(selfSubmitEle).to.exist;
@@ -82,7 +82,7 @@ describe('check initial self submit form is located', () => {
     expect(
       selfSubmitEle
         ?.querySelector('.close-button')
-        ?.classList.contains('hidden')
+        ?.classList.contains('hidden'),
     ).to.exist;
   });
 });
@@ -95,7 +95,7 @@ describe('check initial component with compact verion', () => {
         endpoint: 'http://localhost/index.php',
         picture: './demo/default-preview.jpg',
         type: 'compact',
-      })
+      }),
     );
     const selectRegion = el.shadowRoot?.querySelector('.select-region');
 
@@ -111,7 +111,7 @@ describe('check file validation function', () => {
         endpoint: 'http://localhost/index.php',
         picture: './demo/default-preview.jpg',
         type: 'full',
-      })
+      }),
     );
     const fileData = new File(['!helow sdf'], 'image.svg', {
       type: 'image/svg',
@@ -121,7 +121,7 @@ describe('check file validation function', () => {
     el.validateImage(fileData);
     await el.updateComplete;
     expect(el.fileValidationError).to.equal(
-      'Image file must be a JPEG, PNG, or GIF.'
+      'Image file must be a JPEG, PNG, or GIF.',
     );
     expect(el.validateImage(fileData)).to.false;
   });
@@ -135,7 +135,7 @@ describe('check file validation function', () => {
         type: 'full',
         lookingAtMyAccount: true,
         maxFileSizeInMB: 3,
-      })
+      }),
     );
     await el.updateComplete;
 
@@ -146,7 +146,7 @@ describe('check file validation function', () => {
     el.validateImage(fileData);
 
     expect(el.fileValidationError).to.equal(
-      `Image file must be less than ${el.maxFileSizeInMB}MB.`
+      `Image file must be less than ${el.maxFileSizeInMB}MB.`,
     );
     expect(el.validateImage(fileData)).to.false;
   });
@@ -160,7 +160,7 @@ describe('test previewImage function', () => {
         endpoint: 'http://localhost/index.php',
         picture: './demo/default-preview.jpg',
         type: 'full',
-      })
+      }),
     );
     const fullPreview = el.shadowRoot?.querySelector('.full-preview');
     const fileData = {
@@ -185,7 +185,7 @@ describe('test previewImage function', () => {
         endpoint: 'http://localhost/index.php',
         picture: './demo/default-preview.jpg',
         type: 'compact',
-      })
+      }),
     );
     const fileData = {
       0: new File([new ArrayBuffer(5242881)], 'image123.jpeg', {
@@ -209,10 +209,10 @@ describe('test handleDropImage Function', () => {
         picture: './demo/default-preview.jpg',
         type: 'full',
         lookingAtMyAccount: true,
-      })
+      }),
     );
     const selfSubmitEle = el.shadowRoot?.querySelector(
-      '.profile-section .self-submit-form'
+      '.profile-section .self-submit-form',
     );
 
     window.dispatchEvent(new DragEvent('dragover'));
@@ -239,7 +239,7 @@ describe('test loadingIndicatorTemplate function', () => {
         endpoint: 'http://localhost/index.php',
         picture: './demo/default-preview.jpg',
         type: 'full',
-      })
+      }),
     );
     const loaderReturn = el.loadingIndicatorTemplate;
     await el.updateComplete;
@@ -259,10 +259,10 @@ describe('test handleSelectedFiles function', () => {
         endpoint: 'http://localhost/index.php',
         picture: './demo/default-preview.jpg',
         type: 'full',
-      })
+      }),
     );
     const selfSubmitEle = el.shadowRoot?.querySelector(
-      '.profile-section .self-submit-form'
+      '.profile-section .self-submit-form',
     );
 
     await el.updateComplete;
