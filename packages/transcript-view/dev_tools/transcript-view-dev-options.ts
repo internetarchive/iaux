@@ -1,5 +1,5 @@
 import { LitElement, html, css, TemplateResult, CSSResult } from 'lit';
-import { customElement, property } from 'lit/decorators';
+import { customElement, property } from 'lit/decorators.js';
 
 import './search-results-switcher';
 
@@ -96,7 +96,7 @@ export default class TranscriptViewDevOptions extends LitElement {
           type="range"
           min="0"
           max=${this.totalTime}
-          .value=${this.currentTime}
+          value=${this.currentTime}
           @input=${this.handleCurrentTimeSlide}
           @change=${this.handleCurrentTimeSlide}
         />
@@ -117,7 +117,7 @@ export default class TranscriptViewDevOptions extends LitElement {
           type="range"
           min="100"
           max="400"
-          .value=${this.transcriptHeight}
+          value=${this.transcriptHeight}
           @input=${this.handleTranscriptSizeSlide}
           @change=${this.handleTranscriptSizeSlide}
         />
@@ -147,7 +147,7 @@ export default class TranscriptViewDevOptions extends LitElement {
           type="range"
           min="10"
           max="100"
-          .value=${this.topContextHeight}
+          value=${this.topContextHeight}
           @input=${this.handleTopContextSlide}
           @change=${this.handleTopContextSlide}
         />
@@ -164,7 +164,7 @@ export default class TranscriptViewDevOptions extends LitElement {
           type="range"
           min="10"
           max="100"
-          .value=${this.bottomContextHeight}
+          value=${this.bottomContextHeight}
           @input=${this.handleBottomContextSlide}
           @change=${this.handleBottomContextSlide}
         />
