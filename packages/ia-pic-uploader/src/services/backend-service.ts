@@ -1,76 +1,74 @@
 /* eslint-disable */
 
 import log from './log';
+import { ServiceOptionType } from '../model';
 
 /**
- * Helper to call loan service
- * @param {Object} options
+ * Helper function to handle backend service calls for file uploads and verifications
+ * @param {ServiceOptionType} options - Configuration object for the service call
+ * @param {string} options.method - HTTP method to use (defaults to POST)
+ * @param {File} [options.file] - File to upload (optional)
+ * @param {string} options.getParam - Query parameters to append to URL
+ * @param {string} options.endpoint - API endpoint URL
+ * @param {string} options.action - Action type ('save-file' or 'verify-upload')
+ * @param {Object} options.headers - Request headers
+ * @param {Function} [options.callback] - Callback function called on successful file upload
+ * @returns {Promise<Object>} Response data from the API call
+ * @throws {Error} Logs error to console and returns empty object if request fails
  */
-export async function BackendServiceHandler(options: any) {
-  const option = {
-    action: null,
-    identifier: '',
-    file: null,
-    getParam: '',
-    endpoint: '',
-    headers: {},
-    callback() {},
+export async function BackendServiceHandler(
+  options: ServiceOptionType
+): Promise<object> {
+  const option: ServiceOptionType = {
+    method: 'POST',
     ...options,
   };
 
-  let finalResponse = {};
-  let baseHost = '';
-  const location = window?.location;
-  if (location?.pathname === '/demo/') {
-    baseHost = `/demo/`;
-  } else {
-    baseHost = `${option.endpoint}?${option.getParam}`;
+  // Only append file to formData if it exists in options
+  const formData = new FormData();
+  if (option.file) {
+    formData.append('file', option.file);
   }
+
+  const isDemo = window.location.pathname.startsWith('/demo/');
+  const action = isDemo
+    ? `http://localhost/info.php?${option.getParam}`
+    : `${option.endpoint}?${option.getParam}`;
 
   try {
-    await fetch(baseHost, {
-      method: 'POST',
+    const response = await fetch(action, {
+      method: option.method,
+      mode: 'no-cors', // Add this line
       headers: option.headers,
-      body: option.file ?? null,
-    })
-      // eslint-disable-next-line consistent-return
-      .then(response => {
-        log('response', response);
+      body: option.action === 'save-file' ? formData : null,
+    });
 
-        /**
-         * return success response for /demo/ server...
-         */
-        if (baseHost === '/demo/' && option.action === 'verify-upload') {
-          return {
-            success: true,
-            item_last_updated: 1,
-          };
-        }
+    if (isDemo && option.action === 'verify-upload') {
+      return {
+        success: true,
+        item_last_updated: 1,
+      };
+    }
 
-        if (option.action === 'save-file' && response.status === 200) {
+    if (option.action === 'save-file') {
+      if (response.status === 200) {
+        log(
+          'file saved, metadata call started to verify if image is upadated!'
+        );
+        if (option.callback) {
           option.callback(response);
-          return {};
         }
+        return {};
+      }
+    }
 
-        /**
-         * The response is a Response instance.
-         * You parse the data into a useable format using `.json()`
-         */
-        if (response.status !== 0) {
-          return response.json();
-        }
-      })
-      .then(data => {
-        if (option.action === 'save-file') {
-          log(
-            'file saved, metadata call started to verify is picture is upadated!'
-          );
-        }
+    if (response.status === 0) {
+      return {};
+    }
 
-        finalResponse = data;
-      });
+    return await response.json();
   } catch (error) {
     log(error);
+    return {};
   }
-  return finalResponse;
 }
