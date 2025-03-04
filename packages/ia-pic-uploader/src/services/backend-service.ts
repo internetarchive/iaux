@@ -60,7 +60,7 @@ export async function BackendServiceHandler(options: any): Promise<any> {
       .then(data => {
         if (option.action === 'save-file') {
           log(
-            'file saved, metadata call started to verify is picture is upadated!',
+            'file saved, metadata call started to verify is picture is updated!',
           );
         }
 
