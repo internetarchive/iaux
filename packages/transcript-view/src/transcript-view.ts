@@ -1,14 +1,13 @@
 /* eslint-disable import/no-duplicates */
 
-import { LitElement, html, css, PropertyValues, TemplateResult, CSSResult } from 'lit';
+import { css, CSSResult, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
+import './duration-formatter';
+import TranscriptConfig from './models/transcript-config';
+import TranscriptEntryConfig from './models/transcript-entry-config';
 import './transcript-entry';
 import TranscriptEntry from './transcript-entry';
-
-import './duration-formatter';
-import TranscriptEntryConfig from './models/transcript-entry-config';
-import TranscriptConfig from './models/transcript-config';
 
 @customElement('transcript-view')
 export default class TranscriptView extends LitElement {
