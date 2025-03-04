@@ -2,6 +2,7 @@ import { css, CSSResultGroup, html, LitElement, nothing, svg } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 
 import '@internetarchive/ia-activity-indicator';
+
 import { BackendServiceHandler } from './services/backend-service';
 import log from './services/log';
 import iaButtonStyle from './style/ia-button-style';
