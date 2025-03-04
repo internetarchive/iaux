@@ -4,6 +4,7 @@ import log from './log';
  * Helper to call loan service
  * @param {Object} options
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function BackendServiceHandler(options: any): Promise<any> {
   const option = {
     action: null,

@@ -111,7 +111,7 @@ export class IAPicUploader extends LitElement {
 
   private fileSizeMessage: string = '';
 
-  private relatedTarget: any = '';
+  private relatedTarget: EventTarget | null = null;
 
   firstUpdated() {
     this.fileSizeMessage = `Image file must be less than ${this.maxFileSizeInMB}MB.`;
@@ -398,12 +398,14 @@ export class IAPicUploader extends LitElement {
           this.identifier
         }?rand=${Math.random()}`,
       });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       res.then((json: any) => {
         const waitCount =
           json.pending_tasks && json.tasks ? json.tasks.length : 0;
 
         if (waitCount) {
           const adminError = json.tasks.filter(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (e: any) => e.wait_admin === 2,
           ).length;
           if (adminError) {
