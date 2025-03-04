@@ -26,6 +26,7 @@ import {
 } from '@internetarchive/transcript-view';
 import '@internetarchive/waveform-progress';
 import { ZoneOfSilence } from '@internetarchive/waveform-progress';
+
 import MusicZone from './models/music-zone';
 import RadioPlayerConfig from './models/radio-player-config';
 import { SearchHandlerInterface } from './search-handler/search-handler-interface';
