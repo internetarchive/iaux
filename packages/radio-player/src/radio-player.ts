@@ -1,4 +1,17 @@
 /* eslint-disable import/no-duplicates */
+import {
+  css,
+  CSSResult,
+  html,
+  LitElement,
+  PropertyValues,
+  TemplateResult,
+} from 'lit';
+import {
+  customElement,
+  property,
+} from 'lit/decorators.js';
+
 import { AudioElement, AudioSource } from '@internetarchive/audio-element';
 import '@internetarchive/expandable-search-bar';
 import { QuickSearchEntry } from '@internetarchive/expandable-search-bar';
@@ -13,18 +26,6 @@ import {
 } from '@internetarchive/transcript-view';
 import '@internetarchive/waveform-progress';
 import { ZoneOfSilence } from '@internetarchive/waveform-progress';
-import {
-  css,
-  CSSResult,
-  html,
-  LitElement,
-  PropertyValues,
-  TemplateResult,
-} from 'lit';
-import {
-  customElement,
-  property,
-} from 'lit/decorators.js';
 import MusicZone from './models/music-zone';
 import RadioPlayerConfig from './models/radio-player-config';
 import { SearchHandlerInterface } from './search-handler/search-handler-interface';
