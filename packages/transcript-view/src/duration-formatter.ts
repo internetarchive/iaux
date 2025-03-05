@@ -1,5 +1,5 @@
 import { LitElement, html, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('duration-formatter')
 export default class DurationFormatter extends LitElement {

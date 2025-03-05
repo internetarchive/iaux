@@ -1,18 +1,17 @@
 /* eslint-disable import/no-duplicates */
 
-import { LitElement, html, css, PropertyValues, TemplateResult, CSSResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { css, CSSResult, html, LitElement, PropertyValues, TemplateResult } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 
+import './duration-formatter';
+import TranscriptConfig from './models/transcript-config';
+import TranscriptEntryConfig from './models/transcript-entry-config';
 import './transcript-entry';
 import TranscriptEntry from './transcript-entry';
 
-import './duration-formatter';
-import TranscriptEntryConfig from './models/transcript-entry-config';
-import TranscriptConfig from './models/transcript-config';
-
 @customElement('transcript-view')
 export default class TranscriptView extends LitElement {
-  @property({ type: TranscriptConfig }) config: TranscriptConfig | undefined = undefined;
+  @property({ type: Object }) config: TranscriptConfig | undefined = undefined;
 
   @property({ type: Number }) currentTime = 0;
 
@@ -26,9 +25,9 @@ export default class TranscriptView extends LitElement {
 
   @property({ type: Boolean }) showContextZones = false;
 
-  @property({ type: Number }) private timeScrollTop = 0;
+  @state() private timeScrollTop = 0;
 
-  @property({ type: Array }) private currentEntries: TranscriptEntryConfig[] = [];
+  @state() private currentEntries: TranscriptEntryConfig[] = [];
 
   private scrollTimerDelay = 15000;
 
@@ -102,8 +101,8 @@ export default class TranscriptView extends LitElement {
         ?isActive=${active}
         ?isSearchResult=${isSearchResult}
         ?isMusicEntry=${isMusicEntry}
-        isClickable="true"
-        data-search-result-index=${entry.searchMatchIndex}
+        ?isClickable=${true}
+        .data-search-result-index=${entry.searchMatchIndex}
         data-identifier=${entry.id}
         @click=${this.transcriptEntrySelected}
       >
