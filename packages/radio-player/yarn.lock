@@ -826,10 +826,10 @@
   dependencies:
     lit "^2.2.7"
 
-"@internetarchive/transcript-view@0.0.4-alpha.1":
-  version "0.0.4-alpha.1"
-  resolved "https://registry.npmjs.org/@internetarchive/transcript-view/-/transcript-view-0.0.4-alpha.1.tgz"
-  integrity sha512-oWt8mBqFacEVJn3F4dJjmCiu2mYRCvWz/jY1zYtIcKRflDdU+91Hhxdv1QyBlcqthom7TMTY+SRyWDlUD38l0Q==
+"@internetarchive/transcript-view@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@internetarchive/transcript-view/-/transcript-view-0.0.3.tgz#4c141abe2a88811ac0c635a9e881c4eeb97c7c34"
+  integrity sha512-qKfd098Q7frubJqD/G50TKHd7WAc1Fyi3Yge1d0Fp5C4rv/T7XZIQ6/42lTVcA99hspdF7tQhNZ8ZTp1TGxL+A==
   dependencies:
     lit "^2.2.7"
 
