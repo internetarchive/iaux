@@ -17,7 +17,7 @@ export class AppRoot extends LitElement {
           <h3>It will be used at My Uploads page</h3>
           <ia-pic-uploader
             lookingAtMyAccount
-            maxFileSizeInMB=3
+            maxFileSizeInMB="3"
             id="full"
             identifier="@453344354534"
             picture="/demo/wider-image.jpg"
@@ -30,7 +30,7 @@ export class AppRoot extends LitElement {
           <h3>It will be used at new account settings page</h3>
           <ia-pic-uploader
             lookingAtMyAccount
-            maxFileSizeInMB=3
+            maxFileSizeInMB="3"
             id="compact"
             identifier="@453344354534"
             picture="/demo/default-preview.jpg"

@@ -1,4 +1,13 @@
-import { css, CSSResultGroup, html, LitElement, nothing, svg } from 'lit';
+import {
+  css,
+  CSSResultGroup,
+  html,
+  LitElement,
+  nothing,
+  svg,
+  SVGTemplateResult,
+  TemplateResult,
+} from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 
 import '@internetarchive/ia-activity-indicator';
@@ -37,7 +46,7 @@ export class IAPicUploader extends LitElement {
    *
    * @memberof IAPicUploader
    */
-  @property({ type: String }) type? = 'compact';
+  @property({ type: String }) type: 'full' | 'compact' = 'compact';
 
   /**
    * check user is looking at it's our account
@@ -71,7 +80,7 @@ export class IAPicUploader extends LitElement {
    * @type {boolean}
    * @memberof IAPicUploader
    */
-  @state() private showLoadingIndicator?: boolean;
+  @state() private showLoadingIndicator: boolean = false;
 
   /**
    * display task's message/error/warning on self submit form
@@ -461,9 +470,8 @@ export class IAPicUploader extends LitElement {
 
   /**
    * function to render self submit form template
-   * @returns {HTMLElement}
    */
-  get selfSubmitFormTemplate() {
+  get selfSubmitFormTemplate(): TemplateResult {
     const formAction = encodeURIComponent(
       `${this.endpoint}?identifier=${this.identifier}&submit=1`,
     );
@@ -554,9 +562,8 @@ export class IAPicUploader extends LitElement {
 
   /**
    * function that render html template for compact version
-   * @returns {HTMLElement}
    */
-  get selectFileTemplate() {
+  get selectFileTemplate(): TemplateResult {
     return html`
       <div class="select-region">
         <input
@@ -582,9 +589,8 @@ export class IAPicUploader extends LitElement {
 
   /**
    * function that render html for overlay form compact version
-   * @returns {HTMLElement}
    */
-  get overlayTemplate() {
+  get overlayTemplate(): TemplateResult {
     return html`
       <div
         class="overlay ${this.showLoadingIndicator
@@ -611,7 +617,12 @@ export class IAPicUploader extends LitElement {
    * @param {string} stroke | stroke color
    * @returns {SVGAElement}
    */
-  plusSVGTemplate(height: number, width: number, fill: string, stroke: string) {
+  plusSVGTemplate(
+    height: number,
+    width: number,
+    fill: string,
+    stroke: string,
+  ): SVGTemplateResult {
     return svg`<svg
       class="plus-icon"
       width="${width}"
