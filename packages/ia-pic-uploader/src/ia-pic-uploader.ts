@@ -1,10 +1,20 @@
-import { html, css, LitElement, CSSResultGroup, nothing, svg } from 'lit';
-import { property, customElement, state, query } from 'lit/decorators.js';
-import iaButtonStyle from './style/ia-button-style';
+import {
+  css,
+  CSSResultGroup,
+  html,
+  LitElement,
+  nothing,
+  svg,
+  SVGTemplateResult,
+  TemplateResult,
+} from 'lit';
+import { customElement, property, query, state } from 'lit/decorators.js';
+
+import '@internetarchive/ia-activity-indicator';
+
 import { BackendServiceHandler } from './services/backend-service';
 import log from './services/log';
-
-import '@internetarchive/ia-activity-indicator/ia-activity-indicator';
+import iaButtonStyle from './style/ia-button-style';
 
 @customElement('ia-pic-uploader')
 export class IAPicUploader extends LitElement {
@@ -36,7 +46,7 @@ export class IAPicUploader extends LitElement {
    *
    * @memberof IAPicUploader
    */
-  @property({ type: String }) type? = 'compact';
+  @property({ type: String }) type: 'full' | 'compact' = 'compact';
 
   /**
    * check user is looking at it's our account
@@ -57,7 +67,7 @@ export class IAPicUploader extends LitElement {
    *
    * @memberof IAPicUploader
    */
-  @property({ type: Number }) validFileTypes: String[] = [
+  @property({ type: Array }) validFileTypes: string[] = [
     'image/jpeg',
     'image/png',
     'image/gif',
@@ -70,7 +80,7 @@ export class IAPicUploader extends LitElement {
    * @type {boolean}
    * @memberof IAPicUploader
    */
-  @state() private showLoadingIndicator?: boolean;
+  @state() private showLoadingIndicator: boolean = false;
 
   /**
    * display task's message/error/warning on self submit form
@@ -110,7 +120,7 @@ export class IAPicUploader extends LitElement {
 
   private fileSizeMessage: string = '';
 
-  private relatedTarget: any = '';
+  private relatedTarget: EventTarget | null = null;
 
   firstUpdated() {
     this.fileSizeMessage = `Image file must be less than ${this.maxFileSizeInMB}MB.`;
@@ -187,7 +197,7 @@ export class IAPicUploader extends LitElement {
       e => {
         this.relatedTarget = e.target;
       },
-      false
+      false,
     );
     document.addEventListener('dragover', e => this.dragOver(e), false);
     document.addEventListener('dragleave', e => this.dragLeave(e), true);
@@ -199,14 +209,14 @@ export class IAPicUploader extends LitElement {
     });
 
     [this.overlay, this.dropRegion, this.selfSubmitEle].forEach(element =>
-      element?.addEventListener('drop', this.handleDropImage.bind(this), false)
+      element?.addEventListener('drop', this.handleDropImage.bind(this), false),
     );
 
     // execute when submit to save picture
     this.saveFile?.addEventListener(
       'submit',
       this.handleSaveFile.bind(this),
-      false
+      false,
     );
 
     // execute when user change picture
@@ -340,7 +350,7 @@ export class IAPicUploader extends LitElement {
         detail: {
           error: this.fileValidationError ?? '',
         },
-      })
+      }),
     );
   }
 
@@ -359,7 +369,7 @@ export class IAPicUploader extends LitElement {
     // get input file
     const inputFile = this.fileSelector?.files[0];
     const getParams = `identifier=${this.identifier}&fname=${encodeURIComponent(
-      inputFile.name
+      inputFile.name,
     )}&submit=1`;
 
     await BackendServiceHandler({
@@ -393,15 +403,19 @@ export class IAPicUploader extends LitElement {
     const metadataApiInterval = setInterval(async () => {
       const res = BackendServiceHandler({
         action: 'verify-upload',
-        endpoint: `https://archive.org/metadata/${this.identifier}?rand=${Math.random()}`,
+        endpoint: `https://archive.org/metadata/${
+          this.identifier
+        }?rand=${Math.random()}`,
       });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       res.then((json: any) => {
         const waitCount =
           json.pending_tasks && json.tasks ? json.tasks.length : 0;
 
         if (waitCount) {
           const adminError = json.tasks.filter(
-            (e: any) => e.wait_admin === 2
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (e: any) => e.wait_admin === 2,
           ).length;
           if (adminError) {
             this.taskStatus =
@@ -456,17 +470,16 @@ export class IAPicUploader extends LitElement {
 
   /**
    * function to render self submit form template
-   * @returns {HTMLElement}
    */
-  get selfSubmitFormTemplate() {
+  get selfSubmitFormTemplate(): TemplateResult {
     const formAction = encodeURIComponent(
-      `${this.endpoint}?identifier=${this.identifier}&submit=1`
+      `${this.endpoint}?identifier=${this.identifier}&submit=1`,
     );
 
     return html`
       <div class="self-submit-form hidden">
         <button
-          class="close-button 
+          class="close-button
           ${(!this.showDropper && this.fileValidationError === '') ||
           this.showLoadingIndicator
             ? 'hidden'
@@ -483,7 +496,7 @@ export class IAPicUploader extends LitElement {
           : this.plusSVGTemplate(35, 35, '#969696', '#fff')}
         <span
           class="drag-text ${this.showLoadingIndicator ? 'pointer-none' : ''}"
-          @keyup=""
+          @keyup=${() => {}}
           @click=${() => {
             this.dropRegion?.click();
           }}
@@ -536,9 +549,9 @@ export class IAPicUploader extends LitElement {
           </button>
         </form>
         <div
-          class="image-preview full-preview 
+          class="image-preview full-preview
           ${this.showLoadingIndicator ? 'pointer-none hidden' : ''}"
-          @keyup=""
+          @keyup=${() => {}}
           @click=${() => {
             this.dropRegion?.click();
           }}
@@ -549,9 +562,8 @@ export class IAPicUploader extends LitElement {
 
   /**
    * function that render html template for compact version
-   * @returns {HTMLElement}
    */
-  get selectFileTemplate() {
+  get selectFileTemplate(): TemplateResult {
     return html`
       <div class="select-region">
         <input
@@ -577,9 +589,8 @@ export class IAPicUploader extends LitElement {
 
   /**
    * function that render html for overlay form compact version
-   * @returns {HTMLElement}
    */
-  get overlayTemplate() {
+  get overlayTemplate(): TemplateResult {
     return html`
       <div
         class="overlay ${this.showLoadingIndicator
@@ -599,20 +610,25 @@ export class IAPicUploader extends LitElement {
 
   /**
    *  Render svg plus
-   * 
-   * @param {number} height | height for svg 
+   *
+   * @param {number} height | height for svg
    * @param {number} width  | width for svg
    * @param {string} fill | fill color
    * @param {string} stroke | stroke color
    * @returns {SVGAElement}
    */
-  plusSVGTemplate(height: number, width: number, fill: string, stroke: string) {
-    return svg`<svg 
-      class="plus-icon"  
-      width="${width}" 
-      height="${height}" 
-      viewBox="0 0 26 26" 
-      fill="none" 
+  plusSVGTemplate(
+    height: number,
+    width: number,
+    fill: string,
+    stroke: string,
+  ): SVGTemplateResult {
+    return svg`<svg
+      class="plus-icon"
+      width="${width}"
+      height="${height}"
+      viewBox="0 0 26 26"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <circle cx="12.8137" cy="13.3699" r="12.5" fill="${fill}"/>
@@ -625,7 +641,7 @@ export class IAPicUploader extends LitElement {
   render() {
     return html`
       <div
-        class="profile-section profile-hover 
+        class="profile-section profile-hover
         ${!this.lookingAtMyAccount ? 'pointer-none' : ''}
         ${this.type === 'full' ? 'adjust-full' : ''}
       "
@@ -633,7 +649,7 @@ export class IAPicUploader extends LitElement {
         ${this.type === 'compact' ? this.overlayTemplate : nothing}
         <div
           id="drop-region"
-          class="image-preview 
+          class="image-preview
             ${this.type === 'full' ? 'full-preview' : ''}
             ${this.showLoadingIndicator ? 'pointer-none' : ''}"
         >
@@ -784,7 +800,7 @@ export class IAPicUploader extends LitElement {
         justify-items: center;
       }
 
-      @media(max-width: 1350px) {
+      @media (max-width: 1350px) {
         .self-submit-form {
           left: 100%;
         }
