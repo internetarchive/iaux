@@ -826,10 +826,10 @@
   dependencies:
     lit "^2.2.7"
 
-"@internetarchive/transcript-view@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@internetarchive/transcript-view/-/transcript-view-0.0.3.tgz#4c141abe2a88811ac0c635a9e881c4eeb97c7c34"
-  integrity sha512-qKfd098Q7frubJqD/G50TKHd7WAc1Fyi3Yge1d0Fp5C4rv/T7XZIQ6/42lTVcA99hspdF7tQhNZ8ZTp1TGxL+A==
+"@internetarchive/transcript-view@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@internetarchive/transcript-view/-/transcript-view-1.0.0.tgz#8ba3a8fe1e30300ed58c00cbbc6a01871dd7ce25"
+  integrity sha512-oXZYvmnwZV5WS2uarlhmYoV6ue+nf29UgIB1S6ZKGrCuh3o4Lbz5zPYZR1N0nN42btBZsRc7PyYk4irGWCfdjg==
   dependencies:
     lit "^2.2.7"
 
