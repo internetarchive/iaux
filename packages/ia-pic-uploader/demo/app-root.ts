@@ -46,9 +46,4 @@ export class AppRoot extends LitElement {
       </div>
     `;
   }
-
-  showActivityIndicator() {
-    console.log('showActivityIndicator()');
-    document.dispatchEvent(new Event('saveProfileAvatar'));
-  }
 }
