@@ -56,8 +56,8 @@ export default css`
   }
 
   media-menu {
-    grid-column-start: hamburger-start;
-    grid-column-end: user-end;
+    flex: 1;
+    justify-self: stretch;
   }
 
   .ia-logo {
