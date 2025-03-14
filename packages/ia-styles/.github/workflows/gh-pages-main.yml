@@ -1,0 +1,39 @@
+# This workflow will generate the static page under `main` subdirectory inside the `gh-pages` branch
+
+# This workflow will run every time new changes were pushed to the `main` branch
+
+name: App build CI/CD to main branch
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: yarn install
+  
+      - name: Create build files for gh-pages deploy
+        run: yarn ghpages:build
+
+      # Reference: https://github.com/JamesIves/github-pages-deploy-action
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: gh-pages
+          folder: ghpages
+          clean-exclude: pr/
+          force: false
+          target-folder: main
+          token: ${{ secrets.GH_TOKEN }}
