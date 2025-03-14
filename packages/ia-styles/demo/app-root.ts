@@ -10,10 +10,12 @@ export class AppRoot extends LitElement {
     css`
       div {
         display: flex;
-        flex-direction: column;
       }
       legend {
         font-size: 1.6rem;
+      }
+      button {
+        margin: 0.5rem 0;
       }
     `,
   ];
@@ -29,6 +31,9 @@ export class AppRoot extends LitElement {
             <button class="ia-button danger">Danger Button</button>
             <button class="ia-button warning">Warning Button</button>
             <button class="ia-button" disabled>Disabled</button>
+            <a href="#" class="ia-button primary"
+              >I am a link but looks like a button</a
+            >
             <button class="ia-button link">Link Button</button>
           </td>
         </tr>

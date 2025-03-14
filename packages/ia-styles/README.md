@@ -1,59 +1,47 @@
 ![Build Status](https://github.com/internetarchive/iaux-typescript-wc-template/actions/workflows/ci.yml/badge.svg) [![codecov](https://codecov.io/gh/internetarchive/iaux-typescript-wc-template/branch/main/graph/badge.svg?token=ZOYRJ2BV9W)](https://codecov.io/gh/internetarchive/iaux-typescript-wc-template)
 
-# <ia-pic-uploader></ia-pic-uploader>
+# ia-styles
 
-This is the Profile Pic Uploader Component for Internet Archive website.
+This package contains shared styles for Internet Archive web components.
 
 ## Installation
 ```bash
-yarn add @internetarchive/ia-pic-uploader
+yarn add @internetarchive/ia-styles
 ```
 
-## Usage of ia-pic-uploader
+## Usage
 ```ts
-import '@internetarchive/ia-pic-uploader';
+import { iaButtonStyles, iaSronlyStyles } from '@internetarchive/ia-styles';
 
+// Example usage in a LitElement component
+import { LitElement, html, css } from 'lit';
+import { iaButtonStyles } from '@internetarchive/ia-styles';
 
-<div id="demo"></div>
+class MyComponent extends LitElement {
+  static styles = [
+    iaButtonStyles,
+    css`
+      /* Additional styles here */
+    `
+  ];
 
-<ia-pic-uploader>
-</ia-pic-uploader>
+  render() {
+    return html`
+      <button class="ia-button">Click me</button>
+    `;
+  }
+}
 
-<script type="module">
-    import { html, render } from 'lit';
-    import '../dist/src/ia-pic-uploader.js';
-
-    render(
-      html`
-        <ia-pic-uploader></ia-pic-uploader>
-      `,
-      document.querySelector('#demo')
-    );
-
-    const iaPicUploader = document.querySelector('ia-pic-uploader');
-
-    iaPicUploader.identifier = 'naturalhistoryof00unse_4111';
-    iaPicUploader.endpoint = 'https://www-neeraj.archive.org/services/post-file.php';
-    iaPicUploader.picture = './demo/default-preview.jpg' ;
-    iaPicUploader.type = 'full'; // full|compact
-    iaPicUploader.lookingAtMyAccount = true;
-    iaPicUploader.maxFileSizeInMB = 4; //
-    iaPicUploader.validFileTypes = ['image/jpeg','image/png','image/gif'];
-  </script>
+customElements.define('my-component', MyComponent);
 ```
-## Variants 
 
-1. <ia-pic-uploader type="full"></ia-pic-uploader>
-2. <ia-pic-uploader type="compact"></ia-pic-uploader>
+## Available Styles
 
-## Attribute 
-1. **identifier** - User identifier.
-2. **endpoint** - Endpoint of form submition in case of full variant.
-3. **picture** - User profile picture. 
-4. **type** - Web component type full | compact.
-5. **lookingAtMyAccount** - User looking at it's own account
-6. **maxFilesSizeInMB** - File's max-size
-7. **validFileTypes** - File's valid types
+### iaButtonStyles
+Styles for buttons.
+
+### iaSronlyStyles
+Styles for screen reader only elements.
 
 ## Local Demo with `web-dev-server`
 ```bash
