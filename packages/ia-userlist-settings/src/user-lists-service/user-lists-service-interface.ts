@@ -19,7 +19,7 @@ export interface UserListsServiceInterface {
    * @param userId The ID of the user to fetch lists for (e.g., `@brewster`)
    */
   fetchListsForUser(
-    userId: string
+    userId: string,
   ): Promise<Result<UserList[], UserListsError>>;
 
   /**
@@ -33,7 +33,7 @@ export interface UserListsServiceInterface {
    */
   fetchList(
     userId: string,
-    listId: string
+    listId: string,
   ): Promise<Result<UserList, UserListsError>>;
 
   /**
@@ -44,7 +44,7 @@ export interface UserListsServiceInterface {
    * @param itemId The ID of the archive item to query lists for
    */
   fetchOwnListsContainingItem(
-    itemId: string
+    itemId: string,
   ): Promise<Result<UserList[], UserListsError>>;
 
   /**
@@ -56,7 +56,7 @@ export interface UserListsServiceInterface {
    */
   fetchListMembers(
     userId: string,
-    listId: string
+    listId: string,
   ): Promise<Result<UserListMember[], UserListsError>>;
 
   /**
@@ -68,7 +68,7 @@ export interface UserListsServiceInterface {
    */
   fetchListMemberSearchResults(
     userId: string,
-    listId: string
+    listId: string,
   ): Promise<Result<SearchResult[], Error>>;
 
   /**
@@ -78,7 +78,7 @@ export interface UserListsServiceInterface {
    * or an error otherwise.
    */
   createList(
-    options: UserListOptions
+    options: UserListOptions,
   ): Promise<Result<UserList, UserListsError>>;
 
   /**
@@ -90,7 +90,7 @@ export interface UserListsServiceInterface {
    */
   updateList(
     listId: string,
-    options: Partial<UserListOptions>
+    options: Partial<UserListOptions>,
   ): Promise<Result<UserList, UserListsError>>;
 
   /**
@@ -109,7 +109,7 @@ export interface UserListsServiceInterface {
    */
   addMemberToList(
     listId: string,
-    options: UserListMemberOptions
+    options: UserListMemberOptions,
   ): Promise<Result<UserListMember, UserListsError>>;
 
   /**
@@ -121,6 +121,6 @@ export interface UserListsServiceInterface {
    */
   removeMemberFromList(
     listId: string,
-    memberId: string
+    memberId: string,
   ): Promise<Result<UserList, UserListsError>>;
 }

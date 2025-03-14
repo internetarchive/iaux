@@ -78,7 +78,7 @@ export class AppRoot extends LitElement {
 
   private async showUserListSettingModal(op: string) {
     this.modalManager = this.shadowRoot?.querySelector(
-      'modal-manager'
+      'modal-manager',
     ) as ModalManager;
     this.modalManager?.setAttribute('id', 'create-user-list-modal');
 
@@ -100,7 +100,6 @@ export class AppRoot extends LitElement {
           this.modalManager.closeModal();
         }}
         @listDetailsSaved=${(e: CustomEvent) => {
-          // eslint-disable-next-line no-console
           console.log(e.detail);
           this.modalManager.closeModal();
         }}

@@ -38,7 +38,7 @@ export class IAUserListSettings extends LitElement {
   private async saveListDetails(event: Event) {
     event.preventDefault();
     const submitButton = (event.target as HTMLElement)?.querySelector(
-      'button#save-list-settings'
+      'button#save-list-settings',
     );
     submitButton?.setAttribute('disabled', 'true');
 
@@ -55,7 +55,7 @@ export class IAUserListSettings extends LitElement {
       if (this.userList?.id) {
         response = await this.userListsService?.updateList(
           this.userList.id,
-          userListData
+          userListData,
         );
       } else {
         response = await this.userListsService?.createList(userListData);
@@ -65,7 +65,7 @@ export class IAUserListSettings extends LitElement {
         this.dispatchEvent(
           new CustomEvent<UserList>('userListSaved', {
             detail: response.success,
-          })
+          }),
         );
       } else {
         throw response.error;
@@ -74,9 +74,9 @@ export class IAUserListSettings extends LitElement {
       this.dispatchEvent(
         new CustomEvent('userListError', {
           detail: { error },
-        })
+        }),
       );
-      // eslint-disable-next-line no-console
+
       console.log('error', error);
       submitButton?.removeAttribute('disabled');
     }
