@@ -1,0 +1,3 @@
+export { iaButtonStyles } from './src/ia-button';
+export { iaSronlyStyles } from './src/ia-sronly';
+// Add more style exports here...
