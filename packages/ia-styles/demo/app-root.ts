@@ -32,7 +32,7 @@ export class AppRoot extends LitElement {
             <button class="ia-button warning">Warning Button</button>
             <button class="ia-button" disabled>Disabled</button>
             <a href="#" class="ia-button primary"
-              >I am a link but looks like a button</a
+              >I am a link but look like a button</a
             >
             <button class="ia-button link">Link Button</button>
           </td>

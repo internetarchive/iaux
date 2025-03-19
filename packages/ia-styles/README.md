@@ -6,7 +6,7 @@ This package contains shared styles for Internet Archive web components.
 
 ## Installation
 ```bash
-yarn add @internetarchive/ia-styles
+npm i @internetarchive/ia-styles
 ```
 
 ## Usage
@@ -27,7 +27,7 @@ class MyComponent extends LitElement {
 
   render() {
     return html`
-      <button class="ia-button">Click me</button>
+      <button class="ia-button primary">Click me</button>
     `;
   }
 }
@@ -45,46 +45,46 @@ Styles for screen reader only elements.
 
 ## Local Demo with `web-dev-server`
 ```bash
-yarn start
+npm run start
 ```
 To run a local development server that serves the basic demo located in `demo/index.html`
 
 ## Testing with Web Test Runner
 To run the suite of Web Test Runner tests, run
 ```bash
-yarn run test
+npm run test
 ```
 
 To run the tests in watch mode (for &lt;abbr title=&#34;test driven development&#34;&gt;TDD&lt;/abbr&gt;, for example), run
 ```bash
-yarn run test:watch
+npm run test:watch
 ```
 
 ## Linting with ESLint, Prettier, and Types
 To scan the project for linting errors, run
 ```bash
-yarn run lint
+npm run lint
 ```
 
 You can lint with ESLint and Prettier individually as well
 ```bash
-yarn run lint:eslint
+npm run lint:eslint
 ```
 
 ```bash
-yarn run lint:prettier
+npm run lint:prettier
 ```
 
 To automatically fix many linting errors, run
 ```bash
-yarn run format
+npm run format
 ```
 
 You can format using ESLint and Prettier individually as well
 ```bash
-yarn run format:eslint
+npm run format:eslint
 ```
 
 ```bash
-yarn run format:prettier
+npm run format:prettier
 ```

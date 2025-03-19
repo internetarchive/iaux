@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-styles",
-  "version": "0.1.9-alpha6",
+  "version": "1.0.0",
   "description": "A collection of styles for Internet Archive web components",
   "license": "AGPL-3.0-only",
   "author": "Internet Archive",
