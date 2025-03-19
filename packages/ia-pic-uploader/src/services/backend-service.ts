@@ -1,26 +1,20 @@
-/* eslint-disable */
-
 import log from './log';
 import { ServiceOptionType } from '../model';
 
 /**
- * Helper function to handle backend service calls for file uploads and verifications
- * @param {ServiceOptionType} options - Configuration object for the service call
- * @param {string} options.method - HTTP method to use (defaults to POST)
- * @param {File} [options.file] - File to upload (optional)
- * @param {string} options.getParam - Query parameters to append to URL
- * @param {string} options.endpoint - API endpoint URL
- * @param {string} options.action - Action type ('save-file' or 'verify-upload')
- * @param {Object} options.headers - Request headers
- * @param {Function} [options.callback] - Callback function called on successful file upload
- * @returns {Promise<Object>} Response data from the API call
- * @throws {Error} Logs error to console and returns empty object if request fails
+ * Helper to call loan service
+ * @param {Object} options
  */
-export async function BackendServiceHandler(
-  options: ServiceOptionType
-): Promise<object> {
-  const option: ServiceOptionType = {
-    method: 'POST',
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function BackendServiceHandler(options: any): Promise<any> {
+  const option = {
+    action: null,
+    identifier: '',
+    file: null,
+    getParam: '',
+    endpoint: '',
+    headers: {},
+    callback() {},
     ...options,
   };
 
@@ -40,15 +34,20 @@ export async function BackendServiceHandler(
       method: option.method,
       mode: 'no-cors', // Add this line
       headers: option.headers,
-      body: option.action === 'save-file' ? formData : null,
-    });
+      body: option.file ?? null,
+    })
+      .then(response => {
+        log('response', response);
 
-    if (isDemo && option.action === 'verify-upload') {
-      return {
-        success: true,
-        item_last_updated: 1,
-      };
-    }
+        /**
+         * return success response for /demo/ server...
+         */
+        if (baseHost === '/demo/' && option.action === 'verify-upload') {
+          return {
+            success: true,
+            item_last_updated: 1,
+          };
+        }
 
     if (option.action === 'save-file') {
       if (response.status === 200) {
@@ -57,16 +56,26 @@ export async function BackendServiceHandler(
         );
         if (option.callback) {
           option.callback(response);
+          return {};
         }
-        return {};
-      }
-    }
 
-    if (response.status === 0) {
-      return {};
-    }
+        /**
+         * The response is a Response instance.
+         * You parse the data into a useable format using `.json()`
+         */
+        if (response.status !== 0) {
+          return response.json();
+        }
+      })
+      .then(data => {
+        if (option.action === 'save-file') {
+          log(
+            'file saved, metadata call started to verify is picture is updated!',
+          );
+        }
 
-    return await response.json();
+        finalResponse = data;
+      });
   } catch (error) {
     log(error);
     return {};
