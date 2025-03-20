@@ -51,7 +51,7 @@ export class WaybackSearch extends LitElement {
     `;
   }
 
-  private handleSubmit(e: Event) {
+  handleSubmit(e: Event) {
     e.preventDefault();
     const query = this.urlInput.value;
     this.emitWaybackSearchSubmitted(query);

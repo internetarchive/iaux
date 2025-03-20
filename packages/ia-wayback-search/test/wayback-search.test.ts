@@ -19,24 +19,17 @@ const component = (
 describe("<wayback-search>", () => {
   it("redirects on submit", async () => {
     const query = "archive.org";
-    const submitEvent: {
-      target: HTMLElement | null | undefined;
-      type: string;
-      preventDefault: () => void;
-    } = {
-      target: null,
-      type: "submit",
-      preventDefault: () => {},
-    };
+    const submitEvent = new Event("submit");
     const performQuery = sinon.fake();
     const el = await fixture<WaybackSearch>(component());
     el.queryHandler = { performQuery };
-
-    submitEvent.target = el.shadowRoot?.querySelector("form");
-    // el.shadowRoot?.getElementById('url')?.value = query;
-    // el.handleSubmit(submitEvent);
-    // expect(performQuery.callCount).to.equal(1);
-    // expect(performQuery.firstArg).to.contain(query);
+    const input = el.shadowRoot?.getElementById("url") as HTMLInputElement;
+    if (input) {
+      input.value = query;
+    }
+    el.handleSubmit(submitEvent);
+    expect(performQuery.callCount).to.equal(1);
+    expect(performQuery.args[0]).to.contain(query);
   });
 
   it("renders the Wayback pages count", async () => {
