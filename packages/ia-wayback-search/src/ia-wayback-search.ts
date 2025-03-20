@@ -8,8 +8,8 @@ export class WaybackSearch extends LitElement {
   @property({ type: Object }) queryHandler: {
     performQuery: (query: string) => void;
   } = {
-      performQuery: (query: string) =>
-        (window.location.href = `https://web.archive.org/web/*/${query}`),
+    performQuery: (query: string) =>
+      (window.location.href = `https://web.archive.org/web/*/${query}`),
   };
 
   @property({ type: String }) waybackPagesArchived = "916 billion";
