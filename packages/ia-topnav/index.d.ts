@@ -1,4 +1,4 @@
-import { LitElement } from 'lit';
+import { LitElement } from "lit";
 
 export interface IATopNavConfig {
   /**
@@ -82,7 +82,7 @@ export interface IATopNavMenuConfig {
   web: IATopNavWaybackMenuConfig;
 }
 
-export type IATopNavSecondIdentitySlotMode = 'allow' | '';
+export type IATopNavSecondIdentitySlotMode = "allow" | "";
 
 export declare class IATopNav extends LitElement {
   localLinks?: boolean;
