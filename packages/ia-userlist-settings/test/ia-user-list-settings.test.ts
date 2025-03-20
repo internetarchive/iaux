@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { html, fixture, expect, oneEvent } from '@open-wc/testing';
 
 import type {
@@ -11,7 +9,7 @@ import '../src/ia-user-list-settings';
 describe('IAUserListSettings', () => {
   it('has defined fields rendered', async () => {
     const el = await fixture<IAUserListSettings>(
-      html`<iaux-userlist-settings></iaux-userlist-settings>`
+      html`<iaux-userlist-settings></iaux-userlist-settings>`,
     );
 
     const newListElement = el.shadowRoot?.querySelector('.new-list');
@@ -29,7 +27,7 @@ describe('IAUserListSettings', () => {
 
   it('has button rendered', async () => {
     const el = await fixture<IAUserListSettings>(
-      html`<iaux-userlist-settings></iaux-userlist-settings>`
+      html`<iaux-userlist-settings></iaux-userlist-settings>`,
     );
 
     const modalFooterElement = el.shadowRoot?.querySelector('.footer');
@@ -41,7 +39,7 @@ describe('IAUserListSettings', () => {
 
   it('by default fields are empty/undefined', async () => {
     const el = await fixture<IAUserListSettings>(
-      html`<iaux-userlist-settings></iaux-userlist-settings>`
+      html`<iaux-userlist-settings></iaux-userlist-settings>`,
     );
 
     const newListElement = el.shadowRoot?.querySelector('.new-list');
@@ -49,10 +47,10 @@ describe('IAUserListSettings', () => {
     const listId = newListElement?.querySelector('#id') as HTMLInputElement;
     const listName = newListElement?.querySelector('#name') as HTMLInputElement;
     const listDesc = newListElement?.querySelector(
-      '#description'
+      '#description',
     ) as HTMLInputElement;
     const listPrivate = newListElement?.querySelector(
-      '#private'
+      '#private',
     ) as HTMLInputElement;
 
     expect(listId?.value).to.equal('');
@@ -63,7 +61,7 @@ describe('IAUserListSettings', () => {
 
   it('fields should have data while edit', async () => {
     const el = await fixture<IAUserListSettings>(
-      html`<iaux-userlist-settings></iaux-userlist-settings>`
+      html`<iaux-userlist-settings></iaux-userlist-settings>`,
     );
 
     const userList: UserListModel = {
@@ -81,10 +79,10 @@ describe('IAUserListSettings', () => {
     const listId = newListElement?.querySelector('#id') as HTMLInputElement;
     const listName = newListElement?.querySelector('#name') as HTMLInputElement;
     const listDesc = newListElement?.querySelector(
-      '#description'
+      '#description',
     ) as HTMLInputElement;
     const listPrivate = newListElement?.querySelector(
-      '#private'
+      '#private',
     ) as HTMLInputElement;
 
     expect(listId.value).to.equal(userList.id);
@@ -102,11 +100,11 @@ describe('IAUserListSettings', () => {
 
   it('emit setting modal close event', async () => {
     const el = await fixture<IAUserListSettings>(
-      html`<iaux-userlist-settings></iaux-userlist-settings>`
+      html`<iaux-userlist-settings></iaux-userlist-settings>`,
     );
 
     const cancelButton = el.shadowRoot?.querySelector(
-      '#cancel'
+      '#cancel',
     ) as HTMLInputElement;
 
     // Define a custom event name
@@ -119,7 +117,7 @@ describe('IAUserListSettings', () => {
     });
 
     // Use oneEvent to listen for the custom event
-    const customEvent = oneEvent(el, customEventName, false);
+    const customEvent = oneEvent(el, customEventName);
     cancelButton?.click();
 
     // Wait for the custom event to be dispatched and captured
