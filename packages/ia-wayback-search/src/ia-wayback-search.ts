@@ -136,9 +136,6 @@ export default class WaybackSearch extends LitElement {
 
     input:focus {
       border-color: #66afe9;
-      box-shadow:
-        inset 0 1px 1px rgba(0, 0, 0, 0.075),
-        0 0 8px rgba(102, 175, 233, 0.6);
       outline: none;
     }
 
@@ -180,13 +177,12 @@ export default class WaybackSearch extends LitElement {
 
       fieldset {
         margin: 0 auto;
-        font-size: 0;
       }
 
       fieldset a,
       .search-field {
         display: inline-block;
-        width: 50%;
+        width: 49%;
         vertical-align: middle;
       }
 
