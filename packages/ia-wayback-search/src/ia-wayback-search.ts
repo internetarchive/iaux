@@ -12,38 +12,11 @@ export class WaybackSearch extends LitElement {
         (window.location.href = `https://web.archive.org/web/*/${query}`),
   };
 
-  @property({ type: String }) waybackPagesArchived = "";
+  @property({ type: String }) waybackPagesArchived = "916 billion";
 
   @query("#url") private urlInput!: HTMLInputElement;
 
-  handleSubmit(e: Event) {
-    e.preventDefault();
-    const query = this.urlInput.value;
-    this.emitWaybackSearchSubmitted(query);
-    this.queryHandler.performQuery(query);
-  }
-
-  emitWaybackSearchSubmitted(query: string) {
-    this.dispatchEvent(
-      new CustomEvent("waybackSearchSubmitted", {
-        detail: {
-          query,
-        },
-      }),
-    );
-  }
-
-  emitWaybackMachineStatsLinkClicked() {
-    this.dispatchEvent(new CustomEvent("waybackMachineStatsLinkClicked"));
-  }
-
-  emitWaybackMachineLogoLinkClicked() {
-    this.dispatchEvent(new CustomEvent("waybackMachineLogoLink"));
-  }
-
   render() {
-    this.waybackPagesArchived = this.getAttribute("waybackPagesArchived") ?? "";
-
     return html`
       <form method="post" @submit=${this.handleSubmit}>
         <p>
@@ -76,6 +49,31 @@ export class WaybackSearch extends LitElement {
         </fieldset>
       </form>
     `;
+  }
+
+  private handleSubmit(e: Event) {
+    e.preventDefault();
+    const query = this.urlInput.value;
+    this.emitWaybackSearchSubmitted(query);
+    this.queryHandler.performQuery(query);
+  }
+
+  emitWaybackSearchSubmitted(query: string) {
+    this.dispatchEvent(
+      new CustomEvent("waybackSearchSubmitted", {
+        detail: {
+          query,
+        },
+      }),
+    );
+  }
+
+  emitWaybackMachineStatsLinkClicked() {
+    this.dispatchEvent(new CustomEvent("waybackMachineStatsLinkClicked"));
+  }
+
+  emitWaybackMachineLogoLinkClicked() {
+    this.dispatchEvent(new CustomEvent("waybackMachineLogoLink"));
   }
 
   static styles = css`
