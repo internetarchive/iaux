@@ -3,41 +3,56 @@
   "version": "0.2.5",
   "description": "Wayback search form component",
   "license": "AGPL-3.0-only",
-  "main": "index.js",
-  "module": "index.js",
-  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "start": "cd ../../www/ && web-dev-server --app-index ./index.html --node-resolve --watch --open",
-    "lint:eslint": "eslint --ext .js . --ignore-path .gitignore",
-    "format:eslint": "eslint --ext .js . --fix --ignore-path .gitignore",
-    "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
-    "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
-    "lint": "npm run lint:eslint",
-    "format": "npm run format:eslint && npm run format:prettier",
-    "test": "ulimit -v unlimited;  web-test-runner  'test/**/*.test.js' --node-resolve --coverage --puppeteer",
-    "site:build": "npm run storybook:build",
-    "storybook": "start-storybook -p 9001",
-    "storybook:build": "build-storybook -o _site -s storybook-static"
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+    "prepare": "rimraf dist && tsc && husky install",
+    "build": "tsc",
+    "lint": "eslint . && prettier \"**/*.ts\" --check",
+    "format": "eslint . --fix && prettier \"**/*.ts\" --write",
+    "circular": "madge --circular --extensions ts .",
+    "test": "tsc && npm run lint && npm run circular && wtr --coverage",
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
+    "ghpages:build": "rimraf ghpages && npm run prepare && vite build",
+    "ghpages:publish": "npm run ghpages:prepare -e $(git branch --show-current)",
+    "ghpages:prepare": "npm run ghpages:build && touch ghpages/.nojekyll && npm run ghpages:generate",
+    "ghpages:generate": "gh-pages -t -d ghpages -m \"Build for $(git log --pretty=format:\"%h %an %ai %s\" -n1) [skip ci]\""
   },
   "devDependencies": {
-    "@open-wc/demoing-storybook": "^2.4.7",
-    "@open-wc/eslint-config": "^8.0.2",
-    "@open-wc/polyfills-loader": "^0.3.3",
-    "@open-wc/prettier-config": "^1.1.0",
-    "@open-wc/testing": "^3.1.6",
-    "@storybook/react": "^6.5.12",
-    "@web/test-runner": "^0.14.0",
-    "@web/test-runner-puppeteer": "^0.10.5",
-    "eslint": "^8.24.0",
-    "eslint-plugin-lit": "^1.6.1",
-    "gulp": "^4.0.2",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.3",
-    "sinon": "^14.0.1",
-    "web-dev-server": "^3.0.27"
+    "@open-wc/eslint-config": "^12.0.3",
+    "@open-wc/testing": "^4.0.0",
+    "@types/form-data": "^2.5.2",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.13.10",
+    "@types/sinon": "^17.0.4",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "@web/dev-server": "^0.4.6",
+    "@web/test-runner": "^0.20.0",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-html": "^8.1.2",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-lit": "^2.0.0",
+    "eslint-plugin-lit-a11y": "^4.1.4",
+    "eslint-plugin-no-only-tests": "^3.3.0",
+    "eslint-plugin-wc": "^3.0.0",
+    "gh-pages": "^6.3.0",
+    "husky": "^9.1.7",
+    "madge": "^8.0.0",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "sinon": "^19.0.2",
+    "ts-lit-plugin": "^2.0.2",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7"
   },
   "husky": {
     "hooks": {
@@ -50,11 +65,7 @@
       "git add"
     ]
   },
-  "eslintConfig": {
-    "extends": [
-      "@open-wc/eslint-config",
-      "eslint-config-prettier"
-    ]
-  },
-  "prettier": "@open-wc/prettier-config"
+  "dependencies": {
+    "lit": "^2.8.0"
+  }
 }

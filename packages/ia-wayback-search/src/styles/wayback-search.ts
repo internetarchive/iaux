@@ -1,4 +1,4 @@
-import { css } from 'https://offshoot.prod.archive.org/lit.js';
+import { css } from "lit";
 
 export default css`
   :host {
@@ -58,7 +58,9 @@ export default css`
 
   input:focus {
     border-color: #66afe9;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow:
+      inset 0 1px 1px rgba(0, 0, 0, 0.075),
+      0 0 8px rgba(102, 175, 233, 0.6);
     outline: none;
   }
 
