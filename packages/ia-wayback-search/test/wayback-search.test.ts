@@ -1,7 +1,7 @@
 import { html, fixture, expect, oneEvent } from "@open-wc/testing";
 import sinon from "sinon";
 import "../src/ia-wayback-search";
-import WaybackSearch from "../src/ia-wayback-search";
+import type { WaybackSearch } from "../src/ia-wayback-search";
 import { TemplateResult } from "lit-html";
 
 const component = (
@@ -73,11 +73,4 @@ describe("<wayback-search>", () => {
 
     expect(response).to.exist;
   });
-
-  // it('uses the baseHost property when setting the logo anchor\'s href', async () => {
-  //   const host = 'archive.onion';
-  //   const el = await fixture<WaybackSearch>(component({}, host));
-
-  //   expect(el.shadowRoot?.querySelector('fieldset a')?.getAttribute('href')).to.contain(host);
-  // });
 });

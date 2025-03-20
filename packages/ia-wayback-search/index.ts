@@ -1,3 +1,1 @@
-import WaybackSearch from "./src/ia-wayback-search.js";
-
-export default WaybackSearch;
+export { WaybackSearch } from "./src/ia-wayback-search";

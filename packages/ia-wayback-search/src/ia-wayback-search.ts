@@ -4,7 +4,7 @@ import searchIcon from "./icon-search";
 import logo from "./logo";
 
 @customElement("ia-wayback-search")
-export default class WaybackSearch extends LitElement {
+export class WaybackSearch extends LitElement {
   @property({ type: Object }) queryHandler: {
     performQuery: (query: string) => void;
   } = {
