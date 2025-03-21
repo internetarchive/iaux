@@ -1,9 +1,9 @@
-import { css, html, LitElement } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
-import searchIcon from "./icon-search";
-import logo from "./logo";
+import { css, html, LitElement } from 'lit';
+import { customElement, property, query } from 'lit/decorators.js';
+import searchIcon from './icon-search';
+import logo from './logo';
 
-@customElement("ia-wayback-search")
+@customElement('ia-wayback-search')
 export class WaybackSearch extends LitElement {
   @property({ type: Object }) queryHandler: {
     performQuery: (query: string) => void;
@@ -12,9 +12,9 @@ export class WaybackSearch extends LitElement {
       (window.location.href = `https://web.archive.org/web/*/${query}`),
   };
 
-  @property({ type: String }) waybackPagesArchived = "916 billion";
+  @property({ type: String }) waybackPagesArchived = '916 billion';
 
-  @query("#url") private urlInput!: HTMLInputElement;
+  @query('#url') private urlInput!: HTMLInputElement;
 
   render() {
     return html`
@@ -60,7 +60,7 @@ export class WaybackSearch extends LitElement {
 
   emitWaybackSearchSubmitted(query: string) {
     this.dispatchEvent(
-      new CustomEvent("waybackSearchSubmitted", {
+      new CustomEvent('waybackSearchSubmitted', {
         detail: {
           query,
         },
@@ -69,11 +69,11 @@ export class WaybackSearch extends LitElement {
   }
 
   emitWaybackMachineStatsLinkClicked() {
-    this.dispatchEvent(new CustomEvent("waybackMachineStatsLinkClicked"));
+    this.dispatchEvent(new CustomEvent('waybackMachineStatsLinkClicked'));
   }
 
   emitWaybackMachineLogoLinkClicked() {
-    this.dispatchEvent(new CustomEvent("waybackMachineLogoLink"));
+    this.dispatchEvent(new CustomEvent('waybackMachineLogoLink'));
   }
 
   static styles = css`

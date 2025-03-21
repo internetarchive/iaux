@@ -1,8 +1,8 @@
-import { html, css, LitElement } from "lit";
-import { customElement } from "lit/decorators.js";
-import "../src/ia-wayback-search";
+import { html, css, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
+import '../src/ia-wayback-search';
 
-@customElement("app-root")
+@customElement('app-root')
 export class AppRoot extends LitElement {
   render() {
     return html`
@@ -14,9 +14,9 @@ export class AppRoot extends LitElement {
         @waybackSearchSubmitted=${(e: CustomEvent) =>
           console.log(`waybackSearchSubmitted: ${e.detail.query}`)}
         @waybackMachineStatsLinkClicked=${() =>
-          console.log("waybackMachineStatsLinkClicked event")}
+          console.log('waybackMachineStatsLinkClicked event')}
         @waybackMachineLogoLink=${() =>
-          console.log("waybackMachineLogoLink event")}
+          console.log('waybackMachineLogoLink event')}
       >
       </ia-wayback-search>
     `;
