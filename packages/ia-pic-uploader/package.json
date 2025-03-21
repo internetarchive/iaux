@@ -67,6 +67,7 @@
   },
   "dependencies": {
     "@internetarchive/ia-activity-indicator": "^0.0.6",
+    "@internetarchive/ia-styles": "1.0.0",
     "lit": "^2.8.0"
   }
 }
