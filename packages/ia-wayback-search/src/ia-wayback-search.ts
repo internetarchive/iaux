@@ -42,7 +42,7 @@ export class WaybackSearch extends LitElement {
               type="text"
               name="url"
               id="url"
-              placeholder="enter URL or keywords"
+              placeholder="Enter URL or keywords"
             />
             ${searchIcon}
           </div>
