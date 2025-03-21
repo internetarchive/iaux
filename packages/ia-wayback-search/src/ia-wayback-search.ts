@@ -123,7 +123,7 @@ export class WaybackSearch extends LitElement {
       display: block;
       width: 100%;
       height: 3rem;
-      padding: 0.5rem 1rem 0.5rem 2.5rem;
+      padding: 0.5rem 1rem 0.5rem 3rem;
       font: normal 1.2rem/1.5 var(--themeFontFamily);
       color: #858585;
       box-sizing: border-box;
@@ -144,7 +144,7 @@ export class WaybackSearch extends LitElement {
 
     .search-field svg {
       position: absolute;
-      top: 2px;
+      top: 3px;
       left: 3px;
       width: 2.4rem;
       height: 2.4rem;
@@ -152,10 +152,6 @@ export class WaybackSearch extends LitElement {
 
     .search-field .fill-color {
       fill: var(--iconFill);
-    }
-
-    input:focus + svg {
-      display: none;
     }
 
     @media (min-width: 890px) {
@@ -189,8 +185,7 @@ export class WaybackSearch extends LitElement {
       }
 
       .search-field svg {
-        width: 2.8rem;
-        height: 2.8rem;
+        top: 2px;
       }
 
       .search-field .fill-color {
