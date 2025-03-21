@@ -107,6 +107,10 @@ export class WaybackSearch extends LitElement {
       box-shadow: 3px 3px 0 0 #c3ad97;
     }
 
+    fieldset a {
+      font-size: 0;
+    }
+
     label {
       display: none;
     }
@@ -182,7 +186,6 @@ export class WaybackSearch extends LitElement {
 
       fieldset a {
         text-align: center;
-        font-size: 0;
       }
 
       .search-field svg {
