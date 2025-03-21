@@ -1,13 +1,35 @@
-/node_modules/
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-## testing
-/coverage/
+## npm
+/node_modules/
+/npm-debug.log
 
 ## temp folders
 /.tmp/
 
 # build
 /_site/
-/lib/
+/dist/
+/out-tsc/
+/build/
+ghpages
+dist
+dist-ssr
+*.local
 
+storybook-static
+
+# Logs
+logs
 *.log
+npm-debug.log*
+npm-error.log*
