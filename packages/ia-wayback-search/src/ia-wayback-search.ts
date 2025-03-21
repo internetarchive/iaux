@@ -182,6 +182,7 @@ export class WaybackSearch extends LitElement {
 
       fieldset a {
         text-align: center;
+        font-size: 0;
       }
 
       .search-field svg {
