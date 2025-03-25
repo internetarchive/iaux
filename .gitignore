@@ -20,6 +20,7 @@
 # build
 /components/**/*.js
 /components/**/*.js.map
+/components/**/*.d.ts
 
 # Logs
 logs
