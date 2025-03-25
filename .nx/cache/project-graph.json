@@ -1,0 +1,2095 @@
+{
+  "nodes": {
+    "@internetarchive/ia-zendesk-help-widget": {
+      "name": "@internetarchive/ia-zendesk-help-widget",
+      "type": "lib",
+      "data": {
+        "root": "packages/ia-zendesk-help-widget",
+        "sourceRoot": "packages/ia-zendesk-help-widget",
+        "name": "@internetarchive/ia-zendesk-help-widget",
+        "projectType": "library",
+        "targets": {
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "lint:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:eslint"
+            },
+            "configurations": {}
+          },
+          "format:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:eslint"
+            },
+            "configurations": {}
+          },
+          "lint:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:prettier"
+            },
+            "configurations": {}
+          },
+          "format:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:prettier"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "test:update-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:update-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:prune-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:prune-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility"
+            },
+            "configurations": {}
+          },
+          "test:compatibility:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility:watch"
+            },
+            "configurations": {}
+          },
+          "test:bs": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:bs"
+            },
+            "configurations": {}
+          },
+          "site:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "site:build"
+            },
+            "configurations": {}
+          },
+          "storybook": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook"
+            },
+            "configurations": {}
+          },
+          "storybook:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook:build"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/expandable-search-bar": {
+      "name": "@internetarchive/expandable-search-bar",
+      "type": "lib",
+      "data": {
+        "root": "packages/expandable-search-bar",
+        "sourceRoot": "packages/expandable-search-bar",
+        "name": "@internetarchive/expandable-search-bar",
+        "projectType": "library",
+        "targets": {
+          "prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "prepare"
+            },
+            "configurations": {}
+          },
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "configurations": {}
+          },
+          "watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "watch"
+            },
+            "configurations": {}
+          },
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "devserver": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "devserver"
+            },
+            "configurations": {}
+          },
+          "start:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start:compatibility"
+            },
+            "configurations": {}
+          },
+          "lint:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:eslint"
+            },
+            "configurations": {}
+          },
+          "format:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:eslint"
+            },
+            "configurations": {}
+          },
+          "lint:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:prettier"
+            },
+            "configurations": {}
+          },
+          "format:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:prettier"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "test:update-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:update-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:prune-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:prune-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility"
+            },
+            "configurations": {}
+          },
+          "test:compatibility:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility:watch"
+            },
+            "configurations": {}
+          },
+          "test:bs": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:bs"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/ia-activity-indicator": {
+      "name": "@internetarchive/ia-activity-indicator",
+      "type": "lib",
+      "data": {
+        "root": "packages/ia-activity-indicator",
+        "sourceRoot": "packages/ia-activity-indicator",
+        "name": "@internetarchive/ia-activity-indicator",
+        "projectType": "library",
+        "targets": {
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "configurations": {}
+          },
+          "prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "prepare"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "circular": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "circular"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "ghpages:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:build"
+            },
+            "configurations": {}
+          },
+          "ghpages:publish": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:publish"
+            },
+            "configurations": {}
+          },
+          "ghpages:prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:prepare"
+            },
+            "configurations": {}
+          },
+          "ghpages:generate": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:generate"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/example-webcomponent": {
+      "name": "@internetarchive/example-webcomponent",
+      "type": "lib",
+      "data": {
+        "root": "packages/example-webcomponent",
+        "sourceRoot": "packages/example-webcomponent",
+        "name": "@internetarchive/example-webcomponent",
+        "projectType": "library",
+        "targets": {
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "lint:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:eslint"
+            },
+            "configurations": {}
+          },
+          "format:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:eslint"
+            },
+            "configurations": {}
+          },
+          "lint:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:prettier"
+            },
+            "configurations": {}
+          },
+          "format:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:prettier"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "test:update-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:update-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:prune-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:prune-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility"
+            },
+            "configurations": {}
+          },
+          "test:compatibility:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility:watch"
+            },
+            "configurations": {}
+          },
+          "test:bs": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:bs"
+            },
+            "configurations": {}
+          },
+          "site:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "site:build"
+            },
+            "configurations": {}
+          },
+          "storybook": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook"
+            },
+            "configurations": {}
+          },
+          "storybook:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook:build"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/ia-userlist-settings": {
+      "name": "@internetarchive/ia-userlist-settings",
+      "type": "lib",
+      "data": {
+        "root": "packages/ia-userlist-settings",
+        "sourceRoot": "packages/ia-userlist-settings",
+        "name": "@internetarchive/ia-userlist-settings",
+        "projectType": "library",
+        "targets": {
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "prepare"
+            },
+            "configurations": {}
+          },
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "circular": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "circular"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "publish:alpha": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "publish:alpha"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/ia-wayback-search": {
+      "name": "@internetarchive/ia-wayback-search",
+      "type": "lib",
+      "data": {
+        "root": "packages/ia-wayback-search",
+        "sourceRoot": "packages/ia-wayback-search",
+        "name": "@internetarchive/ia-wayback-search",
+        "projectType": "library",
+        "targets": {
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "lint:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:eslint"
+            },
+            "configurations": {}
+          },
+          "format:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:eslint"
+            },
+            "configurations": {}
+          },
+          "lint:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:prettier"
+            },
+            "configurations": {}
+          },
+          "format:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:prettier"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "site:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "site:build"
+            },
+            "configurations": {}
+          },
+          "storybook": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook"
+            },
+            "configurations": {}
+          },
+          "storybook:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook:build"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/playback-controls": {
+      "name": "@internetarchive/playback-controls",
+      "type": "lib",
+      "data": {
+        "root": "packages/playback-controls",
+        "sourceRoot": "packages/playback-controls",
+        "name": "@internetarchive/playback-controls",
+        "projectType": "library",
+        "targets": {
+          "prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "prepare"
+            },
+            "configurations": {}
+          },
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "configurations": {}
+          },
+          "watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "watch"
+            },
+            "configurations": {}
+          },
+          "devserver": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "devserver"
+            },
+            "configurations": {}
+          },
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "start:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start:compatibility"
+            },
+            "configurations": {}
+          },
+          "lint:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:eslint"
+            },
+            "configurations": {}
+          },
+          "format:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:eslint"
+            },
+            "configurations": {}
+          },
+          "lint:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:prettier"
+            },
+            "configurations": {}
+          },
+          "format:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:prettier"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "test:update-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:update-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:prune-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:prune-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility"
+            },
+            "configurations": {}
+          },
+          "test:compatibility:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility:watch"
+            },
+            "configurations": {}
+          },
+          "test:bs": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:bs"
+            },
+            "configurations": {}
+          },
+          "site:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "site:build"
+            },
+            "configurations": {}
+          },
+          "storybook": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook"
+            },
+            "configurations": {}
+          },
+          "storybook:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook:build"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/waveform-progress": {
+      "name": "@internetarchive/waveform-progress",
+      "type": "lib",
+      "data": {
+        "root": "packages/waveform-progress",
+        "sourceRoot": "packages/waveform-progress",
+        "name": "@internetarchive/waveform-progress",
+        "projectType": "library",
+        "targets": {
+          "prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "prepare"
+            },
+            "configurations": {}
+          },
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "configurations": {}
+          },
+          "watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "watch"
+            },
+            "configurations": {}
+          },
+          "devserver": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "devserver"
+            },
+            "configurations": {}
+          },
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "start:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start:compatibility"
+            },
+            "configurations": {}
+          },
+          "lint:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:eslint"
+            },
+            "configurations": {}
+          },
+          "format:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:eslint"
+            },
+            "configurations": {}
+          },
+          "lint:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:prettier"
+            },
+            "configurations": {}
+          },
+          "format:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:prettier"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "test:update-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:update-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:prune-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:prune-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility"
+            },
+            "configurations": {}
+          },
+          "test:compatibility:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility:watch"
+            },
+            "configurations": {}
+          },
+          "test:bs": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:bs"
+            },
+            "configurations": {}
+          },
+          "site:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "site:build"
+            },
+            "configurations": {}
+          },
+          "storybook": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook"
+            },
+            "configurations": {}
+          },
+          "storybook:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook:build"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/ia-pic-uploader": {
+      "name": "@internetarchive/ia-pic-uploader",
+      "type": "lib",
+      "data": {
+        "root": "packages/ia-pic-uploader",
+        "sourceRoot": "packages/ia-pic-uploader",
+        "name": "@internetarchive/ia-pic-uploader",
+        "projectType": "library",
+        "targets": {
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "prepare"
+            },
+            "configurations": {}
+          },
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "circular": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "circular"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "ghpages:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:build"
+            },
+            "configurations": {}
+          },
+          "ghpages:publish": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:publish"
+            },
+            "configurations": {}
+          },
+          "ghpages:prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:prepare"
+            },
+            "configurations": {}
+          },
+          "ghpages:generate": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:generate"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/transcript-view": {
+      "name": "@internetarchive/transcript-view",
+      "type": "lib",
+      "data": {
+        "root": "packages/transcript-view",
+        "sourceRoot": "packages/transcript-view",
+        "name": "@internetarchive/transcript-view",
+        "projectType": "library",
+        "targets": {
+          "prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "prepare"
+            },
+            "configurations": {}
+          },
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "configurations": {}
+          },
+          "watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "watch"
+            },
+            "configurations": {}
+          },
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "devserver": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "devserver"
+            },
+            "configurations": {}
+          },
+          "start:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start:compatibility"
+            },
+            "configurations": {}
+          },
+          "lint:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:eslint"
+            },
+            "configurations": {}
+          },
+          "format:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:eslint"
+            },
+            "configurations": {}
+          },
+          "lint:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:prettier"
+            },
+            "configurations": {}
+          },
+          "format:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:prettier"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "test:update-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:update-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:prune-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:prune-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility"
+            },
+            "configurations": {}
+          },
+          "test:compatibility:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility:watch"
+            },
+            "configurations": {}
+          },
+          "test:bs": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:bs"
+            },
+            "configurations": {}
+          },
+          "site:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "site:build"
+            },
+            "configurations": {}
+          },
+          "storybook": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook"
+            },
+            "configurations": {}
+          },
+          "storybook:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook:build"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/audio-element": {
+      "name": "@internetarchive/audio-element",
+      "type": "lib",
+      "data": {
+        "root": "packages/audio-element",
+        "sourceRoot": "packages/audio-element",
+        "name": "@internetarchive/audio-element",
+        "projectType": "library",
+        "targets": {
+          "prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "prepare"
+            },
+            "configurations": {}
+          },
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "configurations": {}
+          },
+          "watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "watch"
+            },
+            "configurations": {}
+          },
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "devserver": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "devserver"
+            },
+            "configurations": {}
+          },
+          "start:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start:compatibility"
+            },
+            "configurations": {}
+          },
+          "lint:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:eslint"
+            },
+            "configurations": {}
+          },
+          "format:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:eslint"
+            },
+            "configurations": {}
+          },
+          "lint:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:prettier"
+            },
+            "configurations": {}
+          },
+          "format:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:prettier"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "test:update-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:update-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:prune-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:prune-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility"
+            },
+            "configurations": {}
+          },
+          "test:compatibility:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility:watch"
+            },
+            "configurations": {}
+          },
+          "test:bs": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:bs"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/radio-player": {
+      "name": "@internetarchive/radio-player",
+      "type": "lib",
+      "data": {
+        "root": "packages/radio-player",
+        "sourceRoot": "packages/radio-player",
+        "name": "@internetarchive/radio-player",
+        "projectType": "library",
+        "targets": {
+          "prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "prepare"
+            },
+            "configurations": {}
+          },
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "configurations": {}
+          },
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "start:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start:compatibility"
+            },
+            "configurations": {}
+          },
+          "lint:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:eslint"
+            },
+            "configurations": {}
+          },
+          "format:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:eslint"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "test:update-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:update-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:prune-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:prune-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility"
+            },
+            "configurations": {}
+          },
+          "test:compatibility:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility:watch"
+            },
+            "configurations": {}
+          },
+          "test:bs": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:bs"
+            },
+            "configurations": {}
+          },
+          "site:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "site:build"
+            },
+            "configurations": {}
+          },
+          "storybook": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook"
+            },
+            "configurations": {}
+          },
+          "storybook:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook:build"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/scrubber-bar": {
+      "name": "@internetarchive/scrubber-bar",
+      "type": "lib",
+      "data": {
+        "root": "packages/scrubber-bar",
+        "sourceRoot": "packages/scrubber-bar",
+        "name": "@internetarchive/scrubber-bar",
+        "projectType": "library",
+        "targets": {
+          "prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "prepare"
+            },
+            "configurations": {}
+          },
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "configurations": {}
+          },
+          "watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "watch"
+            },
+            "configurations": {}
+          },
+          "devserver": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "devserver"
+            },
+            "configurations": {}
+          },
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "start:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start:compatibility"
+            },
+            "configurations": {}
+          },
+          "lint:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:eslint"
+            },
+            "configurations": {}
+          },
+          "format:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:eslint"
+            },
+            "configurations": {}
+          },
+          "lint:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:prettier"
+            },
+            "configurations": {}
+          },
+          "format:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:prettier"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "test:update-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:update-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:prune-snapshots": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:prune-snapshots"
+            },
+            "configurations": {}
+          },
+          "test:compatibility": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility"
+            },
+            "configurations": {}
+          },
+          "test:compatibility:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:compatibility:watch"
+            },
+            "configurations": {}
+          },
+          "test:bs": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:bs"
+            },
+            "configurations": {}
+          },
+          "site:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "site:build"
+            },
+            "configurations": {}
+          },
+          "storybook": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook"
+            },
+            "configurations": {}
+          },
+          "storybook:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "storybook:build"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/ia-styles": {
+      "name": "@internetarchive/ia-styles",
+      "type": "lib",
+      "data": {
+        "root": "packages/ia-styles",
+        "sourceRoot": "packages/ia-styles",
+        "name": "@internetarchive/ia-styles",
+        "projectType": "library",
+        "targets": {
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "configurations": {}
+          },
+          "prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "prepare"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "circular": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "circular"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "test:watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test:watch"
+            },
+            "configurations": {}
+          },
+          "ghpages:build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:build"
+            },
+            "configurations": {}
+          },
+          "ghpages:publish": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:publish"
+            },
+            "configurations": {}
+          },
+          "ghpages:prepare": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:prepare"
+            },
+            "configurations": {}
+          },
+          "ghpages:generate": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "ghpages:generate"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    },
+    "@internetarchive/ia-topnav": {
+      "name": "@internetarchive/ia-topnav",
+      "type": "lib",
+      "data": {
+        "root": "packages/ia-topnav",
+        "sourceRoot": "packages/ia-topnav",
+        "name": "@internetarchive/ia-topnav",
+        "projectType": "library",
+        "targets": {
+          "start": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "start"
+            },
+            "configurations": {}
+          },
+          "lint:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:eslint"
+            },
+            "configurations": {}
+          },
+          "format:eslint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:eslint"
+            },
+            "configurations": {}
+          },
+          "lint:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint:prettier"
+            },
+            "configurations": {}
+          },
+          "format:prettier": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format:prettier"
+            },
+            "configurations": {}
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "configurations": {}
+          },
+          "format": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "format"
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "configurations": {}
+          },
+          "nx-release-publish": {
+            "dependsOn": [
+              "^nx-release-publish"
+            ],
+            "executor": "@nx/js:release-publish",
+            "options": {},
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": [],
+        "tags": []
+      }
+    }
+  },
+  "externalNodes": {},
+  "dependencies": {
+    "@internetarchive/ia-zendesk-help-widget": [],
+    "@internetarchive/expandable-search-bar": [],
+    "@internetarchive/ia-activity-indicator": [],
+    "@internetarchive/example-webcomponent": [],
+    "@internetarchive/ia-userlist-settings": [],
+    "@internetarchive/ia-wayback-search": [],
+    "@internetarchive/playback-controls": [],
+    "@internetarchive/waveform-progress": [],
+    "@internetarchive/ia-pic-uploader": [
+      {
+        "source": "@internetarchive/ia-pic-uploader",
+        "target": "@internetarchive/ia-activity-indicator",
+        "type": "static"
+      }
+    ],
+    "@internetarchive/transcript-view": [],
+    "@internetarchive/audio-element": [],
+    "@internetarchive/radio-player": [
+      {
+        "source": "@internetarchive/radio-player",
+        "target": "@internetarchive/audio-element",
+        "type": "static"
+      },
+      {
+        "source": "@internetarchive/radio-player",
+        "target": "@internetarchive/expandable-search-bar",
+        "type": "static"
+      },
+      {
+        "source": "@internetarchive/radio-player",
+        "target": "@internetarchive/ia-activity-indicator",
+        "type": "static"
+      },
+      {
+        "source": "@internetarchive/radio-player",
+        "target": "@internetarchive/playback-controls",
+        "type": "static"
+      },
+      {
+        "source": "@internetarchive/radio-player",
+        "target": "@internetarchive/scrubber-bar",
+        "type": "static"
+      },
+      {
+        "source": "@internetarchive/radio-player",
+        "target": "@internetarchive/transcript-view",
+        "type": "static"
+      },
+      {
+        "source": "@internetarchive/radio-player",
+        "target": "@internetarchive/waveform-progress",
+        "type": "static"
+      }
+    ],
+    "@internetarchive/scrubber-bar": [],
+    "@internetarchive/ia-styles": [],
+    "@internetarchive/ia-topnav": [
+      {
+        "source": "@internetarchive/ia-topnav",
+        "target": "@internetarchive/ia-wayback-search",
+        "type": "static"
+      }
+    ]
+  },
+  "version": "6.0"
+}

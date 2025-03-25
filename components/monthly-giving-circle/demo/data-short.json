@@ -1,0 +1,70 @@
+{
+  "success": true,
+  "value": {
+    "41": {
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtYWlsc3luYyIsImlhdCI6MTcyMzc1MDI3OS41MjgwMjksIm5iZiI6MTcyMzc1MDIxOS41MjgwMjksImV4cCI6MTcyMzc1MDg3OS41MjgwMjksImtleSI6eyJwaWQiOiI1czUzazYiLCJjaWQiOjgwMzUzOCwiYW1vdW50IjoxMCwicGF5bWVudE1ldGhvZFRva2VuIjoiZ3l3ZnA5IiwiY3VzdG9tZXJJZCI6IjY5OTk2NjAyNiJ9LCJ1c2VyIjoiQGlzYS1hdC10aGUtYXJjaGl2ZSJ9.drnp9oK-UVsuzuRAW_MTFjdWjiS630B88P-c0jDzzVw",
+      "amount": 10,
+      "start_date": "2024-05-22 00:00:00",
+      "contribution_status_id": 5,
+      "is_test": true,
+      "btdata": {
+        "billingDayOfMonth": 22,
+        "nextBillingDate": {
+          "date": "2024-08-22 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "status": "Active",
+        "paymentMethodType": "Paypal",
+        "last4": null,
+        "cardType": null,
+        "expirationMonth": null,
+        "expirationYear": null,
+        "paypalEmail": "donations-buyer@archive.org"
+      }
+    },
+    "23764": {
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtYWlsc3luYyIsImlhdCI6MTcyMzc1MDI3OS41Mjg3NzEsIm5iZiI6MTcyMzc1MDIxOS41Mjg3NzEsImV4cCI6MTcyMzc1MDg3OS41Mjg3NzEsImtleSI6eyJwaWQiOiI4NWRyNzIiLCJjaWQiOjgwMzUzOCwiYW1vdW50Ijo1LCJwYXltZW50TWV0aG9kVG9rZW4iOiJjZXBha256ZCIsImN1c3RvbWVySWQiOiIyOTY3MjM2OTUifSwidXNlciI6IkBpc2EtYXQtdGhlLWFyY2hpdmUifQ.csGjSCrk3FV-mm7O1SwoUKCghwTQCRaD8_LJemo4YhQ",
+      "amount": 5,
+      "start_date": "2022-12-09 00:00:00",
+      "contribution_status_id": 5,
+      "is_test": true,
+      "btdata": {
+        "billingDayOfMonth": 9,
+        "nextBillingDate": {
+          "date": "2024-09-09 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "status": "Active",
+        "paymentMethodType": "creditCard",
+        "last4": "1111",
+        "cardType": "Visa",
+        "expirationMonth": "12",
+        "expirationYear": "2023"
+      }
+    },
+    "35406": {
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtYWlsc3luYyIsImlhdCI6MTcyMzc1MDI3OS41MjcyMTYsIm5iZiI6MTcyMzc1MDIxOS41MjcyMTYsImV4cCI6MTcyMzc1MDg3OS41MjcyMTYsImtleSI6eyJwaWQiOiIyN21yNnIiLCJjaWQiOjgwMzUzOCwiYW1vdW50Ijo1LCJwYXltZW50TWV0aG9kVG9rZW4iOiI4dDduenFnIiwiY3VzdG9tZXJJZCI6Ijg1MzkzMjIxMyJ9LCJ1c2VyIjoiQGlzYS1hdC10aGUtYXJjaGl2ZSJ9.Si-IBV0VhSwTL1SDXpn5bfuFP4qp-r9Jkoe4bw4eRyw",
+      "amount": 5,
+      "start_date": "2024-07-01 00:00:00",
+      "contribution_status_id": 5,
+      "is_test": true,
+      "btdata": {
+        "billingDayOfMonth": 22,
+        "nextBillingDate": {
+          "date": "2024-08-22 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "status": "Active",
+        "paymentMethodType": "Venmo",
+        "last4": null,
+        "cardType": null,
+        "expirationMonth": null,
+        "expirationYear": null,
+        "venmoUsername": "venmojoe"
+      }
+    }
+  }
+}
