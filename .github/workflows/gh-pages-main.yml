@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
   
       - name: Create build files for gh-pages deploy
         run: yarn ghpages:build
