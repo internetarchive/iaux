@@ -1,9 +1,30 @@
-packages/ia-prototype-apps/dist
-packages/ia-prototype-apps/.cache
-yarn-error.log
-node_modules
-jest-test-utils
-__snapshots__
-/publish_dev.sh
-/dist
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+## npm
+/node_modules/
+/npm-debug.log
+
+## temp folders
+/.tmp/
+
+# build
+/components/**/*.js
+/components/**/*.js.map
+/components/**/*.d.ts
+
+# Logs
+logs
 *.log
+npm-debug.log*
+npm-error.log*
+coverage

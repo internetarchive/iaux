@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+<head>
+  <title>Monthly Giving Circle demo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    html {
+      font-size: 62.5%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      color: #333;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.42857143;
+
+      /* css vars for web component */
+      --one-column-view-max-width: 500px;
+    }
+    
+    body .dev-tools {
+      background-color: aliceblue;
+      margin: 0 0 20px 0;
+      min-height: 50px;
+    }
+
+    body #demo {
+      padding: 1em;
+    }
+  </style>
+
+
+</head>
+<body>
+  <header>
+  </header>
+  <div class="dev-tools">
+    <div id="options">
+      <button id="toggle-receipts">Toggle receipts</button>
+      <button id="clear-updates">Clear updates</button>
+      <button id="toggle-plans">Toggle plans</button>
+
+      <p id="interaction-status-area" style="min-height: 50px;margin: 10px;"></p>
+    </div>
+  </div>
+
+  <div id="demo">
+    <style>
+      ia-monthly-giving-circle {
+        display: block;
+        margin: 0 auto;
+        max-width: 800px;
+      }
+    </style>
+    <ia-monthly-giving-circle></ia-monthly-giving-circle>
+  </div>
+
+  <script type="module" src="../monthly-giving-circle/monthly-giving-circle.js"></script>
+  <script type="module">
+    import { MonthlyPlan, Receipt } from '../monthly-giving-circle/index.js';
+
+    let updateNotices = [];
+
+    const plans = {
+      "41": {
+        "token": "Acbdcdcadsfdasf.1234alphanumeric.3foobarXyZ",
+        "amount": 10,
+        "start_date": "2024-05-22 00:00:00",
+        "is_test": true,
+        "btdata": {
+          "billingDayOfMonth": 22,
+          "nextBillingDate": {
+            "date": "2024-08-22 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "status": "Active",
+          "paymentMethodType": "Paypal",
+          "last4": null,
+          "cardType": null,
+          "expirationMonth": null,
+          "expirationYear": null,
+          "paypalEmail": "donations-buyer@archive.org"
+        }
+      },
+      "23764": {
+        "token": "Acbdcdcadsfdasf.1234alphanumeric.3foobar",
+        "amount": 5,
+        "start_date": "2022-12-09 00:00:00",
+        "is_test": true,
+        "btdata": {
+          "billingDayOfMonth": 9,
+          "nextBillingDate": {
+            "date": "2024-09-09 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "status": "Active",
+          "paymentMethodType": "creditCard",
+          "last4": "1111",
+          "cardType": "Visa",
+          "expirationMonth": "12",
+          "expirationYear": "2023"
+        }
+      },
+      "35406": {
+        "token": "Acbdcdcadsfdasf.1234alphanumeric.3foobar444999sparklingCider",
+        "amount": 5,
+        "currency": "USD",
+        "start_date": "2024-07-01 00:00:00",
+        "is_test": true,
+        "btdata": {
+          "billingDayOfMonth": 22,
+          "nextBillingDate": {
+            "date": "2024-08-22 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "status": "Active",
+          "paymentMethodType": "Venmo",
+          "last4": null,
+          "cardType": null,
+          "expirationMonth": null,
+          "expirationYear": null,
+          "venmoUsername": "venmojoe"
+        }
+      }
+    };
+
+    const plansArray = Object.keys(plans).map((key) => new MonthlyPlan(plans[key]));
+
+    const receiptsData = [
+        new Receipt({
+          currency: 'USD',
+          net_amount: 9999.99,
+          total_amount: 9999.99,
+          fee_amount: 0,
+          date: (new Date('2019-01-22 14:26:34')).toLocaleString('US-EN', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          }),
+          donor: 'John Doe',
+          paymentMethod: 'Credit Card',
+          status: 'Completed',
+          id: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtYWlsc3luYyIsImlhdCI6MTczNzk3MTgyNy45MDY1NDksIm5iZiI6MTczNzk3MTc2Ny45MDY1NDksImV4cCI6MTczNzk3MjQyNy45MDY1NDksImtleSI6IjEwOTY4MjEiLCJ1c2VyIjoiQGlzYS1hdC10aGUtYXJjaGl2ZSJ9.pMbayUlFgRhm3wDoJG1IPoltliTHDq0xH2W369JtdQA',
+          token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtYWlsc3luYyIsImlhdCI6MTczNzk3MTgyNy45MDY1NDksIm5iZiI6MTczNzk3MTc2Ny45MDY1NDksImV4cCI6MTczNzk3MjQyNy45MDY1NDksImtleSI6IjEwOTY4MjEiLCJ1c2VyIjoiQGlzYS1hdC10aGUtYXJjaGl2ZSJ9.pMbayUlFgRhm3wDoJG1IPoltliTHDq0xH2W369JtdQA',
+          is_test: false,
+        }),
+        new Receipt({
+          currency: 'USD',
+          net_amount: 100,
+          total_amount: 105.86,
+          fee_amount: 5.86,
+          date: (new Date('2022-09-22 14:26:34')).toLocaleString('US-EN', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          }),
+          donor: 'John Doe',
+          paymentMethod: 'Credit Card',
+          status: 'Completed',
+          id: 'foo-id-2',
+          token: 'foo-token-2',
+          is_test: true,
+        }),
+        new Receipt({
+          currency: 'USD',
+          net_amount: 100,
+          total_amount: 222.88,
+          fee_amount: 122.88,
+          date: (new Date('2023-12-23 14:26:34')).toLocaleString('US-EN', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          }),
+          donor: 'John Doe',
+          paymentMethod: 'Credit Card',
+          status: 'Completed',
+          id: 'foo-id-3',
+          token: 'foo-token-3',
+          is_test: false,
+        }),
+      ];
+
+
+    let showReceipts = true;
+
+    const mgcComponent = document.querySelector('ia-monthly-giving-circle');
+
+    // load start data
+    mgcComponent.receipts = receiptsData;
+    mgcComponent.plans = plansArray;
+
+    // event handlers
+    mgcComponent.addEventListener('EmailReceiptRequest', (e) => {
+      const uxMessageInfoArea = document.getElementById('interaction-status-area');
+
+      const { donation } = e.detail;
+      const randomizer = Math.floor(Math.random() + 0.5);
+      const successOrFail = randomizer === 1 ? 'success' : 'fail';
+      const returnTiming = randomizer === 1 ? 3000 : 8000;
+
+      uxMessageInfoArea.innerText = `Email receipt request for donation ${donation.id} will return ${successOrFail} in ${returnTiming} ms.`;
+
+      const message = successOrFail === 'success' ? 'Email receipt sent' : 'Email receipt failed';
+
+      const update = {
+        message,
+        status: successOrFail,
+        donationId: donation.id
+      };
+
+      updateNotices = [update, ...updateNotices];
+
+      setTimeout(() => {
+        mgcComponent.updateReceived(update);
+        console.log('EmailReceiptRequest index.html ----', update);
+        uxMessageInfoArea.innerText = '';
+      }, returnTiming);
+    });
+
+    mgcComponent.addEventListener('cancelPlan', async (e) => {
+      const { plan } = e.detail;
+      const currPlansList = mgcComponent.plans;
+      const newPlansList = currPlansList.map((p) => {
+        if (p.plan.token === plan.plan.token) {
+          console.log('p 2 plan', p, plan);
+          p.cancelPlan();
+        }
+        return p;
+      });
+      mgcComponent.plans = newPlansList;
+      await mgcComponent.updateComplete;
+      console.log("plan cancelled & plan list updated", mgcComponent.plans);
+    })
+
+    // options hooks
+    document.getElementById('toggle-receipts').addEventListener('click', async () => {
+      if (showReceipts) {
+        mgcComponent.receipts = [];
+        showReceipts = false;
+        return;
+      }
+      mgcComponent.receipts = receiptsData;
+      await mgcComponent.updateComplete;
+
+      showReceipts = true;
+    });
+    document.getElementById('clear-updates').addEventListener('click', async () => {
+      updateNotices = [];
+      mgcComponent.updates = updateNotices;
+      await mgcComponent.updateComplete;
+    });
+    document.getElementById('toggle-plans').addEventListener('click', async () => {
+      mgcComponent.plans = mgcComponent.plans.length ? [] : plansArray;
+      await mgcComponent.updateComplete;
+    });
+  </script>
+</body>
+</html>
