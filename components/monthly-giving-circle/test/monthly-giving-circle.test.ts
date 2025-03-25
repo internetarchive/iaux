@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { html, fixture, expect } from '@open-wc/testing';
 
 import type { MonthlyGivingCircle } from '../monthly-giving-circle';

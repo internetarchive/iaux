@@ -5,7 +5,7 @@ const hmr = process.argv.includes('--hmr');
 
 export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   nodeResolve: true,
-  open: '/demo',
+  open: '/index.html',
   watch: !hmr,
   sslCert: './ssl/server.crt',
   sslKey: './ssl/server.key',

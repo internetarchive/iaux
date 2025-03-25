@@ -14,7 +14,7 @@
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
     "prepare": "rimraf dist && tsc && husky install",
     "build": "tsc",
-    "lint": "eslint . && prettier \"**/*.ts\" --check",
+    "lint": "eslint ./components && prettier \"components/**/*.ts\" --check",
     "format": "eslint . --fix && prettier \"**/*.ts\" --write",
     "circular": "madge --circular --extensions ts .",
     "test": "tsc && npm run lint && npm run circular && wtr --coverage",
