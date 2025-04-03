@@ -11,11 +11,15 @@
  * @property {string} action - Action to be performed
  */
 export interface ServiceOptionType {
-  method?: string;
-  file?: File | null;
+  action: string;
+  method: string;
+  file?: File;
   getParam?: string;
+  endpoint?: string;
   headers?: Record<string, string>;
   callback?: (response: Response) => void;
-  endpoint?: string;
-  action?: 'verify-upload' | 'save-file';
+}
+
+export interface ResponseModel {
+  success: boolean;
 }

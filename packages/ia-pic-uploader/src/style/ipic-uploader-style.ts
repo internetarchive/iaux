@@ -34,6 +34,7 @@ export default css`
     width: fit-content;
     line-height: normal;
     height: fit-content;
+    margin-right: 1rem;
   }
 
   .adjust-full {
@@ -204,6 +205,13 @@ export default css`
     justify-content: center;
     width: 8rem;
     border-color: #4cae4c;
+  }
+
+  #upload-region {
+    text-decoration: underline;
+  }
+  #upload-region:hover {
+    cursor: pointer;
   }
 
   #file-submit:hover {

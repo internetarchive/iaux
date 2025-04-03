@@ -1,21 +1,10 @@
 import log from './log';
+
 import { ServiceOptionType } from '../model';
 
-/**
- * Helper to picture upload service
- * @param {Object} options
- */
-export async function BackendServiceHandler(options: any): Promise<any> {
-  const option = {
-    method: 'POST',
-    file: null,
-    getParam: '',
-    endpoint: '',
-    headers: {},
-    callback() {},
-    ...options,
-  } as ServiceOptionType;
-
+export async function BackendServiceHandler(
+  option: ServiceOptionType,
+): Promise<object> {
   // Only append file to formData if it exists in options
   const formData = new FormData();
   if (option.file) {
@@ -32,6 +21,7 @@ export async function BackendServiceHandler(options: any): Promise<any> {
       method: option.method,
       headers: option.headers,
       body: formData,
+      credentials: 'include',
     });
 
     log('response', response);
@@ -51,7 +41,7 @@ export async function BackendServiceHandler(options: any): Promise<any> {
         log('file saved, metadata call started to verify if image is updated!');
         if (option.callback) {
           option.callback(response);
-          return {};
+          return { success: true };
         }
       }
     }

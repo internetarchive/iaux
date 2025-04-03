@@ -14,7 +14,7 @@ import '@internetarchive/ia-activity-indicator';
 
 import { BackendServiceHandler } from './services/backend-service';
 import { iaButtonStyles } from '@internetarchive/ia-styles';
-import { ServiceOptionType } from './model';
+import { ResponseModel } from './model';
 import iaPicUploaderStyles from './style/ipic-uploader-style';
 import log from './services/log';
 
@@ -40,7 +40,7 @@ export class IAPicUploader extends LitElement {
    *
    * @memberof IAPicUploader
    */
-  @property({ type: Object }) httpHeaders = {};
+  @property({ type: Object }) httpHeaders: Record<string, string> = {};
 
   /**
    * existing user profile picture
@@ -367,7 +367,7 @@ export class IAPicUploader extends LitElement {
    */
   async handleSaveFile(event: Event) {
     this.preventDefault(event);
-    // this.showLoadingIndicator = true;
+    this.showLoadingIndicator = true;
     this.selfSubmitEle?.classList.add('vertical-center');
     this.taskStatus = 'waiting for your tasks to queue';
 
@@ -377,9 +377,9 @@ export class IAPicUploader extends LitElement {
       inputFile.name,
     )}&submit=1`;
 
-    await BackendServiceHandler({
+    const response = (await BackendServiceHandler({
       action: 'save-file',
-      identifier: this.identifier,
+      method: 'POST',
       file: inputFile,
       getParam: getParams,
       endpoint: this.endpoint,
@@ -388,9 +388,10 @@ export class IAPicUploader extends LitElement {
         log('callback invoked!', this.type);
         if (this.type === 'full') await this.metadataAPIExecution();
       },
-    } as ServiceOptionType);
+    })) as ResponseModel;
 
-    this.dispatchEvent(new Event('fileUploaded'));
+    if (response.success) this.dispatchEvent(new Event('fileUploaded'));
+
     if (this.type === 'compact') this.showLoadingIndicator = false;
 
     //  clear file input
@@ -413,7 +414,7 @@ export class IAPicUploader extends LitElement {
           this.identifier
         }?rand=${Math.random()}`,
       });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       res.then((json: any) => {
         const waitCount =
           json.pending_tasks && json.tasks ? json.tasks.length : 0;
@@ -582,7 +583,6 @@ export class IAPicUploader extends LitElement {
         <div class="select-message">
           Drop a new image onto<br />your picture here or<br />
           <a
-            href="#"
             id="upload-region"
             class="${this.showLoadingIndicator ? 'pointer-none' : ''}"
             >select an image to upload</a
