@@ -13,7 +13,7 @@
 export interface ServiceOptionType {
   action: string;
   method: string;
-  file?: File;
+  file: File;
   getParam?: string;
   endpoint?: string;
   headers?: Record<string, string>;

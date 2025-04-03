@@ -11,41 +11,30 @@ import {
 import { customElement, property, query, state } from 'lit/decorators.js';
 
 import '@internetarchive/ia-activity-indicator';
-
-import { BackendServiceHandler } from './services/backend-service';
 import { iaButtonStyles } from '@internetarchive/ia-styles';
-import { ResponseModel } from './model';
-import iaPicUploaderStyles from './style/ipic-uploader-style';
-import log from './services/log';
+import iaPicUploaderStyles from './style/ia-pic-uploader-style';
+import log from './log';
 
 @customElement('ia-pic-uploader')
 export class IAPicUploader extends LitElement {
   /**
    * user identifier
-   *
-   * @memberof IAPicUploader
    */
   @property({ type: String }) identifier = '';
 
   /**
    * endpoint where picture will be uploaded
-   *
-   * @memberof IAPicUploader
    */
   @property({ type: String }) endpoint =
     'https://archive.org/services/post-file.php';
 
   /**
    * HTTP request headers to be included when uploading picture to endpoint
-   *
-   * @memberof IAPicUploader
    */
   @property({ type: Object }) httpHeaders: Record<string, string> = {};
 
   /**
    * existing user profile picture
-   *
-   * @memberof IAPicUploader
    */
   @property({ type: String }) picture = '';
 
@@ -53,29 +42,21 @@ export class IAPicUploader extends LitElement {
    * version of the uploader
    * - full version will be used on collection/profile page
    * - compact version will be used on account setting page
-   *
-   * @memberof IAPicUploader
    */
   @property({ type: String }) type: 'full' | 'compact' = 'compact';
 
   /**
    * check user is looking at it's our account
-   *
-   * @memberof IAPicUploader
    */
   @property({ type: Boolean }) lookingAtMyAccount? = false;
 
   /**
    * max file size in MB
-   *
-   * @memberof IAPicUploader
    */
   @property({ type: Number }) maxFileSizeInMB = 8;
 
   /**
    * determine valid file types
-   *
-   * @memberof IAPicUploader
    */
   @property({ type: Array }) validFileTypes: string[] = [
     'image/jpeg',
@@ -88,7 +69,6 @@ export class IAPicUploader extends LitElement {
    *
    * @private
    * @type {boolean}
-   * @memberof IAPicUploader
    */
   @state() private showLoadingIndicator: boolean = false;
 
@@ -96,7 +76,6 @@ export class IAPicUploader extends LitElement {
    * display task's message/error/warning on self submit form
    *
    * @type {string}
-   * @memberof IAPicUploader
    */
   @state() taskStatus: string = '';
 
@@ -104,7 +83,6 @@ export class IAPicUploader extends LitElement {
    * display file Validation Error on self submit form
    *
    * @type {string}
-   * @memberof IAPicUploader
    */
   @state() fileValidationError: string = '';
 
@@ -138,8 +116,6 @@ export class IAPicUploader extends LitElement {
 
   /**
    * render input[type=file] on existing picture where user can click or drop a image
-   *
-   * @memberof IAPicUploader
    */
   renderInput() {
     // open file selector when clicked on the drop region
@@ -196,8 +172,6 @@ export class IAPicUploader extends LitElement {
 
   /**
    * bind some events for picture uploader
-   *
-   * @memberof IAPicUploader
    */
   bindEvents() {
     document.addEventListener(
@@ -210,7 +184,7 @@ export class IAPicUploader extends LitElement {
     document.addEventListener('dragover', e => this.dragOver(e), false);
     document.addEventListener('dragleave', e => this.dragLeave(e), true);
     document.addEventListener('drop', e => this.drop(e), false);
-    document?.addEventListener('saveProfileAvatar', (e: Event) => {
+    document.addEventListener('saveProfileAvatar', (e: Event) => {
       if (this.fileSelector?.files.length) {
         this.handleSaveFile(e);
       }
@@ -259,7 +233,6 @@ export class IAPicUploader extends LitElement {
    * display selected picture for preview
    *
    * @param {File} image
-   * @memberof IAPicUploader
    */
   previewImage(image: File) {
     this.showDropper = true;
@@ -292,7 +265,6 @@ export class IAPicUploader extends LitElement {
    *
    * @param {File} image
    * @return {Boolean}
-   * @memberof IAPicUploader
    */
   validateImage(image: File): boolean {
     this.fileValidationError = '';
@@ -317,7 +289,6 @@ export class IAPicUploader extends LitElement {
    * validate and preview selected image
    *
    * @param {FileList} files
-   * @memberof IAPicUploader
    */
   async handleSelectedFiles(files: FileList) {
     const imagePreview = this.selfSubmitEle?.querySelector('.image-preview');
@@ -363,7 +334,6 @@ export class IAPicUploader extends LitElement {
    * upload image on petabox server using API
    *
    * @param {Event} event
-   * @memberof IAPicUploader
    */
   async handleSaveFile(event: Event) {
     this.preventDefault(event);
@@ -377,45 +347,52 @@ export class IAPicUploader extends LitElement {
       inputFile.name,
     )}&submit=1`;
 
-    const response = (await BackendServiceHandler({
-      action: 'save-file',
-      method: 'POST',
-      file: inputFile,
-      getParam: getParams,
-      endpoint: this.endpoint,
-      headers: this.httpHeaders,
-      callback: async () => {
-        log('callback invoked!', this.type);
-        if (this.type === 'full') await this.metadataAPIExecution();
-      },
-    })) as ResponseModel;
+    const formData = new FormData();
+    formData.append('file', inputFile);
 
-    if (response.success) this.dispatchEvent(new Event('fileUploaded'));
+    try {
+      const saveResponse = await fetch(`${this.endpoint}?${getParams}`, {
+        method: 'POST',
+        headers: this.httpHeaders,
+        body: formData,
+        credentials: 'include',
+      });
+      log('saveResponse', saveResponse);
 
-    if (this.type === 'compact') this.showLoadingIndicator = false;
+      if (saveResponse.ok) {
+        this.dispatchEvent(new Event('fileUploaded'));
+        if (this.type === 'full') this.metadataAPIExecution();
+        log('file saved, metadata call started');
+      } else {
+        log('Failed to save file', saveResponse);
+      }
+    } catch {
+    } finally {
+      if (this.type === 'compact') this.showLoadingIndicator = false;
 
-    //  clear file input
-    if (this.fileSelector) this.fileSelector.value = '';
+      // clear file input
+      if (this.fileSelector) this.fileSelector.value = '';
+    }
   }
 
   /**
    * after upload, verify using metadata API if successfully uploaded or not
-   *
-   * @memberof IAPicUploader
    */
   metadataAPIExecution() {
     const now = Math.round(Date.now() / 1000); // like unix time()
 
     const metadataApiInterval = setInterval(async () => {
-      const res = BackendServiceHandler({
-        action: 'verify-upload',
+      const action = `https://archive.org/metadata/${
+        this.identifier
+      }?rand=${Math.random()}`;
+
+      const verifyResponse = fetch(action, {
         method: 'GET',
-        endpoint: `https://archive.org/metadata/${
-          this.identifier
-        }?rand=${Math.random()}`,
       });
+      log('verifyResponse', verifyResponse);
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      res.then((json: any) => {
+      verifyResponse.then((json: any) => {
         const waitCount =
           json.pending_tasks && json.tasks ? json.tasks.length : 0;
 
