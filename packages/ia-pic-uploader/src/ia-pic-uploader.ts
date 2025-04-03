@@ -414,7 +414,7 @@ export class IAPicUploader extends LitElement {
           this.identifier
         }?rand=${Math.random()}`,
       });
-
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       res.then((json: any) => {
         const waitCount =
           json.pending_tasks && json.tasks ? json.tasks.length : 0;
