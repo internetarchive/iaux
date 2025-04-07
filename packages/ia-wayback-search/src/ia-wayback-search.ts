@@ -1,4 +1,4 @@
-import { css, html, LitElement } from 'lit';
+import { css, CSSResultGroup, html, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import searchIcon from './icon-search';
 import logo from './logo';
@@ -76,7 +76,7 @@ export class WaybackSearch extends LitElement {
     this.dispatchEvent(new CustomEvent('waybackMachineLogoLink'));
   }
 
-  static styles = css`
+  static styles: CSSResultGroup = css`
     :host {
       font: normal 1.2rem/1.5 var(--themeFontFamily);
     }
