@@ -1,12 +1,14 @@
 // @see https://git.archive.org/www/offshoot/-/blob/main/guides/update-top-nav.md
 
-export const defaultTopNavConfig = {
+import { IATopNavConfig, IATopNavMenuConfig } from '../models';
+
+export const defaultTopNavConfig: IATopNavConfig = {
   // Google Analytics event category
-  eventCategory: "TopNav",
+  eventCategory: 'TopNav',
   // Array of strings representing the values of options that should be hidden from search options
   hiddenSearchOptions: [],
   // Default value, if more accurate value is not passed in to `buildTopNavMenus()`
-  waybackPagesArchived: "740 billion",
+  waybackPagesArchived: '740 billion',
 };
 
 /**
@@ -22,600 +24,618 @@ export const defaultTopNavConfig = {
  * @returns { object }
  */
 export function buildTopNavMenus(
-  userid = "___USERID___",
-  localLinks = true,
-  waybackPagesArchived = "",
-  itemIdentifier = "",
-) {
+  userid: string = '___USERID___',
+  baseHost: string = 'https://archive.org',
+  waybackPagesArchived: string = '',
+  itemIdentifier: string = '',
+): IATopNavMenuConfig {
   if (waybackPagesArchived)
     defaultTopNavConfig.waybackPagesArchived = waybackPagesArchived; // update to more accurate val
 
-  const prefix = localLinks ? "" : "https://archive.org";
   return {
     audio: {
-      heading: "Internet Archive Audio",
+      heading: 'Internet Archive Audio',
       iconLinks: [
         {
-          icon: `${prefix}/services/img/etree`,
-          title: "Live Music Archive",
-          url: `${prefix}/details/etree`,
+          icon: `${baseHost}/services/img/etree`,
+          title: 'Live Music Archive',
+          url: `${baseHost}/details/etree`,
         },
         {
-          icon: `${prefix}/services/img/librivoxaudio`,
-          title: "Librivox Free Audio",
-          url: `${prefix}/details/librivoxaudio`,
+          icon: `${baseHost}/services/img/librivoxaudio`,
+          title: 'Librivox Free Audio',
+          url: `${baseHost}/details/librivoxaudio`,
         },
       ],
       featuredLinks: [
         {
-          title: "All Audio",
-          url: `${prefix}/details/audio`,
+          title: 'All Audio',
+          url: `${baseHost}/details/audio`,
         },
         {
-          title: "Grateful Dead",
-          url: `${prefix}/details/GratefulDead`,
+          title: 'Grateful Dead',
+          url: `${baseHost}/details/GratefulDead`,
         },
         {
-          title: "Netlabels",
-          url: `${prefix}/details/netlabels`,
+          title: 'Netlabels',
+          url: `${baseHost}/details/netlabels`,
         },
         {
-          title: "Old Time Radio",
-          url: `${prefix}/details/oldtimeradio`,
+          title: 'Old Time Radio',
+          url: `${baseHost}/details/oldtimeradio`,
         },
         {
-          title: "78 RPMs and Cylinder Recordings",
-          url: `${prefix}/details/78rpm`,
+          title: '78 RPMs and Cylinder Recordings',
+          url: `${baseHost}/details/78rpm`,
         },
       ],
       links: [
         {
-          title: "Audio Books & Poetry",
-          url: `${prefix}/details/audio_bookspoetry`,
+          title: 'Audio Books & Poetry',
+          url: `${baseHost}/details/audio_bookspoetry`,
         },
         {
-          title: "Computers, Technology and Science",
-          url: `${prefix}/details/audio_tech`,
+          title: 'Computers, Technology and Science',
+          url: `${baseHost}/details/audio_tech`,
         },
         {
-          title: "Music, Arts & Culture",
-          url: `${prefix}/details/audio_music`,
+          title: 'Music, Arts & Culture',
+          url: `${baseHost}/details/audio_music`,
         },
         {
-          title: "News & Public Affairs",
-          url: `${prefix}/details/audio_news`,
+          title: 'News & Public Affairs',
+          url: `${baseHost}/details/audio_news`,
         },
         {
-          title: "Spirituality & Religion",
-          url: `${prefix}/details/audio_religion`,
+          title: 'Spirituality & Religion',
+          url: `${baseHost}/details/audio_religion`,
         },
         {
-          title: "Podcasts",
-          url: `${prefix}/details/podcasts`,
+          title: 'Podcasts',
+          url: `${baseHost}/details/podcasts`,
         },
         {
-          title: "Radio News Archive",
-          url: `${prefix}/details/radio`,
+          title: 'Radio News Archive',
+          url: `${baseHost}/details/radio`,
         },
       ],
+      mobileAppsLinks: [],
+      browserExtensionsLinks: [],
+      archiveItLinks: []
     },
     images: {
-      heading: "Images",
+      heading: 'Images',
       iconLinks: [
         {
-          icon: `${prefix}/services/img/metropolitanmuseumofart-gallery`,
-          title: "Metropolitan Museum",
-          url: `${prefix}/details/metropolitanmuseumofart-gallery`,
+          icon: `${baseHost}/services/img/metropolitanmuseumofart-gallery`,
+          title: 'Metropolitan Museum',
+          url: `${baseHost}/details/metropolitanmuseumofart-gallery`,
         },
         {
-          icon: `${prefix}/services/img/clevelandart`,
-          title: "Cleveland Museum of Art",
-          url: `${prefix}/details/clevelandart`,
+          icon: `${baseHost}/services/img/clevelandart`,
+          title: 'Cleveland Museum of Art',
+          url: `${baseHost}/details/clevelandart`,
         },
       ],
       featuredLinks: [
         {
-          title: "All Images",
-          url: `${prefix}/details/image`,
+          title: 'All Images',
+          url: `${baseHost}/details/image`,
         },
         {
-          title: "Flickr Commons",
-          url: `${prefix}/details/flickrcommons`,
+          title: 'Flickr Commons',
+          url: `${baseHost}/details/flickrcommons`,
         },
         {
-          title: "Occupy Wall Street Flickr",
-          url: `${prefix}/details/flickr-ows`,
+          title: 'Occupy Wall Street Flickr',
+          url: `${baseHost}/details/flickr-ows`,
         },
         {
-          title: "Cover Art",
-          url: `${prefix}/details/coverartarchive`,
+          title: 'Cover Art',
+          url: `${baseHost}/details/coverartarchive`,
         },
         {
-          title: "USGS Maps",
-          url: `${prefix}/details/maps_usgs`,
+          title: 'USGS Maps',
+          url: `${baseHost}/details/maps_usgs`,
         },
       ],
       links: [
         {
-          title: "NASA Images",
-          url: `${prefix}/details/nasa`,
+          title: 'NASA Images',
+          url: `${baseHost}/details/nasa`,
         },
         {
-          title: "Solar System Collection",
-          url: `${prefix}/details/solarsystemcollection`,
+          title: 'Solar System Collection',
+          url: `${baseHost}/details/solarsystemcollection`,
         },
         {
-          title: "Ames Research Center",
-          url: `${prefix}/details/amesresearchcenterimagelibrary`,
+          title: 'Ames Research Center',
+          url: `${baseHost}/details/amesresearchcenterimagelibrary`,
         },
       ],
+      mobileAppsLinks: [],
+      browserExtensionsLinks: [],
+      archiveItLinks: []
     },
     more: [
       {
-        title: "About",
-        url: `${prefix}/about/`,
+        title: 'About',
+        url: `${baseHost}/about/`,
       },
       {
-        title: "Blog",
-        url: "https://blog.archive.org",
+        title: 'Blog',
+        url: 'https://blog.archive.org',
       },
       {
-        title: "Projects",
-        url: `${prefix}/projects/`,
+        title: 'Projects',
+        url: `${baseHost}/projects/`,
       },
       {
-        title: "Help",
-        url: `${prefix}/about/faqs.php`,
+        title: 'Help',
+        url: `${baseHost}/about/faqs.php`,
       },
       {
-        title: "Donate",
-        url: `${prefix}/donate?origin=iawww-TopNavDonateButton`,
+        title: 'Donate',
+        url: `${baseHost}/donate?origin=iawww-TopNavDonateButton`,
       },
       {
-        title: "Contact",
-        url: `${prefix}/about/contact`,
+        title: 'Contact',
+        url: `${baseHost}/about/contact`,
       },
       {
-        title: "Jobs",
-        url: `${prefix}/about/jobs`,
+        title: 'Jobs',
+        url: `${baseHost}/about/jobs`,
       },
       {
-        title: "Volunteer",
-        url: `${prefix}/about/volunteer-positions`,
+        title: 'Volunteer',
+        url: `${baseHost}/about/volunteer-positions`,
       },
       {
-        title: "People",
-        url: `${prefix}/about/bios`,
+        title: 'People',
+        url: `${baseHost}/about/bios`,
       },
     ],
     software: {
-      heading: "Software",
+      heading: 'Software',
       iconLinks: [
         {
-          icon: `${prefix}/services/img/internetarcade`,
-          title: "Internet Arcade",
-          url: `${prefix}/details/internetarcade`,
+          icon: `${baseHost}/services/img/internetarcade`,
+          title: 'Internet Arcade',
+          url: `${baseHost}/details/internetarcade`,
         },
         {
-          icon: `${prefix}/services/img/consolelivingroom`,
-          title: "Console Living Room",
-          url: `${prefix}/details/consolelivingroom`,
+          icon: `${baseHost}/services/img/consolelivingroom`,
+          title: 'Console Living Room',
+          url: `${baseHost}/details/consolelivingroom`,
         },
       ],
       featuredLinks: [
         {
-          title: "All Software",
-          url: `${prefix}/details/software`,
+          title: 'All Software',
+          url: `${baseHost}/details/software`,
         },
         {
-          title: "Old School Emulation",
-          url: `${prefix}/details/tosec`,
+          title: 'Old School Emulation',
+          url: `${baseHost}/details/tosec`,
         },
         {
-          title: "MS-DOS Games",
-          url: `${prefix}/details/softwarelibrary_msdos_games`,
+          title: 'MS-DOS Games',
+          url: `${baseHost}/details/softwarelibrary_msdos_games`,
         },
         {
-          title: "Historical Software",
-          url: `${prefix}/details/historicalsoftware`,
+          title: 'Historical Software',
+          url: `${baseHost}/details/historicalsoftware`,
         },
         {
-          title: "Classic PC Games",
-          url: `${prefix}/details/classicpcgames`,
+          title: 'Classic PC Games',
+          url: `${baseHost}/details/classicpcgames`,
         },
         {
-          title: "Software Library",
-          url: `${prefix}/details/softwarelibrary`,
+          title: 'Software Library',
+          url: `${baseHost}/details/softwarelibrary`,
         },
       ],
       links: [
         {
-          title: "Kodi Archive and Support File",
-          url: `${prefix}/details/kodi_archive`,
+          title: 'Kodi Archive and Support File',
+          url: `${baseHost}/details/kodi_archive`,
         },
         {
-          title: "Vintage Software",
-          url: `${prefix}/details/vintagesoftware`,
+          title: 'Vintage Software',
+          url: `${baseHost}/details/vintagesoftware`,
         },
         {
-          title: "APK",
-          url: `${prefix}/details/apkarchive`,
+          title: 'APK',
+          url: `${baseHost}/details/apkarchive`,
         },
         {
-          title: "MS-DOS",
-          url: `${prefix}/details/softwarelibrary_msdos`,
+          title: 'MS-DOS',
+          url: `${baseHost}/details/softwarelibrary_msdos`,
         },
         {
-          title: "CD-ROM Software",
-          url: `${prefix}/details/cd-roms`,
+          title: 'CD-ROM Software',
+          url: `${baseHost}/details/cd-roms`,
         },
         {
-          title: "CD-ROM Software Library",
-          url: `${prefix}/details/cdromsoftware`,
+          title: 'CD-ROM Software Library',
+          url: `${baseHost}/details/cdromsoftware`,
         },
         {
-          title: "Software Sites",
-          url: `${prefix}/details/softwaresites`,
+          title: 'Software Sites',
+          url: `${baseHost}/details/softwaresites`,
         },
         {
-          title: "Tucows Software Library",
-          url: `${prefix}/details/tucows`,
+          title: 'Tucows Software Library',
+          url: `${baseHost}/details/tucows`,
         },
         {
-          title: "Shareware CD-ROMs",
-          url: `${prefix}/details/cdbbsarchive`,
+          title: 'Shareware CD-ROMs',
+          url: `${baseHost}/details/cdbbsarchive`,
         },
         {
-          title: "Software Capsules Compilation",
-          url: `${prefix}/details/softwarecapsules`,
+          title: 'Software Capsules Compilation',
+          url: `${baseHost}/details/softwarecapsules`,
         },
         {
-          title: "CD-ROM Images",
-          url: `${prefix}/details/cdromimages`,
+          title: 'CD-ROM Images',
+          url: `${baseHost}/details/cdromimages`,
         },
         {
-          title: "ZX Spectrum",
-          url: `${prefix}/details/softwarelibrary_zx_spectrum`,
+          title: 'ZX Spectrum',
+          url: `${baseHost}/details/softwarelibrary_zx_spectrum`,
         },
         {
-          title: "DOOM Level CD",
-          url: `${prefix}/details/doom-cds`,
+          title: 'DOOM Level CD',
+          url: `${baseHost}/details/doom-cds`,
         },
       ],
+      mobileAppsLinks: [],
+      browserExtensionsLinks: [],
+      archiveItLinks: []
     },
     texts: {
-      heading: "Texts",
+      heading: 'Texts',
       iconLinks: [
         {
-          title: "Open Library",
-          icon: `${prefix}/images/widgetOL.png`,
-          url: "https://openlibrary.org/",
+          title: 'Open Library',
+          icon: `${baseHost}/images/widgetOL.png`,
+          url: 'https://openlibrary.org/',
         },
         {
-          title: "American Libraries",
-          icon: `${prefix}/services/img/americana`,
-          url: `${prefix}/details/americana`,
+          title: 'American Libraries',
+          icon: `${baseHost}/services/img/americana`,
+          url: `${baseHost}/details/americana`,
         },
       ],
       featuredLinks: [
         {
-          title: "All Texts",
-          url: `${prefix}/details/texts`,
+          title: 'All Texts',
+          url: `${baseHost}/details/texts`,
         },
         {
-          title: "Smithsonian Libraries",
-          url: `${prefix}/details/smithsonian`,
+          title: 'Smithsonian Libraries',
+          url: `${baseHost}/details/smithsonian`,
         },
         {
-          title: "FEDLINK (US)",
-          url: `${prefix}/details/fedlink`,
+          title: 'FEDLINK (US)',
+          url: `${baseHost}/details/fedlink`,
         },
         {
-          title: "Genealogy",
-          url: `${prefix}/details/genealogy`,
+          title: 'Genealogy',
+          url: `${baseHost}/details/genealogy`,
         },
         {
-          title: "Lincoln Collection",
-          url: `${prefix}/details/lincolncollection`,
+          title: 'Lincoln Collection',
+          url: `${baseHost}/details/lincolncollection`,
         },
       ],
       links: [
         {
-          title: "American Libraries",
-          url: `${prefix}/details/americana`,
+          title: 'American Libraries',
+          url: `${baseHost}/details/americana`,
         },
         {
-          title: "Canadian Libraries",
-          url: `${prefix}/details/toronto`,
+          title: 'Canadian Libraries',
+          url: `${baseHost}/details/toronto`,
         },
         {
-          title: "Universal Library",
-          url: `${prefix}/details/universallibrary`,
+          title: 'Universal Library',
+          url: `${baseHost}/details/universallibrary`,
         },
         {
-          title: "Project Gutenberg",
-          url: `${prefix}/details/gutenberg`,
+          title: 'Project Gutenberg',
+          url: `${baseHost}/details/gutenberg`,
         },
         {
           title: "Children's Library",
-          url: `${prefix}/details/iacl`,
+          url: `${baseHost}/details/iacl`,
         },
         {
-          title: "Biodiversity Heritage Library",
-          url: `${prefix}/details/biodiversity`,
+          title: 'Biodiversity Heritage Library',
+          url: `${baseHost}/details/biodiversity`,
         },
         {
-          title: "Books by Language",
-          url: `${prefix}/details/booksbylanguage`,
+          title: 'Books by Language',
+          url: `${baseHost}/details/booksbylanguage`,
         },
         {
-          title: "Additional Collections",
-          url: `${prefix}/details/additional_collections`,
+          title: 'Additional Collections',
+          url: `${baseHost}/details/additional_collections`,
         },
       ],
+      mobileAppsLinks: [],
+      browserExtensionsLinks: [],
+      archiveItLinks: []
     },
     web: {
       mobileAppsLinks: [
         {
-          url: "https://apps.apple.com/us/app/wayback-machine/id1201888313",
-          title: "Wayback Machine (iOS)",
+          url: 'https://apps.apple.com/us/app/wayback-machine/id1201888313',
+          title: 'Wayback Machine (iOS)',
           external: true,
         },
         {
-          url: "https://play.google.com/store/apps/details?id=com.archive.waybackmachine&hl=en_US",
-          title: "Wayback Machine (Android)",
+          url: 'https://play.google.com/store/apps/details?id=com.archive.waybackmachine&hl=en_US',
+          title: 'Wayback Machine (Android)',
           external: true,
         },
       ],
       browserExtensionsLinks: [
         {
-          url: "https://chrome.google.com/webstore/detail/wayback-machine/fpnmgdkabkmnadcjpehmlllkndpkmiak",
-          title: "Chrome",
+          url: 'https://chrome.google.com/webstore/detail/wayback-machine/fpnmgdkabkmnadcjpehmlllkndpkmiak',
+          title: 'Chrome',
           external: true,
         },
         {
-          url: "https://addons.mozilla.org/en-US/firefox/addon/wayback-machine_new/",
-          title: "Firefox",
+          url: 'https://addons.mozilla.org/en-US/firefox/addon/wayback-machine_new/',
+          title: 'Firefox',
           external: true,
         },
         {
-          url: "https://apps.apple.com/us/app/wayback-machine/id1472432422?mt=12",
-          title: "Safari",
+          url: 'https://apps.apple.com/us/app/wayback-machine/id1472432422?mt=12',
+          title: 'Safari',
           external: true,
         },
         {
-          url: "https://microsoftedge.microsoft.com/addons/detail/wayback-machine/kjmickeoogghaimmomagaghnogelpcpn?hl=en-US",
-          title: "Edge",
+          url: 'https://microsoftedge.microsoft.com/addons/detail/wayback-machine/kjmickeoogghaimmomagaghnogelpcpn?hl=en-US',
+          title: 'Edge',
           external: true,
         },
       ],
       archiveItLinks: [
         {
-          url: "https://www.archive-it.org/explore",
-          title: "Explore the Collections",
+          url: 'https://www.archive-it.org/explore',
+          title: 'Explore the Collections',
           external: true,
         },
         {
-          url: "https://www.archive-it.org/blog/learn-more/",
-          title: "Learn More",
+          url: 'https://www.archive-it.org/blog/learn-more/',
+          title: 'Learn More',
           external: true,
         },
         {
-          url: "https://www.archive-it.org/contact-us",
-          title: "Build Collections",
+          url: 'https://www.archive-it.org/contact-us',
+          title: 'Build Collections',
           external: true,
         },
       ],
+      heading: '',
+      iconLinks: [],
+      featuredLinks: [],
+      links: []
     },
     video: {
-      heading: "Video",
+      heading: 'Video',
       iconLinks: [
         {
-          icon: `${prefix}/services/img/tv`,
-          title: "TV News",
-          url: `${prefix}/details/tv`,
+          icon: `${baseHost}/services/img/tv`,
+          title: 'TV News',
+          url: `${baseHost}/details/tv`,
         },
         {
-          icon: `${prefix}/services/img/911`,
-          title: "Understanding 9/11",
-          url: `${prefix}/details/911`,
+          icon: `${baseHost}/services/img/911`,
+          title: 'Understanding 9/11',
+          url: `${baseHost}/details/911`,
         },
       ],
       featuredLinks: [
         {
-          title: "All Video",
-          url: `${prefix}/details/movies`,
+          title: 'All Video',
+          url: `${baseHost}/details/movies`,
         },
         {
-          title: "Prelinger Archives",
-          url: `${prefix}/details/prelinger`,
+          title: 'Prelinger Archives',
+          url: `${baseHost}/details/prelinger`,
         },
         {
-          title: "Democracy Now!",
-          url: `${prefix}/details/democracy_now_vid`,
+          title: 'Democracy Now!',
+          url: `${baseHost}/details/democracy_now_vid`,
         },
         {
-          title: "Occupy Wall Street",
-          url: `${prefix}/details/occupywallstreet`,
+          title: 'Occupy Wall Street',
+          url: `${baseHost}/details/occupywallstreet`,
         },
         {
-          title: "TV NSA Clip Library",
-          url: `${prefix}/details/nsa`,
+          title: 'TV NSA Clip Library',
+          url: `${baseHost}/details/nsa`,
         },
       ],
       links: [
         {
-          title: "Animation & Cartoons",
-          url: `${prefix}/details/animationandcartoons`,
+          title: 'Animation & Cartoons',
+          url: `${baseHost}/details/animationandcartoons`,
         },
         {
-          title: "Arts & Music",
-          url: `${prefix}/details/artsandmusicvideos`,
+          title: 'Arts & Music',
+          url: `${baseHost}/details/artsandmusicvideos`,
         },
         {
-          title: "Computers & Technology",
-          url: `${prefix}/details/computersandtechvideos`,
+          title: 'Computers & Technology',
+          url: `${baseHost}/details/computersandtechvideos`,
         },
         {
-          title: "Cultural & Academic Films",
-          url: `${prefix}/details/culturalandacademicfilms`,
+          title: 'Cultural & Academic Films',
+          url: `${baseHost}/details/culturalandacademicfilms`,
         },
         {
-          title: "Ephemeral Films",
-          url: `${prefix}/details/ephemera`,
+          title: 'Ephemeral Films',
+          url: `${baseHost}/details/ephemera`,
         },
         {
-          title: "Movies",
-          url: `${prefix}/details/moviesandfilms`,
+          title: 'Movies',
+          url: `${baseHost}/details/moviesandfilms`,
         },
         {
-          title: "News & Public Affairs",
-          url: `${prefix}/details/newsandpublicaffairs`,
+          title: 'News & Public Affairs',
+          url: `${baseHost}/details/newsandpublicaffairs`,
         },
         {
-          title: "Spirituality & Religion",
-          url: `${prefix}/details/spiritualityandreligion`,
+          title: 'Spirituality & Religion',
+          url: `${baseHost}/details/spiritualityandreligion`,
         },
         {
-          title: "Sports Videos",
-          url: `${prefix}/details/sports`,
+          title: 'Sports Videos',
+          url: `${baseHost}/details/sports`,
         },
         {
-          title: "Television",
-          url: `${prefix}/details/television`,
+          title: 'Television',
+          url: `${baseHost}/details/television`,
         },
         {
-          title: "Videogame Videos",
-          url: `${prefix}/details/gamevideos`,
+          title: 'Videogame Videos',
+          url: `${baseHost}/details/gamevideos`,
         },
         {
-          title: "Vlogs",
-          url: `${prefix}/details/vlogs`,
+          title: 'Vlogs',
+          url: `${baseHost}/details/vlogs`,
         },
         {
-          title: "Youth Media",
-          url: `${prefix}/details/youth_media`,
+          title: 'Youth Media',
+          url: `${baseHost}/details/youth_media`,
         },
       ],
+      mobileAppsLinks: [],
+      browserExtensionsLinks: [],
+      archiveItLinks: []
     },
     user: [
       {
-        url: `${prefix}/create`,
-        title: "Upload files",
-        analyticsEvent: "UserUpload",
-        class: "mobile-upload",
+        url: `${baseHost}/create`,
+        title: 'Upload files',
+        analyticsEvent: 'UserUpload',
+        class: 'mobile-upload',
       },
       {
-        url: `${prefix}/details/@${userid}`,
-        title: "My uploads",
-        analyticsEvent: "UserLibrary",
+        url: `${baseHost}/details/@${userid}`,
+        title: 'My uploads',
+        analyticsEvent: 'UserLibrary',
       },
       {
-        url: `${prefix}/details/@${userid}/loans`,
-        title: "My loans",
-        analyticsEvent: "UserLoans",
+        url: `${baseHost}/details/@${userid}/loans`,
+        title: 'My loans',
+        analyticsEvent: 'UserLoans',
       },
       {
-        url: `${prefix}/details/fav-${userid}`,
-        title: "My favorites",
-        analyticsEvent: "UserFavorites",
+        url: `${baseHost}/details/fav-${userid}`,
+        title: 'My favorites',
+        analyticsEvent: 'UserFavorites',
       },
       {
-        url: `${prefix}/details/@${userid}/lists`,
-        title: "My lists",
-        analyticsEvent: "UserLists",
+        url: `${baseHost}/details/@${userid}/lists`,
+        title: 'My lists',
+        analyticsEvent: 'UserLists',
       },
       {
-        url: `${prefix}/details/@${userid}/collections`,
-        title: "My collections",
-        analyticsEvent: "UserCollections",
+        url: `${baseHost}/details/@${userid}/collections`,
+        title: 'My collections',
+        analyticsEvent: 'UserCollections',
       },
       {
-        url: `${prefix}/details/@${userid}/web-archive`,
-        title: "My web archives",
-        analyticsEvent: "UserWebArchive",
+        url: `${baseHost}/details/@${userid}/web-archive`,
+        title: 'My web archives',
+        analyticsEvent: 'UserWebArchive',
       },
       {
-        url: `${prefix}/account/index.php?settings=1`,
-        title: "Account settings",
-        analyticsEvent: "UserSettings",
+        url: `${baseHost}/account/index.php?settings=1`,
+        title: 'Account settings',
+        analyticsEvent: 'UserSettings',
       },
       {
-        url: "https://help.archive.org",
-        title: "Get help",
-        analyticsEvent: "UserHelp",
+        url: 'https://help.archive.org',
+        title: 'Get help',
+        analyticsEvent: 'UserHelp',
       },
       {
-        url: `${prefix}/account/logout`,
-        title: "Log out",
-        analyticsEvent: "UserLogOut",
+        url: `${baseHost}/account/logout`,
+        title: 'Log out',
+        analyticsEvent: 'UserLogOut',
       },
     ],
     userAdmin: [
       {
-        title: "ADMINS:",
+        title: 'ADMINS:',
       },
       {
-        title: "item:",
+        title: 'item:',
       },
       {
-        url: `${prefix}/editxml/${itemIdentifier}`,
-        title: "edit xml",
-        analyticsEvent: "AdminUserEditXML",
+        url: `${baseHost}/editxml/${itemIdentifier}`,
+        title: 'edit xml',
+        analyticsEvent: 'AdminUserEditXML',
       },
       {
-        url: `${prefix}/edit.php?redir=1&identifier=${itemIdentifier}`,
-        title: "edit files",
-        analyticsEvent: "AdminUserEditFiles",
+        url: `${baseHost}/edit.php?redir=1&identifier=${itemIdentifier}`,
+        title: 'edit files',
+        analyticsEvent: 'AdminUserEditFiles',
       },
       {
-        url: `${prefix}/download/${itemIdentifier}/`,
-        title: "download",
-        analyticsEvent: "AdminUserDownload",
+        url: `${baseHost}/download/${itemIdentifier}/`,
+        title: 'download',
+        analyticsEvent: 'AdminUserDownload',
       },
       {
-        url: `${prefix}/metadata/${itemIdentifier}/`,
-        title: "metadata",
-        analyticsEvent: "AdminUserMetadata",
+        url: `${baseHost}/metadata/${itemIdentifier}/`,
+        title: 'metadata',
+        analyticsEvent: 'AdminUserMetadata',
       },
       {
         url: `https://catalogd.archive.org/history/${itemIdentifier}`,
-        title: "history",
-        analyticsEvent: "AdminUserHistory",
+        title: 'history',
+        analyticsEvent: 'AdminUserHistory',
       },
       {
-        url: `${prefix}/manage/${itemIdentifier}`,
-        title: "manage",
-        analyticsEvent: "AdminUserManager",
+        url: `${baseHost}/manage/${itemIdentifier}`,
+        title: 'manage',
+        analyticsEvent: 'AdminUserManager',
       },
       {
-        url: `${prefix}/manage/${itemIdentifier}#make_dark`,
-        title: "curate",
-        analyticsEvent: "AdminUserCurate",
+        url: `${baseHost}/manage/${itemIdentifier}#make_dark`,
+        title: 'curate',
+        analyticsEvent: 'AdminUserCurate',
       },
       {
-        url: `${prefix}/manage/${itemIdentifier}#modify_xml`,
-        title: "modify xml",
-        analyticsEvent: "AdminUserModifyXML",
+        url: `${baseHost}/manage/${itemIdentifier}#modify_xml`,
+        title: 'modify xml',
+        analyticsEvent: 'AdminUserModifyXML',
       },
     ],
     userAdminFlags: [
       {
-        url: `${prefix}/services/flags/admin.php?identifier=${itemIdentifier}`,
-        title: "manage flags",
-        analyticsEvent: "AdminUserManageFlags",
+        url: `${baseHost}/services/flags/admin.php?identifier=${itemIdentifier}`,
+        title: 'manage flags',
+        analyticsEvent: 'AdminUserManageFlags',
       },
     ],
     signedOut: [
       {
-        url: `${prefix}/account/signup`,
-        title: "Sign up for free",
-        analyticsEvent: "AvatarMenu-Signup",
+        url: `${baseHost}/account/signup`,
+        title: 'Sign up for free',
+        analyticsEvent: 'AvatarMenu-Signup',
       },
       {
-        url: `${prefix}/account/login`,
-        title: "Log in",
-        analyticsEvent: "AvatarMenu-Login",
+        url: `${baseHost}/account/login`,
+        title: 'Log in',
+        analyticsEvent: 'AvatarMenu-Login',
       },
     ],
   };
@@ -627,36 +647,36 @@ let waybackPagesArchivedCached: string | undefined;
  * Fetches accurate count of number of pages in WayBack Machine
  * @returns { string }
  */
-export async function waybackPagesArchivedFN() {
+export async function waybackPagesArchivedFN(): Promise<string> {
   if (waybackPagesArchivedCached) return waybackPagesArchivedCached;
 
   const counts = await (
     await fetch(
-      "https://archive.org/services/offshoot/home-page/mediacounts.php",
+      'https://archive.org/services/offshoot/home-page/mediacounts.php',
     )
   ).json();
   if (counts.success) {
-    let label = "";
+    let label = '';
     let n = parseInt(counts.value.counts.web, 10);
     if (n > 1000) {
       n /= 1000;
-      label = "thousand";
+      label = 'thousand';
     }
     if (n > 1000) {
       n /= 1000;
-      label = "million";
+      label = 'million';
     }
     if (n > 1000) {
       n /= 1000;
-      label = "billion";
+      label = 'billion';
     }
     if (n > 1000) {
       n /= 1000;
-      label = "trillion";
+      label = 'trillion';
     }
     waybackPagesArchivedCached = `${Math.round(n)} ${label}`;
   } else {
-    waybackPagesArchivedCached = "741 billion";
+    waybackPagesArchivedCached = '741 billion';
   }
 
   return waybackPagesArchivedCached;

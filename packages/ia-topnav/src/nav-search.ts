@@ -1,21 +1,24 @@
-import { nothing, html } from "lit";
+import { nothing, html } from 'lit';
 
-import TrackedElement from "./tracked-element";
-import navSearchCSS from "./styles/nav-search";
-import icons from "./assets/img/icons";
-import formatUrl from "./lib/formatUrl";
-import { property, query } from "lit/decorators.js";
+import TrackedElement from './tracked-element';
+import navSearchCSS from './styles/nav-search';
+import icons from './assets/img/icons';
+import formatUrl from './lib/formatUrl';
+import { customElement, property, query } from 'lit/decorators.js';
+import { defaultTopNavConfig } from './data/menus';
+import { IATopNavConfig } from './models';
 
-class NavSearch extends TrackedElement {
-  @property({ type: String }) baseHost = "";
-  @property({ type: Object }) config: { eventCategory: string } | undefined;
-  @property({ type: Object }) locationHandler = (url: string & Location) => {};
+@customElement('nav-search')
+export class NavSearch extends TrackedElement {
+  @property({ type: String }) baseHost = '';
+  @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
+  @property({ type: Object }) locationHandler = (url: string) => { };
   @property({ type: Boolean }) open = false;
-  @property({ type: String }) openMenu = "";
-  @property({ type: String }) searchIn = "";
-  @property({ type: String }) searchQuery = "";
+  @property({ type: String }) openMenu = '';
+  @property({ type: String }) searchIn = '';
+  @property({ type: String }) searchQuery = '';
 
-  @query("[name=query]") queryInput: HTMLInputElement | undefined;
+  @query('[name=query]') queryInput: HTMLInputElement | undefined;
 
   static get styles() {
     return navSearchCSS;
@@ -30,7 +33,7 @@ class NavSearch extends TrackedElement {
     }
 
     // TV search points to a detail page with a q param instead
-    if (this.searchIn === "TV") {
+    if (this.searchIn === 'TV') {
       this.locationHandler(
         formatUrl(`/details/tv?q=${query}` as string & Location, this.baseHost),
       );
@@ -43,13 +46,13 @@ class NavSearch extends TrackedElement {
   }
 
   toggleSearchMenu() {
-    if (this.openMenu === "search") {
+    if (this.openMenu === 'search') {
       return;
     }
     this.dispatchEvent(
-      new CustomEvent("menuToggled", {
+      new CustomEvent('menuToggled', {
         detail: {
-          menuName: "search",
+          menuName: 'search',
         },
         composed: true,
         bubbles: true,
@@ -64,11 +67,11 @@ class NavSearch extends TrackedElement {
   }
 
   get searchEndpoint() {
-    return "/search";
+    return '/search';
   }
 
   render() {
-    const searchMenuClass = this.open ? "flex" : "search-inactive";
+    const searchMenuClass = this.open ? 'flex' : 'search-inactive';
 
     return html`
       <div class="search-activated fade-in ${searchMenuClass}">
@@ -90,7 +93,7 @@ class NavSearch extends TrackedElement {
             class="search-field"
             placeholder="Search"
             autocomplete="off"
-            value=${this.searchQuery || ""}
+            value=${this.searchQuery || ''}
             @focus=${this.toggleSearchMenu}
           />
           ${this.searchInsideInput}
@@ -108,5 +111,3 @@ class NavSearch extends TrackedElement {
     `;
   }
 }
-
-customElements.define("nav-search", NavSearch);

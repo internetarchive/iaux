@@ -303,10 +303,12 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/retry/-/retry-0.4.2.tgz#1860473de7dfa1546767448f333db80cb0ff2161"
   integrity sha512-xeO57FpIu4p1Ri3Jq/EXq4ClRm86dVF2z/+kvFnyqVYRavTZmaFaUBbWCOuuTh0o/g7DSsk6kc2vrS4Vl5oPOQ==
 
-"@internetarchive/ia-wayback-search@0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-wayback-search/-/ia-wayback-search-0.2.5.tgz#c29a904541c2da5d9f525c0a748085df8d61efca"
-  integrity sha512-JW0rrJKvJiJW5PUTFmgLvvOp2NKD2ZQOKYVsuG+MsOqqB4zNMSAMmCTemb4uOc9LY1Em+Cgs0+p2XS9fXO6DAg==
+"@internetarchive/ia-wayback-search@0.2.6-webdev-7393.5":
+  version "0.2.6-webdev-7393.5"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-wayback-search/-/ia-wayback-search-0.2.6-webdev-7393.5.tgz#f0a1fb9acb83a070b9f3c1d94933d323e4f9aba0"
+  integrity sha512-vYuw24CfQoPbjsZSE6Hr06dHB9TbaoJDa6gdfa5y+/wNFx5tn/V6Or6hgNMXsK94AC1nKI24zKrp8lUJnDGCIA==
+  dependencies:
+    lit "^2.8.0"
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"

@@ -1,4 +1,4 @@
-import { css } from "lit";
+import { css } from 'lit';
 
 export default css`
   button:focus,
@@ -10,7 +10,7 @@ export default css`
     position: relative;
     display: flex;
     height: 4rem;
-    grid-template-areas: "hamburger empty heart search user";
+    grid-template-areas: 'hamburger empty heart search user';
     -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4rem 4rem;
     grid-template-columns: 4rem auto 4rem 4rem 4rem;
     -ms-grid-rows: 100%;
@@ -20,7 +20,7 @@ export default css`
   }
 
   nav.hide-search {
-    grid-template-areas: "hamburger empty heart user";
+    grid-template-areas: 'hamburger empty heart user';
     -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4rem;
     grid-template-columns: 4rem auto 4rem 4rem;
   }
@@ -193,7 +193,7 @@ export default css`
   }
 
   @media (max-width: 889px) {
-    slot[name="opt-sec-logo"] {
+    slot[name='opt-sec-logo'] {
       display: none;
     }
 
@@ -218,7 +218,7 @@ export default css`
       padding-right: 1.5rem;
     }
 
-    slot[name="opt-sec-logo-mobile"] {
+    slot[name='opt-sec-logo-mobile'] {
       display: none;
     }
 

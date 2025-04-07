@@ -1,32 +1,32 @@
-import { html, fixture, expect } from "@open-wc/testing";
+import { html, fixture, expect } from '@open-wc/testing';
 
-import "../src/media-menu";
+import '../src/media-menu';
 
 const component = html`<media-menu></media-menu>`;
 
-describe("<media-menu>", () => {
-  it("sets default properties", async () => {
+describe('<media-menu>', () => {
+  it('sets default properties', async () => {
     const mediaMenu = await fixture(component);
 
-    expect(mediaMenu.openMenu).to.equal("");
-    expect(mediaMenu.selectedMenuOption).to.equal("");
+    expect(mediaMenu.openMenu).to.equal('');
+    expect(mediaMenu.selectedMenuOption).to.equal('');
   });
 
-  it("renders menu icon as selected when selectedMenuOption matches", async () => {
+  it('renders menu icon as selected when selectedMenuOption matches', async () => {
     const mediaMenu = await fixture(component);
-    const mediaType = "texts";
+    const mediaType = 'texts';
 
     mediaMenu.selectedMenuOption = mediaType;
     await mediaMenu.updateComplete;
 
     const textsButton = mediaMenu.shadowRoot
       .querySelector(`[data-mediatype=${mediaType}`)
-      .shadowRoot.querySelector(".selected");
+      .shadowRoot.querySelector('.selected');
 
     expect(textsButton).to.not.be.null;
   });
 
-  it("renders with closed class if done animating", async () => {
+  it('renders with closed class if done animating', async () => {
     const mediaMenu = await fixture(component);
 
     mediaMenu.mediaMenuAnimate = true;
@@ -34,8 +34,8 @@ describe("<media-menu>", () => {
 
     expect(
       mediaMenu.shadowRoot
-        .querySelector(".media-menu-container")
-        .classList.contains("closed"),
+        .querySelector('.media-menu-container')
+        .classList.contains('closed'),
     ).to.be.true;
   });
 });

@@ -1,17 +1,14 @@
-import { html, nothing, TemplateResult } from "lit";
-import TrackedElement from "./tracked-element";
-import desktopSubnavCSS from "./styles/desktop-subnav";
-import icons from "./assets/img/icons";
-import formatUrl from "./lib/formatUrl";
-import { customElement, property } from "lit/decorators.js";
+import { html, nothing, TemplateResult } from 'lit';
+import TrackedElement from './tracked-element';
+import desktopSubnavCSS from './styles/desktop-subnav';
+import icons from './assets/img/icons';
+import formatUrl from './lib/formatUrl';
+import { customElement, property } from 'lit/decorators.js';
 
-@customElement("desktop-subnav")
+@customElement('desktop-subnav')
 export class DesktopSubnav extends TrackedElement {
-  @property({ type: String }) baseHost = "";
-  @property({ type: Array }) menuItems: {
-    url: string & Location;
-    title: string;
-  }[] = [];
+  @property({ type: String }) baseHost = '';
+  @property({ type: Array }) menuItems: Array<{ url: string; title: string; }> = [];
 
   static get styles() {
     return desktopSubnavCSS;

@@ -1,29 +1,22 @@
-import { html } from "lit";
-import TrackedElement from "./tracked-element";
-import savePageFormCSS from "./styles/save-page-form";
+import { html } from 'lit';
+import TrackedElement from './tracked-element';
+import savePageFormCSS from './styles/save-page-form';
+import { customElement, property } from 'lit/decorators';
+import { IATopNavConfig } from './models';
+import { defaultTopNavConfig } from './data/menus';
 
-class SavePageForm extends TrackedElement {
+@customElement('save-page-form')
+export class SavePageForm extends TrackedElement {
+  @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
+  @property({ type: Boolean }) inputValid = true;
+
   static get styles() {
     return savePageFormCSS;
   }
 
-  static get properties() {
-    return {
-      config: { type: Object },
-      inputValid: { type: Boolean },
-    };
-  }
-
-  constructor() {
-    super();
-    this.config = {
-      eventCategory: "",
-    };
-    this.inputValid = true;
-  }
-
-  validateURL(e) {
-    const urlInput = e.target.querySelector('[name="url_preload"]');
+  validateURL(e: Event) {
+    const target = e.target as HTMLFormElement;
+    const urlInput = target.querySelector('[name="url_preload"]') as HTMLInputElement;
     const valid = /\..{2,}$/.test(urlInput.value);
 
     if (!valid) {
@@ -36,7 +29,7 @@ class SavePageForm extends TrackedElement {
   }
 
   get errorClass() {
-    return `error${this.inputValid ? "" : " visible"}`;
+    return `error${this.inputValid ? '' : ' visible'}`;
   }
 
   render() {
@@ -61,7 +54,3 @@ class SavePageForm extends TrackedElement {
     `;
   }
 }
-
-customElements.define("save-page-form", SavePageForm);
-
-export default SavePageForm;

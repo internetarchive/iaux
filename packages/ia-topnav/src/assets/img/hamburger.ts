@@ -1,8 +1,10 @@
-import { html, css } from "lit";
-import Icon from "./icon";
-import icons from "./icons";
+import { html, css } from 'lit';
+import Icon from './icon';
+import icons from './icons';
+import { customElement } from 'lit/decorators';
 
-class HamBurger extends Icon {
+@customElement('icon-hamburger')
+export class HamBurger extends Icon {
   static get styles() {
     return css`
       svg {
@@ -45,5 +47,3 @@ class HamBurger extends Icon {
     return this.active ? HamBurger.opened : HamBurger.closed;
   }
 }
-
-customElements.define("icon-hamburger", HamBurger);

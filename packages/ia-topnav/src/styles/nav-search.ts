@@ -1,7 +1,7 @@
-import { css } from "lit";
+import { css } from 'lit';
 
 export default css`
-  input[type="text"] {
+  input[type='text'] {
     color: var(--grey13);
   }
 

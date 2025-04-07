@@ -1,39 +1,44 @@
-import { LitElement, PropertyValues, html, nothing } from "lit";
+import { LitElement, PropertyValues, html, nothing } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 
-import "./primary-nav";
-import "./user-menu";
-import "./search-menu";
-import "./media-slider";
-import "./desktop-subnav";
-import "./dropdown-menu";
-import "./signed-out-dropdown";
-import iaTopNavCSS from "./styles/ia-topnav";
-import { buildTopNavMenus, defaultTopNavConfig } from "./data/menus";
-import { customElement, property } from "lit/decorators.js";
+import { buildTopNavMenus, defaultTopNavConfig } from './data/menus';
+import './desktop-subnav';
+import './dropdown-menu';
+import './media-slider';
+import { IATopNavConfig, IATopNavMenuConfig } from './models';
+import './primary-nav';
+import './search-menu';
+import './signed-out-dropdown';
+import iaTopNavCSS from './styles/ia-topnav';
+import './user-menu';
 
-@customElement("ia-topnav")
+@customElement('ia-topnav')
 export default class IATopNav extends LitElement {
   @property({ type: Boolean }) localLinks = true;
-  @property({ type: String }) waybackPagesArchived = "";
-  @property({ type: String }) baseHost = "";
-  @property({ type: String }) mediaBaseHost = "https://archive.org";
+  @property({ type: String }) waybackPagesArchived = '';
+  @property({ type: String }) baseHost = 'https://archive.org';
+  @property({ type: String }) mediaBaseHost = 'https://archive.org';
   @property({ type: Boolean }) admin = false;
   @property({ type: Boolean }) canManageFlags = false;
-  @property({ type: Object }) config = defaultTopNavConfig;
+  @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: Boolean }) hideSearch = false;
-  @property({ type: String }) itemIdentifier = "";
+  @property({ type: String }) itemIdentifier = '';
   @property({ type: Boolean }) mediaSliderOpen = false;
-  @property({ type: Array }) menus = [];
-  @property({ type: String }) openMenu = "";
-  @property({ type: String }) screenName: string | null = null;
-  @property({ type: String }) searchIn = "";
-  @property({ type: String }) searchQuery = "";
-  @property({ type: String }) selectedMenuOption = "";
-  @property({ type: String }) username: string | null = null;
-  @property({ type: String }) userProfileImagePath =
-    "/services/img/user/profile";
-  @property({ type: String }) secondIdentitySlotMode = "";
-  @property({ type: Object }) currentTab = {};
+  @property({ type: String }) openMenu = '';
+  @property({ type: String }) screenName: string = '';
+  @property({ type: String }) searchIn = '';
+  @property({ type: String }) searchQuery = '';
+  @property({ type: String }) selectedMenuOption = '';
+  @property({ type: String }) username: string = '';
+  @property({ type: String }) userProfileImagePath = '/services/img/user/profile';
+  @property({ type: String }) secondIdentitySlotMode = '';
+  @property({ type: Object }) currentTab?: { mediatype: string; moveTo: string };
+
+  @state() private menus: IATopNavMenuConfig = buildTopNavMenus();
+
+  private get normalizedBaseHost() {
+    return this.localLinks ? '' : this.baseHost;
+  }
 
   static get styles() {
     return iaTopNavCSS;
@@ -107,11 +112,11 @@ export default class IATopNav extends LitElement {
 
   updated(props: PropertyValues) {
     if (
-      props.has("username") ||
-      props.has("localLinks") ||
-      props.has("baseHost") ||
-      props.has("waybackPagesArchived") ||
-      props.has("itemIdentifier")
+      props.has('username') ||
+      props.has('waybackPagesArchived') ||
+      props.has('itemIdentifier') ||
+      props.has('localLinks') ||
+      props.has('baseHost')
     ) {
       this.menuSetup();
     }
@@ -120,10 +125,10 @@ export default class IATopNav extends LitElement {
   firstUpdated() {
     // close open menu on `esc` click
     document.addEventListener(
-      "keydown",
+      'keydown',
       (e) => {
-        if (e.key === "Escape") {
-          this.openMenu = "";
+        if (e.key === 'Escape') {
+          this.openMenu = '';
           this.mediaSliderOpen = false;
         }
       },
@@ -132,30 +137,20 @@ export default class IATopNav extends LitElement {
   }
 
   menuSetup() {
-    this.localLinks =
-      this.getAttribute("localLinks") !== "false" &&
-      this.getAttribute("localLinks") !== false;
-    this.username = this.getAttribute("username");
-    this.screenName = this.getAttribute("screenname");
-    this.waybackPagesArchived = this.getAttribute("waybackPagesArchived") ?? "";
-
-    // ensure we update other components that use `baseHost`
-    this.baseHost = this.localLinks ? "" : "https://archive.org";
-
     // re/build the nav
     this.menus = buildTopNavMenus(
       this.username,
-      this.localLinks,
+      this.normalizedBaseHost,
       this.waybackPagesArchived,
       this.itemIdentifier,
     );
   }
 
-  menuToggled({ detail }) {
+  menuToggled(e: CustomEvent) {
     const currentMenu = this.openMenu;
-    this.openMenu = currentMenu === detail.menuName ? "" : detail.menuName;
+    this.openMenu = currentMenu === e.detail.menuName ? '' : e.detail.menuName;
     // Keeps media slider open if media menu is open
-    if (this.openMenu === "media") {
+    if (this.openMenu === 'media') {
       return;
     }
     this.closeMediaSlider();
@@ -167,88 +162,88 @@ export default class IATopNav extends LitElement {
 
   closeMediaSlider() {
     this.mediaSliderOpen = false;
-    this.selectedMenuOption = "";
+    this.selectedMenuOption = '';
   }
 
   closeMenus() {
-    this.openMenu = "";
+    this.openMenu = '';
     this.closeMediaSlider();
   }
 
-  searchInChanged(e) {
+  searchInChanged(e: CustomEvent) {
     this.searchIn = e.detail.searchIn;
   }
 
-  trackClick({ detail }) {
+  trackClick(e: CustomEvent) {
     this.dispatchEvent(
-      new CustomEvent("analyticsClick", {
+      new CustomEvent('analyticsClick', {
         bubbles: true,
         composed: true,
-        detail,
+        detail: e.detail,
       }),
     );
   }
 
-  trackSubmit({ detail }) {
+  trackSubmit(e: CustomEvent) {
     this.dispatchEvent(
-      new CustomEvent("analyticsSubmit", {
+      new CustomEvent('analyticsSubmit', {
         bubbles: true,
         composed: true,
-        detail,
+        detail: e.detail,
       }),
     );
   }
 
-  mediaTypeSelected({ detail }) {
-    if (this.selectedMenuOption === detail.mediatype) {
+  mediaTypeSelected(e: CustomEvent) {
+    if (this.selectedMenuOption === e.detail.mediatype) {
       this.closeMediaSlider();
       return;
     }
-    this.selectedMenuOption = detail.mediatype;
+    this.selectedMenuOption = e.detail.mediatype;
     this.openMediaSlider();
   }
 
   get searchMenuOpened() {
-    return this.openMenu === "search";
+    return this.openMenu === 'search';
   }
 
   get signedOutOpened() {
-    return this.openMenu === "login";
+    return this.openMenu === 'login';
   }
 
   get userMenuOpened() {
-    return this.openMenu === "user";
+    return this.openMenu === 'user';
   }
 
   get searchMenuTabIndex() {
-    return this.searchMenuOpened ? "" : "-1";
+    return this.searchMenuOpened ? '' : '-1';
   }
 
   get userMenuTabIndex() {
-    return this.userMenuOpened ? "" : "-1";
+    return this.userMenuOpened ? '' : '-1';
   }
 
   get signedOutTabIndex() {
-    return this.signedOutOpened ? "" : "-1";
+    return this.signedOutOpened ? '' : '-1';
   }
 
   get closeLayerClass() {
-    return !!this.openMenu || this.mediaSliderOpen ? "visible" : "";
+    return !!this.openMenu || this.mediaSliderOpen ? 'visible' : '';
   }
 
   get userMenu() {
     return html`
       <user-menu
-        .baseHost=${this.baseHost}
+        .baseHost=${this.normalizedBaseHost}
         .config=${this.config}
         .menuItems=${this.userMenuItems}
-        ?open=${this.openMenu === "user"}
+        ?open=${this.openMenu === 'user'}
         .username=${this.username}
         ?hideSearch=${this.hideSearch}
         tabindex="${this.userMenuTabIndex}"
         @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
-        @focusToOtherMenuItem=${(e) => (this.currentTab = e.detail)}
+        @focusToOtherMenuItem=${(e: CustomEvent) => (this.currentTab = e.detail)}
       ></user-menu>
     `;
   }
@@ -256,7 +251,7 @@ export default class IATopNav extends LitElement {
   get signedOutDropdown() {
     return html`
       <signed-out-dropdown
-        .baseHost=${this.baseHost}
+        .baseHost=${this.normalizedBaseHost}
         .config=${this.config}
         .open=${this.signedOutOpened}
         ?hideSearch=${this.hideSearch}
@@ -285,7 +280,7 @@ export default class IATopNav extends LitElement {
 
     return this.itemIdentifier && this.admin
       ? [basicItems, adminItems]
-      : basicItems;
+      : [basicItems];
   }
 
   get desktopSubnavMenuItems() {
@@ -293,7 +288,7 @@ export default class IATopNav extends LitElement {
   }
 
   get allowSecondaryIcon() {
-    return this.secondIdentitySlotMode === "allow";
+    return this.secondIdentitySlotMode === 'allow';
   }
 
   get secondLogoSlot() {
@@ -313,7 +308,7 @@ export default class IATopNav extends LitElement {
     return html`
       <div class="topnav">
         <primary-nav
-          .baseHost=${this.baseHost}
+          .baseHost=${this.normalizedBaseHost}
           .mediaBaseHost=${this.mediaBaseHost}
           .config=${this.config}
           .openMenu=${this.openMenu}
@@ -327,7 +322,6 @@ export default class IATopNav extends LitElement {
           .currentTab=${this.currentTab}
           ?hideSearch=${this.hideSearch}
           @mediaTypeSelected=${this.mediaTypeSelected}
-          @toggleSearchMenu=${this.toggleSearchMenu}
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
@@ -335,18 +329,18 @@ export default class IATopNav extends LitElement {
           ${this.secondLogoSlot}
         </primary-nav>
         <media-slider
-          .baseHost=${this.baseHost}
+          .baseHost=${this.normalizedBaseHost}
           .config=${this.config}
           .selectedMenuOption=${this.selectedMenuOption}
           .mediaSliderOpen=${this.mediaSliderOpen}
           .menus=${this.menus}
-          tabindex="${this.mediaSliderOpen ? "1" : "-1"}"
-          @focusToOtherMenuItem=${(e) => (this.currentTab = e.detail)}
+          tabindex="${this.mediaSliderOpen ? '1' : '-1'}"
+          @focusToOtherMenuItem=${(e: CustomEvent) => (this.currentTab = e.detail)}
         ></media-slider>
       </div>
       ${this.username ? this.userMenu : this.signedOutDropdown}
       <search-menu
-        .baseHost=${this.baseHost}
+        .baseHost=${this.normalizedBaseHost}
         .config=${this.config}
         .openMenu=${this.openMenu}
         tabindex="${this.searchMenuTabIndex}"
@@ -356,7 +350,7 @@ export default class IATopNav extends LitElement {
         @trackSubmit=${this.trackSubmit}
       ></search-menu>
       <desktop-subnav
-        .baseHost=${this.baseHost}
+        .baseHost=${this.normalizedBaseHost}
         .menuItems=${this.desktopSubnavMenuItems}
         @focus=${this.closeMenus}
       ></desktop-subnav>

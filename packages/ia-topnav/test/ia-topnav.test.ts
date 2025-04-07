@@ -5,16 +5,16 @@ import {
   oneEvent,
   fixtureCleanup,
   elementUpdated,
-} from "@open-wc/testing";
+} from '@open-wc/testing';
 
-import "../src/ia-topnav";
+import '../src/ia-topnav';
 
 const container = ({
-  username = "",
-  screenName = "",
+  username = '',
+  screenName = '',
   config = {},
   localLinks = true,
-  secondIdentitySlotMode = "",
+  secondIdentitySlotMode = '',
 } = {}) =>
   html`<ia-topnav
     .screenName=${screenName}
@@ -26,7 +26,7 @@ const container = ({
 
 const verifyClosed = (instance) => {
   expect(instance.mediaSliderOpen).to.be.false;
-  expect(instance.selectedMenuOption).to.equal("");
+  expect(instance.selectedMenuOption).to.equal('');
 };
 
 const verifyOpened = (instance, mediatype) => {
@@ -38,11 +38,11 @@ afterEach(() => {
   fixtureCleanup();
 });
 
-describe("<ia-topnav>", () => {
+describe('<ia-topnav>', () => {
   it('assigns a value to "search in" from outside event', async () => {
     const el = await fixture(container());
-    const query = "atari";
-    const searchMenu = el.shadowRoot.querySelector("search-menu");
+    const query = 'atari';
+    const searchMenu = el.shadowRoot.querySelector('search-menu');
 
     searchMenu.searchInChanged({
       target: {
@@ -54,65 +54,65 @@ describe("<ia-topnav>", () => {
     expect(el.searchIn).to.equal(query);
   });
 
-  it("dispatches an analyticsClick event when trackClick event fired", async () => {
+  it('dispatches an analyticsClick event when trackClick event fired', async () => {
     const el = await fixture(container());
-    const clickEvent = new MouseEvent("click");
+    const clickEvent = new MouseEvent('click');
 
     setTimeout(() =>
       el.shadowRoot
-        .querySelector("primary-nav")
-        .shadowRoot.querySelector(".hamburger")
+        .querySelector('primary-nav')
+        .shadowRoot.querySelector('.hamburger')
         .dispatchEvent(clickEvent),
     );
-    const response = await oneEvent(el, "trackClick");
+    const response = await oneEvent(el, 'trackClick');
 
     expect(response).to.exist;
   });
 
-  it("dispatches an analyticsSubmit event when trackSubmit event fired", async () => {
+  it('dispatches an analyticsSubmit event when trackSubmit event fired', async () => {
     const el = await fixture(container());
-    const submitEvent = new Event("submit");
+    const submitEvent = new Event('submit');
     const form = el.shadowRoot
-      .querySelector("primary-nav")
-      .shadowRoot.querySelector("nav-search")
-      .shadowRoot.querySelector("form");
+      .querySelector('primary-nav')
+      .shadowRoot.querySelector('nav-search')
+      .shadowRoot.querySelector('form');
 
-    form.addEventListener("submit", (e) => e.preventDefault());
-    form.querySelector("[name=query]").value = "atari";
+    form.addEventListener('submit', (e) => e.preventDefault());
+    form.querySelector('[name=query]').value = 'atari';
     setTimeout(() => form.dispatchEvent(submitEvent));
-    const response = await oneEvent(el, "trackSubmit");
+    const response = await oneEvent(el, 'trackSubmit');
 
     expect(response).to.exist;
   });
 
-  it("closes all menus when close-layer clicked", async () => {
+  it('closes all menus when close-layer clicked', async () => {
     const el = await fixture(container());
 
-    el.openMenu = "media";
-    el.selectedMenuOption = "texts";
+    el.openMenu = 'media';
+    el.selectedMenuOption = 'texts';
     el.mediaSliderOpen = true;
     await el.updateComplete;
     el.closeMenus();
     await el.updateComplete;
 
     expect(el.mediaSliderOpen).to.be.false;
-    expect(el.openMenu).to.equal("");
-    expect(el.selectedMenuOption).to.equal("");
+    expect(el.openMenu).to.equal('');
+    expect(el.selectedMenuOption).to.equal('');
   });
 
-  it("sets media slider to closed", async () => {
+  it('sets media slider to closed', async () => {
     const el = await fixture(container());
 
     el.mediaSliderOpen = true;
-    el.selectedMenuOption = "foo";
+    el.selectedMenuOption = 'foo';
     el.closeMediaSlider();
 
     verifyClosed(el);
   });
 
-  it("toggles media slider visibility and starts animation", async () => {
+  it('toggles media slider visibility and starts animation', async () => {
     const el = await fixture(container());
-    const mediatype = "foo";
+    const mediatype = 'foo';
 
     el.selectedMenuOption = mediatype;
     el.openMediaSlider();
@@ -120,9 +120,9 @@ describe("<ia-topnav>", () => {
     verifyOpened(el, mediatype);
   });
 
-  it("closes media slider if selected menu type is the open menu type", async () => {
+  it('closes media slider if selected menu type is the open menu type', async () => {
     const el = await fixture(container());
-    const mediatype = "foo";
+    const mediatype = 'foo';
 
     el.selectedMenuOption = mediatype;
     el.mediaTypeSelected({
@@ -134,9 +134,9 @@ describe("<ia-topnav>", () => {
     verifyClosed(el);
   });
 
-  it("opens media slider menu and starts animation", async () => {
+  it('opens media slider menu and starts animation', async () => {
     const el = await fixture(container());
-    const mediatype = "foo";
+    const mediatype = 'foo';
 
     el.mediaTypeSelected({
       detail: {
@@ -147,146 +147,146 @@ describe("<ia-topnav>", () => {
     verifyOpened(el, mediatype);
   });
 
-  it("closes slider when menu closed", async () => {
+  it('closes slider when menu closed', async () => {
     const el = await fixture(container());
 
-    el.openMenu = "media";
-    el.selectedMenuOption = "foo";
+    el.openMenu = 'media';
+    el.selectedMenuOption = 'foo';
     el.mediaSliderOpen = true;
     await el.updateComplete;
 
-    el.menuToggled({ detail: { menuName: "" } });
+    el.menuToggled({ detail: { menuName: '' } });
     await el.updateComplete;
 
-    expect(el.selectedMenuOption).to.equal("");
+    expect(el.selectedMenuOption).to.equal('');
   });
 
-  it("toggles search menu tabindex when dropdown open", async () => {
+  it('toggles search menu tabindex when dropdown open', async () => {
     const el = await fixture(container());
 
-    el.openMenu = "search";
+    el.openMenu = 'search';
     await el.updateComplete;
 
     expect(
-      el.shadowRoot.querySelector("search-menu").getAttribute("tabindex"),
-    ).to.equal("");
+      el.shadowRoot.querySelector('search-menu').getAttribute('tabindex'),
+    ).to.equal('');
   });
 
-  it("toggles user menu tabindex when dropdown open", async () => {
-    const el = await fixture(container({ username: "shaneriley" }));
+  it('toggles user menu tabindex when dropdown open', async () => {
+    const el = await fixture(container({ username: 'shaneriley' }));
 
-    el.openMenu = "user";
+    el.openMenu = 'user';
     await el.updateComplete;
 
     expect(
-      el.shadowRoot.querySelector("user-menu").getAttribute("tabindex"),
-    ).to.equal("");
+      el.shadowRoot.querySelector('user-menu').getAttribute('tabindex'),
+    ).to.equal('');
   });
 
-  it("toggles signed out menu tabindex when dropdown open", async () => {
+  it('toggles signed out menu tabindex when dropdown open', async () => {
     const el = await fixture(container());
 
-    el.openMenu = "login";
+    el.openMenu = 'login';
     await el.updateComplete;
 
     expect(
       el.shadowRoot
-        .querySelector("signed-out-dropdown")
-        .getAttribute("tabindex"),
-    ).to.equal("");
+        .querySelector('signed-out-dropdown')
+        .getAttribute('tabindex'),
+    ).to.equal('');
   });
 
-  it("toggles search menu when search toggle button clicked", async () => {
+  it('toggles search menu when search toggle button clicked', async () => {
     const el = await fixture(container());
     el.shadowRoot
-      .querySelector("primary-nav")
-      .shadowRoot.querySelector(".search-trigger")
+      .querySelector('primary-nav')
+      .shadowRoot.querySelector('.search-trigger')
       .click();
     await el.updateComplete;
 
-    expect(el.openMenu).to.equal("search");
+    expect(el.openMenu).to.equal('search');
   });
 
-  it("toggles user menu when search user avatar clicked", async () => {
+  it('toggles user menu when search user avatar clicked', async () => {
     const el = await fixture(
       container({
-        username: "shaneriley",
-        screenName: "shaneriley",
+        username: 'shaneriley',
+        screenName: 'shaneriley',
       }),
     );
 
     el.shadowRoot
-      .querySelector("primary-nav")
-      .shadowRoot.querySelector(".user-menu")
+      .querySelector('primary-nav')
+      .shadowRoot.querySelector('.user-menu')
       .click();
     await el.updateComplete;
 
-    expect(el.openMenu).to.equal("user");
+    expect(el.openMenu).to.equal('user');
   });
 
-  it("uses localLinks for archive.org logo link", async () => {
+  it('uses localLinks for archive.org logo link', async () => {
     const el = await fixture(container({ localLinks: false }));
     const logoLink = el.shadowRoot
-      .querySelector("primary-nav")
-      .shadowRoot.querySelector(".link-home");
-    expect(logoLink.getAttribute("href")).to.match(/\/\/archive\.org/);
+      .querySelector('primary-nav')
+      .shadowRoot.querySelector('.link-home');
+    expect(logoLink.getAttribute('href')).to.match(/\/\/archive\.org/);
   });
 
-  describe("sets localLinks properly", async () => {
-    it("uses localLinks to archive.org links on common child components", async () => {
+  describe('sets localLinks properly', async () => {
+    it('uses localLinks to archive.org links on common child components', async () => {
       const el = await fixture(container({ localLinks: false }));
       const componentSelectors = [
-        "primary-nav",
-        "media-slider",
-        "desktop-subnav",
-        "search-menu",
+        'primary-nav',
+        'media-slider',
+        'desktop-subnav',
+        'search-menu',
       ];
       componentSelectors.forEach((selector) => {
         const component = el.shadowRoot.querySelector(selector);
-        expect(component.baseHost).to.equal("https://archive.org");
+        expect(component.baseHost).to.equal('https://archive.org');
       });
     });
 
-    it("uses localLinks to archive.org links on the signed out dropdown", async () => {
+    it('uses localLinks to archive.org links on the signed out dropdown', async () => {
       const el = await fixture(container({ localLinks: false }));
       const signedOutDropdown = el.shadowRoot.querySelector(
-        "signed-out-dropdown",
+        'signed-out-dropdown',
       );
-      expect(signedOutDropdown.baseHost).to.equal("https://archive.org");
+      expect(signedOutDropdown.baseHost).to.equal('https://archive.org');
     });
 
-    it("uses localLinks to archive.org links on the user dropdown", async () => {
+    it('uses localLinks to archive.org links on the user dropdown', async () => {
       const el = await fixture(
-        container({ username: "foo", localLinks: false }),
+        container({ username: 'foo', localLinks: false }),
       );
-      const signedOutDropdown = el.shadowRoot.querySelector("user-menu");
-      expect(signedOutDropdown.baseHost).to.equal("https://archive.org");
+      const signedOutDropdown = el.shadowRoot.querySelector('user-menu');
+      expect(signedOutDropdown.baseHost).to.equal('https://archive.org');
     });
   });
 
-  describe("slot pass throughs", () => {
-    describe("slot for <primary-nav>", () => {
-      it("opens a slot with `secondIdentitySlotMode`", async () => {
+  describe('slot pass throughs', () => {
+    describe('slot for <primary-nav>', () => {
+      it('opens a slot with `secondIdentitySlotMode`', async () => {
         const el = await fixture(
           container({
             localLinks: false,
-            username: "boop",
-            screenName: "somesuperlongscreenname",
-            secondIdentitySlotMode: "allow",
+            username: 'boop',
+            screenName: 'somesuperlongscreenname',
+            secondIdentitySlotMode: 'allow',
           }),
         );
 
         const slot = el.shadowRoot
-          .querySelector("primary-nav")
-          .querySelector("slot");
+          .querySelector('primary-nav')
+          .querySelector('slot');
         expect(slot).to.exist;
-        expect(slot.getAttribute("name")).to.equal("opt-sec-logo");
+        expect(slot.getAttribute('name')).to.equal('opt-sec-logo');
 
-        el.secondIdentitySlotMode = "";
+        el.secondIdentitySlotMode = '';
         await elementUpdated(el);
         const noSlot = el.shadowRoot
-          .querySelector("primary-nav")
-          .querySelector("slot");
+          .querySelector('primary-nav')
+          .querySelector('slot');
         expect(noSlot).to.not.exist;
       });
     });

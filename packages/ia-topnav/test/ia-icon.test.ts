@@ -1,10 +1,10 @@
-import { html, fixture, expect } from "@open-wc/testing";
-import "../src/assets/img/ia-icon";
+import { html, fixture, expect } from '@open-wc/testing';
+import '../src/assets/img/ia-icon';
 
-describe("<ia-icon>", () => {
-  it("renders an icon with a fill color", async () => {
-    const iconType = "web";
-    const fill = "#999";
+describe('<ia-icon>', () => {
+  it('renders an icon with a fill color', async () => {
+    const iconType = 'web';
+    const fill = '#999';
     const iaIcon = await fixture(
       html`<ia-icon .icon=${iconType} .fill=${fill}></ia-icon>`,
     );

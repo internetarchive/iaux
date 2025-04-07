@@ -1,31 +1,24 @@
-import { html } from "lit";
-import TrackedElement from "./tracked-element";
-import "./wayback-slider";
-import "./more-slider";
-import mediaSubnavCSS from "./styles/media-subnav";
-import toSentenceCase from "./lib/toSentenceCase";
-import formatUrl from "./lib/formatUrl";
-import { property } from "lit/decorators.js";
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
-type Link = {
-  title: string;
-  url: string & Location;
-  icon: string;
-};
+import TrackedElement from './tracked-element';
+import './wayback-slider';
+import './more-slider';
+import mediaSubnavCSS from './styles/media-subnav';
+import toSentenceCase from './lib/toSentenceCase';
+import formatUrl from './lib/formatUrl';
+import { customElement, property } from 'lit/decorators.js';
+import { IATopNavConfig, IATopNavLink, IATopNavMediaMenu } from './models';
+import { defaultTopNavConfig } from './data/menus';
 
-type MenuItems = {
-  iconLinks: Link[];
-  featuredLinks: Link[];
-  links: Link[];
-};
+@customElement('media-subnav')
+export class MediaSubnav extends TrackedElement {
+  @property({ type: String }) baseHost = '';
+  @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
+  @property({ type: String }) menu = '';
+  @property({ type: Object }) menuItems?: IATopNavMediaMenu;
 
-class MediaSubnav extends TrackedElement {
-  @property({ type: String }) baseHost = "";
-  @property({ type: Object }) config: { eventCategory: string } | undefined;
-  @property({ type: String }) menu = "";
-  @property({ type: Object }) menuItems: MenuItems | undefined;
-
-  links = MediaSubnav.defaultLinks;
+  private links: IATopNavMediaMenu = MediaSubnav.defaultLinks;
 
   static get styles() {
     return mediaSubnavCSS;
@@ -38,8 +31,16 @@ class MediaSubnav extends TrackedElement {
     return true;
   }
 
-  static get defaultLinks(): MenuItems {
-    return { iconLinks: [], featuredLinks: [], links: [] };
+  static get defaultLinks(): IATopNavMediaMenu {
+    return {
+      heading: '',
+      iconLinks: [],
+      featuredLinks: [],
+      links: [],
+      mobileAppsLinks: [],
+      browserExtensionsLinks: [],
+      archiveItLinks: []
+    };
   }
 
   analyticsEvent(title: string) {
@@ -53,14 +54,14 @@ class MediaSubnav extends TrackedElement {
           .href="${formatUrl(link.url, this.baseHost)}"
           @click=${this.trackClick}
           data-event-click-tracking="${this.analyticsEvent(link.title)}"
-          ><img src="${link.icon}" loading="lazy" />${link.title}</a
+          ><img src="${ifDefined(link.icon)}" loading="lazy" />${link.title}</a
         >
       `,
     );
   }
 
-  renderLinks(category: string) {
-    return this.links[category].map(
+  renderLinks(links: IATopNavLink[]) {
+    return links.map(
       (link) => html`
         <li>
           <a
@@ -83,21 +84,21 @@ class MediaSubnav extends TrackedElement {
       this.links = this.menuItems;
     }
 
-    if (this.menu === "web") {
+    if (this.menu === 'web') {
       return html` <wayback-slider
         .baseHost=${this.baseHost}
         .config=${this.config}
-        .archiveItLinks=${this.menuItems.archiveItLinks}
-        .browserExtensionsLinks=${this.menuItems.browserExtensionsLinks}
-        .mobileAppsLinks=${this.menuItems.mobileAppsLinks}
+        .archiveItLinks=${this.menuItems?.archiveItLinks ?? []}
+        .browserExtensionsLinks=${this.menuItems?.browserExtensionsLinks ?? []}
+        .mobileAppsLinks=${this.menuItems?.mobileAppsLinks ?? []}
       ></wayback-slider>`;
     }
 
-    if (this.menu === "more") {
+    if (this.menu === 'more') {
       return html` <more-slider
         .baseHost=${this.baseHost}
         .config=${this.config}
-        .menuItems=${this.menuItems}
+        .menuItems=${this.menuItems ?? []}
       >
       </more-slider>`;
     }
@@ -108,17 +109,15 @@ class MediaSubnav extends TrackedElement {
       <div class="links featured">
         <h4>Featured</h4>
         <ul>
-          ${this.renderLinks("featuredLinks")}
+          ${this.renderLinks(this.links.featuredLinks)}
         </ul>
       </div>
       <div class="links top">
         <h4>Top</h4>
         <ul>
-          ${this.renderLinks("links")}
+          ${this.renderLinks(this.links.links)}
         </ul>
       </div>
     `;
   }
 }
-
-customElements.define("media-subnav", MediaSubnav);

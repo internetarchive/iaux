@@ -1,92 +1,92 @@
-import { LitElement, PropertyValues, html } from "lit";
+import { LitElement, PropertyValues, html } from 'lit';
 
-import "./media-button";
-import mediaMenuCSS from "./styles/media-menu";
-import formatUrl from "./lib/formatUrl";
-import { customElement, property, queryAll } from "lit/decorators.js";
+import './media-button';
+import mediaMenuCSS from './styles/media-menu';
+import formatUrl from './lib/formatUrl';
+import { customElement, property, queryAll } from 'lit/decorators.js';
 
 const menuSelection = [
   {
-    icon: "web",
-    menu: "web",
-    href: "https://web.archive.org",
-    label: "Wayback Machine",
+    icon: 'web',
+    menu: 'web',
+    href: 'https://web.archive.org',
+    label: 'Wayback Machine',
   },
   {
-    icon: "texts",
-    menu: "texts",
-    href: "/details/texts",
-    label: "Texts",
+    icon: 'texts',
+    menu: 'texts',
+    href: '/details/texts',
+    label: 'Texts',
   },
   {
-    icon: "video",
-    menu: "video",
-    href: "/details/movies",
-    label: "Video",
+    icon: 'video',
+    menu: 'video',
+    href: '/details/movies',
+    label: 'Video',
   },
   {
-    icon: "audio",
-    menu: "audio",
-    href: "/details/audio",
-    label: "Audio",
+    icon: 'audio',
+    menu: 'audio',
+    href: '/details/audio',
+    label: 'Audio',
   },
   {
-    icon: "software",
-    menu: "software",
-    href: "/details/software",
-    label: "Software",
+    icon: 'software',
+    menu: 'software',
+    href: '/details/software',
+    label: 'Software',
   },
   {
-    icon: "images",
-    menu: "images",
-    href: "/details/image",
-    label: "Images",
+    icon: 'images',
+    menu: 'images',
+    href: '/details/image',
+    label: 'Images',
   },
   {
-    icon: "donate",
-    menu: "donate",
-    href: "/donate/",
-    label: "Donate",
+    icon: 'donate',
+    menu: 'donate',
+    href: '/donate/',
+    label: 'Donate',
     followable: true,
   },
   {
-    icon: "ellipses",
-    menu: "more",
-    href: "/about/",
-    label: "More",
+    icon: 'ellipses',
+    menu: 'more',
+    href: '/about/',
+    label: 'More',
   },
 ];
 
-@customElement("media-menu")
+@customElement('media-menu')
 export class MediaMenu extends LitElement {
-  @property({ type: String }) baseHost = "";
+  @property({ type: String }) baseHost = '';
   @property({ type: Object }) config = {};
-  @property({ type: String }) openMenu = "";
-  @property({ type: String }) selectedMenuOption = "";
+  @property({ type: String }) openMenu = '';
+  @property({ type: String }) selectedMenuOption = '';
   @property({ type: Object }) currentTab: { moveTo: string } | undefined;
 
-  @queryAll("media-button") mediaButtons: HTMLElement[] = [];
+  @queryAll('media-button') mediaButtons: HTMLElement[] = [];
 
   static get styles() {
     return mediaMenuCSS;
   }
 
   updated(props: PropertyValues) {
-    if (props.has("currentTab")) {
+    if (props.has('currentTab')) {
       const mediaButtons = Array.from(this.mediaButtons);
 
       mediaButtons.map((button, index) => {
-        const linkItem = button.shadowRoot?.querySelector("a.menu-item");
+        const linkItem = button.shadowRoot?.querySelector('a.menu-item');
         if (linkItem) {
           if (linkItem.classList.contains(`${this.selectedMenuOption}`)) {
-            linkItem.classList.remove("selected");
+            linkItem.classList.remove('selected');
             (linkItem as HTMLElement).blur();
 
             const newFocusIndex =
-              this.currentTab?.moveTo === "next" ? index + 1 : index - 1;
+              this.currentTab?.moveTo === 'next' ? index + 1 : index - 1;
             (
               mediaButtons[newFocusIndex]?.shadowRoot?.querySelector(
-                "a.menu-item",
+                'a.menu-item',
               ) as HTMLElement
             ).focus();
           }
@@ -119,11 +119,11 @@ export class MediaMenu extends LitElement {
   }
 
   get menuOpened() {
-    return this.openMenu === "media";
+    return this.openMenu === 'media';
   }
 
   get menuClass() {
-    return this.menuOpened ? "open" : "closed";
+    return this.menuOpened ? 'open' : 'closed';
   }
 
   render() {

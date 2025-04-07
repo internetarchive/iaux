@@ -5,7 +5,7 @@ import logo from './logo.js';
 
 class WaybackSearch extends LitElement {
   static get styles() {
-    return waybackSearchCSS;
+    return [waybackSearchCSS];
   }
 
   static get properties() {

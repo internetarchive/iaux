@@ -1,5 +1,5 @@
-import { css } from "lit";
-import { subnavListCSS } from "./base";
+import { css } from 'lit';
+import { subnavListCSS } from './base';
 
 export default [
   subnavListCSS,

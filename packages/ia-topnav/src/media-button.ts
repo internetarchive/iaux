@@ -1,50 +1,38 @@
-import { html } from "lit";
-import TrackedElement from "./tracked-element";
-import icons from "./assets/img/icons";
-import toSentenceCase from "./lib/toSentenceCase";
-import mediaButtonCSS from "./styles/media-button";
+import { html, TemplateResult } from 'lit';
+import TrackedElement from './tracked-element';
+import icons from './assets/img/icons';
+import toSentenceCase from './lib/toSentenceCase';
+import mediaButtonCSS from './styles/media-button';
+import { customElement, property } from 'lit/decorators';
+import { IATopNavConfig } from './models';
+import { defaultTopNavConfig } from './data/menus';
 
-class MediaButton extends TrackedElement {
+@customElement('media-button')
+export class MediaButton extends TrackedElement {
+  @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
+  @property({ type: String }) icon = '';
+  @property({ type: String }) href = '';
+  @property({ type: String }) label = '';
+  @property({ type: String }) mediatype = '';
+  @property({ type: String }) openMenu = '';
+  @property({ type: Boolean }) selected = false;
+  @property({ type: Boolean }) followable = false;
+
   static get styles() {
     return mediaButtonCSS;
   }
 
-  static get properties() {
-    return {
-      config: { type: Object },
-      icon: { type: String },
-      href: { type: String },
-      label: { type: String },
-      mediatype: { type: String },
-      openMenu: { type: String },
-      selected: { type: Boolean },
-      followable: { type: Boolean },
-    };
-  }
-
-  static get icons() {
+  static get icons(): Record<string, TemplateResult> {
     return icons;
   }
 
-  constructor() {
-    super();
-    this.config = {};
-    this.icon = "";
-    this.href = "";
-    this.label = "";
-    this.mediatype = "";
-    this.openMenu = "";
-    this.selected = false;
-    this.followable = false;
-  }
-
-  onClick(e) {
+  onClick(e: Event) {
     this.trackClick(e);
     e.preventDefault();
     // On desktop viewport widths, the media subnav is always visible. To
     // ensure the media subnav is open on mobile if the viewport is
     // resized, the openMenu needs to be set to 'media'.
-    if (this.openMenu !== "media") {
+    if (this.openMenu !== 'media') {
       this.dispatchMenuToggledEvent();
     }
     this.dispatchMediaTypeSelectedEvent();
@@ -52,11 +40,11 @@ class MediaButton extends TrackedElement {
 
   dispatchMenuToggledEvent() {
     this.dispatchEvent(
-      new CustomEvent("menuToggled", {
+      new CustomEvent('menuToggled', {
         bubbles: true,
         composed: true,
         detail: {
-          menuName: "media",
+          menuName: 'media',
         },
       }),
     );
@@ -64,7 +52,7 @@ class MediaButton extends TrackedElement {
 
   dispatchMediaTypeSelectedEvent() {
     this.dispatchEvent(
-      new CustomEvent("mediaTypeSelected", {
+      new CustomEvent('mediaTypeSelected', {
         bubbles: true,
         composed: true,
         detail: {
@@ -75,15 +63,15 @@ class MediaButton extends TrackedElement {
   }
 
   get buttonClass() {
-    return this.selected ? "selected" : "";
+    return this.selected ? 'selected' : '';
   }
 
   get tooltipPrefix() {
-    return this.selected ? "Collapse" : "Expand";
+    return this.selected ? 'Collapse' : 'Expand';
   }
 
   get iconClass() {
-    return this.selected ? "active" : "";
+    return this.selected ? 'active' : '';
   }
 
   get analyticsEvent() {
@@ -113,5 +101,3 @@ class MediaButton extends TrackedElement {
     `;
   }
 }
-
-customElements.define("media-button", MediaButton);

@@ -1,31 +1,35 @@
-import { html, nothing, PropertyValues } from "lit";
-import TrackedElement from "./tracked-element";
-import icons from "./assets/img/icons";
-import "./assets/img/hamburger";
-import "./login-button";
-import "./nav-search";
-import "./media-menu";
-import logoWordmarkStacked from "./assets/img/wordmark-stacked";
-import primaryNavCSS from "./styles/primary-nav";
-import locationHandler from "./lib/location-handler";
-import formatUrl from "./lib/formatUrl";
-import { property } from "lit/decorators.js";
+import { html, nothing, PropertyValues } from 'lit';
+import TrackedElement from './tracked-element';
+import icons from './assets/img/icons';
+import './assets/img/hamburger';
+import './login-button';
+import './nav-search';
+import './media-menu';
+import logoWordmarkStacked from './assets/img/wordmark-stacked';
+import primaryNavCSS from './styles/primary-nav';
+import locationHandler from './lib/location-handler';
+import formatUrl from './lib/formatUrl';
+import { customElement, property } from 'lit/decorators.js';
+import { IATopNavConfig } from './models';
+import { defaultTopNavConfig } from './data/menus';
 
-class PrimaryNav extends TrackedElement {
-  @property({ type: String }) mediaBaseHost = "https://archive.org";
-  @property({ type: String }) baseHost = "";
+@customElement('primary-nav')
+export class PrimaryNav extends TrackedElement {
+  @property({ type: String }) mediaBaseHost = 'https://archive.org';
+  @property({ type: String }) baseHost = '';
   @property({ type: Boolean }) hideSearch = false;
-  @property({ type: Object }) config: { eventCategory: string } | undefined;
-  @property({ type: String }) openMenu = "";
-  @property({ type: String }) screenName = "";
-  @property({ type: String }) searchIn = "";
-  @property({ type: String }) searchQuery = "";
-  @property({ type: String }) secondIdentitySlotMode = "";
-  @property({ type: String }) selectedMenuOption = "";
+  @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
+  @property({ type: String }) openMenu = '';
+  @property({ type: String }) screenName = '';
+  @property({ type: String }) searchIn = '';
+  @property({ type: String }) searchQuery = '';
+  @property({ type: String }) secondIdentitySlotMode = '';
+  @property({ type: String }) selectedMenuOption = '';
   @property({ type: Boolean }) signedOutMenuOpen = false;
   @property({ type: Boolean }) userMenuOpen = false;
-  @property({ type: String }) username = "";
-  @property({ type: String }) userProfileImagePath = "";
+  @property({ type: Boolean }) mediaMenuAnimate = true;
+  @property({ type: String }) username = '';
+  @property({ type: String }) userProfileImagePath = '';
   @property({ type: Object }) currentTab:
     | { mediatype: string; moveTo: string }
     | undefined;
@@ -38,9 +42,9 @@ class PrimaryNav extends TrackedElement {
   toggleMediaMenu(e: Event) {
     this.trackClick(e);
     this.dispatchEvent(
-      new CustomEvent("menuToggled", {
+      new CustomEvent('menuToggled', {
         detail: {
-          menuName: "media",
+          menuName: 'media',
         },
       }),
     );
@@ -49,9 +53,9 @@ class PrimaryNav extends TrackedElement {
   toggleSearchMenu(e: Event) {
     this.trackClick(e);
     this.dispatchEvent(
-      new CustomEvent("menuToggled", {
+      new CustomEvent('menuToggled', {
         detail: {
-          menuName: "search",
+          menuName: 'search',
         },
       }),
     );
@@ -60,50 +64,50 @@ class PrimaryNav extends TrackedElement {
   toggleUserMenu(e: Event) {
     this.trackClick(e);
     this.dispatchEvent(
-      new CustomEvent("menuToggled", {
+      new CustomEvent('menuToggled', {
         detail: {
-          menuName: "user",
+          menuName: 'user',
         },
       }),
     );
   }
 
   updated(props: PropertyValues) {
-    if (props.has("currentTab")) {
+    if (props.has('currentTab')) {
       // early return
       if (!this.currentTab || Object.keys(this.currentTab).length === 0)
         return nothing;
 
       const isUserMenuTab =
-        this.currentTab && this.currentTab.mediatype === "usermenu";
+        this.currentTab && this.currentTab.mediatype === 'usermenu';
       if (isUserMenuTab) {
         const mediaButtons = Array.from(
           this.shadowRoot
-            ?.querySelector("media-menu")
-            ?.shadowRoot?.querySelectorAll("media-button") ?? [],
+            ?.querySelector('media-menu')
+            ?.shadowRoot?.querySelectorAll('media-button') ?? [],
         );
         const lastMediaButton = mediaButtons.filter((element) => {
           return element.shadowRoot
-            ?.querySelector("a")
-            ?.classList.contains("images");
+            ?.querySelector('a')
+            ?.classList.contains('images');
         });
 
         const focusElement =
-          this.currentTab.moveTo === "next"
-            ? this.shadowRoot?.querySelector("a.upload")
-            : lastMediaButton[0]?.shadowRoot?.querySelector("a.menu-item");
+          this.currentTab.moveTo === 'next'
+            ? this.shadowRoot?.querySelector('a.upload')
+            : lastMediaButton[0]?.shadowRoot?.querySelector('a.menu-item');
 
         if (focusElement) {
           (focusElement as HTMLElement).focus();
         }
-      } else if (this.currentTab.moveTo === "next") {
-        if (this.shadowRoot?.querySelector(".user-menu")) {
-          (this.shadowRoot?.querySelector(".user-menu") as HTMLElement).focus();
+      } else if (this.currentTab.moveTo === 'next') {
+        if (this.shadowRoot?.querySelector('.user-menu')) {
+          (this.shadowRoot?.querySelector('.user-menu') as HTMLElement).focus();
         } else {
           (
             this.shadowRoot
-              ?.querySelector("login-button")
-              ?.shadowRoot?.querySelectorAll("span a")[0] as HTMLElement
+              ?.querySelector('login-button')
+              ?.shadowRoot?.querySelectorAll('span a')[0] as HTMLElement
           )?.focus();
         }
       }
@@ -111,9 +115,9 @@ class PrimaryNav extends TrackedElement {
   }
 
   get userIcon() {
-    const userMenuClass = this.openMenu === "user" ? "active" : "";
+    const userMenuClass = this.openMenu === 'user' ? 'active' : '';
     const userMenuToolTip =
-      this.openMenu === "user" ? "Close user menu" : "Expand user menu";
+      this.openMenu === 'user' ? 'Close user menu' : 'Expand user menu';
 
     return html`
       <button
@@ -144,11 +148,11 @@ class PrimaryNav extends TrackedElement {
   }
 
   get searchMenuOpen() {
-    return this.openMenu === "search";
+    return this.openMenu === 'search';
   }
 
   get allowSecondaryIcon() {
-    return this.secondIdentitySlotMode === "allow";
+    return this.secondIdentitySlotMode === 'allow';
   }
 
   get searchMenu() {
@@ -179,7 +183,7 @@ class PrimaryNav extends TrackedElement {
       <a
         class="mobile-donate-link"
         .href=${formatUrl(
-          "/donate/?origin=iawww-mbhrt" as string & Location,
+          '/donate/?origin=iawww-mbhrt' as string & Location,
           this.baseHost,
         )}
       >
@@ -191,7 +195,7 @@ class PrimaryNav extends TrackedElement {
 
   get uploadButtonTemplate() {
     return html` <a
-      .href="${formatUrl("/create" as string & Location, this.baseHost)}"
+      .href="${formatUrl('/create' as string & Location, this.baseHost)}"
       class="upload"
       @focus=${this.toggleMediaMenu}
     >
@@ -216,25 +220,25 @@ class PrimaryNav extends TrackedElement {
   }
 
   get secondLogoClass() {
-    return this.allowSecondaryIcon ? "second-logo" : "";
+    return this.allowSecondaryIcon ? 'second-logo' : '';
   }
 
   render() {
-    const mediaMenuTabIndex = this.openMenu === "media" ? "" : "-1";
+    const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
-      <nav class=${this.hideSearch ? "hide-search" : ""}>
+      <nav class=${this.hideSearch ? 'hide-search' : ''}>
         <button
           class="hamburger"
           @click="${this.toggleMediaMenu}"
           data-event-click-tracking="${this.config?.eventCategory}|NavHamburger"
           title="Open main menu"
         >
-          <icon-hamburger ?active=${this.openMenu === "media"}></icon-hamburger>
+          <icon-hamburger ?active=${this.openMenu === 'media'}></icon-hamburger>
         </button>
 
         <div class=${`branding ${this.secondLogoClass}`}>
           <a
-            .href=${formatUrl("/" as string & Location, this.baseHost)}
+            .href=${formatUrl('/' as string & Location, this.baseHost)}
             @click=${this.trackClick}
             data-event-click-tracking="${this.config?.eventCategory}|NavHome"
             title="Go home"
@@ -246,7 +250,7 @@ class PrimaryNav extends TrackedElement {
         <media-menu
           .baseHost=${this.baseHost}
           .config=${this.config}
-          ?mediaMenuAnimate="${this.mediaMenuAnimate}"
+          ?mediaMenuAnimate=${this.mediaMenuAnimate}
           .selectedMenuOption=${this.selectedMenuOption}
           .openMenu=${this.openMenu}
           .currentTab=${this.currentTab}
@@ -259,5 +263,3 @@ class PrimaryNav extends TrackedElement {
     `;
   }
 }
-
-customElements.define("primary-nav", PrimaryNav);

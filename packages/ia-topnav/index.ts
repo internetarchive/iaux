@@ -1,3 +1,3 @@
-import IATopNav from "./src/ia-topnav";
+import IATopNav from './src/ia-topnav';
 
 export default IATopNav;

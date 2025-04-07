@@ -1,6 +1,6 @@
-import { html, fixture, expect } from "@open-wc/testing";
+import { html, fixture, expect } from '@open-wc/testing';
 
-import "../src/wayback-slider";
+import '../src/wayback-slider';
 
 const component = ({
   archiveItLinks,
@@ -21,67 +21,67 @@ const buildDefaults = () => ({
   config: {},
   archiveItLinks: [
     {
-      url: "1",
-      title: "first",
+      url: '1',
+      title: 'first',
     },
     {
-      url: "2",
-      title: "second",
+      url: '2',
+      title: 'second',
     },
   ],
   browserExtensionsLinks: [
     {
-      url: "3",
-      title: "third",
+      url: '3',
+      title: 'third',
     },
     {
-      url: "4",
-      title: "fourth",
+      url: '4',
+      title: 'fourth',
     },
   ],
   mobileAppsLinks: [
     {
-      url: "5",
-      title: "fifth",
+      url: '5',
+      title: 'fifth',
     },
     {
-      url: "6",
-      title: "sixth",
+      url: '6',
+      title: 'sixth',
     },
   ],
 });
 
-describe("<wayback-slider>", () => {
-  it("renders the links passed in via the archiveItLinks prop", async () => {
+describe('<wayback-slider>', () => {
+  it('renders the links passed in via the archiveItLinks prop', async () => {
     const options = buildDefaults();
     const el = await fixture(component(options));
-    const anchors = el.shadowRoot.querySelectorAll(".archive-it a");
+    const anchors = el.shadowRoot.querySelectorAll('.archive-it a');
 
     options.archiveItLinks.forEach((link, i) => {
       expect(anchors[i].innerText).to.equal(link.title);
-      expect(anchors[i].getAttribute("href")).to.contain(link.url);
+      expect(anchors[i].getAttribute('href')).to.contain(link.url);
     });
   });
 
-  it("renders the links passed in via the browserExtensionsLinks prop", async () => {
+  it('renders the links passed in via the browserExtensionsLinks prop', async () => {
     const options = buildDefaults();
     const el = await fixture(component(options));
-    const anchors = el.shadowRoot.querySelectorAll(".browser-extensions a");
+    const anchors = el.shadowRoot.querySelectorAll('.browser-extensions a');
 
     options.browserExtensionsLinks.forEach((link, i) => {
       expect(anchors[i].innerText).to.equal(link.title);
-      expect(anchors[i].getAttribute("href")).to.contain(link.url);
+      expect(anchors[i].getAttribute('href')).to.contain(link.url);
     });
   });
 
-  it("renders the links passed in via the mobileAppsLinks prop", async () => {
+  it('renders the links passed in via the mobileAppsLinks prop', async () => {
     const options = buildDefaults();
     const el = await fixture(component(options));
-    const anchors = el.shadowRoot.querySelectorAll(".mobile-apps a");
+    const anchors = el.shadowRoot.querySelectorAll('.mobile-apps a');
 
     options.mobileAppsLinks.forEach((link, i) => {
       expect(anchors[i].innerText).to.equal(link.title);
-      expect(anchors[i].getAttribute("href")).to.contain(link.url);
+      expect(anchors[i].getAttribute('href')).to.contain(link.url);
     });
   });
 });

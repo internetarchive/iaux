@@ -1,79 +1,74 @@
-import { html } from "lit";
-import TrackedElement from "./tracked-element";
-import searchMenuCSS from "./styles/search-menu";
-import formatUrl from "./lib/formatUrl";
+import { html } from 'lit';
+import TrackedElement from './tracked-element';
+import searchMenuCSS from './styles/search-menu';
+import formatUrl from './lib/formatUrl';
+import { customElement, property } from 'lit/decorators';
+import { IATopNavConfig } from './models';
+import { makeBooleanString } from './lib/makeBooleanString';
 
-class SearchMenu extends TrackedElement {
+@customElement('search-menu')
+export class SearchMenu extends TrackedElement {
+  @property({ type: String }) baseHost = '';
+  @property({ type: Object }) config: IATopNavConfig = {};
+  @property({ type: Boolean }) hideSearch = false;
+  @property({ type: String }) openMenu = '';
+  @property({ type: Boolean }) searchMenuOpen = false;
+  @property({ type: Boolean }) searchMenuAnimate = false;
+  @property({ type: String }) selectedSearchType = '';
+
   static get styles() {
     return searchMenuCSS;
   }
 
-  static get properties() {
-    return {
-      baseHost: { type: String },
-      config: { type: Object },
-      hideSearch: { type: Boolean },
-      openMenu: { type: String },
-      searchMenuOpen: { type: Boolean },
-      searchMenuAnimate: { type: Boolean },
-      selectedSearchType: { type: String },
-    };
-  }
-
-  constructor() {
-    super();
-    this.config = {};
-    this.openMenu = "";
-    this.searchMenuOpen = false;
-    this.searchMenuAnimate = false;
-    this.selectedSearchType = "";
-  }
-
   firstUpdated() {
-    this.shadowRoot.addEventListener("keydown", (e) =>
-      this.handleKeyDownEvent(e),
+    this.shadowRoot?.addEventListener('keydown', (e) =>
+      this.handleKeyDownEvent(e as KeyboardEvent),
     );
   }
 
   disconnectedCallback() {
     // Clean up event listener when the element is removed
-    this.shadowRoot.removeEventListener("keydown", (e) =>
-      this.handleKeyDownEvent(e),
+    this.shadowRoot?.removeEventListener('keydown', (e) =>
+      this.handleKeyDownEvent(e as KeyboardEvent),
     );
   }
 
-  handleKeyDownEvent(e) {
+  private handleKeyDownEvent(e: KeyboardEvent) {
+    if (!this.shadowRoot) return;
+
     const searchTypes = this.shadowRoot.querySelectorAll(
-      ".search-menu-inner label input[type=radio]",
-    );
+      '.search-menu-inner label input[type=radio]',
+    ) as NodeListOf<HTMLInputElement>;
 
     const length = searchTypes.length - 1;
     if (!length) return;
 
-    const searchTypeHandler = (index) => {
+    const searchTypeHandler = (index: number) => {
       e.preventDefault();
       const searchType = searchTypes[index];
       searchType.checked = true;
-      searchType.dispatchEvent(new Event("change"));
+      searchType.dispatchEvent(new Event('change'));
       searchType.focus();
     };
 
-    if (e.key === "Home") {
+    if (e.key === 'Home') {
       searchTypeHandler(0);
-    } else if (e.key === "End") {
+    } else if (e.key === 'End') {
       searchTypeHandler(length);
     }
   }
 
-  selectSearchType(e) {
-    this.selectedSearchType = e.target.value;
+  private selectSearchType(e: Event) {
+    const target = e.target as HTMLInputElement;
+    this.selectedSearchType = target.value;
   }
 
-  searchInChanged(e) {
+  private searchInChanged(e: InputEvent) {
+    const target = e.target as HTMLInputElement;
     this.dispatchEvent(
-      new CustomEvent("searchInChanged", {
+      new CustomEvent('searchInChanged', {
         detail: {
-          searchIn: e.target.value,
+          searchIn: target.value,
         },
       }),
     );
@@ -82,25 +77,25 @@ class SearchMenu extends TrackedElement {
   get searchTypesTemplate() {
     const searchTypes = [
       {
-        label: "metadata",
-        value: "",
+        label: 'metadata',
+        value: '',
         isDefault: true,
       },
       {
-        label: "text contents",
-        value: "TXT",
+        label: 'text contents',
+        value: 'TXT',
       },
       {
-        label: "TV news captions",
-        value: "TV",
+        label: 'TV news captions',
+        value: 'TV',
       },
       {
-        label: "radio transcripts",
-        value: "RADIO",
+        label: 'radio transcripts',
+        value: 'RADIO',
       },
       {
-        label: "archived web sites",
-        value: "WEB",
+        label: 'archived web sites',
+        value: 'WEB',
       },
     ].map(({ value, label, isDefault }) => {
       if (
@@ -128,13 +123,10 @@ class SearchMenu extends TrackedElement {
   }
 
   get menuClass() {
-    return this.openMenu === "search" ? "open" : "closed";
+    return this.openMenu === 'search' ? 'open' : 'closed';
   }
 
   render() {
-    const searchMenuHidden = Boolean(!this.openMenu).toString();
-    const searchMenuExpanded = Boolean(this.searchMenuOpen).toString();
-
     if (this.hideSearch) {
       return html``;
     }
@@ -143,13 +135,13 @@ class SearchMenu extends TrackedElement {
       <div class="menu-wrapper">
         <div
           class="search-menu-inner tx-slide ${this.menuClass}"
-          aria-hidden="${searchMenuHidden}"
-          aria-expanded="${searchMenuExpanded}"
+          aria-hidden="${makeBooleanString(!this.openMenu)}"
+          aria-expanded="${makeBooleanString(this.searchMenuOpen) }"
         >
           ${this.searchTypesTemplate}
           <a
             class="advanced-search"
-            href="${formatUrl("/advancedsearch.php", this.baseHost)}"
+            href="${formatUrl('/advancedsearch.php', this.baseHost)}"
             @click=${this.trackClick}
             data-event-click-tracking="${this.config
               .eventCategory}|NavAdvancedSearch"
@@ -160,5 +152,3 @@ class SearchMenu extends TrackedElement {
     `;
   }
 }
-
-customElements.define("search-menu", SearchMenu);

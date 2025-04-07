@@ -1,4 +1,4 @@
-import { css } from "lit";
+import { css } from 'lit';
 
 export default css`
   .nav-container {
@@ -112,7 +112,7 @@ export default css`
       height: 7px;
       box-sizing: border-box;
       color: var(--white);
-      content: "";
+      content: '';
       border-bottom: 7px solid currentColor;
       border-left: 6px solid transparent;
       border-right: 6px solid transparent;

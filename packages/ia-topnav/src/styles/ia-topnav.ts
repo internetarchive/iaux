@@ -1,4 +1,4 @@
-import { css } from "lit";
+import { css } from 'lit';
 
 export default css`
   :host {
@@ -45,7 +45,7 @@ export default css`
 
     --loginTextColor: var(--grey60);
 
-    --themeFontFamily: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --themeFontFamily: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --logoWidthTablet: 263px;
 
     --savePageSubmitBg: var(--grey13);

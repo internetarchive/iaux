@@ -24,7 +24,7 @@ export default class KeyboardNavigation {
    * @returns {number} The initial focused index (0 for 'web', 1 for 'usermenu').
    */
   getInitialFocusedIndex(): number {
-    return this.menuOption === "usermenu" ? 1 : 0;
+    return this.menuOption === 'usermenu' ? 1 : 0;
   }
 
   /**
@@ -35,14 +35,14 @@ export default class KeyboardNavigation {
     const focusableTagSelectors =
       'a[href], button, input, [tabindex]:not([tabindex="-1"])';
     const isDisabledOrHidden = (el: Element) =>
-      !el.hasAttribute("disabled") && !el.getAttribute("aria-hidden");
+      !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden');
 
     let elements;
-    if (this.menuOption === "web") {
+    if (this.menuOption === 'web') {
       // wayback focusable elements
       const waybackSlider =
-        this.elementsContainer.querySelector("wayback-slider")?.shadowRoot;
-      const waybackSearch = waybackSlider?.querySelector("wayback-search");
+        this.elementsContainer.querySelector('wayback-slider')?.shadowRoot;
+      const waybackSearch = waybackSlider?.querySelector('wayback-search');
       const waybackSearchElements = Array.from(
         waybackSearch?.shadowRoot?.querySelectorAll(focusableTagSelectors) ??
           [],
@@ -53,7 +53,7 @@ export default class KeyboardNavigation {
       );
 
       // wayback save-form focusable elements
-      const savePageForm = waybackSlider?.querySelector("save-page-form");
+      const savePageForm = waybackSlider?.querySelector('save-page-form');
       const savePageFormElements = Array.from(
         savePageForm?.shadowRoot?.querySelectorAll(focusableTagSelectors) ?? [],
       );
@@ -77,12 +77,12 @@ export default class KeyboardNavigation {
   handleKeyDown(event: KeyboardEvent) {
     const { key } = event;
     const isArrowKey = [
-      "ArrowDown",
-      "ArrowRight",
-      "ArrowUp",
-      "ArrowLeft",
+      'ArrowDown',
+      'ArrowRight',
+      'ArrowUp',
+      'ArrowLeft',
     ].includes(key);
-    const isTabKey = key === "Tab";
+    const isTabKey = key === 'Tab';
 
     if (isArrowKey) {
       this.handleArrowKey(key);
@@ -97,7 +97,7 @@ export default class KeyboardNavigation {
    * @param {string} key - The key that was pressed ('ArrowDown', 'ArrowRight', 'ArrowUp', or 'ArrowLeft').
    */
   handleArrowKey(key: string) {
-    const isDownOrRight = ["ArrowDown", "ArrowRight"].includes(key);
+    const isDownOrRight = ['ArrowDown', 'ArrowRight'].includes(key);
     if (isDownOrRight) {
       this.focusNext();
     } else {
@@ -145,12 +145,12 @@ export default class KeyboardNavigation {
    */
   focusToOtherMenuItems(isPrevious: boolean = false) {
     this.elementsContainer.dispatchEvent(
-      new CustomEvent("focusToOtherMenuItem", {
+      new CustomEvent('focusToOtherMenuItem', {
         bubbles: true,
         composed: true,
         detail: {
           mediatype: this.menuOption,
-          moveTo: isPrevious ? "prev" : "next",
+          moveTo: isPrevious ? 'prev' : 'next',
         },
       }),
     );

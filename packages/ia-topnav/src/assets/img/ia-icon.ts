@@ -1,9 +1,10 @@
-import { LitElement, TemplateResult, html } from "lit";
-import "./icons";
-import { property } from "lit/decorators.js";
+import { LitElement, TemplateResult, html } from 'lit';
+import './icons';
+import { customElement, property } from 'lit/decorators.js';
 
-class IAIcon extends LitElement {
-  @property({ type: String }) icon = "";
+@customElement('ia-icon')
+export class IAIcon extends LitElement {
+  @property({ type: String }) icon = '';
 
   static get icons(): Record<string, TemplateResult> {
     return {
@@ -21,5 +22,3 @@ class IAIcon extends LitElement {
     return IAIcon.icons[this.icon];
   }
 }
-
-customElements.define("ia-icon", IAIcon);

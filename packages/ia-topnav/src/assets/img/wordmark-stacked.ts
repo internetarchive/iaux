@@ -1,4 +1,4 @@
-import { svg } from "lit";
+import { svg } from 'lit';
 
 export default svg`
   <svg class="ia-wordmark stacked" viewBox="0 0 95 30" xmlns="http://www.w3.org/2000/svg">

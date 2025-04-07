@@ -1,20 +1,24 @@
-import { html, nothing } from "lit";
-import TrackedElement from "./tracked-element";
-import dropdownMenuCSS from "./styles/dropdown-menu";
-import formatUrl from "./lib/formatUrl";
-import icons from "./assets/img/icons";
-import { property } from "lit/decorators";
+import { CSSResult, html, nothing, TemplateResult } from 'lit';
+import { property } from 'lit/decorators.js';
+
+import icons from './assets/img/icons';
+import { defaultTopNavConfig } from './data/menus';
+import formatUrl from './lib/formatUrl';
+import { makeBooleanString } from './lib/makeBooleanString';
+import { IATopNavConfig, IATopNavLink } from './models';
+import dropdownMenuCSS from './styles/dropdown-menu';
+import TrackedElement from './tracked-element';
 
 export default class DropdownMenu extends TrackedElement {
-  @property({ type: String }) baseHost = "";
-  @property({ type: Object }) config = {};
+  @property({ type: String }) baseHost = '';
+  @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: Boolean }) hideSearch = false;
-  @property({ type: Array }) menuItems = [];
-  @property({ type: Boolean }) animate = false;
+  @property({ type: Array }) menuItems: IATopNavLink[] = [];
+  @property({ type: Boolean }) animated = false;
   @property({ type: Boolean }) open = false;
 
-  static get styles() {
-    return dropdownMenuCSS;
+  static get styles(): CSSResult[] {
+    return [dropdownMenuCSS];
   }
 
   get dropdownItems() {
@@ -25,6 +29,7 @@ export default class DropdownMenu extends TrackedElement {
     }
     return this.menuItems.map((submenu, i) => {
       const joiner = i ? DropdownMenu.dropdownDivider : html``;
+      if (!Array.isArray(submenu)) { return }
       return [joiner, ...this.dropdownSection(submenu)];
     });
   }
@@ -33,7 +38,7 @@ export default class DropdownMenu extends TrackedElement {
     return html`<li role="presentation" class="divider"></li>`;
   }
 
-  dropdownSection(submenu) {
+  private dropdownSection(submenu: IATopNavLink[]): TemplateResult[] {
     return submenu.map(
       (item) => html`
         <li>
@@ -45,18 +50,17 @@ export default class DropdownMenu extends TrackedElement {
     );
   }
 
-  dropdownLink(link) {
-    const calloutText = this.config.callouts?.[link.title];
+  dropdownLink(link: IATopNavLink): TemplateResult {
+    const calloutText = this.config?.callouts?.[link.title];
     return html`<a
-      href="${formatUrl(link.url, this.baseHost)}"
-      class="${link.class}"
-      tabindex="${this.open ? "" : "-1"}"
+      .href="${formatUrl(link.url, this.baseHost)}"
+      .class="${link.class}"
+      tabindex="${this.open ? '' : '-1'}"
       @click=${this.trackClick}
-      data-event-click-tracking="${this.config
-        .eventCategory}|Nav${link.analyticsEvent}"
+      data-event-click-tracking="${this.config?.eventCategory}|Nav${link.analyticsEvent}"
       aria-label=${calloutText ? `New feature: ${link.title}` : nothing}
     >
-      ${link.class === "mobile-upload" ? icons.uploadUnpadded : nothing}
+      ${link.class === 'mobile-upload' ? icons.uploadUnpadded : nothing}
       ${link.title}
       ${calloutText
         ? html`<span class="callout" aria-hidden="true">${calloutText}</span>`
@@ -64,27 +68,19 @@ export default class DropdownMenu extends TrackedElement {
     </a>`;
   }
 
-  static dropdownText(item) {
+  static dropdownText(item: IATopNavLink) {
     return html`<span class="info-item">${item.title}</span>`;
   }
 
   get menuClass() {
-    const hiddenClass = this.hideSearch ? " search-hidden" : "";
+    const hiddenClass = this.hideSearch ? ' search-hidden' : '';
     if (this.open) {
       return `open${hiddenClass}`;
     }
-    if (this.animate) {
+    if (this.animated) {
       return `closed${hiddenClass}`;
     }
     return `initial${hiddenClass}`;
-  }
-
-  get ariaHidden() {
-    return Boolean(!this.open).toString();
-  }
-
-  get ariaExpanded() {
-    return Boolean(this.open).toString();
   }
 
   render() {
@@ -92,8 +88,8 @@ export default class DropdownMenu extends TrackedElement {
       <div class="nav-container">
         <nav
           class="${this.menuClass}"
-          aria-hidden="${this.ariaHidden}"
-          aria-expanded="${this.ariaExpanded}"
+          aria-hidden="${makeBooleanString(!this.open)}"
+          aria-expanded="${makeBooleanString(this.open)}"
         >
           <ul>
             ${this.dropdownItems}

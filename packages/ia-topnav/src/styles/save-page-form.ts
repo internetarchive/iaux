@@ -1,4 +1,4 @@
-import { css } from "lit";
+import { css } from 'lit';
 
 export default css`
   div {
@@ -10,7 +10,7 @@ export default css`
     border: none;
   }
 
-  input[type="text"] {
+  input[type='text'] {
     width: 100%;
     height: 3rem;
     box-sizing: border-box;
@@ -20,7 +20,7 @@ export default css`
     font-size: inherit;
   }
 
-  input[type="submit"] {
+  input[type='submit'] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

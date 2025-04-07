@@ -1,23 +1,23 @@
-import { html } from "lit";
-import TrackedElement from "./tracked-element";
-import toSentenceCase from "./lib/toSentenceCase";
-import moreSliderCSS from "./styles/more-slider";
-import formatUrl from "./lib/formatUrl";
+import { html } from 'lit';
+import TrackedElement from './tracked-element';
+import toSentenceCase from './lib/toSentenceCase';
+import moreSliderCSS from './styles/more-slider';
+import formatUrl from './lib/formatUrl';
+import { customElement, property } from 'lit/decorators';
+import { IATopNavConfig, IATopNavLink } from './models';
+import { defaultTopNavConfig } from './data/menus';
 
-class MoreSlider extends TrackedElement {
-  static get properties() {
-    return {
-      baseHost: { type: String },
-      config: { type: Object },
-      menuItems: { type: Array },
-    };
-  }
+@customElement('more-slider')
+export class MoreSlider extends TrackedElement {
+  @property({ type: String }) baseHost = '';
+  @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
+  @property({ type: Array }) menuItems: IATopNavLink[] = [];
 
   static get styles() {
     return moreSliderCSS;
   }
 
-  analyticsEvent(title) {
+  analyticsEvent(title: string) {
     return `${this.config.eventCategory}|NavMore${toSentenceCase(title)}`;
   }
 
@@ -39,5 +39,3 @@ class MoreSlider extends TrackedElement {
     `;
   }
 }
-
-customElements.define("more-slider", MoreSlider);
