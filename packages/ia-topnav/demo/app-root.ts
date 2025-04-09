@@ -18,7 +18,7 @@ export class AppRoot extends LitElement {
 
   private get devTools(): TemplateResult {
     return html`
-      <div class="dev-tools">
+      <div id="dev-tools">
         <h1>Dev Tools</h1>
 
         <h2>Username</h2>
@@ -29,7 +29,7 @@ export class AppRoot extends LitElement {
               this.topnav.username = '@brewster';
             }}
           >
-            switch username to brewster
+            Switch username to brewster
           </button>
 
           <br />
@@ -40,7 +40,7 @@ export class AppRoot extends LitElement {
               this.topnav.username = '@test';
             }}
           >
-            switch username to a😊b😊c😊d😊e😊f😊g😊h😊i😊
+            Switch username to a😊b😊c😊d😊e😊f😊g😊h😊i😊
           </button>
 
           <br />
@@ -52,7 +52,7 @@ export class AppRoot extends LitElement {
               this.topnav.username = '@test';
             }}
           >
-            switch username to محمالدكتور محمد العجوز الدكتور محمالدكتور محمد
+            Switch username to محمالدكتور محمد العجوز الدكتور محمالدكتور محمد
             العجوز
           </button>
 
@@ -64,10 +64,10 @@ export class AppRoot extends LitElement {
               this.topnav.screenName = '';
             }}
           >
-            switch to un - logged -in
+            Switch to logged out
           </button>
         </fieldset>
-        <hr />
+
         <h2>Local Links</h2>
         <fieldset>
           <button
@@ -75,19 +75,17 @@ export class AppRoot extends LitElement {
               this.topnav.localLinks = false;
             }}
           >
-            switch localLinks false(change to https://archive.org)
+            Disable local links
           </button>
-          < br />
           <button
             @click=${() => {
               this.topnav.localLinks = true;
             }}
           >
-            switch to localLinks(default, change links to start with /)
-          </button>
+            Enable local links
+        </button>
         </fieldset>
 
-        <hr />
         <h2>Wayback Count</h2>
         <fieldset>
           <button
@@ -95,7 +93,7 @@ export class AppRoot extends LitElement {
               this.topnav.waybackPagesArchived = 'many, MAAAANNNY';
             }}
           >
-            change WB pages count
+            Change WB pages count
           </button>
 
           <button
@@ -103,10 +101,10 @@ export class AppRoot extends LitElement {
               this.topnav.waybackPagesArchived = '740 billion';
             }}
           >
-            reset WB pages count
+            Reset WB pages count
           </button>
         </fieldset>
-        <hr />
+
         <h2>Search</h2>
         <fieldset>
           <button
@@ -114,14 +112,14 @@ export class AppRoot extends LitElement {
               this.topnav.hideSearch = true;
             }}
           >
-            HIDE Top Row Search button, like on mobile
+            Hide Top Row Search button, like on mobile
           </button>
           <button
             @click=${() => {
               this.topnav.hideSearch = false;
             }}
           >
-            SHOW Top Row Search button, like on mobile
+            Show Top Row Search button, like on mobile
           </button>
         </fieldset>
       </div>
@@ -132,6 +130,10 @@ export class AppRoot extends LitElement {
     :host {
       display: block;
       font-family: sans-serif;
+    }
+
+    #dev-tools {
+      margin: 1rem;
     }
   `;
 }
