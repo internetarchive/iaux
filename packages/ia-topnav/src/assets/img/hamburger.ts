@@ -1,7 +1,7 @@
 import { html, css } from 'lit';
 import Icon from './icon';
 import icons from './icons';
-import { customElement } from 'lit/decorators';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('icon-hamburger')
 export class HamBurger extends Icon {

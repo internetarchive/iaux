@@ -14,10 +14,8 @@ export class MediaSlider extends LitElement {
   @property({ type: Object }) menus: IATopNavMenuConfig = buildTopNavMenus();
   @property({ type: String }) selectedMenuOption = 'texts';
 
-  private previousKeydownListener:
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    | ((this: HTMLElement, ev: KeyboardEvent) => any)
-    | undefined;
+  private previousKeydownListener: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ((this: HTMLElement, ev: KeyboardEvent) => any) | undefined;
 
   static get styles() {
     return mediaSliderCSS;
@@ -64,8 +62,8 @@ export class MediaSlider extends LitElement {
                 .baseHost=${this.baseHost}
                 .config=${this.config}
                 class="${this.selectedMenuOption === 'audio'
-        ? 'has-focused'
-        : 'hidden'}"
+                  ? 'has-focused'
+                  : 'hidden'}"
                 menu="audio"
                 .menuItems=${this.menus.audio}
               ></media-subnav>
@@ -73,8 +71,8 @@ export class MediaSlider extends LitElement {
                 .baseHost=${this.baseHost}
                 .config=${this.config}
                 class="${this.selectedMenuOption === 'images'
-        ? 'has-focused'
-        : 'hidden'}"
+                  ? 'has-focused'
+                  : 'hidden'}"
                 menu="images"
                 .menuItems=${this.menus.images}
               ></media-subnav>
@@ -82,8 +80,8 @@ export class MediaSlider extends LitElement {
                 .baseHost=${this.baseHost}
                 .config=${this.config}
                 class="${this.selectedMenuOption === 'software'
-        ? 'has-focused'
-        : 'hidden'}"
+                  ? 'has-focused'
+                  : 'hidden'}"
                 menu="software"
                 .menuItems=${this.menus.software}
               ></media-subnav>
@@ -91,8 +89,8 @@ export class MediaSlider extends LitElement {
                 .baseHost=${this.baseHost}
                 .config=${this.config}
                 class="${this.selectedMenuOption === 'texts'
-        ? 'has-focused'
-        : 'hidden'}"
+                  ? 'has-focused'
+                  : 'hidden'}"
                 menu="texts"
                 .menuItems=${this.menus.texts}
               ></media-subnav>
@@ -100,8 +98,8 @@ export class MediaSlider extends LitElement {
                 .baseHost=${this.baseHost}
                 .config=${this.config}
                 class="${this.selectedMenuOption === 'video'
-        ? 'has-focused'
-        : 'hidden'}"
+                  ? 'has-focused'
+                  : 'hidden'}"
                 menu="video"
                 .menuItems=${this.menus.video}
               ></media-subnav>
@@ -109,8 +107,8 @@ export class MediaSlider extends LitElement {
                 .baseHost=${this.baseHost}
                 .config=${this.config}
                 class="${this.selectedMenuOption === 'web'
-        ? 'has-focused'
-        : 'hidden'}"
+                  ? 'has-focused'
+                  : 'hidden'}"
                 menu="web"
                 .menuItems=${this.menus.web}
               ></media-subnav>
@@ -118,10 +116,10 @@ export class MediaSlider extends LitElement {
                 .baseHost=${this.baseHost}
                 .config=${this.config}
                 class="${this.selectedMenuOption === 'more'
-        ? 'has-focused'
-        : 'hidden'}"
+                  ? 'has-focused'
+                  : 'hidden'}"
                 menu="more"
-                .menuItems=${this.menus.more}
+                .menuItems=${this.menus.web}
               ></media-subnav>
             </div>
           </div>

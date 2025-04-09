@@ -14,7 +14,7 @@ describe('<more-slider>', () => {
       ></more-slider>`,
     );
 
-    expect(el.shadowRoot.querySelector('a').getAttribute('href')).to.contain(
+    expect(el.shadowRoot?.querySelector('a')?.getAttribute('href')).to.contain(
       baseHost,
     );
   });

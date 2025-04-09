@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import savePageFormCSS from './styles/save-page-form';
-import { customElement, property } from 'lit/decorators';
+import { customElement, property } from 'lit/decorators.js';
 import { IATopNavConfig } from './models';
 import { defaultTopNavConfig } from './data/menus';
 
@@ -14,9 +14,11 @@ export class SavePageForm extends TrackedElement {
     return savePageFormCSS;
   }
 
-  validateURL(e: Event) {
+  private validateURL(e: SubmitEvent) {
     const target = e.target as HTMLFormElement;
-    const urlInput = target.querySelector('[name="url_preload"]') as HTMLInputElement;
+    const urlInput = target.querySelector(
+      '[name="url_preload"]',
+    ) as HTMLInputElement;
     const valid = /\..{2,}$/.test(urlInput.value);
 
     if (!valid) {

@@ -15,8 +15,17 @@ import { defaultTopNavConfig } from './data/menus';
 export class MediaSubnav extends TrackedElement {
   @property({ type: String }) baseHost = '';
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
-  @property({ type: String }) menu = '';
-  @property({ type: Object }) menuItems?: IATopNavMediaMenu;
+  @property({ type: String }) menu:
+    | ''
+    | 'web'
+    | 'more'
+    | 'audio'
+    | 'images'
+    | 'software'
+    | 'texts'
+    | 'video' = '';
+  @property({ type: Object }) menuItems: IATopNavMediaMenu =
+    MediaSubnav.defaultLinks;
 
   private links: IATopNavMediaMenu = MediaSubnav.defaultLinks;
 
@@ -39,7 +48,7 @@ export class MediaSubnav extends TrackedElement {
       links: [],
       mobileAppsLinks: [],
       browserExtensionsLinks: [],
-      archiveItLinks: []
+      archiveItLinks: [],
     };
   }
 
@@ -88,20 +97,20 @@ export class MediaSubnav extends TrackedElement {
       return html` <wayback-slider
         .baseHost=${this.baseHost}
         .config=${this.config}
-        .archiveItLinks=${this.menuItems?.archiveItLinks ?? []}
-        .browserExtensionsLinks=${this.menuItems?.browserExtensionsLinks ?? []}
-        .mobileAppsLinks=${this.menuItems?.mobileAppsLinks ?? []}
+        .archiveItLinks=${this.menuItems.archiveItLinks}
+        .browserExtensionsLinks=${this.menuItems.browserExtensionsLinks}
+        .mobileAppsLinks=${this.menuItems.mobileAppsLinks}
       ></wayback-slider>`;
     }
 
-    if (this.menu === 'more') {
-      return html` <more-slider
-        .baseHost=${this.baseHost}
-        .config=${this.config}
-        .menuItems=${this.menuItems ?? []}
-      >
-      </more-slider>`;
-    }
+    // if (this.menu === 'more') {
+    //   return html` <more-slider
+    //     .baseHost=${this.baseHost}
+    //     .config=${this.config}
+    //     .menuItems=${this.menuItems}
+    //   >
+    //   </more-slider>`;
+    // }
 
     return html`
       <h3>${this.links.heading}</h3>

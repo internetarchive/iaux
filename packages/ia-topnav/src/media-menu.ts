@@ -1,9 +1,12 @@
 import { LitElement, PropertyValues, html } from 'lit';
-
-import './media-button';
-import mediaMenuCSS from './styles/media-menu';
-import formatUrl from './lib/formatUrl';
 import { customElement, property, queryAll } from 'lit/decorators.js';
+
+import { defaultTopNavConfig } from './data/menus';
+import formatUrl from './lib/formatUrl';
+import './media-button';
+import { MediaButton } from './media-button';
+import { IATopNavConfig } from './models';
+import mediaMenuCSS from './styles/media-menu';
 
 const menuSelection = [
   {
@@ -60,12 +63,12 @@ const menuSelection = [
 @customElement('media-menu')
 export class MediaMenu extends LitElement {
   @property({ type: String }) baseHost = '';
-  @property({ type: Object }) config = {};
+  @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: String }) openMenu = '';
   @property({ type: String }) selectedMenuOption = '';
   @property({ type: Object }) currentTab: { moveTo: string } | undefined;
 
-  @queryAll('media-button') mediaButtons: HTMLElement[] = [];
+  @queryAll('media-button') mediaButtons?: MediaButton[];
 
   static get styles() {
     return mediaMenuCSS;
@@ -73,7 +76,7 @@ export class MediaMenu extends LitElement {
 
   updated(props: PropertyValues) {
     if (props.has('currentTab')) {
-      const mediaButtons = Array.from(this.mediaButtons);
+      const mediaButtons = Array.from(this.mediaButtons ?? []);
 
       mediaButtons.map((button, index) => {
         const linkItem = button.shadowRoot?.querySelector('a.menu-item');

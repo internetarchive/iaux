@@ -101,7 +101,7 @@ export function buildTopNavMenus(
       ],
       mobileAppsLinks: [],
       browserExtensionsLinks: [],
-      archiveItLinks: []
+      archiveItLinks: [],
     },
     images: {
       heading: 'Images',
@@ -155,7 +155,7 @@ export function buildTopNavMenus(
       ],
       mobileAppsLinks: [],
       browserExtensionsLinks: [],
-      archiveItLinks: []
+      archiveItLinks: [],
     },
     more: [
       {
@@ -291,7 +291,7 @@ export function buildTopNavMenus(
       ],
       mobileAppsLinks: [],
       browserExtensionsLinks: [],
-      archiveItLinks: []
+      archiveItLinks: [],
     },
     texts: {
       heading: 'Texts',
@@ -365,7 +365,7 @@ export function buildTopNavMenus(
       ],
       mobileAppsLinks: [],
       browserExtensionsLinks: [],
-      archiveItLinks: []
+      archiveItLinks: [],
     },
     web: {
       mobileAppsLinks: [
@@ -422,7 +422,7 @@ export function buildTopNavMenus(
       heading: '',
       iconLinks: [],
       featuredLinks: [],
-      links: []
+      links: [],
     },
     video: {
       heading: 'Video',
@@ -516,7 +516,7 @@ export function buildTopNavMenus(
       ],
       mobileAppsLinks: [],
       browserExtensionsLinks: [],
-      archiveItLinks: []
+      archiveItLinks: [],
     },
     user: [
       {

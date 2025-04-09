@@ -3,7 +3,7 @@ import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import toSentenceCase from './lib/toSentenceCase';
 import mediaButtonCSS from './styles/media-button';
-import { customElement, property } from 'lit/decorators';
+import { customElement, property } from 'lit/decorators.js';
 import { IATopNavConfig } from './models';
 import { defaultTopNavConfig } from './data/menus';
 

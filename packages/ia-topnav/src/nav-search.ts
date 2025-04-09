@@ -12,7 +12,7 @@ import { IATopNavConfig } from './models';
 export class NavSearch extends TrackedElement {
   @property({ type: String }) baseHost = '';
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
-  @property({ type: Object }) locationHandler = (url: string) => { };
+  @property({ type: Object }) locationHandler = (url: string) => {};
   @property({ type: Boolean }) open = false;
   @property({ type: String }) openMenu = '';
   @property({ type: String }) searchIn = '';
@@ -24,7 +24,7 @@ export class NavSearch extends TrackedElement {
     return navSearchCSS;
   }
 
-  search(e: Event) {
+  search(e: CustomEvent) {
     const query = this.queryInput?.value;
 
     if (!query) {

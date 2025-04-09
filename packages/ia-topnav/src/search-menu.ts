@@ -1,8 +1,9 @@
 import { html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+
 import TrackedElement from './tracked-element';
 import searchMenuCSS from './styles/search-menu';
 import formatUrl from './lib/formatUrl';
-import { customElement, property } from 'lit/decorators';
 import { IATopNavConfig } from './models';
 import { makeBooleanString } from './lib/makeBooleanString';
 
@@ -136,7 +137,7 @@ export class SearchMenu extends TrackedElement {
         <div
           class="search-menu-inner tx-slide ${this.menuClass}"
           aria-hidden="${makeBooleanString(!this.openMenu)}"
-          aria-expanded="${makeBooleanString(this.searchMenuOpen) }"
+          aria-expanded="${makeBooleanString(this.searchMenuOpen)}"
         >
           ${this.searchTypesTemplate}
           <a

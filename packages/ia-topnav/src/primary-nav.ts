@@ -10,7 +10,7 @@ import primaryNavCSS from './styles/primary-nav';
 import locationHandler from './lib/location-handler';
 import formatUrl from './lib/formatUrl';
 import { customElement, property } from 'lit/decorators.js';
-import { IATopNavConfig } from './models';
+import { IATopNavConfig, IATopNavSecondIdentitySlotMode } from './models';
 import { defaultTopNavConfig } from './data/menus';
 
 @customElement('primary-nav')
@@ -23,7 +23,8 @@ export class PrimaryNav extends TrackedElement {
   @property({ type: String }) screenName = '';
   @property({ type: String }) searchIn = '';
   @property({ type: String }) searchQuery = '';
-  @property({ type: String }) secondIdentitySlotMode = '';
+  @property({ type: String })
+  secondIdentitySlotMode: IATopNavSecondIdentitySlotMode = '';
   @property({ type: String }) selectedMenuOption = '';
   @property({ type: Boolean }) signedOutMenuOpen = false;
   @property({ type: Boolean }) userMenuOpen = false;
@@ -224,7 +225,7 @@ export class PrimaryNav extends TrackedElement {
   }
 
   render() {
-    const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
+    // const mediaMenuTabIndex = this.openMenu === 'media' ? '' : '-1';
     return html`
       <nav class=${this.hideSearch ? 'hide-search' : ''}>
         <button

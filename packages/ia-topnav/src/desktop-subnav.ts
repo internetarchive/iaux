@@ -1,14 +1,16 @@
 import { html, nothing, TemplateResult } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+
 import TrackedElement from './tracked-element';
 import desktopSubnavCSS from './styles/desktop-subnav';
 import icons from './assets/img/icons';
 import formatUrl from './lib/formatUrl';
-import { customElement, property } from 'lit/decorators.js';
+import { IATopNavLink } from './models';
 
 @customElement('desktop-subnav')
 export class DesktopSubnav extends TrackedElement {
   @property({ type: String }) baseHost = '';
-  @property({ type: Array }) menuItems: Array<{ url: string; title: string; }> = [];
+  @property({ type: Array }) menuItems: IATopNavLink[] = [];
 
   static get styles() {
     return desktopSubnavCSS;

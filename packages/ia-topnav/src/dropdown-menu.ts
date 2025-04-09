@@ -13,7 +13,7 @@ export default class DropdownMenu extends TrackedElement {
   @property({ type: String }) baseHost = '';
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: Boolean }) hideSearch = false;
-  @property({ type: Array }) menuItems: IATopNavLink[] = [];
+  @property({ type: Array }) menuItems: IATopNavLink[] | IATopNavLink[][] = [];
   @property({ type: Boolean }) animated = false;
   @property({ type: Boolean }) open = false;
 
@@ -25,11 +25,14 @@ export default class DropdownMenu extends TrackedElement {
     if (!this.menuItems) return nothing;
 
     if (!Array.isArray(this.menuItems[0])) {
-      return this.dropdownSection(this.menuItems);
+      const submenu = this.menuItems as IATopNavLink[];
+      return this.dropdownSection(submenu);
     }
     return this.menuItems.map((submenu, i) => {
       const joiner = i ? DropdownMenu.dropdownDivider : html``;
-      if (!Array.isArray(submenu)) { return }
+      if (!Array.isArray(submenu)) {
+        return;
+      }
       return [joiner, ...this.dropdownSection(submenu)];
     });
   }
@@ -57,7 +60,8 @@ export default class DropdownMenu extends TrackedElement {
       .class="${link.class}"
       tabindex="${this.open ? '' : '-1'}"
       @click=${this.trackClick}
-      data-event-click-tracking="${this.config?.eventCategory}|Nav${link.analyticsEvent}"
+      data-event-click-tracking="${this.config
+        ?.eventCategory}|Nav${link.analyticsEvent}"
       aria-label=${calloutText ? `New feature: ${link.title}` : nothing}
     >
       ${link.class === 'mobile-upload' ? icons.uploadUnpadded : nothing}

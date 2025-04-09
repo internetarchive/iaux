@@ -24,7 +24,7 @@
     "ghpages:generate": "gh-pages -t -d ghpages -m \"Build for $(git log --pretty=format:\"%h %an %ai %s\" -n1) [skip ci]\""
   },
   "dependencies": {
-    "@internetarchive/ia-wayback-search": "0.2.6-webdev-7393.5",
+    "@internetarchive/ia-wayback-search": "0.2.6-webdev-7393.6",
     "lit": "^2.8.0"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "@web/dev-server": "^0.4.6",
     "@web/test-runner": "^0.20.0",
     "concurrently": "^9.1.2",
-    "eslint": "^9.17.0",
+    "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-html": "^8.1.2",
     "eslint-plugin-import": "^2.31.0",
@@ -49,7 +49,7 @@
     "madge": "^8.0.0",
     "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
-    "sinon": "^19.0.2",
+    "sinon": "^20.0.0",
     "ts-lit-plugin": "^2.0.2",
     "tslib": "^2.8.1",
     "typescript": "^5.7.2",

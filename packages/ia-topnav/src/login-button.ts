@@ -4,12 +4,11 @@ import icons from './assets/img/icons';
 import loginButtonCSS from './styles/login-button';
 import formatUrl from './lib/formatUrl';
 import { customElement, property, state } from 'lit/decorators.js';
-import IATopNav from './ia-topnav';
 import { IATopNavConfig } from './models';
 import { defaultTopNavConfig } from './data/menus';
 
 @customElement('login-button')
-class LoginButton extends TrackedElement {
+export class LoginButton extends TrackedElement {
   @property({ type: String }) baseHost = '';
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: String }) openMenu = '';

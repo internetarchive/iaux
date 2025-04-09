@@ -30,9 +30,13 @@ export default class IATopNav extends LitElement {
   @property({ type: String }) searchQuery = '';
   @property({ type: String }) selectedMenuOption = '';
   @property({ type: String }) username: string = '';
-  @property({ type: String }) userProfileImagePath = '/services/img/user/profile';
+  @property({ type: String }) userProfileImagePath =
+    '/services/img/user/profile';
   @property({ type: String }) secondIdentitySlotMode = '';
-  @property({ type: Object }) currentTab?: { mediatype: string; moveTo: string };
+  @property({ type: Object }) currentTab?: {
+    mediatype: string;
+    moveTo: string;
+  };
 
   @state() private menus: IATopNavMenuConfig = buildTopNavMenus();
 
@@ -243,7 +247,8 @@ export default class IATopNav extends LitElement {
         tabindex="${this.userMenuTabIndex}"
         @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
-        @focusToOtherMenuItem=${(e: CustomEvent) => (this.currentTab = e.detail)}
+        @focusToOtherMenuItem=${(e: CustomEvent) =>
+          (this.currentTab = e.detail)}
       ></user-menu>
     `;
   }
@@ -335,7 +340,8 @@ export default class IATopNav extends LitElement {
           .mediaSliderOpen=${this.mediaSliderOpen}
           .menus=${this.menus}
           tabindex="${this.mediaSliderOpen ? '1' : '-1'}"
-          @focusToOtherMenuItem=${(e: CustomEvent) => (this.currentTab = e.detail)}
+          @focusToOtherMenuItem=${(e: CustomEvent) =>
+            (this.currentTab = e.detail)}
         ></media-slider>
       </div>
       ${this.username ? this.userMenu : this.signedOutDropdown}

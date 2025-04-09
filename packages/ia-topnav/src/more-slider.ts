@@ -1,9 +1,10 @@
 import { html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+
 import TrackedElement from './tracked-element';
 import toSentenceCase from './lib/toSentenceCase';
 import moreSliderCSS from './styles/more-slider';
 import formatUrl from './lib/formatUrl';
-import { customElement, property } from 'lit/decorators';
 import { IATopNavConfig, IATopNavLink } from './models';
 import { defaultTopNavConfig } from './data/menus';
 
