@@ -5,7 +5,11 @@ import { buildTopNavMenus, defaultTopNavConfig } from './data/menus';
 import './desktop-subnav';
 import './dropdown-menu';
 import './media-slider';
-import { IATopNavConfig, IATopNavMenuConfig } from './models';
+import {
+  IATopNavConfig,
+  IATopNavMenuConfig,
+  IATopNavSecondIdentitySlotMode,
+} from './models';
 import './primary-nav';
 import './search-menu';
 import './signed-out-dropdown';
@@ -14,7 +18,7 @@ import './user-menu';
 
 @customElement('ia-topnav')
 export default class IATopNav extends LitElement {
-  @property({ type: Boolean }) localLinks = true;
+  @property({ type: Boolean }) localLinks = false;
   @property({ type: String }) waybackPagesArchived = '';
   @property({ type: String }) baseHost = 'https://archive.org';
   @property({ type: String }) mediaBaseHost = 'https://archive.org';
@@ -32,7 +36,8 @@ export default class IATopNav extends LitElement {
   @property({ type: String }) username: string = '';
   @property({ type: String }) userProfileImagePath =
     '/services/img/user/profile';
-  @property({ type: String }) secondIdentitySlotMode = '';
+  @property({ type: String })
+  secondIdentitySlotMode: IATopNavSecondIdentitySlotMode = '';
   @property({ type: Object }) currentTab?: {
     mediatype: string;
     moveTo: string;
@@ -41,78 +46,12 @@ export default class IATopNav extends LitElement {
   @state() private menus: IATopNavMenuConfig = buildTopNavMenus();
 
   private get normalizedBaseHost() {
-    return this.localLinks ? '' : this.baseHost;
+    return !this.localLinks ? this.baseHost : '';
   }
 
   static get styles() {
     return iaTopNavCSS;
   }
-
-  // NOTE:
-  // When adding properties, also add them to index.d.ts in the root `ia-topnav` directory
-  // so Typescript can find them
-  // static get properties() {
-  //   return {
-  //     // we default to fully-qualified `https://archive.org` urls in nav, set to false for relatives
-  //     localLinks: Boolean,
-  //     // @see `data/menus.js` for a description:
-  //     waybackPagesArchived: String,
-  //     // the base host is for navigation, so may be empty for relative links
-  //     baseHost: { type: String },
-  //     // the media base host is the base host for images, such as the profile picture
-  //     // which may not be hosted locally
-  //     mediaBaseHost: { type: String },
-  //     /** Whether the user has privs to edit all items */
-  //     admin: { type: Boolean },
-  //     /** Whether the user has privs to manage item flags */
-  //     canManageFlags: { type: Boolean },
-  //     config: {
-  //       type: Object,
-  //       converter(value) {
-  //         return JSON.parse(atob(value));
-  //       },
-  //     },
-  //     hideSearch: { type: Boolean },
-  //     /** Identifier for the item or collection currently being viewed */
-  //     itemIdentifier: { type: String },
-  //     mediaSliderOpen: { type: Boolean },
-  //     menus: {
-  //       type: Object,
-  //       converter(value) {
-  //         return JSON.parse(atob(value));
-  //       },
-  //     },
-  //     openMenu: { type: String },
-  //     screenName: { type: String },
-  //     searchIn: { type: String },
-  //     searchQuery: {
-  //       type: String,
-  //       converter(value) {
-  //         return atob(value);
-  //       },
-  //     },
-  //     selectedMenuOption: { type: String },
-  //     username: { type: String },
-  //     userProfileImagePath: { type: String },
-  //     secondIdentitySlotMode: { type: String },
-  //     currentTab: { type: Object },
-  //   };
-  // }
-
-  // constructor() {
-  //   super();
-  //   this.menuSetup();
-  //   this.mediaBaseHost = 'https://archive.org';
-  //   this.userProfileImagePath = '/services/img/user/profile';
-  //   this.config = defaultTopNavConfig;
-  //   this.hideSearch = false;
-  //   this.mediaSliderOpen = false;
-  //   this.openMenu = '';
-  //   this.searchIn = '';
-  //   this.selectedMenuOption = '';
-  //   this.secondIdentitySlotMode = '';
-  //   this.currentTab = {};
-  // }
 
   updated(props: PropertyValues) {
     if (

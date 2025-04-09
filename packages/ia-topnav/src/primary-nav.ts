@@ -28,7 +28,7 @@ export class PrimaryNav extends TrackedElement {
   @property({ type: String }) selectedMenuOption = '';
   @property({ type: Boolean }) signedOutMenuOpen = false;
   @property({ type: Boolean }) userMenuOpen = false;
-  @property({ type: Boolean }) mediaMenuAnimate = true;
+  @property({ type: Boolean }) mediaMenuAnimate = false;
   @property({ type: String }) username = '';
   @property({ type: String }) userProfileImagePath = '';
   @property({ type: Object }) currentTab:

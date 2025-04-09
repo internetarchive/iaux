@@ -5,10 +5,7 @@ import '../src/ia-topnav';
 @customElement('app-root')
 export class AppRoot extends LitElement {
   render() {
-    return html`
-      <ia-topnav>
-      </ia-topnav>
-    `;
+    return html` <ia-topnav> </ia-topnav> `;
   }
 
   static styles = css`

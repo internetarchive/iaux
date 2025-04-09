@@ -1,14 +1,15 @@
 import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import savePageFormCSS from './styles/save-page-form';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { IATopNavConfig } from './models';
 import { defaultTopNavConfig } from './data/menus';
 
 @customElement('save-page-form')
 export class SavePageForm extends TrackedElement {
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
-  @property({ type: Boolean }) inputValid = true;
+
+  @state() inputValid = true;
 
   static get styles() {
     return savePageFormCSS;
