@@ -74,7 +74,7 @@ describe('<primary-nav>', () => {
     );
 
     const usernameSpan = el.shadowRoot?.querySelector(
-      '.username',
+      '.screen-name',
     ) as HTMLSpanElement;
 
     expect(usernameSpan.innerText).to.equal('somesuper…');

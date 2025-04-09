@@ -18,11 +18,15 @@ describe('<search-menu>', () => {
     const el = await fixture<SearchMenu>(component);
     const value = 'text';
 
-    // el.selectSearchType({
-    //   target: {
-    //     value,
-    //   },
-    // });
+    const inputEvent = new InputEvent('input');
+    Object.defineProperty(inputEvent, 'target', {
+      value: {
+        value,
+      },
+      writable: false,
+    });
+
+    el.selectSearchType(inputEvent);
 
     expect(el.selectedSearchType).to.equal(value);
   });

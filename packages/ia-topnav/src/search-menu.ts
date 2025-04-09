@@ -59,12 +59,12 @@ export class SearchMenu extends TrackedElement {
     }
   }
 
-  private selectSearchType(e: Event) {
+  selectSearchType(e: Event) {
     const target = e.target as HTMLInputElement;
     this.selectedSearchType = target.value;
   }
 
-  private searchInChanged(e: InputEvent) {
+  searchInChanged(e: InputEvent) {
     const target = e.target as HTMLInputElement;
     this.dispatchEvent(
       new CustomEvent('searchInChanged', {

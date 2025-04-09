@@ -50,11 +50,13 @@ describe('<ia-topnav>', () => {
       'search-menu',
     ) as SearchMenu;
 
-    // searchMenu?.searchInChanged({
-    //   target: {
-    //     value: query,
-    //   },
-    // });
+    const inputEvent = new InputEvent('input');
+    Object.defineProperty(inputEvent, 'target', {
+      value: query,
+      writable: false,
+    });
+
+    searchMenu?.searchInChanged(inputEvent);
     await el.updateComplete;
 
     expect(el.searchIn).to.equal(query);
