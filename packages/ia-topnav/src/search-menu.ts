@@ -6,11 +6,12 @@ import searchMenuCSS from './styles/search-menu';
 import formatUrl from './lib/formatUrl';
 import { IATopNavConfig } from './models';
 import { makeBooleanString } from './lib/makeBooleanString';
+import { defaultTopNavConfig } from './data/menus';
 
 @customElement('search-menu')
 export class SearchMenu extends TrackedElement {
   @property({ type: String }) baseHost = '';
-  @property({ type: Object }) config: IATopNavConfig = {};
+  @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: Boolean }) hideSearch = false;
   @property({ type: String }) openMenu = '';
   @property({ type: Boolean }) searchMenuOpen = false;

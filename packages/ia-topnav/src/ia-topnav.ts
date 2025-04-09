@@ -19,25 +19,43 @@ import './user-menu';
 @customElement('ia-topnav')
 export default class IATopNav extends LitElement {
   @property({ type: Boolean }) localLinks = false;
+
   @property({ type: String }) waybackPagesArchived = '';
+
   @property({ type: String }) baseHost = 'https://archive.org';
+
   @property({ type: String }) mediaBaseHost = 'https://archive.org';
+
   @property({ type: Boolean }) admin = false;
+
   @property({ type: Boolean }) canManageFlags = false;
+
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
+
   @property({ type: Boolean }) hideSearch = false;
+
   @property({ type: String }) itemIdentifier = '';
+
   @property({ type: Boolean }) mediaSliderOpen = false;
+
   @property({ type: String }) openMenu = '';
+
   @property({ type: String }) screenName: string = '';
+
   @property({ type: String }) searchIn = '';
+
   @property({ type: String }) searchQuery = '';
+
   @property({ type: String }) selectedMenuOption = '';
+
   @property({ type: String }) username: string = '';
+
   @property({ type: String }) userProfileImagePath =
     '/services/img/user/profile';
+
   @property({ type: String })
   secondIdentitySlotMode: IATopNavSecondIdentitySlotMode = '';
+
   @property({ type: Object }) currentTab?: {
     mediatype: string;
     moveTo: string;

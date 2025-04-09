@@ -4,12 +4,12 @@ import mediaSliderCSS from './styles/media-slider';
 import KeyboardNavigation from './lib/keyboard-navigation';
 import { customElement, property } from 'lit/decorators.js';
 import { IATopNavConfig, IATopNavMenuConfig } from './models';
-import { buildTopNavMenus } from './data/menus';
+import { buildTopNavMenus, defaultTopNavConfig } from './data/menus';
 
 @customElement('media-slider')
 export class MediaSlider extends LitElement {
   @property({ type: String }) baseHost = '';
-  @property({ type: Object }) config: IATopNavConfig = {};
+  @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: Boolean }) mediaSliderOpen = false;
   @property({ type: Object }) menus: IATopNavMenuConfig = buildTopNavMenus();
   @property({ type: String }) selectedMenuOption = 'texts';
