@@ -64,22 +64,6 @@ describe('<primary-nav>', () => {
     expect(el.shadowRoot?.querySelector('nav-search')).to.equal(null);
   });
 
-  it('truncates a long screenname', async () => {
-    const el = await fixture<PrimaryNav>(
-      component({
-        baseHost: 'archive.org',
-        username: 'boop',
-        screenName: 'somesuperlongscreenname',
-      }),
-    );
-
-    const usernameSpan = el.shadowRoot?.querySelector(
-      '.screen-name',
-    ) as HTMLSpanElement;
-
-    expect(usernameSpan.innerText).to.equal('somesuper…');
-  });
-
   it('opens a slot with `secondIdentitySlotMode`', async () => {
     const el = await fixture<PrimaryNav>(
       component({

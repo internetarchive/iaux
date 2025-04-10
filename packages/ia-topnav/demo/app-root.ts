@@ -83,7 +83,7 @@ export class AppRoot extends LitElement {
             }}
           >
             Enable local links
-        </button>
+          </button>
         </fieldset>
 
         <h2>Wayback Count</h2>

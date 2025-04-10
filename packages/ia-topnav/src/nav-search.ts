@@ -12,13 +12,14 @@ import { IATopNavConfig } from './models';
 export class NavSearch extends TrackedElement {
   @property({ type: String }) baseHost = '';
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @property({ type: Object }) locationHandler = (url: string) => {};
   @property({ type: Boolean }) open = false;
   @property({ type: String }) openMenu = '';
   @property({ type: String }) searchIn = '';
   @property({ type: String }) searchQuery = '';
 
-  @query('[name=query]') queryInput: HTMLInputElement | undefined;
+  @query('[name=query]') private queryInput?: HTMLInputElement;
 
   static get styles() {
     return navSearchCSS;
