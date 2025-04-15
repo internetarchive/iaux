@@ -1,0 +1,48 @@
+{
+  "name": "@internetarchive/fetch-handler-service",
+  "version": "1.0.0",
+  "description": "A custom service for handling API requests",
+  "license": "AGPL-3.0-only",
+  "author": "Internet Archive",
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds --app-index demo/index.html --node-resolve --open --watch --preserve-symlinks\"",
+    "prepare": "tsc",
+    "circular": "madge --circular --extensions ts .",
+    "test": "tsc && npm run format && npm run lint && npm run circular && web-test-runner --coverage",
+    "lint": "prettier --check \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
+  },
+  "dependencies": {
+    "@internetarchive/analytics-manager": "^0.1.4",
+    "lit": "^3.3.0"
+  },
+  "devDependencies": {
+    "@open-wc/eslint-config": "^12.0.3",
+    "@open-wc/testing": "^3.0.0-next.5",
+    "@types/node": "^22.14.1",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
+    "@web/dev-server": "^0.4.6",
+    "madge": "^8.0.0",
+    "prettier": "^3.5.3",
+    "sinon": "^20.0.0",
+    "typescript": "^5.8.3"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@open-wc/eslint-config",
+      "eslint-config-prettier"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  }
+}

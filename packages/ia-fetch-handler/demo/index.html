@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fff;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import '../dist/demo/app-root.js';
+
+    render(
+      html`
+        <app-root></app-root>
+      `,
+      document.querySelector('#demo')
+    );
+  </script>
+</body>
+</html>
