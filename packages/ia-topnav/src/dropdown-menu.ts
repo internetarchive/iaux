@@ -8,6 +8,7 @@ import { makeBooleanString } from './lib/makeBooleanString';
 import { IATopNavConfig, IATopNavLink } from './models';
 import dropdownMenuCSS from './styles/dropdown-menu';
 import TrackedElement from './tracked-element';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 export default class DropdownMenu extends TrackedElement {
   @property({ type: String }) baseHost = '';
@@ -56,8 +57,8 @@ export default class DropdownMenu extends TrackedElement {
   dropdownLink(link: IATopNavLink): TemplateResult {
     const calloutText = this.config?.callouts?.[link.title];
     return html`<a
-      .href="${formatUrl(link.url, this.baseHost)}"
-      .class="${link.class}"
+      href="${formatUrl(link.url, this.baseHost)}"
+      class=${ifDefined(link.class)}
       tabindex="${this.open ? '' : '-1'}"
       @click=${this.trackClick}
       data-event-click-tracking="${this.config
