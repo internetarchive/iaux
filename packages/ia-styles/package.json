@@ -79,8 +79,7 @@
           "ts": "never"
         }
       ]
-    },
-    "ignores": ["dist"]
+    }
   },
   "prettier": {
     "singleQuote": true,
