@@ -1,5 +1,5 @@
 import { html, css, LitElement, TemplateResult } from 'lit';
-import { customElement, query } from 'lit/decorators.js';
+import { customElement, query, state } from 'lit/decorators.js';
 import '../src/ia-topnav';
 import type TopNav from '../src/ia-topnav';
 
@@ -8,9 +8,26 @@ export class AppRoot extends LitElement {
   @query('ia-topnav')
   private topnav!: TopNav;
 
+  @state() private admin = false;
+
+  @state() private canManageFlags = false;
+
+  @state() private username = '';
+
+  @state() private screenName = '';
+
+  @state() private itemIdentifier = '';
+
   render() {
     return html`
-      <ia-topnav> </ia-topnav>
+      <ia-topnav
+        ?admin=${this.admin}
+        ?canManageFlags=${this.canManageFlags}
+        .username=${this.username}
+        .screenName=${this.screenName}
+        .itemIdentifier=${this.itemIdentifier}
+      >
+      </ia-topnav>
 
       ${this.devTools}
     `;
@@ -21,51 +38,78 @@ export class AppRoot extends LitElement {
       <div id="dev-tools">
         <h1>Dev Tools</h1>
 
-        <h2>Username</h2>
+        <h2>User menu</h2>
         <fieldset>
-          <button
-            @click=${() => {
-              this.topnav.screenName = 'brewster';
-              this.topnav.username = '@brewster';
-            }}
-          >
-            Switch username to brewster
-          </button>
+          <ul>
+            <li>
+              <button
+                @click=${() => {
+      this.screenName = 'brewster';
+      this.username = '@brewster';
+    }}
+              >
+                Switch username to brewster
+              </button>
+            </li>
 
-          <br />
+            <li>
+              <button
+                @click=${() => {
+      this.screenName = 'a😊b😊c😊d😊e😊f😊g😊h😊i😊';
+      this.username = '@test';
+    }}
+              >
+                Switch username to a😊b😊c😊d😊e😊f😊g😊h😊i😊
+              </button>
+            </li>
 
-          <button
-            @click=${() => {
-              this.topnav.screenName = 'a😊b😊c😊d😊e😊f😊g😊h😊i😊';
-              this.topnav.username = '@test';
-            }}
-          >
-            Switch username to a😊b😊c😊d😊e😊f😊g😊h😊i😊
-          </button>
+            <li>
+              <button
+                @click=${() => {
+        this.screenName =
+          'الدكتور محمالدكتور محمد العجوز محمالدكتور محمد العجوز';
+        this.username = '@test';
+      }}
+              >
+                Switch username to محمالدكتور محمد العجوز الدكتور محمالدكتور
+                محمد العجوز
+              </button>
+            </li>
 
-          <br />
+            <li>
+              <button
+                @click=${() => {
+      this.username = '';
+      this.screenName = '';
+    }}
+              >
+                Switch to logged out
+              </button>
+            </li>
 
-          <button
-            @click=${() => {
-              this.topnav.screenName =
-                'الدكتور محمالدكتور محمد العجوز محمالدكتور محمد العجوز';
-              this.topnav.username = '@test';
-            }}
-          >
-            Switch username to محمالدكتور محمد العجوز الدكتور محمالدكتور محمد
-            العجوز
-          </button>
+            <li>
+              <button
+                @click=${() => {
+        this.itemIdentifier = this.admin ? '' : 'boop';
+        this.admin = !this.admin;
+      }}
+              >
+                Toggle admin mode (${this.admin ? 'on' : 'off'}) (requires
+                logged in)
+              </button>
+            </li>
 
-          <br />
-
-          <button
-            @click=${() => {
-              this.topnav.username = '';
-              this.topnav.screenName = '';
-            }}
-          >
-            Switch to logged out
-          </button>
+            <li>
+              <button
+                @click=${() => {
+      this.canManageFlags = !this.canManageFlags;
+    }}
+              >
+                Toggle manage flags mode (${this.canManageFlags ? 'on' : 'off'})
+                (requires admin mode)
+              </button>
+            </li>
+          </ul>
         </fieldset>
 
         <h2>Local Links</h2>
