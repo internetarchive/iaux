@@ -119,7 +119,7 @@ export class MediaSlider extends LitElement {
                   ? 'has-focused'
                   : 'hidden'}"
                 menu="more"
-                .menuItems=${this.menus.web}
+                .menuItems=${this.menus.more}
               ></media-subnav>
             </div>
           </div>

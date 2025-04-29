@@ -76,7 +76,7 @@ export interface IATopNavMediaMenu {
 export interface IATopNavMenuConfig {
   audio: IATopNavMediaMenu;
   images: IATopNavMediaMenu;
-  more: IATopNavLink[];
+  more: IATopNavMediaMenu;
   signedOut: IATopNavLink[];
   software: IATopNavMediaMenu;
   texts: IATopNavMediaMenu;

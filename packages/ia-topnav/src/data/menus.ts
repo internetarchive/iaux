@@ -157,44 +157,52 @@ export function buildTopNavMenus(
       browserExtensionsLinks: [],
       archiveItLinks: [],
     },
-    more: [
-      {
-        title: 'About',
-        url: `${baseHost}/about/`,
-      },
-      {
-        title: 'Blog',
-        url: 'https://blog.archive.org',
-      },
-      {
-        title: 'Projects',
-        url: `${baseHost}/projects/`,
-      },
-      {
-        title: 'Help',
-        url: `${baseHost}/about/faqs.php`,
-      },
-      {
-        title: 'Donate',
-        url: `${baseHost}/donate?origin=iawww-TopNavDonateButton`,
-      },
-      {
-        title: 'Contact',
-        url: `${baseHost}/about/contact`,
-      },
-      {
-        title: 'Jobs',
-        url: `${baseHost}/about/jobs`,
-      },
-      {
-        title: 'Volunteer',
-        url: `${baseHost}/about/volunteer-positions`,
-      },
-      {
-        title: 'People',
-        url: `${baseHost}/about/bios`,
-      },
-    ],
+    more: {
+      links: [
+        {
+          title: 'About',
+          url: `${baseHost}/about/`,
+        },
+        {
+          title: 'Blog',
+          url: 'https://blog.archive.org',
+        },
+        {
+          title: 'Projects',
+          url: `${baseHost}/projects/`,
+        },
+        {
+          title: 'Help',
+          url: `${baseHost}/about/faqs.php`,
+        },
+        {
+          title: 'Donate',
+          url: `${baseHost}/donate?origin=iawww-TopNavDonateButton`,
+        },
+        {
+          title: 'Contact',
+          url: `${baseHost}/about/contact`,
+        },
+        {
+          title: 'Jobs',
+          url: `${baseHost}/about/jobs`,
+        },
+        {
+          title: 'Volunteer',
+          url: `${baseHost}/about/volunteer-positions`,
+        },
+        {
+          title: 'People',
+          url: `${baseHost}/about/bios`,
+        },
+      ],
+      heading: '',
+      iconLinks: [],
+      featuredLinks: [],
+      mobileAppsLinks: [],
+      browserExtensionsLinks: [],
+      archiveItLinks: []
+    },
     software: {
       heading: 'Software',
       iconLinks: [

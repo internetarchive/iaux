@@ -103,14 +103,14 @@ export class MediaSubnav extends TrackedElement {
       ></wayback-slider>`;
     }
 
-    // if (this.menu === 'more') {
-    //   return html` <more-slider
-    //     .baseHost=${this.baseHost}
-    //     .config=${this.config}
-    //     .menuItems=${this.menuItems}
-    //   >
-    //   </more-slider>`;
-    // }
+    if (this.menu === 'more') {
+      return html` <more-slider
+        .baseHost=${this.baseHost}
+        .config=${this.config}
+        .menuItems=${this.menuItems.links}
+      >
+      </more-slider>`;
+    }
 
     return html`
       <h3>${this.links.heading}</h3>

@@ -245,10 +245,6 @@ export default class IATopNav extends LitElement {
       : [basicItems];
   }
 
-  get desktopSubnavMenuItems() {
-    return this.menus.more;
-  }
-
   get allowSecondaryIcon() {
     return this.secondIdentitySlotMode === 'allow';
   }
@@ -314,7 +310,7 @@ export default class IATopNav extends LitElement {
       ></search-menu>
       <desktop-subnav
         .baseHost=${this.normalizedBaseHost}
-        .menuItems=${this.desktopSubnavMenuItems}
+        .menuItems=${this.menus.more.links}
         @focus=${this.closeMenus}
       ></desktop-subnav>
       <div
