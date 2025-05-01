@@ -1,7 +1,7 @@
 import { html, TemplateResult } from 'lit';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
-import toSentenceCase from './lib/toSentenceCase';
+import toSentenceCase from './lib/t-sentence-case';
 import mediaButtonCSS from './styles/media-button';
 import { customElement, property } from 'lit/decorators.js';
 import { IATopNavConfig } from './models';

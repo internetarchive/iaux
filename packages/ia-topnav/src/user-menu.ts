@@ -4,7 +4,7 @@ import userMenuCSS from './styles/user-menu';
 import dropdownStyles from './styles/dropdown-menu';
 import KeyboardNavigation from './lib/keyboard-navigation';
 import { customElement, property } from 'lit/decorators.js';
-import { makeBooleanFromString } from './lib/makeBooleanString';
+import { makeBooleanFromString } from './lib/make-boolean-string';
 
 @customElement('user-menu')
 export default class UserMenu extends DropdownMenu {

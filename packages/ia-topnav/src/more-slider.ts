@@ -2,9 +2,9 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import TrackedElement from './tracked-element';
-import toSentenceCase from './lib/toSentenceCase';
+import toSentenceCase from './lib/t-sentence-case';
 import moreSliderCSS from './styles/more-slider';
-import formatUrl from './lib/formatUrl';
+import formatUrl from './lib/format-url';
 import { IATopNavConfig, IATopNavLink } from './models';
 import { defaultTopNavConfig } from './data/menus';
 

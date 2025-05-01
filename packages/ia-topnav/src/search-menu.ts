@@ -3,9 +3,9 @@ import { customElement, property } from 'lit/decorators.js';
 
 import TrackedElement from './tracked-element';
 import searchMenuCSS from './styles/search-menu';
-import formatUrl from './lib/formatUrl';
+import formatUrl from './lib/format-url';
 import { IATopNavConfig } from './models';
-import { makeBooleanString } from './lib/makeBooleanString';
+import { makeBooleanString } from './lib/make-boolean-string';
 import { defaultTopNavConfig } from './data/menus';
 
 @customElement('search-menu')

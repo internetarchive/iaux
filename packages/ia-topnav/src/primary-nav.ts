@@ -8,7 +8,7 @@ import './media-menu';
 import logoWordmarkStacked from './assets/img/wordmark-stacked';
 import primaryNavCSS from './styles/primary-nav';
 import locationHandler from './lib/location-handler';
-import formatUrl from './lib/formatUrl';
+import formatUrl from './lib/format-url';
 import { customElement, property } from 'lit/decorators.js';
 import { IATopNavConfig, IATopNavSecondIdentitySlotMode } from './models';
 import { defaultTopNavConfig } from './data/menus';

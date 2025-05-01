@@ -3,7 +3,7 @@ import { nothing, html } from 'lit';
 import TrackedElement from './tracked-element';
 import navSearchCSS from './styles/nav-search';
 import icons from './assets/img/icons';
-import formatUrl from './lib/formatUrl';
+import formatUrl from './lib/format-url';
 import { customElement, property, query } from 'lit/decorators.js';
 import { defaultTopNavConfig } from './data/menus';
 import { IATopNavConfig } from './models';

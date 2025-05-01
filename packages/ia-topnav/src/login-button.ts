@@ -2,7 +2,7 @@ import { html } from 'lit';
 import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import loginButtonCSS from './styles/login-button';
-import formatUrl from './lib/formatUrl';
+import formatUrl from './lib/format-url';
 import { customElement, property, state } from 'lit/decorators.js';
 import { IATopNavConfig } from './models';
 import { defaultTopNavConfig } from './data/menus';

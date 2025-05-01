@@ -2,7 +2,7 @@ import { LitElement, PropertyValues, html } from 'lit';
 import { customElement, property, queryAll } from 'lit/decorators.js';
 
 import { defaultTopNavConfig } from './data/menus';
-import formatUrl from './lib/formatUrl';
+import formatUrl from './lib/format-url';
 import './media-button';
 import { MediaButton } from './media-button';
 import { IATopNavConfig } from './models';

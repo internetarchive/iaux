@@ -3,8 +3,8 @@ import { property } from 'lit/decorators.js';
 
 import icons from './assets/img/icons';
 import { defaultTopNavConfig } from './data/menus';
-import formatUrl from './lib/formatUrl';
-import { makeBooleanString } from './lib/makeBooleanString';
+import formatUrl from './lib/format-url';
+import { makeBooleanString } from './lib/make-boolean-string';
 import { IATopNavConfig, IATopNavLink } from './models';
 import dropdownMenuCSS from './styles/dropdown-menu';
 import TrackedElement from './tracked-element';

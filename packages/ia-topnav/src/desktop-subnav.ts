@@ -4,7 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 import TrackedElement from './tracked-element';
 import desktopSubnavCSS from './styles/desktop-subnav';
 import icons from './assets/img/icons';
-import formatUrl from './lib/formatUrl';
+import formatUrl from './lib/format-url';
 import { IATopNavLink } from './models';
 
 @customElement('desktop-subnav')
