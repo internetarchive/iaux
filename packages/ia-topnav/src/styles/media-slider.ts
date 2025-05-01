@@ -8,7 +8,7 @@ export default css`
   .overflow-clip {
     display: none;
     position: absolute;
-    top: 3rem;
+    top: 0;
     right: 0;
     left: 0;
     height: 0;

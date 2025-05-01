@@ -286,6 +286,11 @@ export default class IATopNav extends LitElement {
         >
           ${this.secondLogoSlot}
         </primary-nav>
+        <desktop-subnav
+          .baseHost=${this.normalizedBaseHost}
+          .menuItems=${this.menus.more.links}
+          @focus=${this.closeMenus}
+        ></desktop-subnav>
         <media-slider
           .baseHost=${this.normalizedBaseHost}
           .config=${this.config}
@@ -308,11 +313,6 @@ export default class IATopNav extends LitElement {
         @trackClick=${this.trackClick}
         @trackSubmit=${this.trackSubmit}
       ></search-menu>
-      <desktop-subnav
-        .baseHost=${this.normalizedBaseHost}
-        .menuItems=${this.menus.more.links}
-        @focus=${this.closeMenus}
-      ></desktop-subnav>
       <div
         id="close-layer"
         class="${this.closeLayerClass}"
