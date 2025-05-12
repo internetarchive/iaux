@@ -1,12 +1,12 @@
 import { html, css, LitElement, TemplateResult } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
 import '../src/ia-topnav';
-import type TopNav from '../src/ia-topnav';
+import type { IATopNav } from '../src/ia-topnav';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {
   @query('ia-topnav')
-  private topnav!: TopNav;
+  private topnav!: IATopNav;
 
   @state() private admin = false;
 
@@ -44,9 +44,9 @@ export class AppRoot extends LitElement {
             <li>
               <button
                 @click=${() => {
-      this.screenName = 'brewster';
-      this.username = '@brewster';
-    }}
+                  this.screenName = 'brewster';
+                  this.username = '@brewster';
+                }}
               >
                 Switch username to brewster
               </button>
@@ -55,9 +55,9 @@ export class AppRoot extends LitElement {
             <li>
               <button
                 @click=${() => {
-      this.screenName = 'a😊b😊c😊d😊e😊f😊g😊h😊i😊';
-      this.username = '@test';
-    }}
+                  this.screenName = 'a😊b😊c😊d😊e😊f😊g😊h😊i😊';
+                  this.username = '@test';
+                }}
               >
                 Switch username to a😊b😊c😊d😊e😊f😊g😊h😊i😊
               </button>
@@ -66,10 +66,10 @@ export class AppRoot extends LitElement {
             <li>
               <button
                 @click=${() => {
-        this.screenName =
-          'الدكتور محمالدكتور محمد العجوز محمالدكتور محمد العجوز';
-        this.username = '@test';
-      }}
+                  this.screenName =
+                    'الدكتور محمالدكتور محمد العجوز محمالدكتور محمد العجوز';
+                  this.username = '@test';
+                }}
               >
                 Switch username to محمالدكتور محمد العجوز الدكتور محمالدكتور
                 محمد العجوز
@@ -79,9 +79,9 @@ export class AppRoot extends LitElement {
             <li>
               <button
                 @click=${() => {
-      this.username = '';
-      this.screenName = '';
-    }}
+                  this.username = '';
+                  this.screenName = '';
+                }}
               >
                 Switch to logged out
               </button>
@@ -90,9 +90,9 @@ export class AppRoot extends LitElement {
             <li>
               <button
                 @click=${() => {
-        this.itemIdentifier = this.admin ? '' : 'boop';
-        this.admin = !this.admin;
-      }}
+                  this.itemIdentifier = this.admin ? '' : 'boop';
+                  this.admin = !this.admin;
+                }}
               >
                 Toggle admin mode (${this.admin ? 'on' : 'off'}) (requires
                 logged in)
@@ -102,8 +102,8 @@ export class AppRoot extends LitElement {
             <li>
               <button
                 @click=${() => {
-      this.canManageFlags = !this.canManageFlags;
-    }}
+                  this.canManageFlags = !this.canManageFlags;
+                }}
               >
                 Toggle manage flags mode (${this.canManageFlags ? 'on' : 'off'})
                 (requires admin mode)

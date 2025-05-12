@@ -201,7 +201,7 @@ export function buildTopNavMenus(
       featuredLinks: [],
       mobileAppsLinks: [],
       browserExtensionsLinks: [],
-      archiveItLinks: []
+      archiveItLinks: [],
     },
     software: {
       heading: 'Software',

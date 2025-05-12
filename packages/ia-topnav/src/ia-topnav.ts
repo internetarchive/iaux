@@ -17,7 +17,7 @@ import iaTopNavCSS from './styles/ia-topnav';
 import './user-menu';
 
 @customElement('ia-topnav')
-export default class IATopNav extends LitElement {
+export class IATopNav extends LitElement {
   @property({ type: Boolean }) localLinks = false;
 
   @property({ type: String }) waybackPagesArchived = '';

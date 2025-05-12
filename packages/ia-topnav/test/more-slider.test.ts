@@ -10,7 +10,7 @@ describe('<more-slider>', () => {
       html`<more-slider
         .baseHost=${baseHost}
         .config=${{}}
-        .menuItems=${menus.more}
+        .menuItems=${menus.more.links}
       ></more-slider>`,
     );
 

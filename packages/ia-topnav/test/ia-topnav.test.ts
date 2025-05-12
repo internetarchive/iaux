@@ -8,11 +8,10 @@ import {
 } from '@open-wc/testing';
 
 import '../src/ia-topnav';
-import IATopNav from '../src/ia-topnav';
+import { IATopNav } from '../src/ia-topnav';
 import { SearchMenu } from '../src/search-menu';
 import { SignedOutDropdown } from '../src/signed-out-dropdown';
 import UserMenu from '../src/user-menu';
-import { IATopNavConfig, IATopNavSecondIdentitySlotMode } from '../src/models';
 
 // const container = (
 //   {
