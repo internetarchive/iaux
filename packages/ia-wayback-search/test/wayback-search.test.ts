@@ -2,26 +2,15 @@ import { html, fixture, expect, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
 import '../src/ia-wayback-search';
 import type { WaybackSearch } from '../src/ia-wayback-search';
-import { TemplateResult } from 'lit-html';
-
-const component = (
-  properties: {
-    waybackPagesArchived: string;
-  } = {
-    waybackPagesArchived: '32 trillion pages',
-  },
-): TemplateResult => html`
-  <ia-wayback-search
-    waybackPagesArchived=${properties.waybackPagesArchived}
-  ></ia-wayback-search>
-`;
 
 describe('<wayback-search>', () => {
   it('redirects on submit', async () => {
     const query = 'archive.org';
     const submitEvent = new Event('submit');
     const performQuery = sinon.fake();
-    const el = await fixture<WaybackSearch>(component());
+    const el = await fixture<WaybackSearch>(html`
+      <ia-wayback-search></ia-wayback-search>
+    `);
     el.queryHandler = { performQuery };
     const input = el.shadowRoot?.getElementById('url') as HTMLInputElement;
     if (input) {
@@ -33,15 +22,18 @@ describe('<wayback-search>', () => {
   });
 
   it('renders the Wayback pages count', async () => {
-    const config = { waybackPagesArchived: '42' };
-    const el = await fixture(component(config));
+    const el = await fixture(html`
+      <ia-wayback-search waybackPagesArchived="42"></ia-wayback-search>
+    `);
     const p = el.shadowRoot?.querySelector('p');
 
-    expect(p?.innerText).to.contain(config.waybackPagesArchived);
+    expect(p?.innerText).to.contain('42');
   });
 
   it('emits an event when Wayback logo clicked', async () => {
-    const el = await fixture<WaybackSearch>(component());
+    const el = await fixture<WaybackSearch>(html`
+      <ia-wayback-search></ia-wayback-search>
+    `);
 
     setTimeout(() => el.emitWaybackMachineLogoLinkClicked());
     const response = await oneEvent(el, 'waybackMachineLogoLink');
@@ -50,7 +42,9 @@ describe('<wayback-search>', () => {
   });
 
   it('emits an event when machine stats link clicked', async () => {
-    const el = await fixture<WaybackSearch>(component());
+    const el = await fixture<WaybackSearch>(html`
+      <ia-wayback-search></ia-wayback-search>
+    `);
 
     setTimeout(() => el.emitWaybackMachineStatsLinkClicked());
     const response = await oneEvent(el, 'waybackMachineStatsLinkClicked');
@@ -59,7 +53,9 @@ describe('<wayback-search>', () => {
   });
 
   it('emits an event when form submitted', async () => {
-    const el = await fixture<WaybackSearch>(component());
+    const el = await fixture<WaybackSearch>(html`
+      <ia-wayback-search></ia-wayback-search>
+    `);
 
     setTimeout(() => el.emitWaybackSearchSubmitted('boop'));
     const response = await oneEvent(el, 'waybackSearchSubmitted');
