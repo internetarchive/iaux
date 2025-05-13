@@ -1,0 +1,30 @@
+name: App CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: latest
+
+    - name: Install dependencies
+      run: ./scripts/bootstrap.sh
+
+    - name: Run tests
+      run: ./scripts/test.sh
+
+    - name: Upload Codecov reports
+      uses: codecov/codecov-action@main
+      with:
+        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
+        verbose: true
