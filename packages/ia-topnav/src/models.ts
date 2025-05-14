@@ -36,27 +36,6 @@ export interface IATopNavLink {
   external?: boolean;
 }
 
-// export interface IATopNavIconLink extends IATopNavLink {
-//   /**
-//    * Icon URL
-//    */
-//   icon: string;
-// }
-
-// export interface IATopNavAnalyticsLink extends IATopNavLink {
-//   /**
-//    * Google analytics event name
-//    */
-//   analyticsEvent?: string;
-// }
-
-// export interface IATopNavExternalLink extends IATopNavLink {
-//   /**
-//    * Is the link external or not
-//    */
-//   external: boolean;
-// }
-
 export interface IATopNavMediaMenu {
   heading: string;
   iconLinks: IATopNavLink[];
@@ -66,12 +45,6 @@ export interface IATopNavMediaMenu {
   browserExtensionsLinks: IATopNavLink[];
   archiveItLinks: IATopNavLink[];
 }
-
-// export interface IATopNavWaybackMenuConfig {
-//   mobileAppsLinks: IATopNavLink[];
-//   browserExtensionsLinks: IATopNavLink[];
-//   archiveItLinks: IATopNavLink[];
-// }
 
 export interface IATopNavMenuConfig {
   audio: IATopNavMediaMenu;
@@ -88,27 +61,3 @@ export interface IATopNavMenuConfig {
 }
 
 export type IATopNavSecondIdentitySlotMode = 'allow' | '';
-
-// export declare class IATopNav extends LitElement {
-//   localLinks?: boolean;
-//   baseHost?: string;
-//   config?: IATopNavConfig;
-//   hideSearch?: boolean;
-//   mediaBaseHost?: string;
-//   menuSliderOpen?: boolean;
-//   openMenu?: string;
-//   screenName?: string;
-//   searchIn?: string;
-//   searchQuery?: string;
-//   secondIdentitySlotMode?: IATopNavSecondIdentitySlotMode;
-//   selectedMenuOption?: string;
-//   username?: string;
-//   userProfileImagePath?: string;
-//   menus: IATopNavMenuConfig;
-//   /**
-//    * Copy to display for number of pages archived at the top of the Wayback search form
-//    *
-//    * ie. "425 billion"
-//    */
-//   waybackPagesArchived?: string;
-// }
