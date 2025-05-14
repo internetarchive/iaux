@@ -5,7 +5,7 @@ https://git.archive.org/www/offshoot/-/blob/main/guides/update-top-nav.md
 ## Installation
 
 ```bash
-yarn add @internetarchive/ia-topnav
+npm i -S @internetarchive/ia-topnav
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ yarn add @internetarchive/ia-topnav
 @see [www/index.html](www/index.html) for the simplest example with all the defaults
 
 * Demo app is in another directory: `/www/index.html`
-  * `npm|yarn start` - runs local server in Demo directory which is in `/www` folder
+  * `npm run start` - runs local server in Demo directory which is in `/www` folder
   * you can also just use your preferred server
   * open demo: `http://localhost:8000/www/index.html`
 
@@ -118,30 +118,30 @@ Please see [src/data/menus.js](the menu objects) for our valid `menus` property.
 ## Prerequisite
 
 ```bash
-yarn install
+npm install
 ```
 
 ## Start Development Server
 
 ```bash
-yarn start  // start development server and typescript compiler
+npm run start  // start development server and typescript compiler
 ```
 then open demo - http://localhost:8000/www/index.html
 
 ## Testing
 
 ```bash
-yarn test
+npm run test
 ```
 
 ## Testing via browserstack
 
 ```bash
-yarn test:bs
+npm run test:bs
 ```
 
 ## Linting
 
 ```bash
-yarn lint
+npm run lint
 ```
