@@ -90,7 +90,7 @@ export class IATopNav extends LitElement {
       (e) => {
         if (e.key === 'Escape') {
           this.openMenu = '';
-          this.mediaSliderOpen = false;
+          this.closeMediaSlider();
         }
       },
       false,
@@ -290,6 +290,7 @@ export class IATopNav extends LitElement {
           .baseHost=${this.normalizedBaseHost}
           .menuItems=${this.menus.more.links}
           @focus=${this.closeMenus}
+          @click=${this.closeMenus}
         ></desktop-subnav>
         <media-slider
           .baseHost=${this.normalizedBaseHost}
