@@ -36,12 +36,12 @@ export class AppRoot extends LitElement {
               identifier="@453344354534"
               picture="/demo/default-preview.jpg"
               @fileChanged=${(e: CustomEvent) => {
-        console.log('called hasErrorFiled()!');
-        console.log(e.detail);
-      }}
+                console.log('called hasErrorFiled()!');
+                console.log(e.detail);
+              }}
               @fileUploaded=${() => {
-        console.log('file Uploaded');
-      }}
+                console.log('file Uploaded');
+              }}
             ></ia-pic-uploader>
           </div>
         </div>
@@ -87,11 +87,12 @@ export class AppRoot extends LitElement {
         flex-direction: column;
       }
 
-      .full, .compact {
+      .full,
+      .compact {
         padding: 25px 50px;
         border: 1px solid black;
         margin: 20px;
       }
-    `
+    `;
   }
 }
