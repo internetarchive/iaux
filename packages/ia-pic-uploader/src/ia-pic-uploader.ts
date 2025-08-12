@@ -15,6 +15,13 @@ import { iaButtonStyles } from '@internetarchive/ia-styles';
 import iaPicUploaderStyles from './style/ia-pic-uploader-style';
 import log from './log';
 
+type MetadataTask = {
+  task_id: number;
+  priority: number;
+  wait_admin: number;
+  color: string;
+};
+
 @customElement('ia-pic-uploader')
 export class IAPicUploader extends LitElement {
   /**
@@ -23,10 +30,9 @@ export class IAPicUploader extends LitElement {
   @property({ type: String }) identifier = '';
 
   /**
-   * endpoint where picture will be uploaded
+   * baseHost where picture will be uploaded
    */
-  @property({ type: String }) endpoint =
-    'https://archive.org/services/post-file.php';
+  @property({ type: String }) baseHost = 'archive.org';
 
   /**
    * HTTP request headers to be included when uploading picture to endpoint
@@ -107,6 +113,8 @@ export class IAPicUploader extends LitElement {
   private fileSizeMessage: string = '';
 
   private relatedTarget: EventTarget | null = null;
+
+  private fileUploadPath = '/services/post-file.php';
 
   firstUpdated() {
     this.fileSizeMessage = `Image file must be less than ${this.maxFileSizeInMB}MB.`;
@@ -343,30 +351,31 @@ export class IAPicUploader extends LitElement {
 
     // get input file
     const inputFile = this.fileSelector?.files[0];
-    const getParams = `identifier=${this.identifier}&fname=${encodeURIComponent(
-      inputFile.name,
-    )}&submit=1`;
 
     const formData = new FormData();
     formData.append('file', inputFile);
 
     try {
-      const saveResponse = await fetch(`${this.endpoint}?${getParams}`, {
-        method: 'POST',
-        headers: this.httpHeaders,
-        body: formData,
-        credentials: 'include',
-      });
+      const saveResponse = await fetch(
+        `${this.postFileServiceUrl}&fname=${encodeURIComponent(inputFile.name)}`,
+        {
+          method: 'POST',
+          body: formData,
+          credentials: 'include',
+        },
+      );
       log('saveResponse', saveResponse);
 
-      if (saveResponse.ok) {
+      if (saveResponse) {
         this.dispatchEvent(new Event('fileUploaded'));
-        if (this.type === 'full') this.metadataAPIExecution();
+        if (this.type === 'full') await this.metadataAPIExecution();
         log('file saved, metadata call started');
       } else {
         log('Failed to save file', saveResponse);
       }
-    } catch {
+    } catch (err) {
+      log('Failed to save file', err);
+      this.showLoadingIndicator = false;
     } finally {
       if (this.type === 'compact') this.showLoadingIndicator = false;
 
@@ -378,44 +387,45 @@ export class IAPicUploader extends LitElement {
   /**
    * after upload, verify using metadata API if successfully uploaded or not
    */
-  metadataAPIExecution() {
+  async metadataAPIExecution() {
     const now = Math.round(Date.now() / 1000); // like unix time()
 
     const metadataApiInterval = setInterval(async () => {
-      const action = `https://archive.org/metadata/${
-        this.identifier
-      }?rand=${Math.random()}`;
+      try {
+        const serviceUrl = `https://archive.org/metadata/${this.identifier}?rand=${Math.random()}`;
+        const response = await fetch(serviceUrl, { method: 'GET' });
+        if (!response.ok) {
+          throw new Error(`Metadata API returned ${response.status}`);
+        }
 
-      const verifyResponse = fetch(action, {
-        method: 'GET',
-      });
-      log('verifyResponse', verifyResponse);
+        const data = await response.json();
+        log('Metadata API Response', data);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      verifyResponse.then((json: any) => {
         const waitCount =
-          json.pending_tasks && json.tasks ? json.tasks.length : 0;
-
-        if (waitCount) {
-          const adminError = json.tasks.filter(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (e: any) => e.wait_admin === 2,
+          data.pending_tasks && data.tasks ? data.tasks.length : 0;
+        if (waitCount > 0) {
+          const adminError = data.tasks.filter(
+            (task: MetadataTask) => task.wait_admin === 2,
           ).length;
-          if (adminError) {
+          if (adminError > 0) {
             this.taskStatus =
-              'status task failure -- an admin will need to resolve';
+              'Status: task failure — an admin will need to resolve.';
             clearInterval(metadataApiInterval);
           } else {
-            this.taskStatus = `waiting for your ${waitCount} tasks to finish`;
+            this.taskStatus = `Waiting for your ${waitCount} tasks to finish.`;
           }
-        } else if (json.item_last_updated < now) {
-          this.taskStatus = 'waiting for your tasks to queue';
+        } else if (data.item_last_updated < now) {
+          this.taskStatus = 'Waiting for your tasks to queue.';
         } else {
           clearInterval(metadataApiInterval);
-          this.taskStatus = 'reloading page with your image';
+          this.taskStatus = 'Reloading page with your image.';
           window.location.reload();
         }
-      });
+      } catch (error) {
+        log('Metadata API Error', error);
+        clearInterval(metadataApiInterval);
+        this.taskStatus = 'Error fetching metadata. Please try again later.';
+      }
     }, 2000);
   }
 
@@ -441,6 +451,10 @@ export class IAPicUploader extends LitElement {
     );
   }
 
+  get postFileServiceUrl() {
+    return `https://${this.baseHost + this.fileUploadPath}?identifier=${this.identifier}&submit=1`;
+  }
+
   /**
    * function to render loader indicator
    * @returns {HTMLElement} | <ia-activity-indicator>
@@ -456,9 +470,7 @@ export class IAPicUploader extends LitElement {
    * function to render self submit form template
    */
   get selfSubmitFormTemplate(): TemplateResult {
-    const formAction = encodeURIComponent(
-      `${this.endpoint}?identifier=${this.identifier}&submit=1`,
-    );
+    const formAction = encodeURIComponent(`${this.postFileServiceUrl}`);
 
     return html`
       <div class="self-submit-form hidden">
@@ -592,7 +604,7 @@ export class IAPicUploader extends LitElement {
   }
 
   /**
-   *  Render svg plus
+   * Render svg plus
    *
    * @param {number} height | height for svg
    * @param {number} width  | width for svg

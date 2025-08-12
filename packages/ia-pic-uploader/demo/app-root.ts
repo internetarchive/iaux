@@ -9,7 +9,7 @@ export class AppRoot extends LitElement {
   @query('#full') full!: IAPicUploader;
 
   @query('#compact') compact!: IAPicUploader;
-
+  // ia-petabox-no-waf-post-file-endpoint.dev.archive.org
   render() {
     return html`
       <div id="demo"></div>
@@ -17,24 +17,24 @@ export class AppRoot extends LitElement {
           <div class="full">
             <h3>It will be used at My Uploads page</h3>
             <ia-pic-uploader
-              lookingAtMyAccount
-              maxFileSizeInMB="3"
-              id="full"
-              identifier="@453344354534"
-              picture="/demo/wider-image.jpg"
-              endpoint=""
+              .maxFileSizeInMB=${3}
+              .identifier=${'fav-neeraj_sharma341'}
+              .picture=${'/demo/wider-image.jpg'}
+              .baseHost=${'ia-petabox-no-waf-post-file-endpoint.dev.archive.org'}
               .validFileTypes=${['image/jpeg', 'image/png', 'image/gif']}
-              type="full"
+              .type=${'full'}
+              lookingAtMyAccount
             ></ia-pic-uploader>
           </div>
           <div class="compact">
             <h3>It will be used at new account settings page</h3>
             <ia-pic-uploader
+              .maxFileSizeInMB=${3}
+              .identifier=${'fav-neeraj_sharma341'}
+              .picture=${'/demo/default-preview.jpg'}
+              .baseHost=${'ia-petabox-no-waf-post-file-endpoint.dev.archive.org'}
+              .type=${'compact'}
               lookingAtMyAccount
-              maxFileSizeInMB="3"
-              id="compact"
-              identifier="@453344354534"
-              picture="/demo/default-preview.jpg"
               @fileChanged=${(e: CustomEvent) => {
                 console.log('called hasErrorFiled()!');
                 console.log(e.detail);

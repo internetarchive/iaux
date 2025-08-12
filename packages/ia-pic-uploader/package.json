@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-pic-uploader",
-  "version": "1.0.0-alpha14",
+  "version": "1.0.0-alpha20",
   "description": "A Web Component for Picture upload.",
   "license": "AGPL-3.0-only",
   "author": "Internet Archive",
@@ -67,7 +67,7 @@
   },
   "dependencies": {
     "@internetarchive/ia-activity-indicator": "^0.0.6",
-    "@internetarchive/ia-styles": "1.0.0",
+    "@internetarchive/ia-styles": "^1.0.0",
     "lit": "^2.8.0"
   }
 }
