@@ -564,7 +564,7 @@ export function buildTopNavMenus(
         analyticsEvent: 'UserWebArchive',
       },
       {
-        url: `${baseHost}/account/index.php?settings=1`,
+        url: `${baseHost}/account/settings`,
         title: 'Account settings',
         analyticsEvent: 'UserSettings',
       },
