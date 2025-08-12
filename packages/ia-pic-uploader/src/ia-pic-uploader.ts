@@ -657,9 +657,6 @@ export class IAPicUploader extends LitElement {
   }
 
   static get styles(): CSSResultGroup {
-    return css`
-      ${iaButtonStyles}
-      ${iaPicUploaderStyles}
-    `;
+    return [iaButtonStyles, iaPicUploaderStyles];
   }
 }

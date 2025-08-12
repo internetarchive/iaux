@@ -6,7 +6,6 @@ const imgMaxwidth = css`var(--imgMaxWidth, 200px)`;
 
 export default css`
   :host {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     display: inline-block;
   }
 
@@ -18,7 +17,7 @@ export default css`
   a,
   a:hover,
   a:focus {
-    color: #4b64ff;
+    color: var(--ia-theme-link-color, #4b64ff);
   }
 
   .profile-section,
