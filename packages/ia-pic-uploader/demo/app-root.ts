@@ -9,7 +9,7 @@ export class AppRoot extends LitElement {
   @query('#full') full!: IAPicUploader;
 
   @query('#compact') compact!: IAPicUploader;
-  // ia-petabox-no-waf-post-file-endpoint.dev.archive.org
+
   render() {
     return html`
       <div id="demo"></div>
@@ -24,6 +24,15 @@ export class AppRoot extends LitElement {
               .validFileTypes=${['image/jpeg', 'image/png', 'image/gif']}
               .type=${'full'}
               lookingAtMyAccount
+              @fileUploaded=${(e: Event) => {
+                console.log(e);
+              }}
+              @fileUploadFailed=${(e: CustomEvent) => {
+                console.log(e);
+              }}
+              @fileUploadVerification=${(e: Event) => {
+                console.log(e);
+              }}
             ></ia-pic-uploader>
           </div>
           <div class="compact">

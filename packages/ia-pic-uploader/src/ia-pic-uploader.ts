@@ -1,5 +1,4 @@
 import {
-  css,
   CSSResultGroup,
   html,
   LitElement,
@@ -9,18 +8,12 @@ import {
   TemplateResult,
 } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import '@internetarchive/ia-activity-indicator';
 import { iaButtonStyles } from '@internetarchive/ia-styles';
+import { PicUploaderService } from './services/pic-uploader-service';
 import iaPicUploaderStyles from './style/ia-pic-uploader-style';
-import log from './log';
-
-type MetadataTask = {
-  task_id: number;
-  priority: number;
-  wait_admin: number;
-  color: string;
-};
 
 @customElement('ia-pic-uploader')
 export class IAPicUploader extends LitElement {
@@ -33,11 +26,6 @@ export class IAPicUploader extends LitElement {
    * baseHost where picture will be uploaded
    */
   @property({ type: String }) baseHost = 'archive.org';
-
-  /**
-   * HTTP request headers to be included when uploading picture to endpoint
-   */
-  @property({ type: Object }) httpHeaders: Record<string, string> = {};
 
   /**
    * existing user profile picture
@@ -108,16 +96,12 @@ export class IAPicUploader extends LitElement {
 
   @query('.file-selector') private fileSelector?: HTMLFormElement;
 
-  private fileTypeMessage: string = 'Image file must be a JPEG, PNG, or GIF.';
-
-  private fileSizeMessage: string = '';
-
   private relatedTarget: EventTarget | null = null;
 
-  private fileUploadPath = '/services/post-file.php';
+  private uploaderService!: PicUploaderService;
 
   firstUpdated() {
-    this.fileSizeMessage = `Image file must be less than ${this.maxFileSizeInMB}MB.`;
+    this.uploaderService = new PicUploaderService(this.baseHost);
     this.renderInput();
     if (this.lookingAtMyAccount) this.bindEvents();
   }
@@ -192,11 +176,6 @@ export class IAPicUploader extends LitElement {
     document.addEventListener('dragover', e => this.dragOver(e), false);
     document.addEventListener('dragleave', e => this.dragLeave(e), true);
     document.addEventListener('drop', e => this.drop(e), false);
-    document.addEventListener('saveProfileAvatar', (e: Event) => {
-      if (this.fileSelector?.files.length) {
-        this.handleSaveFile(e);
-      }
-    });
 
     [this.overlay, this.dropRegion, this.selfSubmitEle].forEach(element =>
       element?.addEventListener('drop', this.handleDropImage.bind(this), false),
@@ -223,7 +202,6 @@ export class IAPicUploader extends LitElement {
 
   /**
    * execute when user drop image on input[type=file]
-   * @param event
    */
   handleDropImage(event: DragEvent) {
     this.preventDefault(event);
@@ -239,8 +217,6 @@ export class IAPicUploader extends LitElement {
 
   /**
    * display selected picture for preview
-   *
-   * @param {File} image
    */
   previewImage(image: File) {
     this.showDropper = true;
@@ -269,31 +245,6 @@ export class IAPicUploader extends LitElement {
   }
 
   /**
-   * validate the selected file extension and size
-   *
-   * @param {File} image
-   * @return {Boolean}
-   */
-  validateImage(image: File): boolean {
-    this.fileValidationError = '';
-
-    // check the size more than given max file size
-    const maxSizeInBytes = (this.maxFileSizeInMB as number) * 1024 * 1024;
-
-    if (this.validFileTypes.indexOf(image.type) === -1) {
-      this.fileValidationError = this.fileTypeMessage;
-      return false;
-    }
-
-    if (image.size > maxSizeInBytes) {
-      this.fileValidationError = this.fileSizeMessage;
-      return false;
-    }
-
-    return true;
-  }
-
-  /**
    * validate and preview selected image
    *
    * @param {FileList} files
@@ -306,153 +257,155 @@ export class IAPicUploader extends LitElement {
       this.selfSubmitEle?.classList.remove('hidden');
     }
 
-    if (files.length && this.validateImage(files[0])) {
-      // remove previews preview images
-      if (this.type === 'full') {
-        while (
-          imagePreview?.firstChild &&
-          imagePreview.removeChild(imagePreview.firstChild)
-        );
-      }
-      this.previewImage(files[0]);
-      if (this.fileSelector) this.fileSelector.files = files;
-    } else {
-      if (!files.length) this.cancelFile();
-      while (
-        imagePreview?.firstChild &&
-        imagePreview.removeChild(imagePreview.firstChild)
-      );
+    const validation = this.uploaderService.validateImage(
+      files[0],
+      this.validFileTypes,
+      this.maxFileSizeInMB,
+    );
+
+    this.fileValidationError = validation.error ?? '';
+
+    if (!validation?.valid) {
+      this.emitFileChangedEvent();
+      return;
     }
 
-    /**
-     * dispatch events to iaux-account-settings
-     * - if valid file is selected, hasChanged: true
-     * - if file is invalid, error: [error message]
-     */
+    // remvoe existing image preview
+    this.removeExistingPreview(imagePreview);
+    if (files.length && validation.valid) {
+      this.previewImage(files[0]);
+      if (this.fileSelector) this.fileSelector.files = files;
+    }
+
+    this.emitFileChangedEvent();
+  }
+
+  /**
+   * dispatch event file changed
+   */
+  emitFileChangedEvent() {
     this.dispatchEvent(
       new CustomEvent('fileChanged', {
-        detail: {
-          error: this.fileValidationError ?? '',
-        },
+        detail: { error: this.fileValidationError ?? '' },
       }),
     );
   }
 
   /**
-   * upload image on petabox server using API
-   *
-   * @param {Event} event
+   * dispatch file upload status event
    */
-  async handleSaveFile(event: Event) {
-    this.preventDefault(event);
-    this.showLoadingIndicator = true;
-    this.selfSubmitEle?.classList.add('vertical-center');
-    this.taskStatus = 'waiting for your tasks to queue';
+  emitFileUploadStatusEvent(error?: string) {
+    this.dispatchEvent(
+      new CustomEvent('fileUploadStatus', {
+        detail: { error: error ?? '' },
+      }),
+    );
+  }
 
-    // get input file
-    const inputFile = this.fileSelector?.files[0];
+  /**
+   * dispatch file verification status event
+   */
+  emitFileVerificationEvent(error?: string) {
+    this.dispatchEvent(
+      new CustomEvent('fileVerificationStatus', {
+        detail: { error: error ?? '' },
+      }),
+    );
+  }
 
-    const formData = new FormData();
-    formData.append('file', inputFile);
+  clearSelectedFile(): void {
+    if (this.fileSelector) this.fileSelector.value = '';
+  }
 
-    try {
-      const saveResponse = await fetch(
-        `${this.postFileServiceUrl}&fname=${encodeURIComponent(inputFile.name)}`,
-        {
-          method: 'POST',
-          body: formData,
-          credentials: 'include',
-        },
-      );
-      log('saveResponse', saveResponse);
-
-      if (saveResponse) {
-        this.dispatchEvent(new Event('fileUploaded'));
-        if (this.type === 'full') await this.metadataAPIExecution();
-        log('file saved, metadata call started');
-      } else {
-        log('Failed to save file', saveResponse);
-      }
-    } catch (err) {
-      log('Failed to save file', err);
-      this.showLoadingIndicator = false;
-    } finally {
-      if (this.type === 'compact') this.showLoadingIndicator = false;
-
-      // clear file input
-      if (this.fileSelector) this.fileSelector.value = '';
+  removeExistingPreview(imagePreview: Element | null | undefined): void {
+    if (imagePreview?.firstChild) {
+      imagePreview.removeChild(imagePreview.firstChild);
     }
   }
 
   /**
-   * after upload, verify using metadata API if successfully uploaded or not
+   * upload image on petabox server using API
    */
-  async metadataAPIExecution() {
-    const now = Math.round(Date.now() / 1000); // like unix time()
-
-    const metadataApiInterval = setInterval(async () => {
-      try {
-        const serviceUrl = `https://archive.org/metadata/${this.identifier}?rand=${Math.random()}`;
-        const response = await fetch(serviceUrl, { method: 'GET' });
-        if (!response.ok) {
-          throw new Error(`Metadata API returned ${response.status}`);
-        }
-
-        const data = await response.json();
-        log('Metadata API Response', data);
-
-        const waitCount =
-          data.pending_tasks && data.tasks ? data.tasks.length : 0;
-        if (waitCount > 0) {
-          const adminError = data.tasks.filter(
-            (task: MetadataTask) => task.wait_admin === 2,
-          ).length;
-          if (adminError > 0) {
-            this.taskStatus =
-              'Status: task failure — an admin will need to resolve.';
-            clearInterval(metadataApiInterval);
-          } else {
-            this.taskStatus = `Waiting for your ${waitCount} tasks to finish.`;
-          }
-        } else if (data.item_last_updated < now) {
-          this.taskStatus = 'Waiting for your tasks to queue.';
-        } else {
-          clearInterval(metadataApiInterval);
-          this.taskStatus = 'Reloading page with your image.';
-          window.location.reload();
-        }
-      } catch (error) {
-        log('Metadata API Error', error);
-        clearInterval(metadataApiInterval);
-        this.taskStatus = 'Error fetching metadata. Please try again later.';
+  async handleSaveFile(event: Event): Promise<void> {
+    this.preventDefault(event);
+    this.showLoadingIndicator = true;
+    this.selfSubmitEle?.classList.add('vertical-center');
+    try {
+      const inputFile = this.fileSelector?.files?.[0];
+      if (!inputFile) {
+        throw new Error('No file selected.');
       }
-    }, 2000);
+      this.taskStatus = 'Image uploading...';
+      await this.uploaderService.uploadFile(this.identifier, inputFile);
+
+      this.taskStatus = 'Image uploaded successfully.';
+
+      // dispatch only for /account/settings/ page to reset button state
+      this.emitFileUploadStatusEvent();
+
+      if (this.type === 'full') {
+        await this.verifyUploadsWithMdApi();
+      }
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Failed to save file. Please try again later.';
+
+      this.taskStatus = message;
+      this.showLoadingIndicator = false;
+      this.emitFileUploadStatusEvent(message);
+    }
+
+    this.clearSelectedFile();
   }
 
   /**
-   * fuction to handel closing functionalities
+   * Verify using MdApi if the selected file is successfully uploaded or not
+   */
+  async verifyUploadsWithMdApi() {
+    try {
+      const metadataResult = await this.uploaderService.checkMetadataUntilDone(
+        this.identifier,
+        (status: string | boolean) => {
+          if (typeof status === 'string') {
+            this.taskStatus = status;
+          }
+        },
+      );
+
+      if (!metadataResult) {
+        throw new Error(this.taskStatus || 'Metadata verification failed.');
+      }
+      this.emitFileVerificationEvent();
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Failed to save file. Please try again later.';
+
+      this.emitFileVerificationEvent(message);
+      this.showDropper = false;
+      this.showLoadingIndicator = false;
+    }
+  }
+
+  /**
+   * function to handle close file preview
    */
   cancelFile() {
     const imagePreview = this.selfSubmitEle?.querySelector('.image-preview');
 
-    //  clear file input
-    if (this.fileSelector) this.fileSelector.value = '';
-
+    this.clearSelectedFile();
     this.showDropper = false;
     this.showLoadingIndicator = false;
     this.fileValidationError = '';
+    this.taskStatus = '';
 
     this.selfSubmitEle?.classList.add('hidden');
     this.profileSection?.classList.remove('profile-hover');
 
-    while (
-      imagePreview?.firstChild &&
-      imagePreview.removeChild(imagePreview.firstChild)
-    );
-  }
-
-  get postFileServiceUrl() {
-    return `https://${this.baseHost + this.fileUploadPath}?identifier=${this.identifier}&submit=1`;
+    this.removeExistingPreview(imagePreview);
   }
 
   /**
@@ -470,20 +423,18 @@ export class IAPicUploader extends LitElement {
    * function to render self submit form template
    */
   get selfSubmitFormTemplate(): TemplateResult {
-    const formAction = encodeURIComponent(`${this.postFileServiceUrl}`);
+    const formAction = this.uploaderService?.getPostFileServiceUrl(
+      this.identifier,
+    );
 
     return html`
       <div class="self-submit-form hidden">
         <button
-          class="close-button
-          ${(!this.showDropper && this.fileValidationError === '') ||
-          this.showLoadingIndicator
-            ? 'hidden'
-            : ''}
-          ${this.showLoadingIndicator ? 'pointer-none' : ''}"
-          @click=${() => {
-            this.cancelFile();
-          }}
+          class=${classMap({
+            'close-button': true,
+            hidden: !this.showDropper || this.showLoadingIndicator,
+          })}
+          @click=${() => this.cancelFile()}
         >
           &#10060;
         </button>
@@ -531,13 +482,10 @@ export class IAPicUploader extends LitElement {
             type="submit"
             name="submit"
             value="SUBMIT"
-            class="ia-button
-            ${!this.showDropper || this.fileValidationError !== ''
-              ? 'hidden'
-              : ''}
-            ${this.fileValidationError || this.showLoadingIndicator
-              ? 'pointer-none hidden'
-              : ''}"
+            class=${classMap({
+              'ia-button': true,
+              hidden: !this.showDropper || this.showLoadingIndicator,
+            })}
           >
             ${this.showLoadingIndicator
               ? this.loadingIndicatorTemplate
@@ -588,9 +536,11 @@ export class IAPicUploader extends LitElement {
   get overlayTemplate(): TemplateResult {
     return html`
       <div
-        class="overlay ${this.showLoadingIndicator
-          ? 'show-overlay pointer-none'
-          : ''}"
+        class=${classMap({
+          overlay: true,
+          'show-overlay': this.showLoadingIndicator,
+          'pointer-none': this.showLoadingIndicator,
+        })}
         @keyup="${() => {}}"
         @click=${() => {
           this.dropRegion?.click();
@@ -604,13 +554,7 @@ export class IAPicUploader extends LitElement {
   }
 
   /**
-   * Render svg plus
-   *
-   * @param {number} height | height for svg
-   * @param {number} width  | width for svg
-   * @param {string} fill | fill color
-   * @param {string} stroke | stroke color
-   * @returns {SVGAElement}
+   * Render svg plus icon
    */
   plusSVGTemplate(
     height: number,
@@ -636,17 +580,21 @@ export class IAPicUploader extends LitElement {
   render() {
     return html`
       <div
-        class="profile-section profile-hover
-        ${!this.lookingAtMyAccount ? 'pointer-none' : ''}
-        ${this.type === 'full' ? 'adjust-full' : ''}
-      "
+        class=${classMap({
+          'profile-section': true,
+          'profile-hover': true,
+          'pointer-none': !this.lookingAtMyAccount,
+          'adjust-full': this.type === 'full',
+        })}
       >
         ${this.type === 'compact' ? this.overlayTemplate : nothing}
         <div
           id="drop-region"
-          class="image-preview
-            ${this.type === 'full' ? 'full-preview' : ''}
-            ${this.showLoadingIndicator ? 'pointer-none' : ''}"
+          class=${classMap({
+            'image-preview': true,
+            'full-preview': this.type === 'full',
+            'pointer-none': this.showLoadingIndicator,
+          })}
         >
           <img alt="user profile" src="${this.picture}" />
         </div>

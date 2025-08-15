@@ -5,19 +5,21 @@ import '../src/ia-pic-uploader';
 
 const container = ({
   identifier = '@453344354534',
-  endpoint = 'http://localhost/index.php',
+  baseHost = 'archive.org',
   picture = './demo/default-preview.jpg',
   type = 'full',
   lookingAtMyAccount = false,
   maxFileSizeInMB = 0,
+  validFileTypes = ['image/jpeg', 'image/png', 'image/gif'],
 } = {}) =>
   html` <ia-pic-uploader
-    identifier="${identifier}"
-    endpoint="${endpoint}"
-    picture="${picture}"
-    type="${type}"
+    .identifier=${identifier}
+    .baseHost=${baseHost}
+    .picture=${picture}
+    .type=${type}
+    .maxFileSizeInMB=${maxFileSizeInMB}
+    .validFileTypes=${validFileTypes}
     ?lookingAtMyAccount=${lookingAtMyAccount}
-    maxFileSizeInMB="${maxFileSizeInMB}"
   ></ia-pic-uploader>`;
 
 describe('initail render', () => {
@@ -25,16 +27,16 @@ describe('initail render', () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
+        baseHost: 'archive.org',
         picture: './demo/default-preview.jpg',
         type: 'full',
       }),
     );
 
-    expect(el.getAttribute('identifier')).to.equal('@453344354534');
-    expect(el.getAttribute('endpoint')).to.equal('http://localhost/index.php');
-    expect(el.getAttribute('picture')).to.equal('./demo/default-preview.jpg');
-    expect(el.getAttribute('type')).to.equal('full');
+    expect(el.identifier).to.equal('@453344354534');
+    expect(el.baseHost).to.equal('archive.org');
+    expect(el.picture).to.equal('./demo/default-preview.jpg');
+    expect(el.type).to.equal('full');
   });
 });
 
@@ -43,7 +45,7 @@ describe('check default img render', () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
+        baseHost: 'archive.org',
         picture: './demo/default-preview.jpg',
         type: 'full',
       }),
@@ -62,7 +64,7 @@ describe('check initial self submit form is located', () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
+        baseHost: 'archive.org',
         picture: './demo/default-preview.jpg',
         type: 'full',
       }),
@@ -92,7 +94,7 @@ describe('check initial component with compact verion', () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
+        baseHost: 'archive.org',
         picture: './demo/default-preview.jpg',
         type: 'compact',
       }),
@@ -108,7 +110,7 @@ describe('check file validation function', () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
+        baseHost: 'archive.org',
         picture: './demo/default-preview.jpg',
         type: 'full',
       }),
@@ -118,19 +120,23 @@ describe('check file validation function', () => {
       lastModified: new Date().getTime(),
     });
 
-    el.validateImage(fileData);
+    el.handleSelectedFiles({
+      0: fileData,
+      length: 1,
+      item: () => fileData,
+    } as FileList);
+
     await el.updateComplete;
     expect(el.fileValidationError).to.equal(
       'Image file must be a JPEG, PNG, or GIF.',
     );
-    expect(el.validateImage(fileData)).to.false;
   });
 
   it('function must return type size Error & false', async () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
+        baseHost: 'archive.org',
         picture: './demo/default-preview.jpg',
         type: 'full',
         lookingAtMyAccount: true,
@@ -143,12 +149,16 @@ describe('check file validation function', () => {
       type: 'image/jpeg',
       lastModified: new Date().getTime(),
     });
-    el.validateImage(fileData);
+
+    el.handleSelectedFiles({
+      0: fileData,
+      length: 1,
+      item: () => fileData,
+    } as FileList);
 
     expect(el.fileValidationError).to.equal(
       `Image file must be less than ${el.maxFileSizeInMB}MB.`,
     );
-    expect(el.validateImage(fileData)).to.false;
   });
 });
 
@@ -157,7 +167,7 @@ describe('test previewImage function', () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
+        baseHost: 'archive.org',
         picture: './demo/default-preview.jpg',
         type: 'full',
       }),
@@ -182,7 +192,7 @@ describe('test previewImage function', () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
+        baseHost: 'archive.org',
         picture: './demo/default-preview.jpg',
         type: 'compact',
       }),
@@ -205,7 +215,7 @@ describe('test handleDropImage Function', () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
+        baseHost: 'archive.org',
         picture: './demo/default-preview.jpg',
         type: 'full',
         lookingAtMyAccount: true,
@@ -236,7 +246,7 @@ describe('test loadingIndicatorTemplate function', () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
+        baseHost: 'archive.org',
         picture: './demo/default-preview.jpg',
         type: 'full',
       }),
@@ -256,7 +266,7 @@ describe('test handleSelectedFiles function', () => {
     const el = await fixture<IAPicUploader>(
       container({
         identifier: '@453344354534',
-        endpoint: 'http://localhost/index.php',
+        baseHost: 'archive.org',
         picture: './demo/default-preview.jpg',
         type: 'full',
       }),
