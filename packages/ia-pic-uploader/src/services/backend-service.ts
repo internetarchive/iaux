@@ -23,15 +23,26 @@ export async function BackendServiceHandler(options: any): Promise<any> {
   if (location?.pathname === '/demo/') {
     baseHost = `/demo/`;
   } else {
-    baseHost = `${option.endpoint}?${option.getParam}`;
+    baseHost = option.endpoint;
+  }
+
+  const requestOptions: RequestInit = {
+    method: option.method,
+    headers: option.headers,
+    credentials: 'include',
+  };
+
+  if (option.action === 'save-file') {
+    if (option.file) {
+      const formData = new FormData();
+      formData.append('file', option.file);
+      requestOptions.body = formData;
+    }
+    requestOptions.credentials = 'include';
   }
 
   try {
-    await fetch(baseHost, {
-      method: 'POST',
-      headers: option.headers,
-      body: option.file ?? null,
-    })
+    await fetch(baseHost, requestOptions)
       .then(response => {
         log('response', response);
 

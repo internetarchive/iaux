@@ -26,11 +26,11 @@ export class IAPicUploader extends LitElement {
   @property({ type: String }) identifier = '';
 
   /**
-   * endpoint where picture will be uploaded
+   * basehost where picture will be uploaded
    *
    * @memberof IAPicUploader
    */
-  @property({ type: String }) endpoint = '/services/post-file.php';
+  @property({ type: String }) baseHost = 'archive.org';
 
   /**
    * existing user profile picture
@@ -122,6 +122,8 @@ export class IAPicUploader extends LitElement {
 
   private relatedTarget: EventTarget | null = null;
 
+  private fileUploadPath = '/services/post-file.php';
+
   firstUpdated() {
     this.fileSizeMessage = `Image file must be less than ${this.maxFileSizeInMB}MB.`;
     this.renderInput();
@@ -202,11 +204,6 @@ export class IAPicUploader extends LitElement {
     document.addEventListener('dragover', e => this.dragOver(e), false);
     document.addEventListener('dragleave', e => this.dragLeave(e), true);
     document.addEventListener('drop', e => this.drop(e), false);
-    document?.addEventListener('saveProfileAvatar', (e: Event) => {
-      if (this.fileSelector?.files.length) {
-        this.handleSaveFile(e);
-      }
-    });
 
     [this.overlay, this.dropRegion, this.selfSubmitEle].forEach(element =>
       element?.addEventListener('drop', this.handleDropImage.bind(this), false),
@@ -377,11 +374,11 @@ export class IAPicUploader extends LitElement {
       identifier: this.identifier,
       file: inputFile,
       getParam: getParams,
-      endpoint: this.endpoint,
+      endpoint: `${this.getPostFileServiceUrl}&fname=${encodeURIComponent(inputFile.name)}`,
       headers: { 'Content-type': 'multipart/form-data; charset=UTF-8' },
       callback: async () => {
         log('callback invoked!', this.type);
-        if (this.type === 'full') await this.metadataAPIExecution();
+        if (this.type === 'full') this.metadataAPIExecution();
       },
     });
 
@@ -392,6 +389,10 @@ export class IAPicUploader extends LitElement {
     if (this.fileSelector) this.fileSelector.value = '';
   }
 
+  get getPostFileServiceUrl(): string {
+    return `https://${this.baseHost + this.fileUploadPath}?identifier=${encodeURIComponent(this.identifier)}&submit=1`;
+  }
+
   /**
    * after upload, verify using metadata API if successfully uploaded or not
    *
@@ -400,39 +401,44 @@ export class IAPicUploader extends LitElement {
   metadataAPIExecution() {
     const now = Math.round(Date.now() / 1000); // like unix time()
 
-    const metadataApiInterval = setInterval(async () => {
-      const res = BackendServiceHandler({
-        action: 'verify-upload',
-        endpoint: `https://archive.org/metadata/${
-          this.identifier
-        }?rand=${Math.random()}`,
-      });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      res.then((json: any) => {
-        const waitCount =
-          json.pending_tasks && json.tasks ? json.tasks.length : 0;
+    try {
+      const metadataApiInterval = setInterval(async () => {
+        const res = BackendServiceHandler({
+          action: 'verify-upload',
+          method: 'GET',
+          endpoint: `https://${this.baseHost}/metadata/${this.identifier}`,
+        });
+        log('metadata api response', res);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        res.then((json: any) => {
+          const waitCount =
+            json.pending_tasks && json.tasks ? json.tasks.length : 0;
 
-        if (waitCount) {
-          const adminError = json.tasks.filter(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (e: any) => e.wait_admin === 2,
-          ).length;
-          if (adminError) {
-            this.taskStatus =
-              'status task failure -- an admin will need to resolve';
-            clearInterval(metadataApiInterval);
+          if (waitCount) {
+            const adminError = json.tasks.filter(
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (e: any) => e.wait_admin === 2,
+            ).length;
+            if (adminError) {
+              this.taskStatus =
+                'status task failure -- an admin will need to resolve';
+              clearInterval(metadataApiInterval);
+            } else {
+              this.taskStatus = `waiting for your ${waitCount} tasks to finish`;
+            }
+          } else if (json.item_last_updated < now) {
+            this.taskStatus = 'waiting for your tasks to queue';
           } else {
-            this.taskStatus = `waiting for your ${waitCount} tasks to finish`;
+            clearInterval(metadataApiInterval);
+            this.taskStatus = 'reloading page with your image';
+            // window.location.reload();
           }
-        } else if (json.item_last_updated < now) {
-          this.taskStatus = 'waiting for your tasks to queue';
-        } else {
-          clearInterval(metadataApiInterval);
-          this.taskStatus = 'reloading page with your image';
-          window.location.reload();
-        }
-      });
-    }, 2000);
+        });
+      }, 2000);
+    } catch (error) {
+      this.taskStatus = `upload succeeded but metadata verification failed: ${error}`;
+      this.showLoadingIndicator = false;
+    }
   }
 
   /**
@@ -472,9 +478,7 @@ export class IAPicUploader extends LitElement {
    * function to render self submit form template
    */
   get selfSubmitFormTemplate(): TemplateResult {
-    const formAction = encodeURIComponent(
-      `${this.endpoint}?identifier=${this.identifier}&submit=1`,
-    );
+    const formAction = this.getPostFileServiceUrl;
 
     return html`
       <div class="self-submit-form hidden">
