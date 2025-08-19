@@ -1,18 +1,17 @@
 import log from './log';
 
 /**
- * Helper to call loan service
+ * Helper image upload service
  * @param {Object} options
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function BackendServiceHandler(options: any): Promise<any> {
   const option = {
     action: null,
+    method: 'POST',
     identifier: '',
     file: null,
-    getParam: '',
     endpoint: '',
-    headers: {},
     callback() {},
     ...options,
   };
@@ -28,7 +27,6 @@ export async function BackendServiceHandler(options: any): Promise<any> {
 
   const requestOptions: RequestInit = {
     method: option.method,
-    headers: option.headers,
     credentials: 'include',
   };
 
@@ -38,7 +36,6 @@ export async function BackendServiceHandler(options: any): Promise<any> {
       formData.append('file', option.file);
       requestOptions.body = formData;
     }
-    requestOptions.credentials = 'include';
   }
 
   try {

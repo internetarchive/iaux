@@ -365,17 +365,13 @@ export class IAPicUploader extends LitElement {
 
     // get input file
     const inputFile = this.fileSelector?.files[0];
-    const getParams = `identifier=${this.identifier}&fname=${encodeURIComponent(
-      inputFile.name,
-    )}&submit=1`;
 
     await BackendServiceHandler({
       action: 'save-file',
       identifier: this.identifier,
       file: inputFile,
-      getParam: getParams,
+      method: 'POST',
       endpoint: `${this.getPostFileServiceUrl}&fname=${encodeURIComponent(inputFile.name)}`,
-      headers: { 'Content-type': 'multipart/form-data; charset=UTF-8' },
       callback: async () => {
         log('callback invoked!', this.type);
         if (this.type === 'full') this.metadataAPIExecution();
@@ -403,37 +399,35 @@ export class IAPicUploader extends LitElement {
 
     try {
       const metadataApiInterval = setInterval(async () => {
-        const res = BackendServiceHandler({
+        const json = await BackendServiceHandler({
           action: 'verify-upload',
           method: 'GET',
           endpoint: `https://${this.baseHost}/metadata/${this.identifier}`,
         });
-        log('metadata api response', res);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        res.then((json: any) => {
-          const waitCount =
-            json.pending_tasks && json.tasks ? json.tasks.length : 0;
+        log('metadata api response', json);
 
-          if (waitCount) {
-            const adminError = json.tasks.filter(
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              (e: any) => e.wait_admin === 2,
-            ).length;
-            if (adminError) {
-              this.taskStatus =
-                'status task failure -- an admin will need to resolve';
-              clearInterval(metadataApiInterval);
-            } else {
-              this.taskStatus = `waiting for your ${waitCount} tasks to finish`;
-            }
-          } else if (json.item_last_updated < now) {
-            this.taskStatus = 'waiting for your tasks to queue';
-          } else {
+        const waitCount =
+          json.pending_tasks && json.tasks ? json.tasks.length : 0;
+
+        if (waitCount) {
+          const adminError = json.tasks.filter(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (e: any) => e.wait_admin === 2,
+          ).length;
+          if (adminError) {
+            this.taskStatus =
+              'status task failure -- an admin will need to resolve';
             clearInterval(metadataApiInterval);
-            this.taskStatus = 'reloading page with your image';
-            // window.location.reload();
+          } else {
+            this.taskStatus = `waiting for your ${waitCount} tasks to finish`;
           }
-        });
+        } else if (json.item_last_updated < now) {
+          this.taskStatus = 'waiting for your tasks to queue';
+        } else {
+          clearInterval(metadataApiInterval);
+          this.taskStatus = 'reloading page with your image';
+          window.location.reload();
+        }
       }, 2000);
     } catch (error) {
       this.taskStatus = `upload succeeded but metadata verification failed: ${error}`;
