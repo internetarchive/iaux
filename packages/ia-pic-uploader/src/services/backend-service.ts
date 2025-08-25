@@ -8,6 +8,7 @@ import log from './log';
 export async function BackendServiceHandler(options: any): Promise<any> {
   const option = {
     action: null,
+    method: 'POST',
     identifier: '',
     file: null,
     getParam: '',
@@ -28,7 +29,7 @@ export async function BackendServiceHandler(options: any): Promise<any> {
 
   try {
     await fetch(baseHost, {
-      method: 'POST',
+      method: option.method,
       headers: option.headers,
       body: option.file ?? null,
     })

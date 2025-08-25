@@ -403,9 +403,10 @@ export class IAPicUploader extends LitElement {
     const metadataApiInterval = setInterval(async () => {
       const res = BackendServiceHandler({
         action: 'verify-upload',
+        method: 'GET',
         endpoint: `https://archive.org/metadata/${
           this.identifier
-        }?rand=${Math.random()}`,
+        }`,
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       res.then((json: any) => {
