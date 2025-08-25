@@ -30,12 +30,10 @@ export async function BackendServiceHandler(options: any): Promise<any> {
     credentials: 'include',
   };
 
-  if (option.action === 'save-file') {
-    if (option.file) {
-      const formData = new FormData();
-      formData.append('file', option.file);
-      requestOptions.body = formData;
-    }
+  if (option.action === 'save-file' && option.file) {
+    const formData = new FormData();
+    formData.append('file', option.file);
+    requestOptions.body = formData;
   }
 
   try {
