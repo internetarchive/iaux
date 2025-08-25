@@ -15,6 +15,7 @@
     "inlineSources": true,
     "rootDir": "./",
     "declaration": true,
+    "skipLibCheck": true,
     "plugins": [
       {
         "name": "ts-lit-plugin"

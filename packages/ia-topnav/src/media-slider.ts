@@ -23,11 +23,11 @@ export class MediaSlider extends LitElement {
 
   updated(props: PropertyValues) {
     if (props.has('selectedMenuOption') && this.selectedMenuOption) {
-      const container = this.shadowRoot?.querySelector('.has-focused'); //?.shadowRoot;
-
+      const container = this.shadowRoot?.querySelector('.has-focused')?.shadowRoot;
+      console.log(container, typeof(container))
       if (container) {
         const keyboardNavigation = new KeyboardNavigation(
-          container as HTMLElement,
+          container as unknown as HTMLElement,
           this.selectedMenuOption,
         );
         this.addEventListener('keydown', keyboardNavigation.handleKeyDown);

@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import TrackedElement from './tracked-element';
@@ -7,12 +7,16 @@ import formatUrl from './lib/format-url';
 import { IATopNavConfig } from './models';
 import { makeBooleanString } from './lib/make-boolean-string';
 import { defaultTopNavConfig } from './data/menus';
+import KeyboardNavigation from './lib/keyboard-navigation';
+
+// Removed unused import
 
 @customElement('search-menu')
 export class SearchMenu extends TrackedElement {
   @property({ type: String }) baseHost = '';
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: Boolean }) hideSearch = false;
+  @property({ type: Boolean }) open = false;
   @property({ type: String }) openMenu = '';
   @property({ type: Boolean }) searchMenuOpen = false;
   @property({ type: Boolean }) searchMenuAnimate = false;
