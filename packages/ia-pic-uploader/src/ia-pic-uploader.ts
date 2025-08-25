@@ -404,9 +404,7 @@ export class IAPicUploader extends LitElement {
       const res = BackendServiceHandler({
         action: 'verify-upload',
         method: 'GET',
-        endpoint: `https://archive.org/metadata/${
-          this.identifier
-        }`,
+        endpoint: `https://archive.org/metadata/${this.identifier}`,
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       res.then((json: any) => {
