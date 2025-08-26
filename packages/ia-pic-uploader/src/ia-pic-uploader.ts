@@ -26,11 +26,11 @@ export class IAPicUploader extends LitElement {
   @property({ type: String }) identifier = '';
 
   /**
-   * endpoint where picture will be uploaded
+   * basehost where picture will be uploaded
    *
    * @memberof IAPicUploader
    */
-  @property({ type: String }) endpoint = '/services/post-file.php';
+  @property({ type: String }) baseHost = 'archive.org';
 
   /**
    * existing user profile picture
@@ -122,6 +122,8 @@ export class IAPicUploader extends LitElement {
 
   private relatedTarget: EventTarget | null = null;
 
+  private fileUploadPath = '/services/post-file.php';
+
   firstUpdated() {
     this.fileSizeMessage = `Image file must be less than ${this.maxFileSizeInMB}MB.`;
     this.renderInput();
@@ -202,11 +204,6 @@ export class IAPicUploader extends LitElement {
     document.addEventListener('dragover', e => this.dragOver(e), false);
     document.addEventListener('dragleave', e => this.dragLeave(e), true);
     document.addEventListener('drop', e => this.drop(e), false);
-    document?.addEventListener('saveProfileAvatar', (e: Event) => {
-      if (this.fileSelector?.files.length) {
-        this.handleSaveFile(e);
-      }
-    });
 
     [this.overlay, this.dropRegion, this.selfSubmitEle].forEach(element =>
       element?.addEventListener('drop', this.handleDropImage.bind(this), false),
@@ -368,20 +365,16 @@ export class IAPicUploader extends LitElement {
 
     // get input file
     const inputFile = this.fileSelector?.files[0];
-    const getParams = `identifier=${this.identifier}&fname=${encodeURIComponent(
-      inputFile.name,
-    )}&submit=1`;
 
     await BackendServiceHandler({
       action: 'save-file',
       identifier: this.identifier,
       file: inputFile,
-      getParam: getParams,
-      endpoint: this.endpoint,
-      headers: { 'Content-type': 'multipart/form-data; charset=UTF-8' },
+      method: 'POST',
+      endpoint: `${this.getPostFileServiceUrl}&fname=${encodeURIComponent(inputFile.name)}`,
       callback: async () => {
         log('callback invoked!', this.type);
-        if (this.type === 'full') await this.metadataAPIExecution();
+        if (this.type === 'full') this.metadataAPIExecution();
       },
     });
 
@@ -392,6 +385,10 @@ export class IAPicUploader extends LitElement {
     if (this.fileSelector) this.fileSelector.value = '';
   }
 
+  get getPostFileServiceUrl(): string {
+    return `https://${this.baseHost + this.fileUploadPath}?identifier=${encodeURIComponent(this.identifier)}&submit=1`;
+  }
+
   /**
    * after upload, verify using metadata API if successfully uploaded or not
    *
@@ -400,15 +397,15 @@ export class IAPicUploader extends LitElement {
   metadataAPIExecution() {
     const now = Math.round(Date.now() / 1000); // like unix time()
 
-    const metadataApiInterval = setInterval(async () => {
-      const res = BackendServiceHandler({
-        action: 'verify-upload',
-        endpoint: `https://archive.org/metadata/${
-          this.identifier
-        }?rand=${Math.random()}`,
-      });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      res.then((json: any) => {
+    try {
+      const metadataApiInterval = setInterval(async () => {
+        const json = await BackendServiceHandler({
+          action: 'verify-upload',
+          method: 'GET',
+          endpoint: `https://${this.baseHost}/metadata/${this.identifier}`,
+        });
+        log('metadata api response', json);
+
         const waitCount =
           json.pending_tasks && json.tasks ? json.tasks.length : 0;
 
@@ -431,8 +428,11 @@ export class IAPicUploader extends LitElement {
           this.taskStatus = 'reloading page with your image';
           window.location.reload();
         }
-      });
-    }, 2000);
+      }, 2000);
+    } catch (error) {
+      this.taskStatus = `upload succeeded but metadata verification failed: ${error}`;
+      this.showLoadingIndicator = false;
+    }
   }
 
   /**
@@ -472,9 +472,7 @@ export class IAPicUploader extends LitElement {
    * function to render self submit form template
    */
   get selfSubmitFormTemplate(): TemplateResult {
-    const formAction = encodeURIComponent(
-      `${this.endpoint}?identifier=${this.identifier}&submit=1`,
-    );
+    const formAction = this.getPostFileServiceUrl;
 
     return html`
       <div class="self-submit-form hidden">
