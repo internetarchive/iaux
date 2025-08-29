@@ -108,6 +108,8 @@ export class IATopNav extends LitElement {
   }
 
   menuToggled(e: CustomEvent) {
+    console.log('ia-topnav menuToggled', e.detail.menuName);
+
     const currentMenu = this.openMenu;
     this.openMenu = currentMenu === e.detail.menuName ? '' : e.detail.menuName;
     // Keeps media slider open if media menu is open
@@ -283,13 +285,13 @@ export class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
+          @blur=${() => console.log('primary-nav blur')}
         >
           ${this.secondLogoSlot}
         </primary-nav>
         <desktop-subnav
           .baseHost=${this.normalizedBaseHost}
           .menuItems=${this.menus.more.links}
-          @focus=${this.closeMenus}
         ></desktop-subnav>
         <media-slider
           .baseHost=${this.normalizedBaseHost}
@@ -308,6 +310,7 @@ export class IATopNav extends LitElement {
         .config=${this.config}
         .openMenu=${this.openMenu}
         tabindex="${this.searchMenuTabIndex}"
+        ?open=${this.openMenu === 'search'}
         ?hideSearch=${this.hideSearch}
         @searchInChanged=${this.searchInChanged}
         @trackClick=${this.trackClick}

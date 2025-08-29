@@ -20,6 +20,7 @@ export default css`
   a {
     text-decoration: none;
     color: var(--subnavLinkColor);
+    outline: none;
   }
 
   a:hover,
