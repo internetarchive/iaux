@@ -33,6 +33,7 @@ export class WaybackSearch extends LitElement {
           <a
             @click=${this.emitWaybackMachineLogoLinkClicked}
             data-event-click-tracking="TopNav|WaybackMachineLogoLink"
+            aria-label="Visit the Wayback Machine"
             href="https://web.archive.org"
             >${logo}</a
           >
@@ -129,11 +130,11 @@ export class WaybackSearch extends LitElement {
       height: 3rem;
       padding: 0.5rem 1rem 0.5rem 3rem;
       font: normal 1.2rem/1.5 var(--themeFontFamily);
-      color: #858585;
+      color: var(--ia-theme-secondary-text-color, #666);
       box-sizing: border-box;
       border: 1px solid var(--grey80);
       border-radius: 2rem;
-      background: #eee;
+      background: var(--ia-theme-secondary-background-color, #fff);
     }
 
     input:focus {
