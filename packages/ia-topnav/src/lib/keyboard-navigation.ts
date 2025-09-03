@@ -10,6 +10,7 @@ export default class KeyboardNavigation {
    * @param {string} menuOption - The type of menu option ('web' or 'usermenu').
    */
   constructor(elementsContainer: HTMLElement, menuOption: string) {
+    console.log('KeyboardNavigation constructor called', elementsContainer, menuOption);
     this.elementsContainer = elementsContainer;
     this.menuOption = menuOption;
     this.focusableElements = this.getFocusableElements();
@@ -37,6 +38,7 @@ export default class KeyboardNavigation {
     const isDisabledOrHidden = (el: Element) =>
       !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden');
 
+    console.log(this.elementsContainer?.shadowRoot?.querySelectorAll('a'));
     let elements;
     if (this.menuOption === 'web') {
       // wayback focusable elements
@@ -83,6 +85,8 @@ export default class KeyboardNavigation {
       'ArrowLeft',
     ].includes(key);
     const isTabKey = key === 'Tab';
+
+    console.log('KeyboardNavigation handleKeyDown', key, this.focusableElements);
 
     if (isArrowKey) {
       this.handleArrowKey(key);
