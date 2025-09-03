@@ -7,16 +7,12 @@ import formatUrl from './lib/format-url';
 import { IATopNavConfig } from './models';
 import { makeBooleanString } from './lib/make-boolean-string';
 import { defaultTopNavConfig } from './data/menus';
-import KeyboardNavigation from './lib/keyboard-navigation';
-
-// Removed unused import
 
 @customElement('search-menu')
 export class SearchMenu extends TrackedElement {
   @property({ type: String }) baseHost = '';
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: Boolean }) hideSearch = false;
-  @property({ type: Boolean }) open = false;
   @property({ type: String }) openMenu = '';
   @property({ type: Boolean }) searchMenuOpen = false;
   @property({ type: Boolean }) searchMenuAnimate = false;
@@ -39,7 +35,18 @@ export class SearchMenu extends TrackedElement {
     );
   }
 
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('openMenu') && this.openMenu === 'search') {
+      // The menu was just opened, focus on the first input.
+      // Using a small timeout to ensure the element is focusable after animations.
+      setTimeout(() => {
+        this.shadowRoot?.querySelector('input')?.focus();
+      }, 100);
+    }
+  }
+
   private handleKeyDownEvent(e: KeyboardEvent) {
+    console.log('handleKeyDownEvent', e.key);
     if (!this.shadowRoot) return;
 
     const searchTypes = this.shadowRoot.querySelectorAll(
@@ -62,6 +69,13 @@ export class SearchMenu extends TrackedElement {
     } else if (e.key === 'End') {
       searchTypeHandler(length);
     }
+  }
+
+  focusFirstInput() {
+    const firstEl = this.shadowRoot?.querySelector<HTMLElement>(
+      'input, button, [tabindex]:not([tabindex="-1"])'
+    );
+    firstEl?.focus();
   }
 
   selectSearchType(e: Event) {

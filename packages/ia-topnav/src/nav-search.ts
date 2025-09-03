@@ -96,7 +96,7 @@ export class NavSearch extends TrackedElement {
             autocomplete="off"
             value=${this.searchQuery || ''}
             @focus=${this.toggleSearchMenu}
-            @blur=${this.toggleSearchMenu}
+            @blur=${() => this.dispatchEvent(new CustomEvent('navSearchBlur', { bubbles: true, composed: true }))}
           />
           ${this.searchInsideInput}
           <button

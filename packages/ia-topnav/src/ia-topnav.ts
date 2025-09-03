@@ -95,6 +95,72 @@ export class IATopNav extends LitElement {
       },
       false,
     );
+
+    // these are experimental changes to make keyboard work from search-menu to desktop-subnav and back
+
+    const navSearch = this.renderRoot.querySelector('nav-search') as HTMLElement;
+    const searchMenu = this.renderRoot.querySelector('search-menu') as HTMLElement;
+    const desktopSubnav = this.renderRoot.querySelector('desktop-subnav') as HTMLElement;
+
+    // Only move focus to search-menu when tabbing forward from nav-search input
+    const navSearchInput = navSearch?.shadowRoot?.querySelector('input');
+    navSearchInput?.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Tab' && !e.shiftKey) {
+        e.preventDefault();
+        // focus first focusable element in search-menu
+        const focusable = searchMenu?.shadowRoot?.querySelectorAll<HTMLElement>(
+          'input, button, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable && focusable.length) {
+          focusable[0].focus();
+        }
+      }
+    });
+
+    // Tabbing through search-menu: forward to desktop-subnav, backward to nav-search input
+    searchMenu?.addEventListener('keydown', (e: KeyboardEvent) => {
+      const focusable = Array.from(
+        searchMenu.querySelectorAll<HTMLElement>(
+          'input, button, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter(el => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'));
+      if (!focusable.length) return;
+
+      // Forward tab from last element → desktop-subnav
+      if (e.key === 'Tab' && !e.shiftKey && focusable[focusable.length - 1] === document.activeElement) {
+        e.preventDefault();
+        desktopSubnav?.focus();
+      }
+      // Backward tab from first element → nav-search input
+      if (e.key === 'Tab' && e.shiftKey && focusable[0] === document.activeElement) {
+        e.preventDefault();
+        navSearchInput?.focus();
+      }
+    });
+  }
+
+  private getFocusableElements(container: Element | ShadowRoot): HTMLElement[] {
+    const root: ParentNode = (container as any).shadowRoot ?? container;
+    return Array.from(
+      root.querySelectorAll<HTMLElement>(
+        'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
+      ),
+    ).filter(
+      (el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'),
+    );
+  }
+  private getFocusable(root: HTMLElement) {
+    return Array.from(
+      root.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter(el => !el.hasAttribute('disabled'));
+  }
+  
+  private focusFirstIn(root: HTMLElement | null) {
+    if (!root) return;
+    const focusable = this.getFocusable(root);
+    if (focusable.length) focusable[0].focus();
   }
 
   menuSetup() {
@@ -117,6 +183,15 @@ export class IATopNav extends LitElement {
       return;
     }
     this.closeMediaSlider();
+
+    // if (e.detail.menuName === 'search') {
+    //   const searchMenu = this.shadowRoot?.querySelector('search-menu');
+    //   if (searchMenu) {
+    //     // Move focus naturally into it
+    //     const input = searchMenu.shadowRoot?.querySelector('input');
+    //     input?.focus();
+    //   }
+    // }
   }
 
   openMediaSlider() {
@@ -285,7 +360,13 @@ export class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
-          @blur=${() => console.log('primary-nav blur')}
+          @navSearchBlur=${(e: Event) => {
+            // console.log('navSearchBlur listened', this.shadowRoot?.querySelector('search-menu'));
+            // this.shadowRoot?.querySelector('search-menu')?.querySelector('input')?.focus();
+            // e.stopPropagation();
+            // e.preventDefault();
+            // return false;
+          }}
         >
           ${this.secondLogoSlot}
         </primary-nav>
@@ -310,7 +391,6 @@ export class IATopNav extends LitElement {
         .config=${this.config}
         .openMenu=${this.openMenu}
         tabindex="${this.searchMenuTabIndex}"
-        ?open=${this.openMenu === 'search'}
         ?hideSearch=${this.hideSearch}
         @searchInChanged=${this.searchInChanged}
         @trackClick=${this.trackClick}
