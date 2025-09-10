@@ -383,7 +383,7 @@ export function buildTopNavMenus(
           external: true,
         },
         {
-          url: 'https://play.google.com/store/apps/details?id=com.archive.waybackmachine&hl=en_US',
+          url: 'https://play.google.com/store/apps/details?id=com.internetarchive.waybackmachine',
           title: 'Wayback Machine (Android)',
           external: true,
         },
