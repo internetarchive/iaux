@@ -10,7 +10,7 @@ export default class KeyboardNavigation {
    * @param {string} menuOption - The type of menu option ('web' or 'usermenu').
    */
   constructor(elementsContainer: HTMLElement, menuOption: string) {
-    console.log('KeyboardNavigation constructor called', elementsContainer, menuOption);
+    // console.log('KeyboardNavigation constructor called', menuOption);
     this.elementsContainer = elementsContainer;
     this.menuOption = menuOption;
     this.focusableElements = this.getFocusableElements();
@@ -38,7 +38,6 @@ export default class KeyboardNavigation {
     const isDisabledOrHidden = (el: Element) =>
       !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden');
 
-    console.log(this.elementsContainer?.shadowRoot?.querySelectorAll('a'));
     let elements;
     if (this.menuOption === 'web') {
       // wayback focusable elements
@@ -86,7 +85,11 @@ export default class KeyboardNavigation {
     ].includes(key);
     const isTabKey = key === 'Tab';
 
-    console.log('KeyboardNavigation handleKeyDown', key, this.focusableElements);
+    console.log(
+      'KeyboardNavigation handleKeyDown',
+      key,
+      this.focusableElements.length,
+    );
 
     if (isArrowKey) {
       this.handleArrowKey(key);
@@ -134,13 +137,19 @@ export default class KeyboardNavigation {
    * @param {KeyboardEvent} event - The keyboard event object.
    */
   handleTabKey(event: KeyboardEvent) {
-    if (this.menuOption) {
-      const isShiftPressed = event.shiftKey;
-      this.focusToOtherMenuItems(isShiftPressed);
-    }
+    console.log('handleTabKey', this.menuOption);
+    if (this.menuOption === 'search') {
+      this.elementsContainer.tabIndex = 1;
+      this.elementsContainer.dispatchEvent(new Event('focus'));
+    } else {
+      if (this.menuOption) {
+        const isShiftPressed = event.shiftKey;
+        this.focusToOtherMenuItems(isShiftPressed);
+      }
 
-    this.focusableElements[this.focusedIndex]?.blur();
-    event.preventDefault();
+      this.focusableElements[this.focusedIndex]?.blur();
+      event.preventDefault();
+    }
   }
 
   /**

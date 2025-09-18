@@ -12,7 +12,6 @@ import formatUrl from './lib/format-url';
 import { customElement, property } from 'lit/decorators.js';
 import { IATopNavConfig, IATopNavSecondIdentitySlotMode } from './models';
 import { defaultTopNavConfig } from './data/menus';
-import KeyboardNavigation from './lib/keyboard-navigation';
 
 @customElement('primary-nav')
 export class PrimaryNav extends TrackedElement {
@@ -176,6 +175,9 @@ export class PrimaryNav extends TrackedElement {
         .openMenu=${this.openMenu}
         .searchIn=${this.searchIn}
         .searchQuery=${this.searchQuery}
+        @blur=${() => {
+          this.dispatchEvent(new Event('navSearchBlur'));
+        }}
       ></nav-search>
     `;
   }

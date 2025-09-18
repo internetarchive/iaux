@@ -35,16 +35,6 @@ export class SearchMenu extends TrackedElement {
     );
   }
 
-  updated(changedProperties: PropertyValues) {
-    if (changedProperties.has('openMenu') && this.openMenu === 'search') {
-      // The menu was just opened, focus on the first input.
-      // Using a small timeout to ensure the element is focusable after animations.
-      setTimeout(() => {
-        this.shadowRoot?.querySelector('input')?.focus();
-      }, 100);
-    }
-  }
-
   private handleKeyDownEvent(e: KeyboardEvent) {
     console.log('handleKeyDownEvent', e.key);
     if (!this.shadowRoot) return;
