@@ -36,7 +36,6 @@ export class SearchMenu extends TrackedElement {
   }
 
   private handleKeyDownEvent(e: KeyboardEvent) {
-    console.log('handleKeyDownEvent', e.key);
     if (!this.shadowRoot) return;
 
     const searchTypes = this.shadowRoot.querySelectorAll(
@@ -63,7 +62,7 @@ export class SearchMenu extends TrackedElement {
 
   focusFirstInput() {
     const firstEl = this.shadowRoot?.querySelector<HTMLElement>(
-      'input, button, [tabindex]:not([tabindex="-1"])'
+      'input, button, [tabindex]:not([tabindex="-1"])',
     );
     firstEl?.focus();
   }

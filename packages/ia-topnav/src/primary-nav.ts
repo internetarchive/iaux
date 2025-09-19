@@ -175,11 +175,28 @@ export class PrimaryNav extends TrackedElement {
         .openMenu=${this.openMenu}
         .searchIn=${this.searchIn}
         .searchQuery=${this.searchQuery}
-        @blur=${() => {
-          this.dispatchEvent(new Event('navSearchBlur'));
-        }}
+        @blur=${this.emitNavSearchBlurEvent}
       ></nav-search>
     `;
+  }
+
+  private emitNavSearchBlurEvent(e: FocusEvent) {
+    const relatedTarget = e.relatedTarget as HTMLElement;
+    const isUploadButton = relatedTarget?.classList.contains('upload');
+
+    if (isUploadButton) {
+      (this.shadowRoot?.querySelector('a.upload') as HTMLElement).focus();
+    }
+
+    this.dispatchEvent(
+      new CustomEvent('navSearchBlur', {
+        detail: {
+          isUploadButton: !!isUploadButton,
+        },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   get mobileDonateHeart() {

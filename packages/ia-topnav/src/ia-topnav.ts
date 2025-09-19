@@ -66,6 +66,8 @@ export class IATopNav extends LitElement {
   private previousKeydownListener: // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ((this: HTMLElement, ev: KeyboardEvent) => any) | undefined;
 
+  private keyboardNavigation?: KeyboardNavigation;
+
   private get normalizedBaseHost() {
     return !this.localLinks ? this.baseHost : '';
   }
@@ -86,17 +88,19 @@ export class IATopNav extends LitElement {
     }
 
     if (this.openMenu === 'search') {
-      const searchMenu = this.renderRoot.querySelector('search-menu');
-      if (searchMenu) {
-        const keyboardNavigation = new KeyboardNavigation(
-          searchMenu as HTMLElement,
+      const targetElement =
+        this.renderRoot.querySelector('search-menu')?.shadowRoot;
+      if (targetElement) {
+        this.keyboardNavigation = new KeyboardNavigation(
+          targetElement as unknown as HTMLElement,
           this.openMenu,
         );
-        this.addEventListener('keydown', keyboardNavigation.handleKeyDown);
+
         if (this.previousKeydownListener) {
           this.removeEventListener('keydown', this.previousKeydownListener);
         }
-        this.previousKeydownListener = keyboardNavigation.handleKeyDown;
+        this.addEventListener('keydown', this.keyboardNavigation.handleKeyDown);
+        this.previousKeydownListener = this.keyboardNavigation.handleKeyDown;
       }
     }
   }
@@ -113,66 +117,6 @@ export class IATopNav extends LitElement {
       },
       false,
     );
-
-    // these are experimental changes to make keyboard work from search-menu to desktop-subnav and back
-
-    const navSearch = this.renderRoot.querySelector(
-      'nav-search',
-    ) as HTMLElement;
-    const searchMenu = this.renderRoot.querySelector(
-      'search-menu',
-    ) as HTMLElement;
-    const desktopSubnav = this.renderRoot.querySelector(
-      'desktop-subnav',
-    ) as HTMLElement;
-
-    // Only move focus to search-menu when tabbing forward from nav-search input
-    // const navSearchInput = navSearch?.shadowRoot?.querySelector('input');
-    // navSearchInput?.addEventListener('keydown', (e: KeyboardEvent) => {
-    //   if (e.key === 'Tab' && !e.shiftKey) {
-    //     e.preventDefault();
-    //     // focus first focusable element in search-menu
-    //     const focusable = this.getFocusableElements(searchMenu);
-    //     if (focusable && focusable.length) {
-    //       focusable[0].focus();
-    //     }
-    //   }
-    // });
-
-    // Tabbing through search-menu: forward to desktop-subnav, backward to nav-search input
-    //   searchMenu?.addEventListener('keydown', (e: KeyboardEvent) => {
-    //     const searchTypes = this.getFocusableElements(searchMenu)
-    //     if (!searchTypes.length) return;
-
-    //     // Forward tab from last element → desktop-subnav
-    //     if (
-    //       e.key === 'Tab' &&
-    //       !e.shiftKey &&
-    //       searchTypes[searchTypes.length - 1] === document.activeElement
-    //     ) {
-    //       desktopSubnav?.focus();
-    //     }
-    //     // Backward tab from first element → nav-search input
-    //     if (
-    //       e.key === 'Tab' &&
-    //       e.shiftKey &&
-    //       searchTypes[0] === document.activeElement
-    //     ) {
-    //       e.preventDefault();
-    //       navSearchInput?.focus();
-    //     }
-    //   });
-  }
-
-  private getFocusableElements(container: Element | ShadowRoot): HTMLElement[] {
-    const root: ParentNode = (container as any).shadowRoot ?? container;
-    return Array.from(
-      root.querySelectorAll<HTMLElement>(
-        'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
-      ),
-    ).filter(
-      (el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'),
-    );
   }
 
   menuSetup() {
@@ -186,8 +130,6 @@ export class IATopNav extends LitElement {
   }
 
   menuToggled(e: CustomEvent) {
-    console.log('ia-topnav menuToggled', e.detail.menuName);
-
     const currentMenu = this.openMenu;
     this.openMenu = currentMenu === e.detail.menuName ? '' : e.detail.menuName;
     // Keeps media slider open if media menu is open
@@ -195,15 +137,23 @@ export class IATopNav extends LitElement {
       return;
     }
     this.closeMediaSlider();
+  }
 
-    // if (e.detail.menuName === 'search') {
-    //   const searchMenu = this.shadowRoot?.querySelector('search-menu');
-    //   if (searchMenu) {
-    //     // Move focus naturally into it
-    //     const input = searchMenu.shadowRoot?.querySelector('input');
-    //     input?.focus();
-    //   }
-    // }
+  navSearchBlur(e: CustomEvent) {
+    if (this.previousKeydownListener) {
+      this.removeEventListener('keydown', this.previousKeydownListener);
+    }
+
+    const isUploadButton = e.detail?.isUploadButton;
+    if (!isUploadButton) {
+      const searchMenu = this.renderRoot.querySelector(
+        'search-menu',
+      ) as HTMLElement;
+      const elements = this.keyboardNavigation?.getFocusableElements();
+      if (searchMenu && elements?.length) {
+        elements[0].focus();
+      }
+    }
   }
 
   openMediaSlider() {
@@ -372,19 +322,10 @@ export class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
-          @navSearchBlur=${(e: Event) => {
-            console.log('navSearchBlur event triggered', e);
-            const searchMenu = this.renderRoot.querySelector('search-menu') as HTMLElement;
-            searchMenu?.focus();
-          }}
+          @navSearchBlur=${this.navSearchBlur}
         >
           ${this.secondLogoSlot}
         </primary-nav>
-        <desktop-subnav
-          .baseHost=${this.normalizedBaseHost}
-          .menuItems=${this.menus.more.links}
-          @focus=${this.closeMenus}
-        ></desktop-subnav>
         <media-slider
           .baseHost=${this.normalizedBaseHost}
           .config=${this.config}
@@ -406,13 +347,12 @@ export class IATopNav extends LitElement {
         @searchInChanged=${this.searchInChanged}
         @trackClick=${this.trackClick}
         @trackSubmit=${this.trackSubmit}
-        @focus1=${(e: Event) => {
-          console.log('focus', e);
-        }}
-        @blur1=${(e: Event) => {
-          console.log('blur', e);
-        }}
       ></search-menu>
+      <desktop-subnav
+        .baseHost=${this.normalizedBaseHost}
+        .menuItems=${this.menus.more.links}
+        @focus=${this.closeMenus}
+      ></desktop-subnav>
       <div
         id="close-layer"
         class="${this.closeLayerClass}"

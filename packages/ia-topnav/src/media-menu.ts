@@ -88,9 +88,9 @@ export class MediaMenu extends LitElement {
             const newFocusIndex =
               this.currentTab?.moveTo === 'next' ? index + 1 : index - 1;
             if (newFocusIndex !== -1) {
-              const menuItem = mediaButtons[newFocusIndex]?.shadowRoot?.querySelector(
-                'a.menu-item',
-              ) as HTMLElement;
+              const menuItem = mediaButtons[
+                newFocusIndex
+              ]?.shadowRoot?.querySelector('a.menu-item') as HTMLElement;
               if (menuItem) menuItem.focus();
             }
           }

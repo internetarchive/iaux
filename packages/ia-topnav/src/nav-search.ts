@@ -61,10 +61,6 @@ export class NavSearch extends TrackedElement {
     );
   }
 
-  emitBlurEvent() {
-    this.dispatchEvent(new Event('blur'));
-  }
-
   get searchInsideInput() {
     return this.searchIn
       ? html`<input type="hidden" name="sin" value="${this.searchIn}" />`
