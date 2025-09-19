@@ -12,9 +12,9 @@ export class AppRoot extends LitElement {
 
   @state() private canManageFlags = false;
 
-  @state() private username = '';
+  @state() private username = '@foo';
 
-  @state() private screenName = '';
+  @state() private screenName = '@foo-user';
 
   @state() private itemIdentifier = '';
 

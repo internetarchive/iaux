@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import TrackedElement from './tracked-element';
@@ -58,6 +58,13 @@ export class SearchMenu extends TrackedElement {
     } else if (e.key === 'End') {
       searchTypeHandler(length);
     }
+  }
+
+  focusFirstInput() {
+    const firstEl = this.shadowRoot?.querySelector<HTMLElement>(
+      'input, button, [tabindex]:not([tabindex="-1"])',
+    );
+    firstEl?.focus();
   }
 
   selectSearchType(e: Event) {
