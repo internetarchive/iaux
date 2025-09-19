@@ -60,9 +60,7 @@ export class MediaSubnav extends TrackedElement {
     return this.links.iconLinks.map(
       (link) => html`
         <a
-          dd="icon-link"
           .href="${formatUrl(link.url, this.baseHost)}"
-          tabindex="${this.menu ? '' : '-1'}"
           @click=${this.trackClick}
           data-event-click-tracking="${this.analyticsEvent(link.title)}"
           ><img src="${ifDefined(link.icon)}" loading="lazy" />${link.title}</a
@@ -76,9 +74,7 @@ export class MediaSubnav extends TrackedElement {
       (link) => html`
         <li>
           <a
-            dd="featured-link"
             .href="${formatUrl(link.url, this.baseHost)}"
-            tabindex="${this.menu ? '' : '-1'}"
             @click=${this.trackClick}
             data-event-click-tracking="${this.analyticsEvent(link.title)}"
             >${link.title}</a

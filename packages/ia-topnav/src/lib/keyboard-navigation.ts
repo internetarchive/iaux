@@ -3,7 +3,6 @@ export default class KeyboardNavigation {
   menuOption: string;
   focusableElements: HTMLElement[];
   focusedIndex: number;
-  notSearchNotUser: boolean;
 
   /**
    * Constructor for the KeyboardNavigation class.
@@ -13,7 +12,6 @@ export default class KeyboardNavigation {
   constructor(elementsContainer: HTMLElement, menuOption: string) {
     this.elementsContainer = elementsContainer;
     this.menuOption = menuOption;
-    this.notSearchNotUser = !['search', 'usermenu'].includes(this.menuOption);
     this.focusableElements = this.getFocusableElements();
     this.focusedIndex = this.getInitialFocusedIndex();
 

@@ -139,7 +139,7 @@ export class IATopNav extends LitElement {
     this.closeMediaSlider();
   }
 
-  navSearchBlur(e: CustomEvent) {
+  navSearchBlurEvent(e: CustomEvent) {
     if (this.previousKeydownListener) {
       this.removeEventListener('keydown', this.previousKeydownListener);
     }
@@ -322,7 +322,7 @@ export class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
-          @navSearchBlur=${this.navSearchBlur}
+          @navSearchBlur=${this.navSearchBlurEvent}
         >
           ${this.secondLogoSlot}
         </primary-nav>
