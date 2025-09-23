@@ -25,7 +25,7 @@
   "dependencies": {
     "@internetarchive/modal-manager": "^2.0.1",
     "@internetarchive/result-type": "^0.0.1",
-    "@internetarchive/search-service": "^2.5.1",
+    "@internetarchive/search-service": "^2.5.2-webdev-7743.0",
     "@internetarchive/user-service": "^1.0.0",
     "lit": "^2.8.0"
   },
