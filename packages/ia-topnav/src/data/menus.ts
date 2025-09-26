@@ -528,7 +528,7 @@ export function buildTopNavMenus(
     },
     user: [
       {
-        url: `${baseHost}/create`,
+        url: `${baseHost}/upload`,
         title: 'Upload files',
         analyticsEvent: 'UserUpload',
         class: 'mobile-upload',
