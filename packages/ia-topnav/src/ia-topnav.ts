@@ -15,6 +15,7 @@ import './search-menu';
 import './signed-out-dropdown';
 import iaTopNavCSS from './styles/ia-topnav';
 import './user-menu';
+import KeyboardNavigation from './lib/keyboard-navigation';
 
 @customElement('ia-topnav')
 export class IATopNav extends LitElement {
@@ -62,6 +63,10 @@ export class IATopNav extends LitElement {
   };
 
   @state() private menus: IATopNavMenuConfig = buildTopNavMenus();
+  private previousKeydownListener: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ((this: HTMLElement, ev: KeyboardEvent) => any) | undefined;
+
+  private keyboardNavigation?: KeyboardNavigation;
 
   private get normalizedBaseHost() {
     return !this.localLinks ? this.baseHost : '';
@@ -80,6 +85,23 @@ export class IATopNav extends LitElement {
       props.has('baseHost')
     ) {
       this.menuSetup();
+    }
+
+    if (this.openMenu === 'search') {
+      const targetElement =
+        this.renderRoot.querySelector('search-menu')?.shadowRoot;
+      if (targetElement) {
+        this.keyboardNavigation = new KeyboardNavigation(
+          targetElement as unknown as HTMLElement,
+          this.openMenu,
+        );
+
+        if (this.previousKeydownListener) {
+          this.removeEventListener('keydown', this.previousKeydownListener);
+        }
+        this.addEventListener('keydown', this.keyboardNavigation.handleKeyDown);
+        this.previousKeydownListener = this.keyboardNavigation.handleKeyDown;
+      }
     }
   }
 
@@ -115,6 +137,23 @@ export class IATopNav extends LitElement {
       return;
     }
     this.closeMediaSlider();
+  }
+
+  navSearchBlurEvent(e: CustomEvent) {
+    if (this.previousKeydownListener) {
+      this.removeEventListener('keydown', this.previousKeydownListener);
+    }
+
+    const isUploadButton = e.detail?.isUploadButton;
+    if (!isUploadButton) {
+      const searchMenu = this.renderRoot.querySelector(
+        'search-menu',
+      ) as HTMLElement;
+      const elements = this.keyboardNavigation?.getFocusableElements();
+      if (searchMenu && elements?.length) {
+        elements[0].focus();
+      }
+    }
   }
 
   openMediaSlider() {
@@ -283,14 +322,10 @@ export class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
+          @navSearchBlur=${this.navSearchBlurEvent}
         >
           ${this.secondLogoSlot}
         </primary-nav>
-        <desktop-subnav
-          .baseHost=${this.normalizedBaseHost}
-          .menuItems=${this.menus.more.links}
-          @focus=${this.closeMenus}
-        ></desktop-subnav>
         <media-slider
           .baseHost=${this.normalizedBaseHost}
           .config=${this.config}
@@ -313,6 +348,11 @@ export class IATopNav extends LitElement {
         @trackClick=${this.trackClick}
         @trackSubmit=${this.trackSubmit}
       ></search-menu>
+      <desktop-subnav
+        .baseHost=${this.normalizedBaseHost}
+        .menuItems=${this.menus.more.links}
+        @focus=${this.closeMenus}
+      ></desktop-subnav>
       <div
         id="close-layer"
         class="${this.closeLayerClass}"

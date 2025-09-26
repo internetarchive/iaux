@@ -15,7 +15,9 @@ export default class KeyboardNavigation {
     this.focusableElements = this.getFocusableElements();
     this.focusedIndex = this.getInitialFocusedIndex();
 
-    this.focusableElements[this.focusedIndex]?.focus();
+    if (menuOption !== 'search') {
+      this.focusableElements[this.focusedIndex]?.focus();
+    }
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
@@ -67,7 +69,9 @@ export default class KeyboardNavigation {
       elements = this.elementsContainer.querySelectorAll(focusableTagSelectors);
     }
 
-    return Array.from(elements).filter(isDisabledOrHidden) as HTMLElement[];
+    return Array.from(elements ?? []).filter(
+      isDisabledOrHidden,
+    ) as HTMLElement[];
   }
 
   /**
@@ -106,6 +110,21 @@ export default class KeyboardNavigation {
   }
 
   /**
+   * Handles the Tab key event and focuses the next or previous menu item.
+   * @param {KeyboardEvent} event - The keyboard event object.
+   */
+  handleTabKey(event: KeyboardEvent) {
+    const isShiftPressed = event.shiftKey;
+
+    this.emitFocusToOtherMenuItems(isShiftPressed);
+
+    this.focusableElements[this.focusedIndex]?.blur();
+    if (!['search'].includes(this.menuOption)) {
+      event.preventDefault();
+    }
+  }
+
+  /**
    * Focuses the previous focusable element in the container.
    */
   focusPrevious() {
@@ -126,24 +145,10 @@ export default class KeyboardNavigation {
   }
 
   /**
-   * Handles the Tab key event and focuses the next or previous menu item.
-   * @param {KeyboardEvent} event - The keyboard event object.
-   */
-  handleTabKey(event: KeyboardEvent) {
-    if (this.menuOption) {
-      const isShiftPressed = event.shiftKey;
-      this.focusToOtherMenuItems(isShiftPressed);
-    }
-
-    this.focusableElements[this.focusedIndex]?.blur();
-    event.preventDefault();
-  }
-
-  /**
    * Focuses the other parent menu items based on the provided flag.
    * @param {boolean} isPrevious - A flag indicating whether to focus the previous menu item.
    */
-  focusToOtherMenuItems(isPrevious: boolean = false) {
+  emitFocusToOtherMenuItems(isPrevious: boolean = false) {
     this.elementsContainer.dispatchEvent(
       new CustomEvent('focusToOtherMenuItem', {
         bubbles: true,
