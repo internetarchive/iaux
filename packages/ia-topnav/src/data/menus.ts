@@ -168,6 +168,10 @@ export function buildTopNavMenus(
           url: 'https://blog.archive.org',
         },
         {
+          title: 'Events',
+          url: `${baseHost}/events`,
+        },
+        {
           title: 'Projects',
           url: `${baseHost}/projects/`,
         },
@@ -190,10 +194,6 @@ export function buildTopNavMenus(
         {
           title: 'Volunteer',
           url: `${baseHost}/about/volunteer-positions`,
-        },
-        {
-          title: 'People',
-          url: `${baseHost}/about/bios`,
         },
       ],
       heading: '',
