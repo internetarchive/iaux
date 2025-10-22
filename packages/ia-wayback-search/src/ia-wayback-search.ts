@@ -20,7 +20,7 @@ export class WaybackSearch extends LitElement {
     return html`
       <form method="post" @submit=${this.handleSubmit}>
         <p>
-          Search the history of over ${this.waybackPagesArchived}
+          Search the history of over 1 trillion
           <a
             @click=${this.emitWaybackMachineStatsLinkClicked}
             data-event-click-tracking="TopNav|WaybackMachineStatsLink"
