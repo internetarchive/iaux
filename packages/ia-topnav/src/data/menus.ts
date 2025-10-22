@@ -656,7 +656,8 @@ let waybackPagesArchivedCached: string | undefined;
  * @returns { string }
  */
 export async function waybackPagesArchivedFN(): Promise<string> {
-  if (waybackPagesArchivedCached) return waybackPagesArchivedCached;
+  return '1 trillion';
+  if (waybackPagesArchivedCached) return waybackPagesArchivedCached ?? '';
 
   const counts = await (
     await fetch(
@@ -687,5 +688,5 @@ export async function waybackPagesArchivedFN(): Promise<string> {
     waybackPagesArchivedCached = '741 billion';
   }
 
-  return waybackPagesArchivedCached;
+  return waybackPagesArchivedCached ?? '';
 }

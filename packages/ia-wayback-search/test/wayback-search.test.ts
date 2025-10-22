@@ -27,7 +27,7 @@ describe('<wayback-search>', () => {
     `);
     const p = el.shadowRoot?.querySelector('p');
 
-    expect(p?.innerText).to.contain('42');
+    expect(p?.innerText).to.contain('1 trillion'); // TODO: revert temporary hardcoded value
   });
 
   it('emits an event when Wayback logo clicked', async () => {
