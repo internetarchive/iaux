@@ -25,7 +25,7 @@
     "ghpages:generate": "gh-pages -t -d ghpages -m \"Build for $(git log --pretty=format:\"%h %an %ai %s\" -n1) [skip ci]\""
   },
   "dependencies": {
-    "@internetarchive/ia-wayback-search": "^1.0.2",
+    "@internetarchive/ia-wayback-search": "^1.0.3",
     "lit": "^2.8.0"
   },
   "devDependencies": {
