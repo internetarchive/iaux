@@ -8,7 +8,7 @@ export const defaultTopNavConfig: IATopNavConfig = {
   // Array of strings representing the values of options that should be hidden from search options
   hiddenSearchOptions: [],
   // Default value, if more accurate value is not passed in to `buildTopNavMenus()`
-  waybackPagesArchived: '740 billion',
+  waybackPagesArchived: '1 trillion',
 };
 
 /**
