@@ -8,7 +8,7 @@ export const defaultTopNavConfig: IATopNavConfig = {
   // Array of strings representing the values of options that should be hidden from search options
   hiddenSearchOptions: [],
   // Default value, if more accurate value is not passed in to `buildTopNavMenus()`
-  waybackPagesArchived: '740 billion',
+  waybackPagesArchived: '1 trillion',
 };
 
 /**
@@ -17,9 +17,7 @@ export const defaultTopNavConfig: IATopNavConfig = {
  * @param { boolean } localLinks passing in false will ensure all links begin: https://archive.org
  * @param { string } waybackPagesArchived label readable 'how many pages in WayBack machine?'
  *                                        If you don't pass in something, you'll get the potentially
- *                                        older/less accurate version.  Otherwise,
- *                                        @see waybackPagesArchivedFN() (below) (please cache it)
- *                                        for a live service accurate count result.
+ *                                        older/less accurate version.
  * @param { string } itemIdentifier The current item being viewed, to populate admin menu items
  * @returns { object }
  */
@@ -647,46 +645,4 @@ export function buildTopNavMenus(
       },
     ],
   };
-}
-
-let waybackPagesArchivedCached: string | undefined;
-
-/**
- * Fetches accurate count of number of pages in WayBack Machine
- * @returns { string }
- */
-export async function waybackPagesArchivedFN(): Promise<string> {
-  return '1 trillion';
-  if (waybackPagesArchivedCached) return waybackPagesArchivedCached ?? '';
-
-  const counts = await (
-    await fetch(
-      'https://archive.org/services/offshoot/home-page/mediacounts.php',
-    )
-  ).json();
-  if (counts.success) {
-    let label = '';
-    let n = parseInt(counts.value.counts.web, 10);
-    if (n > 1000) {
-      n /= 1000;
-      label = 'thousand';
-    }
-    if (n > 1000) {
-      n /= 1000;
-      label = 'million';
-    }
-    if (n > 1000) {
-      n /= 1000;
-      label = 'billion';
-    }
-    if (n > 1000) {
-      n /= 1000;
-      label = 'trillion';
-    }
-    waybackPagesArchivedCached = `${Math.round(n)} ${label}`;
-  } else {
-    waybackPagesArchivedCached = '741 billion';
-  }
-
-  return waybackPagesArchivedCached ?? '';
 }

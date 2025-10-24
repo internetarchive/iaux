@@ -124,7 +124,7 @@ export class IATopNav extends LitElement {
     this.menus = buildTopNavMenus(
       this.username,
       this.normalizedBaseHost,
-      '1 trillion',
+      this.waybackPagesArchived,
       this.itemIdentifier,
     );
   }
