@@ -5,7 +5,6 @@ import TrackedElement from './tracked-element';
 import searchMenuCSS from './styles/search-menu';
 import formatUrl from './lib/format-url';
 import { IATopNavConfig } from './models';
-import { makeBooleanString } from './lib/make-boolean-string';
 import { defaultTopNavConfig } from './data/menus';
 
 @customElement('search-menu')
@@ -114,6 +113,7 @@ export class SearchMenu extends TrackedElement {
             name="sin"
             value="${value}"
             ?checked=${isDefault}
+            ?disabled=${!this.openMenu}
             @change=${this.searchInChanged}
           />
           Search ${label}
@@ -137,14 +137,14 @@ export class SearchMenu extends TrackedElement {
       <div class="menu-wrapper">
         <div
           class="search-menu-inner tx-slide ${this.menuClass}"
-          aria-hidden="${makeBooleanString(!this.openMenu)}"
-          aria-expanded="${makeBooleanString(this.searchMenuOpen)}"
+          aria-hidden="${!this.openMenu}"
         >
           ${this.searchTypesTemplate}
           <a
             class="advanced-search"
             href="${formatUrl('/advancedsearch.php', this.baseHost)}"
             @click=${this.trackClick}
+            tabindex=${this.openMenu ? '0' : '-1'}
             data-event-click-tracking="${this.config
               .eventCategory}|NavAdvancedSearch"
             >Advanced Search</a
