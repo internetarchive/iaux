@@ -7,6 +7,7 @@ import formatUrl from './lib/format-url';
 import { customElement, property, query } from 'lit/decorators.js';
 import { defaultTopNavConfig } from './data/menus';
 import { IATopNavConfig } from './models';
+import { iaSronlyStyles } from '@internetarchive/ia-styles';
 
 @customElement('nav-search')
 export class NavSearch extends TrackedElement {
@@ -22,7 +23,7 @@ export class NavSearch extends TrackedElement {
   @query('[name=query]') private queryInput?: HTMLInputElement;
 
   static get styles() {
-    return navSearchCSS;
+    return [navSearchCSS, iaSronlyStyles];
   }
 
   search(e: CustomEvent) {
@@ -88,6 +89,7 @@ export class NavSearch extends TrackedElement {
           data-event-submit-tracking="${this.config
             ?.eventCategory}|NavSearchSubmit"
         >
+          <label for="query" class="sr-only">Search the Archive</label>
           <input
             type="text"
             name="query"
