@@ -42,11 +42,15 @@ export default css`
   }
 
   .advanced-search {
-    text-decoration: none;
-    color: var(--linkColor);
+    text-decoration: underline;
+    color: inherit;
     line-height: normal;
     padding: 0.5rem;
     margin-top: 5px;
+  }
+
+  .advanced-search:hover {
+    text-decoration: none;
   }
 
   @media (min-width: 890px) {
@@ -76,6 +80,15 @@ export default css`
       border-bottom: 7px solid currentColor;
       border-left: 6px solid transparent;
       border-right: 6px solid transparent;
+    }
+
+    .advanced-search {
+      text-decoration: none;
+      color: var(--linkColor);
+    }
+
+    .advanced-search:hover {
+      text-decoration: underline;
     }
 
     .initial,
