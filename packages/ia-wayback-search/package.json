@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/ia-wayback-search",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Wayback search form component",
   "license": "AGPL-3.0-only",
   "main": "dist/index.js",
@@ -67,6 +67,7 @@
     ]
   },
   "dependencies": {
+    "@internetarchive/ia-styles": "^1.0.0",
     "lit": "^2.8.0"
   }
 }
