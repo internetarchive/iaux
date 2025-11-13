@@ -4,6 +4,7 @@ import savePageFormCSS from './styles/save-page-form';
 import { customElement, property, state } from 'lit/decorators.js';
 import { IATopNavConfig } from './models';
 import { defaultTopNavConfig } from './data/menus';
+import { iaSronlyStyles } from '@internetarchive/ia-styles';
 
 @customElement('save-page-form')
 export class SavePageForm extends TrackedElement {
@@ -12,7 +13,7 @@ export class SavePageForm extends TrackedElement {
   @state() inputValid = true;
 
   static get styles() {
-    return savePageFormCSS;
+    return [savePageFormCSS, iaSronlyStyles];
   }
 
   private validateURL(e: SubmitEvent) {
@@ -49,7 +50,13 @@ export class SavePageForm extends TrackedElement {
           the future.
         </p>
         <div>
-          <input type="text" name="url_preload" placeholder="https://" />
+          <label for="url_preload" class="sr-only">Enter a URL to save</label>
+          <input
+            type="text"
+            name="url_preload"
+            id="url_preload"
+            placeholder="https://"
+          />
           <input type="submit" value="Save" />
         </div>
         <p class=${this.errorClass}>Please enter a valid web address</p>
