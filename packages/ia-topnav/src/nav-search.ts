@@ -93,6 +93,7 @@ export class NavSearch extends TrackedElement {
           <input
             type="text"
             name="query"
+            id="query"
             class="search-field"
             placeholder="Search"
             autocomplete="off"

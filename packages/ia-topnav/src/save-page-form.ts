@@ -51,7 +51,12 @@ export class SavePageForm extends TrackedElement {
         </p>
         <div>
           <label for="url_preload" class="sr-only">Enter a URL to save</label>
-          <input type="text" name="url_preload" placeholder="https://" />
+          <input
+            type="text"
+            name="url_preload"
+            id="url_preload"
+            placeholder="https://"
+          />
           <input type="submit" value="Save" />
         </div>
         <p class=${this.errorClass}>Please enter a valid web address</p>
