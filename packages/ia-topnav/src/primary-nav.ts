@@ -129,7 +129,7 @@ export class PrimaryNav extends TrackedElement {
       >
         <img
           src="${this.mediaBaseHost}${this.userProfileImagePath}"
-          alt="${this.screenName}"
+          alt="Profile picture for ${this.screenName}"
         />
         <span class="screen-name" dir="auto">${this.screenName}</span>
       </button>
