@@ -142,6 +142,7 @@ export default css`
     .info-item {
       padding: 0.5rem 2rem;
       font-size: 0.8em;
+      color: var(--inverseDropdownMenuInfoItem);
     }
 
     a:hover,

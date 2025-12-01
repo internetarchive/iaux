@@ -10,6 +10,8 @@ export default css`
     --grey60: #999;
     --grey66: #aaa;
     --grey80: #ccc;
+    --greya0: #a0a0a0;
+    --grey6f: #6f6f6f;
     --errorYellow: #ffcd27;
 
     --linkColor: #4b64ff;
@@ -40,8 +42,9 @@ export default css`
     --desktopSubnavBg: var(--grey20);
 
     --dropdownMenuBg: var(--grey20);
-    --dropdownMenuInfoItem: var(--grey60);
+    --dropdownMenuInfoItem: var(--grey6f);
     --dropdownMenuDivider: var(--grey40);
+    --inverseDropdownMenuInfoItem: var(--greya0);
 
     --loginTextColor: var(--grey60);
 
