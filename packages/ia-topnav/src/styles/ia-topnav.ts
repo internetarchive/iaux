@@ -42,9 +42,9 @@ export default css`
     --desktopSubnavBg: var(--grey20);
 
     --dropdownMenuBg: var(--grey20);
-    --dropdownMenuInfoItem: var(--grey6f);
+    --dropdownMenuInfoItem: var(--greya0);
     --dropdownMenuDivider: var(--grey40);
-    --inverseDropdownMenuInfoItem: var(--greya0);
+    --inverseDropdownMenuInfoItem: var(--grey6f);
 
     --loginTextColor: var(--grey60);
 
