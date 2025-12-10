@@ -39,7 +39,7 @@ export default class DropdownMenu extends TrackedElement {
   }
 
   static get dropdownDivider() {
-    return html`<li role="presentation" class="divider"></li>`;
+    return html`<li class="divider"></li>`;
   }
 
   private dropdownSection(submenu: IATopNavLink[]): TemplateResult[] {

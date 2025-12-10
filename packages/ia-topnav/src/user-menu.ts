@@ -4,7 +4,6 @@ import userMenuCSS from './styles/user-menu';
 import dropdownStyles from './styles/dropdown-menu';
 import KeyboardNavigation from './lib/keyboard-navigation';
 import { customElement, property } from 'lit/decorators.js';
-import { makeBooleanFromString } from './lib/make-boolean-string';
 
 @customElement('user-menu')
 export default class UserMenu extends DropdownMenu {
@@ -43,8 +42,8 @@ export default class UserMenu extends DropdownMenu {
       <div class="nav-container">
         <nav
           class="${this.menuClass}"
-          aria-hidden="${makeBooleanFromString(this.ariaHidden ?? 'true')}"
-          aria-expanded="${makeBooleanFromString(this.ariaExpanded ?? 'false')}"
+          aria-hidden=${!this.open}
+          aria-expanded=${this.open}
         >
           <h3>${this.screenName}</h3>
           <ul>
