@@ -13,7 +13,7 @@ export default class KeyboardNavigation {
     this.elementsContainer = elementsContainer;
     this.menuOption = menuOption;
     this.focusableElements = this.getFocusableElements();
-    this.focusedIndex = this.getInitialFocusedIndex();
+    this.focusedIndex = 0; // always start from first element
 
     if (menuOption !== 'search') {
       this.focusableElements[this.focusedIndex]?.focus();
@@ -22,22 +22,16 @@ export default class KeyboardNavigation {
   }
 
   /**
-   * Returns the initial focused index based on the menu option.
-   * @returns {number} The initial focused index (0 for 'web', 1 for 'usermenu').
-   */
-  getInitialFocusedIndex(): number {
-    return this.menuOption === 'usermenu' ? 1 : 0;
-  }
-
-  /**
    * Gets an array of focusable elements within the container.
    * @returns {HTMLElement[]} An array of focusable elements.
    */
   getFocusableElements(): HTMLElement[] {
-    const focusableTagSelectors =
-      'a[href], button, input, [tabindex]:not([tabindex="-1"])';
-    const isDisabledOrHidden = (el: Element) =>
-      !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden');
+    const focusableTagSelectors = 'a[href], button, input, [tabindex]';
+
+    const isFocusable = (el: Element) =>
+      !el.hasAttribute('disabled') &&
+      el.getAttribute('aria-hidden') !== 'true' &&
+      el.getAttribute('tabindex') !== '-1';
 
     let elements;
     if (this.menuOption === 'web') {
@@ -69,9 +63,7 @@ export default class KeyboardNavigation {
       elements = this.elementsContainer.querySelectorAll(focusableTagSelectors);
     }
 
-    return Array.from(elements ?? []).filter(
-      isDisabledOrHidden,
-    ) as HTMLElement[];
+    return Array.from(elements ?? []).filter(isFocusable) as HTMLElement[];
   }
 
   /**

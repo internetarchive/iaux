@@ -1,6 +1,14 @@
 import { css } from 'lit';
 
 export default css`
+  .logged-out-menu {
+    background: inherit;
+    border: none;
+  }
+  .logged-out-menu:focus-visible {
+    outline: none;
+    border: none;
+  }
   .dropdown-toggle {
     display: block;
     text-transform: uppercase;

@@ -304,7 +304,8 @@ export default css`
     }
 
     .upload span {
-      display: inline;
+      display: inline-block;
+      vertical-align: middle;
     }
   }
 `;
