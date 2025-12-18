@@ -258,6 +258,9 @@ export class IATopNav extends LitElement {
         ?hideSearch=${this.hideSearch}
         tabindex="${this.signedOutTabIndex}"
         .menuItems=${this.signedOutMenuItems}
+        @focusToOtherMenuItem=${(e: CustomEvent) => {
+          this.currentTab = e.detail;
+        }}
       ></signed-out-dropdown>
     `;
   }

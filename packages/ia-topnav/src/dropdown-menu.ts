@@ -1,4 +1,4 @@
-import { CSSResult, html, nothing, TemplateResult } from 'lit';
+import { CSSResult, html, nothing, PropertyValues, TemplateResult } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import icons from './assets/img/icons';
@@ -9,6 +9,7 @@ import { IATopNavConfig, IATopNavLink } from './models';
 import dropdownMenuCSS from './styles/dropdown-menu';
 import TrackedElement from './tracked-element';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import KeyboardNavigation from './lib/keyboard-navigation';
 
 export default class DropdownMenu extends TrackedElement {
   @property({ type: String }) baseHost = '';
@@ -18,8 +19,31 @@ export default class DropdownMenu extends TrackedElement {
   @property({ type: Boolean }) animated = false;
   @property({ type: Boolean }) open = false;
 
+  private previousKeydownListener?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (this: HTMLElement, ev: KeyboardEvent) => any;
+
   static get styles(): CSSResult[] {
     return [dropdownMenuCSS];
+  }
+
+  updated(props: PropertyValues) {
+    if (props.has('open') && this.open) {
+      const container = this.shadowRoot?.querySelector(
+        '.nav-container',
+      ) as HTMLElement;
+
+      if (container) {
+        const keyboardNavigation = new KeyboardNavigation(
+          container,
+          'usermenu',
+        );
+        this.addEventListener('keydown', keyboardNavigation.handleKeyDown);
+        if (this.previousKeydownListener) {
+          this.removeEventListener('keydown', this.previousKeydownListener);
+        }
+        this.previousKeydownListener = keyboardNavigation.handleKeyDown;
+      }
+    }
   }
 
   get dropdownItems() {
@@ -56,17 +80,19 @@ export default class DropdownMenu extends TrackedElement {
 
   dropdownLink(link: IATopNavLink): TemplateResult {
     const calloutText = this.config?.callouts?.[link.title];
+    const isMobileUpload = link.class === 'mobile-upload';
+    const isTabbable = this.open && !isMobileUpload;
+
     return html`<a
       href="${formatUrl(link.url, this.baseHost)}"
       class=${ifDefined(link.class)}
-      tabindex="${this.open ? '' : '-1'}"
+      tabindex="${isTabbable ? '' : '-1'}"
       @click=${this.trackClick}
       data-event-click-tracking="${this.config
         ?.eventCategory}|Nav${link.analyticsEvent}"
       aria-label=${calloutText ? `New feature: ${link.title}` : nothing}
     >
-      ${link.class === 'mobile-upload' ? icons.uploadUnpadded : nothing}
-      ${link.title}
+      ${isMobileUpload ? icons.uploadUnpadded : nothing} ${link.title}
       ${calloutText
         ? html`<span class="callout" aria-hidden="true">${calloutText}</span>`
         : nothing}

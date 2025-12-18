@@ -93,10 +93,20 @@ export class PrimaryNav extends TrackedElement {
             ?.classList.contains('images');
         });
 
+        let nextElement;
+        if (this.username) {
+          nextElement = this.shadowRoot?.querySelector('a.upload');
+        } else {
+          nextElement = this.shadowRoot
+            ?.querySelector('login-button')
+            ?.shadowRoot?.querySelector('span a');
+        }
+
+        const menuItemElement =
+          lastMediaButton[0]?.shadowRoot?.querySelector('a.menu-item');
+
         const focusElement =
-          this.currentTab.moveTo === 'next'
-            ? this.shadowRoot?.querySelector('a.upload')
-            : lastMediaButton[0]?.shadowRoot?.querySelector('a.menu-item');
+          this.currentTab.moveTo === 'next' ? nextElement : menuItemElement;
 
         if (focusElement) {
           (focusElement as HTMLElement).focus();

@@ -3,6 +3,7 @@ import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import loginButtonCSS from './styles/login-button';
 import formatUrl from './lib/format-url';
+import { makeBooleanString } from './lib/make-boolean-string';
 import { customElement, property, state } from 'lit/decorators.js';
 import { IATopNavConfig } from './models';
 import { defaultTopNavConfig } from './data/menus';
@@ -31,7 +32,7 @@ export class LoginButton extends TrackedElement {
     return `${this.config?.eventCategory}|NavLoginIcon`;
   }
 
-  get menuOpened() {
+  get menuOpened(): boolean {
     return this.openMenu === 'login';
   }
 
@@ -57,13 +58,15 @@ export class LoginButton extends TrackedElement {
   render() {
     return html`
       <div class="logged-out-toolbar">
-        <a
-          class="${this.avatarClass}"
+        <button
+          class="logged-out-menu ${this.avatarClass}"
           @click=${this.toggleDropdown}
           data-event-click-tracking="${this.analyticsEvent}"
+          aria-label="Toggle login menu"
+          aria-expanded="${makeBooleanString(this.menuOpened)}"
         >
           ${icons.user}
-        </a>
+        </button>
         <span>
           <a href="${this.signupPath}">Sign up</a>
           |
