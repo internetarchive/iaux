@@ -25,7 +25,7 @@ export class LoginButton extends TrackedElement {
   }
 
   get loginPath() {
-    return formatUrl('/account/login', this.baseHost);
+    return formatUrl('/login', this.baseHost);
   }
 
   get analyticsEvent() {

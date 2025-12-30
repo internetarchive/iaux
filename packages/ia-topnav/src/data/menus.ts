@@ -639,7 +639,7 @@ export function buildTopNavMenus(
         analyticsEvent: 'AvatarMenu-Signup',
       },
       {
-        url: `${baseHost}/account/login`,
+        url: `${baseHost}/login`,
         title: 'Log in',
         analyticsEvent: 'AvatarMenu-Login',
       },
