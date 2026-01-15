@@ -226,7 +226,7 @@ export class PrimaryNav extends TrackedElement {
 
   get uploadButtonTemplate() {
     return html` <a
-      .href="${formatUrl('/create' as string & Location, this.baseHost)}"
+      .href="${formatUrl('/upload' as string & Location, this.baseHost)}"
       class="upload"
       @focus=${this.toggleMediaMenu}
     >
