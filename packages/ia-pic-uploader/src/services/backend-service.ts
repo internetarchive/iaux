@@ -1,18 +1,17 @@
 import log from './log';
 
 /**
- * Helper to call loan service
+ * Helper image upload service
  * @param {Object} options
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function BackendServiceHandler(options: any): Promise<any> {
   const option = {
     action: null,
+    method: 'POST',
     identifier: '',
     file: null,
-    getParam: '',
     endpoint: '',
-    headers: {},
     callback() {},
     ...options,
   };
@@ -23,15 +22,22 @@ export async function BackendServiceHandler(options: any): Promise<any> {
   if (location?.pathname === '/demo/') {
     baseHost = `/demo/`;
   } else {
-    baseHost = `${option.endpoint}?${option.getParam}`;
+    baseHost = option.endpoint;
+  }
+
+  const requestOptions: RequestInit = {
+    method: option.method,
+    credentials: 'include',
+  };
+
+  if (option.action === 'save-file' && option.file) {
+    const formData = new FormData();
+    formData.append('file', option.file);
+    requestOptions.body = formData;
   }
 
   try {
-    await fetch(baseHost, {
-      method: 'POST',
-      headers: option.headers,
-      body: option.file ?? null,
-    })
+    await fetch(baseHost, requestOptions)
       .then(response => {
         log('response', response);
 
