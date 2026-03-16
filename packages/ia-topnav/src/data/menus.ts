@@ -368,6 +368,14 @@ export function buildTopNavMenus(
           title: 'Additional Collections',
           url: `${baseHost}/details/additional_collections`,
         },
+        {
+          title: 'Government Documents (Worldwide)',
+          url: `${baseHost}/details/government-documents`,
+        },
+        {
+          title: 'Folkscanomy: A Library of Books',
+          url: `${baseHost}/details/folkscanomy`,
+        },
       ],
       mobileAppsLinks: [],
       browserExtensionsLinks: [],
