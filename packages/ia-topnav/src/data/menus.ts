@@ -369,11 +369,11 @@ export function buildTopNavMenus(
           url: `${baseHost}/details/additional_collections`,
         },
         {
-          title: 'Government Documents (Worldwide)',
+          title: 'Government Documents',
           url: `${baseHost}/details/government-documents`,
         },
         {
-          title: 'Folkscanomy: A Library of Books',
+          title: 'Folkscanomy',
           url: `${baseHost}/details/folkscanomy`,
         },
       ],
