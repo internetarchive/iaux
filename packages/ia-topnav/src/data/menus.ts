@@ -369,12 +369,12 @@ export function buildTopNavMenus(
           url: `${baseHost}/details/additional_collections`,
         },
         {
-          title: 'Government Documents',
-          url: `${baseHost}/details/government-documents`,
-        },
-        {
           title: 'Folkscanomy',
           url: `${baseHost}/details/folkscanomy`,
+        },
+        {
+          title: 'Government Documents',
+          url: `${baseHost}/details/government-documents`,
         },
       ],
       mobileAppsLinks: [],
