@@ -71,6 +71,17 @@ export default class KeyboardNavigation {
    * @param {KeyboardEvent} event - The keyboard event object.
    */
   handleKeyDown(event: KeyboardEvent) {
+    const target = event.composedPath()[0] as HTMLElement;
+
+    // Ignore events from editable fields
+    if (
+      target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement ||
+      target.isContentEditable
+    ) {
+      return;
+    }
+
     const { key } = event;
     const isArrowKey = [
       'ArrowDown',
