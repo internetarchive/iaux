@@ -365,10 +365,6 @@ export function buildTopNavMenus(
           url: `${baseHost}/details/booksbylanguage`,
         },
         {
-          title: 'Additional Collections',
-          url: `${baseHost}/details/additional_collections`,
-        },
-        {
           title: 'Folkscanomy',
           url: `${baseHost}/details/folkscanomy`,
         },
