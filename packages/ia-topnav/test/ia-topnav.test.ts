@@ -9,34 +9,8 @@ import {
 
 import '../src/ia-topnav';
 import { IATopNav } from '../src/ia-topnav';
-import { SearchMenu } from '../src/search-menu';
 import { SignedOutDropdown } from '../src/signed-out-dropdown';
 import UserMenu from '../src/user-menu';
-
-// const container = (
-//   {
-//     username = '',
-//     screenName = '',
-//     config = {},
-//     localLinks = true,
-//     secondIdentitySlotMode = '',
-//   }: {
-//     username?: string;
-//     screenName?: string;
-//     config?: IATopNavConfig;
-//     localLinks: boolean;
-//     secondIdentitySlotMode?: IATopNavSecondIdentitySlotMode;
-//   } = {
-//     localLinks: true,
-//   },
-// ) =>
-//   html`<ia-topnav
-//     .screenName=${screenName}
-//     username=${username}
-//     ?localLinks=${localLinks}
-//     .config=${config}
-//     .secondIdentitySlotMode=${secondIdentitySlotMode}
-//   ></ia-topnav>`;
 
 const verifyClosed = (instance: IATopNav) => {
   expect(instance.mediaSliderOpen).to.be.false;
@@ -53,25 +27,6 @@ afterEach(() => {
 });
 
 describe('<ia-topnav>', () => {
-  it('assigns a value to "search in" from outside event', async () => {
-    const el = await fixture<IATopNav>(html` <ia-topnav></ia-topnav>`);
-    const query = 'atari';
-    const searchMenu = el.shadowRoot?.querySelector(
-      'search-menu',
-    ) as SearchMenu;
-
-    const inputEvent = new InputEvent('input');
-    Object.defineProperty(inputEvent, 'target', {
-      value: { value: query },
-      writable: false,
-    });
-
-    searchMenu?.searchInChanged(inputEvent);
-    await el.updateComplete;
-
-    expect(el.searchIn).to.equal(query);
-  });
-
   it('dispatches an analyticsClick event when trackClick event fired', async () => {
     const el = await fixture<IATopNav>(html` <ia-topnav></ia-topnav>`);
     const clickEvent = new MouseEvent('click');
@@ -83,22 +38,6 @@ describe('<ia-topnav>', () => {
         ?.dispatchEvent(clickEvent),
     );
     const response = await oneEvent(el, 'trackClick');
-
-    expect(response).to.exist;
-  });
-
-  it('dispatches an analyticsSubmit event when trackSubmit event fired', async () => {
-    const el = await fixture<IATopNav>(html` <ia-topnav></ia-topnav>`);
-    const submitEvent = new Event('submit');
-    const form = el.shadowRoot
-      ?.querySelector('primary-nav')
-      ?.shadowRoot?.querySelector('nav-search')
-      ?.shadowRoot?.querySelector('form');
-
-    form?.addEventListener('submit', (e) => e.preventDefault());
-    (form?.querySelector('[name=query]') as HTMLInputElement).value = 'atari';
-    setTimeout(() => form?.dispatchEvent(submitEvent));
-    const response = await oneEvent(el, 'trackSubmit');
 
     expect(response).to.exist;
   });
@@ -190,17 +129,6 @@ describe('<ia-topnav>', () => {
     expect(el.selectedMenuOption).to.equal('');
   });
 
-  it('toggles search menu tabindex when dropdown open', async () => {
-    const el = await fixture<IATopNav>(html` <ia-topnav></ia-topnav>`);
-
-    el.openMenu = 'search';
-    await el.updateComplete;
-
-    expect(
-      el.shadowRoot?.querySelector('search-menu')?.getAttribute('tabindex'),
-    ).to.equal('');
-  });
-
   it('toggles user menu tabindex when dropdown open', async () => {
     const el = await fixture<IATopNav>(
       html` <ia-topnav username="shaneriley" ?localLinks=${false}></ia-topnav>`,
@@ -246,11 +174,6 @@ describe('<ia-topnav>', () => {
         screenName="shaneriley"
         ?localLinks=${false}
       ></ia-topnav>`,
-      // container({
-      //   username: 'shaneriley',
-      //   screenName: 'shaneriley',
-      //   localLinks: false,
-      // }),
     );
 
     (
@@ -282,7 +205,6 @@ describe('<ia-topnav>', () => {
         'primary-nav',
         'media-slider',
         'desktop-subnav',
-        'search-menu',
       ];
       componentSelectors.forEach((selector) => {
         const component = el.shadowRoot?.querySelector(selector) as unknown as {
@@ -313,6 +235,24 @@ describe('<ia-topnav>', () => {
     });
   });
 
+  describe('search slot', () => {
+    it('forwards search slot to primary-nav', async () => {
+      const el = await fixture<IATopNav>(html`<ia-topnav></ia-topnav>`);
+      await el.updateComplete;
+
+      const primaryNav = el.shadowRoot?.querySelector('primary-nav');
+      const slot = primaryNav?.querySelector('slot[name="search"]');
+      expect(slot).to.exist;
+    });
+
+    it('does not render search-menu', async () => {
+      const el = await fixture<IATopNav>(html`<ia-topnav></ia-topnav>`);
+      await el.updateComplete;
+
+      expect(el.shadowRoot?.querySelector('search-menu')).to.not.exist;
+    });
+  });
+
   describe('slot pass throughs', () => {
     describe('slot for <primary-nav>', () => {
       it('opens a slot with `secondIdentitySlotMode`', async () => {
@@ -327,15 +267,14 @@ describe('<ia-topnav>', () => {
 
         const slot = el.shadowRoot
           ?.querySelector('primary-nav')
-          ?.querySelector('slot');
+          ?.querySelector('slot[name="opt-sec-logo"]');
         expect(slot).to.exist;
-        expect(slot?.getAttribute('name')).to.equal('opt-sec-logo');
 
         el.secondIdentitySlotMode = '';
         await elementUpdated(el);
         const noSlot = el.shadowRoot
           ?.querySelector('primary-nav')
-          ?.querySelector('slot');
+          ?.querySelector('slot[name="opt-sec-logo"]');
         expect(noSlot).to.not.exist;
       });
     });
