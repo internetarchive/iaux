@@ -128,6 +128,42 @@ export default css`
     z-index: 3;
   }
 
+  .search-container {
+    display: none;
+  }
+
+  .search-container.open {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 4rem;
+    bottom: 0;
+    left: 4rem;
+    z-index: 3;
+    padding: 0.5rem;
+    border-radius: 1rem 1rem 0 0;
+    background: var(--primaryNavBg);
+    align-items: center;
+    animation: fade-in 0.2s forwards;
+  }
+
+  .search-container ::slotted(*) {
+    display: block;
+  }
+
+  .search-container slot {
+    width: 100%;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
   .upload {
     display: none;
   }
@@ -291,6 +327,25 @@ export default css`
     nav-search {
       float: right;
       margin-left: 1rem;
+    }
+
+    .search-container,
+    .search-container.open {
+      display: flex;
+      position: static;
+      top: auto;
+      right: auto;
+      bottom: auto;
+      left: auto;
+      align-items: center;
+      padding: 0 0 0 1rem;
+      background: transparent;
+      border-radius: 0;
+      z-index: auto;
+    }
+
+    .search-container slot {
+      width: auto;
     }
   }
 
