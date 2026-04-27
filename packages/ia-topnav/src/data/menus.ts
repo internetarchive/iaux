@@ -638,7 +638,7 @@ export function buildTopNavMenus(
     ],
     signedOut: [
       {
-        url: `${baseHost}/account/signup`,
+        url: `${baseHost}/signup`,
         title: 'Sign up for free',
         analyticsEvent: 'AvatarMenu-Signup',
       },
