@@ -82,7 +82,8 @@ export class IATopNav extends LitElement {
     }
   }
 
-  firstUpdated() {
+  connectedCallback() {
+    super.connectedCallback();
     document.addEventListener('keydown', this.boundHandleKeydown);
     document.addEventListener('click', this.boundHandleClick);
   }
