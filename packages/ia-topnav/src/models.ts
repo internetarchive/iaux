@@ -12,11 +12,6 @@ export interface IATopNavConfig {
   waybackPagesArchived?: string;
 
   /**
-   * Array of strings representing the values of options that should be hidden from search options
-   */
-  hiddenSearchOptions?: string[];
-
-  /**
    * Map from dropdown item ids to any callout text that should be applied beside them
    */
   callouts?: Record<string, string>;

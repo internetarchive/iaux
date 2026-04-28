@@ -123,11 +123,6 @@ export default css`
     fill: var(--iconFill);
   }
 
-  .search-activated {
-    position: relative;
-    z-index: 3;
-  }
-
   .search-container {
     display: none;
   }
@@ -322,11 +317,6 @@ export default css`
     .upload:focus svg,
     .upload:active svg {
       fill: var(--linkHoverColor);
-    }
-
-    nav-search {
-      float: right;
-      margin-left: 1rem;
     }
 
     .search-container,
