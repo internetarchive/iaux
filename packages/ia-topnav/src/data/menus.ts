@@ -5,8 +5,6 @@ import { IATopNavConfig, IATopNavMenuConfig } from '../models';
 export const defaultTopNavConfig: IATopNavConfig = {
   // Google Analytics event category
   eventCategory: 'TopNav',
-  // Array of strings representing the values of options that should be hidden from search options
-  hiddenSearchOptions: [],
   // Default value, if more accurate value is not passed in to `buildTopNavMenus()`
   waybackPagesArchived: '1 trillion',
 };

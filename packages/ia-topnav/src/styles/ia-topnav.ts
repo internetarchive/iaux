@@ -24,11 +24,6 @@ export default css`
     --activeButtonBg: var(--grey20);
     --iconFill: var(--grey60);
 
-    --searchActiveBg: var(--grey20);
-    --searchActiveInputBg: var(--white);
-    --searchMenuBg: var(--grey20);
-    --desktopSearchIconFill: var(--grey20);
-
     --mediaMenuBg: var(--grey13);
     --mediaLabelDesktopColor: var(--grey60);
     --activeDesktopMenuIcon: var(--grey28);

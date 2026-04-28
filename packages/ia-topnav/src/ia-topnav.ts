@@ -11,11 +11,9 @@ import {
   IATopNavSecondIdentitySlotMode,
 } from './models';
 import './primary-nav';
-import './search-menu';
 import './signed-out-dropdown';
 import iaTopNavCSS from './styles/ia-topnav';
 import './user-menu';
-import KeyboardNavigation from './lib/keyboard-navigation';
 
 @customElement('ia-topnav')
 export class IATopNav extends LitElement {
@@ -43,10 +41,6 @@ export class IATopNav extends LitElement {
 
   @property({ type: String }) screenName: string = '';
 
-  @property({ type: String }) searchIn = '';
-
-  @property({ type: String }) searchQuery = '';
-
   @property({ type: String }) selectedMenuOption = '';
 
   @property({ type: String }) username: string = '';
@@ -63,10 +57,10 @@ export class IATopNav extends LitElement {
   };
 
   @state() private menus: IATopNavMenuConfig = buildTopNavMenus();
-  private previousKeydownListener: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ((this: HTMLElement, ev: KeyboardEvent) => any) | undefined;
 
-  private keyboardNavigation?: KeyboardNavigation;
+  private boundHandleKeydown = this.handleDocumentKeydown.bind(this);
+
+  private boundHandleClick = this.handleDocumentClick.bind(this);
 
   private get normalizedBaseHost() {
     return !this.localLinks ? this.baseHost : '';
@@ -86,37 +80,33 @@ export class IATopNav extends LitElement {
     ) {
       this.menuSetup();
     }
+  }
 
-    if (this.openMenu === 'search') {
-      const targetElement =
-        this.renderRoot.querySelector('search-menu')?.shadowRoot;
-      if (targetElement) {
-        this.keyboardNavigation = new KeyboardNavigation(
-          targetElement as unknown as HTMLElement,
-          this.openMenu,
-        );
+  connectedCallback() {
+    super.connectedCallback();
+    document.addEventListener('keydown', this.boundHandleKeydown);
+    document.addEventListener('click', this.boundHandleClick);
+  }
 
-        if (this.previousKeydownListener) {
-          this.removeEventListener('keydown', this.previousKeydownListener);
-        }
-        this.addEventListener('keydown', this.keyboardNavigation.handleKeyDown);
-        this.previousKeydownListener = this.keyboardNavigation.handleKeyDown;
-      }
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener('keydown', this.boundHandleKeydown);
+    document.removeEventListener('click', this.boundHandleClick);
+  }
+
+  private handleDocumentKeydown(e: KeyboardEvent) {
+    if (e.key === 'Escape') {
+      this.openMenu = '';
+      this.mediaSliderOpen = false;
     }
   }
 
-  firstUpdated() {
-    // close open menu on `esc` click
-    document.addEventListener(
-      'keydown',
-      (e) => {
-        if (e.key === 'Escape') {
-          this.openMenu = '';
-          this.mediaSliderOpen = false;
-        }
-      },
-      false,
-    );
+  private handleDocumentClick(e: MouseEvent) {
+    if (!this.openMenu) return;
+    const path = e.composedPath();
+    if (!path.includes(this)) {
+      this.closeMenus();
+    }
   }
 
   menuSetup() {
@@ -139,23 +129,6 @@ export class IATopNav extends LitElement {
     this.closeMediaSlider();
   }
 
-  navSearchBlurEvent(e: CustomEvent) {
-    if (this.previousKeydownListener) {
-      this.removeEventListener('keydown', this.previousKeydownListener);
-    }
-
-    const isUploadButton = e.detail?.isUploadButton;
-    if (!isUploadButton) {
-      const searchMenu = this.renderRoot.querySelector(
-        'search-menu',
-      ) as HTMLElement;
-      const elements = this.keyboardNavigation?.getFocusableElements();
-      if (searchMenu && elements?.length) {
-        elements[0].focus();
-      }
-    }
-  }
-
   openMediaSlider() {
     this.mediaSliderOpen = true;
   }
@@ -168,10 +141,6 @@ export class IATopNav extends LitElement {
   closeMenus() {
     this.openMenu = '';
     this.closeMediaSlider();
-  }
-
-  searchInChanged(e: CustomEvent) {
-    this.searchIn = e.detail.searchIn;
   }
 
   trackClick(e: CustomEvent) {
@@ -203,20 +172,12 @@ export class IATopNav extends LitElement {
     this.openMediaSlider();
   }
 
-  get searchMenuOpened() {
-    return this.openMenu === 'search';
-  }
-
   get signedOutOpened() {
     return this.openMenu === 'login';
   }
 
   get userMenuOpened() {
     return this.openMenu === 'user';
-  }
-
-  get searchMenuTabIndex() {
-    return this.searchMenuOpened ? '' : '-1';
   }
 
   get userMenuTabIndex() {
@@ -291,6 +252,10 @@ export class IATopNav extends LitElement {
     return this.secondIdentitySlotMode === 'allow';
   }
 
+  get searchSlot() {
+    return html`<slot name="search" slot="search"></slot>`;
+  }
+
   get secondLogoSlot() {
     return this.allowSecondaryIcon
       ? html`
@@ -313,8 +278,6 @@ export class IATopNav extends LitElement {
           .config=${this.config}
           .openMenu=${this.openMenu}
           .screenName=${this.screenName}
-          .searchIn=${this.searchIn}
-          .searchQuery=${this.searchQuery}
           .secondIdentitySlotMode=${this.secondIdentitySlotMode}
           .selectedMenuOption=${this.selectedMenuOption}
           .username=${this.username}
@@ -325,9 +288,8 @@ export class IATopNav extends LitElement {
           @trackClick=${this.trackClick}
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
-          @navSearchBlur=${this.navSearchBlurEvent}
         >
-          ${this.secondLogoSlot}
+          ${this.secondLogoSlot} ${this.searchSlot}
         </primary-nav>
         <media-slider
           .baseHost=${this.normalizedBaseHost}
@@ -341,16 +303,6 @@ export class IATopNav extends LitElement {
         ></media-slider>
       </div>
       ${this.username ? this.userMenu : this.signedOutDropdown}
-      <search-menu
-        .baseHost=${this.normalizedBaseHost}
-        .config=${this.config}
-        .openMenu=${this.openMenu}
-        tabindex="${this.searchMenuTabIndex}"
-        ?hideSearch=${this.hideSearch}
-        @searchInChanged=${this.searchInChanged}
-        @trackClick=${this.trackClick}
-        @trackSubmit=${this.trackSubmit}
-      ></search-menu>
       <desktop-subnav
         .baseHost=${this.normalizedBaseHost}
         .menuItems=${this.menus.more.links}

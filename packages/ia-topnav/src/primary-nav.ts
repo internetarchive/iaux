@@ -3,11 +3,9 @@ import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import './assets/img/hamburger';
 import './login-button';
-import './nav-search';
 import './media-menu';
 import logoWordmarkStacked from './assets/img/wordmark-stacked';
 import primaryNavCSS from './styles/primary-nav';
-import locationHandler from './lib/location-handler';
 import formatUrl from './lib/format-url';
 import { customElement, property } from 'lit/decorators.js';
 import { IATopNavConfig, IATopNavSecondIdentitySlotMode } from './models';
@@ -21,8 +19,6 @@ export class PrimaryNav extends TrackedElement {
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: String }) openMenu = '';
   @property({ type: String }) screenName = '';
-  @property({ type: String }) searchIn = '';
-  @property({ type: String }) searchQuery = '';
   @property({ type: String })
   secondIdentitySlotMode: IATopNavSecondIdentitySlotMode = '';
   @property({ type: String }) selectedMenuOption = '';
@@ -166,6 +162,19 @@ export class PrimaryNav extends TrackedElement {
     return this.secondIdentitySlotMode === 'allow';
   }
 
+  /**
+   * The search slot container, rendered between media-menu and
+   * right-side-section so it sits left of the Upload button on desktop.
+   */
+  get searchSlotContainer() {
+    if (this.hideSearch) return nothing;
+    return html`
+      <div class="search-container ${this.searchMenuOpen ? 'open' : ''}">
+        <slot name="search"></slot>
+      </div>
+    `;
+  }
+
   get searchMenu() {
     if (this.hideSearch) return nothing;
 
@@ -177,36 +186,7 @@ export class PrimaryNav extends TrackedElement {
       >
         ${icons.search}
       </button>
-      <nav-search
-        .baseHost=${this.baseHost}
-        .config=${this.config}
-        .locationHandler=${locationHandler}
-        .open=${this.searchMenuOpen}
-        .openMenu=${this.openMenu}
-        .searchIn=${this.searchIn}
-        .searchQuery=${this.searchQuery}
-        @blur=${this.emitNavSearchBlurEvent}
-      ></nav-search>
     `;
-  }
-
-  private emitNavSearchBlurEvent(e: FocusEvent) {
-    const relatedTarget = e.relatedTarget as HTMLElement;
-    const isUploadButton = relatedTarget?.classList.contains('upload');
-
-    if (isUploadButton) {
-      (this.shadowRoot?.querySelector('a.upload') as HTMLElement).focus();
-    }
-
-    this.dispatchEvent(
-      new CustomEvent('navSearchBlur', {
-        detail: {
-          isUploadButton: !!isUploadButton,
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
   }
 
   get mobileDonateHeart() {
@@ -286,6 +266,7 @@ export class PrimaryNav extends TrackedElement {
           .openMenu=${this.openMenu}
           .currentTab=${this.currentTab}
         ></media-menu>
+        ${this.searchSlotContainer}
         <div class="right-side-section">
           ${this.mobileDonateHeart} ${this.userStateTemplate}
           ${this.uploadButtonTemplate} ${this.searchMenu}
