@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, html, LitElement } from 'lit';
+import { css, CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { iaSronlyStyles } from '@internetarchive/ia-styles';
 import searchIcon from './icon-search';
@@ -15,21 +15,25 @@ export class WaybackSearch extends LitElement {
 
   @property({ type: String }) waybackPagesArchived = '916 billion';
 
+  /**
+   * Optional caption rendered above the search input. When omitted, the
+   * default "Search the history of more than {waybackPagesArchived} web
+   * pages on the Internet." caption is shown.
+   */
+  @property({ attribute: false }) caption?: string | TemplateResult;
+
+  /**
+   * Optional override for the search input placeholder. Defaults to
+   * "Enter URL or keywords".
+   */
+  @property({ type: String }) searchPlaceholder = 'Enter URL or keywords';
+
   @query('#url') private urlInput!: HTMLInputElement;
 
   render() {
     return html`
       <form method="post" @submit=${this.handleSubmit}>
-        <p>
-          Search the history of more than ${this.waybackPagesArchived}
-          <a
-            @click=${this.emitWaybackMachineStatsLinkClicked}
-            data-event-click-tracking="TopNav|WaybackMachineStatsLink"
-            href="https://blog.archive.org/2016/10/23/defining-web-pages-web-sites-and-web-captures/"
-            >web pages</a
-          >
-          on the Internet.
-        </p>
+        <p>${this.caption ?? this.defaultCaption}</p>
         <fieldset>
           <a
             @click=${this.emitWaybackMachineLogoLinkClicked}
@@ -44,12 +48,25 @@ export class WaybackSearch extends LitElement {
               type="text"
               name="url"
               id="url"
-              placeholder="Enter URL or keywords"
+              placeholder=${this.searchPlaceholder}
             />
             ${searchIcon}
           </div>
         </fieldset>
       </form>
+    `;
+  }
+
+  private get defaultCaption(): TemplateResult {
+    return html`
+      Search the history of more than ${this.waybackPagesArchived}
+      <a
+        @click=${this.emitWaybackMachineStatsLinkClicked}
+        data-event-click-tracking="TopNav|WaybackMachineStatsLink"
+        href="https://blog.archive.org/2016/10/23/defining-web-pages-web-sites-and-web-captures/"
+        >web pages</a
+      >
+      on the Internet.
     `;
   }
 
