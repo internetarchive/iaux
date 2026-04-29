@@ -22,7 +22,7 @@
     "ghpages:generate": "gh-pages -t -d ghpages -m \"Build for $(git log --pretty=format:\"%h %an %ai %s\" -n1) [skip ci]\""
   },
   "dependencies": {
-    "lit": "^2.8.0"
+    "lit": "^2.8.0 || ^3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
