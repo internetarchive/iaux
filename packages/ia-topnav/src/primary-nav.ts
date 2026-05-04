@@ -3,6 +3,7 @@ import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import './assets/img/hamburger';
 import './login-button';
+import type { LoginButton } from './login-button';
 import './media-menu';
 import logoWordmarkStacked from './assets/img/wordmark-stacked';
 import primaryNavCSS from './styles/primary-nav';
@@ -41,11 +42,22 @@ export class PrimaryNav extends TrackedElement {
 
   /** Distance (px) from this element's right edge to the center of the account dropdown toggle. */
   getAccountDropdownOffset(): number {
-    const toggle = this.userMenuButton ?? this.loginButton;
-    if (!toggle) return 0;
     const hostRect = this.getBoundingClientRect();
-    const toggleRect = toggle.getBoundingClientRect();
-    return hostRect.right - (toggleRect.left + toggleRect.width / 2);
+
+    if (this.userMenuButton) {
+      const toggleRect = this.userMenuButton.getBoundingClientRect();
+      return hostRect.right - (toggleRect.left + toggleRect.width / 2);
+    }
+
+    if (this.loginButton) {
+      const loginRect = this.loginButton.getBoundingClientRect();
+      const innerOffset = (
+        this.loginButton as LoginButton
+      ).getDropdownToggleOffset();
+      return hostRect.right - loginRect.right + innerOffset;
+    }
+
+    return 0;
   }
 
   toggleMediaMenu(e: Event) {
