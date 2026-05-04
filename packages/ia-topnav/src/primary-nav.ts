@@ -7,7 +7,7 @@ import './media-menu';
 import logoWordmarkStacked from './assets/img/wordmark-stacked';
 import primaryNavCSS from './styles/primary-nav';
 import formatUrl from './lib/format-url';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 import { IATopNavConfig, IATopNavSecondIdentitySlotMode } from './models';
 import { defaultTopNavConfig } from './data/menus';
 
@@ -32,8 +32,20 @@ export class PrimaryNav extends TrackedElement {
     | undefined;
   signedOutMenuToggled: unknown;
 
+  @query('button.user-menu') private userMenuButton?: HTMLButtonElement;
+  @query('login-button') private loginButton?: HTMLElement;
+
   static get styles() {
     return primaryNavCSS;
+  }
+
+  /** Distance (px) from this element's right edge to the center of the account dropdown toggle. */
+  getAccountDropdownOffset(): number {
+    const toggle = this.userMenuButton ?? this.loginButton;
+    if (!toggle) return 0;
+    const hostRect = this.getBoundingClientRect();
+    const toggleRect = toggle.getBoundingClientRect();
+    return hostRect.right - (toggleRect.left + toggleRect.width / 2);
   }
 
   toggleMediaMenu(e: Event) {
