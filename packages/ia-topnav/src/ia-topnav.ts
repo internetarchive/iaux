@@ -216,7 +216,6 @@ export class IATopNav extends LitElement {
         .menuItems=${this.userMenuItems}
         ?open=${this.openMenu === 'user'}
         .username=${this.username}
-        ?hideSearch=${this.hideSearch}
         tabindex="${this.userMenuTabIndex}"
         @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
@@ -232,7 +231,6 @@ export class IATopNav extends LitElement {
         .baseHost=${this.normalizedBaseHost}
         .config=${this.config}
         .open=${this.signedOutOpened}
-        ?hideSearch=${this.hideSearch}
         tabindex="${this.signedOutTabIndex}"
         .menuItems=${this.signedOutMenuItems}
         @focusToOtherMenuItem=${(e: CustomEvent) => {
