@@ -22,12 +22,13 @@ export class LoginButton extends TrackedElement {
     return loginButtonCSS;
   }
 
-  /** Distance (px) from this element's right edge to the center of the dropdown toggle icon. */
+  /** Distance (px) from this element's right edge to the right edge of the dropdown toggle icon. */
   getDropdownToggleOffset(): number {
     if (!this.toggleButton) return 0;
-    const hostRect = this.getBoundingClientRect();
-    const toggleRect = this.toggleButton.getBoundingClientRect();
-    return hostRect.right - (toggleRect.left + toggleRect.width / 2);
+    return (
+      this.getBoundingClientRect().right -
+      this.toggleButton.getBoundingClientRect().right
+    );
   }
 
   get signupPath() {

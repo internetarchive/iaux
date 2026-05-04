@@ -92,18 +92,11 @@ export default css`
 
   @media (min-width: 890px) {
     nav {
-      --arrow-right: 7px;
-      --arrow-width: 12px;
       display: flex;
       overflow: visible;
       top: 0;
       left: auto;
-      right: calc(
-        var(--dropdownMenuRight, 0px) - var(--arrow-right) - var(
-            --arrow-width
-          ) /
-          2
-      );
+      right: var(--dropdownMenuRight, 0);
       z-index: 5;
       transition: opacity 0.2s ease-in-out;
       font-size: 1.4rem;
@@ -114,9 +107,9 @@ export default css`
 
     nav:after {
       position: absolute;
-      right: var(--arrow-right);
+      right: 7px;
       top: -7px;
-      width: var(--arrow-width);
+      width: 12px;
       height: 7px;
       box-sizing: border-box;
       color: var(--white);

@@ -40,13 +40,12 @@ export class PrimaryNav extends TrackedElement {
     return primaryNavCSS;
   }
 
-  /** Distance (px) from this element's right edge to the center of the account dropdown toggle. */
+  /** Distance (px) from this element's right edge to the right edge of the account dropdown toggle. */
   getAccountDropdownOffset(): number {
     const hostRect = this.getBoundingClientRect();
 
     if (this.userMenuButton) {
-      const toggleRect = this.userMenuButton.getBoundingClientRect();
-      return hostRect.right - (toggleRect.left + toggleRect.width / 2);
+      return hostRect.right - this.userMenuButton.getBoundingClientRect().right;
     }
 
     if (this.loginButton) {
