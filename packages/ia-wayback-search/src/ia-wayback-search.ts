@@ -108,6 +108,7 @@ export class WaybackSearch extends LitElement {
 
       p {
         margin-top: 0;
+        font-size: 1.4rem;
         font-weight: 200;
       }
 
@@ -181,7 +182,6 @@ export class WaybackSearch extends LitElement {
         }
 
         p {
-          margin-bottom: 3rem;
           font-size: 1.6rem;
           text-align: center;
         }
