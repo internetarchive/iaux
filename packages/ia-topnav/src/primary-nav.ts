@@ -3,11 +3,12 @@ import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import './assets/img/hamburger';
 import './login-button';
+import type { LoginButton } from './login-button';
 import './media-menu';
 import logoWordmarkStacked from './assets/img/wordmark-stacked';
 import primaryNavCSS from './styles/primary-nav';
 import formatUrl from './lib/format-url';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 import { IATopNavConfig, IATopNavSecondIdentitySlotMode } from './models';
 import { defaultTopNavConfig } from './data/menus';
 
@@ -32,8 +33,30 @@ export class PrimaryNav extends TrackedElement {
     | undefined;
   signedOutMenuToggled: unknown;
 
+  @query('button.user-menu') private userMenuButton?: HTMLButtonElement;
+  @query('login-button') private loginButton?: HTMLElement;
+
   static get styles() {
     return primaryNavCSS;
+  }
+
+  /** Distance (px) from this element's right edge to the right edge of the account dropdown toggle. */
+  getAccountDropdownOffset(): number {
+    const hostRect = this.getBoundingClientRect();
+
+    if (this.userMenuButton) {
+      return hostRect.right - this.userMenuButton.getBoundingClientRect().right;
+    }
+
+    if (this.loginButton) {
+      const loginRect = this.loginButton.getBoundingClientRect();
+      const innerOffset = (
+        this.loginButton as LoginButton
+      ).getDropdownToggleOffset();
+      return hostRect.right - loginRect.right + innerOffset;
+    }
+
+    return 0;
   }
 
   toggleMediaMenu(e: Event) {

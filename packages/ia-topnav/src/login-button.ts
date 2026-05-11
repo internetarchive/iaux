@@ -4,7 +4,7 @@ import icons from './assets/img/icons';
 import loginButtonCSS from './styles/login-button';
 import formatUrl from './lib/format-url';
 import { makeBooleanString } from './lib/make-boolean-string';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { IATopNavConfig } from './models';
 import { defaultTopNavConfig } from './data/menus';
 
@@ -14,10 +14,21 @@ export class LoginButton extends TrackedElement {
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: String }) openMenu = '';
 
+  @query('button.logged-out-menu') private toggleButton?: HTMLButtonElement;
+
   @state() private dropdownTabIndex = '';
 
   static get styles() {
     return loginButtonCSS;
+  }
+
+  /** Distance (px) from this element's right edge to the right edge of the dropdown toggle icon. */
+  getDropdownToggleOffset(): number {
+    if (!this.toggleButton) return 0;
+    return (
+      this.getBoundingClientRect().right -
+      this.toggleButton.getBoundingClientRect().right
+    );
   }
 
   get signupPath() {

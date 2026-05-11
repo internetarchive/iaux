@@ -1,6 +1,5 @@
-import { CSSResult, html } from 'lit';
+import { CSSResultGroup, html } from 'lit';
 import DropdownMenu from './dropdown-menu';
-import userMenuCSS from './styles/user-menu';
 import dropdownStyles from './styles/dropdown-menu';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -9,8 +8,8 @@ export default class UserMenu extends DropdownMenu {
   @property({ type: String }) username = '';
   @property({ type: String }) screenName = '';
 
-  static get styles(): CSSResult[] {
-    return [dropdownStyles, userMenuCSS];
+  static get styles(): CSSResultGroup {
+    return dropdownStyles;
   }
 
   render() {

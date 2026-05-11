@@ -1,5 +1,5 @@
 import { LitElement, PropertyValues, html, nothing } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 
 import { buildTopNavMenus, defaultTopNavConfig } from './data/menus';
 import './desktop-subnav';
@@ -11,6 +11,7 @@ import {
   IATopNavSecondIdentitySlotMode,
 } from './models';
 import './primary-nav';
+import type { PrimaryNav } from './primary-nav';
 import './signed-out-dropdown';
 import iaTopNavCSS from './styles/ia-topnav';
 import './user-menu';
@@ -55,6 +56,11 @@ export class IATopNav extends LitElement {
     mediatype: string;
     moveTo: string;
   };
+
+  @query('primary-nav') private primaryNav?: PrimaryNav;
+  /** Only one of user-menu or signed-out-dropdown is rendered at a time. */
+  @query('user-menu, signed-out-dropdown')
+  private accountDropdown?: HTMLElement;
 
   @state() private menus: IATopNavMenuConfig = buildTopNavMenus();
 
@@ -127,6 +133,16 @@ export class IATopNav extends LitElement {
       return;
     }
     this.closeMediaSlider();
+
+    if (this.openMenu === 'user' || this.openMenu === 'login') {
+      if (this.primaryNav && this.accountDropdown) {
+        const right = this.primaryNav.getAccountDropdownOffset();
+        this.accountDropdown.style.setProperty(
+          '--dropdownMenuRight',
+          `${right}px`,
+        );
+      }
+    }
   }
 
   openMediaSlider() {
@@ -200,7 +216,6 @@ export class IATopNav extends LitElement {
         .menuItems=${this.userMenuItems}
         ?open=${this.openMenu === 'user'}
         .username=${this.username}
-        ?hideSearch=${this.hideSearch}
         tabindex="${this.userMenuTabIndex}"
         @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
@@ -216,7 +231,6 @@ export class IATopNav extends LitElement {
         .baseHost=${this.normalizedBaseHost}
         .config=${this.config}
         .open=${this.signedOutOpened}
-        ?hideSearch=${this.hideSearch}
         tabindex="${this.signedOutTabIndex}"
         .menuItems=${this.signedOutMenuItems}
         @focusToOtherMenuItem=${(e: CustomEvent) => {

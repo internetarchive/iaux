@@ -1,4 +1,10 @@
-import { CSSResult, html, nothing, PropertyValues, TemplateResult } from 'lit';
+import {
+  CSSResultGroup,
+  html,
+  nothing,
+  PropertyValues,
+  TemplateResult,
+} from 'lit';
 import { property } from 'lit/decorators.js';
 
 import icons from './assets/img/icons';
@@ -14,7 +20,6 @@ import KeyboardNavigation from './lib/keyboard-navigation';
 export default class DropdownMenu extends TrackedElement {
   @property({ type: String }) baseHost = '';
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
-  @property({ type: Boolean }) hideSearch = false;
   @property({ type: Array }) menuItems: IATopNavLink[] | IATopNavLink[][] = [];
   @property({ type: Boolean }) animated = false;
   @property({ type: Boolean }) open = false;
@@ -22,8 +27,8 @@ export default class DropdownMenu extends TrackedElement {
   private previousKeydownListener?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (this: HTMLElement, ev: KeyboardEvent) => any;
 
-  static get styles(): CSSResult[] {
-    return [dropdownMenuCSS];
+  static get styles(): CSSResultGroup {
+    return dropdownMenuCSS;
   }
 
   updated(props: PropertyValues) {
@@ -104,14 +109,9 @@ export default class DropdownMenu extends TrackedElement {
   }
 
   get menuClass() {
-    const hiddenClass = this.hideSearch ? ' search-hidden' : '';
-    if (this.open) {
-      return `open${hiddenClass}`;
-    }
-    if (this.animated) {
-      return `closed${hiddenClass}`;
-    }
-    return `initial${hiddenClass}`;
+    if (this.open) return 'open';
+    if (this.animated) return 'closed';
+    return 'initial';
   }
 
   render() {

@@ -96,6 +96,7 @@ export default css`
       overflow: visible;
       top: 0;
       left: auto;
+      right: var(--dropdownMenuRight, 0);
       z-index: 5;
       transition: opacity 0.2s ease-in-out;
       font-size: 1.4rem;
