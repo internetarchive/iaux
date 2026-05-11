@@ -1,4 +1,10 @@
-import { CSSResultGroup, html, nothing, PropertyValues, TemplateResult } from 'lit';
+import {
+  CSSResultGroup,
+  html,
+  nothing,
+  PropertyValues,
+  TemplateResult,
+} from 'lit';
 import { property } from 'lit/decorators.js';
 
 import icons from './assets/img/icons';
