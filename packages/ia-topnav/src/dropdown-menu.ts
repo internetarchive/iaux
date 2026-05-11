@@ -1,4 +1,4 @@
-import { html, nothing, PropertyValues, TemplateResult } from 'lit';
+import { CSSResultGroup, html, nothing, PropertyValues, TemplateResult } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import icons from './assets/img/icons';
@@ -21,7 +21,7 @@ export default class DropdownMenu extends TrackedElement {
   private previousKeydownListener?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (this: HTMLElement, ev: KeyboardEvent) => any;
 
-  static get styles() {
+  static get styles(): CSSResultGroup {
     return dropdownMenuCSS;
   }
 
