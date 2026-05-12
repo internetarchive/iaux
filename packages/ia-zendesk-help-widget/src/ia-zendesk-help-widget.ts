@@ -43,14 +43,14 @@ import { loadZendeskScript, waitForZendesk } from './zendesk-service';
  *
  * @example
  * ```html
- * <ia-zendesk-widget
+ * <ia-zendesk-help-widget
  *   .widgetKey="YOUR_KEY"
- * ></ia-zendesk-widget>
+ * ></ia-zendesk-help-widget>
  * ```
  *
  * @example Customised appearance
  * ```html
- * <ia-zendesk-widget
+ * <ia-zendesk-help-widget
  *   widgetKey="YOUR_KEY"
  *   style="
  *     --button-background: #e03b3b;
@@ -58,11 +58,11 @@ import { loadZendeskScript, waitForZendesk } from './zendesk-service';
  *     --button-bottom: 20px;
  *     --button-right: 20px;
  *   "
- * ></ia-zendesk-widget>
+ * ></ia-zendesk-help-widget>
  * ```
  */
-@customElement('ia-zendesk-widget')
-export class IAZendeskWidget extends LitElement {
+@customElement('ia-zendesk-help-widget')
+export class IAZendeskHelpWidget extends LitElement {
   /** Zendesk account key from the `ze-snippet` URL. */
   @property({ type: String })
   widgetKey = '6fe87bd8-d4e3-4b42-8632-be6eb933d54d';
@@ -130,7 +130,7 @@ export class IAZendeskWidget extends LitElement {
 
       window.zE?.('messenger', 'open');
     } catch (err) {
-      console.error('[ia-zendesk-widget]', err);
+      console.error('[ia-zendesk-help-widget]', err);
     } finally {
       this.isLoading = false;
     }

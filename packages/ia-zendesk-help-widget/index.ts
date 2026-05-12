@@ -1,1 +1,1 @@
-export { IAZendeskWidget } from './src/ia-zendesk-widget';
+export { IAZendeskHelpWidget } from './src/ia-zendesk-help-widget';

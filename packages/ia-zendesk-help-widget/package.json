@@ -1,9 +1,9 @@
 {
-  "name": "@internetarchive/ia-zendesk-widget",
+  "name": "@internetarchive/ia-zendesk-help-widget",
   "description": "Internet Archive Zendesk Messenger launcher web component.",
   "license": "AGPL-3.0-only",
   "author": "Internet Archive",
-  "version": "0.0.0",
+  "version": "0.2.2-alpha1",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "scripts": {
