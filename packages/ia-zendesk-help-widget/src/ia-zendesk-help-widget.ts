@@ -1,10 +1,8 @@
 import {
   css,
   html,
-  nothing,
   LitElement,
   type CSSResultGroup,
-  type PropertyValues,
   type SVGTemplateResult,
   type TemplateResult,
 } from 'lit';
@@ -28,7 +26,7 @@ import { loadZendeskScript, waitForZendesk } from './zendesk-service';
  * @cssprop [--button-color=#fff] - Button text and icon colour.
  * @cssprop [--icon-fill-color=var(--button-color)] - SVG icon fill; defaults to `--button-color`.
  * @cssprop [--button-width=auto] - Button width.
- * @cssprop [--button-padding=13px] - Button padding.
+ * @cssprop [--button-padding=14px] - Button padding.
  * @cssprop [--button-margin=14px 20px] - Margin between button and viewport edges.
  * @cssprop [--button-top=auto] - Distance from the top of the viewport.
  * @cssprop [--button-bottom=0] - Distance from the bottom of the viewport.
@@ -38,8 +36,6 @@ import { loadZendeskScript, waitForZendesk } from './zendesk-service';
  * @cssprop [--button-border-radius=999rem] - Border radius.
  * @cssprop [--button-font-size=14px] - Font size.
  * @cssprop [--button-font-weight=700] - Font weight.
- *
- * @prop {number} [breakpoint=767] - Viewport width (px) below which the label is automatically hidden.
  *
  * @example
  * ```html
@@ -51,7 +47,7 @@ import { loadZendeskScript, waitForZendesk } from './zendesk-service';
  * @example Customised appearance
  * ```html
  * <ia-zendesk-help-widget
- *   widgetKey="YOUR_KEY"
+ *   .widgetKey="YOUR_KEY"
  *   style="
  *     --button-background: #e03b3b;
  *     --button-width: 130px;
@@ -64,49 +60,13 @@ import { loadZendeskScript, waitForZendesk } from './zendesk-service';
 @customElement('ia-zendesk-help-widget')
 export class IAZendeskHelpWidget extends LitElement {
   /** Zendesk account key from the `ze-snippet` URL. */
-  @property({ type: String })
-  widgetKey = '6fe87bd8-d4e3-4b42-8632-be6eb933d54d';
-
-  /** Viewport width (px) below which the label is automatically hidden. */
-  @property({ type: Number })
-  breakpoint = 767;
+  @property({ type: String }) widgetKey?: string;
 
   /** True from the first click until the Zendesk script resolves. Shows the spinner. */
   @state() private isLoading = false;
 
-  /** True when the viewport is narrower than `breakpoint`. */
-  @state() private isCompact = false;
-
-  private _mql?: MediaQueryList;
-  private _onMqlChange = (e: MediaQueryListEvent) => {
-    this.isCompact = e.matches;
-  };
-
   /** Guards against re-loading the script and re-waiting on subsequent clicks. */
   private zendeskReady = false;
-
-  connectedCallback(): void {
-    super.connectedCallback();
-    this._setupMediaQuery();
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this._mql?.removeEventListener('change', this._onMqlChange);
-  }
-
-  updated(changed: PropertyValues<this>): void {
-    if (changed.has('breakpoint')) {
-      this._mql?.removeEventListener('change', this._onMqlChange);
-      this._setupMediaQuery();
-    }
-  }
-
-  private _setupMediaQuery(): void {
-    this._mql = window.matchMedia(`(max-width: ${this.breakpoint}px)`);
-    this.isCompact = this._mql.matches;
-    this._mql.addEventListener('change', this._onMqlChange);
-  }
 
   /**
    * Click handler for the Help button.
@@ -122,6 +82,10 @@ export class IAZendeskHelpWidget extends LitElement {
     this.dispatchEvent(new Event('zendeskHelpButtonClicked'));
 
     try {
+      if (!this.widgetKey) {
+        throw new Error('Missing widgetKey');
+      }
+
       if (!this.zendeskReady) {
         await loadZendeskScript(this.widgetKey);
         await waitForZendesk();
@@ -144,7 +108,7 @@ export class IAZendeskHelpWidget extends LitElement {
     return html`
       <button class="help-widget" @click=${this.initiateZenDesk}>
         ${this.iconTemplate}
-        ${!this.isCompact ? html`<span class="label">Help</span>` : nothing}
+        <span class="label">Help</span>
       </button>
     `;
   }
@@ -159,7 +123,7 @@ export class IAZendeskHelpWidget extends LitElement {
         right: var(--button-right, 0);
         z-index: var(--button-z-index, 999998);
         width: var(--button-width, auto);
-        padding: var(--button-padding, 14px 20px);
+        padding: var(--button-padding, 14px);
         margin: var(--button-margin, 14px 20px);
         background: var(--button-background, #194880);
         color: var(--button-color, #fff);
@@ -186,6 +150,12 @@ export class IAZendeskHelpWidget extends LitElement {
       .label {
         pointer-events: none;
         margin-left: 5px;
+      }
+
+      @media (max-width: 767px) {
+        .label {
+          display: none;
+        }
       }
     `;
   }

@@ -2,6 +2,8 @@
 
 A Lit web component that lazily loads and opens the Zendesk Help widget on demand. The Zendesk snippet script is only fetched on the first button click, so it has zero impact on page load performance.
 
+On viewports narrower than 767 px the "Help" label is hidden automatically via CSS, leaving just the icon.
+
 ## Installation
 
 ```bash
@@ -20,15 +22,13 @@ npm install @internetarchive/ia-zendesk-help-widget
 ></ia-zendesk-help-widget>
 ```
 
-On the first click the component loads the Zendesk snippet via `LazyLoaderService`, then polls for the widget launcher iframe button and clicks it to open the panel. Subsequent clicks go straight to opening the panel.
+On the first click the component loads the Zendesk snippet via `LazyLoaderService`, waits for the `window.zE` API to initialise, then opens the messenger panel. Subsequent clicks open the panel directly — the script is never fetched twice.
 
 ## Properties
 
 | Property | Type | Default | Description |
 |---|---|---|---|
-| `widgetKey` | `String` | `''` | Zendesk Key `ze-snippet` script. |
-| `isLoading` | `Boolean` | `false` | True while the snippet is loading. Shows a spinner icon. |
-| `buttonVisible` | `Boolean` | `true` | Controls button visibility. Set to `false` once the widget panel opens. |
+| `widgetKey` | `String` | — | Zendesk account key from the `ze-snippet` URL. **Required.** |
 
 ## Events
 
@@ -40,19 +40,31 @@ On the first click the component loads the Zendesk snippet via `LazyLoaderServic
 
 | Property | Default | Description |
 |---|---|---|
-| `--buttonBlue` | `#194880` | Button background colour. |
-| `--white` | `#fff` | Button text and icon colour. |
-| `--iconFillColor` | `var(--white)` | SVG icon fill colour. |
-| `--linkColor` | `var(--white)` | Label text colour. |
-
-The button is `108px × 46px` on desktop and collapses to icon-only on viewports narrower than `767px`.
+| `--button-background` | `#194880` | Button background colour. |
+| `--button-color` | `#fff` | Button text and icon colour. |
+| `--icon-fill-color` | `var(--button-color)` | SVG icon fill colour. |
+| `--button-width` | `auto` | Button width. |
+| `--button-padding` | `14px 20px` | Button padding. |
+| `--button-margin` | `14px 20px` | Margin between button and viewport edges. |
+| `--button-top` | `auto` | Distance from the top of the viewport. |
+| `--button-bottom` | `0` | Distance from the bottom of the viewport. |
+| `--button-left` | `auto` | Distance from the left of the viewport. |
+| `--button-right` | `0` | Distance from the right of the viewport. |
+| `--button-z-index` | `999998` | Stack order. |
+| `--button-border-radius` | `999rem` | Border radius. |
+| `--button-font-size` | `14px` | Font size. |
+| `--button-font-weight` | `700` | Font weight. |
 
 ### Example — custom colours
 
 ```html
 <ia-zendesk-help-widget
   widgetKey="YOUR_KEY"
-  style="--buttonBlue: #e03b3b; --iconFillColor: #fff;"
+  style="
+    --button-background: #e03b3b;
+    --button-right: 20px;
+    --button-bottom: 20px;
+  "
 ></ia-zendesk-help-widget>
 ```
 

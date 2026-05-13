@@ -16,33 +16,8 @@ vi.mock('@internetarchive/lazy-loader-service', () => ({
   },
 }));
 
-function mockMatchMedia(matches: boolean) {
-  const listeners: ((e: MediaQueryListEvent) => void)[] = [];
-  const mql = {
-    matches,
-    addEventListener: vi.fn(
-      (_: string, cb: (e: MediaQueryListEvent) => void) => {
-        listeners.push(cb);
-      },
-    ),
-    removeEventListener: vi.fn(),
-  };
-  vi.spyOn(window, 'matchMedia').mockReturnValue(
-    mql as unknown as MediaQueryList,
-  );
-  return {
-    mql,
-    fireChange: (newMatches: boolean) =>
-      listeners.forEach(cb =>
-        cb({ matches: newMatches } as MediaQueryListEvent),
-      ),
-  };
-}
-
 describe('IAZendeskHelpWidget', () => {
   beforeEach(() => {
-    // Default to wide viewport so the label is visible unless a test overrides this.
-    mockMatchMedia(false);
     // Make window.zE available so waitForZendesk resolves on first poll.
     (window as any).zE = vi.fn();
   });
@@ -93,55 +68,6 @@ describe('IAZendeskHelpWidget', () => {
       await el.updateComplete;
       expect(el.shadowRoot?.querySelector('.icon-loader')).toBeTruthy();
       expect(el.shadowRoot?.querySelector('.icon-question')).toBeFalsy();
-    });
-  });
-
-  describe('breakpoint / compact mode', () => {
-    test('hides label when isCompact is true', async () => {
-      mockMatchMedia(true);
-      const el = await fixture<IAZendeskHelpWidget>(
-        html`<ia-zendesk-help-widget
-          .widgetKey=${WIDGET_KEY}
-        ></ia-zendesk-help-widget>`,
-      );
-      expect(el.shadowRoot?.querySelector('.label')).toBeFalsy();
-    });
-
-    test('shows label when isCompact is false', async () => {
-      mockMatchMedia(false);
-      const el = await fixture<IAZendeskHelpWidget>(
-        html`<ia-zendesk-help-widget
-          .widgetKey=${WIDGET_KEY}
-        ></ia-zendesk-help-widget>`,
-      );
-      expect(el.shadowRoot?.querySelector('.label')).toBeTruthy();
-    });
-
-    test('updates isCompact when media query changes', async () => {
-      const { fireChange } = mockMatchMedia(false);
-      const el = await fixture<IAZendeskHelpWidget>(
-        html`<ia-zendesk-help-widget
-          .widgetKey=${WIDGET_KEY}
-        ></ia-zendesk-help-widget>`,
-      );
-      expect(el.shadowRoot?.querySelector('.label')).toBeTruthy();
-      fireChange(true);
-      await el.updateComplete;
-      expect(el.shadowRoot?.querySelector('.label')).toBeFalsy();
-    });
-
-    test('removes media query listener when element disconnects', async () => {
-      const { mql } = mockMatchMedia(false);
-      const el = await fixture<IAZendeskHelpWidget>(
-        html`<ia-zendesk-help-widget
-          .widgetKey=${WIDGET_KEY}
-        ></ia-zendesk-help-widget>`,
-      );
-      el.remove();
-      expect(mql.removeEventListener).toHaveBeenCalledWith(
-        'change',
-        expect.any(Function),
-      );
     });
   });
 
