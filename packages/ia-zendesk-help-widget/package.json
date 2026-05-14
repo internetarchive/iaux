@@ -3,7 +3,7 @@
   "description": "Internet Archive Zendesk Messenger launcher web component.",
   "license": "AGPL-3.0-only",
   "author": "Internet Archive",
-  "version": "0.2.2-alpha2",
+  "version": "0.3.0",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "scripts": {

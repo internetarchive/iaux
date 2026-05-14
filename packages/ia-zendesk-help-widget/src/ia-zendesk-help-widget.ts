@@ -7,8 +7,8 @@ import {
   type TemplateResult,
 } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { loaderIcon } from './loader-icon';
-import { questionIcon } from './question-icon';
+import { loaderIcon } from './assets/loader-icon';
+import { questionIcon } from './assets/question-icon';
 import { loadZendeskScript, waitForZendesk } from './zendesk-service';
 
 /**
@@ -65,6 +65,9 @@ export class IAZendeskHelpWidget extends LitElement {
   /** True from the first click until the Zendesk script resolves. Shows the spinner. */
   @state() private isLoading = false;
 
+  /** Controls Help button visibility. Hidden while the widget panel is open. */
+  @state() private buttonVisible = true;
+
   /** Guards against re-loading the script and re-waiting on subsequent clicks. */
   private zendeskReady = false;
 
@@ -89,14 +92,37 @@ export class IAZendeskHelpWidget extends LitElement {
       if (!this.zendeskReady) {
         await loadZendeskScript(this.widgetKey);
         await waitForZendesk();
+
+        if (!window.zE) {
+          this.isLoading = false;
+          return;
+        }
+
+        // Register lifecycle listeners exactly once.
+        // isLoading is cleared here (not earlier) so the spinner persists until
+        // the widget panel is actually visible to the user.
+        window.zE('messenger:on', 'open', () => {
+          this.buttonVisible = false;
+          this.isLoading = false;
+        });
+
+        // Delay matches the Zendesk close animation so the Help button does not
+        // reappear while the panel is still sliding out.
+        window.zE('messenger:on', 'close', () => {
+          setTimeout(() => {
+            this.buttonVisible = true;
+          }, 500);
+        });
+
         this.zendeskReady = true;
       }
 
-      window.zE?.('messenger', 'open');
+      if (window.zE) {
+        window.zE('messenger', 'open');
+      }
     } catch (err) {
-      console.error('[ia-zendesk-help-widget]', err);
-    } finally {
       this.isLoading = false;
+      console.error('[ia-zendesk-help-widget]', err);
     }
   }
 
@@ -106,7 +132,10 @@ export class IAZendeskHelpWidget extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <button class="help-widget" @click=${this.initiateZenDesk}>
+      <button
+        class="help-widget ${this.buttonVisible ? '' : 'hidden'}"
+        @click=${this.initiateZenDesk}
+      >
         ${this.iconTemplate}
         <span class="label">Help</span>
       </button>
@@ -150,6 +179,12 @@ export class IAZendeskHelpWidget extends LitElement {
       .label {
         pointer-events: none;
         margin-left: 5px;
+      }
+
+      .hidden {
+        opacity: 0;
+        display: none;
+        visibility: hidden;
       }
 
       @media (max-width: 767px) {
