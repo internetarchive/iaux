@@ -126,7 +126,6 @@ export class WaybackSearch extends LitElement {
         border: none;
         border-radius: 7px;
         background-color: #fcf5e6;
-        box-shadow: 3px 3px 0 0 #c3ad97;
       }
 
       fieldset a {
