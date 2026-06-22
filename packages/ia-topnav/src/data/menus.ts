@@ -544,7 +544,7 @@ export function buildTopNavMenus(
         analyticsEvent: 'UserLoans',
       },
       {
-        url: `${baseHost}/details/fav-${userid}`,
+        url: `${baseHost}/details/@${userid}/favorites`,
         title: 'My favorites',
         analyticsEvent: 'UserFavorites',
       },
