@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   form {
@@ -34,7 +35,7 @@ export default css`
     transform: translateY(-50%);
   }
 
-  @media (min-width: 890px) {
+  @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
     fieldset a,
     .search-field {
       display: block;
