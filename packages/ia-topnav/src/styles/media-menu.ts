@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   :host {
@@ -22,7 +23,7 @@ export default css`
   }
 
   /* Mobile view styles */
-  @media (max-width: 889px) {
+  @media (max-width: ${TOPNAV_MOBILE_BREAKPOINT - 1}px) {
     .media-menu-inner {
       position: absolute;
       width: 100%;
@@ -50,7 +51,7 @@ export default css`
   }
 
   /* Desktop view styles */
-  @media (min-width: 890px) {
+  @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
     .media-menu-inner {
       display: block;
       position: static;

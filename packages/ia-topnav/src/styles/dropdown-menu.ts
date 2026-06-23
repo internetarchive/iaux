@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   .nav-container {
@@ -90,7 +91,7 @@ export default css`
     width: 1.4rem;
   }
 
-  @media (min-width: 890px) {
+  @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
     nav {
       display: flex;
       overflow: visible;
