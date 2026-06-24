@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   .media-slider-container {
@@ -40,7 +41,7 @@ export default css`
     padding: 1rem;
   }
 
-  @media (max-width: 889px) {
+  @media (max-width: ${TOPNAV_MOBILE_BREAKPOINT - 1}px) {
     .overflow-clip.open {
       display: block;
       height: 35.8rem;
@@ -49,7 +50,7 @@ export default css`
     }
   }
 
-  @media (min-width: 890px) {
+  @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
     .overflow-clip {
       display: block;
     }

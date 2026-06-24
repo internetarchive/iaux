@@ -1,3 +1,13 @@
+/**
+ * The pixel width at which ia-topnav switches from mobile to desktop layout.
+ * Desktop styles apply at `min-width: TOPNAV_MOBILE_BREAKPOINT px`.
+ * Mobile styles apply at `max-width: (TOPNAV_MOBILE_BREAKPOINT - 1) px`.
+ *
+ * Exported so that host applications can derive their own media queries from
+ * this value rather than hard-coding it independently.
+ */
+export const TOPNAV_MOBILE_BREAKPOINT = 890;
+
 export interface IATopNavConfig {
   /**
    * Google Analytics event category

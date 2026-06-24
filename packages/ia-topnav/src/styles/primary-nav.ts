@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   button:focus,
@@ -211,7 +212,7 @@ export default css`
     outline-offset: 1px;
   }
 
-  @media only screen and (min-width: 890px) and (max-device-width: 905px) {
+  @media only screen and (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) and (max-device-width: 905px) {
     .branding.second-logo {
       padding-right: 0;
     }
@@ -223,7 +224,7 @@ export default css`
     }
   }
 
-  @media (max-width: 889px) {
+  @media (max-width: ${TOPNAV_MOBILE_BREAKPOINT - 1}px) {
     slot[name='opt-sec-logo'] {
       display: none;
     }
@@ -236,7 +237,7 @@ export default css`
     }
   }
 
-  @media (min-width: 890px) {
+  @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
     :host {
       --userIconWidth: 3.2rem;
       --userIconHeight: 3.2rem;
