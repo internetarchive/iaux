@@ -574,7 +574,7 @@ export function buildTopNavMenus(
         analyticsEvent: 'UserHelp',
       },
       {
-        url: `${baseHost}/account/logout`,
+        url: `${baseHost}/logout`,
         title: 'Log out',
         analyticsEvent: 'UserLogOut',
       },
