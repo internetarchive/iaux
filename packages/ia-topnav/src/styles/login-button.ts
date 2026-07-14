@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   .logged-out-menu {
@@ -61,7 +62,7 @@ export default css`
     outline-offset: inherit !important;
   }
 
-  @media (min-width: 890px) {
+  @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
     .logged-out-toolbar {
       padding: 1rem 0.5rem;
       vertical-align: middle;

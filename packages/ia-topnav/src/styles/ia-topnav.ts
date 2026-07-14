@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   :host {
@@ -77,7 +78,7 @@ export default css`
     z-index: 4;
   }
 
-  @media (max-width: 889px) {
+  @media (max-width: ${TOPNAV_MOBILE_BREAKPOINT - 1}px) {
     desktop-subnav {
       display: none;
     }

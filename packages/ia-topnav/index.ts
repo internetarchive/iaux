@@ -1,3 +1,3 @@
-import { IATopNav } from './src/ia-topnav';
+export { IATopNav } from './src/ia-topnav';
 
-export { IATopNav };
+export { TOPNAV_MOBILE_BREAKPOINT } from './src/models';
