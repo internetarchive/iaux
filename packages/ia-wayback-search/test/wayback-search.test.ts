@@ -52,6 +52,35 @@ describe('<wayback-search>', () => {
     expect(response).to.exist;
   });
 
+  it('renders a custom caption when provided', async () => {
+    const el = await fixture<WaybackSearch>(html`
+      <ia-wayback-search></ia-wayback-search>
+    `);
+    el.caption = 'Custom caption text';
+    await el.updateComplete;
+    const p = el.shadowRoot?.querySelector('p');
+    expect(p?.innerText).to.contain('Custom caption text');
+  });
+
+  it('falls back to default caption when caption is unset', async () => {
+    const el = await fixture<WaybackSearch>(html`
+      <ia-wayback-search waybackPagesArchived="42"></ia-wayback-search>
+    `);
+    const p = el.shadowRoot?.querySelector('p');
+    expect(p?.innerText).to.contain('Search the history');
+    expect(p?.innerText).to.contain('42');
+  });
+
+  it('renders a custom search placeholder when provided', async () => {
+    const el = await fixture<WaybackSearch>(html`
+      <ia-wayback-search
+        searchPlaceholder="Find a snapshot"
+      ></ia-wayback-search>
+    `);
+    const input = el.shadowRoot?.getElementById('url') as HTMLInputElement;
+    expect(input?.placeholder).to.equal('Find a snapshot');
+  });
+
   it('emits an event when form submitted', async () => {
     const el = await fixture<WaybackSearch>(html`
       <ia-wayback-search></ia-wayback-search>
