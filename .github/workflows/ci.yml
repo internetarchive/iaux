@@ -19,6 +19,10 @@ jobs:
     - name: Install dependencies
       run: ./scripts/bootstrap.sh
 
+    - name: Install Playwright Chromium
+      timeout-minutes: 5
+      run: npx --prefix packages/ia-zendesk-help-widget playwright install --with-deps chromium
+
     - name: Run tests
       run: ./scripts/test.sh
 
