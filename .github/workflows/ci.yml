@@ -19,6 +19,18 @@ jobs:
     - name: Install dependencies
       run: ./scripts/bootstrap.sh
 
+    # Only the headless shell is installed: tests run headless, and unpacking the full
+    # Chrome-for-Testing build hangs indefinitely on the runner.
+    - name: Install Playwright headless shell
+      timeout-minutes: 5
+      run: |
+        df -h /
+        for pw in packages/*/node_modules/.bin/playwright; do
+          [ -x "$pw" ] || continue
+          echo "Installing Playwright browsers for package: ${pw%/node_modules/.bin/playwright}"
+          "$pw" install --with-deps --only-shell chromium
+        done
+
     - name: Run tests
       run: ./scripts/test.sh
 
