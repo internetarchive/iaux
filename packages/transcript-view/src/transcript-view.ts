@@ -102,7 +102,7 @@ export default class TranscriptView extends LitElement {
         ?isSearchResult=${isSearchResult}
         ?isMusicEntry=${isMusicEntry}
         ?isClickable=${true}
-        .data-search-result-index=${entry.searchMatchIndex}
+        data-search-result-index=${entry.searchMatchIndex}
         data-identifier=${entry.id}
         @click=${this.transcriptEntrySelected}
       >
