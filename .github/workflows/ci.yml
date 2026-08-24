@@ -25,6 +25,11 @@ jobs:
         path: ~/.cache/ms-playwright
         key: playwright-headless-shell-${{ runner.os }}-${{ hashFiles('packages/*/package-lock.json') }}
 
+    - name: Diagnose disk space before Playwright install
+      run: |
+        df -h /
+        df -i /
+
     # Tests run headless, so only the headless shell is installed: unpacking the full
     # Chrome-for-Testing build hangs indefinitely on the runner. The download itself
     # also reproducibly hangs right after reporting 100%, every attempt, regardless of
