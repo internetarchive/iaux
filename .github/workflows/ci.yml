@@ -19,16 +19,32 @@ jobs:
     - name: Install dependencies
       run: ./scripts/bootstrap.sh
 
-    # Only the headless shell is installed: tests run headless, and unpacking the full
-    # Chrome-for-Testing build hangs indefinitely on the runner.
+    - name: Cache Playwright browsers
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-headless-shell-${{ runner.os }}-${{ hashFiles('packages/*/package-lock.json') }}
+
+    # Tests run headless, so only the headless shell is installed: unpacking the full
+    # Chrome-for-Testing build hangs indefinitely on the runner. The headless shell
+    # download from Playwright's CDN occasionally stalls too, right after it reports
+    # 100%, so each attempt is time-boxed and retried instead of one long timeout.
     - name: Install Playwright headless shell
-      timeout-minutes: 5
       run: |
-        df -h /
         for pw in packages/*/node_modules/.bin/playwright; do
           [ -x "$pw" ] || continue
-          echo "Installing Playwright browsers for package: ${pw%/node_modules/.bin/playwright}"
-          "$pw" install --with-deps --only-shell chromium
+          pkg=${pw%/node_modules/.bin/playwright}
+          echo "Installing Playwright system deps for package: $pkg"
+          "$pw" install-deps chromium
+          for attempt in 1 2 3; do
+            echo "Installing Playwright headless shell for package: $pkg (attempt $attempt/3)"
+            timeout --kill-after=10s 2m "$pw" install --only-shell chromium && break
+            if [ "$attempt" = 3 ]; then
+              echo "::error::chromium headless shell install stalled 3 times for $pkg"
+              exit 1
+            fi
+            echo "Install stalled, retrying with a fresh connection"
+          done
         done
 
     - name: Run tests
