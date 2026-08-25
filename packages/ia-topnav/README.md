@@ -10,20 +10,10 @@ npm i -S @internetarchive/ia-topnav
 
 ## Usage
 
-@see [www/index.html](www/index.html) for the simplest example with all the defaults
-
-* Demo app is in another directory: `/www/index.html`
-  * `npm run start` - runs local server in Demo directory which is in `/www` folder
-  * you can also just use your preferred server
-  * open demo: `http://localhost:8000/www/index.html`
-
-It shows a dynamic change of the logged in user name -- and how it will re-paint the menus.
-
-
 ```js
 // ia-top-nav.js
-import IATopNav from '@internetarchive/ia-topnav';
-export default IATopNav;
+import { IATopNav } from '@internetarchive/ia-topnav';
+export { IATopNav };
 ```
 
 ```html
