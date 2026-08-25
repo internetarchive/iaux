@@ -26,14 +26,9 @@ jobs:
         key: playwright-headless-shell-${{ runner.os }}-${{ hashFiles('packages/*/package-lock.json') }}
 
     # Tests run headless, so only the headless shell is installed: unpacking the full
-    # Chrome-for-Testing build hangs indefinitely on the runner. The download itself
-    # also reproducibly hangs right after reporting 100%, every attempt, regardless of
-    # DNS family -- DEBUG=pw:install traces Playwright's own install steps so the next
-    # failure pinpoints which phase (download vs extract vs rename) actually stalls.
+    # Chrome-for-Testing build hangs indefinitely on the runner. Each install attempt
+    # is time-boxed and retried as a safety net against a stalled download.
     - name: Install Playwright headless shell
-      env:
-        NODE_OPTIONS: --dns-result-order=ipv4first
-        DEBUG: pw:install
       run: |
         for pw in packages/*/node_modules/.bin/playwright; do
           [ -x "$pw" ] || continue
