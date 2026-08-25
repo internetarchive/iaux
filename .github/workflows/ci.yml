@@ -14,10 +14,37 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
-        node-version: latest
+        node-version: '24'
 
     - name: Install dependencies
       run: ./scripts/bootstrap.sh
+
+    - name: Cache Playwright browsers
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-headless-shell-${{ runner.os }}-${{ hashFiles('packages/*/package-lock.json') }}
+
+    # Tests run headless, so only the headless shell is installed: unpacking the full
+    # Chrome-for-Testing build hangs indefinitely on the runner. Each install attempt
+    # is time-boxed and retried as a safety net against a stalled download.
+    - name: Install Playwright headless shell
+      run: |
+        for pw in packages/*/node_modules/.bin/playwright; do
+          [ -x "$pw" ] || continue
+          pkg=${pw%/node_modules/.bin/playwright}
+          echo "Installing Playwright system deps for package: $pkg"
+          "$pw" install-deps chromium
+          for attempt in 1 2 3; do
+            echo "Installing Playwright headless shell for package: $pkg (attempt $attempt/3)"
+            timeout --kill-after=10s 2m "$pw" install --only-shell chromium && break
+            if [ "$attempt" = 3 ]; then
+              echo "::error::chromium headless shell install stalled 3 times for $pkg"
+              exit 1
+            fi
+            echo "Install stalled, retrying with a fresh connection"
+          done
+        done
 
     - name: Run tests
       run: ./scripts/test.sh
