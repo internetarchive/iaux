@@ -1,0 +1,16 @@
+{
+  "extends": ["../../.eslintrc.json"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js"]
+      }
+    }
+  },
+  "overrides": [{
+    "files": ["test/**/*.js"],
+    "rules": {
+      "no-unused-expressions": "off"
+    }
+  }]
+}
