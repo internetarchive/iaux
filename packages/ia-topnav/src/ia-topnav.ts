@@ -36,6 +36,19 @@ export class IATopNav extends LitElement {
 
   @property({ type: String }) itemIdentifier = '';
 
+  /**
+   * Email of the item's uploader. When set for an admin viewing an item, the
+   * user menu gets an "uploader:" section with user admin / user privs links.
+   */
+  @property({ type: String }) uploader = '';
+
+  /**
+   * Biblio URL for a texts item, which must already carry a query string
+   * (the item identifier is appended to it as `&ignored=`). When set for an
+   * admin viewing an item, the user menu gets biblio / bookview / jp2 zip links.
+   */
+  @property({ type: String }) biblio = '';
+
   @property({ type: Boolean }) mediaSliderOpen = false;
 
   @property({ type: String }) openMenu = '';
@@ -81,6 +94,8 @@ export class IATopNav extends LitElement {
       props.has('username') ||
       props.has('waybackPagesArchived') ||
       props.has('itemIdentifier') ||
+      props.has('uploader') ||
+      props.has('biblio') ||
       props.has('localLinks') ||
       props.has('baseHost')
     ) {
@@ -122,6 +137,8 @@ export class IATopNav extends LitElement {
       this.normalizedBaseHost,
       this.waybackPagesArchived,
       this.itemIdentifier,
+      this.uploader,
+      this.biblio,
     );
   }
 
@@ -248,18 +265,27 @@ export class IATopNav extends LitElement {
    * Most users just get the basic menu items.
    * For users with `/items` priv, additional admin menu items are included too.
    * Having the `/flags` priv adds a further admin item for managing flags.
+   * A `biblio` URL adds a section of book-scanning links, and an `uploader`
+   * adds a section with the uploader's email and account admin links. Each
+   * section is rendered with a divider above it.
    */
   get userMenuItems() {
     const basicItems = this.menus.user;
+    if (!this.itemIdentifier || !this.admin) return [basicItems];
 
     let adminItems = this.menus.userAdmin;
     if (this.canManageFlags) {
       adminItems = adminItems.concat(this.menus.userAdminFlags);
     }
 
-    return this.itemIdentifier && this.admin
-      ? [basicItems, adminItems]
-      : [basicItems];
+    // The built sections are empty until the matching prop is set and the
+    // menus have been rebuilt, so gating on them keeps a divider from ever
+    // rendering above an empty section.
+    const { userAdminBiblio, userAdminUploader } = this.menus;
+    const sections = [basicItems, adminItems];
+    if (userAdminBiblio.length) sections.push(userAdminBiblio);
+    if (userAdminUploader.length) sections.push(userAdminUploader);
+    return sections;
   }
 
   get allowSecondaryIcon() {

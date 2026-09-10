@@ -24,6 +24,8 @@ export function buildTopNavMenus(
   baseHost: string = 'https://archive.org',
   waybackPagesArchived: string = '',
   itemIdentifier: string = '',
+  uploader: string = '',
+  biblio: string = '',
 ): IATopNavMenuConfig {
   if (waybackPagesArchived)
     defaultTopNavConfig.waybackPagesArchived = waybackPagesArchived; // update to more accurate val
@@ -634,6 +636,45 @@ export function buildTopNavMenus(
         analyticsEvent: 'AdminUserManageFlags',
       },
     ],
+    userAdminBiblio: biblio
+      ? [
+          {
+            url: `${biblio}&ignored=${itemIdentifier}`,
+            title: 'biblio',
+            analyticsEvent: 'AdminUserBiblio',
+          },
+          {
+            url: `${baseHost}/bookview.php?mode=debug&identifier=${itemIdentifier}`,
+            title: 'bookview',
+            analyticsEvent: 'AdminUserBookView',
+          },
+          {
+            url: `${baseHost}/download/${itemIdentifier}/format=Single Page Processed JP2 ZIP`,
+            title: 'jp2 zip',
+            analyticsEvent: 'AdminUserJP2Zip',
+          },
+        ]
+      : [],
+    userAdminUploader: uploader
+      ? [
+          {
+            title: 'uploader:',
+          },
+          {
+            title: uploader,
+          },
+          {
+            url: `https://catalogd.archive.org/control/useradmin.php?email=${encodeURIComponent(uploader)}`,
+            title: 'user admin',
+            analyticsEvent: 'AdminUserUserAdmin',
+          },
+          {
+            url: `https://catalogd.archive.org/control/setadmin.php?user=${encodeURIComponent(uploader)}&ignore=${itemIdentifier}`,
+            title: 'user privs',
+            analyticsEvent: 'AdminUserUserPrivs',
+          },
+        ]
+      : [],
     signedOut: [
       {
         url: `${baseHost}/signup`,
