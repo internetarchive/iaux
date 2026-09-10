@@ -61,6 +61,8 @@ export interface IATopNavMenuConfig {
   user: IATopNavLink[];
   userAdmin: IATopNavLink[];
   userAdminFlags: IATopNavLink[];
+  userAdminBiblio: IATopNavLink[];
+  userAdminUploader: IATopNavLink[];
   video: IATopNavMediaMenu;
   web: IATopNavMediaMenu;
 }
