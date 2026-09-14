@@ -1,7 +1,7 @@
 {
   "name": "@internetarchive/radio-player",
   "version": "1.0.2",
-  "description": "A Radio Player LitElement.",
+  "description": "DEPRECATED: moved to @internetarchive/elements as <ia-radio-player>. A Radio Player LitElement.",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",

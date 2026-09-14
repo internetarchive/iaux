@@ -1,7 +1,7 @@
 {
   "name": "@internetarchive/playback-controls",
   "version": "0.0.2",
-  "description": "A Playback Controls LitElement for use in controlling media playback.",
+  "description": "DEPRECATED: moved to @internetarchive/elements as <ia-playback-controls>. A Playback Controls LitElement for use in controlling media playback.",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",

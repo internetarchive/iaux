@@ -1,7 +1,7 @@
 {
   "name": "@internetarchive/waveform-progress",
   "version": "0.0.2",
-  "description": "A Waveform Progress LitElement for displaying media progress in a waveform",
+  "description": "DEPRECATED: moved to @internetarchive/elements as <ia-waveform-progress>. A Waveform Progress LitElement for displaying media progress in a waveform",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",

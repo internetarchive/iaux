@@ -1,5 +1,9 @@
 # \<transcript-view>
 
+> **Deprecated.** This component moved to [@internetarchive/elements](https://github.com/internetarchive/elements) as `<ia-transcript-view>` in 0.3.0. It isn't developed here any more, so don't add features or cut a new version from this package. Fix it in elements instead.
+>
+> It stays published until petabox (WEBDEV-9034) and offshoot (WEBDEV-9033) have migrated off it.
+
 A transcript view that handles closed captioning and search results.
 
 ![Transcript View](./assets/img/transcript-view.gif "Transcript View Demo")
