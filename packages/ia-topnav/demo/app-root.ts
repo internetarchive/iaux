@@ -18,6 +18,10 @@ export class AppRoot extends LitElement {
 
   @state() private itemIdentifier = '';
 
+  @state() private uploader = '';
+
+  @state() private biblio = '';
+
   render() {
     return html`
       <ia-topnav
@@ -26,6 +30,8 @@ export class AppRoot extends LitElement {
         .username=${this.username}
         .screenName=${this.screenName}
         .itemIdentifier=${this.itemIdentifier}
+        .uploader=${this.uploader}
+        .biblio=${this.biblio}
       >
       </ia-topnav>
 
@@ -107,6 +113,30 @@ export class AppRoot extends LitElement {
               >
                 Toggle manage flags mode (${this.canManageFlags ? 'on' : 'off'})
                 (requires admin mode)
+              </button>
+            </li>
+
+            <li>
+              <button
+                @click=${() => {
+                  this.uploader = this.uploader ? '' : 'uploader@example.com';
+                }}
+              >
+                Toggle uploader section (${this.uploader ? 'on' : 'off'})
+                (requires admin mode)
+              </button>
+            </li>
+
+            <li>
+              <button
+                @click=${() => {
+                  this.biblio = this.biblio
+                    ? ''
+                    : 'https://books-yaz.archive.org/biblio.php?b_id=boop&add=1';
+                }}
+              >
+                Toggle biblio section (${this.biblio ? 'on' : 'off'}) (requires
+                admin mode)
               </button>
             </li>
           </ul>
