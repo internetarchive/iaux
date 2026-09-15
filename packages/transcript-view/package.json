@@ -1,7 +1,7 @@
 {
   "name": "@internetarchive/transcript-view",
   "version": "1.0.1",
-  "description": "A Transcript View LitElement that displays closed captioning and search results.",
+  "description": "DEPRECATED: moved to @internetarchive/elements as <ia-transcript-view>. A Transcript View LitElement that displays closed captioning and search results.",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
