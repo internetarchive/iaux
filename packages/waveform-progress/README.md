@@ -2,7 +2,7 @@
 
 > **Deprecated.** This component moved to [@internetarchive/elements](https://github.com/internetarchive/elements) as `<ia-waveform-progress>` in 0.3.0. It isn't developed here any more, so don't add features or cut a new version from this package. Fix it in elements instead.
 >
-> It stays published until petabox (WEBDEV-9034) and offshoot (WEBDEV-9033) have migrated off it.
+> It's deprecated on npm too. Existing versions stay published.
 
 A customizable scrubber bar useful for scrubbing through media.
 
