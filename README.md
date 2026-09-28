@@ -6,7 +6,7 @@ Here lies a few packages for UI components used on [Archive.org](https://archive
 
 This repo is no longer open to receive new packages.  Please refer to https://github.com/internetarchive/iaux-typescript-wc-template when creating new components.
 
-The radio player packages (`radio-player`, `audio-element`, `waveform-progress`, `playback-controls`, `scrubber-bar`, `expandable-search-bar`, `transcript-view`) are deprecated. They moved to [@internetarchive/elements](https://github.com/internetarchive/elements) in 0.3.0 and aren't developed here any more. Fix them in elements. They stay published until petabox and offshoot have migrated off them.
+The radio player packages (`radio-player`, `audio-element`, `waveform-progress`, `playback-controls`, `scrubber-bar`, `expandable-search-bar`, `transcript-view`) are deprecated. They moved to [@internetarchive/elements](https://github.com/internetarchive/elements) in 0.3.0 and aren't developed here any more. Fix them in elements. They're deprecated on npm too, and existing versions stay published.
 
 ## Setup
 
