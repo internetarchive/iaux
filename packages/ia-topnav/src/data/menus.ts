@@ -397,7 +397,7 @@ export function buildTopNavMenus(
           external: true,
         },
         {
-          url: 'https://addons.mozilla.org/en-US/firefox/addon/wayback-machine_new/',
+          url: 'https://addons.mozilla.org/en-US/firefox/addon/wayback-machine-official/',
           title: 'Firefox',
           external: true,
         },
