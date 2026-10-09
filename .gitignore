@@ -7,3 +7,6 @@ __snapshots__
 /publish_dev.sh
 /dist
 *.log
+
+# Claude Code worktrees live here; never commit them.
+.claude/worktrees/
