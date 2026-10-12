@@ -334,6 +334,10 @@ export function buildTopNavMenus(
           title: 'Lincoln Collection',
           url: `${baseHost}/details/lincolncollection`,
         },
+        {
+          title: 'Democracy’s Library',
+          url: `${baseHost}/details/democracys-library`,
+        },
       ],
       links: [
         {
