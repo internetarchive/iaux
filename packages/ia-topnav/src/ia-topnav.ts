@@ -1,5 +1,5 @@
 import { LitElement, PropertyValues, html, nothing } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 
 import { buildTopNavMenus, defaultTopNavConfig } from './data/menus';
 import './desktop-subnav';
@@ -11,7 +11,7 @@ import {
   IATopNavSecondIdentitySlotMode,
 } from './models';
 import './primary-nav';
-import './search-menu';
+import type { PrimaryNav } from './primary-nav';
 import './signed-out-dropdown';
 import iaTopNavCSS from './styles/ia-topnav';
 import './user-menu';
@@ -36,15 +36,24 @@ export class IATopNav extends LitElement {
 
   @property({ type: String }) itemIdentifier = '';
 
+  /**
+   * Email of the item's uploader. When set for an admin viewing an item, the
+   * user menu gets an "uploader:" section with user admin / user privs links.
+   */
+  @property({ type: String }) uploader = '';
+
+  /**
+   * Biblio URL for a texts item, which must already carry a query string
+   * (the item identifier is appended to it as `&ignored=`). When set for an
+   * admin viewing an item, the user menu gets biblio / bookview / jp2 zip links.
+   */
+  @property({ type: String }) biblio = '';
+
   @property({ type: Boolean }) mediaSliderOpen = false;
 
   @property({ type: String }) openMenu = '';
 
   @property({ type: String }) screenName: string = '';
-
-  @property({ type: String }) searchIn = '';
-
-  @property({ type: String }) searchQuery = '';
 
   @property({ type: String }) selectedMenuOption = '';
 
@@ -61,7 +70,16 @@ export class IATopNav extends LitElement {
     moveTo: string;
   };
 
+  @query('primary-nav') private primaryNav?: PrimaryNav;
+  /** Only one of user-menu or signed-out-dropdown is rendered at a time. */
+  @query('user-menu, signed-out-dropdown')
+  private accountDropdown?: HTMLElement;
+
   @state() private menus: IATopNavMenuConfig = buildTopNavMenus();
+
+  private boundHandleKeydown = this.handleDocumentKeydown.bind(this);
+
+  private boundHandleClick = this.handleDocumentClick.bind(this);
 
   private get normalizedBaseHost() {
     return !this.localLinks ? this.baseHost : '';
@@ -76,6 +94,8 @@ export class IATopNav extends LitElement {
       props.has('username') ||
       props.has('waybackPagesArchived') ||
       props.has('itemIdentifier') ||
+      props.has('uploader') ||
+      props.has('biblio') ||
       props.has('localLinks') ||
       props.has('baseHost')
     ) {
@@ -83,18 +103,31 @@ export class IATopNav extends LitElement {
     }
   }
 
-  firstUpdated() {
-    // close open menu on `esc` click
-    document.addEventListener(
-      'keydown',
-      (e) => {
-        if (e.key === 'Escape') {
-          this.openMenu = '';
-          this.closeMediaSlider();
-        }
-      },
-      false,
-    );
+  connectedCallback() {
+    super.connectedCallback();
+    document.addEventListener('keydown', this.boundHandleKeydown);
+    document.addEventListener('click', this.boundHandleClick);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener('keydown', this.boundHandleKeydown);
+    document.removeEventListener('click', this.boundHandleClick);
+  }
+
+  private handleDocumentKeydown(e: KeyboardEvent) {
+    if (e.key === 'Escape') {
+      this.openMenu = '';
+      this.closeMediaSlider();
+    }
+  }
+
+  private handleDocumentClick(e: MouseEvent) {
+    if (!this.openMenu) return;
+    const path = e.composedPath();
+    if (!path.includes(this)) {
+      this.closeMenus();
+    }
   }
 
   menuSetup() {
@@ -104,6 +137,8 @@ export class IATopNav extends LitElement {
       this.normalizedBaseHost,
       this.waybackPagesArchived,
       this.itemIdentifier,
+      this.uploader,
+      this.biblio,
     );
   }
 
@@ -115,6 +150,16 @@ export class IATopNav extends LitElement {
       return;
     }
     this.closeMediaSlider();
+
+    if (this.openMenu === 'user' || this.openMenu === 'login') {
+      if (this.primaryNav && this.accountDropdown) {
+        const right = this.primaryNav.getAccountDropdownOffset();
+        this.accountDropdown.style.setProperty(
+          '--dropdownMenuRight',
+          `${right}px`,
+        );
+      }
+    }
   }
 
   openMediaSlider() {
@@ -129,10 +174,6 @@ export class IATopNav extends LitElement {
   closeMenus() {
     this.openMenu = '';
     this.closeMediaSlider();
-  }
-
-  searchInChanged(e: CustomEvent) {
-    this.searchIn = e.detail.searchIn;
   }
 
   trackClick(e: CustomEvent) {
@@ -164,20 +205,12 @@ export class IATopNav extends LitElement {
     this.openMediaSlider();
   }
 
-  get searchMenuOpened() {
-    return this.openMenu === 'search';
-  }
-
   get signedOutOpened() {
     return this.openMenu === 'login';
   }
 
   get userMenuOpened() {
     return this.openMenu === 'user';
-  }
-
-  get searchMenuTabIndex() {
-    return this.searchMenuOpened ? '' : '-1';
   }
 
   get userMenuTabIndex() {
@@ -200,7 +233,6 @@ export class IATopNav extends LitElement {
         .menuItems=${this.userMenuItems}
         ?open=${this.openMenu === 'user'}
         .username=${this.username}
-        ?hideSearch=${this.hideSearch}
         tabindex="${this.userMenuTabIndex}"
         @menuToggled=${this.menuToggled}
         @trackClick=${this.trackClick}
@@ -216,9 +248,11 @@ export class IATopNav extends LitElement {
         .baseHost=${this.normalizedBaseHost}
         .config=${this.config}
         .open=${this.signedOutOpened}
-        ?hideSearch=${this.hideSearch}
         tabindex="${this.signedOutTabIndex}"
         .menuItems=${this.signedOutMenuItems}
+        @focusToOtherMenuItem=${(e: CustomEvent) => {
+          this.currentTab = e.detail;
+        }}
       ></signed-out-dropdown>
     `;
   }
@@ -231,22 +265,35 @@ export class IATopNav extends LitElement {
    * Most users just get the basic menu items.
    * For users with `/items` priv, additional admin menu items are included too.
    * Having the `/flags` priv adds a further admin item for managing flags.
+   * A `biblio` URL adds a section of book-scanning links, and an `uploader`
+   * adds a section with the uploader's email and account admin links. Each
+   * section is rendered with a divider above it.
    */
   get userMenuItems() {
     const basicItems = this.menus.user;
+    if (!this.itemIdentifier || !this.admin) return [basicItems];
 
     let adminItems = this.menus.userAdmin;
     if (this.canManageFlags) {
       adminItems = adminItems.concat(this.menus.userAdminFlags);
     }
 
-    return this.itemIdentifier && this.admin
-      ? [basicItems, adminItems]
-      : [basicItems];
+    // The built sections are empty until the matching prop is set and the
+    // menus have been rebuilt, so gating on them keeps a divider from ever
+    // rendering above an empty section.
+    const { userAdminBiblio, userAdminUploader } = this.menus;
+    const sections = [basicItems, adminItems];
+    if (userAdminBiblio.length) sections.push(userAdminBiblio);
+    if (userAdminUploader.length) sections.push(userAdminUploader);
+    return sections;
   }
 
   get allowSecondaryIcon() {
     return this.secondIdentitySlotMode === 'allow';
+  }
+
+  get searchSlot() {
+    return html`<slot name="search" slot="search"></slot>`;
   }
 
   get secondLogoSlot() {
@@ -271,8 +318,6 @@ export class IATopNav extends LitElement {
           .config=${this.config}
           .openMenu=${this.openMenu}
           .screenName=${this.screenName}
-          .searchIn=${this.searchIn}
-          .searchQuery=${this.searchQuery}
           .secondIdentitySlotMode=${this.secondIdentitySlotMode}
           .selectedMenuOption=${this.selectedMenuOption}
           .username=${this.username}
@@ -284,14 +329,8 @@ export class IATopNav extends LitElement {
           @trackSubmit=${this.trackSubmit}
           @menuToggled=${this.menuToggled}
         >
-          ${this.secondLogoSlot}
+          ${this.secondLogoSlot} ${this.searchSlot}
         </primary-nav>
-        <desktop-subnav
-          .baseHost=${this.normalizedBaseHost}
-          .menuItems=${this.menus.more.links}
-          @focus=${this.closeMenus}
-          @click=${this.closeMenus}
-        ></desktop-subnav>
         <media-slider
           .baseHost=${this.normalizedBaseHost}
           .config=${this.config}
@@ -304,16 +343,12 @@ export class IATopNav extends LitElement {
         ></media-slider>
       </div>
       ${this.username ? this.userMenu : this.signedOutDropdown}
-      <search-menu
+      <desktop-subnav
         .baseHost=${this.normalizedBaseHost}
-        .config=${this.config}
-        .openMenu=${this.openMenu}
-        tabindex="${this.searchMenuTabIndex}"
-        ?hideSearch=${this.hideSearch}
-        @searchInChanged=${this.searchInChanged}
-        @trackClick=${this.trackClick}
-        @trackSubmit=${this.trackSubmit}
-      ></search-menu>
+        .menuItems=${this.menus.more.links}
+        @focus=${this.closeMenus}
+        @click=${this.closeMenus}
+      ></desktop-subnav>
       <div
         id="close-layer"
         class="${this.closeLayerClass}"

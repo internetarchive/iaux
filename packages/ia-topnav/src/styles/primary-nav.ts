@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   button:focus,
@@ -123,9 +124,40 @@ export default css`
     fill: var(--iconFill);
   }
 
-  .search-activated {
-    position: relative;
+  .search-container {
+    display: none;
+  }
+
+  .search-container.open {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 4rem;
+    bottom: 0;
+    left: 4rem;
     z-index: 3;
+    padding: 0.5rem;
+    border-radius: 1rem 1rem 0 0;
+    background: var(--primaryNavBg);
+    align-items: center;
+    animation: fade-in 0.2s forwards;
+  }
+
+  .search-container ::slotted(*) {
+    display: block;
+  }
+
+  .search-container slot {
+    width: 100%;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 
   .upload {
@@ -180,7 +212,7 @@ export default css`
     outline-offset: 1px;
   }
 
-  @media only screen and (min-width: 890px) and (max-device-width: 905px) {
+  @media only screen and (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) and (max-device-width: 905px) {
     .branding.second-logo {
       padding-right: 0;
     }
@@ -192,7 +224,7 @@ export default css`
     }
   }
 
-  @media (max-width: 889px) {
+  @media (max-width: ${TOPNAV_MOBILE_BREAKPOINT - 1}px) {
     slot[name='opt-sec-logo'] {
       display: none;
     }
@@ -205,7 +237,7 @@ export default css`
     }
   }
 
-  @media (min-width: 890px) {
+  @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
     :host {
       --userIconWidth: 3.2rem;
       --userIconHeight: 3.2rem;
@@ -288,9 +320,23 @@ export default css`
       fill: var(--linkHoverColor);
     }
 
-    nav-search {
-      float: right;
-      margin-left: 1rem;
+    .search-container,
+    .search-container.open {
+      display: flex;
+      position: static;
+      top: auto;
+      right: auto;
+      bottom: auto;
+      left: auto;
+      align-items: center;
+      padding: 0 0 0 1rem;
+      background: transparent;
+      border-radius: 0;
+      z-index: auto;
+    }
+
+    .search-container slot {
+      width: auto;
     }
   }
 
@@ -304,7 +350,8 @@ export default css`
     }
 
     .upload span {
-      display: inline;
+      display: inline-block;
+      vertical-align: middle;
     }
   }
 `;

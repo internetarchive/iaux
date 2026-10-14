@@ -91,6 +91,34 @@ describe('TranscriptView', () => {
     expect(response).to.exist;
   });
 
+  it('renders `data-search-result-index` as an attribute so search results can be found', async () => {
+    const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', false, undefined);
+    const entry2 = new TranscriptEntryConfig(2, 68, 73, 'bar', false, 0);
+    const entry3 = new TranscriptEntryConfig(3, 74, 78, 'baz', false, 1);
+
+    const config = new TranscriptConfig([entry1, entry2, entry3])
+
+    const el = await fixture(html`
+      <transcript-view
+        .config=${config}>
+      </transcript-view>
+    `);
+
+    const entries = el.shadowRoot.querySelectorAll('transcript-entry');
+
+    // `selectedSearchResult` looks entries up with an attribute selector, so a
+    // property binding here would leave it unable to find anything to scroll to.
+    expect(entries[1].getAttribute('data-search-result-index')).to.equal('0');
+    expect(entries[2].getAttribute('data-search-result-index')).to.equal('1');
+
+    expect(el.selectedSearchResult).to.equal(entries[1]);
+
+    el.selectedSearchResultIndex = 1;
+    await el.updateComplete;
+
+    expect(el.selectedSearchResult).to.equal(entries[2]);
+  });
+
   it('disables `autoScroll` if the user scrolls and reenables it after `scrollTimerDelay`', async () => {
     const entry1 = new TranscriptEntryConfig(1, 64, 67, 'foo', undefined);
     const entry2 = new TranscriptEntryConfig(2, 67, 73, 'bar', undefined);

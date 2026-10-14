@@ -165,10 +165,18 @@ describe('Audio Element', () => {
       <audio-element></audio-element>
     `);
     el.sources = audioSources;
-    el.load();
-    await promisedSleep(100);
+    // Load in a setTimeout so the `durationchange` listener below is attached
+    // before the event fires, then wait for the duration to actually be known
+    // instead of racing a fixed sleep.
+    setTimeout(() => { el.load(); });
+    await oneEvent(el, 'durationchange');
     const audioTag = el.shadowRoot.querySelector('audio');
-    expect(audioTag.duration).to.equal(1.07102);
+    // `spring.mp3` is ~1.05s, but the exact `duration` an MP3 reports is not
+    // deterministic: MP3 containers carry no reliable duration, so browsers
+    // estimate it and different Chrome versions (and sometimes different runs)
+    // land on slightly different values — e.g. 1.07102 vs 1.019841 have both
+    // been observed. Assert with a tolerance rather than exact equality.
+    expect(audioTag.duration).to.be.closeTo(1.05, 0.1);
   });
 
   it('returns the proper currentTime', async () => {

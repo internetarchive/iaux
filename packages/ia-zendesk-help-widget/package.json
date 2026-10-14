@@ -1,69 +1,71 @@
 {
   "name": "@internetarchive/ia-zendesk-help-widget",
-  "version": "0.2.0",
-  "description": "Zendesk Help Widget Component",
+  "description": "Internet Archive Zendesk Messenger launcher web component.",
   "license": "AGPL-3.0-only",
-  "main": "index.js",
-  "module": "index.js",
+  "author": "Internet Archive",
+  "version": "0.3.0",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "scripts": {
+    "start": "vite serve demo",
+    "prepare": "vite build",
+    "build": "vite build",
+    "lint": "eslint . && prettier \"**/*.ts\" --check",
+    "format": "eslint . --fix && prettier \"**/*.ts\" --write",
+    "circular": "madge --circular --extensions ts .",
+    "test": "npm run lint && npm run circular && vitest run",
+    "test:watch": "vitest"
+  },
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@internetarchive/lazy-loader-service": "^0.2.0",
+    "lit": "^2.8.0 || ^3.3.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.2.2",
+    "@vitest/browser-playwright": "^4.0.18",
+    "@vitest/coverage-v8": "^4.0.18",
+    "axe-core": "^4.11.1",
+    "eslint": "^10.0.0",
+    "eslint-plugin-html": "^8.1.4",
+    "gh-pages": "^6.3.0",
+    "husky": "^9.1.7",
+    "madge": "^8.0.0",
+    "path": "^0.12.7",
+    "playwright": "^1.58.2",
+    "prettier": "^3.8.1",
+    "rimraf": "^6.1.2",
+    "sinon": "^21.0.1",
+    "ts-lit-plugin": "^2.0.2",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.55.0",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.18"
+  },
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {
-    "start": "es-dev-server --app-index ./index.html --node-resolve --watch --open",
-    "lint:eslint": "eslint --ext .js . --ignore-path .gitignore",
-    "format:eslint": "eslint --ext .js . --fix --ignore-path .gitignore",
-    "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
-    "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
-    "lint": "npm run lint:eslint",
-    "format": "npm run format:eslint && npm run format:prettier",
-    "test": "",
-    "test:watch": "karma start --auto-watch=true --single-run=false",
-    "test:update-snapshots": "karma start --update-snapshots",
-    "test:prune-snapshots": "karma start --prune-snapshots",
-    "test:compatibility": "karma start --compatibility all --coverage",
-    "test:compatibility:watch": "karma start --compatibility all --auto-watch=true --single-run=false",
-    "test:bs": "karma start karma.bs.config.js --compatibility all --coverage",
-    "site:build": "npm run storybook:build",
-    "storybook": "start-storybook -p 9001",
-    "storybook:build": "build-storybook -o _site -s storybook-static"
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
   },
-  "dependencies": {
-    "@internetarchive/lazy-loader-service": "^0.2.0",
-    "lit": "^2.2.7"
-  },
-  "devDependencies": {
-    "@open-wc/demoing-storybook": "^0.3.0",
-    "@open-wc/eslint-config": "^1.0.0",
-    "@open-wc/polyfills-loader": "^0.2.1",
-    "@open-wc/prettier-config": "^0.1.10",
-    "@open-wc/testing": "^2.0.0",
-    "@open-wc/testing-karma": "^3.4.0",
-    "@open-wc/testing-karma-bs": "^1.0.0",
-    "@storybook/react": "^5.1.11",
-    "es-dev-server": "^1.42.0",
-    "eslint": "^6.1.0",
-    "eslint-plugin-lit": "^0.5.0",
-    "gulp": "^4.0.2",
-    "husky": "^4.2.3",
-    "lint-staged": "^8.0.0",
-    "webpack-merge": "^4.1.5"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
+  "files": [
+    "README.md",
+    "dist"
+  ],
   "lint-staged": {
-    "*.js": [
+    "*.ts": [
       "eslint --fix",
+      "prettier --write",
       "git add"
     ]
   },
-  "eslintConfig": {
-    "extends": [
-      "@open-wc/eslint-config",
-      "eslint-config-prettier"
-    ]
-  },
-  "prettier": "@open-wc/prettier-config"
+  "overrides": {
+    "typescript-eslint": {
+      "eslint": "$eslint"
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   .nav-container {
@@ -90,12 +91,13 @@ export default css`
     width: 1.4rem;
   }
 
-  @media (min-width: 890px) {
+  @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
     nav {
       display: flex;
       overflow: visible;
       top: 0;
       left: auto;
+      right: var(--dropdownMenuRight, 0);
       z-index: 5;
       transition: opacity 0.2s ease-in-out;
       font-size: 1.4rem;
@@ -142,6 +144,7 @@ export default css`
     .info-item {
       padding: 0.5rem 2rem;
       font-size: 0.8em;
+      color: var(--inverseDropdownMenuInfoItem);
     }
 
     a:hover,

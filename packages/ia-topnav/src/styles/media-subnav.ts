@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 import { subnavListCSS } from './base';
 
 export default [
@@ -45,7 +46,7 @@ export default [
       display: none;
     }
 
-    @media (min-width: 890px) {
+    @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
       :host {
         display: -ms-grid;
         display: grid;

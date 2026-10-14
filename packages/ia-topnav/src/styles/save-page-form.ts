@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   div {
@@ -45,7 +46,7 @@ export default css`
     display: block;
   }
 
-  @media (min-width: 890px) {
+  @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
     h3 {
       margin-top: 0;
       font: normal 100 1.6rem var(--themeFontFamily);

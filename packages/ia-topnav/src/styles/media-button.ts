@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   a {
@@ -64,7 +65,7 @@ export default css`
     fill: #f00;
   }
 
-  @media (min-width: 890px) {
+  @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
     .menu-item {
       width: auto;
       height: 5rem;

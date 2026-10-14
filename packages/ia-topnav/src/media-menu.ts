@@ -48,7 +48,7 @@ const menuSelection = [
   {
     icon: 'donate',
     menu: 'donate',
-    href: '/donate/',
+    href: '/donate/?origin=iawww-mbhmbgrmenu',
     label: 'Donate',
     followable: true,
   },

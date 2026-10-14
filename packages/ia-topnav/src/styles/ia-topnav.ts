@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export default css`
   :host {
@@ -10,9 +11,11 @@ export default css`
     --grey60: #999;
     --grey66: #aaa;
     --grey80: #ccc;
+    --greya0: #a0a0a0;
+    --grey6f: #6f6f6f;
     --errorYellow: #ffcd27;
 
-    --linkColor: #428bca;
+    --linkColor: #4b64ff;
     --linkHoverColor: var(--white);
     --subnavLinkColor: var(--grey66);
     --primaryTextColor: var(--white);
@@ -21,11 +24,6 @@ export default css`
     --activeColor: var(--white);
     --activeButtonBg: var(--grey20);
     --iconFill: var(--grey60);
-
-    --searchActiveBg: var(--grey20);
-    --searchActiveInputBg: var(--white);
-    --searchMenuBg: var(--grey20);
-    --desktopSearchIconFill: var(--grey20);
 
     --mediaMenuBg: var(--grey13);
     --mediaLabelDesktopColor: var(--grey60);
@@ -40,8 +38,9 @@ export default css`
     --desktopSubnavBg: var(--grey20);
 
     --dropdownMenuBg: var(--grey20);
-    --dropdownMenuInfoItem: var(--grey60);
+    --dropdownMenuInfoItem: var(--greya0);
     --dropdownMenuDivider: var(--grey40);
+    --inverseDropdownMenuInfoItem: var(--grey6f);
 
     --loginTextColor: var(--grey60);
 
@@ -79,7 +78,7 @@ export default css`
     z-index: 4;
   }
 
-  @media (max-width: 889px) {
+  @media (max-width: ${TOPNAV_MOBILE_BREAKPOINT - 1}px) {
     desktop-subnav {
       display: none;
     }

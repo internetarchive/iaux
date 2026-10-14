@@ -5,10 +5,8 @@ import { IATopNavConfig, IATopNavMenuConfig } from '../models';
 export const defaultTopNavConfig: IATopNavConfig = {
   // Google Analytics event category
   eventCategory: 'TopNav',
-  // Array of strings representing the values of options that should be hidden from search options
-  hiddenSearchOptions: [],
   // Default value, if more accurate value is not passed in to `buildTopNavMenus()`
-  waybackPagesArchived: '740 billion',
+  waybackPagesArchived: '1 trillion',
 };
 
 /**
@@ -17,9 +15,7 @@ export const defaultTopNavConfig: IATopNavConfig = {
  * @param { boolean } localLinks passing in false will ensure all links begin: https://archive.org
  * @param { string } waybackPagesArchived label readable 'how many pages in WayBack machine?'
  *                                        If you don't pass in something, you'll get the potentially
- *                                        older/less accurate version.  Otherwise,
- *                                        @see waybackPagesArchivedFN() (below) (please cache it)
- *                                        for a live service accurate count result.
+ *                                        older/less accurate version.
  * @param { string } itemIdentifier The current item being viewed, to populate admin menu items
  * @returns { object }
  */
@@ -28,6 +24,8 @@ export function buildTopNavMenus(
   baseHost: string = 'https://archive.org',
   waybackPagesArchived: string = '',
   itemIdentifier: string = '',
+  uploader: string = '',
+  biblio: string = '',
 ): IATopNavMenuConfig {
   if (waybackPagesArchived)
     defaultTopNavConfig.waybackPagesArchived = waybackPagesArchived; // update to more accurate val
@@ -168,6 +166,10 @@ export function buildTopNavMenus(
           url: 'https://blog.archive.org',
         },
         {
+          title: 'Events',
+          url: `${baseHost}/events`,
+        },
+        {
           title: 'Projects',
           url: `${baseHost}/projects/`,
         },
@@ -190,10 +192,6 @@ export function buildTopNavMenus(
         {
           title: 'Volunteer',
           url: `${baseHost}/about/volunteer-positions`,
-        },
-        {
-          title: 'People',
-          url: `${baseHost}/about/bios`,
         },
       ],
       heading: '',
@@ -336,6 +334,10 @@ export function buildTopNavMenus(
           title: 'Lincoln Collection',
           url: `${baseHost}/details/lincolncollection`,
         },
+        {
+          title: 'Democracy’s Library',
+          url: `${baseHost}/details/democracys-library`,
+        },
       ],
       links: [
         {
@@ -367,8 +369,12 @@ export function buildTopNavMenus(
           url: `${baseHost}/details/booksbylanguage`,
         },
         {
-          title: 'Additional Collections',
-          url: `${baseHost}/details/additional_collections`,
+          title: 'Folkscanomy',
+          url: `${baseHost}/details/folkscanomy`,
+        },
+        {
+          title: 'Government Documents',
+          url: `${baseHost}/details/government-documents`,
         },
       ],
       mobileAppsLinks: [],
@@ -383,7 +389,7 @@ export function buildTopNavMenus(
           external: true,
         },
         {
-          url: 'https://play.google.com/store/apps/details?id=com.archive.waybackmachine&hl=en_US',
+          url: 'https://play.google.com/store/apps/details?id=com.internetarchive.waybackmachine',
           title: 'Wayback Machine (Android)',
           external: true,
         },
@@ -395,7 +401,7 @@ export function buildTopNavMenus(
           external: true,
         },
         {
-          url: 'https://addons.mozilla.org/en-US/firefox/addon/wayback-machine_new/',
+          url: 'https://addons.mozilla.org/en-US/firefox/addon/wayback-machine-official/',
           title: 'Firefox',
           external: true,
         },
@@ -528,7 +534,7 @@ export function buildTopNavMenus(
     },
     user: [
       {
-        url: `${baseHost}/create`,
+        url: `${baseHost}/upload`,
         title: 'Upload files',
         analyticsEvent: 'UserUpload',
         class: 'mobile-upload',
@@ -544,7 +550,7 @@ export function buildTopNavMenus(
         analyticsEvent: 'UserLoans',
       },
       {
-        url: `${baseHost}/details/fav-${userid}`,
+        url: `${baseHost}/details/@${userid}/favorites`,
         title: 'My favorites',
         analyticsEvent: 'UserFavorites',
       },
@@ -564,7 +570,7 @@ export function buildTopNavMenus(
         analyticsEvent: 'UserWebArchive',
       },
       {
-        url: `${baseHost}/account/index.php?settings=1`,
+        url: `${baseHost}/account/settings`,
         title: 'Account settings',
         analyticsEvent: 'UserSettings',
       },
@@ -574,7 +580,7 @@ export function buildTopNavMenus(
         analyticsEvent: 'UserHelp',
       },
       {
-        url: `${baseHost}/account/logout`,
+        url: `${baseHost}/logout`,
         title: 'Log out',
         analyticsEvent: 'UserLogOut',
       },
@@ -634,58 +640,56 @@ export function buildTopNavMenus(
         analyticsEvent: 'AdminUserManageFlags',
       },
     ],
+    userAdminBiblio: biblio
+      ? [
+          {
+            url: `${biblio}&ignored=${itemIdentifier}`,
+            title: 'biblio',
+            analyticsEvent: 'AdminUserBiblio',
+          },
+          {
+            url: `${baseHost}/bookview.php?mode=debug&identifier=${itemIdentifier}`,
+            title: 'bookview',
+            analyticsEvent: 'AdminUserBookView',
+          },
+          {
+            url: `${baseHost}/download/${itemIdentifier}/format=Single Page Processed JP2 ZIP`,
+            title: 'jp2 zip',
+            analyticsEvent: 'AdminUserJP2Zip',
+          },
+        ]
+      : [],
+    userAdminUploader: uploader
+      ? [
+          {
+            title: 'uploader:',
+          },
+          {
+            title: uploader,
+          },
+          {
+            url: `https://catalogd.archive.org/control/useradmin.php?email=${encodeURIComponent(uploader)}`,
+            title: 'user admin',
+            analyticsEvent: 'AdminUserUserAdmin',
+          },
+          {
+            url: `https://catalogd.archive.org/control/setadmin.php?user=${encodeURIComponent(uploader)}&ignore=${itemIdentifier}`,
+            title: 'user privs',
+            analyticsEvent: 'AdminUserUserPrivs',
+          },
+        ]
+      : [],
     signedOut: [
       {
-        url: `${baseHost}/account/signup`,
+        url: `${baseHost}/signup`,
         title: 'Sign up for free',
         analyticsEvent: 'AvatarMenu-Signup',
       },
       {
-        url: `${baseHost}/account/login`,
+        url: `${baseHost}/login`,
         title: 'Log in',
         analyticsEvent: 'AvatarMenu-Login',
       },
     ],
   };
-}
-
-let waybackPagesArchivedCached: string | undefined;
-
-/**
- * Fetches accurate count of number of pages in WayBack Machine
- * @returns { string }
- */
-export async function waybackPagesArchivedFN(): Promise<string> {
-  if (waybackPagesArchivedCached) return waybackPagesArchivedCached;
-
-  const counts = await (
-    await fetch(
-      'https://archive.org/services/offshoot/home-page/mediacounts.php',
-    )
-  ).json();
-  if (counts.success) {
-    let label = '';
-    let n = parseInt(counts.value.counts.web, 10);
-    if (n > 1000) {
-      n /= 1000;
-      label = 'thousand';
-    }
-    if (n > 1000) {
-      n /= 1000;
-      label = 'million';
-    }
-    if (n > 1000) {
-      n /= 1000;
-      label = 'billion';
-    }
-    if (n > 1000) {
-      n /= 1000;
-      label = 'trillion';
-    }
-    waybackPagesArchivedCached = `${Math.round(n)} ${label}`;
-  } else {
-    waybackPagesArchivedCached = '741 billion';
-  }
-
-  return waybackPagesArchivedCached;
 }

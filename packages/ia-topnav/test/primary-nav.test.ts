@@ -50,7 +50,7 @@ describe('<primary-nav>', () => {
     expect(el.shadowRoot?.querySelector('login-button')).to.not.be.undefined;
   });
 
-  it('does not render search menu toggle and search form if hideSearch true', async () => {
+  it('does not render search trigger or search slot if hideSearch true', async () => {
     const el = await fixture<PrimaryNav>(
       component({
         baseHost: 'archive.org',
@@ -61,7 +61,48 @@ describe('<primary-nav>', () => {
     );
 
     expect(el.shadowRoot?.querySelector('.search-trigger')).to.equal(null);
-    expect(el.shadowRoot?.querySelector('nav-search')).to.equal(null);
+    expect(el.shadowRoot?.querySelector('.search-container')).to.not.exist;
+  });
+
+  it('renders search slot container', async () => {
+    const el = await fixture<PrimaryNav>(
+      component({
+        baseHost: 'archive.org',
+        username: 'testuser',
+        screenName: 'testuser',
+      }),
+    );
+
+    expect(el.shadowRoot?.querySelector('.search-container')).to.exist;
+
+    const slot = el.shadowRoot?.querySelector<HTMLSlotElement>(
+      'slot[name="search"]',
+    );
+    expect(slot).to.exist;
+  });
+
+  it('renders search trigger button for mobile toggle', async () => {
+    const el = await fixture<PrimaryNav>(
+      component({
+        baseHost: 'archive.org',
+        username: 'testuser',
+        screenName: 'testuser',
+      }),
+    );
+
+    expect(el.shadowRoot?.querySelector('.search-trigger')).to.exist;
+  });
+
+  it('does not render nav-search', async () => {
+    const el = await fixture<PrimaryNav>(
+      component({
+        baseHost: 'archive.org',
+        username: 'testuser',
+        screenName: 'testuser',
+      }),
+    );
+
+    expect(el.shadowRoot?.querySelector('nav-search')).to.not.exist;
   });
 
   it('opens a slot with `secondIdentitySlotMode`', async () => {

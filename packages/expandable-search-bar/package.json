@@ -1,7 +1,7 @@
 {
   "name": "@internetarchive/expandable-search-bar",
   "version": "0.0.2",
-  "description": "An expandable Search Bar.",
+  "description": "DEPRECATED: moved to @internetarchive/elements as <ia-expandable-search-bar>. An expandable Search Bar.",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",

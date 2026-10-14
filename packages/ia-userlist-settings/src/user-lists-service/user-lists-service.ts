@@ -238,6 +238,19 @@ export class UserListsService implements UserListsServiceInterface {
     );
   }
 
+  /** @inheritdoc */
+  async removeBulkMembersFromList(
+    listId: string,
+    memberIds: string[],
+  ): Promise<Result<UserList, UserListsError>> {
+    return this.fetchEndpoint<UserList>(
+      `${this.baseUrl}/services/users/me/lists/${listId}/members`,
+      'PATCH',
+      JSON.stringify({ remove: memberIds }),
+      { 'Content-Type': JSON_CONTENT_TYPE },
+    );
+  }
+
   /** Construct a UserListsError with the given reason and underlying error cause */
   private static getErrorResult(reason: UserListsErrorReason, err?: unknown) {
     return new UserListsError(reason, UserListsService.getErrorMessage(err), {

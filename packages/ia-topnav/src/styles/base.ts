@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { TOPNAV_MOBILE_BREAKPOINT } from '../models';
 
 export const subnavListCSS = css`
   h4 {
@@ -20,7 +21,7 @@ export const subnavListCSS = css`
     padding-top: 1.5rem;
   }
 
-  @media (min-width: 890px) {
+  @media (min-width: ${TOPNAV_MOBILE_BREAKPOINT}px) {
     h4 {
       margin: 0 0 1rem 0;
       font-weight: 100;

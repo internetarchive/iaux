@@ -45,7 +45,7 @@ export default IATopNav;
     --grey80: #ccc;
     --errorYellow: #ffcd27;
 
-    --linkColor: #428bca;
+    --linkColor: #4b64ff;
     --linkHoverColor: var(--white);
     --subnavLinkColor: var(--grey66);
     --primaryTextColor: var(--white);

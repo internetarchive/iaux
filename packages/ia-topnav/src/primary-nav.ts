@@ -3,13 +3,12 @@ import TrackedElement from './tracked-element';
 import icons from './assets/img/icons';
 import './assets/img/hamburger';
 import './login-button';
-import './nav-search';
+import type { LoginButton } from './login-button';
 import './media-menu';
 import logoWordmarkStacked from './assets/img/wordmark-stacked';
 import primaryNavCSS from './styles/primary-nav';
-import locationHandler from './lib/location-handler';
 import formatUrl from './lib/format-url';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 import { IATopNavConfig, IATopNavSecondIdentitySlotMode } from './models';
 import { defaultTopNavConfig } from './data/menus';
 
@@ -21,8 +20,6 @@ export class PrimaryNav extends TrackedElement {
   @property({ type: Object }) config: IATopNavConfig = defaultTopNavConfig;
   @property({ type: String }) openMenu = '';
   @property({ type: String }) screenName = '';
-  @property({ type: String }) searchIn = '';
-  @property({ type: String }) searchQuery = '';
   @property({ type: String })
   secondIdentitySlotMode: IATopNavSecondIdentitySlotMode = '';
   @property({ type: String }) selectedMenuOption = '';
@@ -36,8 +33,30 @@ export class PrimaryNav extends TrackedElement {
     | undefined;
   signedOutMenuToggled: unknown;
 
+  @query('button.user-menu') private userMenuButton?: HTMLButtonElement;
+  @query('login-button') private loginButton?: HTMLElement;
+
   static get styles() {
     return primaryNavCSS;
+  }
+
+  /** Distance (px) from this element's right edge to the right edge of the account dropdown toggle. */
+  getAccountDropdownOffset(): number {
+    const hostRect = this.getBoundingClientRect();
+
+    if (this.userMenuButton) {
+      return hostRect.right - this.userMenuButton.getBoundingClientRect().right;
+    }
+
+    if (this.loginButton) {
+      const loginRect = this.loginButton.getBoundingClientRect();
+      const innerOffset = (
+        this.loginButton as LoginButton
+      ).getDropdownToggleOffset();
+      return hostRect.right - loginRect.right + innerOffset;
+    }
+
+    return 0;
   }
 
   toggleMediaMenu(e: Event) {
@@ -93,10 +112,20 @@ export class PrimaryNav extends TrackedElement {
             ?.classList.contains('images');
         });
 
+        let nextElement;
+        if (this.username) {
+          nextElement = this.shadowRoot?.querySelector('a.upload');
+        } else {
+          nextElement = this.shadowRoot
+            ?.querySelector('login-button')
+            ?.shadowRoot?.querySelector('span a');
+        }
+
+        const menuItemElement =
+          lastMediaButton[0]?.shadowRoot?.querySelector('a.menu-item');
+
         const focusElement =
-          this.currentTab.moveTo === 'next'
-            ? this.shadowRoot?.querySelector('a.upload')
-            : lastMediaButton[0]?.shadowRoot?.querySelector('a.menu-item');
+          this.currentTab.moveTo === 'next' ? nextElement : menuItemElement;
 
         if (focusElement) {
           (focusElement as HTMLElement).focus();
@@ -129,7 +158,7 @@ export class PrimaryNav extends TrackedElement {
       >
         <img
           src="${this.mediaBaseHost}${this.userProfileImagePath}"
-          alt="${this.screenName}"
+          alt="Profile picture for ${this.screenName}"
         />
         <span class="screen-name" dir="auto">${this.screenName}</span>
       </button>
@@ -156,6 +185,19 @@ export class PrimaryNav extends TrackedElement {
     return this.secondIdentitySlotMode === 'allow';
   }
 
+  /**
+   * The search slot container, rendered between media-menu and
+   * right-side-section so it sits left of the Upload button on desktop.
+   */
+  get searchSlotContainer() {
+    if (this.hideSearch) return nothing;
+    return html`
+      <div class="search-container ${this.searchMenuOpen ? 'open' : ''}">
+        <slot name="search"></slot>
+      </div>
+    `;
+  }
+
   get searchMenu() {
     if (this.hideSearch) return nothing;
 
@@ -167,15 +209,6 @@ export class PrimaryNav extends TrackedElement {
       >
         ${icons.search}
       </button>
-      <nav-search
-        .baseHost=${this.baseHost}
-        .config=${this.config}
-        .locationHandler=${locationHandler}
-        .open=${this.searchMenuOpen}
-        .openMenu=${this.openMenu}
-        .searchIn=${this.searchIn}
-        .searchQuery=${this.searchQuery}
-      ></nav-search>
     `;
   }
 
@@ -196,7 +229,7 @@ export class PrimaryNav extends TrackedElement {
 
   get uploadButtonTemplate() {
     return html` <a
-      .href="${formatUrl('/create' as string & Location, this.baseHost)}"
+      .href="${formatUrl('/upload' as string & Location, this.baseHost)}"
       class="upload"
       @focus=${this.toggleMediaMenu}
     >
@@ -256,6 +289,7 @@ export class PrimaryNav extends TrackedElement {
           .openMenu=${this.openMenu}
           .currentTab=${this.currentTab}
         ></media-menu>
+        ${this.searchSlotContainer}
         <div class="right-side-section">
           ${this.mobileDonateHeart} ${this.userStateTemplate}
           ${this.uploadButtonTemplate} ${this.searchMenu}

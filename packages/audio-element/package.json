@@ -1,7 +1,7 @@
 {
   "name": "@internetarchive/audio-element",
   "version": "0.0.2",
-  "description": "An Audio Element that wraps the HTML audio tag.",
+  "description": "DEPRECATED: moved to @internetarchive/elements as <ia-audio-element>. An Audio Element that wraps the HTML audio tag.",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "module": "index.js",
