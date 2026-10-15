@@ -1,5 +1,9 @@
 # \<audio-element>
 
+> **Deprecated.** This component moved to [@internetarchive/elements](https://github.com/internetarchive/elements) as `<ia-audio-element>` in 0.3.0. It isn't developed here any more, so don't add features or cut a new version from this package. Fix it in elements instead.
+>
+> It's deprecated on npm too. Existing versions stay published.
+
 A LitElement wrapper for the HTML `<audio>` element.
 
 ![Audio Element](./assets/img/audio-element-controls.png "Audio Element Demo")

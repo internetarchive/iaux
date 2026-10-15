@@ -1,3 +1,7 @@
+> **Deprecated.** This component moved to [@internetarchive/elements](https://github.com/internetarchive/elements) as `<ia-topnav>`. It isn't developed here any more, so don't add features or cut a new version from this package. Fix it in elements instead.
+>
+> It's deprecated on npm too. Existing versions stay published.
+
 # The top navigation menu component for archive.org
 
 ## Update guide

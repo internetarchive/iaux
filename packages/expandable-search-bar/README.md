@@ -1,5 +1,9 @@
 # \<expandable-search-bar>
 
+> **Deprecated.** This component moved to [@internetarchive/elements](https://github.com/internetarchive/elements) as `<ia-expandable-search-bar>` in 0.3.0. It isn't developed here any more, so don't add features or cut a new version from this package. Fix it in elements instead.
+>
+> It's deprecated on npm too. Existing versions stay published.
+
 A Search Bar for searching and also including an expandable Quick Search Menu.
 
 ![Expandable Search Bar](./assets/img/screenshot.png "Expandable Search Bar Demo")

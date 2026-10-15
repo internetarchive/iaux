@@ -334,6 +334,10 @@ export function buildTopNavMenus(
           title: 'Lincoln Collection',
           url: `${baseHost}/details/lincolncollection`,
         },
+        {
+          title: 'Democracy’s Library',
+          url: `${baseHost}/details/democracys-library`,
+        },
       ],
       links: [
         {
@@ -397,7 +401,7 @@ export function buildTopNavMenus(
           external: true,
         },
         {
-          url: 'https://addons.mozilla.org/en-US/firefox/addon/wayback-machine_new/',
+          url: 'https://addons.mozilla.org/en-US/firefox/addon/wayback-machine-official/',
           title: 'Firefox',
           external: true,
         },
